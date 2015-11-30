@@ -1641,7 +1641,7 @@ mistakes that I might have made in the post above.&lt;/p&gt;
 
 	<item>
 		<title>Decrypting an obfuscated font with OCR</title>
-		<description>&lt;p&gt;I recently came across &lt;a href=&quot;the%20site%20http://protext.herokuapp.com/&quot;&gt;this site&lt;/a&gt; which demostrates a strategy for copy protection using an obfuscated font. So basically if you copy the text in the header you will realize that text copied is not exactly what is visible on the screen. The text is presented through a font that maps the characters to glyphs of a different character and hence though the output is human readable the underlying text is not. This is presented as a means towards protecting the site from crawlers and scrapers. In the post below I intend to demonstrate that this is not as full-proof as non-technical folks would be led to believe.&lt;/p&gt;
+		<description>&lt;p&gt;I recently came across &lt;a href=&quot;http://protext.herokuapp.com/&quot;&gt;this site&lt;/a&gt; which demostrates a strategy for copy protection using an obfuscated font. So basically if you copy the text in the header you will realize that text copied is not exactly what is visible on the screen. The text is presented through a font that maps the characters to glyphs of a different character and hence though the output is human readable the underlying text is not. This is presented as a means towards protecting the site from crawlers and scrapers. In the post below I intend to demonstrate that this is not as full-proof as non-technical folks would be led to believe.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/protext_site.png&quot; style=&quot;border: 1px solid silver;&quot;/&gt;&lt;/p&gt;
 
