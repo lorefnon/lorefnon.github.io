@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]> ><! <![endif]-->
+<html lang="en" class="">
+  <head>
+    <meta charset="utf-8">
+    <title>Presenting SQL views through ActiveAdmin | Svbtle Jekyll</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Orlando Del Aguils Blog">
+    <link rel="canonical" href="http://orlando.delagui.la">
+    <meta property="twitter:creator" content="@odelaguila">
+    <meta property="og:title" content="@odelaguila">
+    <meta property="og:type" content="blog">
+    <meta poperty="og:url" content="http://orlando.delagui.la">
+    <meta property="og:site_name">
+    <meta property="og:fb:app_id">
+    <meta property="og:description" content="Orlando Del Aguila Blog">
+    <link rel="alternate" type="application/rss+xml" href=""/>
+    <!-- libraries -->
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <script data-cfasync="false" type="text/javascript" src=""></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  <body style="zoom: 1;">
+    <div class="main-container">
+      
+      <div class="mlogotype is-uppercase">
+        <a href="http://lorefnon.me">Code.Art.Web</a>
+      </div>
+
+      <a href="http://lorefnon.me" class="home_logotype_link">
+        <h1 class="tag">Code.Art.Web</h1>
+      </a>
+
+      <div class="header-container detail-view">
+        <header class="main-header">
+          <figure class="avatar">
+            <a href="http://lorefnon.me" 
+            style="background-image: url();">Profile Picture</a> 
+          </figure>
+          <h1 class="profile-name is-uppercase">
+            <a href="http://lorefnon.me">Lorefnon</a>
+          </h1>
+        </header>
+      </div>
+
+      <div class="posts-container detail-view">
+        
+
+<header class="post-header">
+  <!-- <time datetime="2015-11-30 10:07:55 +0530">July 13, 2014</time> -->
+</header>
+
+<article class="post detail-view" id="">
+  <h1 class="title"><a href="#">Presenting SQL views through ActiveAdmin</a></h1>
+  <a href="#" class="anchor-icon">
+    <i class="fa fa-anchor"></i>
+    <time datetime="2015-11-30 10:07:55 +0530">Jul 13, 2014</time>
+  </a>
+  
+    <p><a href="http://en.wikipedia.org/wiki/View_(SQL)"> SQL Views </a> are a handy feature that allow us to
+save a query whose results are computed/collated dynamically whenever the view is requested.
+Because the abstraction provided by a view is semantically close to a table we can leverage
+ActiveRecord to interface with the view through a proxy model and use it to
+present the result set through <a href="http://activeadmin.info">ActiveAdmin</a> interface.</p>
+
+<p>This can be very useful for reporting and visual inspection, especially by
+non technical staff.</p>
+
+<p>The rest of the post elaborates on a simple approach for doing this through
+code examples. Please note that henceforth we use the term view
+to refer to an SQL View rather than Rails view templates. Also the code is
+written for Rails 4 but should be usable with Rails 3 as well.</p>
+
+<p>For the sake of illustration we use an example database containing
+geographical information of Indian cities. The full code is available <a href="https://github.com/lorefnon/active_admin_view_demo">here</a>.
+For brevity we just mention the generator commands and
+model classes here:</p>
+
+<div class="highlight"><pre><code class="sh">rails g model City name:string district_id:integer
+rails g model District name:string state_id:integer
+rails g model State name:string
+</code></pre></div>
+
+<div class="highlight"><pre><code class="ruby"><span class="c1"># app/models/state.rb</span>
+<span class="k">class</span> <span class="nc">State</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_many</span> <span class="ss">:districts</span>
+  <span class="n">has_many</span> <span class="ss">:cities</span><span class="p">,</span> <span class="ss">through</span><span class="p">:</span> <span class="ss">:districts</span>
+<span class="k">end</span>
+
+<span class="c1"># app/models/district.rb</span>
+<span class="k">class</span> <span class="nc">District</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">belongs_to</span> <span class="ss">:state</span>
+  <span class="n">has_many</span> <span class="ss">:cities</span>
+<span class="k">end</span>
+
+<span class="c1"># app/models/city.rb</span>
+<span class="k">class</span> <span class="nc">City</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">belongs_to</span> <span class="ss">:district</span>
+  <span class="n">has_one</span> <span class="ss">:state</span><span class="p">,</span> <span class="ss">through</span><span class="p">:</span> <span class="ss">:district</span>
+<span class="k">end</span>
+</code></pre></div>
+
+<p>Note: Using the most recent Rails version, 4.1.4, will cause numerous dependency
+conflicts, hence we use Rails 4.0.0 with ActiveAdmin edge.Since we don&#39;t plan
+to use any cutting edge features in this example this should be an acceptable
+compromise.</p>
+
+<p>We stick to default Devise based AdminUser for authentication. Once we generate
+active admin resources for our models, we have something like this:</p>
+
+<p><img src="/images/active_admin_states.png" />
+<img src="/images/active_admin_districts.png" />
+<img src="/images/active_admin_cities.png" /></p>
+
+<p>The view that we intend to create combines the data in the three tables
+joins.</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">SELECT cities.id AS id, states.name AS state, districts.name AS district, cities.name AS city
+FROM states
+INNER JOIN districts ON districts.state_id = states.id
+INNER JOIN cities ON cities.district_id = districts.id
+</code></pre></div>
+<p><img src="/images/joins_states.png" /></p>
+
+<p>To create the view we generate a migration:</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">rails g migration create_state_district_city_view
+</code></pre></div>
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">CreateStateDistrictCityView</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+
+  <span class="k">def</span> <span class="nf">up</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">execute</span> <span class="sx">%Q( CREATE OR REPLACE VIEW state_district_city_view AS</span>
+<span class="sx">      SELECT cities.id AS id, states.name AS state, districts.name AS district, cities.name AS city</span>
+<span class="sx">      FROM states</span>
+<span class="sx">      INNER JOIN districts ON districts.state_id = states.id</span>
+<span class="sx">      INNER JOIN cities ON cities.district_id = districts.id</span>
+<span class="sx">    )</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">down</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">execute</span> <span class="s2">&quot;DROP VIEW IF EXISTS state_district_city_view;&quot;</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</code></pre></div>
+
+<p>Now a view, as far as read access is concerned, behaves similar to a table, we
+can just define a normal ActiveRecord model to access this view.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">StateDistrictCityViewProxy</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">table_name</span> <span class="o">=</span> <span class="s2">&quot;state_district_city_view&quot;</span>
+<span class="k">end</span>
+</code></pre></div>
+
+<p>We can take the proxy model for a test drive using IRB:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="o">&gt;</span> <span class="no">StateDistrictCityViewProxy</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>
+  <span class="no">StateDistrictCityViewProxy</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">4</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span> <span class="sb">`state_district_city_view`</span><span class="o">.</span><span class="n">*</span> <span class="no">FROM</span> <span class="sb">`state_district_city_view`</span> <span class="no">LIMIT</span> <span class="mi">10</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;StateDistrictCityViewProxy id: 1, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Agali&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 2, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Amadagur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 3, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Amarapuram&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 4, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Anantapur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 5, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Atmakur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 6, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bathalapalle&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 7, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Beluguppa&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 8, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bommanahal&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 9, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Brahmasamudram&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 10, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bukkapatnam&quot;&gt;]</span>
+</code></pre></div>
+
+<p>Now that we have a model, generating an ActiveAdmin resource is as simple as:</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text"> rails g active_admin:resource StateDistrictCityViewProxy
+</code></pre></div>
+<p>At this point upon visiting the index page in ActiveAdmin we might have expected
+a fancy paginated table but instead we are greeted with a not-so-helpful error:</p>
+
+<p><img src="/images/err1.png"/></p>
+
+<p>The problem is immediately obvious if we try to get the attributes of a model instance:</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">&gt; s1 = StateDistrictCityViewProxy.first
+  StateDistrictCityViewProxy Load (0.3ms)  SELECT `state_district_city_view`.* FROM `state_district_city_view` LIMIT 1
+=&gt; #&lt;StateDistrictCityViewProxy id: 1, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Agali&quot;&gt;
+&gt; s1.attributes
+=&gt; {&quot;id&quot;=&gt;1, &quot;state&quot;=&gt;&quot;Andhra Pradesh&quot;, &quot;district&quot;=&gt;&quot;Anantapur&quot;, &quot;city&quot;=&gt;&quot;Agali&quot;, nil=&gt;nil}
+</code></pre></div>
+<p>So the question is where is the nil coming from? The problem is that an SQL view doesn&#39;t have a primary key. Rails doesn&#39;t automatically
+assume that our <code>id</code> field is a primary key.</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">&gt; StateDistrictCityViewProxy.primary_key
+=&gt; nil
+</code></pre></div>
+<p>We can not somehow add a primary key to an SQL view, that is utterly pointless. However we can force ActiveRecord to use the <code>id</code> attribute
+as primary key.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">StateDistrictCityViewProxy</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">table_name</span> <span class="o">=</span> <span class="s2">&quot;state_district_city_view&quot;</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">primary_key</span> <span class="o">=</span> <span class="s2">&quot;id&quot;</span>
+<span class="k">end</span>
+</code></pre></div>
+
+<p>And voila. We have our fancy table:</p>
+
+<p><img src="/images/active_admin_view.png"/></p>
+
+<h1>Caveats:</h1>
+
+<p>While everything looks great at this point, our setup has a couple of issues that need to be resolved:</p>
+
+<h2>schema.rb</h2>
+
+<p>If you take a look at schema.rb the problem immediately becomes obvious. Nothing about our view is to be found.
+The problem is that Rails is blissfully oblivious of our SQL views and the sql statements
+in our migrations have not introducted any changes in schema.rb. So when you regenerate the database from
+schema.yml the view will not be created. This has multiple solutions. A simple one
+is to get rid of schema.rb in favor of sql schema format.</p>
+
+<p>In config/application.rb:</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">config.active_record.schema_format = :sql
+</code></pre></div>
+<p>Next time we run <code>rake db:migrate</code> a <code>structure.sql</code> file will be generated that contains the SQL
+for generating our views.</p>
+
+<p>An alternative option is the gem <a href="https://github.com/lomba/schema_plus">schema_plus</a> that augments ActiveRecord
+with support for views among other advanced database features.</p>
+
+<h2>Edit/Delete actions</h2>
+
+<p>Our ActiveAdmin view table has been blessed with <code>Edit</code> and <code>Delete</code> actions for every row, which
+oviously trigger an error. For example, here is what we end up with when clicking on <code>Delete</code> :</p>
+
+<p><img src="/images/err2.png"/></p>
+
+<p>Let us declare the proxy model as readonly.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">StateDistrictCityViewProxy</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">table_name</span> <span class="o">=</span> <span class="s2">&quot;state_district_city_view&quot;</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">primary_key</span> <span class="o">=</span> <span class="s2">&quot;id&quot;</span>
+
+  <span class="k">def</span> <span class="nf">readonly?</span>
+    <span class="kp">true</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+
+<p>Next we simply remove the irrelevant actions from the ActiveAdmin view:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="no">ActiveAdmin</span><span class="o">.</span><span class="n">register</span> <span class="no">StateDistrictCityViewProxy</span> <span class="k">do</span>
+
+  <span class="n">actions</span> <span class="ss">:index</span><span class="p">,</span> <span class="ss">:show</span>
+
+<span class="k">end</span>
+</code></pre></div>
+
+<p>Now that the quirks of our setup have been ironed out, feel free to go ahead and try it out.
+Of course SQL views are not the only solution for a problem like this and the aforementioned table could have been
+built entirely through DSLs provided by ActiveAdmin. But nonetheless, SQL views are something that
+most DBAs are already familiar with and is a hassle free setup. If you already have a legacy database
+with views or need to use views for other auxiliary purposes, the aforementioned approach may make
+things easy for you.</p>
+
+<p>Any suggestion or criticism is welcome.</p>
+
+  
+  <footer class="group">
+    <p>
+      
+      
+      
+        
+      
+    </p>
+  </footer>
+  
+    <script>
+      $(function() {
+        (new Kudos({name:"kudos_"+ Math.floor(new Date().getTime() * Math.random()), articleId:"", articleTitle: "Presenting SQL views through ActiveAdmin", articleUrl:"/2014/07/13/presenting-sql-views-through-active-admin.html"})).render($("article#"));
+        (new Kudos({name:"2kudos_"+ Math.floor(new Date().getTime() * Math.random()), articleId:"", articleTitle: "Presenting SQL views through ActiveAdmin", articleUrl:"/2014/07/13/presenting-sql-views-through-active-admin.html"})).render($(".group"));
+      });
+    </script>
+    
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'lorefnon-blog'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</article>
+
+
+      </div>
+      
+      <div class="line hide-text">Separator line</div>
+
+      <!-- Next article preview -->
+      <div class="next-article" style="display: none;">
+        <a href="#">
+          <p class="read-next tag is-uppercase">Read this next:</p>
+          <p class="next-article__title">Protocol and Language</p>
+          <div class="next-article__content">
+            <p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p>
+          </div>
+        </a>
+      </div>
+      <!-- Finish / Feature on process-->
+
+      <div class="line hide-text">Separator line</div>
+
+      <div class="foot_logo">
+        <a href="http://lorefnon.me"><span class="logo"></span></a>
+      </div>
+
+      <div class="foot_logo right">
+        <a href="/"><span class="link">Full Blog >></span></a>
+      </div>
+
+      <div class="foot_userbar">
+        <a href="#" class="bottom_tagline">
+          <span>Lorefnon</span> - Notes On Software Craftsmanship, Architecture Design And The Art Of Building Beautiful Abstractions, Primary Focus Being On Web Centric Platforms And Technologies.
+        </a>
+        <a href="https://twitter.com/@lorefnon" class="linkout twitter">
+          <i class="fa fa-twitter"></i>
+          @lorefnon
+        </a>
+        <a href="mailto:lorefnon@gmail.com" target="_blank" class="linkout contact">Contact</a>
+      </div>
+
+      <div class="copyright tag">
+        © 2015
+      </div>
+    </div>
+
+    <div class="side-nav-container">
+      <h3 class="logotype"><a class="is-uppercase tag" href="#">Menu</a></h3>
+      <nav class="side-nav">
+        <div class="top">
+          <p>
+						Check more on: 
+            <a href="http://lorefnon.me"><span class="tag">Code.Art.Web</span></a> 
+          </p>
+          <ul class="nav-profile-links">
+            <li class="website">
+              <a href="http://lorefnon.me">Lorefnon</a>
+            </li>
+            <li class="twitter">
+              <a href="http://twitter.com/lorefnon">@lorefnon</a>
+            </li>
+            <li class="email">
+              <a href="mailto:lorefnon@gmail.com">Contact</a>
+            </li>
+          </ul>
+        </div>
+        <div class="about">
+          <ul class="about-links">
+            <li>
+              <a href="#">
+                <span class="tag">RSS</span>
+              </a>
+            </li>
+            <li class="magazine">
+              <a href="http://lorefnon.me/feed.xml">Feed</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <script src="/assets/javascripts/js.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-47274059-1']);
+      _gaq.push(['_setDomainName', 'lorefnon.me']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </body>
+</html>

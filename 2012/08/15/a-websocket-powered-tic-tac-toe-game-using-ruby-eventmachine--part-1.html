@@ -1,0 +1,568 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]> ><! <![endif]-->
+<html lang="en" class="">
+  <head>
+    <meta charset="utf-8">
+    <title>A Websocket powered Tic tac toe game using Ruby EventMachine – Part 1 | Svbtle Jekyll</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Orlando Del Aguils Blog">
+    <link rel="canonical" href="http://orlando.delagui.la">
+    <meta property="twitter:creator" content="@odelaguila">
+    <meta property="og:title" content="@odelaguila">
+    <meta property="og:type" content="blog">
+    <meta poperty="og:url" content="http://orlando.delagui.la">
+    <meta property="og:site_name">
+    <meta property="og:fb:app_id">
+    <meta property="og:description" content="Orlando Del Aguila Blog">
+    <link rel="alternate" type="application/rss+xml" href=""/>
+    <!-- libraries -->
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <script data-cfasync="false" type="text/javascript" src=""></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  <body style="zoom: 1;">
+    <div class="main-container">
+      
+      <div class="mlogotype is-uppercase">
+        <a href="http://lorefnon.me">Code.Art.Web</a>
+      </div>
+
+      <a href="http://lorefnon.me" class="home_logotype_link">
+        <h1 class="tag">Code.Art.Web</h1>
+      </a>
+
+      <div class="header-container detail-view">
+        <header class="main-header">
+          <figure class="avatar">
+            <a href="http://lorefnon.me" 
+            style="background-image: url();">Profile Picture</a> 
+          </figure>
+          <h1 class="profile-name is-uppercase">
+            <a href="http://lorefnon.me">Lorefnon</a>
+          </h1>
+        </header>
+      </div>
+
+      <div class="posts-container detail-view">
+        
+
+<header class="post-header">
+  <!-- <time datetime="2015-11-30 10:07:55 +0530">August 15, 2012</time> -->
+</header>
+
+<article class="post detail-view" id="">
+  <h1 class="title"><a href="#">A Websocket powered Tic tac toe game using Ruby EventMachine – Part 1</a></h1>
+  <a href="#" class="anchor-icon">
+    <i class="fa fa-anchor"></i>
+    <time datetime="2015-11-30 10:07:55 +0530">Aug 15, 2012</time>
+  </a>
+  
+    <p>Lately I have been fiddling around a bit with websockets. Websocket support is now available in most of the modern browsers and Flash based shims are available for older browsers. Having bi-directional communication stream between server and the browser based client opens up a whole new world of opportunities for dynamic web applications.</p>
+
+<p>Implementing a web-socket server in ruby is fairly easy given the plethora of libraries available. One such useful gem is em-websocket which is essentially an Event-Machine based asynchronous web-socket server.</p>
+
+<p>In this post I present a small tutorial implementing a simple tic-tac-toe game. Though the game will be pretty barebones, I hope it will serve as a good introduction to web-socket api.</p>
+
+<p>In the part-1 we focus primarily on the server-part to which we can communicate from the browser using the javascript console. In later parts we will create a client side frontend and further enhance server side facilities.</p>
+
+<p>First, we ensure that Ruby is installed (I have used ruby-1.9.3 for the tutorial) . eventmachine and em-websocket are available as ruby gems. So installing them is as easy as :
+    gem install eventmachine
+    gem install em-websocket</p>
+
+<p>To see if em-websocket is working without hassles, run the following minimal web-socket implementation.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="nb">require</span> <span class="s1">&#39;eventmachine&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;em-websocket&#39;</span>
+
+<span class="no">EventMachine</span><span class="o">.</span><span class="n">run</span> <span class="p">{</span>
+
+    <span class="no">EventMachine</span><span class="o">::</span><span class="no">WebSocket</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="ss">:host</span> <span class="o">=&gt;</span> <span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="ss">:port</span> <span class="o">=&gt;</span> <span class="mi">8080</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">ws</span><span class="o">|</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">onopen</span> <span class="p">{</span>
+          <span class="nb">puts</span> <span class="s2">&quot;WebSocket connection open&quot;</span>
+        <span class="p">}</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">onclose</span> <span class="p">{</span>
+          <span class="nb">puts</span> <span class="s2">&quot;Connection closed&quot;</span>
+        <span class="p">}</span>
+    <span class="k">end</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>What this code does is it creates a socket-server which listens at localhost:8080 . Callbacks have been provided for open and close events, so when a client creates a connection or a connection gets closed the associated callbacks print an appropriate message to the terminal.</p>
+
+<p>run the webserver with :</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">ruby server.rb
+</code></pre></div>
+<p>The server should go into an event-loop without any errors. Now fire up your browser’s javascript console (or NodeJS console) and try :</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">socket = new WebSocket(&quot;ws://localhost:8080&quot;)
+</code></pre></div>
+<p>If all goes well, it should return true and the message “Websocket connection open” should be displayed in the terminal.</p>
+
+<p>So far, so good. But the main purpose of a server is to relay data to the client. How do we do that ? Turns out that is pretty simple too.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="no">EventMachine</span><span class="o">.</span><span class="n">run</span> <span class="p">{</span>
+
+    <span class="no">EventMachine</span><span class="o">::</span><span class="no">WebSocket</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="ss">:host</span> <span class="o">=&gt;</span> <span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="ss">:port</span> <span class="o">=&gt;</span> <span class="mi">8080</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">ws</span><span class="o">|</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">onopen</span> <span class="p">{</span>
+          <span class="nb">puts</span> <span class="s2">&quot;WebSocket connection open&quot;</span>
+          <span class="c1"># publish message to the client</span>
+          <span class="n">ws</span><span class="o">.</span><span class="n">send</span> <span class="s2">&quot;Hello Client&quot;</span>
+        <span class="p">}</span>
+
+        <span class="n">ws</span><span class="o">.</span><span class="n">onclose</span> <span class="p">{</span>
+          <span class="nb">puts</span> <span class="s2">&quot;Connection closed&quot;</span>
+        <span class="p">}</span>
+    <span class="k">end</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Using the send  method, the server sends data to the client. The client side socket has an onmessage event that enables you to recieve the data.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">socket</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebSocket</span><span class="p">(</span><span class="s2">&quot;ws://localhost:8080&quot;</span><span class="p">);</span>
+<span class="nx">socket</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">msg</span><span class="p">){</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Remember we said something socket being a two-way communication channel. The send message is available on the client too and the message can be received in the server in very similar way :</p>
+
+<p>Let us modify our server to enable it to receive data.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">ws</span><span class="o">.</span><span class="n">onmessage</span> <span class="p">{</span> <span class="o">|</span><span class="n">msg</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="n">msg</span>
+  <span class="n">ws</span><span class="o">.</span><span class="n">send</span> <span class="n">msg</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>What it does is, it prints any data that it receives and relays it back to the client. So now if you run in the javascript console :</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">socket</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s2">&quot;Hello world&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>You should receive the message back.</p>
+
+<p>Now that we have a basic familiarity with the usage of web-sockets let’s proceed with our game :</p>
+
+<p>The flow of the game is like this : A client, after opening the connection, requests the server to register it. Upon registration, if a free player is available, then he is paired up with this player and game begins. If a player is not free the player is added to a queue and once a new player arrives , they both commence a new game.</p>
+
+<p>For now let us not delve into user-registration and score management and satisfy ourselves with an anonymous player vs player game.</p>
+
+<p>In the simple examples above we have only focussed on a single client at a time. If in response to the actions of a client other players have to be relayed information the situation becomes slightly complex. The typical way to deal with such scenarios is to use a Pub-sub system. While a redis based pub-sub system is an excellent solution, we are not using one here to keep things simple and also we have the advantage that it is priorly known that players will always interact in pairs.</p>
+
+<p>Let us organize our code in an object oriented fashion :</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">GameController</span>
+
+  <span class="k">def</span> <span class="nf">add_player</span> <span class="n">player</span>
+    <span class="c1"># if partner is available</span>
+    <span class="c1">#   pair_up with partner</span>
+    <span class="c1"># else</span>
+    <span class="c1">#   enqueue partner</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">pair_up</span> <span class="n">player</span><span class="p">,</span> <span class="n">partner</span>
+    <span class="c1"># create a new game</span>
+    <span class="c1"># appoint one of the player as first, and start the game</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">end_game</span> <span class="n">game</span><span class="p">,</span> <span class="n">players</span>
+    <span class="c1"># re-allocate partner if someone is waiting</span>
+    <span class="c1"># ... call add_player - and a new game proceeds</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">EventMachine</span><span class="o">.</span><span class="n">run</span> <span class="p">{</span>
+  <span class="vi">@gc</span> <span class="o">=</span> <span class="no">GameController</span><span class="o">.</span><span class="n">new</span>
+  <span class="no">EventMachine</span><span class="o">::</span><span class="no">WebSocket</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="ss">:host</span> <span class="o">=&gt;</span> <span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="ss">:port</span> <span class="o">=&gt;</span> <span class="mi">8080</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">ws</span><span class="o">|</span>
+
+    <span class="n">ws</span><span class="o">.</span><span class="n">onmessage</span> <span class="k">do</span> <span class="o">|</span><span class="n">req</span><span class="o">|</span>
+      <span class="n">req</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+      <span class="k">case</span> <span class="n">req</span><span class="o">[</span><span class="s1">&#39;action&#39;</span><span class="o">]</span>
+      <span class="k">when</span> <span class="s1">&#39;register&#39;</span>
+        <span class="n">player</span> <span class="o">=</span> <span class="no">Player</span><span class="o">.</span><span class="n">new</span> <span class="n">ws</span>
+        <span class="nb">puts</span> <span class="s2">&quot;Registering player : </span><span class="si">#{</span><span class="n">player</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="vi">@gc</span><span class="o">.</span><span class="n">add_player</span> <span class="n">player</span>
+        <span class="n">player</span><span class="o">.</span><span class="n">notify</span> <span class="p">({</span><span class="ss">:success</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="n">player</span><span class="o">.</span><span class="n">id</span><span class="p">})</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+  <span class="k">end</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>In the above example : when we have received a message from the client : we check if it is a request for registration. We have abstracted out the game management facilites in an external GameController class (yet unimplemented) which would take care of managing the users and games.</p>
+
+<p>For the sake of consistency, lets have all client server communications serialized as JSON.</p>
+
+<p>Rather than Running around with socket references, we encapsulate all the functionality of a single client in a player class :</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Player</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:socket</span>
+  <span class="kp">attr_reader</span> <span class="ss">:id</span>
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">ws</span>
+    <span class="vi">@id</span> <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+    <span class="vi">@socket</span> <span class="o">=</span> <span class="n">ws</span>
+    <span class="vi">@score</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">end</span>
+  <span class="k">def</span> <span class="nf">notify</span> <span class="n">msg_hash</span>
+    <span class="vi">@socket</span><span class="o">.</span><span class="n">send</span> <span class="no">JSON</span><span class="o">.</span><span class="n">dump</span> <span class="n">msg_hash</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+
+<p>Also, we add a stub for a game class which will take care of managing the game state. The Game class instance would represent a single ongoing game between two opponents.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Game</span>
+  <span class="kp">attr_reader</span> <span class="ss">:id</span>
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">player1</span><span class="p">,</span> <span class="n">player2</span><span class="p">,</span> <span class="n">game_controller</span>
+    <span class="vi">@id</span> <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+    <span class="c1"># create initial game state</span>
+    <span class="c1"># notify the players about the game</span>
+    <span class="n">start</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">start</span>
+    <span class="vi">@players</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">id</span><span class="p">,</span> <span class="n">player</span><span class="o">|</span>
+      <span class="n">ws</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">socket</span>
+      <span class="n">ws</span><span class="o">.</span><span class="n">onmessage</span> <span class="k">do</span> <span class="o">|</span><span class="n">msg</span><span class="o">|</span>
+        <span class="c1"># parse the msg</span>
+        <span class="c1"># is the user request valid in the current context of the game</span>
+        <span class="c1"># if yes :</span>
+        <span class="c1">#   change the state of the game to reflect this</span>
+        <span class="c1">#   notify the opponent about the changed state</span>
+        <span class="c1"># if no:</span>
+        <span class="c1">#   notify the initiator about failure</span>
+        <span class="c1"># has the game concluded:</span>
+        <span class="c1"># Declare the winner, if any.</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+
+<p>Now that basic overview of the code is clear, implementing the details is not very difficult. Here is the complete code :</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="nb">require</span> <span class="s1">&#39;eventmachine&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;em-websocket&#39;</span>
+<span class="nb">require</span> <span class="s1">&#39;json&#39;</span>
+
+<span class="k">class</span> <span class="nc">Player</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:score</span><span class="p">,</span> <span class="ss">:socket</span>
+  <span class="kp">attr_reader</span> <span class="ss">:id</span>
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">ws</span>
+    <span class="vi">@id</span> <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+    <span class="vi">@socket</span> <span class="o">=</span> <span class="n">ws</span>
+    <span class="vi">@score</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">end</span>
+  <span class="k">def</span> <span class="nf">notify</span> <span class="n">msg_hash</span>
+    <span class="vi">@socket</span><span class="o">.</span><span class="n">send</span> <span class="no">JSON</span><span class="o">.</span><span class="n">dump</span> <span class="n">msg_hash</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Game</span>
+  <span class="kp">attr_reader</span> <span class="ss">:id</span>
+  <span class="k">def</span> <span class="nf">initialize</span> <span class="n">player1</span><span class="p">,</span> <span class="n">player2</span><span class="p">,</span> <span class="n">game_controller</span>
+    <span class="vi">@id</span> <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+    <span class="vi">@players</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="o">[</span><span class="n">player1</span><span class="p">,</span> <span class="n">player2</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">player</span><span class="o">|</span>
+      <span class="vi">@players</span><span class="o">[</span><span class="n">player</span><span class="o">.</span><span class="n">id</span><span class="o">]</span> <span class="o">=</span> <span class="n">player</span>
+    <span class="k">end</span>
+    <span class="vi">@game_controller</span> <span class="o">=</span> <span class="n">game_controller</span>
+    <span class="vi">@state</span> <span class="o">=</span> <span class="o">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span><span class="o">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="o">]]</span>
+    <span class="vi">@players</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">id</span><span class="p">,</span> <span class="n">player</span><span class="o">|</span>
+      <span class="n">player</span><span class="o">.</span><span class="n">notify</span><span class="p">({</span> <span class="ss">:msg</span> <span class="o">=&gt;</span> <span class="s2">&quot;Game initiated !!!&quot;</span> <span class="p">})</span>
+    <span class="k">end</span>
+    <span class="n">player1</span><span class="o">.</span><span class="n">notify</span><span class="p">({</span><span class="ss">:msg</span> <span class="o">=&gt;</span> <span class="s2">&quot;Your turn&quot;</span><span class="p">})</span>
+    <span class="n">player2</span><span class="o">.</span><span class="n">notify</span><span class="p">({</span><span class="ss">:msg</span> <span class="o">=&gt;</span> <span class="s2">&quot;Opponent&#39;s turn&quot;</span><span class="p">})</span>
+    <span class="vi">@next_player</span> <span class="o">=</span> <span class="n">player1</span><span class="o">.</span><span class="n">id</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">start</span>
+    <span class="vi">@players</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">id</span><span class="p">,</span> <span class="n">player</span><span class="o">|</span>
+      <span class="n">ws</span> <span class="o">=</span> <span class="n">player</span><span class="o">.</span><span class="n">socket</span>
+      <span class="n">ws</span><span class="o">.</span><span class="n">onmessage</span> <span class="k">do</span> <span class="o">|</span><span class="n">msg</span><span class="o">|</span>
+        <span class="nb">puts</span> <span class="s2">&quot;Message received : </span><span class="si">#{</span><span class="n">msg</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span> <span class="n">msg</span>
+        <span class="nb">puts</span> <span class="s2">&quot;id received : </span><span class="si">#{</span><span class="n">msg</span><span class="o">[</span><span class="s1">&#39;id&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="nb">puts</span> <span class="s2">&quot;players : </span><span class="si">#{</span><span class="vi">@players</span><span class="o">.</span><span class="n">to_json</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">initiator</span> <span class="o">=</span> <span class="vi">@players</span><span class="o">[</span><span class="n">msg</span><span class="o">[</span><span class="s1">&#39;id&#39;</span><span class="o">]]</span>
+
+        <span class="nb">puts</span> <span class="s2">&quot;initiator ===&gt; &quot;</span><span class="p">,</span> <span class="n">initiator</span><span class="o">.</span><span class="n">to_json</span>
+        <span class="n">partner</span> <span class="o">=</span> <span class="n">find_partner</span> <span class="n">initiator</span>
+        <span class="k">case</span> <span class="n">msg</span><span class="o">[</span><span class="s1">&#39;action&#39;</span><span class="o">]</span>
+        <span class="k">when</span> <span class="s1">&#39;move&#39;</span>
+          <span class="n">validation_result</span> <span class="o">=</span> <span class="n">validate_move</span> <span class="n">msg</span>
+          <span class="n">initiator</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">validation_result</span><span class="p">)</span>
+          <span class="k">if</span> <span class="n">validation_result</span><span class="o">[</span><span class="ss">:success</span><span class="o">]</span>
+            <span class="n">update_state</span> <span class="n">msg</span>
+            <span class="vi">@next_player</span> <span class="o">=</span> <span class="n">partner</span><span class="o">.</span><span class="n">id</span>
+            <span class="n">update_gamestate</span> <span class="n">partner</span>
+
+            <span class="k">if</span> <span class="n">victorious?</span>
+              <span class="n">initiator</span><span class="o">.</span><span class="n">notify</span> <span class="p">({</span> <span class="ss">:msg</span> <span class="o">=&gt;</span> <span class="s2">&quot;You win&quot;</span> <span class="p">})</span>
+              <span class="n">partner</span><span class="o">.</span><span class="n">notify</span><span class="p">({</span> <span class="ss">:msg</span> <span class="o">=&gt;</span> <span class="s2">&quot;You lose&quot;</span> <span class="p">})</span>
+              <span class="vi">@game_controller</span><span class="o">.</span><span class="n">end_game</span> <span class="nb">self</span><span class="p">,</span> <span class="vi">@players</span>
+            <span class="k">elsif</span> <span class="n">finished?</span>
+              <span class="n">resp</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:msg</span> <span class="o">=&gt;</span> <span class="s2">&quot;Game Over&quot;</span><span class="p">}</span>
+              <span class="n">initiator</span><span class="o">.</span><span class="n">notify</span> <span class="n">resp</span>
+              <span class="n">partner</span><span class="o">.</span><span class="n">notify</span> <span class="n">resp</span>
+              <span class="vi">@game_controller</span><span class="o">.</span><span class="n">end_game</span> <span class="nb">self</span><span class="p">,</span> <span class="vi">@players</span>
+            <span class="k">end</span>
+          <span class="k">else</span>
+            <span class="n">update_gamestate</span> <span class="n">initiator</span>
+          <span class="k">end</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">validate_move</span> <span class="n">msg</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:success</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">msg</span><span class="o">[</span><span class="s1">&#39;id&#39;</span><span class="o">]</span> <span class="o">!=</span> <span class="vi">@next_player</span>
+      <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:success</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span> <span class="ss">:error</span> <span class="o">=&gt;</span> <span class="s2">&quot;Move out of turn&quot;</span><span class="p">}</span>
+    <span class="k">end</span>
+    <span class="k">if</span> <span class="vi">@state</span><span class="o">[</span><span class="n">msg</span><span class="o">[</span><span class="s1">&#39;x&#39;</span><span class="o">]][</span><span class="n">msg</span><span class="o">[</span><span class="s1">&#39;y&#39;</span><span class="o">]]</span> <span class="o">!=</span> <span class="mi">0</span>
+      <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:success</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span> <span class="ss">:error</span> <span class="o">=&gt;</span> <span class="s2">&quot;Overrite not allowed&quot;</span><span class="p">}</span>
+    <span class="k">end</span>
+    <span class="n">res</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">update_state</span> <span class="n">msg</span>
+    <span class="vi">@state</span><span class="o">[</span><span class="n">msg</span><span class="o">[</span><span class="s1">&#39;x&#39;</span><span class="o">]][</span><span class="n">msg</span><span class="o">[</span><span class="s1">&#39;y&#39;</span><span class="o">]]</span> <span class="o">=</span> <span class="n">msg</span><span class="o">[</span><span class="s1">&#39;id&#39;</span><span class="o">]</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">update_gamestate</span> <span class="n">player</span>
+    <span class="n">player</span><span class="o">.</span><span class="n">notify</span> <span class="p">({</span><span class="ss">:game_state</span> <span class="o">=&gt;</span> <span class="vi">@state</span> <span class="p">})</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">find_partner</span> <span class="n">player</span>
+    <span class="vi">@players</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="nb">id</span><span class="p">,</span> <span class="n">pl</span><span class="o">|</span> <span class="k">return</span> <span class="n">pl</span> <span class="k">unless</span>  <span class="nb">id</span> <span class="o">==</span> <span class="n">player</span><span class="o">.</span><span class="n">id</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">victorious?</span>
+    <span class="k">def</span> <span class="nf">teq</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span>
+      <span class="n">a</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="ow">and</span> <span class="n">b</span> <span class="o">==</span><span class="n">c</span>
+    <span class="k">end</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span>
+      <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">teq</span> <span class="vi">@state</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="vi">@state</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="vi">@state</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="mi">2</span><span class="o">]</span>
+      <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">teq</span> <span class="vi">@state</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="n">i</span><span class="o">]</span><span class="p">,</span> <span class="vi">@state</span><span class="o">[</span><span class="mi">1</span><span class="o">][</span><span class="n">i</span><span class="o">]</span><span class="p">,</span> <span class="vi">@state</span><span class="o">[</span><span class="mi">2</span><span class="o">][</span><span class="n">i</span><span class="o">]</span>
+      <span class="n">i</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+    <span class="k">end</span>
+
+    <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">teq</span> <span class="vi">@state</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="vi">@state</span><span class="o">[</span><span class="mi">1</span><span class="o">][</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="vi">@state</span><span class="o">[</span><span class="mi">2</span><span class="o">][</span><span class="mi">2</span><span class="o">]</span>
+    <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">teq</span> <span class="vi">@state</span><span class="o">[</span><span class="mi">2</span><span class="o">][</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="vi">@state</span><span class="o">[</span><span class="mi">1</span><span class="o">][</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="vi">@state</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="mi">2</span><span class="o">]</span>
+    <span class="kp">false</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">finished?</span>
+    <span class="ow">not</span> <span class="vi">@state</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">include?</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="ow">and</span>
+      <span class="ow">not</span> <span class="vi">@state</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">include?</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="ow">and</span>
+      <span class="ow">not</span>  <span class="vi">@state</span><span class="o">[</span><span class="mi">2</span><span class="o">].</span><span class="n">include?</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">GameController</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@games</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="vi">@free_players</span> <span class="o">=</span> <span class="o">[]</span>
+    <span class="vi">@engaged_players</span> <span class="o">=</span> <span class="o">[]</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">add_player</span> <span class="n">player</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Adding player : </span><span class="si">#{</span><span class="n">player</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">partner</span> <span class="o">=</span> <span class="vi">@free_players</span><span class="o">.</span><span class="n">pop</span>
+    <span class="k">if</span> <span class="n">partner</span><span class="o">.</span><span class="n">nil?</span>
+      <span class="vi">@free_players</span> <span class="o">&lt;&lt;</span> <span class="n">player</span>
+      <span class="nb">puts</span> <span class="s2">&quot;Putting on wait&quot;</span>
+      <span class="n">player</span><span class="o">.</span><span class="n">notify</span> <span class="p">({</span>
+        <span class="ss">:msg</span> <span class="o">=&gt;</span> <span class="s2">&quot;You will have to wait till we find a partner for you&quot;</span>
+      <span class="p">})</span>
+    <span class="k">else</span>
+      <span class="nb">puts</span> <span class="s2">&quot;Pairing up : </span><span class="si">#{</span><span class="n">player</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">partner</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span>
+      <span class="n">pair_up</span> <span class="n">player</span><span class="p">,</span> <span class="n">partner</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">pair_up</span> <span class="n">player</span><span class="p">,</span> <span class="n">partner</span>
+    <span class="nb">puts</span> <span class="s2">&quot;Starting game between player </span><span class="si">#{</span><span class="n">player</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2"> and </span><span class="si">#{</span><span class="n">partner</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">game</span> <span class="o">=</span> <span class="no">Game</span><span class="o">.</span><span class="n">new</span> <span class="n">player</span><span class="p">,</span> <span class="n">partner</span><span class="p">,</span> <span class="nb">self</span>
+    <span class="vi">@games</span><span class="o">[</span><span class="n">game</span><span class="o">.</span><span class="n">id</span><span class="o">]</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">id</span>
+    <span class="n">game</span><span class="o">.</span><span class="n">start</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">end_game</span> <span class="n">game</span><span class="p">,</span> <span class="n">players</span>
+    <span class="vi">@games</span><span class="o">[</span><span class="n">game</span><span class="o">.</span><span class="n">id</span><span class="o">]</span> <span class="o">=</span> <span class="kp">nil</span>
+    <span class="n">players</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">id</span><span class="p">,</span> <span class="n">player</span><span class="o">|</span>
+      <span class="n">add_player</span> <span class="n">player</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">EventMachine</span><span class="o">.</span><span class="n">run</span> <span class="p">{</span>
+  <span class="vi">@gc</span> <span class="o">=</span> <span class="no">GameController</span><span class="o">.</span><span class="n">new</span>
+  <span class="no">EventMachine</span><span class="o">::</span><span class="no">WebSocket</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="ss">:host</span> <span class="o">=&gt;</span> <span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="ss">:port</span> <span class="o">=&gt;</span> <span class="mi">8080</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">ws</span><span class="o">|</span>
+
+    <span class="n">ws</span><span class="o">.</span><span class="n">onmessage</span> <span class="k">do</span> <span class="o">|</span><span class="n">req</span><span class="o">|</span>
+      <span class="n">req</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+      <span class="k">case</span> <span class="n">req</span><span class="o">[</span><span class="s1">&#39;action&#39;</span><span class="o">]</span>
+      <span class="k">when</span> <span class="s1">&#39;register&#39;</span>
+        <span class="n">player</span> <span class="o">=</span> <span class="no">Player</span><span class="o">.</span><span class="n">new</span> <span class="n">ws</span>
+        <span class="nb">puts</span> <span class="s2">&quot;Registering player : </span><span class="si">#{</span><span class="n">player</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="vi">@gc</span><span class="o">.</span><span class="n">add_player</span> <span class="n">player</span>
+        <span class="n">player</span><span class="o">.</span><span class="n">notify</span> <span class="p">({</span><span class="ss">:success</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="n">player</span><span class="o">.</span><span class="n">id</span><span class="p">})</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+  <span class="k">end</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>While I have skipped over the details of management of game, I believe the code above is fairly readable.</p>
+
+<p>And yes, I am aware of the several issues with the code above. The most obvious one is that serialized state passed to client contains the id of other player as well. So it is easy to cheat the game.  Apart from this there are several other things I have looked over. What if a player passes in a request that cannot be parsed as JSON ? A malformed request initiates an exception that crashes the whole game.  These issues will be resolved and  a score management system and a front-end will be added in the later parts of the tutorial. So stay tuned.</p>
+
+<p>Here is a snapshot of my Javascript console showing a game in progress :</p>
+
+<p><img src="/images/game.png" /></p>
+
+<p>As always, feel free to provide your suggestions and to point out errors.</p>
+
+  
+  <footer class="group">
+    <p>
+      
+      
+      
+        
+      
+    </p>
+  </footer>
+  
+    <script>
+      $(function() {
+        (new Kudos({name:"kudos_"+ Math.floor(new Date().getTime() * Math.random()), articleId:"", articleTitle: "A Websocket powered Tic tac toe game using Ruby EventMachine – Part 1", articleUrl:"/2012/08/15/a-websocket-powered-tic-tac-toe-game-using-ruby-eventmachine--part-1.html"})).render($("article#"));
+        (new Kudos({name:"2kudos_"+ Math.floor(new Date().getTime() * Math.random()), articleId:"", articleTitle: "A Websocket powered Tic tac toe game using Ruby EventMachine – Part 1", articleUrl:"/2012/08/15/a-websocket-powered-tic-tac-toe-game-using-ruby-eventmachine--part-1.html"})).render($(".group"));
+      });
+    </script>
+    
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'lorefnon-blog'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</article>
+
+
+      </div>
+      
+      <div class="line hide-text">Separator line</div>
+
+      <!-- Next article preview -->
+      <div class="next-article" style="display: none;">
+        <a href="#">
+          <p class="read-next tag is-uppercase">Read this next:</p>
+          <p class="next-article__title">Protocol and Language</p>
+          <div class="next-article__content">
+            <p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p>
+          </div>
+        </a>
+      </div>
+      <!-- Finish / Feature on process-->
+
+      <div class="line hide-text">Separator line</div>
+
+      <div class="foot_logo">
+        <a href="http://lorefnon.me"><span class="logo"></span></a>
+      </div>
+
+      <div class="foot_logo right">
+        <a href="/"><span class="link">Full Blog >></span></a>
+      </div>
+
+      <div class="foot_userbar">
+        <a href="#" class="bottom_tagline">
+          <span>Lorefnon</span> - Notes On Software Craftsmanship, Architecture Design And The Art Of Building Beautiful Abstractions, Primary Focus Being On Web Centric Platforms And Technologies.
+        </a>
+        <a href="https://twitter.com/@lorefnon" class="linkout twitter">
+          <i class="fa fa-twitter"></i>
+          @lorefnon
+        </a>
+        <a href="mailto:lorefnon@gmail.com" target="_blank" class="linkout contact">Contact</a>
+      </div>
+
+      <div class="copyright tag">
+        © 2015
+      </div>
+    </div>
+
+    <div class="side-nav-container">
+      <h3 class="logotype"><a class="is-uppercase tag" href="#">Menu</a></h3>
+      <nav class="side-nav">
+        <div class="top">
+          <p>
+						Check more on: 
+            <a href="http://lorefnon.me"><span class="tag">Code.Art.Web</span></a> 
+          </p>
+          <ul class="nav-profile-links">
+            <li class="website">
+              <a href="http://lorefnon.me">Lorefnon</a>
+            </li>
+            <li class="twitter">
+              <a href="http://twitter.com/lorefnon">@lorefnon</a>
+            </li>
+            <li class="email">
+              <a href="mailto:lorefnon@gmail.com">Contact</a>
+            </li>
+          </ul>
+        </div>
+        <div class="about">
+          <ul class="about-links">
+            <li>
+              <a href="#">
+                <span class="tag">RSS</span>
+              </a>
+            </li>
+            <li class="magazine">
+              <a href="http://lorefnon.me/feed.xml">Feed</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <script src="/assets/javascripts/js.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-47274059-1']);
+      _gaq.push(['_setDomainName', 'lorefnon.me']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </body>
+</html>

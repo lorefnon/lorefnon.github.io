@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]> ><! <![endif]-->
+<html lang="en" class="">
+  <head>
+    <meta charset="utf-8">
+    <title>An answer to "React is the new Java" | Svbtle Jekyll</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Orlando Del Aguils Blog">
+    <link rel="canonical" href="http://orlando.delagui.la">
+    <meta property="twitter:creator" content="@odelaguila">
+    <meta property="og:title" content="@odelaguila">
+    <meta property="og:type" content="blog">
+    <meta poperty="og:url" content="http://orlando.delagui.la">
+    <meta property="og:site_name">
+    <meta property="og:fb:app_id">
+    <meta property="og:description" content="Orlando Del Aguila Blog">
+    <link rel="alternate" type="application/rss+xml" href=""/>
+    <!-- libraries -->
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <script data-cfasync="false" type="text/javascript" src=""></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  <body style="zoom: 1;">
+    <div class="main-container">
+      
+      <div class="mlogotype is-uppercase">
+        <a href="http://lorefnon.me">Code.Art.Web</a>
+      </div>
+
+      <a href="http://lorefnon.me" class="home_logotype_link">
+        <h1 class="tag">Code.Art.Web</h1>
+      </a>
+
+      <div class="header-container detail-view">
+        <header class="main-header">
+          <figure class="avatar">
+            <a href="http://lorefnon.me" 
+            style="background-image: url();">Profile Picture</a> 
+          </figure>
+          <h1 class="profile-name is-uppercase">
+            <a href="http://lorefnon.me">Lorefnon</a>
+          </h1>
+        </header>
+      </div>
+
+      <div class="posts-container detail-view">
+        
+
+<header class="post-header">
+  <!-- <time datetime="2015-11-30 10:07:55 +0530">November 22, 2015</time> -->
+</header>
+
+<article class="post detail-view" id="">
+  <h1 class="title"><a href="#">An answer to "React is the new Java"</a></h1>
+  <a href="#" class="anchor-icon">
+    <i class="fa fa-anchor"></i>
+    <time datetime="2015-11-30 10:07:55 +0530">Nov 22, 2015</time>
+  </a>
+  
+    <p>This post is essentially my attempt to answer some of the concerns presented in this <a href="https://news.ycombinator.com/item?id=10609159">opinion</a> posted in HN. The author has likened the success of React with the success of Java, exemplifying how time again, what (s)he identifies as worse technology, has been pushed to a higher popularity rather than more competent alternatives available.</p>
+
+<blockquote>
+<p>I have been learning new technologies pretty much continuously. It&#39;s not impossible, especially if you follow sites like Hacker News, to keep a finger on the direction of the industry, and then try to stay on top of the next new hot technology of the year.</p>
+
+<p>But I hear you on the &quot;worse&quot; technology sometimes winning. You mentioned Java; it was worse than just about all other major contenders, and is only finally losing popularity.</p>
+
+<p>On a current technology fad: React seems to be designed to ignore 40 years of accumulated software best practices. [1] Separation of concerns? Who needs that any more? And the rationale for it is that it allows teams of 100 developers work together on an app. </p>
+</blockquote>
+
+<h2>Separation of Concerns ?</h2>
+
+<p>Well, separation on concerns is a good thing to have. But only when the concerns actually translate to different responsibilities and not when they are multiple facets of the same problem.</p>
+
+<p>The way I see it, managing an identifyable entity in the presentation layer is a singular concern. Breaking up this presentation entity into decoupled parts - a chunk of text based HTML template, a stylesheet to make this template visually appealing and associated javascript that alters the DOM structure depending on user interaction of change of application state, does not facilitate separation of concerns, it makes things less cohesive. <a href="http://thebojan.ninja/2015/04/08/high-cohesion-loose-coupling/">Loose coupling, High Cohesion</a> is a classic best practice, proven time again, and React does not ignore this, it accentuates its importance.</p>
+
+<p>Especially in web-applications the styling rules are intrinsically linked to the DOM structure of a widget and so is the javascript that is responsible for syncing the application state to and from the DOM. Multitude of javascript libraries have recognized this long before React including but not limited to widely popular libraries like <a href="http://knockoutjs.com/">Knockout</a>, <a href="https://dojotoolkit.org/">Dojo</a> and <a href="https://www.sencha.com/products/extjs/">ExtJS</a>.</p>
+
+<h2>Fads are not born from thin air</h2>
+
+<p>Promotion of best practices like <a href="https://medium.com/@joshblack/stateless-components-in-react-0-14-f9798f8b992d#.h457qzmob">Stateless components</a> and <a href="https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750#.6lh6otq97">composition of higher order components</a> goes a long way towards ensuring separation of concerns where they matter.</p>
+
+<p>The upcoming Web Component technology is fueled by the widespread need for true component oriented building blocks and popularity of frameworks like Google Polymer highlights it very well.</p>
+
+<h2>JSX and designer languages</h2>
+
+<blockquote>
+<p>Open standards? Nah, how about lock-in to custom language extensions that will prevent you from migrating your code to the next web standard! Much better.</p>
+</blockquote>
+
+<p>JSX is a custom language extension alright but it is not mandatory for using React. It is <a href="http://jamesknelson.com/learn-raw-react-no-jsx-flux-es6-webpack/">fairly easy</a> to use vanilla javascript and benefit from all the features of React. In fact it is also easy to use React with other AltJS languages like <a href="http://blog.vjeux.com/2013/javascript/react-coffeescript.html">Coffeescript</a>, <a href="http://lorefnon.me/2015/09/21/react-and-livescript-in-harmony.html">Livescript</a> and <a href="https://github.com/Asana/typed-react">Typescript</a>.</p>
+
+<p>While I agree that without JSX, the code is much more verbose - there are solutions like <a href="https://github.com/mlmorg/react-hyperscript">React hyperscript</a> that let you express the DOM structure within javascript, or <a href="https://github.com/wix/react-templates">React Templates</a> and <a href="https://github.com/jadejs/react-jade">React Jade</a> which allow you to use external templates with React.</p>
+
+<p>Also there is a <a href="https://facebook.github.io/jsx/">draft specification</a> for JSX in place and some other frameworks have already <a href="https://github.com/insin/msx">started</a> adopting it.</p>
+
+<h2>About open standards</h2>
+
+<h3>Web Components</h3>
+
+<p>The reasons for not using an open standard like web components have been <a href="https://github.com/facebook/react/issues/5052#issuecomment-145594782">explained</a> by the React team:</p>
+
+<blockquote>
+<p>It has turned out that the spec is incomplete with regard to things like event delegation and there are still major changes being pushed from various sides, such as Mozilla. What was in Polymer/Chrome is not the final incarnation so we&#39;ve had to revert some of the support that we already added (e.g. support for event handling in shadow trees).</p>
+
+<p>In terms of strategy, we&#39;ll go forward with as if it didn&#39;t exist and try to improve interop at the React or React-like component layer instead. I&#39;ve talked with members of other popular UI frameworks and they seem to feel the same. In fact, we probably have a better chance at implementing solid interop in user land.</p>
+</blockquote>
+
+<p>In fact there already exist some <a href="http://addyosmani.com/blog/component-interop-with-react-and-custom-elements/">resources</a> for working with React and Web-components in same application.</p>
+
+<p>There is nothing preventing us from migrating to the next web standard. As others have pointed out in the thread, removing JSX is just a matter of running the transformer against the existing codebase and checking in the generated javascript. The output is still human readable.</p>
+
+<h3>XML in javascript</h3>
+
+<p>Attempts towards seamless incorporation of XML in ecmascript is not a new idea. Actionscript has had that since ages. While E4X is an <a href="https://en.wikipedia.org/wiki/ECMAScript_for_XML">open standard</a>, pragmatic reasons have been <a href="http://blog.vjeux.com/2013/javascript/jsx-e4x-the-good-parts.html">put forward</a> by React team for not embracing it entirely:</p>
+
+<blockquote>
+<p>The major use case of XML within Javascript is to write HTML tags. Unfortunately, what E4X generates is not a DOM node. In order to use it to generate DOM nodes, you&#39;ve got to do a conversion phase not provided by default.</p>
+
+<p>The second use case of XML is to represent data. In Javascript world, this use case is already being fulfilled by JSON. E4X only supports strings as a data type where Javascript objects can contain numbers, booleans, functions ...</p>
+
+<p>All the code is not going to be converted to E4X right away. There&#39;s going to be a transition phase where E4X and non E4X code will have to co-exist. The fact that the objects E4X generates are not accessible from non E4X code means that none of the libraries ever written can work with E4X structures.</p>
+</blockquote>
+
+<h2>On meritocracy vs mediocracy</h2>
+
+<blockquote>
+<p>And how many app teams have 100 or more active developers? Probably fewer than a dozen, and I submit that none of them probably should. Certainly not the Facebook app: It has a lot of features, but not that many features, and yet it has a 150Mb footprint.</p>
+
+<p>When I hear things like that, I can&#39;t help but fill in &quot;junior&quot; or &quot;mediocre&quot; in front of &quot;developers.&quot; React helps to prevent people from breaking each others&#39; code when you have bloated development teams filled with junior developers. React has some cool ideas, but all told I think it&#39;s a step backward for software engineering, and certainly isn&#39;t as much of a help for small teams, especially if you want to have a CSS/SCSS/LESS expert styling your product without having to dig through JSX files, for instance.</p>
+</blockquote>
+
+<p>In a small app with a small team, there is little use for any framework at all, but software applications have this uncanny tendency to unexpectedly grow large depending on changing requirements, expanding scope. Given the above, I would certainly feel more comfortable working on a system where I can change the appearance of a component with confidence that will not introduce subtle changes in totally unrelated parts of my application, probably parts that I know nothing about.</p>
+
+<p>While yes, there are fewer teams that have 100 or more active developers, but high churn rates are an unavoidable problem especially in the startup ecosystems. While a competent developer will certainly be able to jump into an unknown codebase and in due time figure out his/her way - but if the codebase is structured around best practices distilled by the community the time required in the same is drastically reduced. Optimizing the process around that seems like a very good idea.</p>
+
+<h2>On stylesheets - a system of cascading problems</h2>
+
+<p>Adding to the problem is that automated regression testing of CSS is time consuming and error prone. While there are <a href="https://css-tricks.com/automating-css-regression-testing/">solutions</a> I think the crux of the problem is that our current styling system is a broken technology - globally shared stylesheets are evil and technologies like <a href="https://github.com/FormidableLabs/radium">Radium</a> are steps in the right direction.</p>
+
+<p>While it isn&#39;t like we have not tried to solve this problem <a href="https://gridstylesheets.org/">before</a>, I am really glad to see practical alternatives to stylesheets gathering traction.</p>
+
+<h2>The good parts</h2>
+
+<blockquote>
+<p>I do like React&#39;s idea of the Virtual DOM for optimization, but you can get that without using React. [2] React Native is great for using native components and driving them from JavaScript, but it&#39;s also not the only game in town. [3]</p>
+</blockquote>
+
+<p>I agree, much has been written about these benefits, and the availability of alternatives is not exactly a secret either. I don&#39;t have much to add.</p>
+
+<h2>Conclusion</h2>
+
+<blockquote>
+<p>Back to the original point, though: You can stay on top of the Hot New Technologies, but when there are good technical reasons to use alternate technologies, stay on top of those as well. And then explain clearly to your clients (or employers) why the current fad is a fad, and how to get the key benefits of that stack without its drawbacks. Oh, and choose clients (or employers) who will listen to strong technical arguments. :)</p>
+</blockquote>
+
+<p>While I disagree with the primary premise, this is a very strong and sound advise. I whole-heartedly agree that solutions should be rationally vetted and benchmarked before being put to use. I hope that arguments I have presented above are perceived as rationally just. Any comments or suggestions are more than welcome.</p>
+
+  
+  <footer class="group">
+    <p>
+      
+      
+      
+        
+      
+    </p>
+  </footer>
+  
+    <script>
+      $(function() {
+        (new Kudos({name:"kudos_"+ Math.floor(new Date().getTime() * Math.random()), articleId:"", articleTitle: "An answer to "React is the new Java"", articleUrl:"/2015/11/22/an-answer-to-react-is-the-new-java.html"})).render($("article#"));
+        (new Kudos({name:"2kudos_"+ Math.floor(new Date().getTime() * Math.random()), articleId:"", articleTitle: "An answer to "React is the new Java"", articleUrl:"/2015/11/22/an-answer-to-react-is-the-new-java.html"})).render($(".group"));
+      });
+    </script>
+    
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'lorefnon-blog'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</article>
+
+
+      </div>
+      
+      <div class="line hide-text">Separator line</div>
+
+      <!-- Next article preview -->
+      <div class="next-article" style="display: none;">
+        <a href="#">
+          <p class="read-next tag is-uppercase">Read this next:</p>
+          <p class="next-article__title">Protocol and Language</p>
+          <div class="next-article__content">
+            <p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p>
+          </div>
+        </a>
+      </div>
+      <!-- Finish / Feature on process-->
+
+      <div class="line hide-text">Separator line</div>
+
+      <div class="foot_logo">
+        <a href="http://lorefnon.me"><span class="logo"></span></a>
+      </div>
+
+      <div class="foot_logo right">
+        <a href="/"><span class="link">Full Blog >></span></a>
+      </div>
+
+      <div class="foot_userbar">
+        <a href="#" class="bottom_tagline">
+          <span>Lorefnon</span> - Notes On Software Craftsmanship, Architecture Design And The Art Of Building Beautiful Abstractions, Primary Focus Being On Web Centric Platforms And Technologies.
+        </a>
+        <a href="https://twitter.com/@lorefnon" class="linkout twitter">
+          <i class="fa fa-twitter"></i>
+          @lorefnon
+        </a>
+        <a href="mailto:lorefnon@gmail.com" target="_blank" class="linkout contact">Contact</a>
+      </div>
+
+      <div class="copyright tag">
+        © 2015
+      </div>
+    </div>
+
+    <div class="side-nav-container">
+      <h3 class="logotype"><a class="is-uppercase tag" href="#">Menu</a></h3>
+      <nav class="side-nav">
+        <div class="top">
+          <p>
+						Check more on: 
+            <a href="http://lorefnon.me"><span class="tag">Code.Art.Web</span></a> 
+          </p>
+          <ul class="nav-profile-links">
+            <li class="website">
+              <a href="http://lorefnon.me">Lorefnon</a>
+            </li>
+            <li class="twitter">
+              <a href="http://twitter.com/lorefnon">@lorefnon</a>
+            </li>
+            <li class="email">
+              <a href="mailto:lorefnon@gmail.com">Contact</a>
+            </li>
+          </ul>
+        </div>
+        <div class="about">
+          <ul class="about-links">
+            <li>
+              <a href="#">
+                <span class="tag">RSS</span>
+              </a>
+            </li>
+            <li class="magazine">
+              <a href="http://lorefnon.me/feed.xml">Feed</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <script src="/assets/javascripts/js.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-47274059-1']);
+      _gaq.push(['_setDomainName', 'lorefnon.me']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </body>
+</html>

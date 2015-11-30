@@ -1,0 +1,368 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]> ><! <![endif]-->
+<html lang="en" class="">
+  <head>
+    <meta charset="utf-8">
+    <title>Optimizing space taken by type column in Rails STI | Svbtle Jekyll</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Orlando Del Aguils Blog">
+    <link rel="canonical" href="http://orlando.delagui.la">
+    <meta property="twitter:creator" content="@odelaguila">
+    <meta property="og:title" content="@odelaguila">
+    <meta property="og:type" content="blog">
+    <meta poperty="og:url" content="http://orlando.delagui.la">
+    <meta property="og:site_name">
+    <meta property="og:fb:app_id">
+    <meta property="og:description" content="Orlando Del Aguila Blog">
+    <link rel="alternate" type="application/rss+xml" href=""/>
+    <!-- libraries -->
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <script data-cfasync="false" type="text/javascript" src=""></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  <body style="zoom: 1;">
+    <div class="main-container">
+      
+      <div class="mlogotype is-uppercase">
+        <a href="http://lorefnon.me">Code.Art.Web</a>
+      </div>
+
+      <a href="http://lorefnon.me" class="home_logotype_link">
+        <h1 class="tag">Code.Art.Web</h1>
+      </a>
+
+      <div class="header-container detail-view">
+        <header class="main-header">
+          <figure class="avatar">
+            <a href="http://lorefnon.me" 
+            style="background-image: url();">Profile Picture</a> 
+          </figure>
+          <h1 class="profile-name is-uppercase">
+            <a href="http://lorefnon.me">Lorefnon</a>
+          </h1>
+        </header>
+      </div>
+
+      <div class="posts-container detail-view">
+        
+
+<header class="post-header">
+  <!-- <time datetime="2015-11-30 10:07:55 +0530">July 27, 2014</time> -->
+</header>
+
+<article class="post detail-view" id="">
+  <h1 class="title"><a href="#">Optimizing space taken by type column in Rails STI</a></h1>
+  <a href="#" class="anchor-icon">
+    <i class="fa fa-anchor"></i>
+    <time datetime="2015-11-30 10:07:55 +0530">Jul 27, 2014</time>
+  </a>
+  
+    <p>The <a href="http://api.rubyonrails.org/classes/ActiveRecord/Base.html#label-Single+table+inheritance">Single Table Inheritance</a>
+facility in Rails is quite awesome in that it is simple, minimal and easy to understand.
+However that simplicity comes with a small price - the type column stores the full name of the relevant class as a string.
+This becomes especially unweildy if you scope your models inside a module.</p>
+
+<p>Let us illustrate this with an example:</p>
+
+<p>Let us say, we have a database of institutions. For non profit and commercial institutions we have two subclasses of <code>Institution::Base</code> namely, <code>Institution::NonProfit</code>, <code>Institution::Commercial</code>.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="c1">#app/models/institution.rb</span>
+<span class="k">module</span> <span class="nn">Institution</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">table_name_prefix</span>
+    <span class="s1">&#39;institution_&#39;</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># app/models/institution/base.rb</span>
+<span class="k">class</span> <span class="nc">Institution</span><span class="o">::</span><span class="no">Base</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+<span class="k">end</span>
+
+<span class="c1">#app/models/institution/non_profit.rb</span>
+<span class="k">class</span> <span class="nc">Institution</span><span class="o">::</span><span class="no">NonProfit</span> <span class="o">&lt;</span> <span class="no">Institution</span><span class="o">::</span><span class="no">Base</span>
+<span class="k">end</span>
+
+<span class="c1">#app/models/institution/commercial.rb</span>
+<span class="k">class</span> <span class="nc">Institution</span><span class="o">::</span><span class="no">Commercial</span> <span class="o">&lt;</span> <span class="no">Institution</span><span class="o">::</span><span class="no">Base</span>
+<span class="k">end</span>
+</code></pre></div>
+
+<p>We deliberately keep the schema simple:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">create_table</span> <span class="s2">&quot;institution_bases&quot;</span><span class="p">,</span> <span class="ss">force</span><span class="p">:</span> <span class="kp">true</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">string</span>   <span class="s2">&quot;name&quot;</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">string</span>   <span class="s2">&quot;type&quot;</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">datetime</span> <span class="s2">&quot;created_at&quot;</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">datetime</span> <span class="s2">&quot;updated_at&quot;</span>
+ <span class="k">end</span>
+ 
+</code></pre></div>
+
+<p>The subclasses simply reuse the table and Rails distinguishes between them using the type column. If we  try to store some sample entries, we would notice that the value stored in type field contains the fully namespaces class name: <code>Institution::NonProfit</code>, <code>Institution::Commercial</code> etc.</p>
+
+<p>Since we know that our application will not store models from other namespace in this table, the extra space taken by the module name is wasteful. In fact storing the name in its entirety is wasteful. So this post highlights a simple approach to minimise the space taken by type column without sacrificing the ease of use of STI in rails.</p>
+
+<p>It turns out we can override the methods Rails uses to convert the table name to class name and vice versa:</p>
+
+<p>The relevant methods are <code>find_sti_class</code> which is responsible for the translating the value stored in the type column to the respective ActiveRecord model and <code>sti_name</code> which is responsible for retriving the value stored in type column given an ActiveRecord subclass.</p>
+
+<p>So we override the default implementations to the following:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Institution</span><span class="o">::</span><span class="no">Base</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+
+  <span class="no">ALLOWED_CLASSES</span> <span class="o">=</span> <span class="sx">%w[Institution::NonProfit Institution::Commercial]</span>
+
+  <span class="k">class</span> <span class="o">&lt;&lt;</span> <span class="nb">self</span>
+
+    <span class="k">def</span> <span class="nf">find_sti_class</span> <span class="n">type_name</span>
+      <span class="n">idx</span> <span class="o">=</span> <span class="n">type_name</span><span class="o">.</span><span class="n">to_i</span>
+      <span class="k">super</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span>
+      <span class="no">ALLOWED_CLASSES</span><span class="o">[</span><span class="n">idx</span><span class="o">-</span><span class="mi">1</span><span class="o">].</span><span class="n">constantize</span>
+    <span class="k">rescue</span> <span class="no">NameError</span><span class="p">,</span> <span class="no">TypeError</span>
+      <span class="k">super</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">sti_name</span>
+      <span class="n">idx</span> <span class="o">=</span> <span class="no">ALLOWED_CLASSES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">idx</span><span class="o">.</span><span class="n">nil?</span>
+        <span class="k">super</span>
+      <span class="k">else</span>
+        <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</code></pre></div>
+
+<p>Once we have done this the STI subsystem of ActiveRecord will the use the <code>ALLOWED_CLASSES</code> to infer the name Institution classes using the index stored in the database column.</p>
+
+<p>What is particularly nice is that if have any existing data, we don&#39;t end up getting
+any errors when trying to save or retrieve them since we delegate to default implementations. Although it would be a better option to write a migration to change the type column to integer.</p>
+
+<p>The eagle eyed among us might have noticed we are offsetting the index in the <code>ALLOWED_CLASSES</code> index by 1. This is a basic precaution because calling <code>to_i</code> on a string that is not a numeric string returns <code>0</code> instead of raising an error. So delegating to default implementation incase of zero value allows us to retain legacy compatibility.</p>
+
+<p>You might want to ask why the array ALLOWED_CLASS_NAMES is a string array rather than an actual array of classes. Having an array of classes leads to RecursiveDependency errors while autoloading when fetching the entries from databases.</p>
+
+<p>While this is nice and good, this functionality is generic and doesn&#39;t really belong to the <code>Institution::Base</code> class. What if we need another module tomorrow which is unreleated but needs the same functionality?</p>
+
+<p>So in the spirit of reusability and separation of concerns we create a <code>concern</code> for this:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">module</span> <span class="nn">OptimallyInheritable</span>
+  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
+
+  <span class="k">module</span> <span class="nn">ClassMethods</span>
+    <span class="k">def</span> <span class="nf">support_sti_for</span> <span class="n">cls_list</span>
+      <span class="vi">@sti_cls_list</span> <span class="o">=</span> <span class="o">[]</span>
+      <span class="vi">@sti_cls_list</span> <span class="o">+=</span> <span class="n">cls_list</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">sti_cls_list</span>
+      <span class="vi">@sti_cls_list</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">find_sti_class</span> <span class="n">type_name</span>
+      <span class="n">idx</span> <span class="o">=</span> <span class="n">type_name</span><span class="o">.</span><span class="n">to_i</span>
+      <span class="k">super</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span>
+      <span class="n">sti_cls_list</span><span class="o">[</span><span class="n">type_name</span><span class="o">.</span><span class="n">to_i</span><span class="o">-</span><span class="mi">1</span><span class="o">].</span><span class="n">constantize</span>
+    <span class="k">rescue</span> <span class="no">NameError</span><span class="p">,</span> <span class="no">TypeError</span>
+      <span class="k">super</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">sti_name</span>
+      <span class="n">idx</span> <span class="o">=</span> <span class="n">sti_cls_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">idx</span><span class="o">.</span><span class="n">nil?</span>
+        <span class="k">super</span>
+      <span class="k">else</span>
+        <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+
+<p>And our <code>Institution::Base</code> class just reduces to:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Institution</span><span class="o">::</span><span class="no">Base</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="kp">include</span> <span class="no">OptimallyInheritable</span>
+  <span class="n">support_sti_for</span> <span class="sx">%w[Institution::NonProfit Institution::Commercial]</span>
+<span class="k">end</span>
+</code></pre></div>
+
+<p>All seems kosher, so we take our implementation for a test drive:</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">&gt; Institution::Base.all
+Institution::Base Load (0.4ms)  SELECT `institution_bases`.* FROM `institution_bases`
+=&gt; #&lt;ActiveRecord::Relation [#&lt;Institution::Commercial id: 3, name: &quot;loremipsum&quot;, type: &quot;2&quot;, created_at: &quot;2014-07-17 12:27:26&quot;, updated_at: &quot;2014-07-17 12:27:26&quot;&gt;]&gt;
+</code></pre></div>
+<p>While laoding instances of base class works well, we run into issues when we try to load all commercial
+institutions:</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">2.1.2 :005 &gt; Institution::Commercial.all
+NoMethodError: undefined method `index&#39; for nil:NilClass
+               from /Users/lorefnon/Workspace/sample/app/models/concerns/optimally_inheritable.rb:24:in `sti_name&#39;
+               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/inheritance.rb:170:in `block in type_condition&#39;
+               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/inheritance.rb:170:in `map&#39;
+               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/inheritance.rb:170:in `type_condition&#39;
+               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/core.rb:170:in `relation&#39;
+</code></pre></div>
+<p>The problem is obvious : the variable <code>sti_class_list</code> is not available in subclasses.</p>
+
+<p>So we rectify our solution:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">def</span> <span class="nf">sti_cls_list</span>
+  <span class="k">if</span> <span class="n">superclass</span><span class="o">.</span><span class="n">respond_to?</span> <span class="ss">:sti_cls_list</span>
+    <span class="n">superclass</span><span class="o">.</span><span class="n">sti_cls_list</span>
+  <span class="k">else</span>
+    <span class="vi">@sti_cls_list</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+
+<p>This resolves the aforementioned issues.</p>
+
+<p>Now that we have reached the end of the post, it would be a good time to highlight the drawbacks of our approach:</p>
+
+<ol>
+<li>Firstly, The array passed to <code>support_sti_for</code> function will have to be kept in sync with the class names, if the name of any model class changes in future.</li>
+<li>Secondly, While it is safe to add new entries to supported classes, their order can not be arbitrarily changed without running a data correction script first.</li>
+</ol>
+
+<p>This concludes our post. The full source code is available at <a href="https://github.com/lorefnon/sti_optimization_demo.git">Github</a>. As always, any criticism or feedback is welcome.</p>
+
+  
+  <footer class="group">
+    <p>
+      
+      
+      
+        
+      
+    </p>
+  </footer>
+  
+    <script>
+      $(function() {
+        (new Kudos({name:"kudos_"+ Math.floor(new Date().getTime() * Math.random()), articleId:"", articleTitle: "Optimizing space taken by type column in Rails STI", articleUrl:"/2014/07/27/optimizing-sti-columns.html"})).render($("article#"));
+        (new Kudos({name:"2kudos_"+ Math.floor(new Date().getTime() * Math.random()), articleId:"", articleTitle: "Optimizing space taken by type column in Rails STI", articleUrl:"/2014/07/27/optimizing-sti-columns.html"})).render($(".group"));
+      });
+    </script>
+    
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'lorefnon-blog'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</article>
+
+
+      </div>
+      
+      <div class="line hide-text">Separator line</div>
+
+      <!-- Next article preview -->
+      <div class="next-article" style="display: none;">
+        <a href="#">
+          <p class="read-next tag is-uppercase">Read this next:</p>
+          <p class="next-article__title">Protocol and Language</p>
+          <div class="next-article__content">
+            <p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p>
+          </div>
+        </a>
+      </div>
+      <!-- Finish / Feature on process-->
+
+      <div class="line hide-text">Separator line</div>
+
+      <div class="foot_logo">
+        <a href="http://lorefnon.me"><span class="logo"></span></a>
+      </div>
+
+      <div class="foot_logo right">
+        <a href="/"><span class="link">Full Blog >></span></a>
+      </div>
+
+      <div class="foot_userbar">
+        <a href="#" class="bottom_tagline">
+          <span>Lorefnon</span> - Notes On Software Craftsmanship, Architecture Design And The Art Of Building Beautiful Abstractions, Primary Focus Being On Web Centric Platforms And Technologies.
+        </a>
+        <a href="https://twitter.com/@lorefnon" class="linkout twitter">
+          <i class="fa fa-twitter"></i>
+          @lorefnon
+        </a>
+        <a href="mailto:lorefnon@gmail.com" target="_blank" class="linkout contact">Contact</a>
+      </div>
+
+      <div class="copyright tag">
+        © 2015
+      </div>
+    </div>
+
+    <div class="side-nav-container">
+      <h3 class="logotype"><a class="is-uppercase tag" href="#">Menu</a></h3>
+      <nav class="side-nav">
+        <div class="top">
+          <p>
+						Check more on: 
+            <a href="http://lorefnon.me"><span class="tag">Code.Art.Web</span></a> 
+          </p>
+          <ul class="nav-profile-links">
+            <li class="website">
+              <a href="http://lorefnon.me">Lorefnon</a>
+            </li>
+            <li class="twitter">
+              <a href="http://twitter.com/lorefnon">@lorefnon</a>
+            </li>
+            <li class="email">
+              <a href="mailto:lorefnon@gmail.com">Contact</a>
+            </li>
+          </ul>
+        </div>
+        <div class="about">
+          <ul class="about-links">
+            <li>
+              <a href="#">
+                <span class="tag">RSS</span>
+              </a>
+            </li>
+            <li class="magazine">
+              <a href="http://lorefnon.me/feed.xml">Feed</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <script src="/assets/javascripts/js.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-47274059-1']);
+      _gaq.push(['_setDomainName', 'lorefnon.me']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </body>
+</html>

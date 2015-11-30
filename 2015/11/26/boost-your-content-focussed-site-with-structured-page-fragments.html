@@ -1,0 +1,514 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]> ><! <![endif]-->
+<html lang="en" class="">
+  <head>
+    <meta charset="utf-8">
+    <title>Boost your content focussed site with Structured Page Fragments | Svbtle Jekyll</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Orlando Del Aguils Blog">
+    <link rel="canonical" href="http://orlando.delagui.la">
+    <meta property="twitter:creator" content="@odelaguila">
+    <meta property="og:title" content="@odelaguila">
+    <meta property="og:type" content="blog">
+    <meta poperty="og:url" content="http://orlando.delagui.la">
+    <meta property="og:site_name">
+    <meta property="og:fb:app_id">
+    <meta property="og:description" content="Orlando Del Aguila Blog">
+    <link rel="alternate" type="application/rss+xml" href=""/>
+    <!-- libraries -->
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <script data-cfasync="false" type="text/javascript" src=""></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    
+  </head>
+  <body style="zoom: 1;">
+    <div class="main-container">
+      
+      <div class="mlogotype is-uppercase">
+        <a href="http://lorefnon.me">Code.Art.Web</a>
+      </div>
+
+      <a href="http://lorefnon.me" class="home_logotype_link">
+        <h1 class="tag">Code.Art.Web</h1>
+      </a>
+
+      <div class="header-container detail-view">
+        <header class="main-header">
+          <figure class="avatar">
+            <a href="http://lorefnon.me" 
+            style="background-image: url();">Profile Picture</a> 
+          </figure>
+          <h1 class="profile-name is-uppercase">
+            <a href="http://lorefnon.me">Lorefnon</a>
+          </h1>
+        </header>
+      </div>
+
+      <div class="posts-container detail-view">
+        
+
+<header class="post-header">
+  <!-- <time datetime="2015-11-30 10:07:55 +0530">November 26, 2015</time> -->
+</header>
+
+<article class="post detail-view" id="">
+  <h1 class="title"><a href="#">Boost your content focussed site with Structured Page Fragments</a></h1>
+  <a href="#" class="anchor-icon">
+    <i class="fa fa-anchor"></i>
+    <time datetime="2015-11-30 10:07:55 +0530">Nov 26, 2015</time>
+  </a>
+  
+    <h2>The context</h2>
+
+<p>SPF.js a lightweight javascript library to incorporate dynamic page updates that dramatically reduces perceived page latency. Quoting from the Repo Homepage:</p>
+
+<blockquote>
+<p>Using progressive enhancement and HTML5, SPF integrates with your site to enable a faster, more fluid user experience by updating just the sections of the page that change during navigation, not the whole page. SPF provides a response format for sending document fragments, a robust system for script and style management, an in-memory cache, on-the-fly processing, and more.</p>
+</blockquote>
+
+<p>While for complex dynamic sites which have a significant amount of client side logic, I still recommend adopting a client side javascript framework, but for content focussed sites, a nifty utility like SPF.js can be very useful.</p>
+
+<h2>Why not good old js.erb templates ?</h2>
+
+<p>While Rails allows us to render server generated javascript templates, using them to generate dynamic page updates is a bit cumbersome for most scenarios. Especially you have to handle page url updates manually, scroll back the pages manually etc. None of them are very complex concerns, but having a library deal with such cross cutting concerns is much more elegant IMHO.</p>
+
+<h2>What about turbolinks ?</h2>
+
+<p>While yes, turbolinks does enjoy being a part of the default Rails stack, but frankly, it has always seemed like a half baked product. While turbolinks does improve the experience over full page reloads, behind the scenes it still loads the full page content.</p>
+
+<p>SPF.js allows you to just fetch the parts of the page that really need updating. The GIF below, also taken from the official site, explains this much better:</p>
+
+<h3>Full page re-rendering</h3>
+
+<p><img src="/images/animation-static-340x178.gif"></p>
+
+<h3>Partial section replacement with SPF.js</h3>
+
+<p><img src="/images/animation-dynamic-340x178.gif"></p>
+
+<h2>But doesn&#39;t the latest version of turbolinks include support for partial page replacement ?</h2>
+
+<p>Yes, but there is a <a href="https://github.com/rails/turbolinks/issues/628">lack of clarity</a> over when (and if) that feature will be officially released. </p>
+
+<p>In a nutshell, the version of turbolinks that is scheduled to ship with Rails 5, significantly diverges from what has hitherto been considered as the <a href="https://github.com/rails/turbolinks/">official turbolinks repo</a>, and will probably not contain, among other features, support for partial page replacements. While the future is not set in stone, and as DHH has <a href="https://github.com/rails/turbolinks/issues/628#issuecomment-157376926">put it</a>: </p>
+
+<blockquote>
+<p>But, hey, it&#39;s just code. If the current state of this repo serves your
+needs, you don&#39;t need any official blessing from anyone to use it. You can
+use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
+</blockquote>
+
+<p>While I appreciate the freedom associated with open source licenses, I would rather bet on a well supported library that caters to the exact same use case and which is already being used in production in a wildly popular site - Youtube.</p>
+
+<h2>Integrating SPF.js with Rails</h2>
+
+<p>The rest of the post outlines the steps required to integrate SPF.js with a rails application. The code for this tutorial is available in <a href="https://github.com/lorefnon/rails-spfjs-demo">Github</a>.</p>
+
+<p>We will create a dummy blog application. But hey, since this is just a demo application, we can get away with a little <a href="https://github.com/sevenwire/forgery">Forgery</a>:</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">PostsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@page</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:page</span><span class="o">].</span><span class="n">to_i</span>
+    <span class="vi">@num_pages</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="vi">@posts</span> <span class="o">=</span> <span class="mi">10</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="n">fake_post_summary</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">show</span>
+    <span class="vi">@post</span> <span class="o">=</span> <span class="n">fake_post</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">fake_post</span>
+    <span class="no">OpenStruct</span><span class="o">.</span><span class="n">new</span> <span class="n">fake_post_summary</span><span class="o">.</span><span class="n">to_h</span><span class="o">.</span><span class="n">merge!</span><span class="p">(</span>
+      <span class="nb">id</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">,</span>
+      <span class="ss">body</span><span class="p">:</span> <span class="no">LoremIpsum</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="ss">paragraphs</span><span class="p">:</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
+    <span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">fake_post_summary</span>
+    <span class="no">OpenStruct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+      <span class="nb">id</span><span class="p">:</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">1000</span><span class="p">),</span>
+      <span class="ss">title</span><span class="p">:</span> <span class="no">LoremIpsum</span><span class="o">.</span><span class="n">lorem_ipsum</span><span class="p">(</span><span class="ss">words</span><span class="p">:</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">20</span><span class="p">)),</span>
+      <span class="ss">summary</span><span class="p">:</span> <span class="no">LoremIpsum</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="ss">paragraphs</span><span class="p">:</span> <span class="mi">1</span><span class="p">),</span>
+      <span class="ss">author</span><span class="p">:</span> <span class="no">OpenStruct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+        <span class="n">user_name</span><span class="p">:</span> <span class="no">Forgery</span><span class="p">(</span><span class="s1">&#39;internet&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">user_name</span><span class="p">,</span>
+        <span class="ss">email</span><span class="p">:</span> <span class="no">Forgery</span><span class="p">(</span><span class="s1">&#39;internet&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">email_address</span>
+      <span class="p">)</span>
+    <span class="p">)</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</code></pre></div>
+<p>So now that we have our dummy posts in place, we just need to show them:</p>
+<div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;!-- posts/index.html.erb --&gt;</span>
+<span class="x">&lt;div class=&quot;blog-container&quot;&gt;</span>
+
+<span class="x">  &lt;h1 class=&quot;blog-title title&quot;&gt; Lorefnon&#39;s Awesome blog &lt;/h1&gt;</span>
+<span class="x">  &lt;h2 class=&quot;page-title title&quot;&gt; Posts &lt;/h2&gt;</span>
+
+<span class="x">  &lt;div class=&quot;posts-container&quot;&gt;</span>
+<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">&#39;posts/posts&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">  &lt;/div&gt;</span>
+
+<span class="x">&lt;/div&gt;</span>
+</code></pre></div><div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;!-- posts/_posts.html.erb --&gt;</span>
+<span class="x">&lt;ul class=&quot;posts-list&quot;&gt;</span>
+
+<span class="x">  &lt;div class=&quot;posts&quot;&gt;</span>
+<span class="x">    </span><span class="cp">&lt;%</span> <span class="vi">@posts</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">&#39;posts/summary&#39;</span><span class="p">,</span> <span class="ss">post</span><span class="p">:</span> <span class="n">post</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">    </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">  &lt;/div&gt;</span>
+
+<span class="x">&lt;/ul&gt;</span>
+
+<span class="x">&lt;div class=&quot;navigation-links&quot;&gt;</span>
+<span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">&#39;posts/navigation_links&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">&lt;/div&gt;</span>
+</code></pre></div><div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;!-- posts/_summary.html.erb --&gt;</span>
+<span class="x">&lt;li data-post-id=&quot;</span><span class="cp">&lt;%=</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">&quot;&gt;</span>
+<span class="x">  &lt;h3 class=&quot;title post-title&quot;&gt; </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">post</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">post_path</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"> &lt;/h3&gt;</span>
+<span class="x">  &lt;p&gt; </span><span class="cp">&lt;%=</span> <span class="n">post</span><span class="o">.</span><span class="n">summary</span> <span class="cp">%&gt;</span><span class="x"> &lt;/p&gt;</span>
+<span class="x">&lt;/li&gt;</span>
+</code></pre></div><div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;!-- posts/_navigation_links.html.erb --&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">if</span> <span class="vi">@page</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">   </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Previous Page&#39;</span><span class="p">,</span> <span class="n">posts_path</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="vi">@page</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="cp">&lt;%</span> <span class="k">if</span> <span class="vi">@page</span> <span class="o">&lt;</span> <span class="vi">@num_pages</span> <span class="o">-</span><span class="mi">1</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">   </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Next Page&#39;</span><span class="p">,</span> <span class="n">posts_path</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="vi">@page</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</code></pre></div><div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;!-- posts/show.html.erb --&gt;</span>
+<span class="x">&lt;div class=&quot;blog-container&quot;&gt;</span>
+<span class="x">  &lt;h2 class=&quot;post-title title&quot;&gt; </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="vi">@post</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">post_path</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="vi">@post</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"> &lt;/h2&gt;</span>
+<span class="x">  &lt;div class=&quot;post-body&quot;&gt; </span><span class="cp">&lt;%=</span> <span class="vi">@post</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="x"> &lt;/div&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</code></pre></div>
+<p>The above templates have nothing particularly characteristic. If you would have written them yourself, I guess you would have implemented something very similar. I have presented above to particularly highlight that the way you structure your views does not need to be drastically altered to use SPF.js. Hence it is easy to take your existing sites and start using SPF.js.</p>
+
+<p>Our dummy blog looks something like this now:</p>
+
+<p><img src="/images/2015-11-26/blog_index.png"></p>
+
+<h2>Including SPF</h2>
+
+<p>Next step for us is to include SPF.js in the page. For that we will just add the cdn link to our layout. Other methods of including are available <a href="https://github.com/youtube/spfjs#download">here</a>.</p>
+
+<p>After this inclusion our template might look something like this:</p>
+<div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;!DOCTYPE html&gt;</span>
+
+<span class="x">&lt;html&gt;</span>
+
+<span class="x">  &lt;head&gt;</span>
+<span class="x">    &lt;title&gt;Rails Spfjs Demo&lt;/title&gt;</span>
+<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s1">&#39;//ajax.googleapis.com/ajax/libs/spf/2.3.0/spf.js&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span>    <span class="s1">&#39;application&#39;</span><span class="p">,</span> <span class="ss">media</span><span class="p">:</span> <span class="s1">&#39;all&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s1">&#39;application&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">csrf_meta_tags</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">  &lt;/head&gt;</span>
+
+<span class="x">  &lt;body&gt;</span>
+
+<span class="x">  </span><span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span><span class="x"></span>
+
+<span class="x">  &lt;script&gt;</span>
+<span class="x">    spf.init();</span>
+<span class="x">  &lt;/script&gt;</span>
+
+<span class="x">  &lt;/body&gt;</span>
+<span class="x">&lt;/html&gt;</span>
+</code></pre></div>
+<h2>Making navigation links SPF aware</h2>
+
+<p>However just initializing SPF.js does not magically ajaxify all navigation links. In fact by so far SPF.js does not alter the navigation in any way. We need to explicitly enable SPFjs for links for which our server knows how to server partial content. For SPF to process a link, it should have the class &#39;spf-link&#39;. Let us start with our navigation links:</p>
+<div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="cp">&lt;%</span> <span class="k">if</span> <span class="vi">@page</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">   </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Previous Page&#39;</span><span class="p">,</span> <span class="n">posts_path</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="vi">@page</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="ss">class</span><span class="p">:</span> <span class="s1">&#39;spf-link&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="cp">&lt;%</span> <span class="k">if</span> <span class="vi">@page</span> <span class="o">&lt;</span> <span class="vi">@num_pages</span> <span class="o">-</span><span class="mi">1</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">   </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Next Page&#39;</span><span class="p">,</span> <span class="n">posts_path</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="vi">@page</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="ss">class</span><span class="p">:</span> <span class="s1">&#39;spf-link&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</code></pre></div>
+<p>One great feature of SPF.js is that it handles graceful degradation. So, since we haven&#39;t done anything on the server side to generate partial contents, SPF will try to make an ajax request to server (with the special query parameter spf=navigate) and once that response format does not match what SPF expects, it will allow a full page reload.</p>
+
+<h2>Server side handling for SPF</h2>
+
+<p>Let us move on to server side handling:</p>
+
+<p>As we have previously mentioned that SPF sends an ajax request using spf=navigate query parameter. We can detect that in our controller and send out a special response that only includes the parts of the page we need to update:</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">PostsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@page</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:page</span><span class="o">].</span><span class="n">to_i</span>
+    <span class="vi">@num_pages</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="vi">@posts</span> <span class="o">=</span> <span class="mi">10</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="n">fake_post_summary</span> <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:spf</span><span class="o">]</span> <span class="o">==</span> <span class="s1">&#39;navigate&#39;</span>
+      <span class="n">render</span> <span class="s1">&#39;posts/index.json&#39;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+<span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</code></pre></div>
+<p>Next we will have to designate the parts that can be dynamically replace using an id. In our modified <code>posts/_summary.html.erb</code> below, <code>spf-posts-container</code> serves that purpose:</p>
+<div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;li data-post-id=&quot;</span><span class="cp">&lt;%=</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">&quot;&gt;</span>
+<span class="x">  &lt;h3 class=&quot;title post-title&quot;&gt; </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">post</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">post_path</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"> &lt;/h3&gt;</span>
+<span class="x">  &lt;p&gt; </span><span class="cp">&lt;%=</span> <span class="n">post</span><span class="o">.</span><span class="n">summary</span> <span class="cp">%&gt;</span><span class="x"> &lt;/p&gt;</span>
+<span class="x">&lt;/li&gt;</span>
+</code></pre></div>
+<p>While SPF does not require DOM node IDs to begin with <code>spf-</code> prefix I think this is a good convention and makes the intent explict.</p>
+
+<p>Finally here is our json template that contains the partial page update, in the format that SPF.js <a href="https://youtube.github.io/spfjs/documentation/responses/">can process</a>. </p>
+
+<p>index.json.erb:</p>
+<div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">{</span>
+<span class="x">  &quot;body&quot;: {</span>
+<span class="x">    &quot;spf-posts-container&quot;: &quot;</span><span class="cp">&lt;%=</span> <span class="n">j</span> <span class="n">render</span> <span class="s1">&#39;posts/posts&#39;</span> <span class="cp">%&gt;</span><span class="x">&quot;</span>
+<span class="x">  }</span>
+<span class="x">}</span>
+</code></pre></div>
+<p>While we are using a simple <code>json.erb</code> template, it should be noted that any generic approach that can generate json response in rails, works well. So if you are already using <code>rabl</code> or <code>jbuilder</code> in your APIs, you can continue using that.</p>
+
+<p>Now when a navigation link is clicked, the json response is fetched via ajax and the page is dynamically updated - resulting in a much smoother user experience. Also note that browser url has been automatically updated and the page scrolls to the top. SPF tries to emulate the experience the experience of page change as much as possible to prevent uncanny surprises.</p>
+
+<p><img src="/images/2015-11-26/spf_response.png"></p>
+
+<h2>(Optional) Leveraging rails magic for leaner controllers</h2>
+
+<p>While the above works, it is unweildy to handle the navigation link in each controller. We can alternatively make the <code>default_render</code> method that is used by rails to be SPF aware. The <a href="https://github.com/rails/rails/blob/7f18ea14c893cb5c9f04d4fda9661126758332b5/actionpack/lib/action_controller/metal/implicit_render.rb">default implementation</a> looks like this:</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">default_render</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">template_exists?</span><span class="p">(</span><span class="n">action_name</span><span class="o">.</span><span class="n">to_s</span><span class="p">,</span> <span class="n">_prefixes</span><span class="p">,</span> <span class="ss">variants</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">variant</span><span class="p">)</span>
+    <span class="n">render</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+  <span class="k">else</span>
+    <span class="k">if</span> <span class="nb">block_given?</span>
+      <span class="k">yield</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">else</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">info</span> <span class="s2">&quot;No template found for </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\#</span><span class="si">#{</span><span class="n">action_name</span><span class="si">}</span><span class="s2">, rendering head :no_content&quot;</span> <span class="k">if</span> <span class="n">logger</span>
+      <span class="k">super</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>We can override this in our ApplicationController</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+
+  <span class="c1"># Prevent CSRF attacks by raising an exception.</span>
+  <span class="c1"># For APIs, you may want to use :null_session instead.</span>
+  <span class="n">protect_from_forgery</span> <span class="ss">with</span><span class="p">:</span> <span class="ss">:exception</span>
+
+  <span class="k">def</span> <span class="nf">default_render</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:spf</span><span class="o">]</span> <span class="o">==</span> <span class="s1">&#39;navigate&#39;</span>
+      <span class="n">render</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">controller_name</span><span class="si">}</span><span class="s2">/spf_</span><span class="si">#{</span><span class="n">action_name</span><span class="si">}</span><span class="s2">.json&quot;</span>
+    <span class="k">else</span>
+      <span class="k">super</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</code></pre></div>
+<p>Now all we have to do is prefix the names of our SPF specific templates with <code>spf_</code> and we are done. Our <code>spf_index.json.erb</code> remains unchanged.</p>
+
+<p>We can clean up the action and remove SPF specific code:</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">PostsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@page</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:page</span><span class="o">].</span><span class="n">to_i</span>
+    <span class="vi">@num_pages</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="vi">@posts</span> <span class="o">=</span> <span class="mi">10</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="n">fake_post_summary</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+<span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</code></pre></div>
+<h2>Navigation hooks</h2>
+
+<p>While so far everything works pretty well, we may want to hook into navigation events for greater flexibility. This may be useful for sending events to analytics service or for highlighting specific parts of page. The latter is useful because in some cases when the part replaced is very small, user might not immediate notice a quick change in the page content.</p>
+
+<p>For instance <code>spfdone</code> event is invoked after the asynchronous update has been applied to the page. We can attach handlers to this event just like any other event, and hook custom logic:</p>
+
+<p><img src="/images/2015-11-26/spfdone.png"></p>
+
+<p>Let us highlight the listing of our posts using CSS 3 animations when loaded asynchronously:</p>
+<div class="highlight"><pre><code class="js language-js" data-lang="js"><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;spfdone&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">originalEvent</span><span class="p">.</span><span class="nx">detail</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">[</span><span class="s1">&#39;spf-posts-container&#39;</span><span class="p">])</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#spf-posts-container&#39;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;flash&#39;</span><span class="p">)</span>
+
+    <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#spf-posts-container&#39;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;flash&#39;</span><span class="p">)</span>
+    <span class="p">},</span> <span class="mi">3000</span><span class="p">)</span>
+
+  <span class="p">}</span>
+
+<span class="p">});</span>
+</code></pre></div><div class="highlight"><pre><code class="css language-css" data-lang="css"><span class="nc">.flash</span> <span class="p">{</span>
+  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">animation</span><span class="o">:</span> <span class="n">flash</span> <span class="m">1s</span> <span class="n">ease</span><span class="o">-</span><span class="n">out</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">animation</span><span class="o">-</span><span class="n">iteration</span><span class="o">-</span><span class="n">count</span><span class="o">:</span> <span class="m">1</span><span class="p">;</span>
+
+  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">animation</span><span class="o">:</span> <span class="n">flash</span> <span class="m">1s</span> <span class="n">ease</span><span class="o">-</span><span class="n">out</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="n">animation</span><span class="o">-</span><span class="n">iteration</span><span class="o">-</span><span class="n">count</span><span class="o">:</span> <span class="m">1</span><span class="p">;</span>
+
+  <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">animation</span><span class="o">:</span> <span class="n">flash</span> <span class="m">1s</span> <span class="n">ease</span><span class="o">-</span><span class="n">out</span><span class="p">;</span>
+  <span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">animation</span><span class="o">-</span><span class="n">iteration</span><span class="o">-</span><span class="n">count</span><span class="o">:</span> <span class="m">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">@-webkit-keyframes</span> <span class="nt">flash</span> <span class="p">{</span>
+    <span class="nt">0</span><span class="o">%</span> <span class="p">{</span> <span class="k">background-color</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span> <span class="p">}</span>
+    <span class="nt">50</span><span class="o">%</span> <span class="p">{</span> <span class="k">background-color</span><span class="o">:</span> <span class="m">#fbf8b2</span><span class="p">;</span> <span class="p">}</span>
+    <span class="nt">100</span><span class="o">%</span> <span class="p">{</span> <span class="k">background-color</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@-moz-keyframes</span> <span class="nt">flash</span> <span class="p">{</span>
+    <span class="nt">0</span><span class="o">%</span> <span class="p">{</span> <span class="k">background-color</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span> <span class="p">}</span>
+    <span class="nt">50</span><span class="o">%</span> <span class="p">{</span> <span class="k">background-color</span><span class="o">:</span> <span class="m">#fbf8b2</span><span class="p">;</span> <span class="p">}</span>
+    <span class="nt">100</span><span class="o">%</span> <span class="p">{</span> <span class="k">background-color</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">@-ms-keyframes</span> <span class="nt">flash</span> <span class="p">{</span>
+    <span class="nt">0</span><span class="o">%</span> <span class="p">{</span> <span class="k">background-color</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span> <span class="p">}</span>
+    <span class="nt">50</span><span class="o">%</span> <span class="p">{</span> <span class="k">background-color</span><span class="o">:</span> <span class="m">#fbf8b2</span><span class="p">;</span> <span class="p">}</span>
+    <span class="nt">100</span><span class="o">%</span> <span class="p">{</span> <span class="k">background-color</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Now you should see a subtle flash when page content has been replaced.</p>
+
+<h2>Conclusion</h2>
+
+<p>This concludes our small post on SPF integration with Rails. SPF allows for a lot more customization options beyond what our small covers. In particular SPF allows us to inject new scripts and styles dynamically, sophisticated <a href="https://youtube.github.io/spfjs/documentation/caching/">cache management</a> and <a href="https://youtube.github.io/spfjs/documentation/versioning/">resource versioning</a> support, which are all very useful features.</p>
+
+<p>The <a href="https://youtube.github.io/spfjs/documentation">official documentation</a> is a great place to start exploring more.</p>
+
+  
+  <footer class="group">
+    <p>
+      
+      
+      
+        
+      
+    </p>
+  </footer>
+  
+    <script>
+      $(function() {
+        (new Kudos({name:"kudos_"+ Math.floor(new Date().getTime() * Math.random()), articleId:"", articleTitle: "Boost your content focussed site with Structured Page Fragments", articleUrl:"/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html"})).render($("article#"));
+        (new Kudos({name:"2kudos_"+ Math.floor(new Date().getTime() * Math.random()), articleId:"", articleTitle: "Boost your content focussed site with Structured Page Fragments", articleUrl:"/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html"})).render($(".group"));
+      });
+    </script>
+    
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'lorefnon-blog'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</article>
+
+
+      </div>
+      
+      <div class="line hide-text">Separator line</div>
+
+      <!-- Next article preview -->
+      <div class="next-article" style="display: none;">
+        <a href="#">
+          <p class="read-next tag is-uppercase">Read this next:</p>
+          <p class="next-article__title">Protocol and Language</p>
+          <div class="next-article__content">
+            <p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p>
+          </div>
+        </a>
+      </div>
+      <!-- Finish / Feature on process-->
+
+      <div class="line hide-text">Separator line</div>
+
+      <div class="foot_logo">
+        <a href="http://lorefnon.me"><span class="logo"></span></a>
+      </div>
+
+      <div class="foot_logo right">
+        <a href="/"><span class="link">Full Blog >></span></a>
+      </div>
+
+      <div class="foot_userbar">
+        <a href="#" class="bottom_tagline">
+          <span>Lorefnon</span> - Notes On Software Craftsmanship, Architecture Design And The Art Of Building Beautiful Abstractions, Primary Focus Being On Web Centric Platforms And Technologies.
+        </a>
+        <a href="https://twitter.com/@lorefnon" class="linkout twitter">
+          <i class="fa fa-twitter"></i>
+          @lorefnon
+        </a>
+        <a href="mailto:lorefnon@gmail.com" target="_blank" class="linkout contact">Contact</a>
+      </div>
+
+      <div class="copyright tag">
+        © 2015
+      </div>
+    </div>
+
+    <div class="side-nav-container">
+      <h3 class="logotype"><a class="is-uppercase tag" href="#">Menu</a></h3>
+      <nav class="side-nav">
+        <div class="top">
+          <p>
+						Check more on: 
+            <a href="http://lorefnon.me"><span class="tag">Code.Art.Web</span></a> 
+          </p>
+          <ul class="nav-profile-links">
+            <li class="website">
+              <a href="http://lorefnon.me">Lorefnon</a>
+            </li>
+            <li class="twitter">
+              <a href="http://twitter.com/lorefnon">@lorefnon</a>
+            </li>
+            <li class="email">
+              <a href="mailto:lorefnon@gmail.com">Contact</a>
+            </li>
+          </ul>
+        </div>
+        <div class="about">
+          <ul class="about-links">
+            <li>
+              <a href="#">
+                <span class="tag">RSS</span>
+              </a>
+            </li>
+            <li class="magazine">
+              <a href="http://lorefnon.me/feed.xml">Feed</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <script src="/assets/javascripts/js.js"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-47274059-1']);
+      _gaq.push(['_setDomainName', 'lorefnon.me']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </body>
+</html>
