@@ -1,7 +1,14 @@
-
-	<item>
-		<title>Boost your content focussed site with Structured Page Fragments</title>
-		<description>&lt;h2&gt;The context&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <description></description>
+    <link></link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
+    
+	  <item>
+		  <title>Boost your content focussed site with Structured Page Fragments</title>
+		  <description>&lt;h2&gt;The context&lt;/h2&gt;
 
 &lt;p&gt;SPF.js a lightweight javascript library to incorporate dynamic page updates that dramatically reduces perceived page latency. Quoting from the Repo Homepage:&lt;/p&gt;
 
@@ -319,14 +326,14 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 
 &lt;p&gt;The &lt;a href=&quot;https://youtube.github.io/spfjs/documentation&quot;&gt;official documentation&lt;/a&gt; is a great place to start exploring more.&lt;/p&gt;
 </description>
-		<pubDate>Thu, 26 Nov 2015 00:00:00 +0530</pubDate>
-		<link>/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</link>
-		<guid isPermaLink="true">/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</guid>
-	</item>
-
-	<item>
-		<title>An answer to &quot;React is the new Java&quot;</title>
-		<description>&lt;p&gt;This post is essentially my attempt to answer some of the concerns presented in this &lt;a href=&quot;https://news.ycombinator.com/item?id=10609159&quot;&gt;opinion&lt;/a&gt; posted in HN. The author has likened the success of React with the success of Java, exemplifying how time again, what (s)he identifies as worse technology, has been pushed to a higher popularity rather than more competent alternatives available.&lt;/p&gt;
+		  <pubDate>Thu, 26 Nov 2015 00:00:00 +0530</pubDate>
+		  <link>/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</link>
+		  <guid isPermaLink="true">/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</guid>
+	  </item>
+    
+	  <item>
+		  <title>An answer to &quot;React is the new Java&quot;</title>
+		  <description>&lt;p&gt;This post is essentially my attempt to answer some of the concerns presented in this &lt;a href=&quot;https://news.ycombinator.com/item?id=10609159&quot;&gt;opinion&lt;/a&gt; posted in HN. The author has likened the success of React with the success of Java, exemplifying how time again, what (s)he identifies as worse technology, has been pushed to a higher popularity rather than more competent alternatives available.&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;I have been learning new technologies pretty much continuously. It&amp;#39;s not impossible, especially if you follow sites like Hacker News, to keep a finger on the direction of the industry, and then try to stay on top of the next new hot technology of the year.&lt;/p&gt;
@@ -424,14 +431,14 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 
 &lt;p&gt;While I disagree with the primary premise, this is a very strong and sound advise. I whole-heartedly agree that solutions should be rationally vetted and benchmarked before being put to use. I hope that arguments I have presented above are perceived as rationally just. Any comments or suggestions are more than welcome.&lt;/p&gt;
 </description>
-		<pubDate>Sun, 22 Nov 2015 00:00:00 +0530</pubDate>
-		<link>/2015/11/22/an-answer-to-react-is-the-new-java.html</link>
-		<guid isPermaLink="true">/2015/11/22/an-answer-to-react-is-the-new-java.html</guid>
-	</item>
-
-	<item>
-		<title>Utilities for efficient filesystem navigation in emacs</title>
-		<description>&lt;p&gt;While most of time spent working on a project goes into coding, finding the right files or understanding the directory structure is fairly time consuming as well. This is especially true when we are exploring unknown projects - in particular, projects with custom directory structures as opposed to CoC frameworks. This post outlines a few tools which aid in project exploration and navigation across files which I have found to be useful in practice&lt;/p&gt;
+		  <pubDate>Sun, 22 Nov 2015 00:00:00 +0530</pubDate>
+		  <link>/2015/11/22/an-answer-to-react-is-the-new-java.html</link>
+		  <guid isPermaLink="true">/2015/11/22/an-answer-to-react-is-the-new-java.html</guid>
+	  </item>
+    
+	  <item>
+		  <title>Utilities for efficient filesystem navigation in emacs</title>
+		  <description>&lt;p&gt;While most of time spent working on a project goes into coding, finding the right files or understanding the directory structure is fairly time consuming as well. This is especially true when we are exploring unknown projects - in particular, projects with custom directory structures as opposed to CoC frameworks. This post outlines a few tools which aid in project exploration and navigation across files which I have found to be useful in practice&lt;/p&gt;
 
 &lt;h2&gt;Dired&lt;/h2&gt;
 
@@ -483,14 +490,14 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 
 &lt;p&gt;This completes our detour into utilities make it easy to traverse projects in emacs. If there are other tools that this article could benefit from, please mention them in the comments below.&lt;/p&gt;
 </description>
-		<pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
-		<link>/2015/11/15/utilities-for-efficient-filesystem-navigation-in-emacs.html</link>
-		<guid isPermaLink="true">/2015/11/15/utilities-for-efficient-filesystem-navigation-in-emacs.html</guid>
-	</item>
-
-	<item>
-		<title>A minimal setup for using ES6 modules in Rails</title>
-		<description>&lt;p&gt;While ES6 adoption is progressively improving across browsers, and the sprockets team is planning to integrate ES6 features into Rails asset pipeline in near future, using a widely popular transpiler: &lt;a href=&quot;https://babeljs.io&quot;&gt;Babel&lt;/a&gt; we can leverage many of those features right away. The specific aspect of interest for this post is ES6 modules feature which provides a standardized module system for javascript.&lt;/p&gt;
+		  <pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
+		  <link>/2015/11/15/utilities-for-efficient-filesystem-navigation-in-emacs.html</link>
+		  <guid isPermaLink="true">/2015/11/15/utilities-for-efficient-filesystem-navigation-in-emacs.html</guid>
+	  </item>
+    
+	  <item>
+		  <title>A minimal setup for using ES6 modules in Rails</title>
+		  <description>&lt;p&gt;While ES6 adoption is progressively improving across browsers, and the sprockets team is planning to integrate ES6 features into Rails asset pipeline in near future, using a widely popular transpiler: &lt;a href=&quot;https://babeljs.io&quot;&gt;Babel&lt;/a&gt; we can leverage many of those features right away. The specific aspect of interest for this post is ES6 modules feature which provides a standardized module system for javascript.&lt;/p&gt;
 
 &lt;p&gt;While babel does have a solution for ES6 modules, rather than handling dependency resolution itself - it transpiles the modules to existing javascript based module systems - the most popular ones being &lt;a href=&quot;https://github.com/amdjs&quot;&gt;AMD&lt;/a&gt; and &lt;a href=&quot;https://commonjs.org&quot;&gt;CommonJS&lt;/a&gt;. This post does not go into a compartive analysis of them, but there is an excellent &lt;a href=&quot;addyosmani.com/writing-modular-js/&quot;&gt;article&lt;/a&gt; by &lt;a href=&quot;https://twitter.com/addyosmani&quot;&gt;Addy Osmani&lt;/a&gt; which provides an in-depth elaboration on the topic.&lt;/p&gt;
 
@@ -561,14 +568,14 @@ We recommend moving to npm, using &amp;quot;jquery-plugin&amp;quot; as the keywo
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;If we run the server now and visit the home page, we should be greeted with a hello prompt.&lt;/p&gt;
 </description>
-		<pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
-		<link>/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</link>
-		<guid isPermaLink="true">/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</guid>
-	</item>
-
-	<item>
-		<title>React and Livescript in harmony</title>
-		<description>&lt;h1&gt;Overview&lt;/h1&gt;
+		  <pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
+		  <link>/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</link>
+		  <guid isPermaLink="true">/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</guid>
+	  </item>
+    
+	  <item>
+		  <title>React and Livescript in harmony</title>
+		  <description>&lt;h1&gt;Overview&lt;/h1&gt;
 
 &lt;p&gt;&lt;a href=&quot;http://livescript.net/&quot;&gt;Livescript&lt;/a&gt; is a programming language that compiles to readable javascript (similar to coffeescript) and provides language level facilities to &lt;a href=&quot;http://livescript.net/#inspiration&quot;&gt;encourage&lt;/a&gt; functional programming. &lt;a href=&quot;https://facebook.github.io/react/&quot;&gt;React.js&lt;/a&gt; is a user interface library from &lt;a href=&quot;https://facebook.com&quot;&gt;facebook&lt;/a&gt; that uses &lt;a href=&quot;http://calendar.perfplanet.com/2013/diff/&quot;&gt;intelligent heuristics&lt;/a&gt; for efficient DOM updates, simplifying the process of building data driven applications. This post outlines how the two can play well together, and tries to demostrate how livescript allows us write much more compact and succinct code. Basic familiarity with both of them is assumed.&lt;/p&gt;
 
@@ -787,14 +794,14 @@ We recommend moving to npm, using &amp;quot;jquery-plugin&amp;quot; as the keywo
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Apart from getting rid of null for attribute hashes, hyperscript is particularly useful for shorter syntax for class names and ids. Also it insulates our codebase against changes in the DOM builder API, which have happened in past.&lt;/p&gt;
 </description>
-		<pubDate>Mon, 21 Sep 2015 00:00:00 +0530</pubDate>
-		<link>/2015/09/21/react-and-livescript-in-harmony.html</link>
-		<guid isPermaLink="true">/2015/09/21/react-and-livescript-in-harmony.html</guid>
-	</item>
-
-	<item>
-		<title>Smarter knockout applications with ES6/7</title>
-		<description>&lt;h1&gt;Overview&lt;/h1&gt;
+		  <pubDate>Mon, 21 Sep 2015 00:00:00 +0530</pubDate>
+		  <link>/2015/09/21/react-and-livescript-in-harmony.html</link>
+		  <guid isPermaLink="true">/2015/09/21/react-and-livescript-in-harmony.html</guid>
+	  </item>
+    
+	  <item>
+		  <title>Smarter knockout applications with ES6/7</title>
+		  <description>&lt;h1&gt;Overview&lt;/h1&gt;
 
 &lt;p&gt;This post is an outline of ES6/7 features that we can leverage today in our &lt;a href=&quot;http://knockoutjs.com&quot;&gt;Knockout&lt;/a&gt; based applications to make them more maintainable.&lt;/p&gt;
 
@@ -918,14 +925,14 @@ class MyAppViewModel {
 
 &lt;p&gt;This concludes this overview for now, though there is a lot to be explored in next generation javascript beyond this basic introduction. As always, I welcome any suggestions or requests for improvement in the comments section below.&lt;/p&gt;
 </description>
-		<pubDate>Mon, 24 Aug 2015 00:00:00 +0530</pubDate>
-		<link>/2015/08/24/smarter-knockout-applications-with-es-next.html</link>
-		<guid isPermaLink="true">/2015/08/24/smarter-knockout-applications-with-es-next.html</guid>
-	</item>
-
-	<item>
-		<title>Gathering and Visualizing metrics from Rails application using InfluxDB</title>
-		<description>&lt;h2&gt;Overview&lt;/h2&gt;
+		  <pubDate>Mon, 24 Aug 2015 00:00:00 +0530</pubDate>
+		  <link>/2015/08/24/smarter-knockout-applications-with-es-next.html</link>
+		  <guid isPermaLink="true">/2015/08/24/smarter-knockout-applications-with-es-next.html</guid>
+	  </item>
+    
+	  <item>
+		  <title>Gathering and Visualizing metrics from Rails application using InfluxDB</title>
+		  <description>&lt;h2&gt;Overview&lt;/h2&gt;
 
 &lt;p&gt;InfluxDB is a distributed time series database. It is a specialized data store for saving large volumes of timestamped event data and this makes it especially suited for storing metrics, lifecycle events and analytics. The &lt;code&gt;influxdb-rails&lt;/code&gt; gem, maintained by the InfluxDB team, facilitates integration with Rails and makes it easy to save various metrics from a rails application to InfluxDB and visualize it through frontends like &lt;a href=&quot;http://grafana.org/&quot;&gt;Grafana&lt;/a&gt;.&lt;/p&gt;
 
@@ -1122,14 +1129,14 @@ class MyAppViewModel {
 &lt;li&gt;&lt;a href=&quot;http://docs.grafana.org/&quot;&gt;Grafana Documentation&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-		<pubDate>Sat, 04 Apr 2015 00:00:00 +0530</pubDate>
-		<link>/2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</link>
-		<guid isPermaLink="true">/2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</guid>
-	</item>
-
-	<item>
-		<title>Dealing with JSON data in Active Admin</title>
-		<description>&lt;p&gt;Many a times, depending on the requirements, it makes sense to store
+		  <pubDate>Sat, 04 Apr 2015 00:00:00 +0530</pubDate>
+		  <link>/2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</link>
+		  <guid isPermaLink="true">/2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</guid>
+	  </item>
+    
+	  <item>
+		  <title>Dealing with JSON data in Active Admin</title>
+		  <description>&lt;p&gt;Many a times, depending on the requirements, it makes sense to store
 unstructured json data in database fields. PostgreSQL recognizes this
 requirement and provides a dedicated json field that automatically
 handles JSON validation. As has been outlined in the
@@ -1311,14 +1318,14 @@ rules which I leave as an exercise for the reader.&lt;/p&gt;
 
 &lt;p&gt;As always, any feedback and suggestions are more than welcome.&lt;/p&gt;
 </description>
-		<pubDate>Mon, 02 Mar 2015 00:00:00 +0530</pubDate>
-		<link>/2015/03/02/dealing-with-json-fields-in-active-admin.html</link>
-		<guid isPermaLink="true">/2015/03/02/dealing-with-json-fields-in-active-admin.html</guid>
-	</item>
-
-	<item>
-		<title>Leveraging the strategy pattern in Rails - I</title>
-		<description>&lt;h1&gt;To begin with, what is strategy pattern ?&lt;/h1&gt;
+		  <pubDate>Mon, 02 Mar 2015 00:00:00 +0530</pubDate>
+		  <link>/2015/03/02/dealing-with-json-fields-in-active-admin.html</link>
+		  <guid isPermaLink="true">/2015/03/02/dealing-with-json-fields-in-active-admin.html</guid>
+	  </item>
+    
+	  <item>
+		  <title>Leveraging the strategy pattern in Rails - I</title>
+		  <description>&lt;h1&gt;To begin with, what is strategy pattern ?&lt;/h1&gt;
 
 &lt;p&gt;Quoting from &lt;a href=&quot;http://en.wikipedia.org/wiki/Strategy_pattern&quot;&gt;Wikipedia&lt;/a&gt;,&lt;/p&gt;
 
@@ -1634,14 +1641,14 @@ and view layers as well.&lt;/p&gt;
 &lt;p&gt;This concludes the post. Please feel free to let me know about your suggestions for improvements, or
 mistakes that I might have made in the post above.&lt;/p&gt;
 </description>
-		<pubDate>Sat, 03 Jan 2015 00:00:00 +0530</pubDate>
-		<link>/2015/01/03/leveraging-strategy-pattern-in-rails.html</link>
-		<guid isPermaLink="true">/2015/01/03/leveraging-strategy-pattern-in-rails.html</guid>
-	</item>
-
-	<item>
-		<title>Decrypting an obfuscated font with OCR</title>
-		<description>&lt;p&gt;I recently came across &lt;a href=&quot;http://protext.herokuapp.com/&quot;&gt;this site&lt;/a&gt; which demostrates a strategy for copy protection using an obfuscated font. So basically if you copy the text in the header you will realize that text copied is not exactly what is visible on the screen. The text is presented through a font that maps the characters to glyphs of a different character and hence though the output is human readable the underlying text is not. This is presented as a means towards protecting the site from crawlers and scrapers. In the post below I intend to demonstrate that this is not as full-proof as non-technical folks would be led to believe.&lt;/p&gt;
+		  <pubDate>Sat, 03 Jan 2015 00:00:00 +0530</pubDate>
+		  <link>/2015/01/03/leveraging-strategy-pattern-in-rails.html</link>
+		  <guid isPermaLink="true">/2015/01/03/leveraging-strategy-pattern-in-rails.html</guid>
+	  </item>
+    
+	  <item>
+		  <title>Decrypting an obfuscated font with OCR</title>
+		  <description>&lt;p&gt;I recently came across &lt;a href=&quot;http://protext.herokuapp.com/&quot;&gt;this site&lt;/a&gt; which demostrates a strategy for copy protection using an obfuscated font. So basically if you copy the text in the header you will realize that text copied is not exactly what is visible on the screen. The text is presented through a font that maps the characters to glyphs of a different character and hence though the output is human readable the underlying text is not. This is presented as a means towards protecting the site from crawlers and scrapers. In the post below I intend to demonstrate that this is not as full-proof as non-technical folks would be led to believe.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/protext_site.png&quot; style=&quot;border: 1px solid silver;&quot;/&gt;&lt;/p&gt;
 
@@ -1705,8 +1712,10 @@ gem &amp;#39;tesseract-ocr&amp;#39;
 
 &lt;p&gt;To further improve the performance of the solution we can create an image of every character through MagickTitle and pass it to Tesseract to generate a character by character map. Now large chunks of text can be translated using this map much more efficiently.&lt;/p&gt;
 </description>
-		<pubDate>Sun, 12 Oct 2014 00:00:00 +0530</pubDate>
-		<link>/2014/10/12/decrypting-an-obfuscated-font-with-ocr.html</link>
-		<guid isPermaLink="true">/2014/10/12/decrypting-an-obfuscated-font-with-ocr.html</guid>
-	</item>
-
+		  <pubDate>Sun, 12 Oct 2014 00:00:00 +0530</pubDate>
+		  <link>/2014/10/12/decrypting-an-obfuscated-font-with-ocr.html</link>
+		  <guid isPermaLink="true">/2014/10/12/decrypting-an-obfuscated-font-with-ocr.html</guid>
+	  </item>
+    
+  </channel>
+</rss>
