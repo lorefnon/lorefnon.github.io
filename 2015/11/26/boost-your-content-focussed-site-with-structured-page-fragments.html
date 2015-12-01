@@ -18,14 +18,13 @@
     <meta property="og:fb:app_id">
     <meta property="og:description" content="Eliminate full page refreshes and reduce page transition latency, in your your Rails sites, using SPF.js &mdash; a library for dynamic page updates from Youtube.">
     <link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/>
-    <!-- libraries -->
     <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
     <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
     <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
     <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/>    
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-    
   </head>
   <body style="zoom: 1;">
     <div class="main-container">
@@ -54,19 +53,19 @@
         
 
 <header class="post-header">
-  <!-- <time datetime="2015-12-01 00:17:27 +0530">November 26, 2015</time> -->
+  <!-- <time datetime="2015-12-02 02:25:59 +0530">November 26, 2015</time> -->
 </header>
 
 <article class="post detail-view" id="">
   <h1 class="title"><a href="#">Boost your content focussed site with Structured Page Fragments</a></h1>
   <a href="#" class="anchor-icon">
     <i class="fa fa-anchor"></i>
-    <time datetime="2015-12-01 00:17:27 +0530">Nov 26, 2015</time>
+    <time datetime="2015-12-02 02:25:59 +0530">Nov 26, 2015</time>
   </a>
   
     <h2>The context</h2>
 
-<p>SPF.js a lightweight javascript library to incorporate dynamic page updates that dramatically reduces perceived page latency. Quoting from the Repo Homepage:</p>
+<p><a href="https://youtube.github.io/spfjs/">SPF.js</a> a lightweight javascript library to incorporate dynamic page updates that dramatically reduces perceived page latency. Quoting from the Repo Homepage:</p>
 
 <blockquote>
 <p>Using progressive enhancement and HTML5, SPF integrates with your site to enable a faster, more fluid user experience by updating just the sections of the page that change during navigation, not the whole page. SPF provides a response format for sending document fragments, a robust system for script and style management, an in-memory cache, on-the-fly processing, and more.</p>
@@ -80,7 +79,7 @@
 
 <h2>What about turbolinks ?</h2>
 
-<p>While yes, turbolinks does enjoy being a part of the default Rails stack, but frankly, it has always seemed like a half baked product. While turbolinks does improve the experience over full page reloads, behind the scenes it still loads the full page content.</p>
+<p>While yes, <a href="https://github.com/rails/turbolinks">turbolinks</a> does enjoy being a part of the default Rails stack, but frankly, it has always seemed like a half baked product. While turbolinks does improve the experience over full page reloads, behind the scenes it still loads the full page content.</p>
 
 <p>SPF.js allows you to just fetch the parts of the page that really need updating. The GIF below, also taken from the official site, explains this much better:</p>
 
@@ -194,7 +193,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 
 <p>Our dummy blog looks something like this now:</p>
 
-<p><img src="/images/2015-11-26/blog_index.png"></p>
+<p><img src="/images/2015-11-26/blog_index.png" data-action="zoom"></p>
 
 <h2>Including SPF</h2>
 
@@ -276,7 +275,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 
 <p>Now when a navigation link is clicked, the json response is fetched via ajax and the page is dynamically updated - resulting in a much smoother user experience. Also note that browser url has been automatically updated and the page scrolls to the top. SPF tries to emulate the experience the experience of page change as much as possible to prevent uncanny surprises.</p>
 
-<p><img src="/images/2015-11-26/spf_response.png"></p>
+<p><img src="/images/2015-11-26/spf_response.png" data-action="zoom"></p>
 
 <h2>(Optional) Leveraging rails magic for leaner controllers</h2>
 
@@ -330,7 +329,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 
 <p>For instance <code>spfdone</code> event is invoked after the asynchronous update has been applied to the page. We can attach handlers to this event just like any other event, and hook custom logic:</p>
 
-<p><img src="/images/2015-11-26/spfdone.png"></p>
+<p><img src="/images/2015-11-26/spfdone.png" data-action="zoom"></p>
 
 <p>Let us highlight the listing of our posts using CSS 3 animations when loaded asynchronously:</p>
 <div class="highlight"><pre><code class="js language-js" data-lang="js"><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;spfdone&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
@@ -392,14 +391,6 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
       
     </p>
   </footer>
-  
-    <script>
-      $(function() {
-        (new Kudos({name:"kudos_"+ Math.floor(new Date().getTime() * Math.random()), articleId:"", articleTitle: "Boost your content focussed site with Structured Page Fragments", articleUrl:"/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html"})).render($("article#"));
-        (new Kudos({name:"2kudos_"+ Math.floor(new Date().getTime() * Math.random()), articleId:"", articleTitle: "Boost your content focussed site with Structured Page Fragments", articleUrl:"/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html"})).render($(".group"));
-      });
-    </script>
-    
   <div id="disqus_thread"></div>
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
@@ -514,7 +505,6 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
       </nav>
     </div>
 
-    <script src="/assets/javascripts/js.js"></script>
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-47274059-1']);
@@ -527,5 +517,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
     </script>
+    <script src="/assets/javascripts/post.js"></script>
+
   </body>
 </html>
