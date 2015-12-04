@@ -29,16 +29,6 @@
   this.top.location !== this.location && (this.top.location = this.location);
 </script>
 
-    <script>
-  if (location.host == settings.domain) {
-    if (location.protocol !== 'https:') {
-      location.protocol = 'https'
-    }
-  } else if (! location.host.match(/^localhost:\d+$/)) {
-    location.href = `https://${settings.domain}`
-  }
-</script>
-
   </head>
   <body style="zoom: 1;">
     <div class="main-container">
@@ -67,14 +57,14 @@
         
 
 <header class="post-header">
-  <!-- <time datetime="2015-12-04 22:27:58 +0530">August 15, 2012</time> -->
+  <!-- <time datetime="2015-12-04 22:32:37 +0530">August 15, 2012</time> -->
 </header>
 
 <article class="post detail-view" id="">
   <h1 class="title"><a href="#">A Websocket powered Tic tac toe game using Ruby EventMachine – Part 1</a></h1>
   <a href="#" class="anchor-icon">
     <i class="fa fa-anchor"></i>
-    <time datetime="2015-12-04 22:27:58 +0530">Aug 15, 2012</time>
+    <time datetime="2015-12-04 22:32:37 +0530">Aug 15, 2012</time>
   </a>
   
     <p>Lately I have been fiddling around a bit with websockets. Websocket support is now available in most of the modern browsers and Flash based shims are available for older browsers. Having bi-directional communication stream between server and the browser based client opens up a whole new world of opportunities for dynamic web applications.</p>

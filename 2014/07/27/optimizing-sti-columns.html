@@ -29,16 +29,6 @@
   this.top.location !== this.location && (this.top.location = this.location);
 </script>
 
-    <script>
-  if (location.host == settings.domain) {
-    if (location.protocol !== 'https:') {
-      location.protocol = 'https'
-    }
-  } else if (! location.host.match(/^localhost:\d+$/)) {
-    location.href = `https://${settings.domain}`
-  }
-</script>
-
   </head>
   <body style="zoom: 1;">
     <div class="main-container">
@@ -67,14 +57,14 @@
         
 
 <header class="post-header">
-  <!-- <time datetime="2015-12-04 22:27:58 +0530">July 27, 2014</time> -->
+  <!-- <time datetime="2015-12-04 22:32:37 +0530">July 27, 2014</time> -->
 </header>
 
 <article class="post detail-view" id="">
   <h1 class="title"><a href="#">Optimizing space taken by type column in Rails STI</a></h1>
   <a href="#" class="anchor-icon">
     <i class="fa fa-anchor"></i>
-    <time datetime="2015-12-04 22:27:58 +0530">Jul 27, 2014</time>
+    <time datetime="2015-12-04 22:32:37 +0530">Jul 27, 2014</time>
   </a>
   
     <p>The <a href="http://api.rubyonrails.org/classes/ActiveRecord/Base.html#label-Single+table+inheritance">Single Table Inheritance</a>
