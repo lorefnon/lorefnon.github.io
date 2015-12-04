@@ -276,7 +276,6 @@ hr {
 }
 
 article:nth-child(3)::before {
-    content: "MORE ARTICLES";
     margin: 25px auto;
     text-transform: uppercase;
 }
