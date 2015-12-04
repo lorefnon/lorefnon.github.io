@@ -395,32 +395,32 @@ article::before {
     color: #000;
 } 
 
-article:nth-child(2) .title {
-    line-height: 43px;
-    font-size: 38px;
-    -webkit-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-    font-weight: bold;
-}
+/* article:nth-child(2) .title { */
+/*     line-height: 43px; */
+/*     font-size: 38px; */
+/*     -webkit-transition: all 0.3s ease; */
+/*     transition: all 0.3s ease; */
+/*     font-weight: bold; */
+/* } */
 
-article:nth-child(2) p {
-    line-height: 28.5px;
-    font-size: 19px;
-    color: #4d4d4d;
-}
+/* article:nth-child(2) p { */
+/*     line-height: 28.5px; */
+/*     font-size: 19px; */
+/*     color: #4d4d4d; */
+/* } */
 
-article:nth-child(2) .article-separator{
-    display: none;
-    visibility: hidden;
-}
+/* article:nth-child(2) .article-separator{ */
+/*     display: none; */
+/*     visibility: hidden; */
+/* } */
 
-article:nth-child(2) .read-more{
-    display: none;
-}
+/* article:nth-child(2) .read-more{ */
+/*     display: none; */
+/* } */
 
-article:nth-child(2) .read-more.button{
-    display: block;
-}
+/* article:nth-child(2) .read-more.button{ */
+/*     display: block; */
+/* } */
 
 article .read-more.button{
     display: none;
