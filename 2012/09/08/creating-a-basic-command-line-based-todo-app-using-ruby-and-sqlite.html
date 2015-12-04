@@ -25,6 +25,20 @@
     <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/>    
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <script>
+  this.top.location !== this.location && (this.top.location = this.location);
+</script>
+
+    <script>
+  if (location.host == settings.domain) {
+    if (location.protocol !== 'https:') {
+      location.protocol = 'https'
+    }
+  } else if (! location.host.match(/^localhost:\d+$/)) {
+    location.href = `https://${settings.domain}`
+  }
+</script>
+
   </head>
   <body style="zoom: 1;">
     <div class="main-container">
@@ -53,14 +67,14 @@
         
 
 <header class="post-header">
-  <!-- <time datetime="2015-12-02 02:25:59 +0530">September 08, 2012</time> -->
+  <!-- <time datetime="2015-12-04 22:27:58 +0530">September 08, 2012</time> -->
 </header>
 
 <article class="post detail-view" id="">
   <h1 class="title"><a href="#">Creating a basic command line based todo app using ruby and sqlite.</a></h1>
   <a href="#" class="anchor-icon">
     <i class="fa fa-anchor"></i>
-    <time datetime="2015-12-02 02:25:59 +0530">Sep 08, 2012</time>
+    <time datetime="2015-12-04 22:27:58 +0530">Sep 08, 2012</time>
   </a>
   
     <p>This tutorial aims to demonstrate how Ruby can be used to create simple command line applications.  A basic familiarity with Ruby and SQLite is assumed. Also availability of a POSIX compliant system is assumed. Although it is quite possible to port this tutorial to other proprietary platforms, I will not make any effort in this regard because of sheer lack of interest. In the tutorial, we create a simple command line based Task management application which is persisted through a local sqlite database. Thanks to the awesome commander library for ruby, the usual legwork of dealing with command line arguments and managing flags is greatly simplified.</p>
@@ -521,19 +535,19 @@ Here is an obligatory screenshot :</p>
         </div>
       </nav>
     </div>
-
     <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-47274059-1']);
-      _gaq.push(['_setDomainName', 'lorefnon.me']);
-      _gaq.push(['_trackPageview']);
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-47274059-1']);
+  _gaq.push(['_setDomainName', 'lorefnon.me']);
+  _gaq.push(['_trackPageview']);
 
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
     <script src="/assets/javascripts/post.js"></script>
 
   </body>

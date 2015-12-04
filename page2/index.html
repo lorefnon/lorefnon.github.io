@@ -26,6 +26,20 @@
     <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <script>
+  this.top.location !== this.location && (this.top.location = this.location);
+</script>
+
+    <script>
+  if (location.host == settings.domain) {
+    if (location.protocol !== 'https:') {
+      location.protocol = 'https'
+    }
+  } else if (! location.host.match(/^localhost:\d+$/)) {
+    location.href = `https://${settings.domain}`
+  }
+</script>
+
     
   </head>
   <body style="zoom: 1;">
@@ -70,7 +84,7 @@
     
       
         <header class="post-header">
-  <!-- <time datetime="2015-12-02 02:25:59 +0530">September 13, 2014</time> -->
+  <!-- <time datetime="2015-12-04 22:27:58 +0530">September 13, 2014</time> -->
 </header>
 
       

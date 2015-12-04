@@ -25,6 +25,20 @@
     <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/>    
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+    <script>
+  this.top.location !== this.location && (this.top.location = this.location);
+</script>
+
+    <script>
+  if (location.host == settings.domain) {
+    if (location.protocol !== 'https:') {
+      location.protocol = 'https'
+    }
+  } else if (! location.host.match(/^localhost:\d+$/)) {
+    location.href = `https://${settings.domain}`
+  }
+</script>
+
   </head>
   <body style="zoom: 1;">
     <div class="main-container">
@@ -53,14 +67,14 @@
         
 
 <header class="post-header">
-  <!-- <time datetime="2015-12-02 02:25:59 +0530">November 26, 2015</time> -->
+  <!-- <time datetime="2015-12-04 22:27:58 +0530">November 26, 2015</time> -->
 </header>
 
 <article class="post detail-view" id="">
   <h1 class="title"><a href="#">Boost your content focussed site with Structured Page Fragments</a></h1>
   <a href="#" class="anchor-icon">
     <i class="fa fa-anchor"></i>
-    <time datetime="2015-12-02 02:25:59 +0530">Nov 26, 2015</time>
+    <time datetime="2015-12-04 22:27:58 +0530">Nov 26, 2015</time>
   </a>
   
     <h2>The context</h2>
@@ -504,19 +518,19 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
         </div>
       </nav>
     </div>
-
     <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-47274059-1']);
-      _gaq.push(['_setDomainName', 'lorefnon.me']);
-      _gaq.push(['_trackPageview']);
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-47274059-1']);
+  _gaq.push(['_setDomainName', 'lorefnon.me']);
+  _gaq.push(['_trackPageview']);
 
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
     <script src="/assets/javascripts/post.js"></script>
 
   </body>
