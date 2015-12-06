@@ -66,28 +66,10 @@
             Eliminate full page refreshes and reduce page transition latency, in your your Rails sites, using SPF.js &mdash; a library for dynamic page updates from Youtube.
           </p>
           
-          <div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>
-<div id="toctitle"><h2>Contents</h2></div>
-<ul>
-<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1</span> <span class="toctext">The context</span></a></li>
-<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2</span> <span class="toctext">Why not good old js.erb templates ?</span></a></li>
-<li class="toc_level-1 toc_section-3">
-<a href="#header1-3"><span class="tocnumber">3</span> <span class="toctext">What about turbolinks ?</span></a><ul>
-<li class="toc_level-2 toc_section-4"><a href="#header1-3-1"><span class="tocnumber">3.1</span> <span class="toctext">Full page re-rendering</span></a></li>
-<li class="toc_level-2 toc_section-5"><a href="#header1-3-2"><span class="tocnumber">3.2</span> <span class="toctext">Partial section replacement with SPF.js</span></a></li>
-</ul>
-</li>
-<li class="toc_level-1 toc_section-6"><a href="#header1-6"><span class="tocnumber">4</span> <span class="toctext">But doesn't the latest version of turbolinks include support for partial page replacement ?</span></a></li>
-<li class="toc_level-1 toc_section-7"><a href="#header1-7"><span class="tocnumber">5</span> <span class="toctext">Integrating SPF.js with Rails</span></a></li>
-<li class="toc_level-1 toc_section-8"><a href="#header1-8"><span class="tocnumber">6</span> <span class="toctext">Including SPF</span></a></li>
-<li class="toc_level-1 toc_section-9"><a href="#header1-9"><span class="tocnumber">7</span> <span class="toctext">Making navigation links SPF aware</span></a></li>
-<li class="toc_level-1 toc_section-10"><a href="#header1-10"><span class="tocnumber">8</span> <span class="toctext">Server side handling for SPF</span></a></li>
-<li class="toc_level-1 toc_section-11"><a href="#header1-11"><span class="tocnumber">9</span> <span class="toctext">(Optional) Leveraging rails magic for leaner controllers</span></a></li>
-<li class="toc_level-1 toc_section-12"><a href="#header1-12"><span class="tocnumber">10</span> <span class="toctext">Navigation hooks</span></a></li>
-<li class="toc_level-1 toc_section-13"><a href="#header1-13"><span class="tocnumber">11</span> <span class="toctext">Conclusion</span></a></li>
-</ul>
-</td></tr></tbody></table></div>
-<h2 id="header1-1">The context</h2>
+          
+
+
+  <h2>The context</h2>
 
 <p><a href="https://youtube.github.io/spfjs/">SPF.js</a> a lightweight javascript library to incorporate dynamic page updates that dramatically reduces perceived page latency. Quoting from the Repo Homepage:</p>
 
@@ -97,39 +79,39 @@
 
 <p>While for complex dynamic sites which have a significant amount of client side logic, I still recommend adopting a client side javascript framework, but for content focussed sites, a nifty utility like SPF.js can be very useful.</p>
 
-<h2 id="header1-2">Why not good old js.erb templates ?</h2>
+<h2>Why not good old js.erb templates ?</h2>
 
 <p>While Rails allows us to render server generated javascript templates, using them to generate dynamic page updates is a bit cumbersome for most scenarios. Especially you have to handle page url updates manually, scroll back the pages manually etc. None of them are very complex concerns, but having a library deal with such cross cutting concerns is much more elegant IMHO.</p>
 
-<h2 id="header1-3">What about turbolinks ?</h2>
+<h2>What about turbolinks ?</h2>
 
 <p>While yes, <a href="https://github.com/rails/turbolinks">turbolinks</a> does enjoy being a part of the default Rails stack, but frankly, it has always seemed like a half baked product. While turbolinks does improve the experience over full page reloads, behind the scenes it still loads the full page content.</p>
 
 <p>SPF.js allows you to just fetch the parts of the page that really need updating. The GIF below, also taken from the official site, explains this much better:</p>
 
-<h3 id="header1-3-1">Full page re-rendering</h3>
+<h3>Full page re-rendering</h3>
 
 <p><img src="/images/animation-static-340x178.gif"></p>
 
-<h3 id="header1-3-2">Partial section replacement with SPF.js</h3>
+<h3>Partial section replacement with SPF.js</h3>
 
 <p><img src="/images/animation-dynamic-340x178.gif"></p>
 
-<h2 id="header1-6">But doesn't the latest version of turbolinks include support for partial page replacement ?</h2>
+<h2>But doesn&#39;t the latest version of turbolinks include support for partial page replacement ?</h2>
 
-<p>Yes, but there is a <a href="https://github.com/rails/turbolinks/issues/628">lack of clarity</a> over when (and if) that feature will be officially released. </p>
+<p>Yes, but there is a <a href="https://github.com/rails/turbolinks/issues/628">lack of clarity</a> over when (and if) that feature will be officially released.</p>
 
-<p>In a nutshell, the version of turbolinks that is scheduled to ship with Rails 5, significantly diverges from what has hitherto been considered as the <a href="https://github.com/rails/turbolinks/">official turbolinks repo</a>, and will probably not contain, among other features, support for partial page replacements. While the future is not set in stone, and as DHH has <a href="https://github.com/rails/turbolinks/issues/628#issuecomment-157376926">put it</a>: </p>
+<p>In a nutshell, the version of turbolinks that is scheduled to ship with Rails 5, significantly diverges from what has hitherto been considered as the <a href="https://github.com/rails/turbolinks/">official turbolinks repo</a>, and will probably not contain, among other features, support for partial page replacements. While the future is not set in stone, and as DHH has <a href="https://github.com/rails/turbolinks/issues/628#issuecomment-157376926">put it</a>:</p>
 
 <blockquote>
-<p>But, hey, it's just code. If the current state of this repo serves your
-needs, you don't need any official blessing from anyone to use it. You can
+<p>But, hey, it&#39;s just code. If the current state of this repo serves your
+needs, you don&#39;t need any official blessing from anyone to use it. You can
 use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 </blockquote>
 
 <p>While I appreciate the freedom associated with open source licenses, I would rather bet on a well supported library that caters to the exact same use case and which is already being used in production in a wildly popular site - Youtube.</p>
 
-<h2 id="header1-7">Integrating SPF.js with Rails</h2>
+<h2>Integrating SPF.js with Rails</h2>
 
 <p>The rest of the post outlines the steps required to integrate SPF.js with a rails application. The code for this tutorial is available in <a href="https://github.com/lorefnon/rails-spfjs-demo">Github</a>.</p>
 
@@ -161,8 +143,8 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
       <span class="ss">title</span><span class="p">:</span> <span class="no">LoremIpsum</span><span class="o">.</span><span class="n">lorem_ipsum</span><span class="p">(</span><span class="ss">words</span><span class="p">:</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">20</span><span class="p">)),</span>
       <span class="ss">summary</span><span class="p">:</span> <span class="no">LoremIpsum</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="ss">paragraphs</span><span class="p">:</span> <span class="mi">1</span><span class="p">),</span>
       <span class="ss">author</span><span class="p">:</span> <span class="no">OpenStruct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
-        <span class="n">user_name</span><span class="p">:</span> <span class="no">Forgery</span><span class="p">(</span><span class="s1">'internet'</span><span class="p">)</span><span class="o">.</span><span class="n">user_name</span><span class="p">,</span>
-        <span class="ss">email</span><span class="p">:</span> <span class="no">Forgery</span><span class="p">(</span><span class="s1">'internet'</span><span class="p">)</span><span class="o">.</span><span class="n">email_address</span>
+        <span class="n">user_name</span><span class="p">:</span> <span class="no">Forgery</span><span class="p">(</span><span class="s1">&#39;internet&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">user_name</span><span class="p">,</span>
+        <span class="ss">email</span><span class="p">:</span> <span class="no">Forgery</span><span class="p">(</span><span class="s1">&#39;internet&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">email_address</span>
       <span class="p">)</span>
     <span class="p">)</span>
   <span class="k">end</span>
@@ -171,50 +153,46 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 </code></pre></div>
 <p>So now that we have our dummy posts in place, we just need to show them:</p>
 <div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;!-- posts/index.html.erb --&gt;</span>
-<span class="x">&lt;div class="blog-container"&gt;</span>
+<span class="x">&lt;div class=&quot;blog-container&quot;&gt;</span>
 
-<span class="x">  &lt;h1 class="blog-title title"&gt; Lorefnon's Awesome blog &lt;/h1&gt;</span>
-<span class="x">  &lt;h2 class="page-title title"&gt; Posts &lt;/h2&gt;</span>
+<span class="x">  &lt;h1 class=&quot;blog-title title&quot;&gt; Lorefnon&#39;s Awesome blog &lt;/h1&gt;</span>
+<span class="x">  &lt;h2 class=&quot;page-title title&quot;&gt; Posts &lt;/h2&gt;</span>
 
-<span class="x">  &lt;div class="posts-container"&gt;</span>
-<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">'posts/posts'</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">  &lt;div class=&quot;posts-container&quot;&gt;</span>
+<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">&#39;posts/posts&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">  &lt;/div&gt;</span>
 
 <span class="x">&lt;/div&gt;</span>
-</code></pre></div>
-<div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;!-- posts/_posts.html.erb --&gt;</span>
-<span class="x">&lt;ul class="posts-list"&gt;</span>
+</code></pre></div><div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;!-- posts/_posts.html.erb --&gt;</span>
+<span class="x">&lt;ul class=&quot;posts-list&quot;&gt;</span>
 
-<span class="x">  &lt;div class="posts"&gt;</span>
+<span class="x">  &lt;div class=&quot;posts&quot;&gt;</span>
 <span class="x">    </span><span class="cp">&lt;%</span> <span class="vi">@posts</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">post</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">'posts/summary'</span><span class="p">,</span> <span class="ss">post</span><span class="p">:</span> <span class="n">post</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">&#39;posts/summary&#39;</span><span class="p">,</span> <span class="ss">post</span><span class="p">:</span> <span class="n">post</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">    </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">  &lt;/div&gt;</span>
 
 <span class="x">&lt;/ul&gt;</span>
 
-<span class="x">&lt;div class="navigation-links"&gt;</span>
-<span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">'posts/navigation_links'</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">&lt;div class=&quot;navigation-links&quot;&gt;</span>
+<span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">&#39;posts/navigation_links&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">&lt;/div&gt;</span>
-</code></pre></div>
-<div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;!-- posts/_summary.html.erb --&gt;</span>
-<span class="x">&lt;li data-post-id="</span><span class="cp">&lt;%=</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">"&gt;</span>
-<span class="x">  &lt;h3 class="title post-title"&gt; </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">post</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">post_path</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"> &lt;/h3&gt;</span>
+</code></pre></div><div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;!-- posts/_summary.html.erb --&gt;</span>
+<span class="x">&lt;li data-post-id=&quot;</span><span class="cp">&lt;%=</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">&quot;&gt;</span>
+<span class="x">  &lt;h3 class=&quot;title post-title&quot;&gt; </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">post</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">post_path</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"> &lt;/h3&gt;</span>
 <span class="x">  &lt;p&gt; </span><span class="cp">&lt;%=</span> <span class="n">post</span><span class="o">.</span><span class="n">summary</span> <span class="cp">%&gt;</span><span class="x"> &lt;/p&gt;</span>
 <span class="x">&lt;/li&gt;</span>
-</code></pre></div>
-<div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;!-- posts/_navigation_links.html.erb --&gt;</span>
+</code></pre></div><div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;!-- posts/_navigation_links.html.erb --&gt;</span>
 <span class="cp">&lt;%</span> <span class="k">if</span> <span class="vi">@page</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">   </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Previous Page'</span><span class="p">,</span> <span class="n">posts_path</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="vi">@page</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">   </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Previous Page&#39;</span><span class="p">,</span> <span class="n">posts_path</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="vi">@page</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="cp">&lt;%</span> <span class="k">if</span> <span class="vi">@page</span> <span class="o">&lt;</span> <span class="vi">@num_pages</span> <span class="o">-</span><span class="mi">1</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">   </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Next Page'</span><span class="p">,</span> <span class="n">posts_path</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="vi">@page</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">   </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Next Page&#39;</span><span class="p">,</span> <span class="n">posts_path</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="vi">@page</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
-</code></pre></div>
-<div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;!-- posts/show.html.erb --&gt;</span>
-<span class="x">&lt;div class="blog-container"&gt;</span>
-<span class="x">  &lt;h2 class="post-title title"&gt; </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="vi">@post</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">post_path</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="vi">@post</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"> &lt;/h2&gt;</span>
-<span class="x">  &lt;div class="post-body"&gt; </span><span class="cp">&lt;%=</span> <span class="vi">@post</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="x"> &lt;/div&gt;</span>
+</code></pre></div><div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;!-- posts/show.html.erb --&gt;</span>
+<span class="x">&lt;div class=&quot;blog-container&quot;&gt;</span>
+<span class="x">  &lt;h2 class=&quot;post-title title&quot;&gt; </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="vi">@post</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">post_path</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="vi">@post</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"> &lt;/h2&gt;</span>
+<span class="x">  &lt;div class=&quot;post-body&quot;&gt; </span><span class="cp">&lt;%=</span> <span class="vi">@post</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="x"> &lt;/div&gt;</span>
 <span class="x">&lt;/div&gt;</span>
 </code></pre></div>
 <p>The above templates have nothing particularly characteristic. If you would have written them yourself, I guess you would have implemented something very similar. I have presented above to particularly highlight that the way you structure your views does not need to be drastically altered to use SPF.js. Hence it is easy to take your existing sites and start using SPF.js.</p>
@@ -223,7 +201,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 
 <p><img src="/images/2015-11-26/blog_index.png" data-action="zoom"></p>
 
-<h2 id="header1-8">Including SPF</h2>
+<h2>Including SPF</h2>
 
 <p>Next step for us is to include SPF.js in the page. For that we will just add the cdn link to our layout. Other methods of including are available <a href="https://github.com/youtube/spfjs#download">here</a>.</p>
 
@@ -234,9 +212,9 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 
 <span class="x">  &lt;head&gt;</span>
 <span class="x">    &lt;title&gt;Rails Spfjs Demo&lt;/title&gt;</span>
-<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s1">'//ajax.googleapis.com/ajax/libs/spf/2.3.0/spf.js'</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span>    <span class="s1">'application'</span><span class="p">,</span> <span class="ss">media</span><span class="p">:</span> <span class="s1">'all'</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s1">'application'</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s1">&#39;//ajax.googleapis.com/ajax/libs/spf/2.3.0/spf.js&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">stylesheet_link_tag</span>    <span class="s1">&#39;application&#39;</span><span class="p">,</span> <span class="ss">media</span><span class="p">:</span> <span class="s1">&#39;all&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">javascript_include_tag</span> <span class="s1">&#39;application&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">csrf_meta_tags</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">  &lt;/head&gt;</span>
 
@@ -251,19 +229,19 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 <span class="x">  &lt;/body&gt;</span>
 <span class="x">&lt;/html&gt;</span>
 </code></pre></div>
-<h2 id="header1-9">Making navigation links SPF aware</h2>
+<h2>Making navigation links SPF aware</h2>
 
-<p>However just initializing SPF.js does not magically ajaxify all navigation links. In fact by so far SPF.js does not alter the navigation in any way. We need to explicitly enable SPFjs for links for which our server knows how to server partial content. For SPF to process a link, it should have the class 'spf-link'. Let us start with our navigation links:</p>
+<p>However just initializing SPF.js does not magically ajaxify all navigation links. In fact by so far SPF.js does not alter the navigation in any way. We need to explicitly enable SPFjs for links for which our server knows how to server partial content. For SPF to process a link, it should have the class &#39;spf-link&#39;. Let us start with our navigation links:</p>
 <div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="cp">&lt;%</span> <span class="k">if</span> <span class="vi">@page</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">   </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Previous Page'</span><span class="p">,</span> <span class="n">posts_path</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="vi">@page</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="ss">class</span><span class="p">:</span> <span class="s1">'spf-link'</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">   </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Previous Page&#39;</span><span class="p">,</span> <span class="n">posts_path</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="vi">@page</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="ss">class</span><span class="p">:</span> <span class="s1">&#39;spf-link&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="cp">&lt;%</span> <span class="k">if</span> <span class="vi">@page</span> <span class="o">&lt;</span> <span class="vi">@num_pages</span> <span class="o">-</span><span class="mi">1</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">   </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">'Next Page'</span><span class="p">,</span> <span class="n">posts_path</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="vi">@page</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="ss">class</span><span class="p">:</span> <span class="s1">'spf-link'</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">   </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Next Page&#39;</span><span class="p">,</span> <span class="n">posts_path</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="vi">@page</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="ss">class</span><span class="p">:</span> <span class="s1">&#39;spf-link&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
 </code></pre></div>
-<p>One great feature of SPF.js is that it handles graceful degradation. So, since we haven't done anything on the server side to generate partial contents, SPF will try to make an ajax request to server (with the special query parameter spf=navigate) and once that response format does not match what SPF expects, it will allow a full page reload.</p>
+<p>One great feature of SPF.js is that it handles graceful degradation. So, since we haven&#39;t done anything on the server side to generate partial contents, SPF will try to make an ajax request to server (with the special query parameter spf=navigate) and once that response format does not match what SPF expects, it will allow a full page reload.</p>
 
-<h2 id="header1-10">Server side handling for SPF</h2>
+<h2>Server side handling for SPF</h2>
 
 <p>Let us move on to server side handling:</p>
 
@@ -275,27 +253,27 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
     <span class="vi">@num_pages</span> <span class="o">=</span> <span class="mi">1000</span>
     <span class="vi">@posts</span> <span class="o">=</span> <span class="mi">10</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="n">fake_post_summary</span> <span class="p">}</span>
 
-    <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:spf</span><span class="o">]</span> <span class="o">==</span> <span class="s1">'navigate'</span>
-      <span class="n">render</span> <span class="s1">'posts/index.json'</span>
+    <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:spf</span><span class="o">]</span> <span class="o">==</span> <span class="s1">&#39;navigate&#39;</span>
+      <span class="n">render</span> <span class="s1">&#39;posts/index.json&#39;</span>
     <span class="k">end</span>
   <span class="k">end</span>
 
 <span class="o">.</span><span class="n">.</span><span class="o">.</span>
 </code></pre></div>
 <p>Next we will have to designate the parts that can be dynamically replace using an id. In our modified <code>posts/_summary.html.erb</code> below, <code>spf-posts-container</code> serves that purpose:</p>
-<div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;li data-post-id="</span><span class="cp">&lt;%=</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">"&gt;</span>
-<span class="x">  &lt;h3 class="title post-title"&gt; </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">post</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">post_path</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"> &lt;/h3&gt;</span>
+<div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">&lt;li data-post-id=&quot;</span><span class="cp">&lt;%=</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">&quot;&gt;</span>
+<span class="x">  &lt;h3 class=&quot;title post-title&quot;&gt; </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">post</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">post_path</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="n">post</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"> &lt;/h3&gt;</span>
 <span class="x">  &lt;p&gt; </span><span class="cp">&lt;%=</span> <span class="n">post</span><span class="o">.</span><span class="n">summary</span> <span class="cp">%&gt;</span><span class="x"> &lt;/p&gt;</span>
 <span class="x">&lt;/li&gt;</span>
 </code></pre></div>
 <p>While SPF does not require DOM node IDs to begin with <code>spf-</code> prefix I think this is a good convention and makes the intent explict.</p>
 
-<p>Finally here is our json template that contains the partial page update, in the format that SPF.js <a href="https://youtube.github.io/spfjs/documentation/responses/">can process</a>. </p>
+<p>Finally here is our json template that contains the partial page update, in the format that SPF.js <a href="https://youtube.github.io/spfjs/documentation/responses/">can process</a>.</p>
 
 <p>index.json.erb:</p>
 <div class="highlight"><pre><code class="erb language-erb" data-lang="erb"><span class="x">{</span>
-<span class="x">  "body": {</span>
-<span class="x">    "spf-posts-container": "</span><span class="cp">&lt;%=</span> <span class="n">j</span> <span class="n">render</span> <span class="s1">'posts/posts'</span> <span class="cp">%&gt;</span><span class="x">"</span>
+<span class="x">  &quot;body&quot;: {</span>
+<span class="x">    &quot;spf-posts-container&quot;: &quot;</span><span class="cp">&lt;%=</span> <span class="n">j</span> <span class="n">render</span> <span class="s1">&#39;posts/posts&#39;</span> <span class="cp">%&gt;</span><span class="x">&quot;</span>
 <span class="x">  }</span>
 <span class="x">}</span>
 </code></pre></div>
@@ -305,7 +283,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 
 <p><img src="/images/2015-11-26/spf_response.png" data-action="zoom"></p>
 
-<h2 id="header1-11">(Optional) Leveraging rails magic for leaner controllers</h2>
+<h2>(Optional) Leveraging rails magic for leaner controllers</h2>
 
 <p>While the above works, it is unweildy to handle the navigation link in each controller. We can alternatively make the <code>default_render</code> method that is used by rails to be SPF aware. The <a href="https://github.com/rails/rails/blob/7f18ea14c893cb5c9f04d4fda9661126758332b5/actionpack/lib/action_controller/metal/implicit_render.rb">default implementation</a> looks like this:</p>
 <div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">default_render</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
@@ -315,7 +293,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
     <span class="k">if</span> <span class="nb">block_given?</span>
       <span class="k">yield</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
     <span class="k">else</span>
-      <span class="n">logger</span><span class="o">.</span><span class="n">info</span> <span class="s2">"No template found for </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\#</span><span class="si">#{</span><span class="n">action_name</span><span class="si">}</span><span class="s2">, rendering head :no_content"</span> <span class="k">if</span> <span class="n">logger</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">info</span> <span class="s2">&quot;No template found for </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\#</span><span class="si">#{</span><span class="n">action_name</span><span class="si">}</span><span class="s2">, rendering head :no_content&quot;</span> <span class="k">if</span> <span class="n">logger</span>
       <span class="k">super</span>
     <span class="k">end</span>
   <span class="k">end</span>
@@ -329,8 +307,8 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
   <span class="n">protect_from_forgery</span> <span class="ss">with</span><span class="p">:</span> <span class="ss">:exception</span>
 
   <span class="k">def</span> <span class="nf">default_render</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:spf</span><span class="o">]</span> <span class="o">==</span> <span class="s1">'navigate'</span>
-      <span class="n">render</span> <span class="s2">"</span><span class="si">#{</span><span class="n">controller_name</span><span class="si">}</span><span class="s2">/spf_</span><span class="si">#{</span><span class="n">action_name</span><span class="si">}</span><span class="s2">.json"</span>
+    <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:spf</span><span class="o">]</span> <span class="o">==</span> <span class="s1">&#39;navigate&#39;</span>
+      <span class="n">render</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">controller_name</span><span class="si">}</span><span class="s2">/spf_</span><span class="si">#{</span><span class="n">action_name</span><span class="si">}</span><span class="s2">.json&quot;</span>
     <span class="k">else</span>
       <span class="k">super</span>
     <span class="k">end</span>
@@ -351,7 +329,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 
 <span class="o">.</span><span class="n">.</span><span class="o">.</span>
 </code></pre></div>
-<h2 id="header1-12">Navigation hooks</h2>
+<h2>Navigation hooks</h2>
 
 <p>While so far everything works pretty well, we may want to hook into navigation events for greater flexibility. This may be useful for sending events to analytics service or for highlighting specific parts of page. The latter is useful because in some cases when the part replaced is very small, user might not immediate notice a quick change in the page content.</p>
 
@@ -360,20 +338,19 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 <p><img src="/images/2015-11-26/spfdone.png" data-action="zoom"></p>
 
 <p>Let us highlight the listing of our posts using CSS 3 animations when loaded asynchronously:</p>
-<div class="highlight"><pre><code class="js language-js" data-lang="js"><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">'spfdone'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="js language-js" data-lang="js"><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;spfdone&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">originalEvent</span><span class="p">.</span><span class="nx">detail</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">[</span><span class="s1">'spf-posts-container'</span><span class="p">])</span> <span class="p">{</span>
-    <span class="nx">$</span><span class="p">(</span><span class="s1">'#spf-posts-container'</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">'flash'</span><span class="p">)</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">originalEvent</span><span class="p">.</span><span class="nx">detail</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">[</span><span class="s1">&#39;spf-posts-container&#39;</span><span class="p">])</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#spf-posts-container&#39;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;flash&#39;</span><span class="p">)</span>
 
     <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-      <span class="nx">$</span><span class="p">(</span><span class="s1">'#spf-posts-container'</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">'flash'</span><span class="p">)</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#spf-posts-container&#39;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;flash&#39;</span><span class="p">)</span>
     <span class="p">},</span> <span class="mi">3000</span><span class="p">)</span>
 
   <span class="p">}</span>
 
 <span class="p">});</span>
-</code></pre></div>
-<div class="highlight"><pre><code class="css language-css" data-lang="css"><span class="nc">.flash</span> <span class="p">{</span>
+</code></pre></div><div class="highlight"><pre><code class="css language-css" data-lang="css"><span class="nc">.flash</span> <span class="p">{</span>
   <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">animation</span><span class="o">:</span> <span class="n">flash</span> <span class="m">1s</span> <span class="n">ease</span><span class="o">-</span><span class="n">out</span><span class="p">;</span>
   <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">animation</span><span class="o">-</span><span class="n">iteration</span><span class="o">-</span><span class="n">count</span><span class="o">:</span> <span class="m">1</span><span class="p">;</span>
 
@@ -404,7 +381,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 </code></pre></div>
 <p>Now you should see a subtle flash when page content has been replaced.</p>
 
-<h2 id="header1-13">Conclusion</h2>
+<h2>Conclusion</h2>
 
 <p>This concludes our small post on SPF integration with Rails. SPF allows for a lot more customization options beyond what our small covers. In particular SPF allows us to inject new scripts and styles dynamically, sophisticated <a href="https://youtube.github.io/spfjs/documentation/caching/">cache management</a> and <a href="https://youtube.github.io/spfjs/documentation/versioning/">resource versioning</a> support, which are all very useful features.</p>
 
@@ -428,8 +405,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-</noscript>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 

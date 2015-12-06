@@ -64,18 +64,18 @@
           <div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>
 <div id="toctitle"><h2>Contents</h2></div>
 <ul>
-<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1</span> <span class="toctext">Creating Email model</span></a></li>
-<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2</span> <span class="toctext">Setting up the registration flow:</span></a></li>
-<li class="toc_level-1 toc_section-3"><a href="#header1-3"><span class="tocnumber">3</span> <span class="toctext">Setting up the login flow:</span></a></li>
-<li class="toc_level-1 toc_section-4"><a href="#header1-4"><span class="tocnumber">4</span> <span class="toctext">Interface for managing emails</span></a></li>
-<li class="toc_level-1 toc_section-5"><a href="#header1-5"><span class="tocnumber">5</span> <span class="toctext">Omniauth integration:</span></a></li>
+<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1.</span> <span class="toctext">Creating Email model</span></a></li>
+<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2.</span> <span class="toctext">Setting up the registration flow:</span></a></li>
+<li class="toc_level-1 toc_section-3"><a href="#header1-3"><span class="tocnumber">3.</span> <span class="toctext">Setting up the login flow:</span></a></li>
+<li class="toc_level-1 toc_section-4"><a href="#header1-4"><span class="tocnumber">4.</span> <span class="toctext">Interface for managing emails</span></a></li>
+<li class="toc_level-1 toc_section-5"><a href="#header1-5"><span class="tocnumber">5.</span> <span class="toctext">Omniauth integration:</span></a></li>
 </ul>
 </td></tr></tbody></table></div>
 <p><a href="https://github.com/plataformatec/devise">Devise</a> is an incredibly popular authorization gem for Rails. Unfortunately allowing a user to log in through multiple emails is not as straightforward as one might expect. This post outlines a way to do just that.</p>
 
 <p>The code for this blog is available <a href="https://github.com/lorefnon/devise_multi_email_demo.git">here</a>. We start off with a rudimentary devise installation (you may want to checkout <a href="https://github.com/lorefnon/devise_multi_email_demo/tree/3d5be26be7986aaf73c18497cffd67a9365e38cb">Commit:3d5be26</a> as a starting point - if you are not familiar with devise I suggest you take a look at the official documentation. As you may have noticed I am writing this post against Rails 4.2 Beta which Devise master does not support as of this writing. Luckily <a href="https://github.com/lucasmazza">lucasmazza</a> has already submitted a pull request for 4.2 compatibility and we just need to use the branch <code>lm-rails-4-2</code>.</p>
 
-<h2 id="header1-1">Creating Email model</h2>
+<h2><a class="header-link" href="#header1-1" id="header1-1"><span class="header-bullet-num">1.</span><span class="header-inner-text">Creating Email model</span></a></h2>
 
 <p>First step is creating an email model.</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">rails g model email email:string user_id:integer
@@ -119,7 +119,7 @@ newsletters, fetching gravatars etc. So here we go:</p>
 <div class="highlight"><pre><code class="ruby"><span class="n">belongs_to</span> <span class="ss">:default_email</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">"Email"</span>
 </code></pre></div>
 
-<h2 id="header1-2">Setting up the registration flow:</h2>
+<h2><a class="header-link" href="#header1-2" id="header1-2"><span class="header-bullet-num">2.</span><span class="header-inner-text">Setting up the registration flow:</span></a></h2>
 
 <p>At this point if we try visiting a devise sign up page, we will
 get an obvious error because devise views expect an email field in
@@ -168,7 +168,7 @@ by devise. Also the after commit hook is required because when we are saving the
 for the first time, user id is nil when email is instantiated and hence will have to assign it once we have saved the user. An email conflict will be raised if the email
 is already associated with another account. Handling that error gracefully is left as an exercise for the reader.</p>
 
-<h2 id="header1-3">Setting up the login flow:</h2>
+<h2><a class="header-link" href="#header1-3" id="header1-3"><span class="header-bullet-num">3.</span><span class="header-inner-text">Setting up the login flow:</span></a></h2>
 
 <p>While registration should work smoothly at this point, if we try to login we will run into trouble:</p>
 
@@ -208,7 +208,7 @@ configure devise to find using the emails table we have created.</p>
 
 <p>Once we have done that, login flow should as intended.</p>
 
-<h2 id="header1-4">Interface for managing emails</h2>
+<h2><a class="header-link" href="#header1-4" id="header1-4"><span class="header-bullet-num">4.</span><span class="header-inner-text">Interface for managing emails</span></a></h2>
 
 <p>At this point a user can login and signup but he can not manage the emails which are associated with his/her account. Let us take care of that.</p>
 
@@ -313,7 +313,7 @@ configure devise to find using the emails table we have created.</p>
 
 <p>In a production setting we will most certainly need to send out confirmation mails before activating the emails. We skip the additional steps for the sake of brevity.</p>
 
-<h2 id="header1-5">Omniauth integration:</h2>
+<h2><a class="header-link" href="#header1-5" id="header1-5"><span class="header-bullet-num">5.</span><span class="header-inner-text">Omniauth integration:</span></a></h2>
 
 <p>One of the things we all love about devise is that it integrates beautifully with
 <a href="https://github.com/intridea/omniauth">omniauth</a> making integration with a plethora of social services painless. However due to the fundamental changes we have made, omniauth integration requires jumping through a few extra hoops.</p>

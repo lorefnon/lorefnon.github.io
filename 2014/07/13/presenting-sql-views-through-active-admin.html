@@ -64,8 +64,8 @@
           <div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>
 <div id="toctitle"><h2>Contents</h2></div>
 <ul>
-<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1</span> <span class="toctext">schema.rb</span></a></li>
-<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2</span> <span class="toctext">Edit/Delete actions</span></a></li>
+<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1.</span> <span class="toctext">schema.rb</span></a></li>
+<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2.</span> <span class="toctext">Edit/Delete actions</span></a></li>
 </ul>
 </td></tr></tbody></table></div>
 <p><a href="http://en.wikipedia.org/wiki/View_(SQL)"> SQL Views </a> are a handy feature that allow us to
@@ -205,7 +205,7 @@ as primary key.</p>
 
 <p>While everything looks great at this point, our setup has a couple of issues that need to be resolved:</p>
 
-<h2 id="header1-1">schema.rb</h2>
+<h2><a class="header-link" href="#header1-1" id="header1-1"><span class="header-bullet-num">1.</span><span class="header-inner-text">schema.rb</span></a></h2>
 
 <p>If you take a look at schema.rb the problem immediately becomes obvious. Nothing about our view is to be found.
 The problem is that Rails is blissfully oblivious of our SQL views and the sql statements
@@ -222,7 +222,7 @@ for generating our views.</p>
 <p>An alternative option is the gem <a href="https://github.com/lomba/schema_plus">schema_plus</a> that augments ActiveRecord
 with support for views among other advanced database features.</p>
 
-<h2 id="header1-2">Edit/Delete actions</h2>
+<h2><a class="header-link" href="#header1-2" id="header1-2"><span class="header-bullet-num">2.</span><span class="header-inner-text">Edit/Delete actions</span></a></h2>
 
 <p>Our ActiveAdmin view table has been blessed with <code>Edit</code> and <code>Delete</code> actions for every row, which
 oviously trigger an error. For example, here is what we end up with when clicking on <code>Delete</code> :</p>

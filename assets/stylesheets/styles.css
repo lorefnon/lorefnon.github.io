@@ -1073,3 +1073,23 @@ font-size: 16px;
     max-width: 100% !important;
 }
 
+.header-link {
+    display: block;
+    border-bottom: none !important;
+}
+
+.header-link:before {
+    content: '§';
+    position: absolute;
+    padding: 0 .2em;
+    margin-left: -1.3em;
+    border-radius: .2em;
+    color: silver;
+    text-shadow: 0 1px white;
+    font-size: 1.5em;
+    margin-top: -0.2em;
+}
+
+.header-bullet-num {
+    margin-right: 8px;
+}

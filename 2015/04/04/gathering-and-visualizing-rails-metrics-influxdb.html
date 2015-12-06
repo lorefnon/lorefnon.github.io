@@ -69,16 +69,16 @@
           <div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>
 <div id="toctitle"><h2>Contents</h2></div>
 <ul>
-<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a></li>
-<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2</span> <span class="toctext">Setting up a basic application</span></a></li>
-<li class="toc_level-1 toc_section-3"><a href="#header1-3"><span class="tocnumber">3</span> <span class="toctext">Data exploration</span></a></li>
-<li class="toc_level-1 toc_section-4"><a href="#header1-4"><span class="tocnumber">4</span> <span class="toctext">Configuring additional lifecycle events</span></a></li>
-<li class="toc_level-1 toc_section-5"><a href="#header1-5"><span class="tocnumber">5</span> <span class="toctext">Setting up Grafana</span></a></li>
-<li class="toc_level-1 toc_section-6"><a href="#header1-6"><span class="tocnumber">6</span> <span class="toctext">Conclusion</span></a></li>
-<li class="toc_level-1 toc_section-7"><a href="#header1-7"><span class="tocnumber">7</span> <span class="toctext">Where to go from here</span></a></li>
+<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1.</span> <span class="toctext">Overview</span></a></li>
+<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2.</span> <span class="toctext">Setting up a basic application</span></a></li>
+<li class="toc_level-1 toc_section-3"><a href="#header1-3"><span class="tocnumber">3.</span> <span class="toctext">Data exploration</span></a></li>
+<li class="toc_level-1 toc_section-4"><a href="#header1-4"><span class="tocnumber">4.</span> <span class="toctext">Configuring additional lifecycle events</span></a></li>
+<li class="toc_level-1 toc_section-5"><a href="#header1-5"><span class="tocnumber">5.</span> <span class="toctext">Setting up Grafana</span></a></li>
+<li class="toc_level-1 toc_section-6"><a href="#header1-6"><span class="tocnumber">6.</span> <span class="toctext">Conclusion</span></a></li>
+<li class="toc_level-1 toc_section-7"><a href="#header1-7"><span class="tocnumber">7.</span> <span class="toctext">Where to go from here</span></a></li>
 </ul>
 </td></tr></tbody></table></div>
-<h2 id="header1-1">Overview</h2>
+<h2><a class="header-link" href="#header1-1" id="header1-1"><span class="header-bullet-num">1.</span><span class="header-inner-text">Overview</span></a></h2>
 
 <p>InfluxDB is a distributed time series database. It is a specialized data store for saving large volumes of timestamped event data and this makes it especially suited for storing metrics, lifecycle events and analytics. The <code>influxdb-rails</code> gem, maintained by the InfluxDB team, facilitates integration with Rails and makes it easy to save various metrics from a rails application to InfluxDB and visualize it through frontends like <a href="http://grafana.org/">Grafana</a>.</p>
 
@@ -86,7 +86,7 @@
 
 <p>This post also assumes that InfluxDB is installed as per the official <a href="http://influxdb.com/docs/v0.8/introduction/installation.html">installation instructions</a> with default configuration. If installation has been customized eg. ports have been changed, the configurations provided to <code>influxdb-rails</code> will have to be adapted accordingly. On mac influxdb can be installed using <a href="http://brew.sh/">Homebrew</a> : <code>brew install influxdb</code>.</p>
 
-<h2 id="header1-2">Setting up a basic application</h2>
+<h2><a class="header-link" href="#header1-2" id="header1-2"><span class="header-bullet-num">2.</span><span class="header-inner-text">Setting up a basic application</span></a></h2>
 
 <p>Next, we bootstrap a simple rails application using the <a href="https://github.com/comfy/comfortable-mexican-sofa">Comfortable mexican sofa</a> CMS to quickly setup a site with a few pages we can tinker with. This is not really important, but it simply helps us work with a reasonably more realistic setup than a typically crud ui generated through scaffolds.</p>
 
@@ -142,7 +142,7 @@
 
 <p><img src="/images/new_page_cms.png" alt="Add a new page in CMS"></p>
 
-<h2 id="header1-3">Data exploration</h2>
+<h2><a class="header-link" href="#header1-3" id="header1-3"><span class="header-bullet-num">3.</span><span class="header-inner-text">Data exploration</span></a></h2>
 
 <p>In the list of databases, we should have an option to <code>Explore Data</code>. Let us go ahead and click that:</p>
 
@@ -162,7 +162,7 @@
 <img src="/images/influxdb_select_all_from_view.png" alt="InfluxDB Select All from View Query">
 <img src="/images/influxdb_select_all_from_db.png" alt="InfluxDB Select All from DB Query"></p>
 
-<h2 id="header1-4">Configuring additional lifecycle events</h2>
+<h2><a class="header-link" href="#header1-4" id="header1-4"><span class="header-bullet-num">4.</span><span class="header-inner-text">Configuring additional lifecycle events</span></a></h2>
 
 <p>In a real applications we would want to aggregate additional metrics of our choosing. A popular solution for dispatching and subscribing to various lifecycle events that ruby community has developed is <code>ActiveSupport::Notifications</code> which Rails internally uses.</p>
 
@@ -190,7 +190,7 @@
 
 <p>While the InfluxDB admin interface provides a convenient dashboard to visualize the metrics, it is not ideal for complex, comparative or realtime visualizations. For such use cases it is better to resort to dedicated solutions like Grafana.</p>
 
-<h2 id="header1-5">Setting up Grafana</h2>
+<h2><a class="header-link" href="#header1-5" id="header1-5"><span class="header-bullet-num">5.</span><span class="header-inner-text">Setting up Grafana</span></a></h2>
 
 <p>While Grafana releases binary downloads for most major versions of linux, there isn't one available for Mac. And neither is it available from Homebrew. However installation from the sources is straightforward if you have Go. It is important that the version of Go is correct (1.4 +) otherwise installation fails with totally incomprehensible errors. The version of Go available from Homebrew is outdated - however Google provides <a href="https://golang.org/doc/install">installers</a> which work like a charm. Once Go is setup properly, the <a href="https://github.com/grafana/grafana#building-the-backend">installation steps</a> for Grafana are straightforward.</p>
 
@@ -262,13 +262,13 @@
 
 <p>In similar fashion more graphs can be added and additional dashboards can be set up as per requirements.</p>
 
-<h2 id="header1-6">Conclusion</h2>
+<h2><a class="header-link" href="#header1-6" id="header1-6"><span class="header-bullet-num">6.</span><span class="header-inner-text">Conclusion</span></a></h2>
 
 <p>This concludes this post, in which we have setup a basic development setup of InfluxDB and explored how a time series datastore can be used to save metrics from our Rails application and how we can query this data store and derive actionable insights. Also we explored creation of dashboards using Grafana to visualize these metrics in near-real time.</p>
 
 <p>Our proof of concept setup, however is not suitable for production deployments with large volumes of data, in which case we would want to utilize advanced cluster management features of InfluxDB. Fortunately InfluxDB documentation already has a lot of <a href="http://influxdb.com/docs/v0.8/clustering/setup.html">helpful information</a> on scaling up production deployment which is only expected to mature over time. There are also <a href="https://customers.influxdb.com/">commercial options</a> available for hosted InfluxDB which I encourage users to <a href="https://customers.influxdb.com/users/sign_up">try out</a> and evaluate.</p>
 
-<h2 id="header1-7">Where to go from here</h2>
+<h2><a class="header-link" href="#header1-7" id="header1-7"><span class="header-bullet-num">7.</span><span class="header-inner-text">Where to go from here</span></a></h2>
 
 <ul>
 <li><a href="http://influxdb.com/docs/">InfluxDB documentation</a></li>
