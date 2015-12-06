@@ -66,42 +66,19 @@
             Checkout how using a distributed time series database like InfluxDB can help keep track of application events from all multiple Rails processes in a centralized hub.
           </p>
           
-          <div id="toc-container">
-   <table class="toc" id="toc">
-      <tbody>
-         <tr>
-            <td>
-               <div id="toctitle">
-                  <h2>Contents</h2>
-               </div>
-               <ul>
-                  <li class="toc_level-1 toc_section-1">
-                     <a href="#header1-1"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a>
-                  </li>
-                  <li class="toc_level-1 toc_section-2">
-                     <a href="#header1-2"><span class="tocnumber">2</span> <span class="toctext">Setting up a basic application</span></a>
-                  </li>
-                  <li class="toc_level-1 toc_section-3">
-                     <a href="#header1-3"><span class="tocnumber">3</span> <span class="toctext">Data exploration</span></a>
-                  </li>
-                  <li class="toc_level-1 toc_section-4">
-                     <a href="#header1-4"><span class="tocnumber">4</span> <span class="toctext">Configuring additional lifecycle events</span></a>
-                  </li>
-                  <li class="toc_level-1 toc_section-5">
-                     <a href="#header1-5"><span class="tocnumber">5</span> <span class="toctext">Setting up Grafana</span></a>
-                  </li>
-                  <li class="toc_level-1 toc_section-6">
-                     <a href="#header1-6"><span class="tocnumber">6</span> <span class="toctext">Conclusion</span></a>
-                  </li>
-                  <li class="toc_level-1 toc_section-7">
-                     <a href="#header1-7"><span class="tocnumber">7</span> <span class="toctext">Where to go from here</span></a>
-                  </li>
-               </ul>
-            </td>
-         </tr>
-      </tbody>
-   </table>
-</div><h2 id="header1-1">Overview</h2>
+          <div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>
+<div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1</span> <span class="toctext">Overview</span></a></li>
+<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2</span> <span class="toctext">Setting up a basic application</span></a></li>
+<li class="toc_level-1 toc_section-3"><a href="#header1-3"><span class="tocnumber">3</span> <span class="toctext">Data exploration</span></a></li>
+<li class="toc_level-1 toc_section-4"><a href="#header1-4"><span class="tocnumber">4</span> <span class="toctext">Configuring additional lifecycle events</span></a></li>
+<li class="toc_level-1 toc_section-5"><a href="#header1-5"><span class="tocnumber">5</span> <span class="toctext">Setting up Grafana</span></a></li>
+<li class="toc_level-1 toc_section-6"><a href="#header1-6"><span class="tocnumber">6</span> <span class="toctext">Conclusion</span></a></li>
+<li class="toc_level-1 toc_section-7"><a href="#header1-7"><span class="tocnumber">7</span> <span class="toctext">Where to go from here</span></a></li>
+</ul>
+</td></tr></tbody></table></div>
+<h2 id="header1-1">Overview</h2>
 
 <p>InfluxDB is a distributed time series database. It is a specialized data store for saving large volumes of timestamped event data and this makes it especially suited for storing metrics, lifecycle events and analytics. The <code>influxdb-rails</code> gem, maintained by the InfluxDB team, facilitates integration with Rails and makes it easy to save various metrics from a rails application to InfluxDB and visualize it through frontends like <a href="http://grafana.org/">Grafana</a>.</p>
 
@@ -113,46 +90,28 @@
 
 <p>Next, we bootstrap a simple rails application using the <a href="https://github.com/comfy/comfortable-mexican-sofa">Comfortable mexican sofa</a> CMS to quickly setup a site with a few pages we can tinker with. This is not really important, but it simply helps us work with a reasonably more realistic setup than a typically crud ui generated through scaffolds.</p>
 
-<div class="highlight">
-   <pre>
-      <code class="bash">rails new influxdb-cms-demo --database<span class="o">=</span>mysql
-</code>
-   </pre>
-</div>
+<div class="highlight"><pre><code class="bash">rails new influxdb-cms-demo --database<span class="o">=</span>mysql
+</code></pre></div>
 
 <p>In Gemfile:</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="n">gem</span> <span class="s1">'comfortable_mexican_sofa'</span><span class="p">,</span> <span class="s1">'~&gt; 1.12.0'</span>
+<div class="highlight"><pre><code class="ruby"><span class="n">gem</span> <span class="s1">'comfortable_mexican_sofa'</span><span class="p">,</span> <span class="s1">'~&gt; 1.12.0'</span>
 <span class="n">gem</span> <span class="s1">'influxdb-rails'</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>Setting up CMS requires an additional step:</p>
 
-<div class="highlight">
-   <pre>
-      <code class="bash">rails generate comfy:cms
-</code>
-   </pre>
-</div>
+<div class="highlight"><pre><code class="bash">rails generate comfy:cms
+</code></pre></div>
 
 <p>Setting up InfluxDB adapter also requires an additional step:</p>
 
-<div class="highlight">
-   <pre>
-      <code class="bash">rails g influxdb
-</code>
-   </pre>
-</div>
+<div class="highlight"><pre><code class="bash">rails g influxdb
+</code></pre></div>
 
 <p>The default configuration options are available in the generated <code>influxdb-rails.rb</code> and they correspond to the default settings of influxdb.</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="no">InfluxDB</span><span class="o">::</span><span class="no">Rails</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+<div class="highlight"><pre><code class="ruby"><span class="no">InfluxDB</span><span class="o">::</span><span class="no">Rails</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
   <span class="n">config</span><span class="o">.</span><span class="n">influxdb_database</span> <span class="o">=</span> <span class="s2">"rails"</span>
   <span class="n">config</span><span class="o">.</span><span class="n">influxdb_username</span> <span class="o">=</span> <span class="s2">"root"</span>
   <span class="n">config</span><span class="o">.</span><span class="n">influxdb_password</span> <span class="o">=</span> <span class="s2">"root"</span>
@@ -163,59 +122,45 @@
   <span class="c1"># config.series_name_for_view_runtimes       = "rails.view"</span>
   <span class="c1"># config.series_name_for_db_runtimes         = "rails.db"</span>
 <span class="k">end</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>The last three lines signify the names of time series where the corresponding metrics would be stored, and we will use the same when querying the time series database.</p>
 
 <p>Before our application can start dispatching metrics to InfluxDB the database "rails" specified in the above configuration file would have to be created. InfluxDB admin provides a means to do that using the GUI. The admin interface may be accessed by visiting: <a href="http://localhost:8083">localhost:8083</a></p>
 
-<p>
-   <img src="/images/influxdb_landing_page.png" alt="InfluxDB landing page" />
-</p>
+<p><img src="/images/influxdb_landing_page.png" alt="InfluxDB landing page"></p>
 
 <p>The default username/password combination is root/root, which is not advisable for production use.</p>
 
 <p>The only option that is particularly relevant is database name: which we would have to change to "rails".</p>
 
-<p>
-   <img src="/images/influxdb_create_database.png" alt="InfluxDB creating database" />
-</p>
+<p><img src="/images/influxdb_create_database.png" alt="InfluxDB creating database"></p>
 
 <p>This would be a good point to run <code>db:migrate</code> and visit the CMS dashboard <code>/admin</code></p>
 
 <p>Once a new site has been bootstrapped, we can rapidly create multiple pages through the CMS admin interface. These steps are not elaborated here because the guided CMS admin makes it pretty trivial. Once a few pages have been setup, we have some metrics to explore in InfluxDB.</p>
 
-<p>
-   <img src="/images/new_page_cms.png" alt="Add a new page in CMS" />
-</p>
+<p><img src="/images/new_page_cms.png" alt="Add a new page in CMS"></p>
 
 <h2 id="header1-3">Data exploration</h2>
 
 <p>In the list of databases, we should have an option to <code>Explore Data</code>. Let us go ahead and click that:</p>
 
-<p>
-   <img src="/images/influxdb_database_list.png" alt="InfluxDB database list" />
-</p>
+<p><img src="/images/influxdb_database_list.png" alt="InfluxDB database list"></p>
 
 <p>We will be presented with a simple interface to read and write points (which are essentially multi-column timestamped datasets).</p>
 
-<p>
-   <img src="/images/influxdb_query_interface.png" alt="InfluxDB Query interface" />
-</p>
+<p><img src="/images/influxdb_query_interface.png" alt="InfluxDB Query interface"></p>
 
 <p>This page also highlights an interesting aspect of InfluxDB - though it is not a relational database, it does provide an SQL like language to query the database.</p>
 
 <p>A basic query might look something like this:</p>
 
-<p>
-   <img src="/images/influxdb_select_all_query.png" alt="InfluxDB Select All Query" />
-</p>
+<p><img src="/images/influxdb_select_all_query.png" alt="InfluxDB Select All Query"></p>
 
 <p>Besides controllers, we can also run similar queries for our timeseries for views and db:
-<img src="/images/influxdb_select_all_from_view.png" alt="InfluxDB Select All from View Query" />
-<img src="/images/influxdb_select_all_from_db.png" alt="InfluxDB Select All from DB Query" /></p>
+<img src="/images/influxdb_select_all_from_view.png" alt="InfluxDB Select All from View Query">
+<img src="/images/influxdb_select_all_from_db.png" alt="InfluxDB Select All from DB Query"></p>
 
 <h2 id="header1-4">Configuring additional lifecycle events</h2>
 
@@ -225,33 +170,23 @@
 
 <p>For example if we would like to track the execution times of queries in InfluxDB we can write an initializer:</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Notifications</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s1">'sql.active_record'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">payload</span><span class="o">|</span>
+<div class="highlight"><pre><code class="ruby"><span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Notifications</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s1">'sql.active_record'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">payload</span><span class="o">|</span>
   <span class="no">InfluxDB</span><span class="o">::</span><span class="no">Rails</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">write_point</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="p">{</span> <span class="ss">value</span><span class="p">:</span> <span class="p">(</span><span class="n">finish</span><span class="o">-</span><span class="n">start</span><span class="p">),</span> <span class="ss">start</span><span class="p">:</span> <span class="n">start</span><span class="p">,</span> <span class="ss">finish</span><span class="p">:</span> <span class="n">finish</span> <span class="p">})</span>
 <span class="k">end</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>The value attribute is something that InfluxDB admin will use to generate graph by default. We can query this just like the previous queries:</p>
 
-<p>
-   <img src="/images/influxdb_lifecycle_event_query.png" alt="InfluxDB Query lifecycle event" />
-</p>
+<p><img src="/images/influxdb_lifecycle_event_query.png" alt="InfluxDB Query lifecycle event"></p>
 
 <p>More lifecycle events of Rails application can be found in the <a href="http://edgeguides.rubyonrails.org/active_support_instrumentation.html">Rails guides</a>.</p>
 
 <p>In addition, the instrumentation API can be used directly to create a custom lifecycle events. Here is an example taken from the <a href="http://api.rubyonrails.org/classes/ActiveSupport/Notifications.html">official documentation</a> that outlines how a part of application code can be wrapped into an instrumented block which we could subscribe to in an identical fashion.</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Notifications</span><span class="o">.</span><span class="n">instrument</span><span class="p">(</span><span class="s1">'render'</span><span class="p">,</span> <span class="ss">extra</span><span class="p">:</span> <span class="ss">:information</span><span class="p">)</span> <span class="k">do</span>
+<div class="highlight"><pre><code class="ruby"><span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Notifications</span><span class="o">.</span><span class="n">instrument</span><span class="p">(</span><span class="s1">'render'</span><span class="p">,</span> <span class="ss">extra</span><span class="p">:</span> <span class="ss">:information</span><span class="p">)</span> <span class="k">do</span>
   <span class="n">render</span> <span class="ss">text</span><span class="p">:</span> <span class="s1">'Foo'</span>
 <span class="k">end</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>While the InfluxDB admin interface provides a convenient dashboard to visualize the metrics, it is not ideal for complex, comparative or realtime visualizations. For such use cases it is better to resort to dedicated solutions like Grafana.</p>
 
@@ -261,9 +196,7 @@
 
 <p>Another hiccup is that when running the web interface, Grafana uses the same default port as Rails (3000). To alleviate that we need to edit configuration file dev.ini in <code>$GOPATH/src/github.com/grafana/grafana/conf</code> and specify an alternate port</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ini"><span class="na">app_mode</span> <span class="o">=</span> <span class="s">development</span>
+<div class="highlight"><pre><code class="ini"><span class="na">app_mode</span> <span class="o">=</span> <span class="s">development</span>
 
 <span class="k">[server]</span>
 <span class="na">router_logging</span> <span class="o">=</span> <span class="s">false</span>
@@ -271,81 +204,61 @@
 
 <span class="k">[log]</span>
 <span class="na">level</span> <span class="o">=</span> <span class="s">Trace</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>Once this is configured running <code>./grafana web</code> from grafana source directory, should run the webserver on port 8000:</p>
 
-<p>
-   <img src="/images/grafana_startup_log.png" alt="Grafana server log" />
-</p>
+<p><img src="/images/grafana_startup_log.png" alt="Grafana server log"></p>
 
 <p>Now we can browse the Grafana dashboard and provide the default login details admin/admin. Again it is not advisable to use this in production.</p>
 
-<p>
-   <img src="/images/grafana_login.png" alt="Grafana Login" />
-</p>
+<p><img src="/images/grafana_login.png" alt="Grafana Login"></p>
 
 <p>The default dashboard is pretty bare:</p>
 
-<p>
-   <img src="/images/grafana_home.png" alt="Grafana Home page" />
-</p>
+<p><img src="/images/grafana_home.png" alt="Grafana Home page"></p>
 
 <p>Adding a new dashboard is straightforward:</p>
 
-<p>
-   <img src="/images/grafana_add_dashboard.png" alt="Grafana : Adding a dashboard" />
-</p>
+<p><img src="/images/grafana_add_dashboard.png" alt="Grafana : Adding a dashboard"></p>
 
 <p>Once we have a dedicated dashboard for our Rails application we can start adding graphs:</p>
 
-<p>
-   <img src="/images/grafana_add_graph.png" alt="Grafana : Add Graph" />
-</p>
+<p><img src="/images/grafana_add_graph.png" alt="Grafana : Add Graph"></p>
 
 <p>It would be probably surprising to see a great looking graph instantly generated. After all no influxdb/rails specific configuration has been done yet, so what data is being presented ?</p>
 
-<p>
-   <img src="/images/grafana_test_graph.png" alt="Grafana : Default Graph" />
-</p>
+<p><img src="/images/grafana_test_graph.png" alt="Grafana : Default Graph"></p>
 
 <p>Once we try to edit the data source, it would become clear that the graph being presented is infact coming from a dummy data source</p>
 
-<p><img src="/images/grafana_edit_graph.png" alt="Grafana : Edit Graph" />
-<img src="/images/grafana_configure_graph_data_source.png" alt="Grafana : Configure Graph Data Source" /></p>
+<p><img src="/images/grafana_edit_graph.png" alt="Grafana : Edit Graph">
+<img src="/images/grafana_configure_graph_data_source.png" alt="Grafana : Configure Graph Data Source"></p>
 
 <p>At this point, because InfluxDB data source hasn't been configured hence no other data source is available :</p>
 
-<p>
-   <img src="/images/grafana_singular_data_source.png" alt="Grafana : Missing Data Source" />
-</p>
+<p><img src="/images/grafana_singular_data_source.png" alt="Grafana : Missing Data Source"></p>
 
 <p>The sidebar has a section for data sources that can be used for this task:
-<img src="/images/grafana_sidebar_close_up.png" alt="Grafana : Sidebar" />
-<img src="/images/grafana_add_data_source.png" alt="Grafana : Add data source" /></p>
+<img src="/images/grafana_sidebar_close_up.png" alt="Grafana : Sidebar">
+<img src="/images/grafana_add_data_source.png" alt="Grafana : Add data source"></p>
 
 <p>While adding a data source it is of particular importance the version of InfluxDB is correct in the type field. Rest of the fields in form are self explanatory - It is advisable that in production Auth is configured to protect against intrusion.</p>
 
-<p>
-   <img src="/images/grafana_edit_data_source.png" alt="Grafana : Edit data source" />
-</p>
+<p><img src="/images/grafana_edit_data_source.png" alt="Grafana : Edit data source"></p>
 
 <p>Now in the graph editor multiple data sources should be available:</p>
 
-<p>
-   <img src="/images/grafana_multiple_data_source_selector.png" alt="Grafana : Multiple data sources" />
-</p>
+<p><img src="/images/grafana_multiple_data_source_selector.png" alt="Grafana : Multiple data sources"></p>
 
 <p>We can now specify the InfluxDB query to be made in the <code>Metrics</code> section:
-<img src="/images/grafana_metric_specification.png" alt="Grafana : Specify Metric" /></p>
+<img src="/images/grafana_metric_specification.png" alt="Grafana : Specify Metric"></p>
 
 <p>Since we don't have a lot of historical data at this point, for inspection we can adjust the time range to something recent:
-<img src="/images/grafana_range_selection.png" alt="Grafana : Range Selection" /></p>
+<img src="/images/grafana_range_selection.png" alt="Grafana : Range Selection"></p>
 
 <p>The dummy graph should now be replaced with a real visualization of our metric
-<img src="/images/grafana_metric_output.png" alt="Grfana : Metric Output" /></p>
+<img src="/images/grafana_metric_output.png" alt="Grfana : Metric Output"></p>
 
 <p>In similar fashion more graphs can be added and additional dashboards can be set up as per requirements.</p>
 
@@ -374,19 +287,14 @@
 </footer>
 <div id="disqus_thread"></div>
 <script type="text/javascript">
-<![CDATA[
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'lorefnon-blog'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-]]>
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//lorefnon-blog.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
 <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 

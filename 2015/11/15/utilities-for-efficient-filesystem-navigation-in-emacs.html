@@ -66,63 +66,36 @@
             While Emacs is a fairly productive editor on its own, for navigating through the files in a large project a few community contributed extensions can make things a lot easier
           </p>
           
-          <div id="toc-container">
-   <table class="toc" id="toc">
-      <tbody>
-         <tr>
-            <td>
-               <div id="toctitle">
-                  <h2>Contents</h2>
-               </div>
-               <ul>
-                  <li class="toc_level-1 toc_section-1">
-                     <a href="#header1-1"><span class="tocnumber">1</span> <span class="toctext">Dired</span></a>
-                  </li>
-                  <li class="toc_level-1 toc_section-2">
-                     <a href="#header1-2"><span class="tocnumber">2</span> <span class="toctext">Neotree</span></a>
-                  </li>
-                  <li class="toc_level-1 toc_section-3">
-                     <a href="#header1-3"><span class="tocnumber">3</span> <span class="toctext">Helm</span></a>
-                  </li>
-                  <li class="toc_level-1 toc_section-4">
-                     <a href="#header1-4"><span class="tocnumber">4</span> <span class="toctext">Ag and Helm-Ag</span></a>
-                  </li>
-                  <li class="toc_level-1 toc_section-5">
-                     <a href="#header1-5"><span class="tocnumber">5</span> <span class="toctext">Projectile and Helm-Projectile</span></a>
-                  </li>
-                  <li class="toc_level-1 toc_section-6">
-                     <a href="#header1-6"><span class="tocnumber">6</span> <span class="toctext">Ranger</span></a>
-                  </li>
-               </ul>
-            </td>
-         </tr>
-      </tbody>
-   </table>
-</div><p>While most of time spent working on a project goes into coding, finding the right files or understanding the directory structure is fairly time consuming as well. This is especially true when we are exploring unknown projects - in particular, projects with custom directory structures as opposed to CoC frameworks. This post outlines a few tools which aid in project exploration and navigation across files which I have found to be useful in practice</p>
+          <div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>
+<div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1</span> <span class="toctext">Dired</span></a></li>
+<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2</span> <span class="toctext">Neotree</span></a></li>
+<li class="toc_level-1 toc_section-3"><a href="#header1-3"><span class="tocnumber">3</span> <span class="toctext">Helm</span></a></li>
+<li class="toc_level-1 toc_section-4"><a href="#header1-4"><span class="tocnumber">4</span> <span class="toctext">Ag and Helm-Ag</span></a></li>
+<li class="toc_level-1 toc_section-5"><a href="#header1-5"><span class="tocnumber">5</span> <span class="toctext">Projectile and Helm-Projectile</span></a></li>
+<li class="toc_level-1 toc_section-6"><a href="#header1-6"><span class="tocnumber">6</span> <span class="toctext">Ranger</span></a></li>
+</ul>
+</td></tr></tbody></table></div>
+<p>While most of time spent working on a project goes into coding, finding the right files or understanding the directory structure is fairly time consuming as well. This is especially true when we are exploring unknown projects - in particular, projects with custom directory structures as opposed to CoC frameworks. This post outlines a few tools which aid in project exploration and navigation across files which I have found to be useful in practice</p>
 
 <h2 id="header1-1">Dired</h2>
 
 <p>While built into emacs, Dired is indespensable. I sincerely regret not spending the time required to develop familiarity with Dired when I was initially learning basics of Emacs. While the facilities provided by Dired are powerful enough to replace the full fledged file manager of your operating system, the real power comes from native integration with the rest of emacs.</p>
 
-<p>
-   <img src="/images/2015-11-15/dired.png" data-action="zoom" />
-</p>
+<p><img src="/images/2015-11-15/dired.png" data-action="zoom"></p>
 
 <p>For instance, a Dired is buffer is just like a normal buffer, and all the dired buffers will be directly available from <code>list-buffers</code> - and from any alternative approaches to list buffers (eg. <code>helm-buffers-list</code> which we discuss shortly).</p>
 
 <p>I have found emacs bookmarks functionality to be particularly useful with Dired. Dired buffers can be bookmarked just like ordinary buffers and we can use <code>bookmark-jump</code> to quickly jump to important Dired buffers opened before.</p>
 
-<p>
-   <img src="/images/2015-11-15/bookmarks.png" data-action="zoom" />
-</p>
+<p><img src="/images/2015-11-15/bookmarks.png" data-action="zoom"></p>
 
 <h2 id="header1-2">Neotree</h2>
 
 <p>Neotree is a more conventional file manager - similar to what we find in IDEs. It is useful as an easily accessible persistent sidebar that provides the complete outline of the project. It is useful as a mini file manager though not as powerful as dired. The great part is that it is entirely usable through keyboard.</p>
 
-<p>
-   <img src="/images/2015-11-15/neotree.png" data-action="zoom" />
-</p>
+<p><img src="/images/2015-11-15/neotree.png" data-action="zoom"></p>
 
 <h2 id="header1-3">Helm</h2>
 
@@ -130,17 +103,13 @@
 
 <p>We will not go into much depth into Helm, but the package is well documented and for getting started here is an excellent <a href="http://tuhdo.github.io/helm-intro.html">introductory article</a>.</p>
 
-<p>
-   <img src="/images/2015-11-15/helm.png" data-action="zoom" />
-</p>
+<p><img src="/images/2015-11-15/helm.png" data-action="zoom"></p>
 
 <h2 id="header1-4">Ag and Helm-Ag</h2>
 
 <p>While grep is arguably the most popular tool for finding files containing specific content, tools like the <a href="https://github.com/ggreer/the_silver_searcher">Silver Searcher</a> improve upon grep by providing specialized tools for searching codebases. There is an <a href="https://github.com/Wilfred/ag.el">ag-mode</a> that integrates Ag with emacs and if you do use helm, there is a <a href="https://github.com/syohex/emacs-helm-ag">helm integration plugin</a> as well.</p>
 
-<p>
-   <img src="/images/2015-11-15/ag.png" data-action="zoom" />
-</p>
+<p><img src="/images/2015-11-15/ag.png" data-action="zoom"></p>
 
 <h2 id="header1-5">Projectile and Helm-Projectile</h2>
 
@@ -156,9 +125,7 @@
 
 <p>While Helm and Ag is useful for rapidly finding files when we know what we are looking for - however for exploring an unknown project and performing code review for changes across files, it is not the ideal solution. For this use case I have found a unix utility called Ranger very useful. Fortunately there also exists a Ranger mode for emacs which emulates similar feature within emacs. I have found its preview feature particularly complementary to the hierarchical tree based solutions.</p>
 
-<p>
-   <img src="/images/2015-11-15/ranger.png" data-action="zoom" />
-</p>
+<p><img src="/images/2015-11-15/ranger.png" data-action="zoom"></p>
 
 <p>This completes our detour into utilities make it easy to traverse projects in emacs. If there are other tools that this article could benefit from, please mention them in the comments below.</p>
 
@@ -174,19 +141,14 @@
 </footer>
 <div id="disqus_thread"></div>
 <script type="text/javascript">
-<![CDATA[
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'lorefnon-blog'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-]]>
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//lorefnon-blog.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
 <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 

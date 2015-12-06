@@ -61,65 +61,36 @@
             <time>Sep 07, 2014</time>
           </a>
           
-          <div id="toc-container">
-   <table class="toc" id="toc">
-      <tbody>
-         <tr>
-            <td>
-               <div id="toctitle">
-                  <h2>Contents</h2>
-               </div>
-               <ul>
-                  <li class="toc_level-1 toc_section-1">
-                     <a href="#header1-1"><span class="tocnumber">1</span> <span class="toctext">Creating Email model</span></a>
-                  </li>
-                  <li class="toc_level-1 toc_section-2">
-                     <a href="#header1-2"><span class="tocnumber">2</span> <span class="toctext">Setting up the registration flow:</span></a>
-                  </li>
-                  <li class="toc_level-1 toc_section-3">
-                     <a href="#header1-3"><span class="tocnumber">3</span> <span class="toctext">Setting up the login flow:</span></a>
-                  </li>
-                  <li class="toc_level-1 toc_section-4">
-                     <a href="#header1-4"><span class="tocnumber">4</span> <span class="toctext">Interface for managing emails</span></a>
-                  </li>
-                  <li class="toc_level-1 toc_section-5">
-                     <a href="#header1-5"><span class="tocnumber">5</span> <span class="toctext">Omniauth integration:</span></a>
-                  </li>
-               </ul>
-            </td>
-         </tr>
-      </tbody>
-   </table>
-</div><p><a href="https://github.com/plataformatec/devise">Devise</a> is an incredibly popular authorization gem for Rails. Unfortunately allowing a user to log in through multiple emails is not as straightforward as one might expect. This post outlines a way to do just that.</p>
+          <div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>
+<div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1</span> <span class="toctext">Creating Email model</span></a></li>
+<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2</span> <span class="toctext">Setting up the registration flow:</span></a></li>
+<li class="toc_level-1 toc_section-3"><a href="#header1-3"><span class="tocnumber">3</span> <span class="toctext">Setting up the login flow:</span></a></li>
+<li class="toc_level-1 toc_section-4"><a href="#header1-4"><span class="tocnumber">4</span> <span class="toctext">Interface for managing emails</span></a></li>
+<li class="toc_level-1 toc_section-5"><a href="#header1-5"><span class="tocnumber">5</span> <span class="toctext">Omniauth integration:</span></a></li>
+</ul>
+</td></tr></tbody></table></div>
+<p><a href="https://github.com/plataformatec/devise">Devise</a> is an incredibly popular authorization gem for Rails. Unfortunately allowing a user to log in through multiple emails is not as straightforward as one might expect. This post outlines a way to do just that.</p>
 
 <p>The code for this blog is available <a href="https://github.com/lorefnon/devise_multi_email_demo.git">here</a>. We start off with a rudimentary devise installation (you may want to checkout <a href="https://github.com/lorefnon/devise_multi_email_demo/tree/3d5be26be7986aaf73c18497cffd67a9365e38cb">Commit:3d5be26</a> as a starting point - if you are not familiar with devise I suggest you take a look at the official documentation. As you may have noticed I am writing this post against Rails 4.2 Beta which Devise master does not support as of this writing. Luckily <a href="https://github.com/lucasmazza">lucasmazza</a> has already submitted a pull request for 4.2 compatibility and we just need to use the branch <code>lm-rails-4-2</code>.</p>
 
 <h2 id="header1-1">Creating Email model</h2>
 
 <p>First step is creating an email model.</p>
-<div class="highlight">
-   <pre>
-      <code class="text language-text" data-lang="text">rails g model email email:string user_id:integer
-</code>
-   </pre>
-</div>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">rails g model email email:string user_id:integer
+</code></pre></div>
 <p>Next we setup the relationships between user and email:</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="k">class</span> <span class="nc">Email</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Email</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="n">belongs_to</span> <span class="ss">:user</span>
   <span class="n">validates</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">email</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">uniqueness</span><span class="p">:</span> <span class="kp">true</span>
 <span class="k">end</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>The email format validation comes from <a href="https://github.com/balexand/email_validator">email_validator</a> gem.</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="c1"># Include default devise modules. Others available are:</span>
   <span class="c1"># :confirmable, :lockable, :timeoutable and :omniauthable</span>
   <span class="n">devise</span> <span class="ss">:database_authenticatable</span><span class="p">,</span> <span class="ss">:registerable</span><span class="p">,</span>
@@ -127,40 +98,26 @@
 
   <span class="n">has_many</span> <span class="ss">:emails</span>
 <span class="k">end</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>Once we have done that, we can do away with the email field provided by devise. Instead of that, let us have a default email reference which may be used as a primary means of communication eg. for sending
 newsletters, fetching gravatars etc. So here we go:</p>
-<div class="highlight">
-   <pre>
-      <code class="text language-text" data-lang="text">rails g migration add_default_email_to_users default_email_id:integer
-</code>
-   </pre>
-</div>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">rails g migration add_default_email_to_users default_email_id:integer
+</code></pre></div>
 <p>In <code>db/migrate/20140907091858_add_default_email_to_users.rb</code></p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="k">class</span> <span class="nc">AddDefaultEmailToUsers</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">AddDefaultEmailToUsers</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
   <span class="k">def</span> <span class="nf">change</span>
     <span class="n">remove_column</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">:email</span>
     <span class="n">add_column</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">:default_email_id</span><span class="p">,</span> <span class="ss">:integer</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>In user model:</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="n">belongs_to</span> <span class="ss">:default_email</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">"Email"</span>
-</code>
-   </pre>
-</div>
+<div class="highlight"><pre><code class="ruby"><span class="n">belongs_to</span> <span class="ss">:default_email</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">"Email"</span>
+</code></pre></div>
 
 <h2 id="header1-2">Setting up the registration flow:</h2>
 
@@ -168,15 +125,11 @@ newsletters, fetching gravatars etc. So here we go:</p>
 get an obvious error because devise views expect an email field in
 model.</p>
 
-<p>
-   <image src="/images/devise_email_not_found.png"></image>
-</p>
+<p><image src="/images/devise_email_not_found.png"></image></p>
 
 <p>We resort to a simple hack rather than put in a lot of effort in rewiring Devise. We add email accessors which (as far as devise is concerned) behave just like the email field devise had generated, but internally act as proxy to default email. Duck typing FTW.</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
 
   <span class="n">devise</span> <span class="ss">:database_authenticatable</span><span class="p">,</span> <span class="ss">:registerable</span><span class="p">,</span>
          <span class="ss">:recoverable</span><span class="p">,</span> <span class="ss">:rememberable</span><span class="p">,</span> <span class="ss">:trackable</span>
@@ -208,9 +161,7 @@ model.</p>
   <span class="k">end</span>
 
 <span class="k">end</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>Note that we have removed <code>:validatable</code> which is added by default
 by devise. Also the after commit hook is required because when we are saving the user
@@ -221,18 +172,14 @@ is already associated with another account. Handling that error gracefully is le
 
 <p>While registration should work smoothly at this point, if we try to login we will run into trouble:</p>
 
-<p>
-   <img src="/images/devise_login_flow_fail.png" />
-</p>
+<p><img src="/images/devise_login_flow_fail.png"></p>
 
 <p>The problem is obvious. Devise tries to search using email field which does not exist. So we need to
 configure devise to find using the emails table we have created.</p>
 
 <p>This can be done by overriding the class method <code>find_first_by_auth_conditions</code> :</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
 
   <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">having_email</span> <span class="n">email</span>
@@ -257,9 +204,7 @@ configure devise to find using the emails table we have created.</p>
 
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
 <span class="k">end</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>Once we have done that, login flow should as intended.</p>
 
@@ -269,9 +214,7 @@ configure devise to find using the emails table we have created.</p>
 
 <p>The default edit account view of devise looks something like this:</p>
 
-<p>
-   <img src="/images/devise_default_edit.png" />
-</p>
+<p><img src="/images/devise_default_edit.png"></p>
 
 <p>Note that this form works perfectly well - thanks to our email accessor hack. But users don't have the ability to add new emails or delete existing emails.</p>
 
@@ -279,24 +222,18 @@ configure devise to find using the emails table we have created.</p>
 
 <p>First we have to configure our model to accept nested attributes for emails - this part is easy:</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
   <span class="n">accepts_nested_attributes_for</span> <span class="ss">:emails</span><span class="p">,</span> <span class="n">reject_if</span><span class="p">:</span> <span class="ss">:all_blank</span><span class="p">,</span> <span class="n">allow_destroy</span><span class="p">:</span> <span class="kp">true</span>
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
 <span class="k">end</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>Nest we need to generate devise views using <code>rails g devise:views</code> and edit the <code>app/views/devise/registrations/edit.html.erb</code>.</p>
 
 <p>We edit the template to add nested form for emails:</p>
 
-<div class="highlight">
-   <pre>
-      <code class="erb"><span class="x">&lt;h2&gt;Edit </span><span class="cp">&lt;%=</span> <span class="n">resource_name</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">humanize</span> <span class="cp">%&gt;</span><span class="x">&lt;/h2&gt;</span>
+<div class="highlight"><pre><code class="erb"><span class="x">&lt;h2&gt;Edit </span><span class="cp">&lt;%=</span> <span class="n">resource_name</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">humanize</span> <span class="cp">%&gt;</span><span class="x">&lt;/h2&gt;</span>
 
 <span class="cp">&lt;%=</span> <span class="n">form_for</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="ss">as</span><span class="p">:</span> <span class="n">resource_name</span><span class="p">,</span> <span class="ss">url</span><span class="p">:</span> <span class="n">registration_path</span><span class="p">(</span><span class="n">resource_name</span><span class="p">),</span> <span class="ss">html</span><span class="p">:</span> <span class="p">{</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:put</span> <span class="p">})</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">devise_error_messages!</span> <span class="cp">%&gt;</span><span class="x"></span>
@@ -334,32 +271,24 @@ configure devise to find using the emails table we have created.</p>
 <span class="x">&lt;p&gt;Unhappy? </span><span class="cp">&lt;%=</span> <span class="n">button_to</span> <span class="s2">"Cancel my account"</span><span class="p">,</span> <span class="n">registration_path</span><span class="p">(</span><span class="n">resource_name</span><span class="p">),</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span> <span class="ss">confirm</span><span class="p">:</span> <span class="s2">"Are you sure?"</span> <span class="p">},</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
 
 <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Back"</span><span class="p">,</span> <span class="ss">:back</span> <span class="cp">%&gt;</span><span class="x"></span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>Cocoon mandates a separate partial for email fields, which in our case is very simple:</p>
 
-<div class="highlight">
-   <pre>
-      <code class="erb"><span class="x">&lt;div class="nested-fields"&gt;</span>
+<div class="highlight"><pre><code class="erb"><span class="x">&lt;div class="nested-fields"&gt;</span>
 <span class="x">  &lt;div&gt;</span>
 <span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:email</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">email_field</span> <span class="ss">:email</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">link_to_remove_association</span> <span class="s2">"remove email"</span><span class="p">,</span> <span class="n">f</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">  &lt;/div&gt;</span>
 <span class="x">&lt;/div&gt;</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>At this point if we try saving the form, we will notice that email fields are not getting saved. The reason is that the strong parameters specified by devise does not include our email fields. Fortunately devise provides a way to configure that :</p>
 
 <p>In <code>ApplicationController</code> :</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">ApplicationController</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span>
   <span class="c1"># Prevent CSRF attacks by raising an exception.</span>
   <span class="c1"># For APIs, you may want to use :null_session instead.</span>
 
@@ -375,14 +304,12 @@ configure devise to find using the emails table we have created.</p>
   <span class="k">end</span>
 
 <span class="k">end</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>Note that <code>:_destroy</code> symbol in the attribute list. It is required because to destroy nested models, rails uses a virtual attribute called _destroy. When _destroy is set, the nested model will be deleted.</p>
 
 <p>If we try adding, removing and editing emails now, everything should work smoothly.
-<img src="/images/devise_nested_form_edit.png" /></p>
+<img src="/images/devise_nested_form_edit.png"></p>
 
 <p>In a production setting we will most certainly need to send out confirmation mails before activating the emails. We skip the additional steps for the sake of brevity.</p>
 
@@ -397,95 +324,63 @@ configure devise to find using the emails table we have created.</p>
 
 <p>In Gemfile</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="n">gem</span> <span class="s1">'omniauth'</span>
+<div class="highlight"><pre><code class="ruby"><span class="n">gem</span> <span class="s1">'omniauth'</span>
 <span class="n">gem</span> <span class="s1">'omniauth-facebook'</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>In config/initializers/devise.rb</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="no">Devise</span><span class="o">.</span><span class="n">setup</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+<div class="highlight"><pre><code class="ruby"><span class="no">Devise</span><span class="o">.</span><span class="n">setup</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
   <span class="n">config</span><span class="o">.</span><span class="n">omniauth</span> <span class="ss">:twitter</span><span class="p">,</span> <span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">secrets</span><span class="o">.</span><span class="n">fb_app_id</span><span class="p">,</span> <span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">secrets</span><span class="o">.</span><span class="n">fb_app_secret</span>
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
 <span class="k">end</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>In config/secrets.yml</p>
 
-<div class="highlight">
-   <pre>
-      <code class="yaml"><span class="l-Scalar-Plain">development</span><span class="p-Indicator">:</span>
+<div class="highlight"><pre><code class="yaml"><span class="l-Scalar-Plain">development</span><span class="p-Indicator">:</span>
   <span class="l-Scalar-Plain">fb_app_id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">&lt;add api key here&gt;</span>
   <span class="l-Scalar-Plain">fb_app_secret</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">&lt;add api secret here&gt;</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>In app/models/user.rb</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
   <span class="n">devise</span> <span class="ss">:omniauthable</span><span class="p">,</span> <span class="n">omniauth_providers</span><span class="p">:</span> <span class="o">[</span><span class="ss">:facebook</span><span class="o">]</span>
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
 <span class="k">end</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>In config/routes.rb</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby">  <span class="n">devise_for</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">controllers</span><span class="p">:</span> <span class="p">{</span> <span class="n">omniauth_callbacks</span><span class="p">:</span> <span class="s2">"users/omniauth_callbacks"</span> <span class="p">}</span>
-</code>
-   </pre>
-</div>
+<div class="highlight"><pre><code class="ruby">  <span class="n">devise_for</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">controllers</span><span class="p">:</span> <span class="p">{</span> <span class="n">omniauth_callbacks</span><span class="p">:</span> <span class="s2">"users/omniauth_callbacks"</span> <span class="p">}</span>
+</code></pre></div>
 
 <p>where <code>users/omniauth_callbacks</code> is a controller we define to which facebook will redirect to after authenticating our application.</p>
 
 <p>If you have used omniauth with devise before, there is nothing out of the ordinary so far.</p>
 
 <p>Just like we wish to allow the user to sign up through multiple emails, we also wish to allow a user to sign up through multiple social networks. (s)he may be registered in different social networks with different emails. A simple and elegant way to represent a user's presence in multiple third party sites is through a separate <code>UserIdentity</code> model.</p>
-<div class="highlight">
-   <pre>
-      <code class="text language-text" data-lang="text">rails g model UserIdentity user_id:integer email_id:integer uid:string provider:string
-</code>
-   </pre>
-</div>
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="k">class</span> <span class="nc">UserIdentity</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">rails g model UserIdentity user_id:integer email_id:integer uid:string provider:string
+</code></pre></div>
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">UserIdentity</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="n">belongs_to</span> <span class="ss">:user</span>
   <span class="n">belongs_to</span> <span class="ss">:email</span>
   <span class="n">validates</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:uid</span><span class="p">,</span> <span class="ss">:provider</span><span class="p">,</span> <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span>
 <span class="k">end</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>Our callback controller is intentially very simple. Depending on your use case you may want to check if the user is newly created and direct him/her to a profile completion page. For the sake of simplicity, we just redirect any user to the profile page.</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="k">class</span> <span class="nc">Users</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span> <span class="o">&lt;</span> <span class="no">Devise</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span>
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Users</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span> <span class="o">&lt;</span> <span class="no">Devise</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span>
   <span class="k">def</span> <span class="nf">facebook</span>
     <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">from_omniauth</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s2">"omniauth.auth"</span><span class="o">]</span><span class="p">)</span>
     <span class="n">sign_in_and_redirect</span> <span class="vi">@user</span><span class="p">,</span> <span class="ss">:event</span> <span class="o">=&gt;</span> <span class="ss">:authentication</span> <span class="c1">#this will throw if @user is not activated</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>In the <code>from_omniauth</code> class method of user we need to identify user based on the auth parameters passed.
 Luckily facebook provides us with the email, so we can use that to identify a user.</p>
@@ -505,9 +400,7 @@ We keep the existing email, but associate the user identity with the new email.<
 
 <p>Here is our implementation</p>
 
-<div class="highlight">
-   <pre>
-      <code class="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
 
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
 
@@ -558,9 +451,7 @@ We keep the existing email, but associate the user identity with the new email.<
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
 
 <span class="k">end</span>
-</code>
-   </pre>
-</div>
+</code></pre></div>
 
 <p>The code above raises an <code>EmailConflict</code> exception if we end up in a scenario where an existing user is logging in and the email is associated with another account. Gracefully handling the error is left as an exercise for the reader. Also we assume that the social login provider will provide us with an email.
 While this is true for many providers like Github, not all providers provide with emails. A prominent example is twitter. Since this is not intended to be a comprehensive tutorial on omniauth, for the sake of brevity we don't
@@ -580,19 +471,14 @@ elaborate on those scenarios. A good way to handle such a case would be to direc
 </footer>
 <div id="disqus_thread"></div>
 <script type="text/javascript">
-<![CDATA[
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'lorefnon-blog'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-]]>
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//lorefnon-blog.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
 <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
