@@ -19,10 +19,10 @@
     <meta property="og:description" content="ES6 modules are the future of modular code organization in javascript. Let's explore how to use them today in Rails.">
     <link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/>
     <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
     <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
     <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/>    
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'>
     <script>
@@ -32,7 +32,7 @@
   </head>
   <body style="zoom: 1;">
     <div class="main-container">
-      
+
       <div class="mlogotype is-uppercase">
         <a href="http://lorefnon.me">Code.Art.Web</a>
       </div>
@@ -44,8 +44,8 @@
       <div class="header-container detail-view">
         <header class="main-header">
           <figure class="avatar">
-            <a href="http://lorefnon.me" 
-            style="background-image: url();">Profile Picture</a> 
+            <a href="http://lorefnon.me"
+            style="background-image: url();">Profile Picture</a>
           </figure>
           <h1 class="profile-name is-uppercase">
             <a href="http://lorefnon.me">Lorefnon</a>
@@ -54,16 +54,22 @@
       </div>
 
       <div class="posts-container detail-view">
-        
+        <article class="post detail-view" id="">
+          <h1 class="title"><a href="#">A minimal setup for using ES6 modules in Rails</a></h1>
+          <a href="#" class="anchor-icon time-wrapper">
+            <i class="fa fa-anchor"></i>
+            <time>Nov 15, 2015</time>
+          </a>
+          
+          <h2> Abstract </h2>
+          <p>
+            ES6 modules are the future of modular code organization in javascript. Let's explore how to use them today in Rails.
+          </p>
+          
+          
 
-<article class="post detail-view" id="">
-  <h1 class="title"><a href="#">A minimal setup for using ES6 modules in Rails</a></h1>
-  <a href="#" class="anchor-icon">
-    <i class="fa fa-anchor"></i>
-    <time>Nov 15, 2015</time>
-  </a>
-  
-    <p>While ES6 adoption is progressively improving across browsers, and the sprockets team is planning to integrate ES6 features into Rails asset pipeline in near future, using a widely popular transpiler: <a href="https://babeljs.io">Babel</a> we can leverage many of those features right away. The specific aspect of interest for this post is ES6 modules feature which provides a standardized module system for javascript.</p>
+
+  <p>While ES6 adoption is progressively improving across browsers, and the sprockets team is planning to integrate ES6 features into Rails asset pipeline in near future, using a widely popular transpiler: <a href="https://babeljs.io">Babel</a> we can leverage many of those features right away. The specific aspect of interest for this post is ES6 modules feature which provides a standardized module system for javascript.</p>
 
 <p>While babel does have a solution for ES6 modules, rather than handling dependency resolution itself - it transpiles the modules to existing javascript based module systems - the most popular ones being <a href="https://github.com/amdjs">AMD</a> and <a href="https://commonjs.org">CommonJS</a>. This post does not go into a compartive analysis of them, but there is an excellent <a href="addyosmani.com/writing-modular-js/">article</a> by <a href="https://twitter.com/addyosmani">Addy Osmani</a> which provides an in-depth elaboration on the topic.</p>
 
@@ -87,7 +93,7 @@ New plugin releases will not be processed.
 We recommend moving to npm, using &quot;jquery-plugin&quot; as the keyword in your package.json. The npm blog has instructions for publishing your plugin to npm.</p>
 </blockquote>
 
-<p>There is however a simpler solution: Using the gem <a href="https://github.com/browserify-rails/browserify-rails">browserify-rails</a> which bridges sprockets and <a href="http://browserify.org/">browserify</a>. Browserify is a javascript bundler that leverages CommonJS : </p>
+<p>There is however a simpler solution: Using the gem <a href="https://github.com/browserify-rails/browserify-rails">browserify-rails</a> which bridges sprockets and <a href="http://browserify.org/">browserify</a>. Browserify is a javascript bundler that leverages CommonJS :</p>
 
 <blockquote>
 <p>Browserify lets you require(&#39;modules&#39;) in the browser by bundling up all of your dependencies</p>
@@ -99,28 +105,30 @@ We recommend moving to npm, using &quot;jquery-plugin&quot; as the keyword in yo
 <div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s2">&quot;browserify-rails&quot;</span>
 </code></pre></div>
 <p>as well as a <code>package.json</code> in project root:</p>
-<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="p">{</span>
-    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;something&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;license&quot;</span><span class="o">:</span> <span class="s2">&quot;MIT&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;engines&quot;</span><span class="o">:</span> <span class="p">{</span>
-    <span class="s2">&quot;node&quot;</span><span class="o">:</span> <span class="s2">&quot;&gt;= 0.10&quot;</span>
-    <span class="p">},</span>
-    <span class="s2">&quot;dependencies&quot;</span><span class="o">:</span> <span class="p">{</span>
-    <span class="s2">&quot;babel-preset-es2015&quot;</span><span class="o">:</span> <span class="s2">&quot;^6.1.18&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;babelify&quot;</span><span class="o">:</span> <span class="s2">&quot;^7.2.0&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;browserify&quot;</span><span class="o">:</span> <span class="s2">&quot;~&gt; 10.2.4&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;browserify-incremental&quot;</span><span class="o">:</span> <span class="s2">&quot;^3.0.1&quot;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>If we want to use other javascript libraries available through npm we can include them directly in the package.json. There is a single caveat though: We can not directly start using ES6 modules in our top level files (typically application.js) but only in our <code>require</code>d files: </p>
 
-<p>So our application.js can be fairly minimal with a single require statement: </p>
+<div class="highlight"><pre><code class="javascript"><span id="snippet_1-1"><a name="snippet_1-1"></a><span class="p">{</span>
+</span><span id="snippet_1-2"><a name="snippet_1-2"></a>    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;something&quot;</span><span class="p">,</span>
+</span><span id="snippet_1-3"><a name="snippet_1-3"></a>    <span class="s2">&quot;license&quot;</span><span class="o">:</span> <span class="s2">&quot;MIT&quot;</span><span class="p">,</span>
+</span><span id="snippet_1-4"><a name="snippet_1-4"></a>    <span class="s2">&quot;engines&quot;</span><span class="o">:</span> <span class="p">{</span>
+</span><span id="snippet_1-5"><a name="snippet_1-5"></a>      <span class="s2">&quot;node&quot;</span><span class="o">:</span> <span class="s2">&quot;&gt;= 0.10&quot;</span>
+</span><span id="snippet_1-6"><a name="snippet_1-6"></a>    <span class="p">},</span>
+</span><span id="snippet_1-7"><a name="snippet_1-7"></a>    <span class="s2">&quot;dependencies&quot;</span><span class="o">:</span> <span class="p">{</span>
+</span><span id="snippet_1-8"><a name="snippet_1-8"></a>        <span class="s2">&quot;babel-preset-es2015&quot;</span><span class="o">:</span> <span class="s2">&quot;^6.1.18&quot;</span><span class="p">,</span>
+</span><span id="snippet_1-9"><a name="snippet_1-9"></a>        <span class="s2">&quot;babelify&quot;</span><span class="o">:</span> <span class="s2">&quot;^7.2.0&quot;</span><span class="p">,</span>
+</span><span id="snippet_1-10"><a name="snippet_1-10"></a>        <span class="s2">&quot;browserify&quot;</span><span class="o">:</span> <span class="s2">&quot;~&gt; 10.2.4&quot;</span><span class="p">,</span>
+</span><span id="snippet_1-11"><a name="snippet_1-11"></a>        <span class="s2">&quot;browserify-incremental&quot;</span><span class="o">:</span> <span class="s2">&quot;^3.0.1&quot;</span>
+</span><span id="snippet_1-12"><a name="snippet_1-12"></a>    <span class="p">}</span>
+</span><span id="snippet_1-13"><a name="snippet_1-13"></a><span class="p">}</span>
+</span></code></pre></div>
+
+<p>If we want to use other javascript libraries available through npm we can include them directly in the package.json. There is a single caveat though: We can not directly start using ES6 modules in our top level files (typically application.js) but only in our <code>require</code>d files:</p>
+
+<p>So our application.js can be fairly minimal with a single require statement:</p>
 <div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./main&#39;</span><span class="p">)</span>
 </code></pre></div>
 <p>Now we can use ES6 modules in main.js</p>
 
-<p>main.js: </p>
+<p>main.js:</p>
 <div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">hello</span> <span class="nx">from</span> <span class="s1">&#39;./hello&#39;</span>
 
 <span class="nx">hello</span><span class="p">()</span>
@@ -134,17 +142,17 @@ We recommend moving to npm, using &quot;jquery-plugin&quot; as the keyword in yo
 </code></pre></div>
 <p>If we run the server now and visit the home page, we should be greeted with a hello prompt.</p>
 
-  
-  <footer class="group">
-    <p>
+
+<footer class="group">
+  <p>
+    
+    
+    
       
-      
-      
-        
-      
-    </p>
-  </footer>
-  <div id="disqus_thread"></div>
+    
+  </p>
+</footer>
+<div id="disqus_thread"></div>
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
     var disqus_shortname = 'lorefnon-blog'; // required: replace example with your forum shortname
@@ -159,11 +167,11 @@ We recommend moving to npm, using &quot;jquery-plugin&quot; as the keyword in yo
 <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
-</article>
 
 
+        </article>
       </div>
-      
+
       <div class="line hide-text">Separator line</div>
 
       <!-- Next article preview -->
@@ -219,7 +227,7 @@ We recommend moving to npm, using &quot;jquery-plugin&quot; as the keyword in yo
 </p>
 <br/>
 <br/>
-        
+
       </div>
     </div>
 
@@ -228,8 +236,8 @@ We recommend moving to npm, using &quot;jquery-plugin&quot; as the keyword in yo
       <nav class="side-nav">
         <div class="top">
           <p>
-						Check more on: 
-            <a href="http://lorefnon.me"><span class="tag">Code.Art.Web</span></a> 
+						Check more on:
+            <a href="http://lorefnon.me"><span class="tag">Code.Art.Web</span></a>
           </p>
           <ul class="nav-profile-links">
             <li class="website">
@@ -271,6 +279,5 @@ We recommend moving to npm, using &quot;jquery-plugin&quot; as the keyword in yo
 </script>
 
     <script src="/assets/javascripts/post.js"></script>
-
   </body>
 </html>
