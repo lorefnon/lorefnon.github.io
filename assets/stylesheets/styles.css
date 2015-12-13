@@ -163,6 +163,10 @@ a:visited {
     margin-bottom: 137px;
 }
 
+.foot_userbar .profile-links-container {
+    margin-bottom: 30px;
+}
+
 .profile-name {
     line-height: 28px;
     font-size: 28px;
@@ -679,6 +683,7 @@ font-size: 16px;
 .next-article span,
 .bottom_tagline span {
     font-size: 17px;
+    padding-bottom: 3px;
     border-bottom: 3px solid #e5e5e5;
     font-weight: 600;
     color: #000;
@@ -1092,4 +1097,10 @@ font-size: 16px;
 
 .header-bullet-num {
     margin-right: 8px;
+}
+
+.disqus-link {
+    text-align: center;
+    display: block;
+    border: none;
 }
