@@ -1,102 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]> ><! <![endif]-->
-<html lang="en" class="">
-  <head>
-    <meta charset="utf-8">
-    <title>Commit messages from generator outputs |  Code.Art.Web</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    
-
-    <link rel="canonical" href="http://lorefnon.me/2014/09/13/commit-messages-from-generator-outputs.html">
-    <meta property="twitter:creator" content="@lorefnon">
-    <meta property="og:title" content="@lorefnon">
-    <meta property="og:type" content="blog">
-    <meta poperty="og:url" content="http://lorefnon.me">
-    <meta property="og:site_name" content="Code.Art.Web">
-    <meta property="og:fb:app_id">
-    <meta property="og:description" content="">
-    <link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'>
-    <script>
-  this.top.location !== this.location && (this.top.location = this.location);
-</script>
-
-  </head>
-  <body style="zoom: 1;">
-    <div class="main-container">
-
-      <div class="mlogotype is-uppercase">
-        <a href="http://lorefnon.me">Code.Art.Web</a>
-      </div>
-
-      <a href="http://lorefnon.me" class="home_logotype_link">
-        <h1 class="tag">Code.Art.Web</h1>
-      </a>
-
-      <div class="header-container detail-view">
-        <header class="main-header">
-          <figure class="avatar">
-            <a href="http://lorefnon.me"
-            style="background-image: url();">Profile Picture</a>
-          </figure>
-          <h1 class="profile-name is-uppercase">
-            <a href="http://lorefnon.me">Lorefnon</a>
-          </h1>
-        </header>
-      </div>
-
-      <div class="posts-container detail-view">
-        <article class="post detail-view" id="">
-          <h1 class="title"><a href="#">Commit messages from generator outputs</a></h1>
-          <a href="#" class="anchor-icon time-wrapper">
-            <i class="fa fa-anchor"></i>
-            <time>Sep 13, 2014</time>
-          </a>
-
-          
-
-          
-
-          
-
-
-  <p>A practise I always follow while working with tools that generate code is that any code that is generated and not written by me is committed in isolation. This makes skimming through commit logs later easier because generators often generate many files upfront that wouldn&#39;t be edited until much later. So the subsequent commit wouldn&#39;t be littered with changes that aren&#39;t directly related to the actual operation mentioned in the commit message. Also while browsing through commit diffs keeping generated code in their own commits speeds up the reviewing process - because in most cases we already have an idea of what the generated could be, so it can be skipped.</p>
-
-<p>Now, if you use well designed frameworks with elegant command line interfaces, like Rails then the actual command typed along with the command output eg.</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">rails generate model post title:string body:text
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"><![endif]--><!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]--><!--[if IE 8]><html class="no-js lt-ie9" lang="en"><![endif]--><!--[if gt IE 8]>><!<![endif]--><html lang="en" class=""><head><meta charset="utf-8"><title>Commit messages from generator outputs | Code.Art.Web</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="canonical" href="http://lorefnon.me/2014/09/13/commit-messages-from-generator-outputs.html"><meta property="twitter:creator" content="@lorefnon"><meta property="og:title" content="@lorefnon"><meta property="og:type" content="blog"><meta poperty="og:url" content="http://lorefnon.me"><meta property="og:site_name" content="Code.Art.Web"><meta property="og:fb:app_id"><meta property="og:description" content=""><link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/><link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"><link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'> <script>this.top.location!==this.location&&(this.top.location=this.location)</script></head><body style="zoom:1"><div class="main-container"><div class="mlogotype is-uppercase"> <a href="http://lorefnon.me">Code.Art.Web</a></div><a href="http://lorefnon.me" class="home_logotype_link"><h1 class="tag">Code.Art.Web</h1> </a><div class="header-container detail-view"> <header class="main-header"> <figure class="avatar"> <a href="http://lorefnon.me" style="background-image:url('')">Profile Picture</a> </figure><h1 class="profile-name is-uppercase"> <a href="http://lorefnon.me">Lorefnon</a></h1> </header></div><div class="posts-container detail-view"> <article class="post detail-view" id=""><h1 class="title"><a href="#">Commit messages from generator outputs</a></h1> <a href="#" class="anchor-icon time-wrapper"> <i class="fa fa-anchor"></i> <time>Sep 13, 2014</time> </a><p>A practise I always follow while working with tools that generate code is that any code that is generated and not written by me is committed in isolation. This makes skimming through commit logs later easier because generators often generate many files upfront that wouldn't be edited until much later. So the subsequent commit wouldn't be littered with changes that aren't directly related to the actual operation mentioned in the commit message. Also while browsing through commit diffs keeping generated code in their own commits speeds up the reviewing process - because in most cases we already have an idea of what the generated could be, so it can be skipped.</p><p>Now, if you use well designed frameworks with elegant command line interfaces, like Rails then the actual command typed along with the command output eg.</p><div class="highlight"><pre><code class="text language-text" data-lang="text">rails generate model post title:string body:text
 
 invoke  active_record
 create    db/migrate/20140913191020_create_posts.rb
 create    app/models/post.rb
 invoke    rspec
 create      spec/models/post_spec.rb
-</code></pre></div>
-<p>is expressive enough for a commit message. A person familiar enough with the framework can instantly see the above and know what happened there. In such case, spending time writing an explanatory commit message for a auto-generated code is pretty much a waste of time.</p>
-
-<p>So I have created a simple zsh function which does exactly the above:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">GC ()
+</code></pre></div><p>is expressive enough for a commit message. A person familiar enough with the framework can instantly see the above and know what happened there. In such case, spending time writing an explanatory commit message for a auto-generated code is pretty much a waste of time.</p><p>So I have created a simple zsh function which does exactly the above:</p><div class="highlight"><pre><code class="text language-text" data-lang="text">GC ()
 {
-  cmd=&quot;$@&quot;
-  output=$(&quot;$@&quot;)
+  cmd="$@"
+  output=$("$@")
   git add .
-  git commit -m &quot;$cmd&quot; -m &quot;$output&quot;
+  git commit -m "$cmd" -m "$output"
 }
-</code></pre></div>
-<p>Add it to your zshrc, and next time you can simply type :</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">GC rails g model comment body:text commenter:string
-</code></pre></div>
-<p>GC will add all the generated code (please ensure you have a clean state before running the generator - GC will not help you that) and committing it with the message as the command combined with the output of generator in separate paragraphs.</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">commit 029cb2e60187a196d918a08563d95775d73f5100
+</code></pre></div><p>Add it to your zshrc, and next time you can simply type :</p><div class="highlight"><pre><code class="text language-text" data-lang="text">GC rails g model comment body:text commenter:string
+</code></pre></div><p>GC will add all the generated code (please ensure you have a clean state before running the generator - GC will not help you that) and committing it with the message as the command combined with the output of generator in separate paragraphs.</p><div class="highlight"><pre><code class="text language-text" data-lang="text">commit 029cb2e60187a196d918a08563d95775d73f5100
 Author: Lorefnon &lt;lorefnon@gmail.com&gt;
 Date:   Sun Sep 14 00:58:03 2014 +0530
 
@@ -107,134 +24,4 @@ Date:   Sun Sep 14 00:58:03 2014 +0530
           create    app/models/comment.rb
           invoke    rspec
           create      spec/models/comment_spec.rb
-</code></pre></div>
-
-<footer class="group">
-  <p>
-    
-    
-    
-      
-    
-  </p>
-</footer>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-  (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//lorefnon-blog.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-
-        </article>
-      </div>
-
-      <div class="line hide-text">Separator line</div>
-
-      <!-- Next article preview -->
-      <div class="next-article" style="display: none;">
-        <a href="#">
-          <p class="read-next tag is-uppercase">Read this next:</p>
-          <p class="next-article__title">Protocol and Language</p>
-          <div class="next-article__content">
-            <p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p>
-          </div>
-        </a>
-      </div>
-      <!-- Finish / Feature on process-->
-
-      <div class="line hide-text">Separator line</div>
-
-      <div class="foot_logo">
-        <a href="http://lorefnon.me"><span class="logo"></span></a>
-      </div>
-
-      <div class="foot_logo right">
-        <a href="/"><span class="link">Full Blog >></span></a>
-      </div>
-
-      <div class="line"></div>
-
-<div class="foot_userbar">
-  <div href="#" class="bottom_tagline">
-    <span>Lorefnon</span>
-    <br><br>
-    <p> Full stack web developer and polyglot programmer with strong interest in dynamic languages, web application development and user experience design. </p>
-    <br>
-    <p> Strong believer in agile methodologies, behaviour driven development and efficacy of open source technologies.</p>
-    <br>
-  </div>
-  <div class="profile-links-container">
-  <a href="#" class="bottom_tagline"><span> You can reach me through :</span></h2>
-  <br><br>
-  <ul class="profile-links">
-    <li class="twitter">
-      <a href="http://twitter.com/lorefnon" target="_blank">
-        <span>Twitter</span>
-      </a>
-    </li>
-    <li class="linkedin">
-      <a href="https://in.linkedin.com/in/gaurab-paul-a2472921" target="_blank">
-        <span>Linkedin</span>
-      </a>
-    </li>
-    <li class="github">
-      <a href="https://github.com/lorefnon" target="_blank">
-        <span>Github</span>
-      </a>
-    </li>
-    <li class="github">
-      <a href="mailto:lorefnon@gmail.com" target="_blank">
-        <span>Email</span>
-      </a>
-    </li>
-  </ul>
-
-  </div>
-</div>
-<div class="line"></div>
-<div class="foot_userbar">
-  <p>&copy; 2013 - 2015 Gaurab Paul </p>
-<br/>
-<p>Code licensed under the
-  <a href="http://opensource.org/licenses/MIT" target="_blank">The
-    MIT License</a>. Content and Artwork licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA</a>.
-</p>
-<br/>
-<p>
-  The opinions expressed herein are my personal viewpoints  and may
-  not be taken as professional recommendations from any of my previous or
-  current employers.
-</p>
-<br/>
-<p>
-  Site is powered by <a href="http://jekyllrb.com/">Jekyll</a> and graciously hosted by <a href="https://github.com">Github</a>
-</p>
-<br/>
-<br/>
-
-</div>
-
-    </div>
-
-    <script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-47274059-1']);
-  _gaq.push(['_setDomainName', 'lorefnon.me']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-
-    <script src="/assets/javascripts/post.js"></script>
-  </body>
-</html>
+</code></pre></div><footer class="group"><p></p> </footer><div id="disqus_thread"></div> <script>!function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src="//lorefnon-blog.disqus.com/embed.js",(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript> <a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a></article></div><div class="line hide-text">Separator line</div><div class="next-article" style="display:none"> <a href="#"><p class="read-next tag is-uppercase">Read this next:</p><p class="next-article__title">Protocol and Language</p><div class="next-article__content"><p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p></div> </a></div><div class="line hide-text">Separator line</div><div class="foot_logo"> <a href="http://lorefnon.me"><span class="logo"></span></a></div><div class="foot_logo right"> <a href="/"><span class="link">Full Blog >></span></a></div><div class="line"></div><div class="foot_userbar"><div href="#" class="bottom_tagline"> <span>Lorefnon</span> <br><br><p> Full stack web developer and polyglot programmer with strong interest in dynamic languages, web application development and user experience design.</p> <br><p> Strong believer in agile methodologies, behaviour driven development and efficacy of open source technologies.</p> <br></div><div class="profile-links-container"> <a href="#" class="bottom_tagline"><span> You can reach me through :</span></h2> <br><br><ul class="profile-links"><li class="twitter"> <a href="http://twitter.com/lorefnon" target="_blank"> <span>Twitter</span> </a></li><li class="linkedin"> <a href="https://in.linkedin.com/in/gaurab-paul-a2472921" target="_blank"> <span>Linkedin</span> </a></li><li class="github"> <a href="https://github.com/lorefnon" target="_blank"> <span>Github</span> </a></li><li class="github"> <a href="mailto:lorefnon@gmail.com" target="_blank"> <span>Email</span> </a></li></ul></div></div><div class="line"></div><div class="foot_userbar"><p>© 2013 - 2015 Gaurab Paul</p> <br/><p>Code licensed under the <a href="http://opensource.org/licenses/MIT" target="_blank">The MIT License</a>. Content and Artwork licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA</a>.</p> <br/><p> The opinions expressed herein are my personal viewpoints and may not be taken as professional recommendations from any of my previous or current employers.</p> <br/><p> Site is powered by <a href="http://jekyllrb.com/">Jekyll</a> and graciously hosted by <a href="https://github.com">Github</a></p> <br/> <br/></div></div><script>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-47274059-1"]),_gaq.push(["_setDomainName","lorefnon.me"]),_gaq.push(["_trackPageview"]),function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js";var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e)}()</script><script src="/assets/javascripts/post.js"></script></body></html>

@@ -1,142 +1,34 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]> ><! <![endif]-->
-<html lang="en" class="">
-  <head>
-    <meta charset="utf-8">
-    <title>Creating a basic command line based todo app using ruby and sqlite. |  Code.Art.Web</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    
-    <meta name="description" content="A simple tutorial outlining how to create a small command line application using ruby">
-    
-
-    <link rel="canonical" href="http://lorefnon.me/2012/09/08/creating-a-basic-command-line-based-todo-app-using-ruby-and-sqlite.html">
-    <meta property="twitter:creator" content="@lorefnon">
-    <meta property="og:title" content="@lorefnon">
-    <meta property="og:type" content="blog">
-    <meta poperty="og:url" content="http://lorefnon.me">
-    <meta property="og:site_name" content="Code.Art.Web">
-    <meta property="og:fb:app_id">
-    <meta property="og:description" content="A simple tutorial outlining how to create a small command line application using ruby">
-    <link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'>
-    <script>
-  this.top.location !== this.location && (this.top.location = this.location);
-</script>
-
-  </head>
-  <body style="zoom: 1;">
-    <div class="main-container">
-
-      <div class="mlogotype is-uppercase">
-        <a href="http://lorefnon.me">Code.Art.Web</a>
-      </div>
-
-      <a href="http://lorefnon.me" class="home_logotype_link">
-        <h1 class="tag">Code.Art.Web</h1>
-      </a>
-
-      <div class="header-container detail-view">
-        <header class="main-header">
-          <figure class="avatar">
-            <a href="http://lorefnon.me"
-            style="background-image: url();">Profile Picture</a>
-          </figure>
-          <h1 class="profile-name is-uppercase">
-            <a href="http://lorefnon.me">Lorefnon</a>
-          </h1>
-        </header>
-      </div>
-
-      <div class="posts-container detail-view">
-        <article class="post detail-view" id="">
-          <h1 class="title"><a href="#">Creating a basic command line based todo app using ruby and sqlite.</a></h1>
-          <a href="#" class="anchor-icon time-wrapper">
-            <i class="fa fa-anchor"></i>
-            <time>Sep 08, 2012</time>
-          </a>
-
-          
-          <h2> Abstract </h2>
-          <p>A simple tutorial outlining how to create a small command line application using ruby</p>
-
-          
-
-          
-
-          
-
-
-  <p>This tutorial aims to demonstrate how Ruby can be used to create simple command line applications.  A basic familiarity with Ruby and SQLite is assumed. Also availability of a POSIX compliant system is assumed. Although it is quite possible to port this tutorial to other proprietary platforms, I will not make any effort in this regard because of sheer lack of interest. In the tutorial, we create a simple command line based Task management application which is persisted through a local sqlite database. Thanks to the awesome commander library for ruby, the usual legwork of dealing with command line arguments and managing flags is greatly simplified.</p>
-
-<p>Hopefully you are already using RVM. So we begin by creating a new gemset :</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">rvm gemset create task-trooper
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"><![endif]--><!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]--><!--[if IE 8]><html class="no-js lt-ie9" lang="en"><![endif]--><!--[if gt IE 8]>><!<![endif]--><html lang="en" class=""><head><meta charset="utf-8"><title>Creating a basic command line based todo app using ruby and sqlite. | Code.Art.Web</title><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="A simple tutorial outlining how to create a small command line application using ruby"><link rel="canonical" href="http://lorefnon.me/2012/09/08/creating-a-basic-command-line-based-todo-app-using-ruby-and-sqlite.html"><meta property="twitter:creator" content="@lorefnon"><meta property="og:title" content="@lorefnon"><meta property="og:type" content="blog"><meta poperty="og:url" content="http://lorefnon.me"><meta property="og:site_name" content="Code.Art.Web"><meta property="og:fb:app_id"><meta property="og:description" content="A simple tutorial outlining how to create a small command line application using ruby"><link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/><link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"><link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'> <script>this.top.location!==this.location&&(this.top.location=this.location)</script></head><body style="zoom:1"><div class="main-container"><div class="mlogotype is-uppercase"> <a href="http://lorefnon.me">Code.Art.Web</a></div><a href="http://lorefnon.me" class="home_logotype_link"><h1 class="tag">Code.Art.Web</h1> </a><div class="header-container detail-view"> <header class="main-header"> <figure class="avatar"> <a href="http://lorefnon.me" style="background-image:url('')">Profile Picture</a> </figure><h1 class="profile-name is-uppercase"> <a href="http://lorefnon.me">Lorefnon</a></h1> </header></div><div class="posts-container detail-view"> <article class="post detail-view" id=""><h1 class="title"><a href="#">Creating a basic command line based todo app using ruby and sqlite.</a></h1> <a href="#" class="anchor-icon time-wrapper"> <i class="fa fa-anchor"></i> <time>Sep 08, 2012</time> </a><h2> Abstract</h2><p>A simple tutorial outlining how to create a small command line application using ruby</p><p>This tutorial aims to demonstrate how Ruby can be used to create simple command line applications. A basic familiarity with Ruby and SQLite is assumed. Also availability of a POSIX compliant system is assumed. Although it is quite possible to port this tutorial to other proprietary platforms, I will not make any effort in this regard because of sheer lack of interest. In the tutorial, we create a simple command line based Task management application which is persisted through a local sqlite database. Thanks to the awesome commander library for ruby, the usual legwork of dealing with command line arguments and managing flags is greatly simplified.</p><p>Hopefully you are already using RVM. So we begin by creating a new gemset :</p><div class="highlight"><pre><code class="text language-text" data-lang="text">rvm gemset create task-trooper
 rvm gemset use task-trooper
-</code></pre></div>
-<p>Running gem list presents us with the following :</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">*** LOCAL GEMS ***
+</code></pre></div><p>Running gem list presents us with the following :</p><div class="highlight"><pre><code class="text language-text" data-lang="text">*** LOCAL GEMS ***
 
 bundler (1.1.5)
 rake (0.9.2.2)
 rubygems-bundler (1.0.3)
 rvm (1.11.3.5)
-</code></pre></div>
-<p>If you are not using rvm (though I would highly recommend you to use it) you would have to manually install bundler at this point.</p>
-
-<p>If you don’t already have SQLite, you will have to install it using your favourite package manager. Installation for ubuntu is as simple as :</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">sudo apt-get install sqlite3 libsqlite3-dev
-</code></pre></div>
-<p>Let us create a project directory and a Gemfile for managing our ruby dependencies :</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">mkdir task-trooper
+</code></pre></div><p>If you are not using rvm (though I would highly recommend you to use it) you would have to manually install bundler at this point.</p><p>If you don’t already have SQLite, you will have to install it using your favourite package manager. Installation for ubuntu is as simple as :</p><div class="highlight"><pre><code class="text language-text" data-lang="text">sudo apt-get install sqlite3 libsqlite3-dev
+</code></pre></div><p>Let us create a project directory and a Gemfile for managing our ruby dependencies :</p><div class="highlight"><pre><code class="text language-text" data-lang="text">mkdir task-trooper
 cd task-trooper
 touch Gemfile
-</code></pre></div>
-<p>Populate your gemfile with the following :</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="n">source</span> <span class="s2">&quot;http://rubygems.org&quot;</span>
-<span class="n">gem</span> <span class="s2">&quot;commander&quot;</span>
-<span class="n">gem</span> <span class="s2">&quot;sqlite3&quot;</span>
-<span class="n">gem</span> <span class="s2">&quot;sequel&quot;</span>
-</code></pre></div>
-
-<p>and run <strong>bundle install</strong>.
-Commander is a ruby library for managing command line arguments. sqlite3 is the ruby adapter for sqlite. And since we don’t want to dabble with SQL strings, we use a simple ruby ORM – Sequel.
-If all goes well, the dependencies will be fetched and you should see something like this :</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">Fetching gem metadata from http://rubygems.org/........
+</code></pre></div><p>Populate your gemfile with the following :</p><div class="highlight"><pre><code class="ruby"><span class="n">source</span> <span class="s2">"http://rubygems.org"</span>
+<span class="n">gem</span> <span class="s2">"commander"</span>
+<span class="n">gem</span> <span class="s2">"sqlite3"</span>
+<span class="n">gem</span> <span class="s2">"sequel"</span>
+</code></pre></div><p>and run <strong>bundle install</strong>. Commander is a ruby library for managing command line arguments. sqlite3 is the ruby adapter for sqlite. And since we don’t want to dabble with SQL strings, we use a simple ruby ORM – Sequel. If all goes well, the dependencies will be fetched and you should see something like this :</p><div class="highlight"><pre><code class="text language-text" data-lang="text">Fetching gem metadata from http://rubygems.org/........
 Using highline (1.6.14)
 Using commander (4.1.2)
 Using sequel (3.39.0)
 Installing sqlite3 (1.3.6) with native extensions
 Using bundler (1.1.5)
 Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.
-</code></pre></div>
-<p>Now, let us begin with the actual application code.
-We will eventually deploy it as a rubygem. For now let us just focus on the core essentials.
-For now our application code resides in a single file : task-trooper.rb</p>
+</code></pre></div><p>Now, let us begin with the actual application code. We will eventually deploy it as a rubygem. For now let us just focus on the core essentials. For now our application code resides in a single file : task-trooper.rb</p><div class="highlight"><pre><code class="ruby"><span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s2">"bundler/setup"</span>
+<span class="nb">require</span> <span class="s1">'commander/import'</span>
 
-<div class="highlight"><pre><code class="ruby"><span class="nb">require</span> <span class="s1">&#39;rubygems&#39;</span>
-<span class="nb">require</span> <span class="s2">&quot;bundler/setup&quot;</span>
-<span class="nb">require</span> <span class="s1">&#39;commander/import&#39;</span>
-
-<span class="n">program</span> <span class="ss">:name</span><span class="p">,</span> <span class="s2">&quot;Task Trooper&quot;</span>
-<span class="n">program</span> <span class="ss">:version</span><span class="p">,</span> <span class="s1">&#39;1.0.0&#39;</span>
-<span class="n">program</span> <span class="ss">:description</span><span class="p">,</span> <span class="s1">&#39;A simple command line based task manager&#39;</span>
-</code></pre></div>
-
-<p>The above code does not add a lot of functionality, it simply simply supplies the name of the application and some version related information. Nevertheless the commander DSL takes care of some bootstrapping for us. Try running the follwing :
-    $ ruby task-trooper.rb</p>
-
-<p>This was expected. Let us see what help has to offer:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">$ ruby task-trooper.rb --help
+<span class="n">program</span> <span class="ss">:name</span><span class="p">,</span> <span class="s2">"Task Trooper"</span>
+<span class="n">program</span> <span class="ss">:version</span><span class="p">,</span> <span class="s1">'1.0.0'</span>
+<span class="n">program</span> <span class="ss">:description</span><span class="p">,</span> <span class="s1">'A simple command line based task manager'</span>
+</code></pre></div><p>The above code does not add a lot of functionality, it simply simply supplies the name of the application and some version related information. Nevertheless the commander DSL takes care of some bootstrapping for us. Try running the follwing : $ ruby task-trooper.rb</p><p>This was expected. Let us see what help has to offer:</p><div class="highlight"><pre><code class="text language-text" data-lang="text">$ ruby task-trooper.rb --help
 
   NAME:
 
@@ -160,21 +52,16 @@ For now our application code resides in a single file : task-trooper.rb</p>
 
     -t, --trace
         Display backtrace when an error occurs
-</code></pre></div>
-<p>Not so bad, huh ?</p>
+</code></pre></div><p>Not so bad, huh ?</p><p>Now we extend our code to incorporate database features :</p><div class="highlight"><pre><code class="ruby"><span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s2">"bundler/setup"</span>
+<span class="nb">require</span> <span class="s1">'commander/import'</span>
+<span class="nb">require</span> <span class="s1">'sequel'</span>
 
-<p>Now we extend our code to incorporate database features :</p>
+<span class="n">program</span> <span class="ss">:name</span><span class="p">,</span> <span class="s2">"Task Trooper"</span>
+<span class="n">program</span> <span class="ss">:version</span><span class="p">,</span> <span class="s1">'1.0.0'</span>
+<span class="n">program</span> <span class="ss">:description</span><span class="p">,</span> <span class="s1">'A simple command line based task manager'</span>
 
-<div class="highlight"><pre><code class="ruby"><span class="nb">require</span> <span class="s1">&#39;rubygems&#39;</span>
-<span class="nb">require</span> <span class="s2">&quot;bundler/setup&quot;</span>
-<span class="nb">require</span> <span class="s1">&#39;commander/import&#39;</span>
-<span class="nb">require</span> <span class="s1">&#39;sequel&#39;</span>
-
-<span class="n">program</span> <span class="ss">:name</span><span class="p">,</span> <span class="s2">&quot;Task Trooper&quot;</span>
-<span class="n">program</span> <span class="ss">:version</span><span class="p">,</span> <span class="s1">&#39;1.0.0&#39;</span>
-<span class="n">program</span> <span class="ss">:description</span><span class="p">,</span> <span class="s1">&#39;A simple command line based task manager&#39;</span>
-
-<span class="no">DB</span> <span class="o">=</span> <span class="no">Sequel</span><span class="o">.</span><span class="n">sqlite</span><span class="p">(</span><span class="s1">&#39;tasks_db.db&#39;</span><span class="p">)</span>
+<span class="no">DB</span> <span class="o">=</span> <span class="no">Sequel</span><span class="o">.</span><span class="n">sqlite</span><span class="p">(</span><span class="s1">'tasks_db.db'</span><span class="p">)</span>
 
 <span class="k">unless</span> <span class="no">DB</span><span class="o">.</span><span class="n">table_exists?</span> <span class="ss">:tasks</span>
   <span class="no">DB</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="ss">:tasks</span><span class="p">)</span> <span class="k">do</span>
@@ -186,24 +73,14 @@ For now our application code resides in a single file : task-trooper.rb</p>
 <span class="k">end</span>
 
 <span class="n">ds</span> <span class="o">=</span> <span class="no">DB</span><span class="o">[</span><span class="ss">:tasks</span><span class="o">]</span>
-</code></pre></div>
-
-<p>The above piece of code shows how easy it is to use the Sequel library to manage database. The above code simply checks for the existence of a database table. In case the table does not exist, it is created. For now we keep the schema simple. Please note that thanks to database-agonistic api of Sequel you can use any other database here instead of Sqlite and all that would require is the alteration of one single line of configuration. Its time now to implement our first command :</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="n">command</span> <span class="ss">:new</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
-  <span class="n">c</span><span class="o">.</span><span class="n">syntax</span> <span class="o">=</span> <span class="s1">&#39;task-trooper new&#39;</span>
-  <span class="n">c</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Creates a new task&#39;</span>
+</code></pre></div><p>The above piece of code shows how easy it is to use the Sequel library to manage database. The above code simply checks for the existence of a database table. In case the table does not exist, it is created. For now we keep the schema simple. Please note that thanks to database-agonistic api of Sequel you can use any other database here instead of Sqlite and all that would require is the alteration of one single line of configuration. Its time now to implement our first command :</p><div class="highlight"><pre><code class="ruby"><span class="n">command</span> <span class="ss">:new</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">syntax</span> <span class="o">=</span> <span class="s1">'task-trooper new'</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s1">'Creates a new task'</span>
   <span class="n">c</span><span class="o">.</span><span class="n">action</span> <span class="k">do</span> <span class="o">|</span><span class="n">args</span><span class="p">,</span> <span class="n">options</span><span class="o">|</span>
-    <span class="nb">puts</span> <span class="s1">&#39;Task created!&#39;</span>
+    <span class="nb">puts</span> <span class="s1">'Task created!'</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre></div>
-
-<p>The syntax and description methods simply provide the metadata which will be presented in the help text. As far as the actual action is concerned, it simply
-prints ‘Task created!’ and exits.</p>
-
-<p>Lets checkout if the command new is actually available.</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">$ ruby task-trooper.rb new
+</code></pre></div><p>The syntax and description methods simply provide the metadata which will be presented in the help text. As far as the actual action is concerned, it simply prints ‘Task created!’ and exits.</p><p>Lets checkout if the command new is actually available.</p><div class="highlight"><pre><code class="text language-text" data-lang="text">$ ruby task-trooper.rb new
 
 Task created!
 
@@ -220,53 +97,38 @@ $ ruby task-trooper.rb new --help
   DESCRIPTION:
 
     Creates a new task
-</code></pre></div>
-<p>Great ! That works. Of course, at this point our task does not do anything. So let us add some functionality.</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="n">command</span> <span class="ss">:new</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
-  <span class="n">c</span><span class="o">.</span><span class="n">syntax</span> <span class="o">=</span> <span class="s1">&#39;task-trooper new&#39;</span>
-  <span class="n">c</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Creates a new task&#39;</span>
-  <span class="n">c</span><span class="o">.</span><span class="n">option</span> <span class="s1">&#39;--title STRING&#39;</span><span class="p">,</span> <span class="nb">String</span><span class="p">,</span> <span class="s1">&#39;Title of the task&#39;</span>
-  <span class="n">c</span><span class="o">.</span><span class="n">option</span> <span class="s1">&#39;--description STRING&#39;</span><span class="p">,</span> <span class="nb">String</span><span class="p">,</span> <span class="s1">&#39;Task Description&#39;</span>
+</code></pre></div><p>Great ! That works. Of course, at this point our task does not do anything. So let us add some functionality.</p><div class="highlight"><pre><code class="ruby"><span class="n">command</span> <span class="ss">:new</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">syntax</span> <span class="o">=</span> <span class="s1">'task-trooper new'</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s1">'Creates a new task'</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">option</span> <span class="s1">'--title STRING'</span><span class="p">,</span> <span class="nb">String</span><span class="p">,</span> <span class="s1">'Title of the task'</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">option</span> <span class="s1">'--description STRING'</span><span class="p">,</span> <span class="nb">String</span><span class="p">,</span> <span class="s1">'Task Description'</span>
   <span class="n">c</span><span class="o">.</span><span class="n">action</span> <span class="k">do</span> <span class="o">|</span><span class="n">args</span><span class="p">,</span> <span class="n">options</span><span class="o">|</span>
     <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">nil?</span>
-      <span class="n">options</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">ask</span><span class="p">(</span><span class="s1">&#39;Provide a title for the task :&#39;</span><span class="p">)</span>
+      <span class="n">options</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">ask</span><span class="p">(</span><span class="s1">'Provide a title for the task :'</span><span class="p">)</span>
     <span class="k">end</span>
     <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">nil?</span>
-      <span class="n">options</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">ask</span><span class="p">(</span><span class="s1">&#39;Provide a description for the task :&#39;</span><span class="p">)</span>
+      <span class="n">options</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">ask</span><span class="p">(</span><span class="s1">'Provide a description for the task :'</span><span class="p">)</span>
     <span class="k">end</span>
     <span class="n">ds</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="n">options</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="ss">:description</span> <span class="o">=&gt;</span> <span class="n">options</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="ss">:completed</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">)</span>
-    <span class="n">say</span> <span class="s1">&#39;Task added !&#39;</span>
+    <span class="n">say</span> <span class="s1">'Task added !'</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre></div>
-
-<p>So, in the above code we specified the options that this command will expect.
-if the title and description are not provided, the user will be prompted for
-these options. Once both title and description are available, a record will be
-inserted in the database.</p>
-
-<p>Next, we need some way to show to the list of tasks. That’s not difficult either.</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="n">command</span> <span class="ss">:list</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
-  <span class="n">c</span><span class="o">.</span><span class="n">syntax</span> <span class="o">=</span> <span class="s1">&#39;task-trooper list&#39;</span>
-  <span class="n">c</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Lists the tasks.&#39;</span>
+</code></pre></div><p>So, in the above code we specified the options that this command will expect. if the title and description are not provided, the user will be prompted for these options. Once both title and description are available, a record will be inserted in the database.</p><p>Next, we need some way to show to the list of tasks. That’s not difficult either.</p><div class="highlight"><pre><code class="ruby"><span class="n">command</span> <span class="ss">:list</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">syntax</span> <span class="o">=</span> <span class="s1">'task-trooper list'</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s1">'Lists the tasks.'</span>
   <span class="n">c</span><span class="o">.</span><span class="n">action</span> <span class="k">do</span> <span class="o">|</span><span class="n">args</span><span class="p">,</span> <span class="n">options</span><span class="o">|</span>
     <span class="n">ds</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">task</span><span class="o">|</span>
-      <span class="n">status</span> <span class="o">=</span> <span class="k">if</span> <span class="n">task</span><span class="o">[</span><span class="ss">:completed</span><span class="o">]</span> <span class="k">then</span> <span class="s2">&quot;completed&quot;</span> <span class="k">else</span> <span class="s2">&quot;pending&quot;</span> <span class="k">end</span>
-      <span class="nb">puts</span> <span class="s2">&quot;Task [</span><span class="si">#{</span><span class="n">task</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="si">}</span><span class="s2">] - &lt;</span><span class="si">#{</span><span class="n">status</span><span class="si">}</span><span class="s2">&gt; : </span><span class="si">#{</span><span class="n">task</span><span class="o">[</span><span class="ss">:title</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
+      <span class="n">status</span> <span class="o">=</span> <span class="k">if</span> <span class="n">task</span><span class="o">[</span><span class="ss">:completed</span><span class="o">]</span> <span class="k">then</span> <span class="s2">"completed"</span> <span class="k">else</span> <span class="s2">"pending"</span> <span class="k">end</span>
+      <span class="nb">puts</span> <span class="s2">"Task [</span><span class="si">#{</span><span class="n">task</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="si">}</span><span class="s2">] - &lt;</span><span class="si">#{</span><span class="n">status</span><span class="si">}</span><span class="s2">&gt; : </span><span class="si">#{</span><span class="n">task</span><span class="o">[</span><span class="ss">:title</span><span class="o">]</span><span class="si">}</span><span class="s2">"</span>
     <span class="k">end</span>
     <span class="n">pending_count</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:completed</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">)</span><span class="o">.</span><span class="n">count</span>
     <span class="n">count</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">count</span>
     <span class="n">completed_count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">-</span> <span class="n">pending_count</span>
-    <span class="nb">puts</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-    <span class="nb">puts</span> <span class="s2">&quot;Out of </span><span class="si">#{</span><span class="n">count</span><span class="si">}</span><span class="s2"> Total Tasks : </span><span class="si">#{</span><span class="n">pending_count</span><span class="si">}</span><span class="s2"> pending, </span><span class="si">#{</span><span class="n">completed_count</span><span class="si">}</span><span class="s2"> completed.&quot;</span>
+    <span class="nb">puts</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+    <span class="nb">puts</span> <span class="s2">"Out of </span><span class="si">#{</span><span class="n">count</span><span class="si">}</span><span class="s2"> Total Tasks : </span><span class="si">#{</span><span class="n">pending_count</span><span class="si">}</span><span class="s2"> pending, </span><span class="si">#{</span><span class="n">completed_count</span><span class="si">}</span><span class="s2"> completed."</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre></div>
-
-<p>So, at this point basic creation and listing of tasks is available to us.</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">$ ruby task-trooper.rb new --title &quot;Water plants&quot; --description &quot;The plants in the garden have to be watered before sundown.&quot;
+</code></pre></div><p>So, at this point basic creation and listing of tasks is available to us.</p><div class="highlight"><pre><code class="text language-text" data-lang="text">$ ruby task-trooper.rb new --title "Water plants" --description "The plants in the garden have to be watered before sundown."
 Task added !
 
 $ ruby task-trooper.rb new
@@ -281,108 +143,80 @@ Task [1] - &lt;pending&gt; : Water plants
 Task [2] - &lt;pending&gt; : Add fertilizer
 
 Out of 2 Total Tasks : 2 pending, 0 completed.
-</code></pre></div>
-<p>Next, we need a way to mark a task as completed :</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="n">command</span> <span class="ss">:done</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
-  <span class="n">c</span><span class="o">.</span><span class="n">syntax</span> <span class="o">=</span> <span class="s1">&#39;task-trooper done &lt;id&gt;&#39;</span>
-  <span class="n">c</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Mark a task as done&#39;</span>
+</code></pre></div><p>Next, we need a way to mark a task as completed :</p><div class="highlight"><pre><code class="ruby"><span class="n">command</span> <span class="ss">:done</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">syntax</span> <span class="o">=</span> <span class="s1">'task-trooper done &lt;id&gt;'</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s1">'Mark a task as done'</span>
   <span class="n">c</span><span class="o">.</span><span class="n">action</span> <span class="k">do</span> <span class="o">|</span><span class="n">args</span><span class="p">,</span> <span class="n">options</span><span class="o">|</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">nil?</span>
-      <span class="nb">puts</span> <span class="s1">&#39;Please specify the task to be marked as complete&#39;</span>
+      <span class="nb">puts</span> <span class="s1">'Please specify the task to be marked as complete'</span>
     <span class="k">else</span>
       <span class="n">items</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="n">args</span><span class="o">.</span><span class="n">first</span><span class="p">)</span>
       <span class="k">if</span> <span class="n">items</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span>
         <span class="n">items</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="ss">:completed</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
-        <span class="nb">puts</span> <span class="s2">&quot;Updated&quot;</span>
+        <span class="nb">puts</span> <span class="s2">"Updated"</span>
       <span class="k">else</span>
-        <span class="nb">puts</span> <span class="s1">&#39;No item found&#39;</span>
+        <span class="nb">puts</span> <span class="s1">'No item found'</span>
       <span class="k">end</span>
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre></div>
-
-<p>Try running <strong>ruby task-trooper.rb done 1</strong> follwed by <strong>ruby task-trooper.rb list</strong>
-to make sure that the task has indeed been marked as done.</p>
-
-<p>After this, we add facility to show details for a task and delete a task :</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="n">command</span> <span class="ss">:show</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
-  <span class="n">c</span><span class="o">.</span><span class="n">syntax</span> <span class="o">=</span> <span class="s1">&#39;task-trooper show &lt;id&gt;&#39;</span>
-  <span class="n">c</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Shows the description of a task&#39;</span>
+</code></pre></div><p>Try running <strong>ruby task-trooper.rb done 1</strong> follwed by <strong>ruby task-trooper.rb list</strong> to make sure that the task has indeed been marked as done.</p><p>After this, we add facility to show details for a task and delete a task :</p><div class="highlight"><pre><code class="ruby"><span class="n">command</span> <span class="ss">:show</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">syntax</span> <span class="o">=</span> <span class="s1">'task-trooper show &lt;id&gt;'</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s1">'Shows the description of a task'</span>
   <span class="n">c</span><span class="o">.</span><span class="n">action</span> <span class="k">do</span> <span class="o">|</span><span class="n">args</span><span class="p">,</span> <span class="n">options</span><span class="o">|</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">nil?</span>
-      <span class="nb">puts</span> <span class="s2">&quot;Please specify the task to be shown.&quot;</span>
+      <span class="nb">puts</span> <span class="s2">"Please specify the task to be shown."</span>
     <span class="k">else</span>
       <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="n">args</span><span class="o">.</span><span class="n">first</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">task</span><span class="o">|</span>
-        <span class="nb">puts</span> <span class="s2">&quot;Title : </span><span class="si">#{</span><span class="n">task</span><span class="o">[</span><span class="ss">:title</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="nb">puts</span> <span class="s2">&quot;Description : &quot;</span>
+        <span class="nb">puts</span> <span class="s2">"Title : </span><span class="si">#{</span><span class="n">task</span><span class="o">[</span><span class="ss">:title</span><span class="o">]</span><span class="si">}</span><span class="s2">"</span>
+        <span class="nb">puts</span> <span class="s2">"Description : "</span>
         <span class="nb">puts</span> <span class="n">task</span><span class="o">[</span><span class="ss">:description</span><span class="o">]</span>
-        <span class="nb">puts</span> <span class="s2">&quot;Completed : </span><span class="si">#{</span><span class="n">task</span><span class="o">[</span><span class="ss">:completed</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="nb">puts</span> <span class="s2">"Completed : </span><span class="si">#{</span><span class="n">task</span><span class="o">[</span><span class="ss">:completed</span><span class="o">]</span><span class="si">}</span><span class="s2">"</span>
       <span class="k">end</span>
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
 
 <span class="n">command</span> <span class="ss">:delete</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
-  <span class="n">c</span><span class="o">.</span><span class="n">syntax</span> <span class="o">=</span> <span class="s1">&#39;task-trooper delete &lt;id&gt;&#39;</span>
-  <span class="n">c</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Delete a task&#39;</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">syntax</span> <span class="o">=</span> <span class="s1">'task-trooper delete &lt;id&gt;'</span>
+  <span class="n">c</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s1">'Delete a task'</span>
   <span class="n">c</span><span class="o">.</span><span class="n">action</span> <span class="k">do</span> <span class="o">|</span><span class="n">args</span><span class="p">,</span> <span class="n">options</span><span class="o">|</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">nil?</span>
-      <span class="nb">puts</span> <span class="s2">&quot;Please specify the task to be deleted&quot;</span>
+      <span class="nb">puts</span> <span class="s2">"Please specify the task to be deleted"</span>
     <span class="k">else</span>
       <span class="n">items</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="n">args</span><span class="o">.</span><span class="n">first</span><span class="p">)</span>
       <span class="k">if</span> <span class="n">items</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span>
         <span class="n">items</span><span class="o">.</span><span class="n">delete</span>
-        <span class="nb">puts</span> <span class="s2">&quot;Deleted&quot;</span>
+        <span class="nb">puts</span> <span class="s2">"Deleted"</span>
       <span class="k">else</span>
-        <span class="nb">puts</span> <span class="s2">&quot;No task found&quot;</span>
+        <span class="nb">puts</span> <span class="s2">"No task found"</span>
       <span class="k">end</span>
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre></div>
-
-<p>Now that we have all the basic facilities up and running, lets us proceed to
-create a ruby gem so we can make the application available to other users.</p>
-
-<p>We create a bin director, move our script to it and make it executable.</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">mkdir bin
+</code></pre></div><p>Now that we have all the basic facilities up and running, lets us proceed to create a ruby gem so we can make the application available to other users.</p><p>We create a bin director, move our script to it and make it executable.</p><div class="highlight"><pre><code class="text language-text" data-lang="text">mkdir bin
 mv task-trooper.rb bin/task-trooper
 chmod a+x bin/task-trooper
-</code></pre></div>
-<p>Also, we need to add a shebang to direct the shell to run it with ruby.
-    #!/usr/bin/env ruby</p>
+</code></pre></div><p>Also, we need to add a shebang to direct the shell to run it with ruby. #!/usr/bin/env ruby</p><p>Next, we need to add a gemspec to specify the required metadata for the gem.</p><div class="highlight"><pre><code class="ruby"><span class="no">Gem</span><span class="o">::</span><span class="no">Specification</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
+  <span class="n">s</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">'task-trooper'</span>
+  <span class="n">s</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="s1">'1.0.0'</span>
+  <span class="n">s</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="s1">'2012-09-09'</span>
+  <span class="n">s</span><span class="o">.</span><span class="n">summary</span> <span class="o">=</span> <span class="s2">"Task Trooper"</span>
+  <span class="n">s</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">"Simple command line based task manager"</span>
+  <span class="n">s</span><span class="o">.</span><span class="n">authors</span> <span class="o">=</span> <span class="o">[</span> <span class="s2">"Lorefnon"</span> <span class="o">]</span>
+  <span class="n">s</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s1">'lorefnon@gmail.com'</span>
+  <span class="n">s</span><span class="o">.</span><span class="n">executables</span> <span class="o">&lt;&lt;</span> <span class="s1">'task-trooper'</span>
 
-<p>Next, we need to add a gemspec to specify the required metadata for the
-gem.</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="no">Gem</span><span class="o">::</span><span class="no">Specification</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
-  <span class="n">s</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;task-trooper&#39;</span>
-  <span class="n">s</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;1.0.0&#39;</span>
-  <span class="n">s</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="s1">&#39;2012-09-09&#39;</span>
-  <span class="n">s</span><span class="o">.</span><span class="n">summary</span> <span class="o">=</span> <span class="s2">&quot;Task Trooper&quot;</span>
-  <span class="n">s</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Simple command line based task manager&quot;</span>
-  <span class="n">s</span><span class="o">.</span><span class="n">authors</span> <span class="o">=</span> <span class="o">[</span> <span class="s2">&quot;Lorefnon&quot;</span> <span class="o">]</span>
-  <span class="n">s</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s1">&#39;lorefnon@gmail.com&#39;</span>
-  <span class="n">s</span><span class="o">.</span><span class="n">executables</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;task-trooper&#39;</span>
-
-  <span class="o">[</span><span class="s1">&#39;commander&#39;</span><span class="p">,</span> <span class="s1">&#39;sqlite3&#39;</span><span class="p">,</span> <span class="s1">&#39;sequel&#39;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">dep</span><span class="o">|</span>
+  <span class="o">[</span><span class="s1">'commander'</span><span class="p">,</span> <span class="s1">'sqlite3'</span><span class="p">,</span> <span class="s1">'sequel'</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">dep</span><span class="o">|</span>
     <span class="n">s</span><span class="o">.</span><span class="n">add_dependency</span> <span class="n">dep</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre></div>
-
-<p>We might also want to have our sqlite database in a hidden folder in user’s
-home directory. This is easily accomplished :</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="n">config_dir</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;~/.task-trooper&#39;</span><span class="p">)</span>
+</code></pre></div><p>We might also want to have our sqlite database in a hidden folder in user’s home directory. This is easily accomplished :</p><div class="highlight"><pre><code class="ruby"><span class="n">config_dir</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">'~/.task-trooper'</span><span class="p">)</span>
 <span class="k">unless</span> <span class="no">Dir</span><span class="o">[</span><span class="n">config_dir</span><span class="o">].</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
   <span class="no">Dir</span><span class="o">::</span><span class="n">mkdir</span><span class="p">(</span><span class="n">config_dir</span><span class="p">)</span>
 <span class="k">end</span>
 
-<span class="no">DB</span> <span class="o">=</span> <span class="no">Sequel</span><span class="o">.</span><span class="n">sqlite</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">config_dir</span><span class="si">}</span><span class="s2">/tasks.db&quot;</span><span class="p">)</span>
+<span class="no">DB</span> <span class="o">=</span> <span class="no">Sequel</span><span class="o">.</span><span class="n">sqlite</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">config_dir</span><span class="si">}</span><span class="s2">/tasks.db"</span><span class="p">)</span>
 
 <span class="k">unless</span> <span class="no">DB</span><span class="o">.</span><span class="n">table_exists?</span> <span class="ss">:tasks</span>
   <span class="no">DB</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="ss">:tasks</span><span class="p">)</span> <span class="k">do</span>
@@ -392,152 +226,4 @@ home directory. This is easily accomplished :</p>
     <span class="no">Boolean</span> <span class="ss">:completed</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre></div>
-
-<p>Having done that, we can build our gem :
-    gem build task-trooper.gemset</p>
-
-<p>We can test our gem in a fresh rvm gemset
-    rvm gemset create test
-    rvm gemset use test
-    gem install ./task-trooper-1.0.0.gem</p>
-
-<p>Hold your breath while the dependencies are auto-matically fetched and installed. Now you can use task-trooper as you would use any other command line executable.
-Here is an obligatory screenshot :</p>
-
-<p><img src="/images/task_trooper.png" /></p>
-
-<p>So in less than an hour we were able to create a simple but functional todo app which is persisted in an Sqlite database. We can easily see that creating simple command line applications is not at all cumbersome in ruby. I do really hope that you can expand upon the material presented above to create some nifty CLI-apps. For some inspiration do check out : cli-apps.org .</p>
-
-<p>Also, as usual feel free to provide your suggestions, criticism or details regarding any problems that you faced.</p>
-
-
-<footer class="group">
-  <p>
-    
-    
-    
-      
-    
-  </p>
-</footer>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-  (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//lorefnon-blog.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-
-        </article>
-      </div>
-
-      <div class="line hide-text">Separator line</div>
-
-      <!-- Next article preview -->
-      <div class="next-article" style="display: none;">
-        <a href="#">
-          <p class="read-next tag is-uppercase">Read this next:</p>
-          <p class="next-article__title">Protocol and Language</p>
-          <div class="next-article__content">
-            <p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p>
-          </div>
-        </a>
-      </div>
-      <!-- Finish / Feature on process-->
-
-      <div class="line hide-text">Separator line</div>
-
-      <div class="foot_logo">
-        <a href="http://lorefnon.me"><span class="logo"></span></a>
-      </div>
-
-      <div class="foot_logo right">
-        <a href="/"><span class="link">Full Blog >></span></a>
-      </div>
-
-      <div class="line"></div>
-
-<div class="foot_userbar">
-  <div href="#" class="bottom_tagline">
-    <span>Lorefnon</span>
-    <br><br>
-    <p> Full stack web developer and polyglot programmer with strong interest in dynamic languages, web application development and user experience design. </p>
-    <br>
-    <p> Strong believer in agile methodologies, behaviour driven development and efficacy of open source technologies.</p>
-    <br>
-  </div>
-  <div class="profile-links-container">
-  <a href="#" class="bottom_tagline"><span> You can reach me through :</span></h2>
-  <br><br>
-  <ul class="profile-links">
-    <li class="twitter">
-      <a href="http://twitter.com/lorefnon" target="_blank">
-        <span>Twitter</span>
-      </a>
-    </li>
-    <li class="linkedin">
-      <a href="https://in.linkedin.com/in/gaurab-paul-a2472921" target="_blank">
-        <span>Linkedin</span>
-      </a>
-    </li>
-    <li class="github">
-      <a href="https://github.com/lorefnon" target="_blank">
-        <span>Github</span>
-      </a>
-    </li>
-    <li class="github">
-      <a href="mailto:lorefnon@gmail.com" target="_blank">
-        <span>Email</span>
-      </a>
-    </li>
-  </ul>
-
-  </div>
-</div>
-<div class="line"></div>
-<div class="foot_userbar">
-  <p>&copy; 2013 - 2015 Gaurab Paul </p>
-<br/>
-<p>Code licensed under the
-  <a href="http://opensource.org/licenses/MIT" target="_blank">The
-    MIT License</a>. Content and Artwork licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA</a>.
-</p>
-<br/>
-<p>
-  The opinions expressed herein are my personal viewpoints  and may
-  not be taken as professional recommendations from any of my previous or
-  current employers.
-</p>
-<br/>
-<p>
-  Site is powered by <a href="http://jekyllrb.com/">Jekyll</a> and graciously hosted by <a href="https://github.com">Github</a>
-</p>
-<br/>
-<br/>
-
-</div>
-
-    </div>
-
-    <script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-47274059-1']);
-  _gaq.push(['_setDomainName', 'lorefnon.me']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-
-    <script src="/assets/javascripts/post.js"></script>
-  </body>
-</html>
+</code></pre></div><p>Having done that, we can build our gem : gem build task-trooper.gemset</p><p>We can test our gem in a fresh rvm gemset rvm gemset create test rvm gemset use test gem install ./task-trooper-1.0.0.gem</p><p>Hold your breath while the dependencies are auto-matically fetched and installed. Now you can use task-trooper as you would use any other command line executable. Here is an obligatory screenshot :</p><p><img src="/images/task_trooper.png"/></p><p>So in less than an hour we were able to create a simple but functional todo app which is persisted in an Sqlite database. We can easily see that creating simple command line applications is not at all cumbersome in ruby. I do really hope that you can expand upon the material presented above to create some nifty CLI-apps. For some inspiration do check out : cli-apps.org .</p><p>Also, as usual feel free to provide your suggestions, criticism or details regarding any problems that you faced.</p><footer class="group"><p></p> </footer><div id="disqus_thread"></div> <script>!function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src="//lorefnon-blog.disqus.com/embed.js",(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript> <a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a></article></div><div class="line hide-text">Separator line</div><div class="next-article" style="display:none"> <a href="#"><p class="read-next tag is-uppercase">Read this next:</p><p class="next-article__title">Protocol and Language</p><div class="next-article__content"><p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p></div> </a></div><div class="line hide-text">Separator line</div><div class="foot_logo"> <a href="http://lorefnon.me"><span class="logo"></span></a></div><div class="foot_logo right"> <a href="/"><span class="link">Full Blog >></span></a></div><div class="line"></div><div class="foot_userbar"><div href="#" class="bottom_tagline"> <span>Lorefnon</span> <br><br><p> Full stack web developer and polyglot programmer with strong interest in dynamic languages, web application development and user experience design.</p> <br><p> Strong believer in agile methodologies, behaviour driven development and efficacy of open source technologies.</p> <br></div><div class="profile-links-container"> <a href="#" class="bottom_tagline"><span> You can reach me through :</span></h2> <br><br><ul class="profile-links"><li class="twitter"> <a href="http://twitter.com/lorefnon" target="_blank"> <span>Twitter</span> </a></li><li class="linkedin"> <a href="https://in.linkedin.com/in/gaurab-paul-a2472921" target="_blank"> <span>Linkedin</span> </a></li><li class="github"> <a href="https://github.com/lorefnon" target="_blank"> <span>Github</span> </a></li><li class="github"> <a href="mailto:lorefnon@gmail.com" target="_blank"> <span>Email</span> </a></li></ul></div></div><div class="line"></div><div class="foot_userbar"><p>© 2013 - 2015 Gaurab Paul</p> <br/><p>Code licensed under the <a href="http://opensource.org/licenses/MIT" target="_blank">The MIT License</a>. Content and Artwork licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA</a>.</p> <br/><p> The opinions expressed herein are my personal viewpoints and may not be taken as professional recommendations from any of my previous or current employers.</p> <br/><p> Site is powered by <a href="http://jekyllrb.com/">Jekyll</a> and graciously hosted by <a href="https://github.com">Github</a></p> <br/> <br/></div></div><script>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-47274059-1"]),_gaq.push(["_setDomainName","lorefnon.me"]),_gaq.push(["_trackPageview"]),function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js";var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e)}()</script><script src="/assets/javascripts/post.js"></script></body></html>

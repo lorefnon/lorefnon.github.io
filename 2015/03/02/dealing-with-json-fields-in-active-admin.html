@@ -1,104 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]> ><! <![endif]-->
-<html lang="en" class="">
-  <head>
-    <meta charset="utf-8">
-    <title>Dealing with JSON data in Active Admin |  Code.Art.Web</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    
-    <meta name="description" content="While the default form fields of Active Admin are decent for most use cases, there are special cases like JSON data stored in relational databases, for which the built in controls might prove to be inadequate. This post explains how to handle the same.">
-    
-
-    <link rel="canonical" href="http://lorefnon.me/2015/03/02/dealing-with-json-fields-in-active-admin.html">
-    <meta property="twitter:creator" content="@lorefnon">
-    <meta property="og:title" content="@lorefnon">
-    <meta property="og:type" content="blog">
-    <meta poperty="og:url" content="http://lorefnon.me">
-    <meta property="og:site_name" content="Code.Art.Web">
-    <meta property="og:fb:app_id">
-    <meta property="og:description" content="While the default form fields of Active Admin are decent for most use cases, there are special cases like JSON data stored in relational databases, for which the built in controls might prove to be inadequate. This post explains how to handle the same.">
-    <link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/>
-    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'>
-    <script>
-  this.top.location !== this.location && (this.top.location = this.location);
-</script>
-
-  </head>
-  <body style="zoom: 1;">
-    <div class="main-container">
-
-      <div class="mlogotype is-uppercase">
-        <a href="http://lorefnon.me">Code.Art.Web</a>
-      </div>
-
-      <a href="http://lorefnon.me" class="home_logotype_link">
-        <h1 class="tag">Code.Art.Web</h1>
-      </a>
-
-      <div class="header-container detail-view">
-        <header class="main-header">
-          <figure class="avatar">
-            <a href="http://lorefnon.me"
-            style="background-image: url();">Profile Picture</a>
-          </figure>
-          <h1 class="profile-name is-uppercase">
-            <a href="http://lorefnon.me">Lorefnon</a>
-          </h1>
-        </header>
-      </div>
-
-      <div class="posts-container detail-view">
-        <article class="post detail-view" id="">
-          <h1 class="title"><a href="#">Dealing with JSON data in Active Admin</a></h1>
-          <a href="#" class="anchor-icon time-wrapper">
-            <i class="fa fa-anchor"></i>
-            <time>Mar 02, 2015</time>
-          </a>
-
-          
-          <h2> Abstract </h2>
-          <p>While the default form fields of Active Admin are decent for most use cases, there are special cases like JSON data stored in relational databases, for which the built in controls might prove to be inadequate. This post explains how to handle the same.</p>
-
-          
-
-          
-
-          
-
-
-  <p>Many a times, depending on the requirements, it makes sense to store
-unstructured json data in database fields. PostgreSQL recognizes this
-requirement and provides a dedicated json field that automatically
-handles JSON validation. As has been outlined in the
-<a href="http://edgeguides.rubyonrails.org/active_record_postgresql.html">RoR Guides</a>
-, it is pretty simple to take advantage of this feature from Rails.
-However if you also use <a href="https://github.com/activeadmin/activeadmin">ActiveAdmin</a> to manage your admin interface,
-you will quickly find out that library <a href="https://github.com/justinfrench/formtastic">Formtastic</a> that ActiveAdmin
-uses to manage its forms, leaves a lot to be desired when it comes to
-JSON editing support.</p>
-
-<p>In this post we outline a simple approach to improve JSON editing
-support in ActiveAdmin using the excellent <a href="https://github.com/josdejong/jsoneditor/">JSON editor widget</a>
-by <a href="https://github.com/josdejong">Jos de Jong</a>. It is worth pointing
-out that our implementation has very little to do with PostgreSQL
-and may be used without modifications if you are storing JSON in say MySQL
-text fields. Of course you will need to handle server side validation yourself in that case.</p>
-
-<p>The source code for the post is available on <a href="https://github.com/lorefnon/activeadmin-jsoneditor-demo">Github</a>.</p>
-
-<p>Let us have a simple product model with following schema:</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">CreateProducts</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"><![endif]--><!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]--><!--[if IE 8]><html class="no-js lt-ie9" lang="en"><![endif]--><!--[if gt IE 8]>><!<![endif]--><html lang="en" class=""><head><meta charset="utf-8"><title>Dealing with JSON data in Active Admin | Code.Art.Web</title><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="While the default form fields of Active Admin are decent for most use cases, there are special cases like JSON data stored in relational databases, for which the built in controls might prove to be inadequate. This post explains how to handle the same."><link rel="canonical" href="http://lorefnon.me/2015/03/02/dealing-with-json-fields-in-active-admin.html"><meta property="twitter:creator" content="@lorefnon"><meta property="og:title" content="@lorefnon"><meta property="og:type" content="blog"><meta poperty="og:url" content="http://lorefnon.me"><meta property="og:site_name" content="Code.Art.Web"><meta property="og:fb:app_id"><meta property="og:description" content="While the default form fields of Active Admin are decent for most use cases, there are special cases like JSON data stored in relational databases, for which the built in controls might prove to be inadequate. This post explains how to handle the same."><link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/><link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"><link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'> <script>this.top.location!==this.location&&(this.top.location=this.location)</script></head><body style="zoom:1"><div class="main-container"><div class="mlogotype is-uppercase"> <a href="http://lorefnon.me">Code.Art.Web</a></div><a href="http://lorefnon.me" class="home_logotype_link"><h1 class="tag">Code.Art.Web</h1> </a><div class="header-container detail-view"> <header class="main-header"> <figure class="avatar"> <a href="http://lorefnon.me" style="background-image:url('')">Profile Picture</a> </figure><h1 class="profile-name is-uppercase"> <a href="http://lorefnon.me">Lorefnon</a></h1> </header></div><div class="posts-container detail-view"> <article class="post detail-view" id=""><h1 class="title"><a href="#">Dealing with JSON data in Active Admin</a></h1> <a href="#" class="anchor-icon time-wrapper"> <i class="fa fa-anchor"></i> <time>Mar 02, 2015</time> </a><h2> Abstract</h2><p>While the default form fields of Active Admin are decent for most use cases, there are special cases like JSON data stored in relational databases, for which the built in controls might prove to be inadequate. This post explains how to handle the same.</p><p>Many a times, depending on the requirements, it makes sense to store unstructured json data in database fields. PostgreSQL recognizes this requirement and provides a dedicated json field that automatically handles JSON validation. As has been outlined in the <a href="http://edgeguides.rubyonrails.org/active_record_postgresql.html">RoR Guides</a> , it is pretty simple to take advantage of this feature from Rails. However if you also use <a href="https://github.com/activeadmin/activeadmin">ActiveAdmin</a> to manage your admin interface, you will quickly find out that library <a href="https://github.com/justinfrench/formtastic">Formtastic</a> that ActiveAdmin uses to manage its forms, leaves a lot to be desired when it comes to JSON editing support.</p><p>In this post we outline a simple approach to improve JSON editing support in ActiveAdmin using the excellent <a href="https://github.com/josdejong/jsoneditor/">JSON editor widget</a> by <a href="https://github.com/josdejong">Jos de Jong</a>. It is worth pointing out that our implementation has very little to do with PostgreSQL and may be used without modifications if you are storing JSON in say MySQL text fields. Of course you will need to handle server side validation yourself in that case.</p><p>The source code for the post is available on <a href="https://github.com/lorefnon/activeadmin-jsoneditor-demo">Github</a>.</p><p>Let us have a simple product model with following schema:</p><div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">CreateProducts</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
   <span class="k">def</span> <span class="nf">change</span>
     <span class="n">create_table</span> <span class="ss">:products</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
       <span class="n">t</span><span class="o">.</span><span class="n">string</span> <span class="ss">:name</span>
@@ -108,26 +8,10 @@ text fields. Of course you will need to handle server side validation yourself i
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre></div>
-
-<p>You may expect providing admin support for this model will just be
-a matter of adding a file <code>app/admin/product.rb</code>:</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="no">ActiveAdmin</span><span class="o">.</span><span class="n">register</span> <span class="no">Product</span> <span class="k">do</span>
+</code></pre></div><p>You may expect providing admin support for this model will just be a matter of adding a file <code>app/admin/product.rb</code>:</p><div class="highlight"><pre><code class="ruby"><span class="no">ActiveAdmin</span><span class="o">.</span><span class="n">register</span> <span class="no">Product</span> <span class="k">do</span>
   <span class="n">permit_params</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">:metadata</span>
 <span class="k">end</span>
-</code></pre></div>
-
-<p>However the moment you try to create a new instance, you will be greeted
-with an error message:</p>
-
-<p><img src="/images/formtastic_unknown_input.png" alt="Formtastic unknown input error"></p>
-
-<p>So basically Formtastic has no input field pre-configured for json
-field. A rudimentary workaround is fairly simple - We explicitly ask
-it to use a textarea for metadata field</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="no">ActiveAdmin</span><span class="o">.</span><span class="n">register</span> <span class="no">Product</span> <span class="k">do</span>
+</code></pre></div><p>However the moment you try to create a new instance, you will be greeted with an error message:</p><p><img src="/images/formtastic_unknown_input.png" alt="Formtastic unknown input error"></p><p>So basically Formtastic has no input field pre-configured for json field. A rudimentary workaround is fairly simple - We explicitly ask it to use a textarea for metadata field</p><div class="highlight"><pre><code class="ruby"><span class="no">ActiveAdmin</span><span class="o">.</span><span class="n">register</span> <span class="no">Product</span> <span class="k">do</span>
 
   <span class="n">permit_params</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">:metadata</span>
 
@@ -141,31 +25,7 @@ it to use a textarea for metadata field</p>
   <span class="k">end</span>
 
 <span class="k">end</span>
-</code></pre></div>
-
-<p>This does the job:</p>
-
-<p><img src="/images/aa1.png" alt="Form with explicitly specified textarea"></p>
-
-<p>But seriously, if you have to edit this json very frequently or manage
-large json entries, a simple textarea is not an ideal solution. Plus
-if you accidentally enter some invalid json, You will be provided with a
-feedback only post submission:</p>
-
-<p><img src="/images/aa2.png" alt="Error in JSON field">
-<img src="/images/aa3.png" alt="JSON validation error"></p>
-
-<p>The <a href="https://github.com/josdejong/jsoneditor/">JSON editor widget</a>
-by <a href="https://github.com/josdejong">Jos de Jong</a> provides a lot better json editing
-interface. You can try it out <a href="http://jsoneditoronline.org/">online</a>.</p>
-
-<p>If you like what you see, you will be pleased to find that the widget
-is pretty easy to integrate right inside ActiveAdmin.</p>
-
-<p>Let us first configure our form to add a class to the json field
-so that we can handle json input fields in a generic fashion.</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="no">ActiveAdmin</span><span class="o">.</span><span class="n">register</span> <span class="no">Product</span> <span class="k">do</span>
+</code></pre></div><p>This does the job:</p><p><img src="/images/aa1.png" alt="Form with explicitly specified textarea"></p><p>But seriously, if you have to edit this json very frequently or manage large json entries, a simple textarea is not an ideal solution. Plus if you accidentally enter some invalid json, You will be provided with a feedback only post submission:</p><p><img src="/images/aa2.png" alt="Error in JSON field"> <img src="/images/aa3.png" alt="JSON validation error"></p><p>The <a href="https://github.com/josdejong/jsoneditor/">JSON editor widget</a> by <a href="https://github.com/josdejong">Jos de Jong</a> provides a lot better json editing interface. You can try it out <a href="http://jsoneditoronline.org/">online</a>.</p><p>If you like what you see, you will be pleased to find that the widget is pretty easy to integrate right inside ActiveAdmin.</p><p>Let us first configure our form to add a class to the json field so that we can handle json input fields in a generic fashion.</p><div class="highlight"><pre><code class="ruby"><span class="no">ActiveAdmin</span><span class="o">.</span><span class="n">register</span> <span class="no">Product</span> <span class="k">do</span>
 
   <span class="n">permit_params</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">:metadata</span>
 
@@ -173,40 +33,26 @@ so that we can handle json input fields in a generic fashion.</p>
     <span class="n">f</span><span class="o">.</span><span class="n">inputs</span> <span class="k">do</span>
       <span class="n">f</span><span class="o">.</span><span class="n">input</span> <span class="ss">:name</span>
       <span class="n">f</span><span class="o">.</span><span class="n">input</span> <span class="ss">:description</span>
-      <span class="n">f</span><span class="o">.</span><span class="n">input</span> <span class="ss">:metadata</span><span class="p">,</span> <span class="ss">as</span><span class="p">:</span> <span class="ss">:text</span><span class="p">,</span> <span class="n">input_html</span><span class="p">:</span> <span class="p">{</span> <span class="ss">class</span><span class="p">:</span> <span class="s1">&#39;jsoneditor-target&#39;</span> <span class="p">}</span>
+      <span class="n">f</span><span class="o">.</span><span class="n">input</span> <span class="ss">:metadata</span><span class="p">,</span> <span class="ss">as</span><span class="p">:</span> <span class="ss">:text</span><span class="p">,</span> <span class="n">input_html</span><span class="p">:</span> <span class="p">{</span> <span class="ss">class</span><span class="p">:</span> <span class="s1">'jsoneditor-target'</span> <span class="p">}</span>
     <span class="k">end</span>
     <span class="n">f</span><span class="o">.</span><span class="n">actions</span>
   <span class="k">end</span>
 
 <span class="k">end</span>
-</code></pre></div>
-
-<p>Next we will need to download the <a href="https://github.com/josdejong/jsoneditor/tree/master/dist">relevant files</a> and add to our vendor
-directory. Alternatively <a href="https://github.com/josdejong/jsoneditor#install">installation instructions</a> for npm and bower are available as well.</p>
-
-<p>I have already changed the files to use sprockets urls, so you can grab the files from the <a href="https://github.com/lorefnon/activeadmin-jsoneditor-demo/tree/master/vendor/assets">repo</a>.</p>
-
-<p>Next we modify the active_admin.js.coffee:</p>
-
-<div class="highlight"><pre><code class="coffeescript"><span class="c1">#= require active_admin/base</span>
+</code></pre></div><p>Next we will need to download the <a href="https://github.com/josdejong/jsoneditor/tree/master/dist">relevant files</a> and add to our vendor directory. Alternatively <a href="https://github.com/josdejong/jsoneditor#install">installation instructions</a> for npm and bower are available as well.</p><p>I have already changed the files to use sprockets urls, so you can grab the files from the <a href="https://github.com/lorefnon/activeadmin-jsoneditor-demo/tree/master/vendor/assets">repo</a>.</p><p>Next we modify the active_admin.js.coffee:</p><div class="highlight"><pre><code class="coffeescript"><span class="c1">#= require active_admin/base</span>
 <span class="c1">#= require jsoneditor</span>
 <span class="c1">#= require jsoneditor_activeadmin_integration</span>
-</code></pre></div>
+</code></pre></div><p>Once we have the required files in place, integration is pretty simple - <code>app/assets/javascripts/jsoneditor_activeadmin_integration</code>:</p><div class="highlight"><pre><code class="coffeescript"><span class="nx">$</span> <span class="nf">-&gt;</span>
 
-<p>Once we have the required files in place, integration is pretty simple -
-<code>app/assets/javascripts/jsoneditor_activeadmin_integration</code>:</p>
-
-<div class="highlight"><pre><code class="coffeescript"><span class="nx">$</span> <span class="nf">-&gt;</span>
-
-  <span class="nx">$</span><span class="p">(</span><span class="s">&#39;.jsoneditor-target&#39;</span><span class="p">).</span><span class="nx">each</span> <span class="nf">-&gt;</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s">'.jsoneditor-target'</span><span class="p">).</span><span class="nx">each</span> <span class="nf">-&gt;</span>
 
     <span class="nv">target = </span><span class="nx">$</span> <span class="k">this</span>
 
-    <span class="nv">container = </span><span class="nx">$</span><span class="p">(</span><span class="s">&#39;&lt;div class=&quot;jsoneditor-container&quot;&gt;&#39;</span><span class="p">)</span>
+    <span class="nv">container = </span><span class="nx">$</span><span class="p">(</span><span class="s">'&lt;div class="jsoneditor-container"&gt;'</span><span class="p">)</span>
       <span class="p">.</span><span class="nx">insertAfter</span> <span class="nx">target</span>
 
     <span class="nv">editor = </span><span class="k">new</span> <span class="nx">JSONEditor</span> <span class="nx">container</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-      <span class="nv">modes: </span><span class="p">[</span><span class="s">&#39;code&#39;</span><span class="p">,</span> <span class="s">&#39;form&#39;</span><span class="p">,</span> <span class="s">&#39;text&#39;</span><span class="p">,</span> <span class="s">&#39;tree&#39;</span><span class="p">,</span> <span class="s">&#39;view&#39;</span><span class="p">]</span>
+      <span class="nv">modes: </span><span class="p">[</span><span class="s">'code'</span><span class="p">,</span> <span class="s">'form'</span><span class="p">,</span> <span class="s">'text'</span><span class="p">,</span> <span class="s">'tree'</span><span class="p">,</span> <span class="s">'view'</span><span class="p">]</span>
       <span class="nv">change: </span><span class="nf">-&gt;</span>
         <span class="nx">target</span><span class="p">.</span><span class="nx">val</span> <span class="nx">editor</span><span class="p">.</span><span class="nx">get</span><span class="p">()</span>
 
@@ -216,17 +62,7 @@ directory. Alternatively <a href="https://github.com/josdejong/jsoneditor#instal
     <span class="p">)</span>
 
     <span class="nx">target</span><span class="p">.</span><span class="nx">hide</span><span class="p">()</span>
-</code></pre></div>
-
-<p>This simply hides the textarea for json field, and adds a json editor
-widget. When the editor is updated, the hidden textarea is updated
-with the new value - so our form continues to work just as expected,
-without Formtastic having to be aware of the widget at all.</p>
-
-<p>I had to explicitly override some of the conflicting styles from
-ActiveAdmin which were messing up the Editor Widget css:</p>
-
-<div class="highlight"><pre><code class="scss"><span class="nc">.jsoneditor-container</span><span class="o">,</span> <span class="nc">.jsoneditor-contextmenu</span> <span class="p">{</span>
+</code></pre></div><p>This simply hides the textarea for json field, and adds a json editor widget. When the editor is updated, the hidden textarea is updated with the new value - so our form continues to work just as expected, without Formtastic having to be aware of the widget at all.</p><p>I had to explicitly override some of the conflicting styles from ActiveAdmin which were messing up the Editor Widget css:</p><div class="highlight"><pre><code class="scss"><span class="nc">.jsoneditor-container</span><span class="o">,</span> <span class="nc">.jsoneditor-contextmenu</span> <span class="p">{</span>
     <span class="nt">table</span> <span class="p">{</span>
         <span class="na">width</span><span class="o">:</span> <span class="no">auto</span><span class="p">;</span>
         <span class="na">margin</span><span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
@@ -248,144 +84,4 @@ ActiveAdmin which were messing up the Editor Widget css:</p>
     <span class="na">margin-left</span><span class="o">:</span> <span class="mi">20</span><span class="kt">%</span><span class="p">;</span>
     <span class="na">width</span><span class="o">:</span> <span class="mi">80</span><span class="kt">%</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre></div>
-
-<p>And we are pretty much done:
-<img src="/images/aa4.png" alt="Widget integrated with Active Admin"></p>
-
-<p>I realize that the default styling of the widget sticks out a bit against
- the default styling of ActiveAdmin page, but all that is needed to rectify is a few CSS
-rules which I leave as an exercise for the reader.</p>
-
-<p>As always, any feedback and suggestions are more than welcome.</p>
-
-
-<footer class="group">
-  <p>
-    
-    
-    
-      
-    
-  </p>
-</footer>
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-  (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//lorefnon-blog.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-
-        </article>
-      </div>
-
-      <div class="line hide-text">Separator line</div>
-
-      <!-- Next article preview -->
-      <div class="next-article" style="display: none;">
-        <a href="#">
-          <p class="read-next tag is-uppercase">Read this next:</p>
-          <p class="next-article__title">Protocol and Language</p>
-          <div class="next-article__content">
-            <p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p>
-          </div>
-        </a>
-      </div>
-      <!-- Finish / Feature on process-->
-
-      <div class="line hide-text">Separator line</div>
-
-      <div class="foot_logo">
-        <a href="http://lorefnon.me"><span class="logo"></span></a>
-      </div>
-
-      <div class="foot_logo right">
-        <a href="/"><span class="link">Full Blog >></span></a>
-      </div>
-
-      <div class="line"></div>
-
-<div class="foot_userbar">
-  <div href="#" class="bottom_tagline">
-    <span>Lorefnon</span>
-    <br><br>
-    <p> Full stack web developer and polyglot programmer with strong interest in dynamic languages, web application development and user experience design. </p>
-    <br>
-    <p> Strong believer in agile methodologies, behaviour driven development and efficacy of open source technologies.</p>
-    <br>
-  </div>
-  <div class="profile-links-container">
-  <a href="#" class="bottom_tagline"><span> You can reach me through :</span></h2>
-  <br><br>
-  <ul class="profile-links">
-    <li class="twitter">
-      <a href="http://twitter.com/lorefnon" target="_blank">
-        <span>Twitter</span>
-      </a>
-    </li>
-    <li class="linkedin">
-      <a href="https://in.linkedin.com/in/gaurab-paul-a2472921" target="_blank">
-        <span>Linkedin</span>
-      </a>
-    </li>
-    <li class="github">
-      <a href="https://github.com/lorefnon" target="_blank">
-        <span>Github</span>
-      </a>
-    </li>
-    <li class="github">
-      <a href="mailto:lorefnon@gmail.com" target="_blank">
-        <span>Email</span>
-      </a>
-    </li>
-  </ul>
-
-  </div>
-</div>
-<div class="line"></div>
-<div class="foot_userbar">
-  <p>&copy; 2013 - 2015 Gaurab Paul </p>
-<br/>
-<p>Code licensed under the
-  <a href="http://opensource.org/licenses/MIT" target="_blank">The
-    MIT License</a>. Content and Artwork licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA</a>.
-</p>
-<br/>
-<p>
-  The opinions expressed herein are my personal viewpoints  and may
-  not be taken as professional recommendations from any of my previous or
-  current employers.
-</p>
-<br/>
-<p>
-  Site is powered by <a href="http://jekyllrb.com/">Jekyll</a> and graciously hosted by <a href="https://github.com">Github</a>
-</p>
-<br/>
-<br/>
-
-</div>
-
-    </div>
-
-    <script type="text/javascript">
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-47274059-1']);
-  _gaq.push(['_setDomainName', 'lorefnon.me']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-
-    <script src="/assets/javascripts/post.js"></script>
-  </body>
-</html>
+</code></pre></div><p>And we are pretty much done: <img src="/images/aa4.png" alt="Widget integrated with Active Admin"></p><p>I realize that the default styling of the widget sticks out a bit against the default styling of ActiveAdmin page, but all that is needed to rectify is a few CSS rules which I leave as an exercise for the reader.</p><p>As always, any feedback and suggestions are more than welcome.</p><footer class="group"><p></p> </footer><div id="disqus_thread"></div> <script>!function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src="//lorefnon-blog.disqus.com/embed.js",(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript> <a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a></article></div><div class="line hide-text">Separator line</div><div class="next-article" style="display:none"> <a href="#"><p class="read-next tag is-uppercase">Read this next:</p><p class="next-article__title">Protocol and Language</p><div class="next-article__content"><p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p></div> </a></div><div class="line hide-text">Separator line</div><div class="foot_logo"> <a href="http://lorefnon.me"><span class="logo"></span></a></div><div class="foot_logo right"> <a href="/"><span class="link">Full Blog >></span></a></div><div class="line"></div><div class="foot_userbar"><div href="#" class="bottom_tagline"> <span>Lorefnon</span> <br><br><p> Full stack web developer and polyglot programmer with strong interest in dynamic languages, web application development and user experience design.</p> <br><p> Strong believer in agile methodologies, behaviour driven development and efficacy of open source technologies.</p> <br></div><div class="profile-links-container"> <a href="#" class="bottom_tagline"><span> You can reach me through :</span></h2> <br><br><ul class="profile-links"><li class="twitter"> <a href="http://twitter.com/lorefnon" target="_blank"> <span>Twitter</span> </a></li><li class="linkedin"> <a href="https://in.linkedin.com/in/gaurab-paul-a2472921" target="_blank"> <span>Linkedin</span> </a></li><li class="github"> <a href="https://github.com/lorefnon" target="_blank"> <span>Github</span> </a></li><li class="github"> <a href="mailto:lorefnon@gmail.com" target="_blank"> <span>Email</span> </a></li></ul></div></div><div class="line"></div><div class="foot_userbar"><p>© 2013 - 2015 Gaurab Paul</p> <br/><p>Code licensed under the <a href="http://opensource.org/licenses/MIT" target="_blank">The MIT License</a>. Content and Artwork licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA</a>.</p> <br/><p> The opinions expressed herein are my personal viewpoints and may not be taken as professional recommendations from any of my previous or current employers.</p> <br/><p> Site is powered by <a href="http://jekyllrb.com/">Jekyll</a> and graciously hosted by <a href="https://github.com">Github</a></p> <br/> <br/></div></div><script>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-47274059-1"]),_gaq.push(["_setDomainName","lorefnon.me"]),_gaq.push(["_trackPageview"]),function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js";var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e)}()</script><script src="/assets/javascripts/post.js"></script></body></html>
