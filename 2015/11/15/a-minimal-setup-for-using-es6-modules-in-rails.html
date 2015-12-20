@@ -121,7 +121,7 @@ We recommend moving to npm, using &quot;jquery-plugin&quot; as the keyword in yo
 </span><span id="snippet_1-13"><a name="snippet_1-13"></a><span class="p">}</span>
 </span></code></pre></div>
 
-<p>If we want to use other javascript libraries available through npm we can include them directly in the package.json. There is a single caveat though: We can not directly start using ES6 modules in our top level files (typically application.js) but only in our <code>require</code>d files:</p>
+<p>If we want to use other javascript libraries available through npm we can include them directly in the package.json.</p>
 
 <p>In addition to the above, we will also have to pass a configuration option to browserify to use babelify. This can be done by adding the following line to <code>config/application.rb</code> :</p>
 <div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="n">config</span><span class="o">.</span><span class="n">browserify_rails</span><span class="o">.</span><span class="n">commandline_options</span> <span class="o">=</span> <span class="s2">&quot;-t babelify&quot;</span>
@@ -131,7 +131,7 @@ We recommend moving to npm, using &quot;jquery-plugin&quot; as the keyword in yo
   <span class="nt">&quot;presets&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;es2015&quot;</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>That is all the setup we needed. Now we can move on to the application code:</p>
+<p>That is all the setup we needed. Now we can move on to the application code. There is a single caveat though: We can not directly start using ES6 modules in our top level files (typically application.js) but only in our <code>require</code>d files:</p>
 
 <p>So our application.js can be fairly minimal with a single require statement:</p>
 <div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./main&#39;</span><span class="p">)</span>
