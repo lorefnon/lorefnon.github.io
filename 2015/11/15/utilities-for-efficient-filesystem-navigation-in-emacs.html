@@ -1,1 +1,269 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"><![endif]--><!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]--><!--[if IE 8]><html class="no-js lt-ie9" lang="en"><![endif]--><!--[if gt IE 8]>><!<![endif]--><html lang="en" class=""><head><meta charset="utf-8"><title>Utilities for efficient filesystem navigation in emacs | Code.Art.Web</title><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="While Emacs is a fairly productive editor on its own, for navigating through the files in a large project a few community contributed extensions can make things a lot easier"><link rel="canonical" href="http://lorefnon.me/2015/11/15/utilities-for-efficient-filesystem-navigation-in-emacs.html"><meta property="twitter:creator" content="@lorefnon"><meta property="og:title" content="@lorefnon"><meta property="og:type" content="blog"><meta poperty="og:url" content="http://lorefnon.me"><meta property="og:site_name" content="Code.Art.Web"><meta property="og:fb:app_id"><meta property="og:description" content="While Emacs is a fairly productive editor on its own, for navigating through the files in a large project a few community contributed extensions can make things a lot easier"><link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/><link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"><link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'> <script>this.top.location!==this.location&&(this.top.location=this.location)</script></head><body style="zoom:1"><div class="main-container"><div class="mlogotype is-uppercase"> <a href="http://lorefnon.me">Code.Art.Web</a></div><a href="http://lorefnon.me" class="home_logotype_link"><h1 class="tag">Code.Art.Web</h1> </a><div class="header-container detail-view"> <header class="main-header"> <figure class="avatar"> <a href="http://lorefnon.me" style="background-image:url('')">Profile Picture</a> </figure><h1 class="profile-name is-uppercase"> <a href="http://lorefnon.me">Lorefnon</a></h1> </header></div><div class="posts-container detail-view"> <article class="post detail-view" id=""><h1 class="title"><a href="#">Utilities for efficient filesystem navigation in emacs</a></h1> <a href="#" class="anchor-icon time-wrapper"> <i class="fa fa-anchor"></i> <time>Nov 15, 2015</time> </a><h2> <a class="header-link" href="#abstract" id="abstract"> Abstract </a></h2><p>While Emacs is a fairly productive editor on its own, for navigating through the files in a large project a few community contributed extensions can make things a lot easier</p><div id="toc-container"><table class="toc" id="toc"><tbody><tr><td><div id="toctitle"><h2><a class="header-link" href="#contents" id="contents">Contents</a></h2></div><ul><li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1.</span> <span class="toctext">Dired</span></a></li><li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2.</span> <span class="toctext">Neotree</span></a></li><li class="toc_level-1 toc_section-3"><a href="#header1-3"><span class="tocnumber">3.</span> <span class="toctext">Helm</span></a></li><li class="toc_level-1 toc_section-4"><a href="#header1-4"><span class="tocnumber">4.</span> <span class="toctext">Ag and Helm-Ag</span></a></li><li class="toc_level-1 toc_section-5"><a href="#header1-5"><span class="tocnumber">5.</span> <span class="toctext">Projectile and Helm-Projectile</span></a></li><li class="toc_level-1 toc_section-6"><a href="#header1-6"><span class="tocnumber">6.</span> <span class="toctext">Ranger</span></a></li></ul></td></tr></tbody></table></div><p>While most of time spent working on a project goes into coding, finding the right files or understanding the directory structure is fairly time consuming as well. This is especially true when we are exploring unknown projects - in particular, projects with custom directory structures as opposed to CoC frameworks. This post outlines a few tools which aid in project exploration and navigation across files which I have found to be useful in practice</p><h2><a class="header-link" href="#header1-1" id="header1-1"><span class="header-bullet-num">1.</span><span class="header-inner-text">Dired</span></a></h2><p>While built into emacs, Dired is indespensable. I sincerely regret not spending the time required to develop familiarity with Dired when I was initially learning basics of Emacs. While the facilities provided by Dired are powerful enough to replace the full fledged file manager of your operating system, the real power comes from native integration with the rest of emacs.</p><p><img src="/images/2015-11-15/dired.png" data-action="zoom"></p><p>For instance, a Dired is buffer is just like a normal buffer, and all the dired buffers will be directly available from <code>list-buffers</code> - and from any alternative approaches to list buffers (eg. <code>helm-buffers-list</code> which we discuss shortly).</p><p>I have found emacs bookmarks functionality to be particularly useful with Dired. Dired buffers can be bookmarked just like ordinary buffers and we can use <code>bookmark-jump</code> to quickly jump to important Dired buffers opened before.</p><p><img src="/images/2015-11-15/bookmarks.png" data-action="zoom"></p><h2><a class="header-link" href="#header1-2" id="header1-2"><span class="header-bullet-num">2.</span><span class="header-inner-text">Neotree</span></a></h2><p>Neotree is a more conventional file manager - similar to what we find in IDEs. It is useful as an easily accessible persistent sidebar that provides the complete outline of the project. It is useful as a mini file manager though not as powerful as dired. The great part is that it is entirely usable through keyboard.</p><p><img src="/images/2015-11-15/neotree.png" data-action="zoom"></p><h2><a class="header-link" href="#header1-3" id="header1-3"><span class="header-bullet-num">3.</span><span class="header-inner-text">Helm</span></a></h2><p>Helm has been described as a package in a league of its own. Rather than being an isolated productivity tool, it improves our entire emacs experience through a powerful completion engine which may be different from the tab based completion pervasive in other editors/IDEs or Shell but once the habit sets in, it is difficult to go back.</p><p>We will not go into much depth into Helm, but the package is well documented and for getting started here is an excellent <a href="http://tuhdo.github.io/helm-intro.html">introductory article</a>.</p><p><img src="/images/2015-11-15/helm.png" data-action="zoom"></p><h2><a class="header-link" href="#header1-4" id="header1-4"><span class="header-bullet-num">4.</span><span class="header-inner-text">Ag and Helm-Ag</span></a></h2><p>While grep is arguably the most popular tool for finding files containing specific content, tools like the <a href="https://github.com/ggreer/the_silver_searcher">Silver Searcher</a> improve upon grep by providing specialized tools for searching codebases. There is an <a href="https://github.com/Wilfred/ag.el">ag-mode</a> that integrates Ag with emacs and if you do use helm, there is a <a href="https://github.com/syohex/emacs-helm-ag">helm integration plugin</a> as well.</p><p><img src="/images/2015-11-15/ag.png" data-action="zoom"></p><h2><a class="header-link" href="#header1-5" id="header1-5"><span class="header-bullet-num">5.</span><span class="header-inner-text">Projectile and Helm-Projectile</span></a></h2><p><a href="http://batsov.com/projectile/">Projectile</a> is an amazing project management solution for solution.</p><blockquote><p>Projectile is a project interaction library for Emacs. Its goal is to provide a nice set of features operating on a project level without introducing external dependencies(when feasible). For instance - finding project files has a portable implementation written in pure Emacs Lisp without the use of GNU find (but for performance sake an indexing mechanism backed by external commands exists as well).</p></blockquote><p>Helm-projectile facilitates integration of projectile and helm, here is a great <a href="http://tuhdo.github.io/helm-projectile.html">introductory article</a> on getting started with this combo.</p><h2><a class="header-link" href="#header1-6" id="header1-6"><span class="header-bullet-num">6.</span><span class="header-inner-text">Ranger</span></a></h2><p>While Helm and Ag is useful for rapidly finding files when we know what we are looking for - however for exploring an unknown project and performing code review for changes across files, it is not the ideal solution. For this use case I have found a unix utility called Ranger very useful. Fortunately there also exists a Ranger mode for emacs which emulates similar feature within emacs. I have found its preview feature particularly complementary to the hierarchical tree based solutions.</p><p><img src="/images/2015-11-15/ranger.png" data-action="zoom"></p><p>This completes our detour into utilities make it easy to traverse projects in emacs. If there are other tools that this article could benefit from, please mention them in the comments below.</p><footer class="group"><p></p> </footer><div id="disqus_thread"></div> <script>!function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src="//lorefnon-blog.disqus.com/embed.js",(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a> </noscript> <a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a></article></div><div class="line hide-text">Separator line</div><div class="next-article" style="display:none"> <a href="#"><p class="read-next tag is-uppercase">Read this next:</p><p class="next-article__title">Protocol and Language</p><div class="next-article__content"><p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p></div> </a></div><div class="line hide-text">Separator line</div><div class="foot_logo"> <a href="http://lorefnon.me"><span class="logo"></span></a></div><div class="foot_logo right"> <a href="/"><span class="link">Full Blog >></span></a></div><div class="line"></div><div class="foot_userbar"><div href="#" class="bottom_tagline"> <span>Lorefnon</span> <br><br><p> Full stack web developer and polyglot programmer with strong interest in dynamic languages, web application development and user experience design.</p> <br><p> Strong believer in agile methodologies, behaviour driven development and efficacy of open source technologies.</p> <br></div><div class="profile-links-container"> <a href="#" class="bottom_tagline"><span> You can reach me through :</span></h2> <br><br><ul class="profile-links"><li class="twitter"> <a href="http://twitter.com/lorefnon" target="_blank"> <span>Twitter</span> </a></li><li class="linkedin"> <a href="https://in.linkedin.com/in/gaurab-paul-a2472921" target="_blank"> <span>Linkedin</span> </a></li><li class="github"> <a href="https://github.com/lorefnon" target="_blank"> <span>Github</span> </a></li><li class="github"> <a href="mailto:lorefnon@gmail.com" target="_blank"> <span>Email</span> </a></li></ul></div></div><div class="line"></div><div class="foot_userbar"><p>© 2013 - 2015 Gaurab Paul</p> <br/><p>Code licensed under the <a href="http://opensource.org/licenses/MIT" target="_blank">The MIT License</a>. Content and Artwork licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA</a>.</p> <br/><p> The opinions expressed herein are my personal viewpoints and may not be taken as professional recommendations from any of my previous or current employers.</p> <br/><p> Site is powered by <a href="http://jekyllrb.com/">Jekyll</a> and graciously hosted by <a href="https://github.com">Github</a></p> <br/> <br/></div></div><script>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-47274059-1"]),_gaq.push(["_setDomainName","lorefnon.me"]),_gaq.push(["_trackPageview"]),function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js";var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e)}()</script><script src="/assets/javascripts/post.js"></script></body></html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]> ><! <![endif]-->
+<html lang="en" class="">
+  <head>
+    <meta charset="utf-8">
+    <title>Utilities for efficient filesystem navigation in emacs |  Code.Art.Web</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta name="description" content="While Emacs is a fairly productive editor on its own, for navigating through the files in a large project a few community contributed extensions can make things a lot easier">
+    
+
+    <link rel="canonical" href="http://lorefnon.me/2015/11/15/utilities-for-efficient-filesystem-navigation-in-emacs.html">
+    <meta property="twitter:creator" content="@lorefnon">
+    <meta property="og:title" content="@lorefnon">
+    <meta property="og:type" content="blog">
+    <meta poperty="og:url" content="http://lorefnon.me">
+    <meta property="og:site_name" content="Code.Art.Web">
+    <meta property="og:fb:app_id">
+    <meta property="og:description" content="While Emacs is a fairly productive editor on its own, for navigating through the files in a large project a few community contributed extensions can make things a lot easier">
+    <link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'>
+    <script>
+  this.top.location !== this.location && (this.top.location = this.location);
+</script>
+
+  </head>
+  <body style="zoom: 1;">
+    <div class="main-container">
+
+      <div class="mlogotype is-uppercase">
+        <a href="http://lorefnon.me">Code.Art.Web</a>
+      </div>
+
+      <a href="http://lorefnon.me" class="home_logotype_link">
+        <h1 class="tag">Code.Art.Web</h1>
+      </a>
+
+      <div class="header-container detail-view">
+        <header class="main-header">
+          <figure class="avatar">
+            <a href="http://lorefnon.me"
+            style="background-image: url();">Profile Picture</a>
+          </figure>
+          <h1 class="profile-name is-uppercase">
+            <a href="http://lorefnon.me">Lorefnon</a>
+          </h1>
+        </header>
+      </div>
+
+      <div class="posts-container detail-view">
+        <article class="post detail-view" id="">
+          <h1 class="title"><a href="#">Utilities for efficient filesystem navigation in emacs</a></h1>
+          <a href="#" class="anchor-icon time-wrapper">
+            <i class="fa fa-anchor"></i>
+            <time>Nov 15, 2015</time>
+          </a>
+
+          
+          <h2> <a class="header-link" href="#abstract" id="abstract"> Abstract </a> </h2>
+          <p>While Emacs is a fairly productive editor on its own, for navigating through the files in a large project a few community contributed extensions can make things a lot easier</p>
+
+          
+
+          
+
+          <div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>
+<div id="toctitle"><h2><a class="header-link" href="#contents" id="contents">Contents</a></h2></div>
+<ul>
+<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1.</span> <span class="toctext">Dired</span></a></li>
+<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2.</span> <span class="toctext">Neotree</span></a></li>
+<li class="toc_level-1 toc_section-3"><a href="#header1-3"><span class="tocnumber">3.</span> <span class="toctext">Helm</span></a></li>
+<li class="toc_level-1 toc_section-4"><a href="#header1-4"><span class="tocnumber">4.</span> <span class="toctext">Ag and Helm-Ag</span></a></li>
+<li class="toc_level-1 toc_section-5"><a href="#header1-5"><span class="tocnumber">5.</span> <span class="toctext">Projectile and Helm-Projectile</span></a></li>
+<li class="toc_level-1 toc_section-6"><a href="#header1-6"><span class="tocnumber">6.</span> <span class="toctext">Ranger</span></a></li>
+</ul>
+</td></tr></tbody></table></div>
+<p>While most of time spent working on a project goes into coding, finding the right files or understanding the directory structure is fairly time consuming as well. This is especially true when we are exploring unknown projects - in particular, projects with custom directory structures as opposed to CoC frameworks. This post outlines a few tools which aid in project exploration and navigation across files which I have found to be useful in practice</p>
+
+<h2><a class="header-link" href="#header1-1" id="header1-1"><span class="header-bullet-num">1.</span><span class="header-inner-text">Dired</span></a></h2>
+
+<p>While built into emacs, Dired is indespensable. I sincerely regret not spending the time required to develop familiarity with Dired when I was initially learning basics of Emacs. While the facilities provided by Dired are powerful enough to replace the full fledged file manager of your operating system, the real power comes from native integration with the rest of emacs.</p>
+
+<p><img src="/images/2015-11-15/dired.png" data-action="zoom"></p>
+
+<p>For instance, a Dired is buffer is just like a normal buffer, and all the dired buffers will be directly available from <code>list-buffers</code> - and from any alternative approaches to list buffers (eg. <code>helm-buffers-list</code> which we discuss shortly).</p>
+
+<p>I have found emacs bookmarks functionality to be particularly useful with Dired. Dired buffers can be bookmarked just like ordinary buffers and we can use <code>bookmark-jump</code> to quickly jump to important Dired buffers opened before.</p>
+
+<p><img src="/images/2015-11-15/bookmarks.png" data-action="zoom"></p>
+
+<h2><a class="header-link" href="#header1-2" id="header1-2"><span class="header-bullet-num">2.</span><span class="header-inner-text">Neotree</span></a></h2>
+
+<p>Neotree is a more conventional file manager - similar to what we find in IDEs. It is useful as an easily accessible persistent sidebar that provides the complete outline of the project. It is useful as a mini file manager though not as powerful as dired. The great part is that it is entirely usable through keyboard.</p>
+
+<p><img src="/images/2015-11-15/neotree.png" data-action="zoom"></p>
+
+<h2><a class="header-link" href="#header1-3" id="header1-3"><span class="header-bullet-num">3.</span><span class="header-inner-text">Helm</span></a></h2>
+
+<p>Helm has been described as a package in a league of its own. Rather than being an isolated productivity tool, it improves our entire emacs experience through a powerful completion engine which may be different from the tab based completion pervasive in other editors/IDEs or Shell but once the habit sets in, it is difficult to go back.</p>
+
+<p>We will not go into much depth into Helm, but the package is well documented and for getting started here is an excellent <a href="http://tuhdo.github.io/helm-intro.html">introductory article</a>.</p>
+
+<p><img src="/images/2015-11-15/helm.png" data-action="zoom"></p>
+
+<h2><a class="header-link" href="#header1-4" id="header1-4"><span class="header-bullet-num">4.</span><span class="header-inner-text">Ag and Helm-Ag</span></a></h2>
+
+<p>While grep is arguably the most popular tool for finding files containing specific content, tools like the <a href="https://github.com/ggreer/the_silver_searcher">Silver Searcher</a> improve upon grep by providing specialized tools for searching codebases. There is an <a href="https://github.com/Wilfred/ag.el">ag-mode</a> that integrates Ag with emacs and if you do use helm, there is a <a href="https://github.com/syohex/emacs-helm-ag">helm integration plugin</a> as well.</p>
+
+<p><img src="/images/2015-11-15/ag.png" data-action="zoom"></p>
+
+<h2><a class="header-link" href="#header1-5" id="header1-5"><span class="header-bullet-num">5.</span><span class="header-inner-text">Projectile and Helm-Projectile</span></a></h2>
+
+<p><a href="http://batsov.com/projectile/">Projectile</a> is an amazing project management solution for solution.</p>
+
+<blockquote>
+<p>Projectile is a project interaction library for Emacs. Its goal is to provide a nice set of features operating on a project level without introducing external dependencies(when feasible). For instance - finding project files has a portable implementation written in pure Emacs Lisp without the use of GNU find (but for performance sake an indexing mechanism backed by external commands exists as well).</p>
+</blockquote>
+
+<p>Helm-projectile facilitates integration of projectile and helm, here is a great <a href="http://tuhdo.github.io/helm-projectile.html">introductory article</a> on getting started with this combo.</p>
+
+<h2><a class="header-link" href="#header1-6" id="header1-6"><span class="header-bullet-num">6.</span><span class="header-inner-text">Ranger</span></a></h2>
+
+<p>While Helm and Ag is useful for rapidly finding files when we know what we are looking for - however for exploring an unknown project and performing code review for changes across files, it is not the ideal solution. For this use case I have found a unix utility called Ranger very useful. Fortunately there also exists a Ranger mode for emacs which emulates similar feature within emacs. I have found its preview feature particularly complementary to the hierarchical tree based solutions.</p>
+
+<p><img src="/images/2015-11-15/ranger.png" data-action="zoom"></p>
+
+<p>This completes our detour into utilities make it easy to traverse projects in emacs. If there are other tools that this article could benefit from, please mention them in the comments below.</p>
+
+
+<footer class="group">
+  <p>
+    
+    
+    
+      
+    
+  </p>
+</footer>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//lorefnon-blog.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+        </article>
+      </div>
+
+      <div class="line hide-text">Separator line</div>
+
+      <!-- Next article preview -->
+      <div class="next-article" style="display: none;">
+        <a href="#">
+          <p class="read-next tag is-uppercase">Read this next:</p>
+          <p class="next-article__title">Protocol and Language</p>
+          <div class="next-article__content">
+            <p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p>
+          </div>
+        </a>
+      </div>
+      <!-- Finish / Feature on process-->
+
+      <div class="line hide-text">Separator line</div>
+
+      <div class="foot_logo">
+        <a href="http://lorefnon.me"><span class="logo"></span></a>
+      </div>
+
+      <div class="foot_logo right">
+        <a href="/"><span class="link">Full Blog >></span></a>
+      </div>
+
+      <div class="line"></div>
+
+<div class="foot_userbar">
+  <div href="#" class="bottom_tagline">
+    <span>Lorefnon</span>
+    <br><br>
+    <p> Full stack web developer and polyglot programmer with strong interest in dynamic languages, web application development and user experience design. </p>
+    <br>
+    <p> Strong believer in agile methodologies, behaviour driven development and efficacy of open source technologies.</p>
+    <br>
+  </div>
+  <div class="profile-links-container">
+  <a href="#" class="bottom_tagline"><span> You can reach me through :</span></h2>
+  <br><br>
+  <ul class="profile-links">
+    <li class="twitter">
+      <a href="http://twitter.com/lorefnon" target="_blank">
+        <span>Twitter</span>
+      </a>
+    </li>
+    <li class="linkedin">
+      <a href="https://in.linkedin.com/in/gaurab-paul-a2472921" target="_blank">
+        <span>Linkedin</span>
+      </a>
+    </li>
+    <li class="github">
+      <a href="https://github.com/lorefnon" target="_blank">
+        <span>Github</span>
+      </a>
+    </li>
+    <li class="github">
+      <a href="mailto:lorefnon@gmail.com" target="_blank">
+        <span>Email</span>
+      </a>
+    </li>
+  </ul>
+
+  </div>
+</div>
+<div class="line"></div>
+<div class="foot_userbar">
+  <p>&copy; 2013 - 2015 Gaurab Paul </p>
+<br/>
+<p>Code licensed under the
+  <a href="http://opensource.org/licenses/MIT" target="_blank">The
+    MIT License</a>. Content and Artwork licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA</a>.
+</p>
+<br/>
+<p>
+  The opinions expressed herein are my personal viewpoints  and may
+  not be taken as professional recommendations from any of my previous or
+  current employers.
+</p>
+<br/>
+<p>
+  Site is powered by <a href="http://jekyllrb.com/">Jekyll</a> and graciously hosted by <a href="https://github.com">Github</a>
+</p>
+<br/>
+<br/>
+
+</div>
+
+    </div>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-47274059-1']);
+  _gaq.push(['_setDomainName', 'lorefnon.me']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+    <script src="/assets/javascripts/post.js"></script>
+  </body>
+</html>

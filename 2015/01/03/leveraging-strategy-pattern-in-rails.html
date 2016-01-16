@@ -1,4 +1,112 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"><![endif]--><!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]--><!--[if IE 8]><html class="no-js lt-ie9" lang="en"><![endif]--><!--[if gt IE 8]>><!<![endif]--><html lang="en" class=""><head><meta charset="utf-8"><title>Leveraging the strategy pattern in Rails - I | Code.Art.Web</title><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Strategy pattern is a well known software design pattern. In this post we explore how to apply it in the context of a Rails application"><link rel="canonical" href="http://lorefnon.me/2015/01/03/leveraging-strategy-pattern-in-rails.html"><meta property="twitter:creator" content="@lorefnon"><meta property="og:title" content="@lorefnon"><meta property="og:type" content="blog"><meta poperty="og:url" content="http://lorefnon.me"><meta property="og:site_name" content="Code.Art.Web"><meta property="og:fb:app_id"><meta property="og:description" content="Strategy pattern is a well known software design pattern. In this post we explore how to apply it in the context of a Rails application"><link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/><link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"><link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'> <script>this.top.location!==this.location&&(this.top.location=this.location)</script></head><body style="zoom:1"><div class="main-container"><div class="mlogotype is-uppercase"> <a href="http://lorefnon.me">Code.Art.Web</a></div><a href="http://lorefnon.me" class="home_logotype_link"><h1 class="tag">Code.Art.Web</h1> </a><div class="header-container detail-view"> <header class="main-header"> <figure class="avatar"> <a href="http://lorefnon.me" style="background-image:url('')">Profile Picture</a> </figure><h1 class="profile-name is-uppercase"> <a href="http://lorefnon.me">Lorefnon</a></h1> </header></div><div class="posts-container detail-view"> <article class="post detail-view" id=""><h1 class="title"><a href="#">Leveraging the strategy pattern in Rails - I</a></h1> <a href="#" class="anchor-icon time-wrapper"> <i class="fa fa-anchor"></i> <time>Jan 03, 2015</time> </a><h2> <a class="header-link" href="#abstract" id="abstract"> Abstract </a></h2><p>Strategy pattern is a well known software design pattern. In this post we explore how to apply it in the context of a Rails application</p><div id="toc-container"><table class="toc" id="toc"><tbody><tr><td><div id="toctitle"><h2><a class="header-link" href="#contents" id="contents">Contents</a></h2></div><ul><li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1.</span> <span class="toctext">To begin with, what is strategy pattern ?</span></a></li><li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2.</span> <span class="toctext">So how does this help us ?</span></a></li><li class="toc_level-1 toc_section-3"><a href="#header1-3"><span class="tocnumber">3.</span> <span class="toctext">An adventure</span></a></li><li class="toc_level-1 toc_section-4"><a href="#header1-4"><span class="tocnumber">4.</span> <span class="toctext">A downhill slope</span></a></li><li class="toc_level-1 toc_section-5"><a href="#header1-5"><span class="tocnumber">5.</span> <span class="toctext">Retrospection</span></a></li></ul></td></tr></tbody></table></div><h2><a class="header-link" href="#header1-1" id="header1-1"><span class="header-bullet-num">1.</span><span class="header-inner-text">To begin with, what is strategy pattern ?</span></a></h2><p>Quoting from <a href="http://en.wikipedia.org/wiki/Strategy_pattern">Wikipedia</a>,</p><blockquote><p>the strategy pattern (also known as the policy pattern) is a software design pattern that enables an algorithm's behavior to be selected at runtime.</p></blockquote><h2><a class="header-link" href="#header1-2" id="header1-2"><span class="header-bullet-num">2.</span><span class="header-inner-text">So how does this help us ?</span></a></h2><p>Strategy pattern just helps us escape the soup of complex nested conditionals and model behavior selection in an object oriented fashion. To understand why this is required let us explore a fictional example:</p><h2><a class="header-link" href="#header1-3" id="header1-3"><span class="header-bullet-num">3.</span><span class="header-inner-text">An adventure</span></a></h2><p>Suppose that we are developing a social network for book lovers. To encourage users to read more we decide to show a recommendations panel which highlights books that are trending in the community.</p><p>Our (over-simplified) implementation might be something like:</p><div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]> ><! <![endif]-->
+<html lang="en" class="">
+  <head>
+    <meta charset="utf-8">
+    <title>Leveraging the strategy pattern in Rails - I |  Code.Art.Web</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta name="description" content="Strategy pattern is a well known software design pattern. In this post we explore how to apply it in the context of a Rails application">
+    
+
+    <link rel="canonical" href="http://lorefnon.me/2015/01/03/leveraging-strategy-pattern-in-rails.html">
+    <meta property="twitter:creator" content="@lorefnon">
+    <meta property="og:title" content="@lorefnon">
+    <meta property="og:type" content="blog">
+    <meta poperty="og:url" content="http://lorefnon.me">
+    <meta property="og:site_name" content="Code.Art.Web">
+    <meta property="og:fb:app_id">
+    <meta property="og:description" content="Strategy pattern is a well known software design pattern. In this post we explore how to apply it in the context of a Rails application">
+    <link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'>
+    <script>
+  this.top.location !== this.location && (this.top.location = this.location);
+</script>
+
+  </head>
+  <body style="zoom: 1;">
+    <div class="main-container">
+
+      <div class="mlogotype is-uppercase">
+        <a href="http://lorefnon.me">Code.Art.Web</a>
+      </div>
+
+      <a href="http://lorefnon.me" class="home_logotype_link">
+        <h1 class="tag">Code.Art.Web</h1>
+      </a>
+
+      <div class="header-container detail-view">
+        <header class="main-header">
+          <figure class="avatar">
+            <a href="http://lorefnon.me"
+            style="background-image: url();">Profile Picture</a>
+          </figure>
+          <h1 class="profile-name is-uppercase">
+            <a href="http://lorefnon.me">Lorefnon</a>
+          </h1>
+        </header>
+      </div>
+
+      <div class="posts-container detail-view">
+        <article class="post detail-view" id="">
+          <h1 class="title"><a href="#">Leveraging the strategy pattern in Rails - I</a></h1>
+          <a href="#" class="anchor-icon time-wrapper">
+            <i class="fa fa-anchor"></i>
+            <time>Jan 03, 2015</time>
+          </a>
+
+          
+          <h2> <a class="header-link" href="#abstract" id="abstract"> Abstract </a> </h2>
+          <p>Strategy pattern is a well known software design pattern. In this post we explore how to apply it in the context of a Rails application</p>
+
+          
+
+          
+
+          <div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>
+<div id="toctitle"><h2><a class="header-link" href="#contents" id="contents">Contents</a></h2></div>
+<ul>
+<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1.</span> <span class="toctext">To begin with, what is strategy pattern ?</span></a></li>
+<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2.</span> <span class="toctext">So how does this help us ?</span></a></li>
+<li class="toc_level-1 toc_section-3"><a href="#header1-3"><span class="tocnumber">3.</span> <span class="toctext">An adventure</span></a></li>
+<li class="toc_level-1 toc_section-4"><a href="#header1-4"><span class="tocnumber">4.</span> <span class="toctext">A downhill slope</span></a></li>
+<li class="toc_level-1 toc_section-5"><a href="#header1-5"><span class="tocnumber">5.</span> <span class="toctext">Retrospection</span></a></li>
+</ul>
+</td></tr></tbody></table></div>
+<h2><a class="header-link" href="#header1-1" id="header1-1"><span class="header-bullet-num">1.</span><span class="header-inner-text">To begin with, what is strategy pattern ?</span></a></h2>
+
+<p>Quoting from <a href="http://en.wikipedia.org/wiki/Strategy_pattern">Wikipedia</a>,</p>
+
+<blockquote>
+<p>the strategy pattern (also known as the policy pattern) is a software design
+pattern that enables an algorithm's behavior to be selected at runtime.</p>
+</blockquote>
+
+<h2><a class="header-link" href="#header1-2" id="header1-2"><span class="header-bullet-num">2.</span><span class="header-inner-text">So how does this help us ?</span></a></h2>
+
+<p>Strategy pattern just helps us escape the soup of complex nested conditionals
+and model behavior selection in an object oriented fashion. To understand why this is
+required let us explore a fictional example:</p>
+
+<h2><a class="header-link" href="#header1-3" id="header1-3"><span class="header-bullet-num">3.</span><span class="header-inner-text">An adventure</span></a></h2>
+
+<p>Suppose that we are developing a social network for book lovers. To encourage users
+to read more we decide to show a recommendations panel which highlights books that
+are trending in the community.</p>
+
+<p>Our (over-simplified) implementation might be something like:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
 
   <span class="n">has_many</span> <span class="ss">:recommendations</span>
   <span class="n">has_many</span> <span class="ss">:tags</span>
@@ -21,12 +129,22 @@
   <span class="n">belongs_to</span> <span class="ss">:user</span><span class="p">,</span> <span class="n">counter_cache</span><span class="p">:</span> <span class="kp">true</span>
   <span class="n">belongs_to</span> <span class="ss">:book</span><span class="p">,</span> <span class="n">counter_cache</span><span class="p">:</span> <span class="kp">true</span>
 <span class="k">end</span>
-</code></pre></div><p>In home/index.html.erb</p><div class="highlight"><pre><code class="erb"><span class="x">&lt;ul id='recommended-book-list'&gt;</span>
+</code></pre></div>
+
+<p>In home/index.html.erb</p>
+
+<div class="highlight"><pre><code class="erb"><span class="x">&lt;ul id='recommended-book-list'&gt;</span>
 <span class="x">  </span><span class="cp">&lt;%</span> <span class="no">Book</span><span class="o">.</span><span class="n">recommended</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">    &lt;li&gt; </span><span class="cp">&lt;%=</span> <span class="n">book</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x"> &lt;/li&gt;</span>
 <span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">&lt;/ul&gt;</span>
-</code></pre></div><p>So far so good, however we realize that for users who have been using our service for a while, it makes more sense to show recommendations based on their intersts. So we do a shotgun surgery and modify our code to the following:</p><div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</code></pre></div>
+
+<p>So far so good, however we realize that for users who have been using our service
+for a while, it makes more sense to show recommendations based on their intersts. So we do a
+shotgun surgery and modify our code to the following:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
   <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">recommended_for</span> <span class="n">user</span>
     <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">blank?</span> <span class="o">||</span> <span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">recommendations_count</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">)</span>
@@ -58,12 +176,30 @@
   <span class="k">end</span>
 
 <span class="k">end</span>
-</code></pre></div><p>And our template becomes something like:</p><div class="highlight"><pre><code class="erb"><span class="x">&lt;ul id='recommended-book-list'&gt;</span>
+</code></pre></div>
+
+<p>And our template becomes something like:</p>
+
+<div class="highlight"><pre><code class="erb"><span class="x">&lt;ul id='recommended-book-list'&gt;</span>
 <span class="x">  </span><span class="cp">&lt;%</span> <span class="no">Book</span><span class="o">.</span><span class="n">recommended_for</span><span class="p">(</span><span class="n">current_user</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">    &lt;li&gt; </span><span class="cp">&lt;%=</span> <span class="n">book</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x"> &lt;/li&gt;</span>
 <span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">&lt;/ul&gt;</span>
-</code></pre></div><p>We see that at this point our <code>recommended_for</code> method is burdened with multiple responsibilities - the decision for the approach to be used as well as the logic for multiple approaches all reside in the same method, which is not very ideal.</p><p>Let us push this further. Say, after a couple of months our social networks gains a lot of traction and we strike a very profitable deal with a major publishing firm 'Jackass Kangaroo Publications' and as a part of the deal we need to ensure that the recommended books include only those which have been published by this publication.</p><p>No problem, we just need add a few lines of code:</p><div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</code></pre></div>
+
+<p>We see that at this point our <code>recommended_for</code> method is burdened with multiple
+responsibilities - the decision for the approach to be used as well as the logic
+for multiple approaches all reside in the same method, which is not very ideal.</p>
+
+<p>Let us push this further. Say, after a couple of months our social networks gains
+a lot of traction and we strike a very profitable deal with a major publishing
+firm 'Jackass Kangaroo Publications' and as a part of the deal we need to ensure
+that the recommended books include only those which have been published by this
+publication.</p>
+
+<p>No problem, we just need add a few lines of code:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
   <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">recommended_for</span> <span class="n">user</span>
     <span class="n">query</span> <span class="o">=</span> <span class="no">Book</span>
@@ -78,7 +214,17 @@
     <span class="k">end</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">'RAND()'</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre></div><p>No words are needed to describe the ugliness of the code above. Our eyes bleed but we choose to look away and carry on with our buisness.</p><p>Of course, the journey of our social network is not all rosy. We get hit by a lawsuit making our deal with <code>Jackass Kangaroo Publications</code> illegal in a specific country. But why bother backing off from this insanity when all problems can be resolved by adding just another condition:</p><div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</code></pre></div>
+
+<p>No words are needed to describe the ugliness of the code above. Our eyes bleed but we
+choose to look away and carry on with our buisness.</p>
+
+<p>Of course, the journey of our social network is not all rosy. We get hit by a
+lawsuit making our deal with <code>Jackass Kangaroo Publications</code> illegal in a specific country.
+But why bother backing off from this insanity when all problems can be resolved
+by adding just another condition:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
   <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">recommended_for</span> <span class="n">user</span>
     <span class="n">query</span> <span class="o">=</span> <span class="no">Book</span>
@@ -91,7 +237,27 @@
     <span class="o">.</span><span class="n">.</span><span class="o">.</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre></div><h2><a class="header-link" href="#header1-4" id="header1-4"><span class="header-bullet-num">4.</span><span class="header-inner-text">A downhill slope</span></a></h2><p>So requirements keep stacking up and we keep adding conditions. Fast forward a few years, and a sincere programmer who is new to the project, unfamiliar with our rocky history and now is responsible for maintenance of the project is staring blankly at the entangled mess of conditional statements. Of course the crutial details of the deal and the subsequent lawsuits are now lost in sands of time, and none of the present team members have any idea what is going on.</p><h2><a class="header-link" href="#header1-5" id="header1-5"><span class="header-bullet-num">5.</span><span class="header-inner-text">Retrospection</span></a></h2><p>The question now is, what could be done to avoid a situation like this ? As you might have guessed at this point, burdening the Book class with responsibility to determine various aspects of application that affect our recommendation policy as well as the complete implementation of all these policies is cumbersome. What we can do is that we can refactor out the specific strategies into dedicated classes that encapsulate the actual implementation details. This is exactly what the strategy pattern encourages us to embrace.</p><div class="highlight"><pre><code class="ruby"><span class="k">module</span> <span class="nn">Strategies</span>
+</code></pre></div>
+
+<h2><a class="header-link" href="#header1-4" id="header1-4"><span class="header-bullet-num">4.</span><span class="header-inner-text">A downhill slope</span></a></h2>
+
+<p>So requirements keep stacking up and we keep adding conditions. Fast forward a few years, and
+a sincere programmer who is new to the project, unfamiliar with our rocky history and now is responsible
+for maintenance of the project is staring
+blankly at the entangled mess of conditional statements. Of course the crutial details of the deal
+and the subsequent lawsuits are now lost in sands of time, and none of the present team members
+have any idea what is going on.</p>
+
+<h2><a class="header-link" href="#header1-5" id="header1-5"><span class="header-bullet-num">5.</span><span class="header-inner-text">Retrospection</span></a></h2>
+
+<p>The question now is, what could be done to avoid a situation like this ? As you might have guessed
+at this point, burdening the Book class with responsibility to determine various aspects of
+application that affect our recommendation policy as well as the complete implementation of all these policies
+is cumbersome. What we can do is that we can refactor out the specific strategies into dedicated
+classes that encapsulate the actual implementation details. This is exactly what the strategy pattern
+encourages us to embrace.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">module</span> <span class="nn">Strategies</span>
   <span class="k">class</span> <span class="nc">RecommendationGeneration</span> <span class="o">&lt;</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">scoped_collection</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">scoped_collection</span>
       <span class="k">super</span> <span class="o">||</span> <span class="no">Book</span>
@@ -106,7 +272,11 @@
 
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre></div><p><br></p><div class="highlight"><pre><code class="ruby"><span class="k">module</span> <span class="nn">Strategies</span>
+</code></pre></div>
+
+<p><br></p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">module</span> <span class="nn">Strategies</span>
   <span class="k">class</span> <span class="nc">DefaultRecommendationGeneration</span> <span class="o">&lt;</span> <span class="no">RecommendationGeneration</span>
 
     <span class="k">def</span> <span class="nf">applicable?</span>
@@ -123,7 +293,11 @@
 
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre></div><p><br></p><div class="highlight"><pre><code class="ruby"><span class="k">module</span> <span class="nn">Strategies</span>
+</code></pre></div>
+
+<p><br></p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">module</span> <span class="nn">Strategies</span>
   <span class="k">class</span> <span class="nc">UserAdaptedRecommendationGeneration</span> <span class="o">&lt;</span> <span class="no">RecommendationGeneration</span>
 
     <span class="k">def</span> <span class="nf">applicable?</span>
@@ -146,7 +320,11 @@
 
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre></div><p><br></p><div class="highlight"><pre><code class="ruby"><span class="k">module</span> <span class="nn">Strategies</span>
+</code></pre></div>
+
+<p><br></p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">module</span> <span class="nn">Strategies</span>
   <span class="k">class</span> <span class="nc">PartnershipAdaptedRecommendationGeneration</span> <span class="o">&lt;</span> <span class="no">RecommendationGeneration</span>
 
     <span class="c1"># It is better to model buisness constraints in the persistance layer</span>
@@ -177,7 +355,12 @@
 
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre></div><p>Now our <code>recommended_for</code> method just has to decide which is the applicable strategy and execute it:</p><div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</code></pre></div>
+
+<p>Now our <code>recommended_for</code> method just has to decide which is the applicable strategy and execute
+it:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Book</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
 
   <span class="no">RECOMMENDATION_STRATEGIES</span> <span class="o">=</span> <span class="o">[</span>
@@ -197,4 +380,153 @@
   <span class="k">end</span>
 
 <span class="k">end</span>
-</code></pre></div><p>This is signficantly better than our prior approach and aligns well with the tenets of <a href="http://en.wikipedia.org/wiki/SOLID_(object-oriented_design">SOLID</a>) principles. Apart from explaining the use of strategy pattern it also illustrates how strategies can reuse existing strategies by means of composition thus keeping our code DRY.</p><p>So we see that, the strategy pattern is especially helpful when it comes to applications where requirements are rapidly changing all the time. Since the core logic is encapsulated into interchangeable concrete implementations, strategy implementations can be introduced or switched with relative ease at a later phase.</p><p>While this post focussed on use of strategy pattern to simply complex logic in model layer, in subsequent posts we will cover how this pattern can simplify our implementations in controller and view layers as well.</p><p>This concludes the post. Please feel free to let me know about your suggestions for improvements, or mistakes that I might have made in the post above.</p><footer class="group"><p></p> </footer><div id="disqus_thread"></div> <script>!function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src="//lorefnon-blog.disqus.com/embed.js",(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a> </noscript> <a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a></article></div><div class="line hide-text">Separator line</div><div class="next-article" style="display:none"> <a href="#"><p class="read-next tag is-uppercase">Read this next:</p><p class="next-article__title">Protocol and Language</p><div class="next-article__content"><p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p></div> </a></div><div class="line hide-text">Separator line</div><div class="foot_logo"> <a href="http://lorefnon.me"><span class="logo"></span></a></div><div class="foot_logo right"> <a href="/"><span class="link">Full Blog >></span></a></div><div class="line"></div><div class="foot_userbar"><div href="#" class="bottom_tagline"> <span>Lorefnon</span> <br><br><p> Full stack web developer and polyglot programmer with strong interest in dynamic languages, web application development and user experience design.</p> <br><p> Strong believer in agile methodologies, behaviour driven development and efficacy of open source technologies.</p> <br></div><div class="profile-links-container"> <a href="#" class="bottom_tagline"><span> You can reach me through :</span></h2> <br><br><ul class="profile-links"><li class="twitter"> <a href="http://twitter.com/lorefnon" target="_blank"> <span>Twitter</span> </a></li><li class="linkedin"> <a href="https://in.linkedin.com/in/gaurab-paul-a2472921" target="_blank"> <span>Linkedin</span> </a></li><li class="github"> <a href="https://github.com/lorefnon" target="_blank"> <span>Github</span> </a></li><li class="github"> <a href="mailto:lorefnon@gmail.com" target="_blank"> <span>Email</span> </a></li></ul></div></div><div class="line"></div><div class="foot_userbar"><p>© 2013 - 2015 Gaurab Paul</p> <br/><p>Code licensed under the <a href="http://opensource.org/licenses/MIT" target="_blank">The MIT License</a>. Content and Artwork licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA</a>.</p> <br/><p> The opinions expressed herein are my personal viewpoints and may not be taken as professional recommendations from any of my previous or current employers.</p> <br/><p> Site is powered by <a href="http://jekyllrb.com/">Jekyll</a> and graciously hosted by <a href="https://github.com">Github</a></p> <br/> <br/></div></div><script>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-47274059-1"]),_gaq.push(["_setDomainName","lorefnon.me"]),_gaq.push(["_trackPageview"]),function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js";var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e)}()</script><script src="/assets/javascripts/post.js"></script></body></html>
+</code></pre></div>
+
+<p>This is signficantly better than our prior approach and aligns well with the tenets of
+<a href="http://en.wikipedia.org/wiki/SOLID_(object-oriented_design">SOLID</a>) principles. Apart from
+explaining the use of strategy pattern it also illustrates how strategies can reuse existing
+strategies by means of composition thus keeping our code DRY.</p>
+
+<p>So we see that, the strategy pattern is especially helpful when it comes to applications where
+requirements are rapidly changing all the time. Since the core logic is encapsulated
+into interchangeable concrete implementations, strategy implementations can be
+introduced or switched with relative ease at a later phase.</p>
+
+<p>While this post focussed on use of strategy pattern to simply complex logic in model layer, in
+subsequent posts we will cover how this pattern can simplify our implementations in controller
+and view layers as well.</p>
+
+<p>This concludes the post. Please feel free to let me know about your suggestions for improvements, or
+mistakes that I might have made in the post above.</p>
+
+
+<footer class="group">
+  <p>
+    
+    
+    
+      
+    
+  </p>
+</footer>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//lorefnon-blog.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+        </article>
+      </div>
+
+      <div class="line hide-text">Separator line</div>
+
+      <!-- Next article preview -->
+      <div class="next-article" style="display: none;">
+        <a href="#">
+          <p class="read-next tag is-uppercase">Read this next:</p>
+          <p class="next-article__title">Protocol and Language</p>
+          <div class="next-article__content">
+            <p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p>
+          </div>
+        </a>
+      </div>
+      <!-- Finish / Feature on process-->
+
+      <div class="line hide-text">Separator line</div>
+
+      <div class="foot_logo">
+        <a href="http://lorefnon.me"><span class="logo"></span></a>
+      </div>
+
+      <div class="foot_logo right">
+        <a href="/"><span class="link">Full Blog >></span></a>
+      </div>
+
+      <div class="line"></div>
+
+<div class="foot_userbar">
+  <div href="#" class="bottom_tagline">
+    <span>Lorefnon</span>
+    <br><br>
+    <p> Full stack web developer and polyglot programmer with strong interest in dynamic languages, web application development and user experience design. </p>
+    <br>
+    <p> Strong believer in agile methodologies, behaviour driven development and efficacy of open source technologies.</p>
+    <br>
+  </div>
+  <div class="profile-links-container">
+  <a href="#" class="bottom_tagline"><span> You can reach me through :</span></h2>
+  <br><br>
+  <ul class="profile-links">
+    <li class="twitter">
+      <a href="http://twitter.com/lorefnon" target="_blank">
+        <span>Twitter</span>
+      </a>
+    </li>
+    <li class="linkedin">
+      <a href="https://in.linkedin.com/in/gaurab-paul-a2472921" target="_blank">
+        <span>Linkedin</span>
+      </a>
+    </li>
+    <li class="github">
+      <a href="https://github.com/lorefnon" target="_blank">
+        <span>Github</span>
+      </a>
+    </li>
+    <li class="github">
+      <a href="mailto:lorefnon@gmail.com" target="_blank">
+        <span>Email</span>
+      </a>
+    </li>
+  </ul>
+
+  </div>
+</div>
+<div class="line"></div>
+<div class="foot_userbar">
+  <p>&copy; 2013 - 2015 Gaurab Paul </p>
+<br/>
+<p>Code licensed under the
+  <a href="http://opensource.org/licenses/MIT" target="_blank">The
+    MIT License</a>. Content and Artwork licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA</a>.
+</p>
+<br/>
+<p>
+  The opinions expressed herein are my personal viewpoints  and may
+  not be taken as professional recommendations from any of my previous or
+  current employers.
+</p>
+<br/>
+<p>
+  Site is powered by <a href="http://jekyllrb.com/">Jekyll</a> and graciously hosted by <a href="https://github.com">Github</a>
+</p>
+<br/>
+<br/>
+
+</div>
+
+    </div>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-47274059-1']);
+  _gaq.push(['_setDomainName', 'lorefnon.me']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+    <script src="/assets/javascripts/post.js"></script>
+  </body>
+</html>

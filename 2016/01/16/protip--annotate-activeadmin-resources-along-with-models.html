@@ -6,12 +6,12 @@
 <html lang="en" class="">
   <head>
     <meta charset="utf-8">
-    <title>In-Memory Zipping in Ruby |  Code.Art.Web</title>
+    <title>Protip: Annotate ActiveAdmin resources along with models |  Code.Art.Web</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     
 
-    <link rel="canonical" href="http://lorefnon.me/2014/09/03/in-memory-zipping-ruby.html">
+    <link rel="canonical" href="http://lorefnon.me/2016/01/16/protip--annotate-activeadmin-resources-along-with-models.html">
     <meta property="twitter:creator" content="@lorefnon">
     <meta property="og:title" content="@lorefnon">
     <meta property="og:type" content="blog">
@@ -57,10 +57,10 @@
 
       <div class="posts-container detail-view">
         <article class="post detail-view" id="">
-          <h1 class="title"><a href="#">In-Memory Zipping in Ruby</a></h1>
+          <h1 class="title"><a href="#">Protip: Annotate ActiveAdmin resources along with models</a></h1>
           <a href="#" class="anchor-icon time-wrapper">
             <i class="fa fa-anchor"></i>
-            <time>Sep 03, 2014</time>
+            <time>Jan 16, 2016</time>
           </a>
 
           
@@ -70,58 +70,45 @@
           
 
 
-  <p><a href="https://github.com/rubyzip/rubyzip">Rubyzip</a> is pretty much the defacto solution for manipulating zip files in ruby. However an underdocumented feature of this library is that it allows for creating zip files in memory ie. without actually writing anything to a file.</p>
+  <p><a href="https://github.com/ctran/annotate_models">Annotate</a> is a very useful utility for annotating schema information in Rails models. The gem prepends (or appends, as per your <a href="https://github.com/ctran/annotate_models#options">configuration</a>) a summarized information about the table schema in each model file as comments) - saving multiple roundtrips to the <code>schema.rb</code> file during coding.</p>
 
-<p>There are many situations when this can come in handy. For example in a Web application it may be faster to zip a small number of files on the fly and deliver it to client without writing to disc. This is especially handy in cloud environments where direct disc access is prohibited.</p>
-
-<p>This can be accomplished as follows:</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="n">file_stream</span> <span class="o">=</span> <span class="no">Zip</span><span class="o">::</span><span class="no">ZipOutputStream</span><span class="o">.</span><span class="n">write_buffer</span> <span class="k">do</span> <span class="o">|</span><span class="n">zip</span><span class="o">|</span>
-  <span class="n">zip</span><span class="o">.</span><span class="n">put_next_entry</span> <span class="s2">&quot;hello.txt&quot;</span>
-  <span class="n">zip</span><span class="o">.</span><span class="n">print</span> <span class="s2">&quot;Hello World&quot;</span>
-<span class="k">end</span>
+<p>For Example:</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="c1"># == Schema Information</span>
+<span class="c1">#</span>
+<span class="c1"># Table name: roles</span>
+<span class="c1">#</span>
+<span class="c1">#  id            :integer          not null, primary key</span>
+<span class="c1">#  name          :string</span>
+<span class="c1">#  resource_id   :integer</span>
+<span class="c1">#  resource_type :string</span>
+<span class="c1">#  created_at    :datetime</span>
+<span class="c1">#  updated_at    :datetime</span>
+<span class="c1">#</span>
+<span class="c1"># Indexes</span>
+<span class="c1">#</span>
+<span class="c1">#  index_roles_on_name                                    (name)</span>
+<span class="c1">#  index_roles_on_name_and_resource_type_and_resource_id  (name,resource_type,resource_id)</span>
+<span class="c1">#</span>
 </code></pre></div>
+<p>However while working with admin interfaces powered by <a href="http://activeadmin.info">ActiveAdmin</a> I have often found it convenient to have the model schema annotations available right in the <a href="http://activeadmin.info/docs/2-resource-customization.html">ActiveAdmin resource files</a>. There is a very simple way to achieve that:</p>
 
-<p>The above creates a zip file with a single file hello.txt containing the text &quot;Hello World&quot;</p>
+<p>The rake task <a href="https://github.com/ctran/annotate_models#configuration-in-rails">generated</a> by Annotate (<code>lib/tasks/auto_annotate_models.rake</code>) has option to specify the model directory. This is primarily intended for projects with non standard directory configuration. As it so happens we can specify multiple directories separated by commas.</p>
 
-<p>Creating directory structures is just as easy:</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="n">file_stream</span> <span class="o">=</span> <span class="no">Zip</span><span class="o">::</span><span class="no">ZipOutputStream</span><span class="o">.</span><span class="n">write_buffer</span> <span class="k">do</span> <span class="o">|</span><span class="n">zip</span><span class="o">|</span>
-  <span class="n">zip</span><span class="o">.</span><span class="n">put_next_entry</span> <span class="s2">&quot;dir1/hello.txt&quot;</span>
-  <span class="n">zip</span><span class="o">.</span><span class="n">print</span> <span class="s2">&quot;Hello&quot;</span>
-  <span class="n">zip</span><span class="o">.</span><span class="n">put_next_entry</span> <span class="s2">&quot;dir2/hello.txt&quot;</span>
-  <span class="n">zip</span><span class="o">.</span><span class="n">print</span> <span class="s2">&quot;World&quot;</span>
-<span class="k">end</span>
-</code></pre></div>
-
-<p>Finally, before we can read from the stream we will have to rewind it first. As an illustrative example the following shows a typical Rails controller that renders a zipped file to client.</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">SomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-  <span class="k">def</span> <span class="nf">some_action</span>
-    <span class="n">file_stream</span> <span class="o">=</span> <span class="no">Zip</span><span class="o">::</span><span class="no">ZipOutputStream</span><span class="o">.</span><span class="n">write_buffer</span> <span class="k">do</span> <span class="o">|</span><span class="n">zip</span><span class="o">|</span>
-      <span class="n">zip</span><span class="o">.</span><span class="n">put_next_entry</span> <span class="s2">&quot;dir1/hello.txt&quot;</span>
-      <span class="n">zip</span><span class="o">.</span><span class="n">print</span> <span class="s2">&quot;Hello&quot;</span>
-      <span class="n">zip</span><span class="o">.</span><span class="n">put_next_entry</span> <span class="s2">&quot;dir2/hello.txt&quot;</span>
-      <span class="n">zip</span><span class="o">.</span><span class="n">print</span> <span class="s2">&quot;World&quot;</span>
-    <span class="k">end</span>
-    <span class="n">file_stream</span><span class="o">.</span><span class="n">rewind</span>
-    <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
-      <span class="nb">format</span><span class="o">.</span><span class="n">zip</span> <span class="k">do</span>
-        <span class="n">send_data</span> <span class="n">file_stream</span><span class="o">.</span><span class="n">read</span><span class="p">,</span> <span class="ss">filename</span><span class="p">:</span> <span class="s2">&quot;zip_file.zip&quot;</span>
-      <span class="k">end</span>
-    <span class="k">end</span>
+<p>So taking advantage of the fact that our ActiveAdmin resource files are conventionally named same as the models, we can just add the admin directory to the list of model directories:</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">if</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">development?</span>
+  <span class="n">task</span> <span class="ss">:set_annotation_options</span> <span class="k">do</span>
+    <span class="c1"># You can override any of these by setting an environment variable of the</span>
+    <span class="c1"># same name.</span>
+    <span class="no">Annotate</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span>
+      <span class="s1">&#39;model_dir&#39;</span>               <span class="o">=&gt;</span> <span class="s1">&#39;app/models,app/admin&#39;</span><span class="p">,</span>
+      <span class="c1"># ... other configuration options</span>
+    <span class="p">)</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre></div>
+<p>Next time annotate is run, either manually invoked or through migration hooks, our ActiveAdmin resource files with annotated along with our model files.</p>
 
-<p>A user visiting this action will be downloading a file named zip_file.zip containing two files in their respective directories.</p>
-
-<p>For <code>format.zip</code> to be available we will have to register <code>application/zip</code> mimetype. Add the following to an initializer:</p>
-
-<div class="highlight"><pre><code class="ruby"><span class="no">Mime</span><span class="o">::</span><span class="no">Type</span><span class="o">.</span><span class="n">register</span> <span class="s2">&quot;application/zip&quot;</span><span class="p">,</span> <span class="ss">:zip</span>
-</code></pre></div>
-
-<p>This concludes this small article. Please feel free to leave your suggestions in the comments below.</p>
+<p>If you are not using the generated rake file, this approach of course works with the <code>--model-dir</code> command line option as well.</p>
 
 
 <footer class="group">

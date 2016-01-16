@@ -1,5 +1,152 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"><![endif]--><!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]--><!--[if IE 8]><html class="no-js lt-ie9" lang="en"><![endif]--><!--[if gt IE 8]>><!<![endif]--><html lang="en" class=""><head><meta charset="utf-8"><title>A minimal setup for using ES6 modules in Rails | Code.Art.Web</title><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="ES6 modules are the future of modular code organization in javascript. Let's explore how to use them today in Rails."><link rel="canonical" href="http://lorefnon.me/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html"><meta property="twitter:creator" content="@lorefnon"><meta property="og:title" content="@lorefnon"><meta property="og:type" content="blog"><meta poperty="og:url" content="http://lorefnon.me"><meta property="og:site_name" content="Code.Art.Web"><meta property="og:fb:app_id"><meta property="og:description" content="ES6 modules are the future of modular code organization in javascript. Let's explore how to use them today in Rails."><link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/><link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"><link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'> <script>this.top.location!==this.location&&(this.top.location=this.location)</script></head><body style="zoom:1"><div class="main-container"><div class="mlogotype is-uppercase"> <a href="http://lorefnon.me">Code.Art.Web</a></div><a href="http://lorefnon.me" class="home_logotype_link"><h1 class="tag">Code.Art.Web</h1> </a><div class="header-container detail-view"> <header class="main-header"> <figure class="avatar"> <a href="http://lorefnon.me" style="background-image:url('')">Profile Picture</a> </figure><h1 class="profile-name is-uppercase"> <a href="http://lorefnon.me">Lorefnon</a></h1> </header></div><div class="posts-container detail-view"> <article class="post detail-view" id=""><h1 class="title"><a href="#">A minimal setup for using ES6 modules in Rails</a></h1> <a href="#" class="anchor-icon time-wrapper"> <i class="fa fa-anchor"></i> <time>Nov 15, 2015</time> </a><h2> <a class="header-link" href="#abstract" id="abstract"> Abstract </a></h2><p>ES6 modules are the future of modular code organization in javascript. Let's explore how to use them today in Rails.</p><h2> <a class="header-link" href="#tldr" id="tldr"> TL;DR </a></h2><p><code>browserify-rails</code> + <code>babelify</code> is a hassle-free solution if you are planning to use ES6 modules with sprockets, compared to the officially recommended <code>sprockets-es6</code>.</p><div id="toc-container"><table class="toc" id="toc"><tbody><tr><td><div id="toctitle"><h2><a class="header-link" href="#contents" id="contents">Contents</a></h2></div><ul><li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1.</span> <span class="toctext">Using ES6 and ES7 features today with Babel</span></a></li><li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2.</span> <span class="toctext">ES6 modules in Babel</span></a></li><li class="toc_level-1 toc_section-3"><a href="#header1-3"><span class="tocnumber">3.</span> <span class="toctext">Solutions for integrating Sprockets with babel</span></a></li><li class="toc_level-1 toc_section-4"><a href="#header1-4"><span class="tocnumber">4.</span> <span class="toctext">Javascript bundling woes</span></a></li><li class="toc_level-1 toc_section-5"><a href="#header1-5"><span class="tocnumber">5.</span> <span class="toctext">Browserify-rails as an alternative</span></a></li><li class="toc_level-1 toc_section-6"><a href="#header1-6"><span class="tocnumber">6.</span> <span class="toctext">Browserify and the ecosystem around transforms</span></a></li><li class="toc_level-1 toc_section-7"><a href="#header1-7"><span class="tocnumber">7.</span> <span class="toctext">Installation</span></a></li><li class="toc_level-1 toc_section-8"><a href="#header1-8"><span class="tocnumber">8.</span> <span class="toctext">Configuring browserify and babelify</span></a></li><li class="toc_level-1 toc_section-9"><a href="#header1-9"><span class="tocnumber">9.</span> <span class="toctext">Using ES6 modules in application code</span></a></li></ul></td></tr></tbody></table></div><h2><a class="header-link" href="#header1-1" id="header1-1"><span class="header-bullet-num">1.</span><span class="header-inner-text">Using ES6 and ES7 features today with Babel</span></a></h2><p>While ES6 adoption is progressively improving across browsers, and the sprockets team is planning to integrate ES6 features into Rails asset pipeline in near future, using a widely popular transpiler: <a href="https://babeljs.io">Babel</a> we can leverage many of those features right away. This <a href="https://kangax.github.io/compat-table/es6/">ES6 compatibility table</a> establishes babel as argubaly the best solution for transpiling ES6/ES7.</p><p><img src="/images/es6_compat_table.png" data-action="zoom"></p><p>The specific aspect of interest for this post is ES6 modules feature which provides a standardized module system for javascript.</p><h2><a class="header-link" href="#header1-2" id="header1-2"><span class="header-bullet-num">2.</span><span class="header-inner-text">ES6 modules in Babel</span></a></h2><p>While babel does have a solution for ES6 modules, rather than handling dependency resolution itself - it transpiles the modules to existing javascript based module systems - the most popular ones being <a href="https://github.com/amdjs">AMD</a> and <a href="https://commonjs.org">CommonJS</a>. This post does not go into a compartive analysis of them, but there is an excellent <a href="addyosmani.com/writing-modular-js/">article</a> by <a href="https://twitter.com/addyosmani">Addy Osmani</a> which provides an in-depth elaboration on the topic.</p><h2><a class="header-link" href="#header1-3" id="header1-3"><span class="header-bullet-num">3.</span><span class="header-inner-text">Solutions for integrating Sprockets with babel</span></a></h2><p>The solution <a href="https://babeljs.io/docs/setup/#rails">recommended</a> by the Babel team for using babel with rails, is through an experimental <a href="https://github.com/TannerRogalsky/sprockets-es6">sprockets-es6</a> gem, which is intended to be a PoC for future work to be integrated into Sprockets. Quoting from the README:</p><blockquote><p>This plugin is primarily experimental and will never reach a stable 1.0. The purpose is to test out BabelJS features on Sprockets 3.x and include it by default in Sprockets 4.x.</p></blockquote><h2><a class="header-link" href="#header1-4" id="header1-4"><span class="header-bullet-num">4.</span><span class="header-inner-text">Javascript bundling woes</span></a></h2><p>Apart from the experimental status, the key issue with using this gem is that it is non-trivial to get ES6 modules to work with it. The primary reason being that, as mentioned above, even though babel transpiles ES6 modules to CommonJS (or AMD), we still need to provide an implementation of the relevant module system that will enable the browsers to recognize the modules. This means we will have to include another dependency like <a href="https://github.com/maccman/sprockets-commonjs">sprockets-commonjs</a>. However there is a caveat:</p><blockquote><p>One caveat to the approach this library takes, is that dependencies loaded through require() will not be added to the dependency graph. This library will not parse the AST tree for require calls. This decision has been made for a variety of reasons, but it does mean you need to require files through both CommonJS and Sprockets.</p></blockquote><p>Using AMD modules with <a href="https://github.com/jwhitley/requirejs-rails">requirejs-rails</a> is something that works, however javascript community has largely adopted <a href="https://npmjs.com">npm</a> for package management framework. For example - jQuery plugin repository now states:</p><blockquote><p>The jQuery Plugin Registry is in read-only mode. New plugin releases will not be processed. We recommend moving to npm, using "jquery-plugin" as the keyword in your package.json. The npm blog has instructions for publishing your plugin to npm.</p></blockquote><h2><a class="header-link" href="#header1-5" id="header1-5"><span class="header-bullet-num">5.</span><span class="header-inner-text">Browserify-rails as an alternative</span></a></h2><p>There is however a simpler solution: Using the gem <a href="https://github.com/browserify-rails/browserify-rails">browserify-rails</a> which bridges sprockets and <a href="http://browserify.org/">browserify</a>. Browserify is a javascript bundler that leverages CommonJS :</p><blockquote><p>Browserify lets you require('modules') in the browser by bundling up all of your dependencies</p></blockquote><h2><a class="header-link" href="#header1-6" id="header1-6"><span class="header-bullet-num">6.</span><span class="header-inner-text">Browserify and the ecosystem around transforms</span></a></h2><p>The great thing about browserify is that we can hook in transforms which can take care of additional pre-processing before the <code>require</code>d files are bundled up. Of particular interest to us, is the browserify transform for babel - <a href="https://github.com/babel/babelify">babelify</a> which allows us to sidestep the caveat above. We need to have a node installation on the system though, just having a javascript runtime is not sufficient - but this is not much of an issue because node.js is now widely supported on all widely used platforms.</p><h2><a class="header-link" href="#header1-7" id="header1-7"><span class="header-bullet-num">7.</span><span class="header-inner-text">Installation</span></a></h2><p>To get this to work we need to add <code>browserify-rails</code> to Gemfile:</p><div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s2">"browserify-rails"</span>
-</code></pre></div><p>as well as a <code>package.json</code> in project root:</p><div class="highlight"><pre><code class="javascript"><span id="snippet_1-1"><a name="snippet_1-1"></a><span class="p">{</span>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]> ><! <![endif]-->
+<html lang="en" class="">
+  <head>
+    <meta charset="utf-8">
+    <title>A minimal setup for using ES6 modules in Rails |  Code.Art.Web</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta name="description" content="ES6 modules are the future of modular code organization in javascript. Let&#39;s explore how to use them today in Rails.">
+    
+
+    <link rel="canonical" href="http://lorefnon.me/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html">
+    <meta property="twitter:creator" content="@lorefnon">
+    <meta property="og:title" content="@lorefnon">
+    <meta property="og:type" content="blog">
+    <meta poperty="og:url" content="http://lorefnon.me">
+    <meta property="og:site_name" content="Code.Art.Web">
+    <meta property="og:fb:app_id">
+    <meta property="og:description" content="ES6 modules are the future of modular code organization in javascript. Let's explore how to use them today in Rails.">
+    <link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'>
+    <script>
+  this.top.location !== this.location && (this.top.location = this.location);
+</script>
+
+  </head>
+  <body style="zoom: 1;">
+    <div class="main-container">
+
+      <div class="mlogotype is-uppercase">
+        <a href="http://lorefnon.me">Code.Art.Web</a>
+      </div>
+
+      <a href="http://lorefnon.me" class="home_logotype_link">
+        <h1 class="tag">Code.Art.Web</h1>
+      </a>
+
+      <div class="header-container detail-view">
+        <header class="main-header">
+          <figure class="avatar">
+            <a href="http://lorefnon.me"
+            style="background-image: url();">Profile Picture</a>
+          </figure>
+          <h1 class="profile-name is-uppercase">
+            <a href="http://lorefnon.me">Lorefnon</a>
+          </h1>
+        </header>
+      </div>
+
+      <div class="posts-container detail-view">
+        <article class="post detail-view" id="">
+          <h1 class="title"><a href="#">A minimal setup for using ES6 modules in Rails</a></h1>
+          <a href="#" class="anchor-icon time-wrapper">
+            <i class="fa fa-anchor"></i>
+            <time>Nov 15, 2015</time>
+          </a>
+
+          
+          <h2> <a class="header-link" href="#abstract" id="abstract"> Abstract </a> </h2>
+          <p>ES6 modules are the future of modular code organization in javascript. Let&#39;s explore how to use them today in Rails.</p>
+
+          
+
+          
+          <h2> <a class="header-link" href="#tldr" id="tldr"> TL;DR </a> </h2>
+          <p><code>browserify-rails</code> + <code>babelify</code> is a hassle-free solution if you are planning to use ES6 modules with sprockets, compared to the officially recommended <code>sprockets-es6</code>.</p>
+
+          
+
+          <div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>
+<div id="toctitle"><h2><a class="header-link" href="#contents" id="contents">Contents</a></h2></div>
+<ul>
+<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1.</span> <span class="toctext">Using ES6 and ES7 features today with Babel</span></a></li>
+<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2.</span> <span class="toctext">ES6 modules in Babel</span></a></li>
+<li class="toc_level-1 toc_section-3"><a href="#header1-3"><span class="tocnumber">3.</span> <span class="toctext">Solutions for integrating Sprockets with babel</span></a></li>
+<li class="toc_level-1 toc_section-4"><a href="#header1-4"><span class="tocnumber">4.</span> <span class="toctext">Javascript bundling woes</span></a></li>
+<li class="toc_level-1 toc_section-5"><a href="#header1-5"><span class="tocnumber">5.</span> <span class="toctext">Browserify-rails as an alternative</span></a></li>
+<li class="toc_level-1 toc_section-6"><a href="#header1-6"><span class="tocnumber">6.</span> <span class="toctext">Browserify and the ecosystem around transforms</span></a></li>
+<li class="toc_level-1 toc_section-7"><a href="#header1-7"><span class="tocnumber">7.</span> <span class="toctext">Installation</span></a></li>
+<li class="toc_level-1 toc_section-8"><a href="#header1-8"><span class="tocnumber">8.</span> <span class="toctext">Configuring browserify and babelify</span></a></li>
+<li class="toc_level-1 toc_section-9"><a href="#header1-9"><span class="tocnumber">9.</span> <span class="toctext">Using ES6 modules in application code</span></a></li>
+</ul>
+</td></tr></tbody></table></div>
+<h2><a class="header-link" href="#header1-1" id="header1-1"><span class="header-bullet-num">1.</span><span class="header-inner-text">Using ES6 and ES7 features today with Babel</span></a></h2>
+
+<p>While ES6 adoption is progressively improving across browsers, and the sprockets team is planning to integrate ES6 features into Rails asset pipeline in near future, using a widely popular transpiler: <a href="https://babeljs.io">Babel</a> we can leverage many of those features right away. This <a href="https://kangax.github.io/compat-table/es6/">ES6 compatibility table</a> establishes babel as argubaly the best solution for transpiling ES6/ES7.</p>
+
+<p><img src="/images/es6_compat_table.png" data-action="zoom"></p>
+
+<p>The specific aspect of interest for this post is ES6 modules feature which provides a standardized module system for javascript.</p>
+
+<h2><a class="header-link" href="#header1-2" id="header1-2"><span class="header-bullet-num">2.</span><span class="header-inner-text">ES6 modules in Babel</span></a></h2>
+
+<p>While babel does have a solution for ES6 modules, rather than handling dependency resolution itself - it transpiles the modules to existing javascript based module systems - the most popular ones being <a href="https://github.com/amdjs">AMD</a> and <a href="https://commonjs.org">CommonJS</a>. This post does not go into a compartive analysis of them, but there is an excellent <a href="addyosmani.com/writing-modular-js/">article</a> by <a href="https://twitter.com/addyosmani">Addy Osmani</a> which provides an in-depth elaboration on the topic.</p>
+
+<h2><a class="header-link" href="#header1-3" id="header1-3"><span class="header-bullet-num">3.</span><span class="header-inner-text">Solutions for integrating Sprockets with babel</span></a></h2>
+
+<p>The solution <a href="https://babeljs.io/docs/setup/#rails">recommended</a> by the Babel team for using babel with rails, is through an experimental <a href="https://github.com/TannerRogalsky/sprockets-es6">sprockets-es6</a> gem, which is intended to be a PoC for future work to be integrated into Sprockets. Quoting from the README:</p>
+
+<blockquote>
+<p>This plugin is primarily experimental and will never reach a stable 1.0. The purpose is to test out BabelJS features on Sprockets 3.x and include it by default in Sprockets 4.x.</p>
+</blockquote>
+
+<h2><a class="header-link" href="#header1-4" id="header1-4"><span class="header-bullet-num">4.</span><span class="header-inner-text">Javascript bundling woes</span></a></h2>
+
+<p>Apart from the experimental status, the key issue with using this gem is that it is non-trivial to get ES6 modules to work with it. The primary reason being that, as mentioned above, even though babel transpiles ES6 modules to CommonJS (or AMD), we still need to provide an implementation of the relevant module system that will enable the browsers to recognize the modules. This means we will have to include another dependency like <a href="https://github.com/maccman/sprockets-commonjs">sprockets-commonjs</a>. However there is a caveat:</p>
+
+<blockquote>
+<p>One caveat to the approach this library takes, is that dependencies loaded through require() will not be added to the dependency graph. This library will not parse the AST tree for require calls. This decision has been made for a variety of reasons, but it does mean you need to require files through both CommonJS and Sprockets.</p>
+</blockquote>
+
+<p>Using AMD modules with <a href="https://github.com/jwhitley/requirejs-rails">requirejs-rails</a> is something that works, however javascript community has largely adopted <a href="https://npmjs.com">npm</a> for package management framework. For example - jQuery plugin repository now states:</p>
+
+<blockquote>
+<p>The jQuery Plugin Registry is in read-only mode.
+New plugin releases will not be processed.
+We recommend moving to npm, using "jquery-plugin" as the keyword in your package.json. The npm blog has instructions for publishing your plugin to npm.</p>
+</blockquote>
+
+<h2><a class="header-link" href="#header1-5" id="header1-5"><span class="header-bullet-num">5.</span><span class="header-inner-text">Browserify-rails as an alternative</span></a></h2>
+
+<p>There is however a simpler solution: Using the gem <a href="https://github.com/browserify-rails/browserify-rails">browserify-rails</a> which bridges sprockets and <a href="http://browserify.org/">browserify</a>. Browserify is a javascript bundler that leverages CommonJS :</p>
+
+<blockquote>
+<p>Browserify lets you require('modules') in the browser by bundling up all of your dependencies</p>
+</blockquote>
+
+<h2><a class="header-link" href="#header1-6" id="header1-6"><span class="header-bullet-num">6.</span><span class="header-inner-text">Browserify and the ecosystem around transforms</span></a></h2>
+
+<p>The great thing about browserify is that we can hook in transforms which can take care of additional pre-processing before the <code>require</code>d files are bundled up. Of particular interest to us, is the browserify transform for babel - <a href="https://github.com/babel/babelify">babelify</a> which allows us to  sidestep the caveat above. We need to have a node installation on the system though, just having a javascript runtime is not sufficient - but this is not much of an issue because node.js is now widely supported on all widely used platforms.</p>
+
+<h2><a class="header-link" href="#header1-7" id="header1-7"><span class="header-bullet-num">7.</span><span class="header-inner-text">Installation</span></a></h2>
+
+<p>To get this to work we need to add <code>browserify-rails</code> to Gemfile:</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s2">"browserify-rails"</span>
+</code></pre></div>
+<p>as well as a <code>package.json</code> in project root:</p>
+
+<div class="highlight"><pre><code class="javascript"><span id="snippet_1-1"><a name="snippet_1-1"></a><span class="p">{</span>
 </span><span id="snippet_1-2"><a name="snippet_1-2"></a>    <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"something"</span><span class="p">,</span>
 </span><span id="snippet_1-3"><a name="snippet_1-3"></a>    <span class="s2">"license"</span><span class="o">:</span> <span class="s2">"MIT"</span><span class="p">,</span>
 </span><span id="snippet_1-4"><a name="snippet_1-4"></a>    <span class="s2">"engines"</span><span class="o">:</span> <span class="p">{</span>
@@ -12,17 +159,171 @@
 </span><span id="snippet_1-11"><a name="snippet_1-11"></a>        <span class="s2">"browserify-incremental"</span><span class="o">:</span> <span class="s2">"^3.0.1"</span>
 </span><span id="snippet_1-12"><a name="snippet_1-12"></a>    <span class="p">}</span>
 </span><span id="snippet_1-13"><a name="snippet_1-13"></a><span class="p">}</span>
-</span></code></pre></div><p>If we want to use other javascript libraries available through npm we can include them directly in the package.json.</p><h2><a class="header-link" href="#header1-8" id="header1-8"><span class="header-bullet-num">8.</span><span class="header-inner-text">Configuring browserify and babelify</span></a></h2><p>In addition to the above, we will also have to pass a configuration option to browserify to use babelify. This can be done by adding the following line to <code>config/application.rb</code> :</p><div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="n">config</span><span class="o">.</span><span class="n">browserify_rails</span><span class="o">.</span><span class="n">commandline_options</span> <span class="o">=</span> <span class="s2">"-t babelify"</span>
-</code></pre></div><p>You may have noticed that we have included the <code>babel-preset-es2015</code> in our dependencies. While babel is a generic javascript transformation utility, it is this present that encorporates the plugins required to transform the syntax for next generation javascript to javascript that browsers of today can understand. The recommended way to specify options for babel transformer is through a <code>.babelrc</code> file in the project root:</p><div class="highlight"><pre><code class="json language-json" data-lang="json"><span class="p">{</span>
+</span></code></pre></div>
+
+<p>If we want to use other javascript libraries available through npm we can include them directly in the package.json.</p>
+
+<h2><a class="header-link" href="#header1-8" id="header1-8"><span class="header-bullet-num">8.</span><span class="header-inner-text">Configuring browserify and babelify</span></a></h2>
+
+<p>In addition to the above, we will also have to pass a configuration option to browserify to use babelify. This can be done by adding the following line to <code>config/application.rb</code> :</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="n">config</span><span class="o">.</span><span class="n">browserify_rails</span><span class="o">.</span><span class="n">commandline_options</span> <span class="o">=</span> <span class="s2">"-t babelify"</span>
+</code></pre></div>
+<p>You may have noticed that we have included the <code>babel-preset-es2015</code> in our dependencies. While babel is a generic javascript transformation utility, it is this present that encorporates the plugins required to transform the syntax for next generation javascript to javascript that browsers of today can understand. The recommended way to specify options for babel transformer is through a <code>.babelrc</code> file in the project root:</p>
+<div class="highlight"><pre><code class="json language-json" data-lang="json"><span class="p">{</span>
   <span class="nt">"presets"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"es2015"</span><span class="p">]</span>
 <span class="p">}</span>
-</code></pre></div><p>That is all the setup we needed. Now we can move on to the application code. There is a single caveat though: We can not directly start using ES6 modules in our top level files (typically application.js) but only in our <code>require</code>d files:</p><h2><a class="header-link" href="#header1-9" id="header1-9"><span class="header-bullet-num">9.</span><span class="header-inner-text">Using ES6 modules in application code</span></a></h2><p>So our application.js can be fairly minimal with a single require statement:</p><div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="nx">require</span><span class="p">(</span><span class="s1">'./main'</span><span class="p">)</span>
-</code></pre></div><p>Now we can use ES6 modules in main.js</p><p>main.js:</p><div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">hello</span> <span class="nx">from</span> <span class="s1">'./hello'</span>
+</code></pre></div>
+<p>That is all the setup we needed. Now we can move on to the application code. There is a single caveat though: We can not directly start using ES6 modules in our top level files (typically application.js) but only in our <code>require</code>d files:</p>
+
+<h2><a class="header-link" href="#header1-9" id="header1-9"><span class="header-bullet-num">9.</span><span class="header-inner-text">Using ES6 modules in application code</span></a></h2>
+
+<p>So our application.js can be fairly minimal with a single require statement:</p>
+<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="nx">require</span><span class="p">(</span><span class="s1">'./main'</span><span class="p">)</span>
+</code></pre></div>
+<p>Now we can use ES6 modules in main.js</p>
+
+<p>main.js:</p>
+<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">hello</span> <span class="nx">from</span> <span class="s1">'./hello'</span>
 
 <span class="nx">hello</span><span class="p">()</span>
-</code></pre></div><p>hello.js:</p><div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">hello</span><span class="p">()</span> <span class="p">{</span>
+</code></pre></div>
+<p>hello.js:</p>
+<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">hello</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">alert</span><span class="p">(</span><span class="s1">'hello world'</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">hello</span><span class="p">;</span>
-</code></pre></div><p>If we run the server now and visit the home page, we should be greeted with a hello prompt.</p><footer class="group"><p></p> </footer><div id="disqus_thread"></div> <script>!function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src="//lorefnon-blog.disqus.com/embed.js",(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a> </noscript> <a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a></article></div><div class="line hide-text">Separator line</div><div class="next-article" style="display:none"> <a href="#"><p class="read-next tag is-uppercase">Read this next:</p><p class="next-article__title">Protocol and Language</p><div class="next-article__content"><p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p></div> </a></div><div class="line hide-text">Separator line</div><div class="foot_logo"> <a href="http://lorefnon.me"><span class="logo"></span></a></div><div class="foot_logo right"> <a href="/"><span class="link">Full Blog >></span></a></div><div class="line"></div><div class="foot_userbar"><div href="#" class="bottom_tagline"> <span>Lorefnon</span> <br><br><p> Full stack web developer and polyglot programmer with strong interest in dynamic languages, web application development and user experience design.</p> <br><p> Strong believer in agile methodologies, behaviour driven development and efficacy of open source technologies.</p> <br></div><div class="profile-links-container"> <a href="#" class="bottom_tagline"><span> You can reach me through :</span></h2> <br><br><ul class="profile-links"><li class="twitter"> <a href="http://twitter.com/lorefnon" target="_blank"> <span>Twitter</span> </a></li><li class="linkedin"> <a href="https://in.linkedin.com/in/gaurab-paul-a2472921" target="_blank"> <span>Linkedin</span> </a></li><li class="github"> <a href="https://github.com/lorefnon" target="_blank"> <span>Github</span> </a></li><li class="github"> <a href="mailto:lorefnon@gmail.com" target="_blank"> <span>Email</span> </a></li></ul></div></div><div class="line"></div><div class="foot_userbar"><p>© 2013 - 2015 Gaurab Paul</p> <br/><p>Code licensed under the <a href="http://opensource.org/licenses/MIT" target="_blank">The MIT License</a>. Content and Artwork licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA</a>.</p> <br/><p> The opinions expressed herein are my personal viewpoints and may not be taken as professional recommendations from any of my previous or current employers.</p> <br/><p> Site is powered by <a href="http://jekyllrb.com/">Jekyll</a> and graciously hosted by <a href="https://github.com">Github</a></p> <br/> <br/></div></div><script>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-47274059-1"]),_gaq.push(["_setDomainName","lorefnon.me"]),_gaq.push(["_trackPageview"]),function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js";var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e)}()</script><script src="/assets/javascripts/post.js"></script></body></html>
+</code></pre></div>
+<p>If we run the server now and visit the home page, we should be greeted with a hello prompt.</p>
+
+
+<footer class="group">
+  <p>
+    
+    
+    
+      
+    
+  </p>
+</footer>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//lorefnon-blog.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+        </article>
+      </div>
+
+      <div class="line hide-text">Separator line</div>
+
+      <!-- Next article preview -->
+      <div class="next-article" style="display: none;">
+        <a href="#">
+          <p class="read-next tag is-uppercase">Read this next:</p>
+          <p class="next-article__title">Protocol and Language</p>
+          <div class="next-article__content">
+            <p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p>
+          </div>
+        </a>
+      </div>
+      <!-- Finish / Feature on process-->
+
+      <div class="line hide-text">Separator line</div>
+
+      <div class="foot_logo">
+        <a href="http://lorefnon.me"><span class="logo"></span></a>
+      </div>
+
+      <div class="foot_logo right">
+        <a href="/"><span class="link">Full Blog >></span></a>
+      </div>
+
+      <div class="line"></div>
+
+<div class="foot_userbar">
+  <div href="#" class="bottom_tagline">
+    <span>Lorefnon</span>
+    <br><br>
+    <p> Full stack web developer and polyglot programmer with strong interest in dynamic languages, web application development and user experience design. </p>
+    <br>
+    <p> Strong believer in agile methodologies, behaviour driven development and efficacy of open source technologies.</p>
+    <br>
+  </div>
+  <div class="profile-links-container">
+  <a href="#" class="bottom_tagline"><span> You can reach me through :</span></h2>
+  <br><br>
+  <ul class="profile-links">
+    <li class="twitter">
+      <a href="http://twitter.com/lorefnon" target="_blank">
+        <span>Twitter</span>
+      </a>
+    </li>
+    <li class="linkedin">
+      <a href="https://in.linkedin.com/in/gaurab-paul-a2472921" target="_blank">
+        <span>Linkedin</span>
+      </a>
+    </li>
+    <li class="github">
+      <a href="https://github.com/lorefnon" target="_blank">
+        <span>Github</span>
+      </a>
+    </li>
+    <li class="github">
+      <a href="mailto:lorefnon@gmail.com" target="_blank">
+        <span>Email</span>
+      </a>
+    </li>
+  </ul>
+
+  </div>
+</div>
+<div class="line"></div>
+<div class="foot_userbar">
+  <p>&copy; 2013 - 2015 Gaurab Paul </p>
+<br/>
+<p>Code licensed under the
+  <a href="http://opensource.org/licenses/MIT" target="_blank">The
+    MIT License</a>. Content and Artwork licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA</a>.
+</p>
+<br/>
+<p>
+  The opinions expressed herein are my personal viewpoints  and may
+  not be taken as professional recommendations from any of my previous or
+  current employers.
+</p>
+<br/>
+<p>
+  Site is powered by <a href="http://jekyllrb.com/">Jekyll</a> and graciously hosted by <a href="https://github.com">Github</a>
+</p>
+<br/>
+<br/>
+
+</div>
+
+    </div>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-47274059-1']);
+  _gaq.push(['_setDomainName', 'lorefnon.me']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+    <script src="/assets/javascripts/post.js"></script>
+  </body>
+</html>

@@ -1,20 +1,172 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"><![endif]--><!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]--><!--[if IE 8]><html class="no-js lt-ie9" lang="en"><![endif]--><!--[if gt IE 8]>><!<![endif]--><html lang="en" class=""><head><meta charset="utf-8"><title>Configuring Emacs as a productive development environment for Rails development. | Code.Art.Web</title><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="While emacs is well known to be a very productive editor, there are a few additional steps one must take to set it up as a development environment for Ruby on Rails. This post outlines my current setup."><link rel="canonical" href="http://lorefnon.me/2014/02/02/configuring-emacs-for-rails.html"><meta property="twitter:creator" content="@lorefnon"><meta property="og:title" content="@lorefnon"><meta property="og:type" content="blog"><meta poperty="og:url" content="http://lorefnon.me"><meta property="og:site_name" content="Code.Art.Web"><meta property="og:fb:app_id"><meta property="og:description" content="While emacs is well known to be a very productive editor, there are a few additional steps one must take to set it up as a development environment for Ruby on Rails. This post outlines my current setup."><link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/><link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/><link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"><link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'> <script>this.top.location!==this.location&&(this.top.location=this.location)</script></head><body style="zoom:1"><div class="main-container"><div class="mlogotype is-uppercase"> <a href="http://lorefnon.me">Code.Art.Web</a></div><a href="http://lorefnon.me" class="home_logotype_link"><h1 class="tag">Code.Art.Web</h1> </a><div class="header-container detail-view"> <header class="main-header"> <figure class="avatar"> <a href="http://lorefnon.me" style="background-image:url('')">Profile Picture</a> </figure><h1 class="profile-name is-uppercase"> <a href="http://lorefnon.me">Lorefnon</a></h1> </header></div><div class="posts-container detail-view"> <article class="post detail-view" id=""><h1 class="title"><a href="#">Configuring Emacs as a productive development environment for Rails development.</a></h1> <a href="#" class="anchor-icon time-wrapper"> <i class="fa fa-anchor"></i> <time>Feb 02, 2014</time> </a><h2> <a class="header-link" href="#abstract" id="abstract"> Abstract </a></h2><p>While emacs is well known to be a very productive editor, there are a few additional steps one must take to set it up as a development environment for Ruby on Rails. This post outlines my current setup.</p><div id="toc-container"><table class="toc" id="toc"><tbody><tr><td><div id="toctitle"><h2><a class="header-link" href="#contents" id="contents">Contents</a></h2></div><ul><li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1.</span> <span class="toctext">Updates</span></a></li></ul></td></tr></tbody></table></div><h2><a class="header-link" href="#header1-1" id="header1-1"><span class="header-bullet-num">1.</span><span class="header-inner-text">Updates</span></a></h2><ul><li>The default keybindings have been updated based on the feedback from <a href="https://github.com/asok">Asok</a>, the author of the awesmoe <code>projectile-rails</code> package.</li></ul><hr><p>This post outlines some of the Emacs extensions (open source, of course) which can significantly ease the life of a Rails developer. While Rails is, by design, quite a productive framework, having the dev environment properly setup can multiply developer efficiency by an order of magnitude. Although almost all of this information is available online elsewhere, I nevertheless wanted to summarize my explorations in form of a basic guide to easily configure extensions I have found to be useful, during the course of my Rails projects. While the primary audience is a forgetful me from the future, I hope developers new to Rails or Emacs (or both) will find this helpful to get up and running with Emacs and Rails, without having to wade through reams of documentation right upfront. I have tried my best to link the appropriate authoritative resources, which may be helpful for people looking forward to customizing and extending the setup.</p><p>While the setup below has been tested only in Linux Elementary, it should work for other Posix environments as well. Please ensure that you have got atleast <a href="http://www.gnu.org/software/emacs/#Obtaining">Emacs 24</a> and can download packages through <a href="https://github.com/technomancy/package.el"><code>package.el</code></a>. If you are not familiar with package management in emacs <a href="https://github.com/bbatsov">Bozhidar Batsov</a> has presented <a href="http://batsov.com/articles/2012/02/19/package-management-in-emacs-the-good-the-bad-and-the-ugly/">a great introduction</a>. Adding the following snippet to your <code>~/.emacs</code> should provide access to <a href="http://marmalade-repo.org/">marmalade</a> and <a href="http://melpa.milkbox.net/#/">melpa</a> package archives:</p><div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">'package</span><span class="p">)</span>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]> ><! <![endif]-->
+<html lang="en" class="">
+  <head>
+    <meta charset="utf-8">
+    <title>Configuring Emacs as a productive development environment for Rails development. |  Code.Art.Web</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta name="description" content="While emacs is well known to be a very productive editor, there are a few additional steps one must take to set it up as a development environment for Ruby on Rails. This post outlines my current setup.">
+    
+
+    <link rel="canonical" href="http://lorefnon.me/2014/02/02/configuring-emacs-for-rails.html">
+    <meta property="twitter:creator" content="@lorefnon">
+    <meta property="og:title" content="@lorefnon">
+    <meta property="og:type" content="blog">
+    <meta poperty="og:url" content="http://lorefnon.me">
+    <meta property="og:site_name" content="Code.Art.Web">
+    <meta property="og:fb:app_id">
+    <meta property="og:description" content="While emacs is well known to be a very productive editor, there are a few additional steps one must take to set it up as a development environment for Ruby on Rails. This post outlines my current setup.">
+    <link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'>
+    <script>
+  this.top.location !== this.location && (this.top.location = this.location);
+</script>
+
+  </head>
+  <body style="zoom: 1;">
+    <div class="main-container">
+
+      <div class="mlogotype is-uppercase">
+        <a href="http://lorefnon.me">Code.Art.Web</a>
+      </div>
+
+      <a href="http://lorefnon.me" class="home_logotype_link">
+        <h1 class="tag">Code.Art.Web</h1>
+      </a>
+
+      <div class="header-container detail-view">
+        <header class="main-header">
+          <figure class="avatar">
+            <a href="http://lorefnon.me"
+            style="background-image: url();">Profile Picture</a>
+          </figure>
+          <h1 class="profile-name is-uppercase">
+            <a href="http://lorefnon.me">Lorefnon</a>
+          </h1>
+        </header>
+      </div>
+
+      <div class="posts-container detail-view">
+        <article class="post detail-view" id="">
+          <h1 class="title"><a href="#">Configuring Emacs as a productive development environment for Rails development.</a></h1>
+          <a href="#" class="anchor-icon time-wrapper">
+            <i class="fa fa-anchor"></i>
+            <time>Feb 02, 2014</time>
+          </a>
+
+          
+          <h2> <a class="header-link" href="#abstract" id="abstract"> Abstract </a> </h2>
+          <p>While emacs is well known to be a very productive editor, there are a few additional steps one must take to set it up as a development environment for Ruby on Rails. This post outlines my current setup.</p>
+
+          
+
+          
+
+          <div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>
+<div id="toctitle"><h2><a class="header-link" href="#contents" id="contents">Contents</a></h2></div>
+<ul><li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1.</span> <span class="toctext">Updates</span></a></li></ul>
+</td></tr></tbody></table></div>
+<h2><a class="header-link" href="#header1-1" id="header1-1"><span class="header-bullet-num">1.</span><span class="header-inner-text">Updates</span></a></h2>
+
+<ul>
+<li>The default keybindings have been updated based on the feedback from <a href="https://github.com/asok">Asok</a>, the author of the awesmoe <code>projectile-rails</code> package.</li>
+</ul>
+
+<hr>
+
+<p>This post outlines some of the Emacs extensions (open source, of course) which can significantly ease the life of a Rails developer. While Rails is, by design, quite a productive framework, having the dev environment properly setup can multiply developer efficiency by an order of magnitude. Although almost all of this information is available online elsewhere, I nevertheless wanted to summarize my explorations in form of a basic guide to easily configure extensions I have found to be useful, during the course of my Rails projects. While the primary audience is a forgetful me from the future, I hope developers new to Rails or Emacs (or both) will find this helpful to get up and running with Emacs and Rails, without having to wade through reams of documentation right upfront. I have tried my best to link the appropriate authoritative resources, which may be helpful for people looking forward to customizing and extending the setup.</p>
+
+<p>While the setup below has been tested only in Linux Elementary, it should work for other Posix environments as well. Please ensure that you have got atleast <a href="http://www.gnu.org/software/emacs/#Obtaining">Emacs 24</a> and can download packages through <a href="https://github.com/technomancy/package.el"><code>package.el</code></a>. If you are not familiar with package management in emacs <a href="https://github.com/bbatsov">Bozhidar Batsov</a> has presented <a href="http://batsov.com/articles/2012/02/19/package-management-in-emacs-the-good-the-bad-and-the-ugly/">a great introduction</a>. Adding the following snippet to your <code>~/.emacs</code> should provide access to <a href="http://marmalade-repo.org/">marmalade</a> and <a href="http://melpa.milkbox.net/#/">melpa</a> package archives:</p>
+
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">'package</span><span class="p">)</span>
 <span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'package-archives</span>
     <span class="o">'</span><span class="p">(</span><span class="s">"marmalade"</span> <span class="o">.</span>
       <span class="s">"http://marmalade-repo.org/packages/"</span><span class="p">))</span>
 <span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'package-archives</span>
     <span class="o">'</span><span class="p">(</span><span class="s">"melpa"</span> <span class="o">.</span> <span class="s">"http://melpa.milkbox.net/packages/"</span><span class="p">)</span> <span class="no">t</span><span class="p">)</span>
 <span class="p">(</span><span class="nv">package-initialize</span><span class="p">)</span>
-</code></pre></div><h1>Syntax Checking</h1><p>While the <code>ruby-mode</code> bundled with Emacs works well with syntax highlighting, it does not automatically handle syntax checking. Luckily we have <a href="http://www.emacswiki.org/emacs/FlyMake">flymake</a>, which is a generic on the fly syntax checking system. We can install <a href="https://github.com/purcell/flymake-ruby">flymake-ruby</a> which facilitates syntax checking for ruby through our package manager. Just hit <code>M-x package-install</code> and type in <code>flymake-ruby</code>.</p><p>Once flymake-ruby is installed, we just have to hook it up with the ruby-mode.</p><div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">'flymake-ruby</span><span class="p">)</span>
+</code></pre></div>
+
+<h1>Syntax Checking</h1>
+
+<p>While the <code>ruby-mode</code> bundled with Emacs works well with syntax highlighting, it does not automatically handle syntax checking. Luckily we have <a href="http://www.emacswiki.org/emacs/FlyMake">flymake</a>, which is a generic on the fly syntax checking system. We can install <a href="https://github.com/purcell/flymake-ruby">flymake-ruby</a> which facilitates syntax checking for ruby through our package manager. Just hit <code>M-x package-install</code> and type in <code>flymake-ruby</code>.</p>
+
+<p>Once flymake-ruby is installed, we just have to hook it up with the ruby-mode.</p>
+
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">'flymake-ruby</span><span class="p">)</span>
 <span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'ruby-mode-hook</span> <span class="ss">'flymake-ruby-load</span><span class="p">)</span>
-</code></pre></div><p>And voila, no syntax errors go unnoticed ever again:</p><p><img src="/images/emacs-flymake.png" alt="Emacs flymake screenshot"></p><h1>Sane indentation</h1><p>The default indentation system attempts to align the arguments of a function with the opening bracket vertically.</p><div class="highlight"><pre><code class="ruby"><span class="n">function_call</span> <span class="p">(</span><span class="n">arg1</span><span class="p">,</span>
+</code></pre></div>
+
+<p>And voila, no syntax errors go unnoticed ever again:</p>
+
+<p><img src="/images/emacs-flymake.png" alt="Emacs flymake screenshot"></p>
+
+<h1>Sane indentation</h1>
+
+<p>The default indentation system attempts to align the arguments of a function
+with the opening bracket vertically.</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="n">function_call</span> <span class="p">(</span><span class="n">arg1</span><span class="p">,</span>
                <span class="n">arg2</span><span class="p">);</span>
-</code></pre></div><p>While this is subjective, but if you, like me, find this behaviour erratic - the following will make emacs indent code inside parenthesis similar to elsewhere.</p><div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="k">setq</span> <span class="nv">ruby-deep-indent-paren</span> <span class="no">nil</span><span class="p">)</span>
-</code></pre></div><h1>Ruby shell inside emacs</h1><p><a href="https://github.com/nonsequitur/inf-ruby">inf-ruby</a> provides a REPL buffer connected to a Ruby subprocess. It is available through the package manager. Once installed you would probably want to bind it to a convenient shortcut. The following would bind it to <code>C-c r r</code>.</p><div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c r r"</span><span class="p">)</span> <span class="ss">'inf-ruby</span><span class="p">)</span>
-</code></pre></div><h1>Integration with RVM</h1><p>If you use RVM for managing ruby versions, you would want to use <a href="https://github.com/senny/rvm.el">rvm.el</a>. Once installed you will just have to call <code>rvm-activate-corresponding-ruby</code> and rvm.el will automatically pick up your ruby version and gemset from .rvmrc file.</p><p>The following will bind the aforementioned command to <code>C-c r a</code></p><div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c r a"</span><span class="p">)</span> <span class="ss">'rvm-activate-corresponding-ruby</span><span class="p">)</span>
-</code></pre></div><p><img src="/images/emacs-rvm.png" alt="rvm.el"></p><p>It seamlessly integrates with <code>inf-ruby</code> so if you invoke <code>inf-ruby</code> after the previous step, you will get the version of ruby and gemset you expect.</p><h1>Project management with projectile</h1><p>So far the steps had nothing to do with Rails and were equally useful for vanilla ruby projects. However for managing large Rails applications some basic project management facilities might come in handy.</p><p>While there are a plethora of project management utilities for emacs, One that is particularly simple and easy to install is <a href="https://github.com/bbatsov/projectile">projectile</a>. It is available through the package manager. Once installed it can be configured as a global mode as follows:</p><div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">projectile-global-mode</span><span class="p">)</span>
-</code></pre></div><p>or it can be hooked into particular modes:</p><div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'ruby-mode-hook</span> <span class="ss">'projectile-on</span><span class="p">)</span>
-</code></pre></div><p>I would also strongly recommend using the <a href="http://www.emacswiki.org/emacs/InteractivelyDoThings">ido-mode</a> which, among other things, provides various enhancements to make navigation between files and buffers easy. The default behaviour of <code>C-x C-f</code> and <code>C-x C-b</code> are changed to a more interactive version, which shows a list of matched options while typing right inside the minibuffer. <a href="https://github.com/lewang/flx">flx-ido</a> is an extension which further enhances the matching capabilities of ido to perform fuzzy matching (a-la sublime text) which can be a great productivity boost, particularly if you are a bit sloppy with keyboard. <code>ido</code> is built into emacs and <code>flx-ido</code> is available through package manager.</p><p><code>flx-ido-mode</code> activates the ido mode augmenting with flexible matching.</p><p>You may want to use following snippet to display ido completions vertically instead of horizontally, as is the default behaviour.</p><div class="highlight"><pre><code class="lisp"> <span class="c1">;; Display ido results vertically, rather than horizontally</span>
+</code></pre></div>
+
+<p>While this is subjective, but if you, like me, find this behaviour erratic - the following will make emacs indent code inside parenthesis similar to elsewhere.</p>
+
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="k">setq</span> <span class="nv">ruby-deep-indent-paren</span> <span class="no">nil</span><span class="p">)</span>
+</code></pre></div>
+
+<h1>Ruby shell inside emacs</h1>
+
+<p><a href="https://github.com/nonsequitur/inf-ruby">inf-ruby</a> provides a REPL buffer connected to a Ruby subprocess. It is available through the package manager. Once installed you would probably want to bind it to a convenient shortcut. The following would bind it to <code>C-c r r</code>.</p>
+
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c r r"</span><span class="p">)</span> <span class="ss">'inf-ruby</span><span class="p">)</span>
+</code></pre></div>
+
+<h1>Integration with RVM</h1>
+
+<p>If you use RVM for managing ruby versions, you would want to use <a href="https://github.com/senny/rvm.el">rvm.el</a>. Once installed you will just have to call <code>rvm-activate-corresponding-ruby</code> and rvm.el will automatically pick up your ruby version and gemset from .rvmrc file.</p>
+
+<p>The following will bind the aforementioned command to <code>C-c r a</code></p>
+
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c r a"</span><span class="p">)</span> <span class="ss">'rvm-activate-corresponding-ruby</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img src="/images/emacs-rvm.png" alt="rvm.el"></p>
+
+<p>It seamlessly integrates with <code>inf-ruby</code> so if you invoke <code>inf-ruby</code> after the previous step, you will get the version of ruby and gemset you expect.</p>
+
+<h1>Project management with projectile</h1>
+
+<p>So far the steps had nothing to do with Rails and were equally useful for vanilla ruby projects. However for managing large Rails applications some basic project management facilities might come in handy.</p>
+
+<p>While there are a plethora of project management utilities for emacs, One that is particularly simple and easy to install is <a href="https://github.com/bbatsov/projectile">projectile</a>. It is available through the package manager. Once installed it can be configured as a global mode as follows:</p>
+
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">projectile-global-mode</span><span class="p">)</span>
+</code></pre></div>
+
+<p>or it can be hooked into particular modes:</p>
+
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'ruby-mode-hook</span> <span class="ss">'projectile-on</span><span class="p">)</span>
+</code></pre></div>
+
+<p>I would also strongly recommend using the <a href="http://www.emacswiki.org/emacs/InteractivelyDoThings">ido-mode</a> which, among other things, provides various enhancements to make navigation between files and buffers easy. The default behaviour of <code>C-x C-f</code> and <code>C-x C-b</code> are changed to a more interactive version, which shows a list of matched options while typing right inside the minibuffer. <a href="https://github.com/lewang/flx">flx-ido</a> is an extension which further enhances the matching capabilities of ido to perform fuzzy matching (a-la sublime text) which can be a great productivity boost, particularly if you are a bit sloppy with keyboard. <code>ido</code> is built into emacs and <code>flx-ido</code> is available through package manager.</p>
+
+<p><code>flx-ido-mode</code> activates the ido mode augmenting with flexible matching.</p>
+
+<p>You may want to use following snippet to display ido completions vertically instead of horizontally, as is the default behaviour.</p>
+
+<div class="highlight"><pre><code class="lisp"> <span class="c1">;; Display ido results vertically, rather than horizontally</span>
   <span class="p">(</span><span class="k">setq</span> <span class="nv">ido-decorations</span> <span class="p">(</span><span class="k">quote</span> <span class="p">(</span><span class="s">"\n-&gt; "</span> <span class="s">""</span> <span class="s">"\n   "</span> <span class="s">"\n   ..."</span> <span class="s">"["</span> <span class="s">"]"</span> <span class="s">" [No match]"</span> <span class="s">" [Matched]"</span> <span class="s">" [Not readable]"</span> <span class="s">" [Too big]"</span> <span class="s">" [Confirm]"</span><span class="p">)))</span>
   <span class="p">(</span><span class="nb">defun</span> <span class="nv">ido-disable-line-truncation</span> <span class="p">()</span> <span class="p">(</span><span class="nb">set</span> <span class="p">(</span><span class="nv">make-local-variable</span> <span class="ss">'truncate-lines</span><span class="p">)</span> <span class="no">nil</span><span class="p">))</span>
   <span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'ido-minibuffer-setup-hook</span> <span class="ss">'ido-disable-line-truncation</span><span class="p">)</span>
@@ -22,11 +174,368 @@
     <span class="p">(</span><span class="nv">define-key</span> <span class="nv">ido-completion-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-n"</span><span class="p">)</span> <span class="ss">'ido-next-match</span><span class="p">)</span>
     <span class="p">(</span><span class="nv">define-key</span> <span class="nv">ido-completion-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-p"</span><span class="p">)</span> <span class="ss">'ido-prev-match</span><span class="p">))</span>
   <span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'ido-setup-hook</span> <span class="ss">'ido-define-keys</span><span class="p">)</span>
-</code></pre></div><p><img src="/images/emacs-ido-vertical.png" alt="Emacs ido vertical completions"></p><p>Projectile integrates with ido and uses it as its indexing method. For projectile to recognize the project root, you just have to drop an empty .projectile file there. Once that is done, you can simply perform a fuzzy search for files using <code>C-c C-p f</code> and directories using <code>C-c C-p d</code></p><p><img src="/images/emacs-projectile-file-search.png" alt="Projectile find file"> <img src="/images/emcas-projectile-dir-search.png" alt="Projectile find dir"></p><p><a href="https://github.com/asok/projectile-rails">Projectile Rails</a> builds upon <code>projectile</code> to provide project management facilities specifically tailored for Rails applications. It is available through package manager and can be hooked up with projectile using :</p><div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'projectile-mode-hook</span> <span class="ss">'projectile-rails-on</span><span class="p">)</span>
-</code></pre></div><p>Projectile Rails adds a large number of keybindings to ease navigation across files in a rails project, running rake tasks, invoking console etc. Following is the list of commands and associated bindings taken from the home page of projectile rails.</p><table><thead><tr><th>Command</th><th>Keybinding</th><th>Description</th></tr></thead><tbody><tr><td>projectile-rails-find-model</td><td><kbd>C-c r m</kbd></td><td>Find a model using <code>projectile-completion-system</code>.</td></tr><tr><td>projectile-rails-find-current-model</td><td><kbd>C-c r M</kbd></td><td>Go to a model connected with the current resource.</td></tr><tr><td>projectile-rails-find-controller</td><td><kbd>C-c r c</kbd></td><td>Find a controller using <code>projectile-completion-system</code>.</td></tr><tr><td>projectile-rails-find-current-controller</td><td><kbd>C-c r C</kbd></td><td>Go to a controller connected with the current resource.</td></tr><tr><td>projectile-rails-find-view</td><td><kbd>C-c r v</kbd></td><td>Find a template or partial using <code>projectile-completion-system</code>.</td></tr><tr><td>projectile-rails-find-current-view</td><td><kbd>C-c r V</kbd></td><td>Go to a view connected with the current resource.</td></tr><tr><td>projectile-rails-find-helper</td><td><kbd>C-c r h</kbd></td><td>Find a helper using <code>projectile-completion-system</code>.</td></tr><tr><td>projectile-rails-find-current-helper</td><td><kbd>C-c r H</kbd></td><td>Go to a helper connected with the current resource.</td></tr><tr><td>projectile-rails-find-lib</td><td><kbd>C-c r l</kbd></td><td>Find a lib using <code>projectile-completion-system</code>.</td></tr><tr><td>projectile-rails-find-feature</td><td><kbd>C-c r f</kbd></td><td>Find a feature using <code>projectile-completion-system</code>.</td></tr><tr><td>projectile-rails-find-spec</td><td><kbd>C-c r p</kbd></td><td>Find a spec using <code>projectile-completion-system</code>.</td></tr><tr><td>projectile-rails-find-current-spec</td><td><kbd>C-c r P</kbd></td><td>Go to a spec connected with the current resource.</td></tr><tr><td>projectile-rails-find-migration</td><td><kbd>C-c r n</kbd></td><td>Find a migration using <code>projectile-completion-system</code>.</td></tr><tr><td>projectile-rails-find-current-migration</td><td><kbd>C-c r N</kbd></td><td>Go to a migration connected with the current resource.</td></tr><tr><td>projectile-rails-find-javascript</td><td><kbd>C-c r j</kbd></td><td>Find a javascript using <code>projectile-completion-system</code>.</td></tr><tr><td>projectile-rails-find-stylesheet</td><td><kbd>C-c r s</kbd></td><td>Find a stylesheet using <code>projectile-completion-system</code>.</td></tr><tr><td>projectile-rails-find-log</td><td><kbd>C-c r o</kbd></td><td>Find a log file and enable <code>auto-revert-tail-mode</code> in its buffer.</td></tr><tr><td>projectile-rails-find-initializer</td><td><kbd>C-c r i</kbd></td><td>Find an initializer file using <code>projectile-completions-system</code>.</td></tr><tr><td>projectile-rails-find-environment</td><td><kbd>C-c r e</kbd></td><td>Find an environment file using <code>projectile-completions-system</code>.</td></tr><tr><td>projectile-rails-find-locale</td><td><kbd>C-c r a</kbd></td><td>Find a locale file using <code>projectile-completions-system</code>.</td></tr><tr><td>projectile-rails-find-mailer</td><td><kbd>C-c r @</kbd></td><td>Find a mailer file using <code>projectile-completions-system</code>.</td></tr><tr><td>projectile-rails-find-layout</td><td><kbd>C-c r y</kbd></td><td>Find a layout file using <code>projectile-completions-system</code>.</td></tr><tr><td>projectile-rails-console</td><td> <kbd>C-c r ! c</kbd>, <kbd>C-c r r</kbd></td><td>Run <code>rails console</code> command in <code>inf-ruby</code> buffer.</td></tr><tr><td>projectile-rails-server</td><td> <kbd>C-c r ! s</kbd>, <kbd>C-c r R</kbd></td><td>Run <code>rails server</code>.</td></tr><tr><td>projectile-rails-rake</td><td><kbd>C-c r ! r</kbd></td><td>Select a rake task to run using <code>projectile-completion-system</code>.</td></tr><tr><td>projectile-rails-generate</td><td><kbd>C-c r ! g</kbd></td><td>Run <code>rails generate</code> command.</td></tr><tr><td>projectile-rails-extract-region</td><td><kbd>C-c r x</kbd></td><td>Extract the selected region to a partial.</td></tr><tr><td>projectile-rails-goto-file-at-point</td><td> <kbd>C-c r RET</kbd>, <kbd>C-c r g f</kbd></td><td>Go to a file at point. Depending on the context that might be a constant, template or partial, or a gem.</td></tr><tr><td>projectile-rails-goto-gemfile</td><td><kbd>C-c r g g</kbd></td><td>Go to <code>Gemfile</code> file.</td></tr><tr><td>projectile-rails-goto-routes</td><td><kbd>C-c r g r</kbd></td><td>Go to <code>config/routes.rb</code> file.</td></tr><tr><td>projectile-rails-goto-schema</td><td><kbd>C-c r g d</kbd></td><td>Go to <code>db/schema.rb</code> file.</td></tr><tr><td>projectile-rails-goto-spec-helper</td><td><kbd>C-c r g l</kbd></td><td>Go to <code>spec/spec_helper.rb</code> file.</td></tr></tbody></table><p>Note that <code>rails console</code> uses <code>inf-ruby</code>, so integration with rvm is smooth and effortless.</p><p><img src="/images/projectile-rails-console.png" alt="Projectile Rails console"></p><h1>Intelligent Code navigation and Completion with Robe</h1><p><a href="https://github.com/dgutov/robe">Robe</a> is a code assistance tool that uses a Ruby REPL subprocess with your application or gem code loaded, to provide information about loaded classes and modules, and where each method is defined.</p><p>Robe is available via package manager. Once installed it can be hooked into ruby mode.</p><div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">'robe</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img src="/images/emacs-ido-vertical.png" alt="Emacs ido vertical completions"></p>
+
+<p>Projectile integrates with ido and uses it as its indexing method. For projectile to recognize the project root, you just have to drop an empty .projectile file there. Once that is done, you can simply perform a fuzzy search for files using <code>C-c C-p f</code> and directories using <code>C-c C-p d</code></p>
+
+<p><img src="/images/emacs-projectile-file-search.png" alt="Projectile find file">
+<img src="/images/emcas-projectile-dir-search.png" alt="Projectile find dir"></p>
+
+<p><a href="https://github.com/asok/projectile-rails">Projectile Rails</a> builds upon <code>projectile</code> to provide project management facilities specifically tailored for Rails applications. It is available through package manager and can be hooked up with projectile using :</p>
+
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'projectile-mode-hook</span> <span class="ss">'projectile-rails-on</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Projectile Rails adds a large number of keybindings to ease navigation across files in a rails project, running rake tasks, invoking console etc.
+Following is the list of commands and associated bindings taken from the home page of projectile rails.</p>
+
+<table>
+<thead><tr>
+<th>Command</th>
+<th>Keybinding</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>projectile-rails-find-model</td>
+<td><kbd>C-c r m</kbd></td>
+<td>Find a model using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-current-model</td>
+<td><kbd>C-c r M</kbd></td>
+<td>Go to a model connected with the current resource.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-controller</td>
+<td><kbd>C-c r c</kbd></td>
+<td>Find a controller using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-current-controller</td>
+<td><kbd>C-c r C</kbd></td>
+<td>Go to a controller connected with the current resource.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-view</td>
+<td><kbd>C-c r v</kbd></td>
+<td>Find a template or partial using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-current-view</td>
+<td><kbd>C-c r V</kbd></td>
+<td>Go to a view connected with the current resource.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-helper</td>
+<td><kbd>C-c r h</kbd></td>
+<td>Find a helper using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-current-helper</td>
+<td><kbd>C-c r H</kbd></td>
+<td>Go to a helper connected with the current resource.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-lib</td>
+<td><kbd>C-c r l</kbd></td>
+<td>Find a lib using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-feature</td>
+<td><kbd>C-c r f</kbd></td>
+<td>Find a feature using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-spec</td>
+<td><kbd>C-c r p</kbd></td>
+<td>Find a spec using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-current-spec</td>
+<td><kbd>C-c r P</kbd></td>
+<td>Go to a spec connected with the current resource.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-migration</td>
+<td><kbd>C-c r n</kbd></td>
+<td>Find a migration using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-current-migration</td>
+<td><kbd>C-c r N</kbd></td>
+<td>Go to a migration connected with the current resource.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-javascript</td>
+<td><kbd>C-c r j</kbd></td>
+<td>Find a javascript using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-stylesheet</td>
+<td><kbd>C-c r s</kbd></td>
+<td>Find a stylesheet using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-log</td>
+<td><kbd>C-c r o</kbd></td>
+<td>Find a log file and enable <code>auto-revert-tail-mode</code> in its buffer.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-initializer</td>
+<td><kbd>C-c r i</kbd></td>
+<td>Find an initializer file using <code>projectile-completions-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-environment</td>
+<td><kbd>C-c r e</kbd></td>
+<td>Find an environment file using <code>projectile-completions-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-locale</td>
+<td><kbd>C-c r a</kbd></td>
+<td>Find a locale file using <code>projectile-completions-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-mailer</td>
+<td><kbd>C-c r @</kbd></td>
+<td>Find a mailer file using <code>projectile-completions-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-layout</td>
+<td><kbd>C-c r y</kbd></td>
+<td>Find a layout file using <code>projectile-completions-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-console</td>
+<td>
+<kbd>C-c r ! c</kbd>, <kbd>C-c r r</kbd>
+</td>
+<td>Run <code>rails console</code> command in <code>inf-ruby</code> buffer.</td>
+</tr>
+<tr>
+<td>projectile-rails-server</td>
+<td>
+<kbd>C-c r ! s</kbd>, <kbd>C-c r R</kbd>
+</td>
+<td>Run <code>rails server</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-rake</td>
+<td><kbd>C-c r ! r</kbd></td>
+<td>Select a rake task to run using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-generate</td>
+<td><kbd>C-c r ! g</kbd></td>
+<td>Run <code>rails generate</code> command.</td>
+</tr>
+<tr>
+<td>projectile-rails-extract-region</td>
+<td><kbd>C-c r x</kbd></td>
+<td>Extract the selected region to a partial.</td>
+</tr>
+<tr>
+<td>projectile-rails-goto-file-at-point</td>
+<td>
+<kbd>C-c r RET</kbd>, <kbd>C-c r g f</kbd>
+</td>
+<td>Go to a file at point. Depending on the context that might be a constant, template or partial, or a gem.</td>
+</tr>
+<tr>
+<td>projectile-rails-goto-gemfile</td>
+<td><kbd>C-c r g g</kbd></td>
+<td>Go to <code>Gemfile</code> file.</td>
+</tr>
+<tr>
+<td>projectile-rails-goto-routes</td>
+<td><kbd>C-c r g r</kbd></td>
+<td>Go to <code>config/routes.rb</code> file.</td>
+</tr>
+<tr>
+<td>projectile-rails-goto-schema</td>
+<td><kbd>C-c r g d</kbd></td>
+<td>Go to <code>db/schema.rb</code> file.</td>
+</tr>
+<tr>
+<td>projectile-rails-goto-spec-helper</td>
+<td><kbd>C-c r g l</kbd></td>
+<td>Go to <code>spec/spec_helper.rb</code> file.</td>
+</tr>
+</tbody>
+</table>
+
+<p>Note that <code>rails console</code> uses <code>inf-ruby</code>, so integration with rvm is smooth and effortless.</p>
+
+<p><img src="/images/projectile-rails-console.png" alt="Projectile Rails console"></p>
+
+<h1>Intelligent Code navigation and Completion with Robe</h1>
+
+<p><a href="https://github.com/dgutov/robe">Robe</a> is a code assistance tool that uses a Ruby REPL subprocess with your application or gem code loaded, to provide information about loaded classes and modules, and where each method is defined.</p>
+
+<p>Robe is available via package manager. Once installed it can be hooked into ruby mode.</p>
+
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">'robe</span><span class="p">)</span>
 <span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'ruby-mode-hook</span> <span class="ss">'robe-mode</span><span class="p">)</span>
-</code></pre></div><p>If you are using rvm you may want to instruct robe to auto-trigger <code>rvm-activate-corresponding-ruby</code>.</p><div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">defadvice</span> <span class="nv">inf-ruby-console-auto</span> <span class="p">(</span><span class="nv">before</span> <span class="nv">activate-rvm-for-robe</span> <span class="nv">activate</span><span class="p">)</span>
+</code></pre></div>
+
+<p>If you are using rvm you  may want to instruct robe to auto-trigger <code>rvm-activate-corresponding-ruby</code>.</p>
+
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">defadvice</span> <span class="nv">inf-ruby-console-auto</span> <span class="p">(</span><span class="nv">before</span> <span class="nv">activate-rvm-for-robe</span> <span class="nv">activate</span><span class="p">)</span>
   <span class="p">(</span><span class="nv">rvm-activate-corresponding-ruby</span><span class="p">))</span>
-</code></pre></div><p><code>robe-jump</code> bound by default to <code>M-.</code> can be used to jump to definitions of various classes and methods. While it is not ideal, in most of the scenarios, the expected entry is present in the first few suggestions.</p><p>For intelligent completion robe can be integrated with <a href="http://company-mode.github.io/">company mode</a>. Company mode is a modern and modular completion system for emacs which accepts a multitude of pluggable back-ends and front-ends to provide rich completions on the fly. Robe provides a backend to the completion in form of company-robe. This can be configured as follows :</p><div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">global-company-mode</span> <span class="no">t</span><span class="p">)</span>
+</code></pre></div>
+
+<p><code>robe-jump</code> bound by default to <code>M-.</code> can be used to jump to definitions of various classes and methods. While it is not ideal, in most of the scenarios, the expected entry is present in the first few suggestions.</p>
+
+<p>For intelligent completion robe can be integrated with <a href="http://company-mode.github.io/">company mode</a>. Company mode is a modern and modular completion system for emacs which accepts a multitude of pluggable back-ends and front-ends to provide rich completions on the fly. Robe provides a backend to the completion in form of company-robe. This can be configured as follows :</p>
+
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">global-company-mode</span> <span class="no">t</span><span class="p">)</span>
 <span class="p">(</span><span class="nb">push</span> <span class="ss">'company-robe</span> <span class="nv">company-backends</span><span class="p">)</span>
-</code></pre></div><p>Now all you have to do is hit <code>robe-start</code> when you navigate into your project. After that at any point if you trigger <code>company-robe</code> you should be greeted with an intellisense like method definitions.</p><p>Completion will start automatically after you type a few letters. Use M-n, M-p, &lt;tab&gt; and &lt;return&gt; to complete. Search through the completions with C-s, C-r and C-o. Even the documentations are available right from the editor (Press F1 at any menu entry).</p><p><img src="/images/emacs-robe-completions.png" alt="Emacs robe completions"></p><p>One of the caveats is that robe requires <code>pry</code> and <code>pry-doc</code> to be in Gemfile. This is a problem when working with third party projects and I don't have a workaround for that yet.</p><p>Also Ruby being a dynamic language which strives to push the limits on flexibility, perfect completion is simply not possible. Many of known caveats are listed <a href="https://github.com/dgutov/robe#notes">here</a> and some are being actively being worked upon. But nevertheless, I have found the setup to be quite useful for day to day development and hope you do too.</p><p>I hope that this quick detour into the world of emacs-extensions has motivated you to atleast try out Emacs. How far you go down the rabbit hole is of-course for you to decide. As always, any criticism, suggestions and comments are welcome.</p><footer class="group"><p></p> </footer><div id="disqus_thread"></div> <script>!function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src="//lorefnon-blog.disqus.com/embed.js",(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a> </noscript> <a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a></article></div><div class="line hide-text">Separator line</div><div class="next-article" style="display:none"> <a href="#"><p class="read-next tag is-uppercase">Read this next:</p><p class="next-article__title">Protocol and Language</p><div class="next-article__content"><p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p></div> </a></div><div class="line hide-text">Separator line</div><div class="foot_logo"> <a href="http://lorefnon.me"><span class="logo"></span></a></div><div class="foot_logo right"> <a href="/"><span class="link">Full Blog >></span></a></div><div class="line"></div><div class="foot_userbar"><div href="#" class="bottom_tagline"> <span>Lorefnon</span> <br><br><p> Full stack web developer and polyglot programmer with strong interest in dynamic languages, web application development and user experience design.</p> <br><p> Strong believer in agile methodologies, behaviour driven development and efficacy of open source technologies.</p> <br></div><div class="profile-links-container"> <a href="#" class="bottom_tagline"><span> You can reach me through :</span></h2> <br><br><ul class="profile-links"><li class="twitter"> <a href="http://twitter.com/lorefnon" target="_blank"> <span>Twitter</span> </a></li><li class="linkedin"> <a href="https://in.linkedin.com/in/gaurab-paul-a2472921" target="_blank"> <span>Linkedin</span> </a></li><li class="github"> <a href="https://github.com/lorefnon" target="_blank"> <span>Github</span> </a></li><li class="github"> <a href="mailto:lorefnon@gmail.com" target="_blank"> <span>Email</span> </a></li></ul></div></div><div class="line"></div><div class="foot_userbar"><p>© 2013 - 2015 Gaurab Paul</p> <br/><p>Code licensed under the <a href="http://opensource.org/licenses/MIT" target="_blank">The MIT License</a>. Content and Artwork licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA</a>.</p> <br/><p> The opinions expressed herein are my personal viewpoints and may not be taken as professional recommendations from any of my previous or current employers.</p> <br/><p> Site is powered by <a href="http://jekyllrb.com/">Jekyll</a> and graciously hosted by <a href="https://github.com">Github</a></p> <br/> <br/></div></div><script>var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-47274059-1"]),_gaq.push(["_setDomainName","lorefnon.me"]),_gaq.push(["_trackPageview"]),function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js";var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e)}()</script><script src="/assets/javascripts/post.js"></script></body></html>
+</code></pre></div>
+
+<p>Now all you have to do is hit <code>robe-start</code> when you navigate into your project. After that at any point
+if you trigger <code>company-robe</code> you should be greeted with an intellisense like method definitions.</p>
+
+<p>Completion will start automatically after you type a few letters. Use M-n, M-p, &lt;tab&gt; and &lt;return&gt; to complete. Search through the completions with C-s, C-r and C-o. Even the documentations are available right from the editor (Press F1 at any menu entry).</p>
+
+<p><img src="/images/emacs-robe-completions.png" alt="Emacs robe completions"></p>
+
+<p>One of the caveats is that robe requires <code>pry</code> and <code>pry-doc</code> to be in Gemfile. This is a problem when working with third party projects and I don't have a workaround for that yet.</p>
+
+<p>Also Ruby being a dynamic language which strives to push the limits on flexibility, perfect completion is simply not possible. Many of known caveats are listed <a href="https://github.com/dgutov/robe#notes">here</a> and some are being actively being worked upon. But nevertheless, I have found the setup to be quite useful for day to day development and hope you do too.</p>
+
+<p>I hope that this quick detour into the world of emacs-extensions has motivated you to atleast try out Emacs. How far you go down the rabbit hole is of-course for you to decide. As always, any criticism, suggestions and comments are welcome.</p>
+
+
+<footer class="group">
+  <p>
+    
+    
+    
+      
+    
+  </p>
+</footer>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//lorefnon-blog.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+        </article>
+      </div>
+
+      <div class="line hide-text">Separator line</div>
+
+      <!-- Next article preview -->
+      <div class="next-article" style="display: none;">
+        <a href="#">
+          <p class="read-next tag is-uppercase">Read this next:</p>
+          <p class="next-article__title">Protocol and Language</p>
+          <div class="next-article__content">
+            <p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p>
+          </div>
+        </a>
+      </div>
+      <!-- Finish / Feature on process-->
+
+      <div class="line hide-text">Separator line</div>
+
+      <div class="foot_logo">
+        <a href="http://lorefnon.me"><span class="logo"></span></a>
+      </div>
+
+      <div class="foot_logo right">
+        <a href="/"><span class="link">Full Blog >></span></a>
+      </div>
+
+      <div class="line"></div>
+
+<div class="foot_userbar">
+  <div href="#" class="bottom_tagline">
+    <span>Lorefnon</span>
+    <br><br>
+    <p> Full stack web developer and polyglot programmer with strong interest in dynamic languages, web application development and user experience design. </p>
+    <br>
+    <p> Strong believer in agile methodologies, behaviour driven development and efficacy of open source technologies.</p>
+    <br>
+  </div>
+  <div class="profile-links-container">
+  <a href="#" class="bottom_tagline"><span> You can reach me through :</span></h2>
+  <br><br>
+  <ul class="profile-links">
+    <li class="twitter">
+      <a href="http://twitter.com/lorefnon" target="_blank">
+        <span>Twitter</span>
+      </a>
+    </li>
+    <li class="linkedin">
+      <a href="https://in.linkedin.com/in/gaurab-paul-a2472921" target="_blank">
+        <span>Linkedin</span>
+      </a>
+    </li>
+    <li class="github">
+      <a href="https://github.com/lorefnon" target="_blank">
+        <span>Github</span>
+      </a>
+    </li>
+    <li class="github">
+      <a href="mailto:lorefnon@gmail.com" target="_blank">
+        <span>Email</span>
+      </a>
+    </li>
+  </ul>
+
+  </div>
+</div>
+<div class="line"></div>
+<div class="foot_userbar">
+  <p>&copy; 2013 - 2015 Gaurab Paul </p>
+<br/>
+<p>Code licensed under the
+  <a href="http://opensource.org/licenses/MIT" target="_blank">The
+    MIT License</a>. Content and Artwork licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA</a>.
+</p>
+<br/>
+<p>
+  The opinions expressed herein are my personal viewpoints  and may
+  not be taken as professional recommendations from any of my previous or
+  current employers.
+</p>
+<br/>
+<p>
+  Site is powered by <a href="http://jekyllrb.com/">Jekyll</a> and graciously hosted by <a href="https://github.com">Github</a>
+</p>
+<br/>
+<br/>
+
+</div>
+
+    </div>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-47274059-1']);
+  _gaq.push(['_setDomainName', 'lorefnon.me']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+    <script src="/assets/javascripts/post.js"></script>
+  </body>
+</html>
