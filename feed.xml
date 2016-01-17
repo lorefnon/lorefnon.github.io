@@ -7,11 +7,21 @@
     <atom:link href="http://lorefnon.me/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Useful delegation patterns for Rails</title>
+	
+        <description>An exploration into the delegation pattern and how it can be useful in various aspects of a Rails application</description>
+	
+        <pubDate>Sat, 16 Jan 2016 00:00:00 +0530</pubDate>
+        <link>http://lorefnon.me/2016/01/16/useful-delegation-patterns-for-rails.html</link>
+        <guid isPermaLink="true">http://lorefnon.me/2016/01/16/useful-delegation-patterns-for-rails.html</guid>
+      </item>
+    
+      <item>
         <title>Protip: Annotate ActiveAdmin resources along with models</title>
 	
         <pubDate>Sat, 16 Jan 2016 00:00:00 +0530</pubDate>
-        <link>http://lorefnon.me//2016/01/16/protip--annotate-activeadmin-resources-along-with-models.html</link>
-        <guid isPermaLink="true">http://lorefnon.me//2016/01/16/protip--annotate-activeadmin-resources-along-with-models.html</guid>
+        <link>http://lorefnon.me/2016/01/16/protip--annotate-activeadmin-resources-along-with-models.html</link>
+        <guid isPermaLink="true">http://lorefnon.me/2016/01/16/protip--annotate-activeadmin-resources-along-with-models.html</guid>
       </item>
     
       <item>
@@ -20,8 +30,8 @@
         <description>An exploration into the ruby case statement - an often overlooked but one of the most powerful constructs of the ruby language</description>
 	
         <pubDate>Mon, 07 Dec 2015 00:00:00 +0530</pubDate>
-        <link>http://lorefnon.me//2015/12/07/extending-the-ruby-case-statement-for-fun-and-profit.html</link>
-        <guid isPermaLink="true">http://lorefnon.me//2015/12/07/extending-the-ruby-case-statement-for-fun-and-profit.html</guid>
+        <link>http://lorefnon.me/2015/12/07/extending-the-ruby-case-statement-for-fun-and-profit.html</link>
+        <guid isPermaLink="true">http://lorefnon.me/2015/12/07/extending-the-ruby-case-statement-for-fun-and-profit.html</guid>
       </item>
     
       <item>
@@ -30,8 +40,8 @@
         <description>Eliminate full page refreshes and reduce page transition latency, in your your Rails sites, using SPF.js - a library for dynamic page updates from Youtube.</description>
 	
         <pubDate>Thu, 26 Nov 2015 00:00:00 +0530</pubDate>
-        <link>http://lorefnon.me//2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</link>
-        <guid isPermaLink="true">http://lorefnon.me//2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</guid>
+        <link>http://lorefnon.me/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</link>
+        <guid isPermaLink="true">http://lorefnon.me/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</guid>
       </item>
     
       <item>
@@ -40,8 +50,8 @@
         <description>While it is disheartening to see technologically superior software be ignored by industry in favor of lacklustre ones, is the same true for React as well ?</description>
 	
         <pubDate>Sun, 22 Nov 2015 00:00:00 +0530</pubDate>
-        <link>http://lorefnon.me//2015/11/22/an-answer-to-react-is-the-new-java.html</link>
-        <guid isPermaLink="true">http://lorefnon.me//2015/11/22/an-answer-to-react-is-the-new-java.html</guid>
+        <link>http://lorefnon.me/2015/11/22/an-answer-to-react-is-the-new-java.html</link>
+        <guid isPermaLink="true">http://lorefnon.me/2015/11/22/an-answer-to-react-is-the-new-java.html</guid>
       </item>
     
       <item>
@@ -50,8 +60,8 @@
         <description>While Emacs is a fairly productive editor on its own, for navigating through the files in a large project a few community contributed extensions can make things a lot easier</description>
 	
         <pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
-        <link>http://lorefnon.me//2015/11/15/utilities-for-efficient-filesystem-navigation-in-emacs.html</link>
-        <guid isPermaLink="true">http://lorefnon.me//2015/11/15/utilities-for-efficient-filesystem-navigation-in-emacs.html</guid>
+        <link>http://lorefnon.me/2015/11/15/utilities-for-efficient-filesystem-navigation-in-emacs.html</link>
+        <guid isPermaLink="true">http://lorefnon.me/2015/11/15/utilities-for-efficient-filesystem-navigation-in-emacs.html</guid>
       </item>
     
       <item>
@@ -60,8 +70,8 @@
         <description>ES6 modules are the future of modular code organization in javascript. Let&#39;s explore how to use them today in Rails.</description>
 	
         <pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
-        <link>http://lorefnon.me//2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</link>
-        <guid isPermaLink="true">http://lorefnon.me//2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</guid>
+        <link>http://lorefnon.me/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</link>
+        <guid isPermaLink="true">http://lorefnon.me/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</guid>
       </item>
     
       <item>
@@ -70,8 +80,8 @@
         <description>We don&#39;t have to sacrifice readability and elegance when using Livescript for functional programming in javascript in conjugation with React.</description>
 	
         <pubDate>Mon, 21 Sep 2015 00:00:00 +0530</pubDate>
-        <link>http://lorefnon.me//2015/09/21/react-and-livescript-in-harmony.html</link>
-        <guid isPermaLink="true">http://lorefnon.me//2015/09/21/react-and-livescript-in-harmony.html</guid>
+        <link>http://lorefnon.me/2015/09/21/react-and-livescript-in-harmony.html</link>
+        <guid isPermaLink="true">http://lorefnon.me/2015/09/21/react-and-livescript-in-harmony.html</guid>
       </item>
     
       <item>
@@ -80,8 +90,8 @@
         <description>Effectively using upcoming features of next-gen javascript can go a long way in ensuring the maintenability of our Knockout code.</description>
 	
         <pubDate>Mon, 24 Aug 2015 00:00:00 +0530</pubDate>
-        <link>http://lorefnon.me//2015/08/24/smarter-knockout-applications-with-es-next.html</link>
-        <guid isPermaLink="true">http://lorefnon.me//2015/08/24/smarter-knockout-applications-with-es-next.html</guid>
+        <link>http://lorefnon.me/2015/08/24/smarter-knockout-applications-with-es-next.html</link>
+        <guid isPermaLink="true">http://lorefnon.me/2015/08/24/smarter-knockout-applications-with-es-next.html</guid>
       </item>
     
       <item>
@@ -90,18 +100,8 @@
         <description>Checkout how using a distributed time series database like InfluxDB can help keep track of application events from all multiple Rails processes in a centralized hub.</description>
 	
         <pubDate>Sat, 04 Apr 2015 00:00:00 +0530</pubDate>
-        <link>http://lorefnon.me//2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</link>
-        <guid isPermaLink="true">http://lorefnon.me//2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</guid>
-      </item>
-    
-      <item>
-        <title>Dealing with JSON data in Active Admin</title>
-	
-        <description>While the default form fields of Active Admin are decent for most use cases, there are special cases like JSON data stored in relational databases, for which the built in controls might prove to be inadequate. This post explains how to handle the same.</description>
-	
-        <pubDate>Mon, 02 Mar 2015 00:00:00 +0530</pubDate>
-        <link>http://lorefnon.me//2015/03/02/dealing-with-json-fields-in-active-admin.html</link>
-        <guid isPermaLink="true">http://lorefnon.me//2015/03/02/dealing-with-json-fields-in-active-admin.html</guid>
+        <link>http://lorefnon.me/2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</link>
+        <guid isPermaLink="true">http://lorefnon.me/2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</guid>
       </item>
     
   </channel>
