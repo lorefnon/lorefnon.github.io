@@ -233,7 +233,7 @@
 
 <span class="k">end</span>
 </code></pre></div>
-<p>However one thing that we should keep in mind that SimpleDelegator allows the decorated target to be run time configurable. While this is not a problem in the above implementation as we use an entity specific key, this may become a problem if, for example, we were using transparent memoization through Memoist:</p>
+<p>However one thing that we should keep in mind that SimpleDelegator allows the decorated target to be run time configurable. While this is not a problem in the above implementation as we use an entity specific key, this may become a problem if, for example, we were using transparent memoization through <a href="https://github.com/matthewrudy/memoist">Memoist</a>:</p>
 <div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">UserReportMemoizedDelegator</span> <span class="o">&lt;</span> <span class="no">SimpleDelegator</span>
 
   <span class="kp">extend</span> <span class="no">Memoist</span>
@@ -472,7 +472,9 @@ end
 <span class="n">x</span><span class="o">.</span><span class="n">foo</span>       <span class="c1"># prints "C#foo in M"</span>
 <span class="n">call_foo</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1">#=&gt; raises NoMethodError</span>
 </code></pre></div>
-<p>While thie explicit nature of Refinements is a commendable improvement over adhoc monkeypatching in many scenarios - the convenience offered by transparent overlaying of behavior that decorators offer us, is in most practical cases more appealing.</p>
+<p>While this explicit aspect of Refinements is a commendable improvement over adhoc monkey-patching in many scenarios - the convenience offered by transparent overlaying of behavior that decorators offer us, has so far seemed to be more appealing in most practical cases.</p>
+
+<p>The primary exception to the above would be cases where the code consuming the augmented instances rely on <code>instance_of?</code> checks to determine the identity of passed instance. Using refinements we are not changing the class of the instance, where as while passing the wrapped instance we fail on the <code>instance_of?</code> checks as the wrapped instances are actually instances of a different class though they implement interchangeable behavior.</p>
 
 <p>This concludes our post on delegation. As always any insights on practical usage of this pattern is more than welcome. Please use the comments section to share any feedback or criticism.</p>
 
