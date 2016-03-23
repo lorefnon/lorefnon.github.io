@@ -6,12 +6,12 @@
 <html lang="en" class="">
   <head>
     <meta charset="utf-8">
-    <title>Tip: Annotate ActiveAdmin resources along with models |  Code.Art.Web</title>
+    <title>Tip: Customizing the resource title in active admin |  Code.Art.Web</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     
 
-    <link rel="canonical" href="http://lorefnon.me/2016/01/16/protip--annotate-activeadmin-resources-along-with-models.html">
+    <link rel="canonical" href="http://lorefnon.me/2016/02/28/protip--customizing-the-resource-title-in-active-admin.html">
     <meta property="twitter:creator" content="@lorefnon">
     <meta property="og:title" content="@lorefnon">
     <meta property="og:type" content="blog">
@@ -57,10 +57,10 @@
 
       <div class="posts-container detail-view">
         <article class="post detail-view" id="">
-          <h1 class="title"><a href="#">Tip: Annotate ActiveAdmin resources along with models</a></h1>
+          <h1 class="title"><a href="#">Tip: Customizing the resource title in active admin</a></h1>
           <a href="#" class="anchor-icon time-wrapper">
             <i class="fa fa-anchor"></i>
-            <time>Jan 16, 2016</time>
+            <time>Feb 28, 2016</time>
           </a>
 
           
@@ -70,45 +70,48 @@
           
 
 
-  <p><a href="https://github.com/ctran/annotate_models">Annotate</a> is a very useful utility for annotating schema information in Rails models. The gem prepends (or appends, as per your <a href="https://github.com/ctran/annotate_models#options">configuration</a>) a summarized information about the table schema in each model file as comments) - saving multiple roundtrips to the <code>schema.rb</code> file during coding.</p>
+  <p>The show page of an ActiveAdmin resource usually deduces its title from a title or name field of resource. However if no such field is available 
+it fallbacks at <code>to_s</code> method of the model, and the outcome is, almost always, not something you would want to present end users: </p>
 
-<p>For Example:</p>
-<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="c1"># == Schema Information</span>
-<span class="c1">#</span>
-<span class="c1"># Table name: roles</span>
-<span class="c1">#</span>
-<span class="c1">#  id            :integer          not null, primary key</span>
-<span class="c1">#  name          :string</span>
-<span class="c1">#  resource_id   :integer</span>
-<span class="c1">#  resource_type :string</span>
-<span class="c1">#  created_at    :datetime</span>
-<span class="c1">#  updated_at    :datetime</span>
-<span class="c1">#</span>
-<span class="c1"># Indexes</span>
-<span class="c1">#</span>
-<span class="c1">#  index_roles_on_name                                    (name)</span>
-<span class="c1">#  index_roles_on_name_and_resource_type_and_resource_id  (name,resource_type,resource_id)</span>
-<span class="c1">#</span>
+<p><img src="/images/2016-02-28/invitation_show_default_title.png"/></p>
+
+<p>It is easy to simply pass a string to the show method of the DSL:</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="n">show</span><span class="p">(</span><span class="ss">title</span><span class="p">:</span> <span class="s2">&quot;Invitation&quot;</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">row</span> <span class="ss">:id</span>
+  <span class="n">row</span> <span class="ss">:invitor</span>
+  <span class="c1"># ...</span>
+<span class="k">end</span>
 </code></pre></div>
-<p>However while working with admin interfaces powered by <a href="http://activeadmin.info">ActiveAdmin</a> I have often found it convenient to have the model schema annotations available right in the <a href="http://activeadmin.info/docs/2-resource-customization.html">ActiveAdmin resource files</a>. There is a very simple way to achieve that:</p>
+<p>However what might not be obvious is how to make the title dynamic. For example the following does not work because invitation is not available
+when the class body is executed.</p>
 
-<p>The rake task <a href="https://github.com/ctran/annotate_models#configuration-in-rails">generated</a> by Annotate (<code>lib/tasks/auto_annotate_models.rake</code>) has option to specify the model directory. This is primarily intended for projects with non standard directory configuration. As it so happens we can specify multiple directories separated by commas.</p>
+<p>Defining a title method on the model works, but it might not be the best option if the title is something relevant only in the admin panel context.</p>
 
-<p>So taking advantage of the fact that our ActiveAdmin resource files are conventionally named same as the models, we can just add the admin directory to the list of model directories:</p>
-<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">if</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">development?</span>
-  <span class="n">task</span> <span class="ss">:set_annotation_options</span> <span class="k">do</span>
-    <span class="c1"># You can override any of these by setting an environment variable of the</span>
-    <span class="c1"># same name.</span>
-    <span class="no">Annotate</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span>
-      <span class="s1">&#39;model_dir&#39;</span>               <span class="o">=&gt;</span> <span class="s1">&#39;app/models,app/admin&#39;</span><span class="p">,</span>
-      <span class="c1"># ... other configuration options</span>
-    <span class="p">)</span>
+<p>However <code>ResourceDSL#show</code> can accept a lambda as a proc which will be passed the resource instance. So the following works:</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="n">show</span><span class="p">(</span><span class="ss">title</span><span class="p">:</span> <span class="o">-&gt;</span><span class="p">(</span><span class="n">invitation</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">invitation</span><span class="o">.</span><span class="n">invitee</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> -- </span><span class="si">#{</span><span class="n">invitation</span><span class="o">.</span><span class="n">quiz</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">})</span> <span class="k">do</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>However a better approach is to use decorators. ActiveAdmin works very well out of the box with Draper and you can use either a generic presenter or 
+a presenter specific to the admin panel context.</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="c1"># app/invitation_decorator.rb</span>
+
+<span class="k">class</span> <span class="nc">InvitationDecorator</span> <span class="o">&lt;</span> <span class="no">Draper</span><span class="o">::</span><span class="no">Decorator</span>
+
+  <span class="n">delegate_all</span>
+
+  <span class="k">def</span> <span class="nf">title</span>
+    <span class="s2">&quot;</span><span class="si">#{</span><span class="n">invitation</span><span class="o">.</span><span class="n">invitee</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> -- </span><span class="si">#{</span><span class="n">invitation</span><span class="o">.</span><span class="n">quiz</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</code></pre></div><div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="c1"># app/admin/invitation.rb</span>
+<span class="n">show</span> <span class="k">do</span>
+  <span class="n">attributes_table</span> <span class="k">do</span>
+    <span class="c1">#...</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre></div>
-<p>Next time annotate is run, either manually invoked or through migration hooks, our ActiveAdmin resource files with annotated along with our model files.</p>
-
-<p>If you are not using the generated rake file, this approach of course works with the <code>--model-dir</code> command line option as well.</p>
+<p>The title method of the presenter will be picked up without the need to write any additional boilerplate. For learning more about decorators my <a href="/2016/01/16/useful-delegation-patterns-for-rails.html">previous article on delegation patterns</a> that discusses the topic in more detail might be helpful.</p>
 
 
 <footer class="group">
