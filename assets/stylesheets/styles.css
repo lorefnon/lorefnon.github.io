@@ -346,7 +346,7 @@ article::before {
     color: #0087E3;
 }
 
-.post p {
+.post p, .post li * {
     line-height: 27px;
     font-size: 17px;
     margin: 25px auto;
@@ -374,18 +374,6 @@ article::before {
 
 .post blockquote p {
     padding: 10px;
-}
-
-.post code {
-    background-color: rgb(248, 248, 248);
-    border: 1px solid rgba(144, 144, 144, .3);
-    font-size: 13px;
-    line-height: inherit;
-    font-family: monospace;
-    padding: 2px 5px;
-    width: auto;
-    margin: 16px auto;
-    border-radius: 10px;
 }
 
 .highlight pre code {
@@ -778,7 +766,7 @@ font-size: 16px;
     width: 100%;
 }
 
-.post.detail-view code {
+.post.detail-view .highlight code {
     padding: 0;
     border: none;
     background-color: transparent;
@@ -1134,3 +1122,33 @@ font-size: 16px;
     border-top: 4px solid white;
     top: 12px;
 }
+
+.post ol, .post li{
+    list-style-type: decimal;
+}
+
+.post ol {
+    margin-left: 3px solid #ddd;
+    padding-left: 20px;
+}
+
+.post code {
+    background: #F8F8F8;
+}
+
+.post ol li {
+    display: list-item;
+}
+
+.post code {
+    background-color: rgb(248, 248, 248);
+    border: 1px solid rgba(144, 144, 144, .3);
+    font-size: 13px;
+    line-height: inherit;
+    font-family: monospace;
+    padding: 2px 5px;
+    width: auto;
+    margin: 16px auto;
+    border-radius: 4px;
+}
+
