@@ -9,6 +9,8 @@
       <item>
         <title>Database driven scheduling with Clockwork and ActiveJob</title>
 	
+        <description>An introductory tutorial on making event scheduling management more accessible and configurable to administrators through database driven admin interfaces in Rails.</description>
+	
         <pubDate>Thu, 31 Mar 2016 00:00:00 +0530</pubDate>
         <link>http://lorefnon.me/2016/03/31/database-driven-scheduling-with-clockwork-and-activejob.html</link>
         <guid isPermaLink="true">http://lorefnon.me/2016/03/31/database-driven-scheduling-with-clockwork-and-activejob.html</guid>
