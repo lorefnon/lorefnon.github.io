@@ -243,7 +243,7 @@ gem 'sidekiq'
 <p>Next we need to define our models for persisting our schedules.</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">rails g model event name:string frequency:integer at:string job_name:string job_arguments:jsonb
 </code></pre></div>
-<p>Here the first three columns correspond to accessors mandated by Clockwork. Name is primary for descripting logging purposes. <code>frequency</code> specifies the recurrance frequency in seconds. <code>at</code> signifies point of occurance within the recurrance span. Following are the valid formats:</p>
+<p>Here the first three columns correspond to accessors mandated by Clockwork. Name is primary for descriptive logging purposes (more on this below). <code>frequency</code> specifies the recurrance frequency in seconds. <code>at</code> signifies point of occurance within the recurrance span. Following are the valid formats:</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">HH:MM
  H:MM
 **:MM
@@ -399,17 +399,15 @@ Running via Spring preloader in process 63269
       create    <span class="nb">test</span>/jobs/dummy_job_test.rb
       create  app/jobs/dummy_job.rb
 </code></pre></div>
-<p>Our job implementation itself is fairly mundane but serves the purpose of illustration:
-```ruby
-class DummyJob &lt; ApplicationJob
-  queue_as :default</p>
+<p>Our job implementation itself is fairly mundane but serves the purpose of illustration:</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">DummyJob</span> <span class="o">&lt;</span> <span class="no">ApplicationJob</span>
+  <span class="n">queue_as</span> <span class="ss">:default</span>
 
-<p>def perform(*args)
-    puts "Dummy Job Executed"
-  end
-end
-```</p>
-
+  <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="s2">"Dummy Job Executed"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
 <p>Now once our clockwork process synchronizes with the databases, it will pickup the dummy job and keep executing every one second:</p>
 <div class="highlight"><pre><code class="bash language-bash" data-lang="bash">I, <span class="o">[</span>2016-04-01T02:30:54.003679 <span class="c">#57534]  INFO -- : Triggering 'sync_database_events_for_model_Event'</span>
 I, <span class="o">[</span>2016-04-01T02:30:54.005132 <span class="c">#57534]  INFO -- : Triggering 'execute_dummy_job'</span>
