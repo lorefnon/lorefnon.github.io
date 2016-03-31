@@ -97,9 +97,9 @@
 
 <h2><a class="header-link" href="#header1-2" id="header1-2"><span class="header-bullet-num">2.</span><span class="header-inner-text">Database driven scheduling</span></a></h2>
 
-<p>The post outlines an alternative solution using the library <a href="https://github.com/tomykaira/clockwork">clockwork</a> that makes it easy to make event scheduling run time configurable through database models managed using a familiar ruby ORMs.</p>
+<p>The post outlines an alternative solution using the library <a href="https://github.com/tomykaira/clockwork">clockwork</a> that makes it easy to make event scheduling run time configurable through database models managed using familiar ruby ORMs.</p>
 
-<p>While clockwork handles the scheduling aspect, the actual execution of the jobs are expected to be delegated to a background processor like <a href="https://github.com/mperham/sidekiq">sidekiq</a> or <a href="https://github.com/collectiveidea/delayed_job">delayed job</a>.</p>
+<p>While clockwork handles the scheduling aspect, the responsibility of actual execution of the jobs is expected to be delegated to a background processor like <a href="https://github.com/mperham/sidekiq">sidekiq</a> or <a href="https://github.com/collectiveidea/delayed_job">delayed job</a>.</p>
 
 <h2><a class="header-link" href="#header1-3" id="header1-3"><span class="header-bullet-num">3.</span><span class="header-inner-text">ActiveJob and standardized APIs for background processing</span></a></h2>
 
@@ -107,7 +107,7 @@
 
 <h2><a class="header-link" href="#header1-4" id="header1-4"><span class="header-bullet-num">4.</span><span class="header-inner-text">Integration with Admin interfaces</span></a></h2>
 
-<p>The benefit of the event system being manageable through ActiveRecord is that integrated admin interfaces like <a href="https://activeadmin.info">ActiveAdmin</a> and <a href="https://github.com/thoughtbot/administrate">Administrate</a> (which we might already have integrated in place already) work out of the box and we get a complete schedule management interfaces with minimal extraneous boilerblate.</p>
+<p>The benefit of the event system being manageable through ActiveRecord is that integrated admin interfaces like <a href="https://activeadmin.info">ActiveAdmin</a> and <a href="https://github.com/thoughtbot/administrate">Administrate</a> (which we might already have integrated in our existing applications) work out of the box and we get a complete schedule management interface with minimal extraneous boilerblate.</p>
 
 <h2><a class="header-link" href="#header1-5" id="header1-5"><span class="header-bullet-num">5.</span><span class="header-inner-text">Getting started with our app</span></a></h2>
 
@@ -119,7 +119,7 @@
 <span class="nv">$ </span>rails -v
 Rails 5.0.0.beta3
 </code></pre></div>
-<p>Note the while skipping rdoc and ri is purely a matter of convenience (I did not need them at the time) - the <code>--pre</code> is required, as of this writing, for installing Rails 5 as it is still in beta.</p>
+<p>Note that while skipping rdoc and ri is purely a matter of convenience (I did not need them at the time) - the <code>--pre</code> flag is required, as of this writing, for installing Rails 5 as it is still in beta.</p>
 <div class="highlight"><pre><code class="bash language-bash" data-lang="bash"><span class="nv">$ </span>rails new rails5-clockwork-demo --database<span class="o">=</span>postgresql
 
       create
@@ -228,11 +228,11 @@ Rails 5.0.0.beta3
 </code></pre></div>
 <p>Note the line <code>create  app/jobs/application_job.rb</code> above. Rails 5 comes pre-integrated with ActiveJob.</p>
 
-<p>Next we add clockwork and sidekiq to our Gemfile. It may be tempting to just leave the in-memory adapter of ActiveJob in place but it should not be used in any production application.</p>
+<p>Next we add clockwork and sidekiq to our Gemfile.</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">gem 'clockwork'
 gem 'sidekiq'
 </code></pre></div>
-<p>Rails guides explains it well enough:</p>
+<p>It may be tempting to just leave the in-memory adapter of ActiveJob in place but it should not be used in any production application. <a href="http://edgeguides.rubyonrails.org/active_job_basics.html">Rails guides</a> explain it well enough:</p>
 
 <blockquote>
 <p>Rails itself only provides an in-process queuing system, which only keeps the jobs in RAM. If the process crashes or the machine is reset, then all outstanding jobs are lost with the default async back-end. This may be fine for smaller apps or non-critical jobs, but most production apps will need to pick a persistent backend.</p>
