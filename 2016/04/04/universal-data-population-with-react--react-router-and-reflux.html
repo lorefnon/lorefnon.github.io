@@ -1,0 +1,644 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]> ><! <![endif]-->
+<html lang="en" class="">
+  <head>
+    <meta charset="utf-8">
+    <title>Universal data population with react, react-router and reflux |  Code.Art.Web</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta name="description" content="A minimal approach for populating data into React/Reflux applications that works on server side and client side with no preassumptions about the backend APIs serving the data.">
+    
+
+    <link rel="canonical" href="http://lorefnon.me/2016/04/04/universal-data-population-with-react--react-router-and-reflux.html">
+    <meta property="twitter:creator" content="@lorefnon">
+    <meta property="og:title" content="@lorefnon">
+    <meta property="og:type" content="blog">
+    <meta poperty="og:url" content="http://lorefnon.me">
+    <meta property="og:site_name" content="Code.Art.Web">
+    <meta property="og:fb:app_id">
+    <meta property="og:description" content="A minimal approach for populating data into React/Reflux applications that works on server side and client side with no preassumptions about the backend APIs serving the data.">
+    <link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/github.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/minimal_lightbox.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/styles.css"/>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Raleway" rel='stylesheet' type='text/css'>
+    <script>
+  this.top.location !== this.location && (this.top.location = this.location);
+</script>
+
+  </head>
+  <body style="zoom: 1;">
+    <div class="main-container">
+
+      <div class="mlogotype is-uppercase">
+        <a href="http://lorefnon.me">Code.Art.Web</a>
+      </div>
+
+      <a href="http://lorefnon.me" class="home_logotype_link">
+        <h1 class="tag">Code.Art.Web</h1>
+      </a>
+
+      <div class="header-container detail-view">
+        <header class="main-header">
+          <figure class="avatar">
+            <a href="http://lorefnon.me"
+            style="background-image: url();">Profile Picture</a>
+          </figure>
+          <h1 class="profile-name is-uppercase">
+            <a href="http://lorefnon.me">Lorefnon</a>
+          </h1>
+        </header>
+      </div>
+
+      <div class="posts-container detail-view">
+        <article class="post detail-view" id="">
+          <h1 class="title"><a href="#">Universal data population with react, react-router and reflux</a></h1>
+          <a href="#" class="anchor-icon time-wrapper">
+            <i class="fa fa-anchor"></i>
+            <time>Apr 04, 2016</time>
+          </a>
+
+          
+          <h2> <a class="header-link" href="#abstract" id="abstract"> Abstract </a> </h2>
+          <p>A minimal approach for populating data into React/Reflux applications that works on server side and client side with no preassumptions about the backend APIs serving the data.</p>
+
+          
+
+          
+
+          <div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>
+<div id="toctitle"><h2><a class="header-link" href="#contents" id="contents">Contents</a></h2></div>
+<ul>
+<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1.</span> <span class="toctext">Universal rendering and data population</span></a></li>
+<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2.</span> <span class="toctext">Our example setup</span></a></li>
+<li class="toc_level-1 toc_section-3"><a href="#header1-3"><span class="tocnumber">3.</span> <span class="toctext">React Router and unidirectional data flow:</span></a></li>
+<li class="toc_level-1 toc_section-4"><a href="#header1-4"><span class="tocnumber">4.</span> <span class="toctext">Keeping track of async actions</span></a></li>
+<li class="toc_level-1 toc_section-5"><a href="#header1-5"><span class="tocnumber">5.</span> <span class="toctext">Initial data population in client</span></a></li>
+<li class="toc_level-1 toc_section-6"><a href="#header1-6"><span class="tocnumber">6.</span> <span class="toctext">Conclusion</span></a></li>
+<li class="toc_level-1 toc_section-7"><a href="#header1-7"><span class="tocnumber">7.</span> <span class="toctext">Alternatives</span></a></li>
+</ul>
+</td></tr></tbody></table></div>
+<h2><a class="header-link" href="#header1-1" id="header1-1"><span class="header-bullet-num">1.</span><span class="header-inner-text">Universal rendering and data population</span></a></h2>
+
+<p>A common pattern when building React based applications, as elaborated in the <a href="https://facebook.github.io/react/tips/initial-ajax.html">official docs</a>,  is to fetch data in <a href="https://facebook.github.io/react/docs/component-specs.html#mounting-componentdidmount"><code>componentDidMount</code></a> lifecycle hooks of components. However this is not useful when we are rendering on server because <a href="https://facebook.github.io/react/docs/top-level-api.html#reactdomserver.rendertostring"><code>ReactDOMServer.renderToString</code></a> is a <a href="http://stackoverflow.com/questions/748175/asynchronous-vs-synchronous-execution-what-does-it-really-mean">synchronous operation</a> and does not provide a way for us to wait for ajax calls in lifecycle hooks of components to complete.</p>
+
+<p>This post outlines a alternative solution for applications built around the <a href="http://facebook.github.io/flux/">flux pattern</a> and <a href="https://github.com/reactjs/react-router">React Router</a> without resorting to any additional dependencies and without any assumptions about how the APIs are structured (unlike <a href="https://facebook.github.io/relay/">Relay</a> which expects <a href="http://facebook.github.io/graphql/">GraphQL</a>).</p>
+
+<h2><a class="header-link" href="#header1-2" id="header1-2"><span class="header-bullet-num">2.</span><span class="header-inner-text">Our example setup</span></a></h2>
+
+<p>The examples in this post use <a href="https://github.com/reflux/refluxjs">Reflux</a> (a flux <a href="https://github.com/reflux/refluxjs#differences-with-flux">variant</a>) and <a href="http://koajs.com/">Koa</a> (for rendering on the server using <a href="https://nodejs.org/en/">Node.js</a>) however the ideas can be translated to other flux variants or node servers without much effort.</p>
+
+<p>Let us start with a minimal middleware to render a React application in Koa:</p>
+<div class="highlight"><pre><code class="js language-js" data-lang="js"><span class="kr">import</span> <span class="nx">renderReactComponents</span> <span class="nx">from</span> <span class="s1">'./middlewares/react_render'</span>
+
+<span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Koa</span><span class="p">()</span>
+
+<span class="c1">// ... assicate other middlewares</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">renderReactComponents</span><span class="p">)</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mi">3000</span><span class="p">)</span>
+</code></pre></div>
+<p>Our implementation of renderReactComponents is mostly taken from the React Router <a href="https://github.com/reactjs/react-router/blob/master/docs/guides/ServerRendering.md">docs</a> on server side rendering:</p>
+<div class="highlight"><pre><code class="js language-js" data-lang="js"><span class="c1">// server.js</span>
+
+<span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">'react'</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">renderToString</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'react-dom/server'</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">match</span><span class="p">,</span> <span class="nx">RouterContext</span><span class="p">,</span> <span class="nx">createMemoryHistory</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'react-router'</span>
+<span class="kr">import</span> <span class="nx">routes</span> <span class="nx">from</span> <span class="s1">'./routes'</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">isEmpty</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'lodash'</span>
+<span class="kr">import</span> <span class="nx">Reflux</span> <span class="nx">from</span> <span class="s1">'reflux'</span>
+
+<span class="c1">// Koa middleware that attempts to match current URL against</span>
+<span class="c1">// our routes and handles redirection, rendering and error handling</span>
+
+<span class="kr">const</span> <span class="nx">renderReactComponents</span> <span class="o">=</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="p">{</span> <span class="nx">redirectLocation</span><span class="p">,</span> <span class="nx">renderProps</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">matchRoutes</span><span class="p">(</span><span class="nx">context</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">redirectLocation</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">handleRedirect</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">redirectLocation</span><span class="p">)</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">renderBody</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">renderProps</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">await</span> <span class="nx">handleError</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">renderReactComponents</span>
+
+<span class="c1">// Private:</span>
+
+<span class="c1">// Match url in context against our routes</span>
+<span class="kr">const</span> <span class="nx">matchRoutes</span> <span class="o">=</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+  <span class="kr">const</span> <span class="nx">history</span> <span class="o">=</span> <span class="nx">createMemoryHistory</span><span class="p">()</span>
+
+  <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+    <span class="c1">// We will see what the routes factory returns below</span>
+    <span class="kr">const</span> <span class="nx">routes</span> <span class="o">=</span> <span class="nx">routes</span><span class="p">(</span><span class="nx">history</span><span class="p">)</span>
+    <span class="kr">const</span> <span class="nx">location</span> <span class="o">=</span> <span class="nx">context</span><span class="p">.</span><span class="nx">url</span>
+    <span class="nx">match</span><span class="p">({</span> <span class="nx">routes</span><span class="p">,</span> <span class="nx">location</span> <span class="p">},</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">redirectLocation</span><span class="p">,</span> <span class="nx">renderProps</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Unable to match any route</span>
+        <span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">// Route matched</span>
+        <span class="nx">resolve</span><span class="p">({</span> <span class="nx">redirectLocation</span><span class="p">,</span> <span class="nx">renderProps</span> <span class="p">})</span>
+      <span class="p">}</span>
+    <span class="p">})</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="c1">// Inject the react string into an HTML layout</span>
+<span class="c1">// and return the complete page HTML</span>
+<span class="c1">//</span>
+<span class="kr">const</span> <span class="nx">renderBody</span> <span class="o">=</span> <span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">renderProps</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">context</span><span class="p">.</span><span class="nx">body</span> <span class="o">=</span> <span class="err">`</span>
+    <span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
+        <span class="c">&lt;!--</span> <span class="nx">add</span> <span class="nx">client</span> <span class="nx">side</span> <span class="nx">scripts</span> <span class="nx">here</span> <span class="o">--&gt;</span>
+      <span class="o">&lt;</span><span class="err">/head&gt;</span>
+      <span class="o">&lt;</span><span class="nx">body</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s1">'app'</span><span class="o">&gt;</span>
+          <span class="nx">$</span><span class="p">{</span><span class="nx">renderToString</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">RouterContext</span> <span class="p">{...</span><span class="nx">renderProps</span><span class="p">}</span> <span class="o">/&gt;</span><span class="p">)}</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+      <span class="o">&lt;</span><span class="err">/body&gt;</span>
+    <span class="o">&lt;</span><span class="err">/html&gt;`</span>
+<span class="p">}</span>
+
+<span class="kr">const</span> <span class="nx">handleError</span> <span class="o">=</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">stack</span><span class="p">)</span>
+  <span class="nx">context</span><span class="p">.</span><span class="nx">status</span> <span class="o">=</span> <span class="mi">500</span>
+  <span class="nx">context</span><span class="p">.</span><span class="nx">body</span> <span class="o">=</span> <span class="s1">'Something went wrong. Please try again later.'</span>
+<span class="p">}</span>
+
+<span class="kr">const</span> <span class="nx">handleRedirect</span> <span class="o">=</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">location</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="p">{</span> <span class="nx">pathname</span><span class="p">,</span> <span class="nx">search</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">location</span>
+  <span class="nx">context</span><span class="p">.</span><span class="nx">redirect</span><span class="p">(</span><span class="nx">redirectLocation</span><span class="p">.</span><span class="nx">pathname</span> <span class="o">+</span> <span class="nx">redirectLocation</span><span class="p">.</span><span class="nx">search</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Our routes.js file will expose a factory for returning the hierarchy of routes:</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">// routes.js
+
+// ... imports
+
+export default history =&gt; (
+  &lt;Router history={history}&gt;
+    &lt;Route path="/" component={App}&gt;
+      &lt;IndexRoute component={Home} /&gt;
+      &lt;Route
+        path="products"
+        component={ProductsContainer} /&gt;
+    &lt;/Route&gt;
+  &lt;/Router&gt;
+)
+</code></pre></div>
+<p>If we observe the code above then it becomes obvious that matching of routes and actual rendering of the component tree are two separate steps and before we even call <code>renderToString</code> we already have the hierarchy of the components we need to render. This is something we can utilize to our advantage.</p>
+
+<p>However before we dive into that, let us take a step back and investigate how we would integrate Reflux with React router to facilitate unidirectional data flow.</p>
+
+<h2><a class="header-link" href="#header1-3" id="header1-3"><span class="header-bullet-num">3.</span><span class="header-inner-text">React Router and unidirectional data flow:</span></a></h2>
+
+<p>React Router provides us with an <a href="https://github.com/reactjs/react-router/blob/master/docs/API.md#onenternextstate-replace-callback">onEnter</a> hook (among others) which is triggered  when we navigate to specific routes. In this onEnter hook we can trigger <a href="https://github.com/reflux/refluxjs#creating-actions">asynchronous actions</a>.</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">// routes.js
+
+// ... imports
+
+export default (history) =&gt; (
+  &lt;Router history={history}&gt;
+    &lt;Route path="/" component={App}&gt;
+      &lt;IndexRoute component={Home} /&gt;
+      &lt;Route
+        path="products"
+        component={ProductsContainer}
+        onEnter={onVisitProductsList}/&gt;
+    &lt;/Route&gt;
+  &lt;/Router&gt;
+)
+
+const onVisitProductsList = () =&gt; initQueryProducts({ ...some parameters... })
+</code></pre></div>
+<p>Our asynchronous actions would typically have listeners which would perform the ajax requests and dispatch them through child actions:</p>
+
+<p>If you are coming from Facebook's implementation of flux, the actions play the combined role of action creators as well as the dispatchers. Since we can directly listen to the actions (which are just functions) the need for a central dispatcher is eliminated.</p>
+<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="c1">// actions.js</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">createAction</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'reflux'</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">initQueryProducts</span> <span class="o">=</span> <span class="nx">createAction</span><span class="p">({</span> <span class="nx">asyncResult</span><span class="o">:</span> <span class="kc">true</span> <span class="p">})</span>
+
+<span class="nx">initQueryProducts</span><span class="p">.</span><span class="nx">listen</span><span class="p">((</span><span class="nx">params</span><span class="p">)</span> <span class="o">=&gt;</span>
+  <span class="nx">fetchProducts</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="c1">// Perform ajax request using your favorite ajax library</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">initQueryProducts</span><span class="p">.</span><span class="nx">completed</span><span class="p">)</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">initQueryProducts</span><span class="p">.</span><span class="nx">failed</span><span class="p">))</span>
+</code></pre></div>
+<p>The verbosity of the above example can be simplified using <a href="https://github.com/reflux/reflux-promise">Reflux-promise</a> but for now we stick to the more explicit version.</p>
+
+<p>Our stores would subscribe to <code>initQueryProducts.completed</code> action and would update their data when the action is triggered.</p>
+<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">createStore</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'reflux'</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">initQueryProducts</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'./actions'</span>
+
+<span class="c1">// Store containing our products collection</span>
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">productsStore</span> <span class="o">=</span> <span class="nx">createStore</span><span class="p">({</span>
+
+  <span class="nx">listenables</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">finishQueryProducts</span><span class="o">:</span> <span class="nx">initQueryProducts</span><span class="p">.</span><span class="nx">completed</span>
+  <span class="p">},</span>
+
+  <span class="c1">// Triggered by initQueryProducts.completed:</span>
+  <span class="nx">onFinishQueryProducts</span><span class="p">(</span><span class="nx">products</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="nx">products</span>
+
+    <span class="c1">// Notify components about the updated store state:</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="nx">products</span><span class="p">)</span>
+  <span class="p">}</span>
+
+<span class="p">})</span>
+</code></pre></div>
+<p>So when the ajax request is finished, the store will be notified through <code>initQueryProducts.completed</code> action and once the store has been updated, it will trigger the updated state to listeners. Components which are listening to the store would be notified about the updated state and they will re-render to present the updated data to users.</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">  [onEnter hook of Route]
+      |
+      V
+  [async action] --&gt; [ajax request] --&gt; [async child action]
+                                               |
+                                               V
+                            [component] &lt;-- [store]
+</code></pre></div>
+<h2><a class="header-link" href="#header1-4" id="header1-4"><span class="header-bullet-num">4.</span><span class="header-inner-text">Keeping track of async actions</span></a></h2>
+
+<p>Our flow above works perfectly well on client. However on the server, once the component tree has been constructed we have to wait till the async actions triggered in the route hooks have finished before we can obtain the string representation of the component tree.</p>
+
+<p>If we figure out a way to wait on all these actions then our existing flux setup would ensure that all the components have been bootstrapped with the initial data on the server itself.</p>
+
+<p>In the approach proposed below we defer the responsibility of aggregating the actions we need to wait for before rendering to the onEnter handlers.</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">// routes.js
+
+// ... imports
+
+// Note the addional parameter actions - this is an array which will be
+// populated with the actions we need to wait on before rendering
+//
+export default (history, actions) =&gt; (
+  &lt;Router history={history}&gt;
+    &lt;Route path="/" component={App}&gt;
+      &lt;IndexRoute component={Home} /&gt;
+      &lt;Route
+        path="products"
+        component={ProductsContainer}
+        onEnter={onVisitProductsList(actions)}/&gt;
+    &lt;/Route&gt;
+  &lt;/Router&gt;
+)
+
+const onVisitProductsList = (actions) =&gt; () =&gt; {
+  // populate an action to be waited upon before we render
+  actions.push(initQueryProducts.completed)
+  initQueryProducts({ ...some parameters... })
+}
+</code></pre></div>
+<p>Now we would have to modify our <code>matchRoutes</code> implementation to pass the actions array and wait on the actions:</p>
+<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">matchRoutes</span> <span class="o">=</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">history</span> <span class="o">=</span> <span class="nx">createMemoryHistory</span><span class="p">()</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">actions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="kr">const</span> <span class="nx">routes</span> <span class="o">=</span> <span class="nx">routes</span><span class="p">(</span><span class="nx">history</span><span class="p">,</span> <span class="nx">actions</span><span class="p">)</span>
+    <span class="kr">const</span> <span class="nx">location</span> <span class="o">=</span> <span class="nx">context</span><span class="p">.</span><span class="nx">url</span>
+    <span class="nx">match</span><span class="p">({</span> <span class="nx">routes</span><span class="p">,</span> <span class="nx">location</span> <span class="p">},</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">redirectLocation</span><span class="p">,</span> <span class="nx">renderProps</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+
+        <span class="c1">// Wait on the actions before rendering</span>
+        <span class="nx">Reflux</span>
+          <span class="p">.</span><span class="nx">joinTrailing</span><span class="p">(</span><span class="nx">actions</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">listen</span><span class="p">(()</span> <span class="o">=&gt;</span>
+            <span class="c1">// Now that all actions have finished - resolve the promise</span>
+            <span class="nx">resolve</span><span class="p">({</span> <span class="nx">redirectLocation</span><span class="p">,</span> <span class="nx">renderProps</span> <span class="p">})</span>
+          <span class="p">)</span>
+      <span class="p">}</span>
+    <span class="p">})</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>However our implementation still has an issue. <code>Reflux.joinTrailing</code> is not intended to handle 0 or 1 actions - however in our case it is quite possible for certain endpoints to not trigger single actions or no actions at all. So some additional boilerplate is required to handle these cases:</p>
+<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">matchRoutes</span> <span class="o">=</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">history</span> <span class="o">=</span> <span class="nx">createMemoryHistory</span><span class="p">()</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">actions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="kr">const</span> <span class="nx">routes</span> <span class="o">=</span> <span class="nx">routes</span><span class="p">(</span><span class="nx">history</span><span class="p">,</span> <span class="nx">actions</span><span class="p">)</span>
+    <span class="kr">const</span> <span class="nx">location</span> <span class="o">=</span> <span class="nx">context</span><span class="p">.</span><span class="nx">url</span>
+    <span class="nx">match</span><span class="p">({</span> <span class="nx">routes</span><span class="p">,</span> <span class="nx">location</span> <span class="p">},</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">redirectLocation</span><span class="p">,</span> <span class="nx">renderProps</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="nx">resolveMatch</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">resolve</span><span class="p">({</span> <span class="nx">redirectLocation</span><span class="p">,</span> <span class="nx">renderProps</span> <span class="p">})</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">reject</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">actions</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">resolveMatch</span><span class="p">()</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">actions</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">actions</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">listen</span><span class="p">(</span><span class="nx">resolveMatch</span><span class="p">)</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">Reflux</span><span class="p">.</span><span class="nx">joinTrailing</span><span class="p">(</span><span class="nx">actions</span><span class="p">).</span><span class="nx">listen</span><span class="p">(</span><span class="nx">resolveMatch</span><span class="p">)</span>
+      <span class="p">}</span>
+    <span class="p">})</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2><a class="header-link" href="#header1-5" id="header1-5"><span class="header-bullet-num">5.</span><span class="header-inner-text">Initial data population in client</span></a></h2>
+
+<p>Our implementation still has an issue. When the client side javascript code boots up we would not have the data available and the client side stores would start up empty, and will load the data all over again.</p>
+
+<p>Besides extra requests, this will result in a poor user experience because the server rendered UI will be replaced with UI rendered with empty stores and eventually again re-rendered when the stores have the data.</p>
+
+<p>React aptly warns us against this:</p>
+
+<blockquote>
+<p>Warning: React attempted to reuse markup in a container but the checksum was invalid. This generally means that you are using server rendering and the markup generated on the server was not what the client was expecting.</p>
+
+<p>React injected new markup to compensate which works but you have lost many of the benefits of server rendering.</p>
+
+<p>Instead, figure out why the markup being generated is different on the client or server:</p>
+</blockquote>
+
+<p>If we revisit the the <code>matchRoutes</code> implementation above, we observe that our <code>matchRoutes</code> implementation already has the responses for the actions we waited upon. So from there we can save them to the client.</p>
+
+<p>First of all we augment our route listeners with a unique cacheKey specific to the set of route params:</p>
+<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">onVisitProductsList</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">initQueryProducts</span><span class="p">({</span> <span class="nx">_cacheKey</span><span class="o">:</span> <span class="s1">'products:all'</span> <span class="p">})</span>
+</code></pre></div>
+<p>Our <code>matchRoutes</code> implementation can now construct a registry using this <code>_cacheKey</code> parameter:</p>
+<div class="highlight"><pre><code class="text language-text" data-lang="text">import React from 'react'
+import { renderToString } from 'react-dom/server'
+import { match, RouterContext, createMemoryHistory } from 'react-router'
+import { isEmpty, isArray, reduce, escape } from 'lodash'
+import Reflux from 'reflux'
+// ....
+
+const matchRoutes = async (context) =&gt; {
+  const history = createMemoryHistory()
+  const actions = []
+  const routes = routes(history, actions)
+  const location = context.url
+
+  return new Promise((resolve, reject) =&gt; {
+    match({ routes, location }, (error, redirectLocation, renderProps) =&gt; {
+      if (error) reject(error)
+      else listenOnActions(actions, (responses) =&gt;
+        resolve({
+          redirectLocation,
+          renderProps,
+          registry: buildRegistry(responses)
+        })
+      )
+    })
+  })
+}
+
+// Aggregate action responses using _cacheKey
+const buildRegistry = (responses) =&gt;
+  reduce(responses, (registry, resp) =&gt; {
+    if (resp._cacheKey) registry[resp._cacheKey] = resp
+    return registry
+  }, {})
+
+const listenOnActions = (actions, callback) =&gt; {
+  if (actions.length == 0) {
+    callback([])
+  } else if (actions.length == 1) {
+    actions[0].listen((resp) =&gt; callback([resp]))
+  } else {
+    Reflux.joinLeading(...actions).listen(callback)
+  }
+}
+
+const renderBody = (context, renderProps, registry) =&gt; {
+  context.body = `
+    &lt;html&gt;
+      &lt;head&gt;
+        &lt;script id="data-bootstrap" type="text/data"&gt;
+          ${escape(JSON.stringify(_registry))}
+        &lt;/script&gt;
+      &lt;/head&gt;
+      &lt;body&gt;
+        &lt;div id='app'&gt;
+          ${renderToString(&lt;RouterContext {...renderProps} /&gt;)}
+        &lt;/div&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;`
+}
+</code></pre></div>
+<p>Our client can pick up this bootstrapped data:</p>
+<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="c1">// client.js</span>
+
+<span class="kr">import</span> <span class="s1">'babel-polyfill'</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">unescape</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'lodash'</span>
+<span class="kr">import</span> <span class="nx">routes</span> <span class="nx">from</span> <span class="s1">'./routes'</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">browserHistory</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'react-router'</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">render</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'react-dom'</span>
+<span class="kr">import</span> <span class="nx">Reflux</span> <span class="nx">from</span> <span class="s1">'reflux'</span>
+<span class="kr">import</span> <span class="nx">RefluxPromise</span> <span class="nx">from</span> <span class="s2">"reflux-promise"</span>
+<span class="kr">import</span> <span class="nx">Promise</span> <span class="nx">from</span> <span class="s1">'bluebird'</span>
+
+<span class="nb">window</span><span class="p">.</span><span class="nx">REGISTRY</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">unescape</span><span class="p">(</span>
+  <span class="nb">document</span>
+    <span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'data-bootstrap'</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">innerText</span>
+    <span class="p">.</span><span class="nx">trim</span><span class="p">()</span>
+<span class="p">))</span>
+
+<span class="nx">Reflux</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">RefluxPromise</span><span class="p">(</span><span class="nx">Promise</span><span class="p">))</span>
+
+<span class="nx">render</span><span class="p">(</span><span class="nx">routes</span><span class="p">(</span><span class="nx">browserHistory</span><span class="p">,</span> <span class="p">[]),</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'app'</span><span class="p">))</span>
+</code></pre></div>
+<p>Now our synchronizers will have to be made aware of this <code>cacheKey</code> and they should be able to use the same to fetch from the bootstrapped registry on client when feasible:</p>
+<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">memoize</span><span class="p">,</span> <span class="nx">extend</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'lodash'</span>
+<span class="kr">import</span> <span class="nx">axios</span> <span class="nx">from</span> <span class="s1">'axios'</span>
+<span class="kr">import</span> <span class="nx">isNode</span> <span class="nx">from</span> <span class="s1">'detect-node'</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">fetchProducts</span> <span class="o">=</span> <span class="nx">query</span><span class="p">(</span><span class="s1">'products'</span><span class="p">)</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">query</span> <span class="o">=</span> <span class="p">(</span><span class="nx">url</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="o">=&gt;</span>
+  <span class="nx">hasCacheEntry</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="o">?</span>
+    <span class="nx">queryCache</span><span class="p">(</span><span class="nx">params</span><span class="p">.</span><span class="nx">_cacheKey</span><span class="p">)</span> <span class="o">:</span>
+    <span class="nx">queryRemote</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">params</span><span class="p">)</span>
+
+<span class="kr">const</span> <span class="nx">apiRoot</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">root</span> <span class="o">=</span> <span class="s1">'/api'</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">isNode</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="err">`</span><span class="nx">http</span><span class="o">:</span><span class="c1">//localhost:${process.env.PORT}${root}`</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">root</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">const</span> <span class="nx">apiUrl</span> <span class="o">=</span> <span class="p">(</span><span class="nx">url</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">apiRoot</span><span class="p">()}</span><span class="o">/</span><span class="nx">$</span><span class="p">{</span><span class="nx">url</span><span class="p">}</span><span class="err">`</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">extractData</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">data</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nx">data</span>
+
+<span class="kr">const</span> <span class="nx">hasCacheEntry</span> <span class="o">=</span> <span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="o">=&gt;</span>
+  <span class="nx">params</span><span class="p">.</span><span class="nx">_cacheKey</span> <span class="o">&amp;&amp;</span>
+    <span class="o">!</span> <span class="nx">isNode</span> <span class="o">&amp;&amp;</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">REGISTRY</span><span class="p">[</span><span class="nx">params</span><span class="p">.</span><span class="nx">_cacheKey</span><span class="p">]</span>
+
+<span class="kr">const</span> <span class="nx">queryCache</span> <span class="o">=</span> <span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="o">=&gt;</span>
+  <span class="nx">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">REGISTRY</span><span class="p">[</span><span class="nx">key</span><span class="p">])</span>
+
+<span class="kr">const</span> <span class="nx">queryRemote</span> <span class="o">=</span> <span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">params</span><span class="p">)</span> <span class="o">=&gt;</span>
+  <span class="nx">axios</span>
+    <span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">apiUrl</span><span class="p">(</span><span class="nx">url</span><span class="p">),</span> <span class="p">{</span> <span class="nx">params</span> <span class="p">})</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(({</span> <span class="nx">data</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nx">augmentCacheKey</span><span class="p">(</span><span class="nx">params</span><span class="p">,</span> <span class="nx">data</span><span class="p">))</span>
+
+<span class="nx">augmentCacheKey</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">_cacheKey</span> <span class="p">},</span> <span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
+  <span class="nx">extend</span><span class="p">({</span> <span class="nx">_cacheKey</span> <span class="p">},</span> <span class="nx">data</span><span class="p">)</span>
+</code></pre></div>
+<h2><a class="header-link" href="#header1-6" id="header1-6"><span class="header-bullet-num">6.</span><span class="header-inner-text">Conclusion</span></a></h2>
+
+<p>This concludes our implementation. To summarize we were able to reuse our entire flux implementation on server as well as client - during the route matching phase we aggregated the asynchronous actions and waited for the stores to be populated before we rendered the components. On the client while bootstrapping our application we used the data bootstrapped by the server to hydrate the stores at the beginning which the rendered components picked up during the initial rendering.</p>
+
+<p>Please provide any suggestions for improvements or feedback regarding any issues in the comments below.</p>
+
+<h2><a class="header-link" href="#header1-7" id="header1-7"><span class="header-bullet-num">7.</span><span class="header-inner-text">Alternatives</span></a></h2>
+
+<p>Following are some alternative solutions that exist to solve similar problems. They may be especially useful if the application does not follow flux pattern.</p>
+
+<ul>
+<li><a href="https://github.com/ericclemmons/react-resolver">https://github.com/ericclemmons/react-resolver</a></li>
+<li><a href="https://github.com/RickWong/react-transmit">https://github.com/RickWong/react-transmit</a></li>
+<li><a href="https://github.com/facebook/relay">https://github.com/facebook/relay</a></li>
+</ul>
+
+
+<footer class="group">
+  <p>
+    
+    
+    
+      
+    
+  </p>
+</footer>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//lorefnon-blog.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+        </article>
+      </div>
+
+      <div class="line hide-text">Separator line</div>
+
+      <!-- Next article preview -->
+      <div class="next-article" style="display: none;">
+        <a href="#">
+          <p class="read-next tag is-uppercase">Read this next:</p>
+          <p class="next-article__title">Protocol and Language</p>
+          <div class="next-article__content">
+            <p>This is the second part of my series on protocol. The first part contained a lot of background information, but now we’re ready to get into what Protocol actually is. I live in a pretty unique place, the Farmhouse. It’s a... <span>Continue…</span></p>
+          </div>
+        </a>
+      </div>
+      <!-- Finish / Feature on process-->
+
+      <div class="line hide-text">Separator line</div>
+
+      <div class="foot_logo">
+        <a href="http://lorefnon.me"><span class="logo"></span></a>
+      </div>
+
+      <div class="foot_logo right">
+        <a href="/"><span class="link">Full Blog >></span></a>
+      </div>
+
+      <div class="line"></div>
+
+<div class="foot_userbar">
+  <div href="#" class="bottom_tagline">
+    <span>Lorefnon</span>
+    <br><br>
+    <p> Full stack web developer and polyglot programmer with strong interest in dynamic languages, web application development and user experience design. </p>
+    <br>
+    <p> Strong believer in agile methodologies, behaviour driven development and efficacy of open source technologies.</p>
+    <br>
+  </div>
+  <div class="profile-links-container">
+  <a href="#" class="bottom_tagline"><span> You can reach me through :</span></h2>
+  <br><br>
+  <ul class="profile-links">
+    <li class="twitter">
+      <a href="http://twitter.com/lorefnon" target="_blank">
+        <span>Twitter</span>
+      </a>
+    </li>
+    <li class="linkedin">
+      <a href="https://in.linkedin.com/in/gaurab-paul-a2472921" target="_blank">
+        <span>Linkedin</span>
+      </a>
+    </li>
+    <li class="github">
+      <a href="https://github.com/lorefnon" target="_blank">
+        <span>Github</span>
+      </a>
+    </li>
+    <li class="github">
+      <a href="mailto:lorefnon@gmail.com" target="_blank">
+        <span>Email</span>
+      </a>
+    </li>
+  </ul>
+
+  </div>
+</div>
+<div class="line"></div>
+<div class="foot_userbar">
+  <p>&copy; 2013 - 2015 Gaurab Paul </p>
+<br/>
+<p>Code licensed under the
+  <a href="http://opensource.org/licenses/MIT" target="_blank">The
+    MIT License</a>. Content and Artwork licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA</a>.
+</p>
+<br/>
+<p>
+  The opinions expressed herein are my personal viewpoints  and may
+  not be taken as professional recommendations from any of my previous or
+  current employers.
+</p>
+<br/>
+<p>
+  Site is powered by <a href="http://jekyllrb.com/">Jekyll</a> and graciously hosted by <a href="https://github.com">Github</a>
+</p>
+<br/>
+<br/>
+
+</div>
+
+    </div>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-47274059-1']);
+  _gaq.push(['_setDomainName', 'lorefnon.me']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+    <script src="/assets/javascripts/post.js"></script>
+  </body>
+</html>

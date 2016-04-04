@@ -7,6 +7,16 @@
     <atom:link href="http://lorefnon.me/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Universal data population with react, react-router and reflux</title>
+	
+        <description>A minimal approach for populating data into React/Reflux applications that works on server side and client side with no preassumptions about the backend APIs serving the data.</description>
+	
+        <pubDate>Mon, 04 Apr 2016 00:00:00 +0530</pubDate>
+        <link>http://lorefnon.me/2016/04/04/universal-data-population-with-react--react-router-and-reflux.html</link>
+        <guid isPermaLink="true">http://lorefnon.me/2016/04/04/universal-data-population-with-react--react-router-and-reflux.html</guid>
+      </item>
+    
+      <item>
         <title>Database driven scheduling with Clockwork and ActiveJob</title>
 	
         <description>An introductory tutorial on making event scheduling management more accessible and configurable to administrators through database driven admin interfaces in Rails.</description>
@@ -92,16 +102,6 @@
         <pubDate>Mon, 21 Sep 2015 00:00:00 +0530</pubDate>
         <link>http://lorefnon.me/2015/09/21/react-and-livescript-in-harmony.html</link>
         <guid isPermaLink="true">http://lorefnon.me/2015/09/21/react-and-livescript-in-harmony.html</guid>
-      </item>
-    
-      <item>
-        <title>Smarter knockout applications with ES6/7</title>
-	
-        <description>Effectively using upcoming features of next-gen javascript can go a long way in ensuring the maintenability of our Knockout code.</description>
-	
-        <pubDate>Mon, 24 Aug 2015 00:00:00 +0530</pubDate>
-        <link>http://lorefnon.me/2015/08/24/smarter-knockout-applications-with-es-next.html</link>
-        <guid isPermaLink="true">http://lorefnon.me/2015/08/24/smarter-knockout-applications-with-es-next.html</guid>
       </item>
     
   </channel>
