@@ -19,6 +19,8 @@
       <item>
         <title>Embracing BEM methodology in React applications</title>
 	
+        <description>An overview of useful tools to effectively use BEM methodology in conjugation with React</description>
+	
         <pubDate>Mon, 04 Apr 2016 00:00:00 +0530</pubDate>
         <link>http://lorefnon.me/2016/04/04/embracing-bem-methodology-in-react-applications.html</link>
         <guid isPermaLink="true">http://lorefnon.me/2016/04/04/embracing-bem-methodology-in-react-applications.html</guid>
