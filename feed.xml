@@ -7,13 +7,21 @@
     <atom:link href="http://lorefnon.me/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
-        <title>Universal data population with react, react-router and reflux</title>
+        <title>Universal data population with React Router and Reflux</title>
 	
-        <description>A minimal approach for populating data into React/Reflux applications that works on server side and client side with no preassumptions about the backend APIs serving the data.</description>
+        <description>An opinionated approach for populating data into React/Reflux applications that works on server side and client side with no preassumptions about the backend APIs serving the data.</description>
 	
         <pubDate>Mon, 04 Apr 2016 00:00:00 +0530</pubDate>
         <link>http://lorefnon.me/2016/04/04/universal-data-population-with-react--react-router-and-reflux.html</link>
         <guid isPermaLink="true">http://lorefnon.me/2016/04/04/universal-data-population-with-react--react-router-and-reflux.html</guid>
+      </item>
+    
+      <item>
+        <title>Embracing BEM methodology in React applications</title>
+	
+        <pubDate>Mon, 04 Apr 2016 00:00:00 +0530</pubDate>
+        <link>http://lorefnon.me/2016/04/04/embracing-bem-methodology-in-react-applications.html</link>
+        <guid isPermaLink="true">http://lorefnon.me/2016/04/04/embracing-bem-methodology-in-react-applications.html</guid>
       </item>
     
       <item>
@@ -92,16 +100,6 @@
         <pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
         <link>http://lorefnon.me/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</link>
         <guid isPermaLink="true">http://lorefnon.me/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</guid>
-      </item>
-    
-      <item>
-        <title>React and Livescript in harmony</title>
-	
-        <description>We don&#39;t have to sacrifice readability and elegance when using Livescript for functional programming in javascript in conjugation with React.</description>
-	
-        <pubDate>Mon, 21 Sep 2015 00:00:00 +0530</pubDate>
-        <link>http://lorefnon.me/2015/09/21/react-and-livescript-in-harmony.html</link>
-        <guid isPermaLink="true">http://lorefnon.me/2015/09/21/react-and-livescript-in-harmony.html</guid>
       </item>
     
   </channel>
