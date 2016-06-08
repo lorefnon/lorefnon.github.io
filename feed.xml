@@ -55,6 +55,16 @@
       </item>
     
       <item>
+        <title>Comprehensive guide to creating Hypermedia driven JSON APIs with Rails 5</title>
+	
+        <description>An introductory guide to getting started with the latest and greatest in the Rails world for building maintainable and scalable APIs</description>
+	
+        <pubDate>Tue, 22 Dec 2015 00:00:00 +0530</pubDate>
+        <link>http://lorefnon.me/2015/12/22/comprehensive-guide-to-creating-hypermedia-driven-json-apis-with-rails-5.html</link>
+        <guid isPermaLink="true">http://lorefnon.me/2015/12/22/comprehensive-guide-to-creating-hypermedia-driven-json-apis-with-rails-5.html</guid>
+      </item>
+    
+      <item>
         <title>Extending the ruby case statement for fun and profit</title>
 	
         <description>An exploration into the ruby case statement - an often overlooked but one of the most powerful constructs of the ruby language</description>
@@ -92,16 +102,6 @@
         <pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
         <link>http://lorefnon.me/2015/11/15/utilities-for-efficient-filesystem-navigation-in-emacs.html</link>
         <guid isPermaLink="true">http://lorefnon.me/2015/11/15/utilities-for-efficient-filesystem-navigation-in-emacs.html</guid>
-      </item>
-    
-      <item>
-        <title>A minimal setup for using ES6 modules in Rails</title>
-	
-        <description>ES6 modules are the future of modular code organization in javascript. Let&#39;s explore how to use them today in Rails.</description>
-	
-        <pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
-        <link>http://lorefnon.me/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</link>
-        <guid isPermaLink="true">http://lorefnon.me/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</guid>
       </item>
     
   </channel>

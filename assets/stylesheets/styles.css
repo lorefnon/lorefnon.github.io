@@ -1036,31 +1036,6 @@ font-size: 16px;
     }
 }
 
-.toc a {
-    border-bottom: none !important;
-}
-
-.toctext {
-    margin-left: 10px;
-}
-
-.tocnumber {
-    color: black;
-    font-weight: bold;
-}
-
-.toc {
-    width: 100%;
-}
-
-.toc ul {
-    margin-left: 25px;
-}
-
-#toctitle {
-    margin-bottom: 25px;
-}
-
 .zoom-overlay {
     max-width: 100% !important;
 }
@@ -1152,3 +1127,32 @@ font-size: 16px;
     border-radius: 4px;
 }
 
+.toc li * {
+    margin: 0;
+}
+
+
+.toc a {
+    border-bottom: none !important;
+}
+
+.toctext {
+    margin-left: 10px;
+}
+
+.tocnumber {
+    color: black;
+    font-weight: bold;
+}
+
+.toc {
+    width: 100%;
+}
+
+.toc ul {
+    margin-left: 25px;
+}
+
+#toctitle {
+    margin-bottom: 25px;
+}
