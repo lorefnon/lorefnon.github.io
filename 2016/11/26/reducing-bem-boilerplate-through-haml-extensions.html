@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     
+    <meta name="description" content="A hack which makes the HAML parser BEM aware and helps reduce some of the repetitive boilerplate associated with specifying BEM compliant class names in templates.">
+    
 
     <link rel="canonical" href="http://lorefnon.me/2016/11/26/reducing-bem-boilerplate-through-haml-extensions.html">
     <meta property="twitter:creator" content="@lorefnon">
@@ -18,7 +20,7 @@
     <meta poperty="og:url" content="http://lorefnon.me">
     <meta property="og:site_name" content="Code.Art.Web">
     <meta property="og:fb:app_id">
-    <meta property="og:description" content="">
+    <meta property="og:description" content="A hack which makes the HAML parser BEM aware and helps reduce some of the repetitive boilerplate associated with specifying BEM compliant class names in templates.">
     <link rel="alternate" type="application/rss+xml" href="http://lorefnon.me/feed.xml"/>
     <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/reset.css"/>
     <link rel="stylesheet" media="screen" type="text/css" href="/assets/stylesheets/responsive.css"/>
@@ -64,6 +66,10 @@
           </a>
 
           
+          <h2> <a class="header-link" href="#abstract" id="abstract"> Abstract </a> </h2>
+          <p>A hack which makes the HAML parser BEM aware and helps reduce some of the repetitive boilerplate associated with specifying BEM compliant class names in templates.</p>
+
+          
 
           
 
@@ -98,7 +104,7 @@ allows for extending of parent class name:</p>
 <div class="highlight"><pre><code class="html language-html" data-lang="html"><span class="nt">&lt;label</span> <span class="na">class=</span><span class="s">&quot;Button__label Button__label--primary&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/label&gt;</span>
 </code></pre></div>
-<p>Fortunately, if we are using HAML, then we can extend the HAML parser to reduce some of this verbosity.
+<p>Fortunately, if we are using <a href="http://haml.info/">HAML</a>, then we can extend the HAML parser to reduce some of this verbosity.
 HAML has a method <code>Haml::Parser.parse_class_and_id</code> to expand expressions like <code>.hello.world#some-id</code>.
 We can monkey-patch this method to make it bem aware.</p>
 <div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="no">Haml</span><span class="o">::</span><span class="no">Parser</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>

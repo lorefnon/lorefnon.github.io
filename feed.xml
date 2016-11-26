@@ -9,6 +9,8 @@
       <item>
         <title>Reducing BEM boilerplate through HAML extensions</title>
 	
+        <description>A hack which makes the HAML parser BEM aware and helps reduce some of the repetitive boilerplate associated with specifying BEM compliant class names in templates.</description>
+	
         <pubDate>Sat, 26 Nov 2016 00:00:00 +0530</pubDate>
         <link>http://lorefnon.me/2016/11/26/reducing-bem-boilerplate-through-haml-extensions.html</link>
         <guid isPermaLink="true">http://lorefnon.me/2016/11/26/reducing-bem-boilerplate-through-haml-extensions.html</guid>
