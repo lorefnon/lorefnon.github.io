@@ -73,41 +73,10 @@
 
           
 
-          <div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>
-<div id="toctitle"><h2><a class="header-link" href="#contents" id="contents">Contents</a></h2></div>
-<ul>
-<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1.</span> <span class="toctext">About delegation</span></a></li>
-<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2.</span> <span class="toctext">Implementing Delegators in Ruby</span></a></li>
-<li class="toc_level-1 toc_section-3">
-<a href="#header1-3"><span class="tocnumber">3.</span> <span class="toctext">Wrapping objects with SimpleDelegator</span></a><ul>
-<li class="toc_level-2 toc_section-4"><a href="#header1-3-1"><span class="tocnumber">3.1.</span> <span class="toctext">Using delegation for Presenter logic</span></a></li>
-<li class="toc_level-2 toc_section-5"><a href="#header1-3-2"><span class="tocnumber">3.2.</span> <span class="toctext">Delegation for memoization/caching</span></a></li>
-<li class="toc_level-2 toc_section-6"><a href="#header1-3-3"><span class="tocnumber">3.3.</span> <span class="toctext">Using delegation for collection objects</span></a></li>
-<li class="toc_level-2 toc_section-7"><a href="#header1-3-4"><span class="tocnumber">3.4.</span> <span class="toctext">Using delegation to augment lifecycle hooks</span></a></li>
-</ul>
-</li>
-<li class="toc_level-1 toc_section-8">
-<a href="#header1-8"><span class="tocnumber">4.</span> <span class="toctext">In Rails, any module can delegate</span></a><ul>
-<li class="toc_level-2 toc_section-9"><a href="#header1-8-1"><span class="tocnumber">4.1.</span> <span class="toctext">Delegating helpers to model instances:</span></a></li>
-<li class="toc_level-2 toc_section-10"><a href="#header1-8-2"><span class="tocnumber">4.2.</span> <span class="toctext">Chaining delegators</span></a></li>
-</ul>
-</li>
-<li class="toc_level-1 toc_section-11">
-<a href="#header1-11"><span class="tocnumber">5.</span> <span class="toctext">Delegation as an alternative to Concerns</span></a><ul>
-<li class="toc_level-2 toc_section-12"><a href="#header1-11-1"><span class="tocnumber">5.1.</span> <span class="toctext">Run time configurability:</span></a></li>
-<li class="toc_level-2 toc_section-13"><a href="#header1-11-2"><span class="tocnumber">5.2.</span> <span class="toctext">On demand specialization:</span></a></li>
-</ul>
-</li>
-<li class="toc_level-1 toc_section-14"><a href="#header1-14"><span class="tocnumber">6.</span> <span class="toctext">Delegation in command line applications</span></a></li>
-<li class="toc_level-1 toc_section-15">
-<a href="#header1-15"><span class="tocnumber">7.</span> <span class="toctext">Some alternatives</span></a><ul>
-<li class="toc_level-2 toc_section-16"><a href="#header1-15-1"><span class="tocnumber">7.1.</span> <span class="toctext">Observers</span></a></li>
-<li class="toc_level-2 toc_section-17"><a href="#header1-15-2"><span class="tocnumber">7.2.</span> <span class="toctext">Refinements</span></a></li>
-</ul>
-</li>
-</ul>
-</td></tr></tbody></table></div>
-<h2><a class="header-link" href="#header1-1" id="header1-1"><span class="header-bullet-num">1.</span><span class="header-inner-text">About delegation</span></a></h2>
+          
+
+
+  <h2>About delegation</h2>
 
 <p>Delegation is a very useful software pattern and this post focusses on how this pattern can be applied in the context of a Rails application and the associated advantages of doing so.</p>
 
@@ -121,9 +90,9 @@
 
 <p>Also, this <a href="http://stackoverflow.com/questions/7168714/what-is-the-purpose-of-a-delegation-pattern">Stackoverflow post</a> has some interesting posts elaborating on the practical benefits of the concepts of delegation in a language neutral context.</p>
 
-<h2><a class="header-link" href="#header1-2" id="header1-2"><span class="header-bullet-num">2.</span><span class="header-inner-text">Implementing Delegators in Ruby</span></a></h2>
+<h2>Implementing Delegators in Ruby</h2>
 
-<p>Ruby's metaprogramming facilities enable us to implement delegation in a much easier and consise manner than many other object oriented languages.</p>
+<p>Ruby&#39;s metaprogramming facilities enable us to implement delegation in a much easier and consise manner than many other object oriented languages.</p>
 
 <p>Using dynamic interception of method calls, it is very straightforward to forward method invocations to a target object. This is very well illustrated by the <a href="https://github.com/ruby/ruby/blob/trunk/lib/delegate.rb#L75-L89">implementation</a> of <a href="https://github.com/sj26/ruby-1.9.3-p0/blob/master/lib/delegate.rb">Delegate class</a> provided by Ruby standard library:</p>
 <div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Delegator</span> <span class="o">&lt;</span> <span class="no">BasicObject</span>
@@ -148,7 +117,7 @@
 
 <span class="k">end</span>
 </code></pre></div>
-<h2><a class="header-link" href="#header1-3" id="header1-3"><span class="header-bullet-num">3.</span><span class="header-inner-text">Wrapping objects with SimpleDelegator</span></a></h2>
+<h2>Wrapping objects with SimpleDelegator</h2>
 
 <p>In practice we usually deal with <a href="http://ruby-doc.org/stdlib-2.1.0/libdoc/delegate/rdoc/SimpleDelegator.html"><code>SimpleDelegator</code></a> subclass of <code>Delegator</code> more often. The constructor takes a single object and any method invocations are delegated to the target instance. </p>
 
@@ -169,7 +138,7 @@
 
 <span class="o">&gt;</span> <span class="n">user</span> <span class="o">=</span> <span class="no">UserDecorator</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">User</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
 </code></pre></div>
-<h3><a class="header-link" href="#header1-3-1" id="header1-3-1"><span class="header-bullet-num">3.1.</span><span class="header-inner-text">Using delegation for Presenter logic</span></a></h3>
+<h3>Using delegation for Presenter logic</h3>
 
 <p>This is arguably the most common use case for delegators. Often we end up adding a lot of methods in our models that have nothing to do with domain logic whatsoever. Does something like this look familiar?</p>
 <div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">User</span>
@@ -177,7 +146,7 @@
   <span class="c1"># ...</span>
 
   <span class="k">def</span> <span class="nf">formatted_date_of_birth</span>
-    <span class="n">date_of_birth</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"Born on %m/%d/%Y"</span><span class="p">)</span>
+    <span class="n">date_of_birth</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;Born on %m/%d/%Y&quot;</span><span class="p">)</span>
   <span class="k">end</span>
 
 <span class="k">end</span>
@@ -186,12 +155,11 @@
 <div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">UserDecorator</span> <span class="o">&lt;</span> <span class="no">SimpleDelegator</span>
 
  <span class="k">def</span> <span class="nf">formatted_date_of_birth</span>
-  <span class="n">date_of_birth</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"Born on %m/%d/%Y"</span><span class="p">)</span>
+  <span class="n">date_of_birth</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;Born on %m/%d/%Y&quot;</span><span class="p">)</span>
  <span class="k">end</span>
 
 <span class="k">end</span>
-</code></pre></div>
-<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</code></pre></div><div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">UsersController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
 
   <span class="k">def</span> <span class="nf">show</span>
     <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find</span> <span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span>
@@ -211,24 +179,24 @@
 
   <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">decorated</span><span class="p">)</span>
     <span class="k">unless</span> <span class="n">decorated</span><span class="o">.</span><span class="n">is_a?</span> <span class="no">User</span>
-      <span class="k">raise</span> <span class="no">ArgumentError</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">"Expected entity being decorated to be User"</span><span class="p">)</span>
+      <span class="k">raise</span> <span class="no">ArgumentError</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Expected entity being decorated to be User&quot;</span><span class="p">)</span>
     <span class="k">end</span>
     <span class="k">super</span>
   <span class="k">end</span>
 
 <span class="k">end</span>
 </code></pre></div>
-<p>However this is not something we would want to do as it breaks composability. One approach would be to "unwrap" the decorated before instance check:</p>
+<p>However this is not something we would want to do as it breaks composability. One approach would be to &quot;unwrap&quot; the decorated before instance check:</p>
 <div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">while</span> <span class="n">decorated</span><span class="o">.</span><span class="n">is_a?</span> <span class="no">Decorator</span>
   <span class="n">decorated</span> <span class="o">=</span> <span class="n">decorated</span><span class="o">.</span><span class="n">__getobj__</span>
 <span class="k">end</span>
 <span class="k">unless</span> <span class="n">decorated</span><span class="o">.</span><span class="n">is_a?</span> <span class="no">User</span>
-  <span class="k">raise</span> <span class="no">ArgumentError</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">"Expected entity being decorated to be User"</span><span class="p">)</span>
+  <span class="k">raise</span> <span class="no">ArgumentError</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Expected entity being decorated to be User&quot;</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre></div>
 <p>but I strongly recommend not resorting to <code>is_a?</code> checks at all and relying instead on behavior checks using <code>responds_to?</code>.</p>
 
-<h3><a class="header-link" href="#header1-3-2" id="header1-3-2"><span class="header-bullet-num">3.2.</span><span class="header-inner-text">Delegation for memoization/caching</span></a></h3>
+<h3>Delegation for memoization/caching</h3>
 
 <p>This is another good use case for delegation. We can wrap our models into Delegators that transparently cache or memoize method invocations:</p>
 
@@ -236,7 +204,7 @@
 <div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">UserReportCachedDelegator</span> <span class="o">&lt;</span> <span class="no">SimpleDelegator</span>
 
   <span class="k">def</span> <span class="nf">annual_performance_stats</span>
-    <span class="no">Rails</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">fetch</span> <span class="s2">"user.</span><span class="si">#{</span><span class="nb">id</span><span class="si">}</span><span class="s2">.annual_performance_stats"</span> <span class="k">do</span>
+    <span class="no">Rails</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">fetch</span> <span class="s2">&quot;user.</span><span class="si">#{</span><span class="nb">id</span><span class="si">}</span><span class="s2">.annual_performance_stats&quot;</span> <span class="k">do</span>
       <span class="k">super</span>
     <span class="k">end</span>
   <span class="k">end</span>
@@ -267,7 +235,7 @@
 
 <span class="k">end</span>
 </code></pre></div>
-<h3><a class="header-link" href="#header1-3-3" id="header1-3-3"><span class="header-bullet-num">3.3.</span><span class="header-inner-text">Using delegation for collection objects</span></a></h3>
+<h3>Using delegation for collection objects</h3>
 
 <p>This is something I recently found to be useful. Sometimes when we need to define operations that make sense for a set of instances, we just resort to class methods in model. However a better object oriented design would be to implement such behaviors on a dedicated collection resource.</p>
 
@@ -276,13 +244,13 @@
 
   <span class="k">def</span> <span class="nf">month_wise_performance_stats</span>
     <span class="n">joins</span><span class="p">(</span><span class="ss">:assessments</span><span class="p">)</span>
-      <span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">'MONTH(assessments.created_at)'</span><span class="p">)</span>
-      <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'assessments.evaluation_rank as rank'</span><span class="p">)</span>
+      <span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;MONTH(assessments.created_at)&#39;</span><span class="p">)</span>
+      <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;assessments.evaluation_rank as rank&#39;</span><span class="p">)</span>
   <span class="k">end</span>
 
 <span class="k">end</span>
 </code></pre></div>
-<h3><a class="header-link" href="#header1-3-4" id="header1-3-4"><span class="header-bullet-num">3.4.</span><span class="header-inner-text">Using delegation to augment lifecycle hooks</span></a></h3>
+<h3>Using delegation to augment lifecycle hooks</h3>
 
 <p>This is occassionaly useful especially when dealing with third party SDKs. We can leverage <code>ActiveSupport::Callbacks</code> to wrap custom callback hooks around specific behaviors of decorated objects:</p>
 <div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">MailDispatchDelegator</span> <span class="o">&lt;</span> <span class="no">SimpleDelegator</span>
@@ -302,17 +270,17 @@
 
   <span class="n">set_callback</span> <span class="ss">:dispatch</span><span class="p">,</span> <span class="ss">:before</span> <span class="k">do</span> <span class="o">|</span><span class="n">object</span><span class="o">|</span>
     <span class="k">if</span> <span class="n">validated_domains</span><span class="o">.</span><span class="n">include?</span> <span class="n">object</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">domain</span>
-      <span class="k">raise</span> <span class="no">ValidationError</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">"Domain not whitelisted"</span><span class="p">)</span>
+      <span class="k">raise</span> <span class="no">ValidationError</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Domain not whitelisted&quot;</span><span class="p">)</span>
     <span class="k">end</span>
   <span class="k">end</span>
 
 <span class="k">end</span>
 </code></pre></div>
-<h2><a class="header-link" href="#header1-8" id="header1-8"><span class="header-bullet-num">4.</span><span class="header-inner-text">In Rails, any module can delegate</span></a></h2>
+<h2>In Rails, any module can delegate</h2>
 
 <p>While creating a dedicated Delegator makes sense in a variety of use cases, often we want to just delegate just a few methods to a contained object. ActiveSupport Module extensions provide a convenient approach to delegate specific methods to any contained object. This comes in very handy in controllers:</p>
 
-<h3><a class="header-link" href="#header1-8-1" id="header1-8-1"><span class="header-bullet-num">4.1.</span><span class="header-inner-text">Delegating helpers to model instances:</span></a></h3>
+<h3>Delegating helpers to model instances:</h3>
 
 <p>For example in a rails controller, we might want to expose a few model methods:</p>
 <div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">ProductsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
@@ -376,7 +344,7 @@
 <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">min</span> <span class="c1"># =&gt; 4</span>
 <span class="no">Foo</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">max</span> <span class="c1"># =&gt; 11</span>
 </code></pre></div>
-<h3><a class="header-link" href="#header1-8-2" id="header1-8-2"><span class="header-bullet-num">4.2.</span><span class="header-inner-text">Chaining delegators</span></a></h3>
+<h3>Chaining delegators</h3>
 
 <p>As you may have inferred at this point, we can easily chain delegated invocations:</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">class ProductsController &lt; ApplicationController
@@ -387,17 +355,17 @@
 
 end
 </code></pre></div>
-<h2><a class="header-link" href="#header1-11" id="header1-11"><span class="header-bullet-num">5.</span><span class="header-inner-text">Delegation as an alternative to Concerns</span></a></h2>
+<h2>Delegation as an alternative to Concerns</h2>
 
 <p>Since the official endorsement of concerns from Rails 4 concerns have soared in popularity, however I have often observend that concerns are overused, especially for use cases that are better handled by other patterns.</p>
 
 <p>Since this post is about delegation, let us look at a few things that delegation has to offer over concerns:</p>
 
-<h3><a class="header-link" href="#header1-11-1" id="header1-11-1"><span class="header-bullet-num">5.1.</span><span class="header-inner-text">Run time configurability:</span></a></h3>
+<h3>Run time configurability:</h3>
 
 <p>While it is true that concerns can be injected at run time, however code that runs in the included hooks potentially modifies the host instance making run time switching of concerns not very practical in most cases. Delegation offers a clearer approach and we have already demonstrated that switching delegated instances in delegator instances is quite useful.</p>
 
-<h3><a class="header-link" href="#header1-11-2" id="header1-11-2"><span class="header-bullet-num">5.2.</span><span class="header-inner-text">On demand specialization:</span></a></h3>
+<h3>On demand specialization:</h3>
 
 <p>This is particularly useful for objects that did not originate in our code. Rather than polluting the library generated objects with application specific behavior, which may cause subtle unintended side-effects, it is much more elegant to pass around decorated instances in application code and pass the unwrapped instances back to the library should there be a need to do so.</p>
 
@@ -410,7 +378,7 @@ end
   <span class="n">included</span> <span class="k">do</span>
 
     <span class="o">%</span><span class="n">i</span><span class="o">[</span><span class="n">complete</span> <span class="n">completed</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="o">|</span>
-      <span class="n">scope</span> <span class="nb">name</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span> <span class="s1">'completed_at is not null'</span> <span class="p">}</span>
+      <span class="n">scope</span> <span class="nb">name</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span> <span class="s1">&#39;completed_at is not null&#39;</span> <span class="p">}</span>
     <span class="k">end</span>
 
     <span class="n">scope</span> <span class="ss">:incomplete</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span> <span class="n">completed_at</span><span class="p">:</span> <span class="kp">nil</span> <span class="p">}</span>
@@ -435,17 +403,17 @@ end
 
 <span class="k">end</span>
 </code></pre></div>
-<h2><a class="header-link" href="#header1-14" id="header1-14"><span class="header-bullet-num">6.</span><span class="header-inner-text">Delegation in command line applications</span></a></h2>
+<h2>Delegation in command line applications</h2>
 
-<p>Last but not the least, delegation makes sense in command line applications as well. An excellent example would be github's <a href="https://github.com/github/hub">hub</a> command line utility that makes a lot of github <a href="https://github.com/github/hub#commands">features</a> like <code>pull-requests</code> accessible from the command line, while delegating everything else to git.</p>
+<p>Last but not the least, delegation makes sense in command line applications as well. An excellent example would be github&#39;s <a href="https://github.com/github/hub">hub</a> command line utility that makes a lot of github <a href="https://github.com/github/hub#commands">features</a> like <code>pull-requests</code> accessible from the command line, while delegating everything else to git.</p>
 
-<h2><a class="header-link" href="#header1-15" id="header1-15"><span class="header-bullet-num">7.</span><span class="header-inner-text">Some alternatives</span></a></h2>
+<h2>Some alternatives</h2>
 
-<h3><a class="header-link" href="#header1-15-1" id="header1-15-1"><span class="header-bullet-num">7.1.</span><span class="header-inner-text">Observers</span></a></h3>
+<h3>Observers</h3>
 
 <p>While observer pattern can help towards decoupling and the advantags therein overlap with those offered by delegates in some cases, in general I refrain from using Observer pattern because it makes the flow of logic harder to trace - especially in larger applications.</p>
 
-<h3><a class="header-link" href="#header1-15-2" id="header1-15-2"><span class="header-bullet-num">7.2.</span><span class="header-inner-text">Refinements</span></a></h3>
+<h3>Refinements</h3>
 
 <p>Refinements are a recent addition to the Ruby language where in we can selectively monkey-patch modules (and hence classes) with custom behavior. But a key aspect of refinements is lexical scoping. The offical docs explain this very well:</p>
 
@@ -458,7 +426,7 @@ end
 <span class="k">module</span> <span class="nn">M</span>
   <span class="n">refine</span> <span class="n">C</span> <span class="k">do</span>
     <span class="k">def</span> <span class="nf">foo</span>
-      <span class="nb">puts</span> <span class="s2">"C#foo in M"</span>
+      <span class="nb">puts</span> <span class="s2">&quot;C#foo in M&quot;</span>
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
@@ -470,7 +438,7 @@ end
 <span class="n">using</span> <span class="n">M</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">C</span><span class="o">.</span><span class="n">new</span>
-<span class="n">x</span><span class="o">.</span><span class="n">foo</span>       <span class="c1"># prints "C#foo in M"</span>
+<span class="n">x</span><span class="o">.</span><span class="n">foo</span>       <span class="c1"># prints &quot;C#foo in M&quot;</span>
 <span class="n">call_foo</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1">#=&gt; raises NoMethodError</span>
 </code></pre></div>
 <p>While this explicit aspect of Refinements is a commendable improvement over adhoc monkey-patching in many scenarios - the convenience offered by transparent overlaying of behavior that decorators offer us, is, in most practical cases, more appealing.</p>
@@ -497,9 +465,8 @@ end
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
-</noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 

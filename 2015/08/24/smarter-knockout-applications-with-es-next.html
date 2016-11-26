@@ -73,23 +73,16 @@
 
           
 
-          <div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>
-<div id="toctitle"><h2><a class="header-link" href="#contents" id="contents">Contents</a></h2></div>
-<ul>
-<li class="toc_level-1 toc_section-1"><a href="#header1-1"><span class="tocnumber">1.</span> <span class="toctext">View Models as ES 6 classes:</span></a></li>
-<li class="toc_level-1 toc_section-2"><a href="#header1-2"><span class="tocnumber">2.</span> <span class="toctext">Arrow functions in computed properties:</span></a></li>
-<li class="toc_level-1 toc_section-3"><a href="#header1-3"><span class="tocnumber">3.</span> <span class="toctext">Imports for code organization:</span></a></li>
-<li class="toc_level-1 toc_section-4"><a href="#header1-4"><span class="tocnumber">4.</span> <span class="toctext">Template strings</span></a></li>
-<li class="toc_level-1 toc_section-5"><a href="#header1-5"><span class="tocnumber">5.</span> <span class="toctext">ES7 Decorators for Component registration:</span></a></li>
-</ul>
-</td></tr></tbody></table></div>
-<h1>Overview</h1>
+          
+
+
+  <h1>Overview</h1>
 
 <p>This post is an outline of ES6/7 features that we can leverage today in our <a href="http://knockoutjs.com">Knockout</a> based applications to make them more maintainable.</p>
 
-<p>Thanks to powerful and reliable transpilers like <a href="http://babeljs.io">Babel</a> we don't have to wait for mass adoption across browser vendors, to try out features from next generation javascript. While this post is essentially an overview written in a specific context, ie. Knockout applications, I encourage readers to refer to excellent online resources like <a href="https://leanpub.com/javascriptallongesix">Javascript Allonge</a> for a broader coverage.</p>
+<p>Thanks to powerful and reliable transpilers like <a href="http://babeljs.io">Babel</a> we don&#39;t have to wait for mass adoption across browser vendors, to try out features from next generation javascript. While this post is essentially an overview written in a specific context, ie. Knockout applications, I encourage readers to refer to excellent online resources like <a href="https://leanpub.com/javascriptallongesix">Javascript Allonge</a> for a broader coverage.</p>
 
-<h2><a class="header-link" href="#header1-1" id="header1-1"><span class="header-bullet-num">1.</span><span class="header-inner-text">View Models as ES 6 classes:</span></a></h2>
+<h2>View Models as ES 6 classes:</h2>
 
 <p>View models are typically defined as javascript constructor functions. ES6 classes offer a bit of syntax sugar over prototypal inheritance and the outcome might appeal to people coming other object oriented languages.</p>
 <div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kr">class</span> <span class="nx">SomeViewModel</span> <span class="p">{</span>
@@ -100,10 +93,10 @@
 
 <span class="nx">ko</span><span class="p">.</span><span class="nx">components</span><span class="p">.</span><span class="nx">register</span><span class="p">({</span>
   <span class="nx">viewModel</span><span class="o">:</span> <span class="nx">SomeViewModel</span><span class="p">,</span>
-  <span class="nx">template</span><span class="o">:</span> <span class="s1">'&lt;div data-bind="text: firstName"&gt;&lt;/div&gt;'</span>
+  <span class="nx">template</span><span class="o">:</span> <span class="s1">&#39;&lt;div data-bind=&quot;text: firstName&quot;&gt;&lt;/div&gt;&#39;</span>
 <span class="p">})</span>
 </code></pre></div>
-<h2><a class="header-link" href="#header1-2" id="header1-2"><span class="header-bullet-num">2.</span><span class="header-inner-text">Arrow functions in computed properties:</span></a></h2>
+<h2>Arrow functions in computed properties:</h2>
 
 <p>In computed properties it is more often than not desirable that the context of function be the same as that of the outer function. Patterns like <code>var self = this</code> have been adopted widely for situations like this.</p>
 <div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">SomeViewModel</span><span class="p">()</span> <span class="p">{</span>
@@ -111,7 +104,7 @@
   <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span> <span class="o">=</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">observable</span><span class="p">();</span>
   <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">fullName</span> <span class="o">=</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">computed</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">self</span><span class="p">.</span><span class="nx">firstName</span><span class="p">()</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">+</span> <span class="nx">self</span><span class="p">.</span><span class="nx">lastName</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">self</span><span class="p">.</span><span class="nx">firstName</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nx">self</span><span class="p">.</span><span class="nx">lastName</span><span class="p">();</span>
   <span class="p">});</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -121,7 +114,7 @@
     <span class="k">this</span><span class="p">.</span><span class="nx">firstName</span> <span class="o">=</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">observable</span><span class="p">();</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span> <span class="o">=</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">observable</span><span class="p">();</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">fullName</span> <span class="o">=</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">computed</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">firstName</span><span class="p">()</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span><span class="p">();</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">firstName</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span><span class="p">();</span>
     <span class="p">});</span>
   <span class="p">}</span>
 <span class="p">}</span>
@@ -131,15 +124,15 @@
   <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">firstName</span> <span class="o">=</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">observable</span><span class="p">();</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span> <span class="o">=</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">observable</span><span class="p">();</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">fullName</span> <span class="o">=</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">computed</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">firstName</span><span class="p">()</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span><span class="p">());</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">fullName</span> <span class="o">=</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">computed</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">firstName</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span><span class="p">());</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2><a class="header-link" href="#header1-3" id="header1-3"><span class="header-bullet-num">3.</span><span class="header-inner-text">Imports for code organization:</span></a></h2>
+<h2>Imports for code organization:</h2>
 
 <p>JS imports are the new standard approach to deal with modularization in JS code, and I can only anticipate <a href="https://angular.io/">more</a> and <a href="http://aurelia.io/">more</a> libraries moving to them from older patterns like <a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a> or <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS</a>. Babel can transpile imports to require invocations that follow AMD/CommonJS syntax so you can move to newer syntax progressively and continue using your existing loaders/bundlers. My personal recommendation for bundler is <a href="http://webpack.github.io/">webpack</a> which offers interesting features like <a href="http://webpack.github.io/docs/code-splitting.html">Code splitting</a> out of the box.</p>
 
-<h2><a class="header-link" href="#header1-4" id="header1-4"><span class="header-bullet-num">4.</span><span class="header-inner-text">Template strings</span></a></h2>
+<h2>Template strings</h2>
 
 <p>Template strings make it easy to define small multi-line templates along side view models.</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">ko.components.register({
@@ -148,7 +141,7 @@
     `&lt;div&gt;
       &lt;h1&gt; Hello friend, nice to meet you &lt;/h1&gt;
       &lt;div&gt;
-        Dear &lt;span data-bind="text: firstName()"&gt;&lt;/span&gt; It is nice to meet you.
+        Dear &lt;span data-bind=&quot;text: firstName()&quot;&gt;&lt;/span&gt; It is nice to meet you.
       &lt;/div&gt;
     &lt;/div&gt;`
 });
@@ -156,26 +149,26 @@
 <p>Although for larger templates I recommend using something like <a href="https://github.com/webpack/raw-loader">webpack-raw-loader</a> so you can write:</p>
 <div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="nx">ko</span><span class="p">.</span><span class="nx">components</span><span class="p">.</span><span class="nx">register</span><span class="p">({</span>
   <span class="nx">viewModel</span><span class="o">:</span> <span class="nx">SomeViewModel</span><span class="p">,</span>
-  <span class="nx">template</span><span class="o">:</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./some_view_model.html'</span><span class="p">)</span>
+  <span class="nx">template</span><span class="o">:</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./some_view_model.html&#39;</span><span class="p">)</span>
 <span class="p">});</span>
 </code></pre></div>
 <p>However larger templates more often than not indicate need for fine-grained modularization, so the above recommendation should be taken with a pinch of salt.</p>
 
-<h2><a class="header-link" href="#header1-5" id="header1-5"><span class="header-bullet-num">5.</span><span class="header-inner-text">ES7 Decorators for Component registration:</span></a></h2>
+<h2>ES7 Decorators for Component registration:</h2>
 
 <p>If you have been keeping up with advancements with Angular 2.0, you may have noticed the use of annotations for component registration. Here is an example from their <a href="https://angular.io/docs/js/latest/quickstart.html">quick start tutorial</a> showing how annotations go hand in hand with the new class syntax:</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">// Annotation section
 @Component({
-  selector: 'my-app'
+  selector: &#39;my-app&#39;
 })
 @View({
-  template: '&lt;h1&gt;Hello &lt;/h1&gt;'
+  template: &#39;&lt;h1&gt;Hello &lt;/h1&gt;&#39;
 })
 // Component controller
 class MyAppComponent {
   name: string;
   constructor() {
-    this.name = 'Alice';
+    this.name = &#39;Alice&#39;;
   }
 }
 </code></pre></div>
@@ -191,7 +184,7 @@ class MyAppComponent {
 </code></pre></div>
 <p>Once our <code>Component</code> decorator has been defined we can simply use it like this:</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">@Component({
-  name: 'my-app-component',
+  name: &#39;my-app-component&#39;,
   template:
     `&lt;div&gt;
       ...
@@ -225,9 +218,8 @@ class MyAppViewModel {
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
-</noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 
