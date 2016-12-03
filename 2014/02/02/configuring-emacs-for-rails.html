@@ -73,10 +73,7 @@
 
           
 
-          
-
-
-  <h2>Updates</h2>
+          <a class="header-link" href="#updates"><h2 id="updates">Updates</h2></a>
 
 <ul>
 <li>The default keybindings have been updated based on the feedback from <a href="https://github.com/asok">Asok</a>, the author of the awesmoe <code>projectile-rails</code> package.</li>
@@ -88,30 +85,30 @@
 
 <p>While the setup below has been tested only in Linux Elementary, it should work for other Posix environments as well. Please ensure that you have got atleast <a href="http://www.gnu.org/software/emacs/#Obtaining">Emacs 24</a> and can download packages through <a href="https://github.com/technomancy/package.el"><code>package.el</code></a>. If you are not familiar with package management in emacs <a href="https://github.com/bbatsov">Bozhidar Batsov</a> has presented <a href="http://batsov.com/articles/2012/02/19/package-management-in-emacs-the-good-the-bad-and-the-ugly/">a great introduction</a>. Adding the following snippet to your <code>~/.emacs</code> should provide access to <a href="http://marmalade-repo.org/">marmalade</a> and <a href="http://melpa.milkbox.net/#/">melpa</a> package archives:</p>
 
-<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;package</span><span class="p">)</span>
-<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;package-archives</span>
-    <span class="o">&#39;</span><span class="p">(</span><span class="s">&quot;marmalade&quot;</span> <span class="o">.</span>
-      <span class="s">&quot;http://marmalade-repo.org/packages/&quot;</span><span class="p">))</span>
-<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;package-archives</span>
-    <span class="o">&#39;</span><span class="p">(</span><span class="s">&quot;melpa&quot;</span> <span class="o">.</span> <span class="s">&quot;http://melpa.milkbox.net/packages/&quot;</span><span class="p">)</span> <span class="no">t</span><span class="p">)</span>
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">'package</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'package-archives</span>
+    <span class="o">'</span><span class="p">(</span><span class="s">"marmalade"</span> <span class="o">.</span>
+      <span class="s">"http://marmalade-repo.org/packages/"</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'package-archives</span>
+    <span class="o">'</span><span class="p">(</span><span class="s">"melpa"</span> <span class="o">.</span> <span class="s">"http://melpa.milkbox.net/packages/"</span><span class="p">)</span> <span class="no">t</span><span class="p">)</span>
 <span class="p">(</span><span class="nv">package-initialize</span><span class="p">)</span>
 </code></pre></div>
 
-<h1>Syntax Checking</h1>
+<a class="header-link" href="#syntax-checking"><h1 id="syntax-checking">Syntax Checking</h1></a>
 
 <p>While the <code>ruby-mode</code> bundled with Emacs works well with syntax highlighting, it does not automatically handle syntax checking. Luckily we have <a href="http://www.emacswiki.org/emacs/FlyMake">flymake</a>, which is a generic on the fly syntax checking system. We can install <a href="https://github.com/purcell/flymake-ruby">flymake-ruby</a> which facilitates syntax checking for ruby through our package manager. Just hit <code>M-x package-install</code> and type in <code>flymake-ruby</code>.</p>
 
 <p>Once flymake-ruby is installed, we just have to hook it up with the ruby-mode.</p>
 
-<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;flymake-ruby</span><span class="p">)</span>
-<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;ruby-mode-hook</span> <span class="ss">&#39;flymake-ruby-load</span><span class="p">)</span>
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">'flymake-ruby</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'ruby-mode-hook</span> <span class="ss">'flymake-ruby-load</span><span class="p">)</span>
 </code></pre></div>
 
 <p>And voila, no syntax errors go unnoticed ever again:</p>
 
 <p><img src="/images/emacs-flymake.png" alt="Emacs flymake screenshot"></p>
 
-<h1>Sane indentation</h1>
+<a class="header-link" href="#sane-indentation"><h1 id="sane-indentation">Sane indentation</h1></a>
 
 <p>The default indentation system attempts to align the arguments of a function
 with the opening bracket vertically.</p>
@@ -125,27 +122,27 @@ with the opening bracket vertically.</p>
 <div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="k">setq</span> <span class="nv">ruby-deep-indent-paren</span> <span class="no">nil</span><span class="p">)</span>
 </code></pre></div>
 
-<h1>Ruby shell inside emacs</h1>
+<a class="header-link" href="#ruby-shell-inside-emacs"><h1 id="ruby-shell-inside-emacs">Ruby shell inside emacs</h1></a>
 
 <p><a href="https://github.com/nonsequitur/inf-ruby">inf-ruby</a> provides a REPL buffer connected to a Ruby subprocess. It is available through the package manager. Once installed you would probably want to bind it to a convenient shortcut. The following would bind it to <code>C-c r r</code>.</p>
 
-<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&quot;C-c r r&quot;</span><span class="p">)</span> <span class="ss">&#39;inf-ruby</span><span class="p">)</span>
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c r r"</span><span class="p">)</span> <span class="ss">'inf-ruby</span><span class="p">)</span>
 </code></pre></div>
 
-<h1>Integration with RVM</h1>
+<a class="header-link" href="#integration-with-rvm"><h1 id="integration-with-rvm">Integration with RVM</h1></a>
 
 <p>If you use RVM for managing ruby versions, you would want to use <a href="https://github.com/senny/rvm.el">rvm.el</a>. Once installed you will just have to call <code>rvm-activate-corresponding-ruby</code> and rvm.el will automatically pick up your ruby version and gemset from .rvmrc file.</p>
 
 <p>The following will bind the aforementioned command to <code>C-c r a</code></p>
 
-<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&quot;C-c r a&quot;</span><span class="p">)</span> <span class="ss">&#39;rvm-activate-corresponding-ruby</span><span class="p">)</span>
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">global-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c r a"</span><span class="p">)</span> <span class="ss">'rvm-activate-corresponding-ruby</span><span class="p">)</span>
 </code></pre></div>
 
 <p><img src="/images/emacs-rvm.png" alt="rvm.el"></p>
 
 <p>It seamlessly integrates with <code>inf-ruby</code> so if you invoke <code>inf-ruby</code> after the previous step, you will get the version of ruby and gemset you expect.</p>
 
-<h1>Project management with projectile</h1>
+<a class="header-link" href="#project-management-with-projectile"><h1 id="project-management-with-projectile">Project management with projectile</h1></a>
 
 <p>So far the steps had nothing to do with Rails and were equally useful for vanilla ruby projects. However for managing large Rails applications some basic project management facilities might come in handy.</p>
 
@@ -156,7 +153,7 @@ with the opening bracket vertically.</p>
 
 <p>or it can be hooked into particular modes:</p>
 
-<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;ruby-mode-hook</span> <span class="ss">&#39;projectile-on</span><span class="p">)</span>
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'ruby-mode-hook</span> <span class="ss">'projectile-on</span><span class="p">)</span>
 </code></pre></div>
 
 <p>I would also strongly recommend using the <a href="http://www.emacswiki.org/emacs/InteractivelyDoThings">ido-mode</a> which, among other things, provides various enhancements to make navigation between files and buffers easy. The default behaviour of <code>C-x C-f</code> and <code>C-x C-b</code> are changed to a more interactive version, which shows a list of matched options while typing right inside the minibuffer. <a href="https://github.com/lewang/flx">flx-ido</a> is an extension which further enhances the matching capabilities of ido to perform fuzzy matching (a-la sublime text) which can be a great productivity boost, particularly if you are a bit sloppy with keyboard. <code>ido</code> is built into emacs and <code>flx-ido</code> is available through package manager.</p>
@@ -166,13 +163,13 @@ with the opening bracket vertically.</p>
 <p>You may want to use following snippet to display ido completions vertically instead of horizontally, as is the default behaviour.</p>
 
 <div class="highlight"><pre><code class="lisp"> <span class="c1">;; Display ido results vertically, rather than horizontally</span>
-  <span class="p">(</span><span class="k">setq</span> <span class="nv">ido-decorations</span> <span class="p">(</span><span class="k">quote</span> <span class="p">(</span><span class="s">&quot;\n-&gt; &quot;</span> <span class="s">&quot;&quot;</span> <span class="s">&quot;\n   &quot;</span> <span class="s">&quot;\n   ...&quot;</span> <span class="s">&quot;[&quot;</span> <span class="s">&quot;]&quot;</span> <span class="s">&quot; [No match]&quot;</span> <span class="s">&quot; [Matched]&quot;</span> <span class="s">&quot; [Not readable]&quot;</span> <span class="s">&quot; [Too big]&quot;</span> <span class="s">&quot; [Confirm]&quot;</span><span class="p">)))</span>
-  <span class="p">(</span><span class="nb">defun</span> <span class="nv">ido-disable-line-truncation</span> <span class="p">()</span> <span class="p">(</span><span class="nb">set</span> <span class="p">(</span><span class="nv">make-local-variable</span> <span class="ss">&#39;truncate-lines</span><span class="p">)</span> <span class="no">nil</span><span class="p">))</span>
-  <span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;ido-minibuffer-setup-hook</span> <span class="ss">&#39;ido-disable-line-truncation</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">setq</span> <span class="nv">ido-decorations</span> <span class="p">(</span><span class="k">quote</span> <span class="p">(</span><span class="s">"\n-&gt; "</span> <span class="s">""</span> <span class="s">"\n   "</span> <span class="s">"\n   ..."</span> <span class="s">"["</span> <span class="s">"]"</span> <span class="s">" [No match]"</span> <span class="s">" [Matched]"</span> <span class="s">" [Not readable]"</span> <span class="s">" [Too big]"</span> <span class="s">" [Confirm]"</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nb">defun</span> <span class="nv">ido-disable-line-truncation</span> <span class="p">()</span> <span class="p">(</span><span class="nb">set</span> <span class="p">(</span><span class="nv">make-local-variable</span> <span class="ss">'truncate-lines</span><span class="p">)</span> <span class="no">nil</span><span class="p">))</span>
+  <span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'ido-minibuffer-setup-hook</span> <span class="ss">'ido-disable-line-truncation</span><span class="p">)</span>
   <span class="p">(</span><span class="nb">defun</span> <span class="nv">ido-define-keys</span> <span class="p">()</span> <span class="c1">;; C-n/p is more intuitive in vertical layout</span>
-    <span class="p">(</span><span class="nv">define-key</span> <span class="nv">ido-completion-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&quot;C-n&quot;</span><span class="p">)</span> <span class="ss">&#39;ido-next-match</span><span class="p">)</span>
-    <span class="p">(</span><span class="nv">define-key</span> <span class="nv">ido-completion-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&quot;C-p&quot;</span><span class="p">)</span> <span class="ss">&#39;ido-prev-match</span><span class="p">))</span>
-  <span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;ido-setup-hook</span> <span class="ss">&#39;ido-define-keys</span><span class="p">)</span>
+    <span class="p">(</span><span class="nv">define-key</span> <span class="nv">ido-completion-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-n"</span><span class="p">)</span> <span class="ss">'ido-next-match</span><span class="p">)</span>
+    <span class="p">(</span><span class="nv">define-key</span> <span class="nv">ido-completion-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-p"</span><span class="p">)</span> <span class="ss">'ido-prev-match</span><span class="p">))</span>
+  <span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'ido-setup-hook</span> <span class="ss">'ido-define-keys</span><span class="p">)</span>
 </code></pre></div>
 
 <p><img src="/images/emacs-ido-vertical.png" alt="Emacs ido vertical completions"></p>
@@ -184,13 +181,13 @@ with the opening bracket vertically.</p>
 
 <p><a href="https://github.com/asok/projectile-rails">Projectile Rails</a> builds upon <code>projectile</code> to provide project management facilities specifically tailored for Rails applications. It is available through package manager and can be hooked up with projectile using :</p>
 
-<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;projectile-mode-hook</span> <span class="ss">&#39;projectile-rails-on</span><span class="p">)</span>
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'projectile-mode-hook</span> <span class="ss">'projectile-rails-on</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Projectile Rails adds a large number of keybindings to ease navigation across files in a rails project, running rake tasks, invoking console etc.
 Following is the list of commands and associated bindings taken from the home page of projectile rails.</p>
 
-<table>
+<div class="table-wrapper"><table>
 <thead><tr>
 <th>Command</th>
 <th>Keybinding</th>
@@ -364,20 +361,20 @@ Following is the list of commands and associated bindings taken from the home pa
 <td>Go to <code>spec/spec_helper.rb</code> file.</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 
 <p>Note that <code>rails console</code> uses <code>inf-ruby</code>, so integration with rvm is smooth and effortless.</p>
 
 <p><img src="/images/projectile-rails-console.png" alt="Projectile Rails console"></p>
 
-<h1>Intelligent Code navigation and Completion with Robe</h1>
+<a class="header-link" href="#intelligent-code-navigation-and-completion-with-robe"><h1 id="intelligent-code-navigation-and-completion-with-robe">Intelligent Code navigation and Completion with Robe</h1></a>
 
 <p><a href="https://github.com/dgutov/robe">Robe</a> is a code assistance tool that uses a Ruby REPL subprocess with your application or gem code loaded, to provide information about loaded classes and modules, and where each method is defined.</p>
 
 <p>Robe is available via package manager. Once installed it can be hooked into ruby mode.</p>
 
-<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;robe</span><span class="p">)</span>
-<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;ruby-mode-hook</span> <span class="ss">&#39;robe-mode</span><span class="p">)</span>
+<div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">'robe</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">'ruby-mode-hook</span> <span class="ss">'robe-mode</span><span class="p">)</span>
 </code></pre></div>
 
 <p>If you are using rvm you  may want to instruct robe to auto-trigger <code>rvm-activate-corresponding-ruby</code>.</p>
@@ -391,7 +388,7 @@ Following is the list of commands and associated bindings taken from the home pa
 <p>For intelligent completion robe can be integrated with <a href="http://company-mode.github.io/">company mode</a>. Company mode is a modern and modular completion system for emacs which accepts a multitude of pluggable back-ends and front-ends to provide rich completions on the fly. Robe provides a backend to the completion in form of company-robe. This can be configured as follows :</p>
 
 <div class="highlight"><pre><code class="lisp"><span class="p">(</span><span class="nv">global-company-mode</span> <span class="no">t</span><span class="p">)</span>
-<span class="p">(</span><span class="nb">push</span> <span class="ss">&#39;company-robe</span> <span class="nv">company-backends</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">push</span> <span class="ss">'company-robe</span> <span class="nv">company-backends</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Now all you have to do is hit <code>robe-start</code> when you navigate into your project. After that at any point
@@ -401,7 +398,7 @@ if you trigger <code>company-robe</code> you should be greeted with an intellise
 
 <p><img src="/images/emacs-robe-completions.png" alt="Emacs robe completions"></p>
 
-<p>One of the caveats is that robe requires <code>pry</code> and <code>pry-doc</code> to be in Gemfile. This is a problem when working with third party projects and I don&#39;t have a workaround for that yet.</p>
+<p>One of the caveats is that robe requires <code>pry</code> and <code>pry-doc</code> to be in Gemfile. This is a problem when working with third party projects and I don't have a workaround for that yet.</p>
 
 <p>Also Ruby being a dynamic language which strives to push the limits on flexibility, perfect completion is simply not possible. Many of known caveats are listed <a href="https://github.com/dgutov/robe#notes">here</a> and some are being actively being worked upon. But nevertheless, I have found the setup to be quite useful for day to day development and hope you do too.</p>
 
@@ -425,8 +422,9 @@ if you trigger <code>company-robe</code> you should be greeted with an intellise
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 

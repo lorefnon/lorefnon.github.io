@@ -7,6 +7,16 @@
     <atom:link href="http://lorefnon.me/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>On Webpack and Source Map integration</title>
+	
+        <description>A comprehensive detour into the various devtools options in webpack</description>
+	
+        <pubDate>Sat, 03 Dec 2016 00:00:00 +0530</pubDate>
+        <link>http://lorefnon.me/2016/12/03/on-webpack-and-source-map-integration.html</link>
+        <guid isPermaLink="true">http://lorefnon.me/2016/12/03/on-webpack-and-source-map-integration.html</guid>
+      </item>
+    
+      <item>
         <title>Reducing BEM boilerplate through HAML extensions</title>
 	
         <description>A hack which makes the HAML parser BEM aware and helps reduce some of the repetitive boilerplate associated with specifying BEM compliant class names in templates.</description>
@@ -92,16 +102,6 @@
         <pubDate>Sun, 22 Nov 2015 00:00:00 +0530</pubDate>
         <link>http://lorefnon.me/2015/11/22/an-answer-to-react-is-the-new-java.html</link>
         <guid isPermaLink="true">http://lorefnon.me/2015/11/22/an-answer-to-react-is-the-new-java.html</guid>
-      </item>
-    
-      <item>
-        <title>Utilities for efficient filesystem navigation in emacs</title>
-	
-        <description>While Emacs is a fairly productive editor on its own, for navigating through the files in a large project a few community contributed extensions can make things a lot easier</description>
-	
-        <pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
-        <link>http://lorefnon.me/2015/11/15/utilities-for-efficient-filesystem-navigation-in-emacs.html</link>
-        <guid isPermaLink="true">http://lorefnon.me/2015/11/15/utilities-for-efficient-filesystem-navigation-in-emacs.html</guid>
       </item>
     
   </channel>

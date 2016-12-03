@@ -73,10 +73,7 @@
 
           
 
-          
-
-
-  <p><a href="http://getbem.com/introduction/">BEM</a> is a nice pattern with the primary caveat being having to repetitively specify long class name
+          <p><a href="http://getbem.com/introduction/">BEM</a> is a nice pattern with the primary caveat being having to repetitively specify long class name
 prefixes in html.</p>
 
 <p>In Sass this problem is significantly alleviated because the parent operator <code>&amp;</code>
@@ -101,7 +98,7 @@ allows for extending of parent class name:</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>But usage in HTML is quite verbose:</p>
-<div class="highlight"><pre><code class="html language-html" data-lang="html"><span class="nt">&lt;label</span> <span class="na">class=</span><span class="s">&quot;Button__label Button__label--primary&quot;</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><code class="html language-html" data-lang="html"><span class="nt">&lt;label</span> <span class="na">class=</span><span class="s">"Button__label Button__label--primary"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/label&gt;</span>
 </code></pre></div>
 <p>Fortunately, if we are using <a href="http://haml.info/">HAML</a>, then we can extend the HAML parser to reduce some of this verbosity.
@@ -110,8 +107,8 @@ We can monkey-patch this method to make it bem aware.</p>
 <div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="no">Haml</span><span class="o">::</span><span class="no">Parser</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
   <span class="k">class</span> <span class="o">&lt;&lt;</span> <span class="nb">self</span>
 
-    <span class="no">CLASS_KEY</span> <span class="o">=</span> <span class="s1">&#39;class&#39;</span><span class="o">.</span><span class="n">freeze</span>
-    <span class="no">ID_KEY</span> <span class="o">=</span> <span class="s1">&#39;id&#39;</span><span class="o">.</span><span class="n">freeze</span>
+    <span class="no">CLASS_KEY</span> <span class="o">=</span> <span class="s1">'class'</span><span class="o">.</span><span class="n">freeze</span>
+    <span class="no">ID_KEY</span> <span class="o">=</span> <span class="s1">'id'</span><span class="o">.</span><span class="n">freeze</span>
 
     <span class="k">def</span> <span class="nf">parse_class_and_id</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
       <span class="n">attributes</span> <span class="o">=</span> <span class="p">{}</span>
@@ -119,17 +116,17 @@ We can monkey-patch this method to make it bem aware.</p>
 
       <span class="n">list</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/([#.])([-:_a-zA-Z0-9]+)/</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">type</span><span class="p">,</span> <span class="n">property</span><span class="o">|</span>
         <span class="k">case</span> <span class="n">type</span>
-        <span class="k">when</span> <span class="s1">&#39;.&#39;</span>
+        <span class="k">when</span> <span class="s1">'.'</span>
           <span class="k">if</span> <span class="n">attributes</span><span class="o">[</span><span class="no">CLASS_KEY</span><span class="o">]</span>
-            <span class="n">attributes</span><span class="o">[</span><span class="no">CLASS_KEY</span><span class="o">]</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span>
+            <span class="n">attributes</span><span class="o">[</span><span class="no">CLASS_KEY</span><span class="o">]</span> <span class="o">+=</span> <span class="s2">" "</span>
           <span class="k">else</span>
-            <span class="n">attributes</span><span class="o">[</span><span class="no">CLASS_KEY</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">attributes</span><span class="o">[</span><span class="no">CLASS_KEY</span><span class="o">]</span> <span class="o">=</span> <span class="s2">""</span>
           <span class="k">end</span>
           <span class="k">if</span> <span class="n">match</span> <span class="o">=</span> <span class="n">property</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sr">/^bem:(.*)$/</span><span class="p">)</span>
             <span class="n">property</span> <span class="o">=</span> <span class="n">expand_bem_class</span> <span class="n">match</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
           <span class="k">end</span>
           <span class="n">attributes</span><span class="o">[</span><span class="no">CLASS_KEY</span><span class="o">]</span> <span class="o">+=</span> <span class="n">property</span>
-        <span class="k">when</span> <span class="s1">&#39;#&#39;</span>
+        <span class="k">when</span> <span class="s1">'#'</span>
           <span class="n">attributes</span><span class="o">[</span><span class="no">ID_KEY</span><span class="o">]</span> <span class="o">=</span> <span class="n">property</span>
         <span class="k">end</span>
       <span class="k">end</span>
@@ -137,7 +134,7 @@ We can monkey-patch this method to make it bem aware.</p>
     <span class="k">end</span>
 
     <span class="k">def</span> <span class="nf">expand_bem_class</span><span class="p">(</span><span class="n">property</span><span class="p">)</span>
-      <span class="n">convert_to_classes</span><span class="p">(</span><span class="n">parse_bem_shorthand</span><span class="p">(</span><span class="n">property</span><span class="p">))</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+      <span class="n">convert_to_classes</span><span class="p">(</span><span class="n">parse_bem_shorthand</span><span class="p">(</span><span class="n">property</span><span class="p">))</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span>
     <span class="k">end</span>
 
     <span class="k">def</span> <span class="nf">parse_bem_shorthand</span><span class="p">(</span><span class="n">property</span><span class="p">)</span>
@@ -145,9 +142,9 @@ We can monkey-patch this method to make it bem aware.</p>
       <span class="n">previous_char</span> <span class="o">=</span> <span class="kp">nil</span>
       <span class="n">current_part</span> <span class="o">=</span> <span class="ss">:block</span>
       <span class="n">property</span><span class="o">.</span><span class="n">each_char</span> <span class="k">do</span> <span class="o">|</span><span class="n">char</span><span class="o">|</span>
-        <span class="n">breakdown</span><span class="o">.</span><span class="n">last</span><span class="o">[</span><span class="n">current_part</span><span class="o">]</span> <span class="o">||=</span> <span class="s1">&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">&#39;_&#39;</span>
-          <span class="k">if</span> <span class="n">previous_char</span> <span class="o">==</span> <span class="s1">&#39;_&#39;</span>
+        <span class="n">breakdown</span><span class="o">.</span><span class="n">last</span><span class="o">[</span><span class="n">current_part</span><span class="o">]</span> <span class="o">||=</span> <span class="s1">''</span>
+        <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">'_'</span>
+          <span class="k">if</span> <span class="n">previous_char</span> <span class="o">==</span> <span class="s1">'_'</span>
             <span class="n">previous_char</span> <span class="o">=</span> <span class="kp">nil</span>
             <span class="k">unless</span> <span class="n">current_part</span> <span class="o">==</span> <span class="ss">:block</span>
               <span class="n">breakdown</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="ss">block</span><span class="p">:</span> <span class="n">breakdown</span><span class="o">.</span><span class="n">last</span><span class="o">[</span><span class="ss">:block</span><span class="o">]</span><span class="p">)</span>
@@ -156,8 +153,8 @@ We can monkey-patch this method to make it bem aware.</p>
           <span class="k">else</span>
             <span class="n">previous_char</span> <span class="o">=</span> <span class="n">char</span>
           <span class="k">end</span>
-        <span class="k">elsif</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span>
-          <span class="k">if</span> <span class="n">previous_char</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span>
+        <span class="k">elsif</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">'-'</span>
+          <span class="k">if</span> <span class="n">previous_char</span> <span class="o">==</span> <span class="s1">'-'</span>
             <span class="n">previous_char</span> <span class="o">=</span> <span class="kp">nil</span>
             <span class="k">unless</span> <span class="n">current_part</span> <span class="o">==</span> <span class="ss">:block</span> <span class="o">||</span> <span class="n">current_part</span> <span class="o">==</span> <span class="ss">:element</span>
               <span class="n">breakdown</span><span class="o">.</span><span class="n">push</span><span class="p">(</span>
@@ -170,7 +167,7 @@ We can monkey-patch this method to make it bem aware.</p>
             <span class="n">previous_char</span> <span class="o">=</span> <span class="n">char</span>
           <span class="k">end</span>
         <span class="k">else</span>
-          <span class="k">if</span> <span class="n">previous_char</span> <span class="o">==</span> <span class="s1">&#39;_&#39;</span> <span class="o">||</span> <span class="n">previous_char</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span>
+          <span class="k">if</span> <span class="n">previous_char</span> <span class="o">==</span> <span class="s1">'_'</span> <span class="o">||</span> <span class="n">previous_char</span> <span class="o">==</span> <span class="s1">'-'</span>
             <span class="n">breakdown</span><span class="o">.</span><span class="n">last</span><span class="o">[</span><span class="n">current_part</span><span class="o">]</span> <span class="o">+=</span> <span class="n">previous_char</span>
           <span class="k">end</span>
           <span class="n">breakdown</span><span class="o">.</span><span class="n">last</span><span class="o">[</span><span class="n">current_part</span><span class="o">]</span> <span class="o">+=</span> <span class="n">char</span>
@@ -182,18 +179,18 @@ We can monkey-patch this method to make it bem aware.</p>
     <span class="k">def</span> <span class="nf">convert_to_classes</span><span class="p">(</span><span class="n">bem_breakdown</span><span class="p">)</span>
       <span class="n">classes</span> <span class="o">=</span> <span class="o">[]</span>
       <span class="n">bem_breakdown</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
-        <span class="n">current_class</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">current_class</span> <span class="o">=</span> <span class="s1">''</span>
         <span class="k">if</span> <span class="n">item</span><span class="o">[</span><span class="ss">:block</span><span class="o">].</span><span class="n">blank?</span>
-          <span class="k">raise</span> <span class="s2">&quot;BEM Block missing&quot;</span>
+          <span class="k">raise</span> <span class="s2">"BEM Block missing"</span>
         <span class="k">else</span>
           <span class="n">current_class</span> <span class="o">+=</span> <span class="n">item</span><span class="o">[</span><span class="ss">:block</span><span class="o">]</span>
         <span class="k">end</span>
         <span class="k">unless</span> <span class="n">item</span><span class="o">[</span><span class="ss">:element</span><span class="o">].</span><span class="n">blank?</span>
-          <span class="n">current_class</span> <span class="o">+=</span> <span class="s2">&quot;__</span><span class="si">#{</span><span class="n">item</span><span class="o">[</span><span class="ss">:element</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
+          <span class="n">current_class</span> <span class="o">+=</span> <span class="s2">"__</span><span class="si">#{</span><span class="n">item</span><span class="o">[</span><span class="ss">:element</span><span class="o">]</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">end</span>
         <span class="n">classes</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">current_class</span><span class="p">)</span>
         <span class="k">unless</span> <span class="n">item</span><span class="o">[</span><span class="ss">:modifier</span><span class="o">].</span><span class="n">blank?</span>
-          <span class="n">current_class</span> <span class="o">+=</span> <span class="s2">&quot;--</span><span class="si">#{</span><span class="n">item</span><span class="o">[</span><span class="ss">:modifier</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
+          <span class="n">current_class</span> <span class="o">+=</span> <span class="s2">"--</span><span class="si">#{</span><span class="n">item</span><span class="o">[</span><span class="ss">:modifier</span><span class="o">]</span><span class="si">}</span><span class="s2">"</span>
           <span class="n">classes</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">current_class</span><span class="p">)</span>
         <span class="k">end</span>
       <span class="k">end</span>
@@ -209,7 +206,7 @@ We can monkey-patch this method to make it bem aware.</p>
   <span class="nt">%a</span> Hello
 </code></pre></div>
 <p>will compile to:</p>
-<div class="highlight"><pre><code class="html language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;Header__row Header__row--secondary Header__row--dark&quot;</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><code class="html language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"Header__row Header__row--secondary Header__row--dark"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
 </code></pre></div>
 <p>Note that we were able to chain multiple modifiers in single expression. We can also use multiple elements in single expression:</p>
@@ -217,7 +214,7 @@ We can monkey-patch this method to make it bem aware.</p>
   <span class="nt">%a</span> Hello
 </code></pre></div>
 <p>will compile to:</p>
-<div class="highlight"><pre><code class="html language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;Header__row Header__row--secondary Header__row--dark Header__bar Header__bar--clear&quot;</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><code class="html language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"Header__row Header__row--secondary Header__row--dark Header__bar Header__bar--clear"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
 </code></pre></div>
 <p>Of course this works with arbitrary selectors:</p>
@@ -225,7 +222,7 @@ We can monkey-patch this method to make it bem aware.</p>
   <span class="nt">%a</span> Hello
 </code></pre></div>
 <p>will compile to:</p>
-<div class="highlight"><pre><code class="html language-html" data-lang="html"><span class="nt">&lt;header</span> <span class="na">class=</span><span class="s">&quot;Header__row Header__row--secondary Header__row--dark&quot;</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><code class="html language-html" data-lang="html"><span class="nt">&lt;header</span> <span class="na">class=</span><span class="s">"Header__row Header__row--secondary Header__row--dark"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/header&gt;</span>
 </code></pre></div>
 <p>What about cases when we want to use ruby helpers ? We can define two helper methods that
@@ -235,7 +232,7 @@ expose this functionality:</p>
 <span class="k">end</span>
 
 <span class="k">def</span> <span class="nf">expand_bem_classes</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">{</span><span class="o">|</span><span class="nb">name</span><span class="o">|</span> <span class="n">expand_bem_class</span> <span class="nb">name</span> <span class="p">}</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+  <span class="nb">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">{</span><span class="o">|</span><span class="nb">name</span><span class="o">|</span> <span class="n">expand_bem_class</span> <span class="nb">name</span> <span class="p">}</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre></div>
 <p>Of course, the usual caveats of tinkering with internals of vendor libraries apply. If tommorrow HAML
@@ -259,8 +256,9 @@ changes the compiler API, then the monkey patch would have to updated to accomod
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 

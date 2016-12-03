@@ -73,18 +73,15 @@
 
           
 
-          
-
-
-  <h2>Overview</h2>
+          <a class="header-link" href="#overview"><h2 id="overview">Overview</h2></a>
 
 <p>InfluxDB is a distributed time series database. It is a specialized data store for saving large volumes of timestamped event data and this makes it especially suited for storing metrics, lifecycle events and analytics. The <code>influxdb-rails</code> gem, maintained by the InfluxDB team, facilitates integration with Rails and makes it easy to save various metrics from a rails application to InfluxDB and visualize it through frontends like <a href="http://grafana.org/">Grafana</a>.</p>
 
-<p>The rest of this post, explores various aspects of a simple setup in which we build a rudimentary cms based site and monitor it using influxdb and grafana. We don&#39;t assume prior familiarity with InfluxDB, and elaborate on relevant aspects of time series databases on the go, but familiarity with Rails is assumed.</p>
+<p>The rest of this post, explores various aspects of a simple setup in which we build a rudimentary cms based site and monitor it using influxdb and grafana. We don't assume prior familiarity with InfluxDB, and elaborate on relevant aspects of time series databases on the go, but familiarity with Rails is assumed.</p>
 
 <p>This post also assumes that InfluxDB is installed as per the official <a href="http://influxdb.com/docs/v0.8/introduction/installation.html">installation instructions</a> with default configuration. If installation has been customized eg. ports have been changed, the configurations provided to <code>influxdb-rails</code> will have to be adapted accordingly. On mac influxdb can be installed using <a href="http://brew.sh/">Homebrew</a> : <code>brew install influxdb</code>.</p>
 
-<h2>Setting up a basic application</h2>
+<a class="header-link" href="#setting-up-a-basic-application"><h2 id="setting-up-a-basic-application">Setting up a basic application</h2></a>
 
 <p>Next, we bootstrap a simple rails application using the <a href="https://github.com/comfy/comfortable-mexican-sofa">Comfortable mexican sofa</a> CMS to quickly setup a site with a few pages we can tinker with. This is not really important, but it simply helps us work with a reasonably more realistic setup than a typically crud ui generated through scaffolds.</p>
 
@@ -93,8 +90,8 @@
 
 <p>In Gemfile:</p>
 
-<div class="highlight"><pre><code class="ruby"><span class="n">gem</span> <span class="s1">&#39;comfortable_mexican_sofa&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 1.12.0&#39;</span>
-<span class="n">gem</span> <span class="s1">&#39;influxdb-rails&#39;</span>
+<div class="highlight"><pre><code class="ruby"><span class="n">gem</span> <span class="s1">'comfortable_mexican_sofa'</span><span class="p">,</span> <span class="s1">'~&gt; 1.12.0'</span>
+<span class="n">gem</span> <span class="s1">'influxdb-rails'</span>
 </code></pre></div>
 
 <p>Setting up CMS requires an additional step:</p>
@@ -110,27 +107,27 @@
 <p>The default configuration options are available in the generated <code>influxdb-rails.rb</code> and they correspond to the default settings of influxdb.</p>
 
 <div class="highlight"><pre><code class="ruby"><span class="no">InfluxDB</span><span class="o">::</span><span class="no">Rails</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-  <span class="n">config</span><span class="o">.</span><span class="n">influxdb_database</span> <span class="o">=</span> <span class="s2">&quot;rails&quot;</span>
-  <span class="n">config</span><span class="o">.</span><span class="n">influxdb_username</span> <span class="o">=</span> <span class="s2">&quot;root&quot;</span>
-  <span class="n">config</span><span class="o">.</span><span class="n">influxdb_password</span> <span class="o">=</span> <span class="s2">&quot;root&quot;</span>
-  <span class="n">config</span><span class="o">.</span><span class="n">influxdb_hosts</span>    <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;localhost&quot;</span><span class="o">]</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">influxdb_database</span> <span class="o">=</span> <span class="s2">"rails"</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">influxdb_username</span> <span class="o">=</span> <span class="s2">"root"</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">influxdb_password</span> <span class="o">=</span> <span class="s2">"root"</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">influxdb_hosts</span>    <span class="o">=</span> <span class="o">[</span><span class="s2">"localhost"</span><span class="o">]</span>
   <span class="n">config</span><span class="o">.</span><span class="n">influxdb_port</span>     <span class="o">=</span> <span class="mi">8086</span>
 
-  <span class="c1"># config.series_name_for_controller_runtimes = &quot;rails.controller&quot;</span>
-  <span class="c1"># config.series_name_for_view_runtimes       = &quot;rails.view&quot;</span>
-  <span class="c1"># config.series_name_for_db_runtimes         = &quot;rails.db&quot;</span>
+  <span class="c1"># config.series_name_for_controller_runtimes = "rails.controller"</span>
+  <span class="c1"># config.series_name_for_view_runtimes       = "rails.view"</span>
+  <span class="c1"># config.series_name_for_db_runtimes         = "rails.db"</span>
 <span class="k">end</span>
 </code></pre></div>
 
 <p>The last three lines signify the names of time series where the corresponding metrics would be stored, and we will use the same when querying the time series database.</p>
 
-<p>Before our application can start dispatching metrics to InfluxDB the database &quot;rails&quot; specified in the above configuration file would have to be created. InfluxDB admin provides a means to do that using the GUI. The admin interface may be accessed by visiting: <a href="http://localhost:8083">localhost:8083</a></p>
+<p>Before our application can start dispatching metrics to InfluxDB the database "rails" specified in the above configuration file would have to be created. InfluxDB admin provides a means to do that using the GUI. The admin interface may be accessed by visiting: <a href="http://localhost:8083">localhost:8083</a></p>
 
 <p><img src="/images/influxdb_landing_page.png" alt="InfluxDB landing page"></p>
 
 <p>The default username/password combination is root/root, which is not advisable for production use.</p>
 
-<p>The only option that is particularly relevant is database name: which we would have to change to &quot;rails&quot;.</p>
+<p>The only option that is particularly relevant is database name: which we would have to change to "rails".</p>
 
 <p><img src="/images/influxdb_create_database.png" alt="InfluxDB creating database"></p>
 
@@ -140,7 +137,7 @@
 
 <p><img src="/images/new_page_cms.png" alt="Add a new page in CMS"></p>
 
-<h2>Data exploration</h2>
+<a class="header-link" href="#data-exploration"><h2 id="data-exploration">Data exploration</h2></a>
 
 <p>In the list of databases, we should have an option to <code>Explore Data</code>. Let us go ahead and click that:</p>
 
@@ -160,7 +157,7 @@
 <img src="/images/influxdb_select_all_from_view.png" alt="InfluxDB Select All from View Query">
 <img src="/images/influxdb_select_all_from_db.png" alt="InfluxDB Select All from DB Query"></p>
 
-<h2>Configuring additional lifecycle events</h2>
+<a class="header-link" href="#configuring-additional-lifecycle-events"><h2 id="configuring-additional-lifecycle-events">Configuring additional lifecycle events</h2></a>
 
 <p>In a real applications we would want to aggregate additional metrics of our choosing. A popular solution for dispatching and subscribing to various lifecycle events that ruby community has developed is <code>ActiveSupport::Notifications</code> which Rails internally uses.</p>
 
@@ -168,7 +165,7 @@
 
 <p>For example if we would like to track the execution times of queries in InfluxDB we can write an initializer:</p>
 
-<div class="highlight"><pre><code class="ruby"><span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Notifications</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s1">&#39;sql.active_record&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">payload</span><span class="o">|</span>
+<div class="highlight"><pre><code class="ruby"><span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Notifications</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s1">'sql.active_record'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">finish</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">payload</span><span class="o">|</span>
   <span class="no">InfluxDB</span><span class="o">::</span><span class="no">Rails</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">write_point</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="p">{</span> <span class="ss">value</span><span class="p">:</span> <span class="p">(</span><span class="n">finish</span><span class="o">-</span><span class="n">start</span><span class="p">),</span> <span class="ss">start</span><span class="p">:</span> <span class="n">start</span><span class="p">,</span> <span class="ss">finish</span><span class="p">:</span> <span class="n">finish</span> <span class="p">})</span>
 <span class="k">end</span>
 </code></pre></div>
@@ -181,16 +178,16 @@
 
 <p>In addition, the instrumentation API can be used directly to create a custom lifecycle events. Here is an example taken from the <a href="http://api.rubyonrails.org/classes/ActiveSupport/Notifications.html">official documentation</a> that outlines how a part of application code can be wrapped into an instrumented block which we could subscribe to in an identical fashion.</p>
 
-<div class="highlight"><pre><code class="ruby"><span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Notifications</span><span class="o">.</span><span class="n">instrument</span><span class="p">(</span><span class="s1">&#39;render&#39;</span><span class="p">,</span> <span class="ss">extra</span><span class="p">:</span> <span class="ss">:information</span><span class="p">)</span> <span class="k">do</span>
-  <span class="n">render</span> <span class="ss">text</span><span class="p">:</span> <span class="s1">&#39;Foo&#39;</span>
+<div class="highlight"><pre><code class="ruby"><span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Notifications</span><span class="o">.</span><span class="n">instrument</span><span class="p">(</span><span class="s1">'render'</span><span class="p">,</span> <span class="ss">extra</span><span class="p">:</span> <span class="ss">:information</span><span class="p">)</span> <span class="k">do</span>
+  <span class="n">render</span> <span class="ss">text</span><span class="p">:</span> <span class="s1">'Foo'</span>
 <span class="k">end</span>
 </code></pre></div>
 
 <p>While the InfluxDB admin interface provides a convenient dashboard to visualize the metrics, it is not ideal for complex, comparative or realtime visualizations. For such use cases it is better to resort to dedicated solutions like Grafana.</p>
 
-<h2>Setting up Grafana</h2>
+<a class="header-link" href="#setting-up-grafana"><h2 id="setting-up-grafana">Setting up Grafana</h2></a>
 
-<p>While Grafana releases binary downloads for most major versions of linux, there isn&#39;t one available for Mac. And neither is it available from Homebrew. However installation from the sources is straightforward if you have Go. It is important that the version of Go is correct (1.4 +) otherwise installation fails with totally incomprehensible errors. The version of Go available from Homebrew is outdated - however Google provides <a href="https://golang.org/doc/install">installers</a> which work like a charm. Once Go is setup properly, the <a href="https://github.com/grafana/grafana#building-the-backend">installation steps</a> for Grafana are straightforward.</p>
+<p>While Grafana releases binary downloads for most major versions of linux, there isn't one available for Mac. And neither is it available from Homebrew. However installation from the sources is straightforward if you have Go. It is important that the version of Go is correct (1.4 +) otherwise installation fails with totally incomprehensible errors. The version of Go available from Homebrew is outdated - however Google provides <a href="https://golang.org/doc/install">installers</a> which work like a charm. Once Go is setup properly, the <a href="https://github.com/grafana/grafana#building-the-backend">installation steps</a> for Grafana are straightforward.</p>
 
 <p>Another hiccup is that when running the web interface, Grafana uses the same default port as Rails (3000). To alleviate that we need to edit configuration file dev.ini in <code>$GOPATH/src/github.com/grafana/grafana/conf</code> and specify an alternate port</p>
 
@@ -233,7 +230,7 @@
 <p><img src="/images/grafana_edit_graph.png" alt="Grafana : Edit Graph">
 <img src="/images/grafana_configure_graph_data_source.png" alt="Grafana : Configure Graph Data Source"></p>
 
-<p>At this point, because InfluxDB data source hasn&#39;t been configured hence no other data source is available :</p>
+<p>At this point, because InfluxDB data source hasn't been configured hence no other data source is available :</p>
 
 <p><img src="/images/grafana_singular_data_source.png" alt="Grafana : Missing Data Source"></p>
 
@@ -252,7 +249,7 @@
 <p>We can now specify the InfluxDB query to be made in the <code>Metrics</code> section:
 <img src="/images/grafana_metric_specification.png" alt="Grafana : Specify Metric"></p>
 
-<p>Since we don&#39;t have a lot of historical data at this point, for inspection we can adjust the time range to something recent:
+<p>Since we don't have a lot of historical data at this point, for inspection we can adjust the time range to something recent:
 <img src="/images/grafana_range_selection.png" alt="Grafana : Range Selection"></p>
 
 <p>The dummy graph should now be replaced with a real visualization of our metric
@@ -260,13 +257,13 @@
 
 <p>In similar fashion more graphs can be added and additional dashboards can be set up as per requirements.</p>
 
-<h2>Conclusion</h2>
+<a class="header-link" href="#conclusion"><h2 id="conclusion">Conclusion</h2></a>
 
 <p>This concludes this post, in which we have setup a basic development setup of InfluxDB and explored how a time series datastore can be used to save metrics from our Rails application and how we can query this data store and derive actionable insights. Also we explored creation of dashboards using Grafana to visualize these metrics in near-real time.</p>
 
 <p>Our proof of concept setup, however is not suitable for production deployments with large volumes of data, in which case we would want to utilize advanced cluster management features of InfluxDB. Fortunately InfluxDB documentation already has a lot of <a href="http://influxdb.com/docs/v0.8/clustering/setup.html">helpful information</a> on scaling up production deployment which is only expected to mature over time. There are also <a href="https://customers.influxdb.com/">commercial options</a> available for hosted InfluxDB which I encourage users to <a href="https://customers.influxdb.com/users/sign_up">try out</a> and evaluate.</p>
 
-<h2>Where to go from here</h2>
+<a class="header-link" href="#where-to-go-from-here"><h2 id="where-to-go-from-here">Where to go from here</h2></a>
 
 <ul>
 <li><a href="http://influxdb.com/docs/">InfluxDB documentation</a></li>
@@ -291,8 +288,9 @@
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 

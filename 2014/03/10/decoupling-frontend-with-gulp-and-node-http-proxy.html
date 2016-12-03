@@ -67,10 +67,7 @@
 
           
 
-          
-
-
-  <p>In past developers have often relied on backend-specific toolchains for
+          <p>In past developers have often relied on backend-specific toolchains for
 web application frontends. Some examples would be <a href="http://edgeguides.rubyonrails.org/asset_pipeline.html">Rails asset pipeline</a> or
 the legacy ant based toolchain for YUI. However recently node.js based tooling support
 for frontend technologies has significantly evolved and it is quite viable
@@ -84,10 +81,10 @@ familiar with without relying on server-side developers.</p>
 <p>The workflow I outline in this post utilizes <a href="http://gulpjs.com/">gulp</a> and node module <a href="https://www.npmjs.org/package/http-proxy">http-proxy</a>.</p>
 
 <p>Gulp is a build system. I prefer it over alternative task runners like grunt
-and mimosa because, as the gulp&#39;s website states quite succinctly :</p>
+and mimosa because, as the gulp's website states quite succinctly :</p>
 
 <blockquote>
-<p>gulp&#39;s use of streams and code-over-configuration makes for a simpler and more intuitive build.</p>
+<p>gulp's use of streams and code-over-configuration makes for a simpler and more intuitive build.</p>
 </blockquote>
 
 <p>A claim that I have found to be true in practice.</p>
@@ -104,7 +101,7 @@ requests</a>, but this is really unnecessary if eventually the application will 
 served from the same domain.</p>
 
 <p>Let us say we have a javascript heavy dashboard which we would like to develop
-in a separate project. Here is the directory structure I&#39;ll use. Please note that following this
+in a separate project. Here is the directory structure I'll use. Please note that following this
 directory structure is not mandatory and is mainly illustrative.</p>
 
 <div class="highlight"><pre><code class="bash">project
@@ -127,18 +124,18 @@ web-root of our application eg. the public folder of a Rails application.</p>
 
 <div class="highlight"><pre><code class="javascript"><span class="c1">// server.js</span>
 
-<span class="kd">var</span> <span class="nx">httpProxy</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http-proxy&#39;</span><span class="p">),</span>
-    <span class="nx">connect</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">),</span>
-    <span class="nx">livereload</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;connect-livereload&#39;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">httpProxy</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'http-proxy'</span><span class="p">),</span>
+    <span class="nx">connect</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'connect'</span><span class="p">),</span>
+    <span class="nx">livereload</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'connect-livereload'</span><span class="p">)</span>
 
 <span class="kd">var</span> <span class="nx">proxy</span> <span class="o">=</span> <span class="nx">httpProxy</span><span class="p">.</span><span class="nx">createProxyServer</span><span class="p">()</span>
 
 <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">connect</span><span class="p">()</span>
-    <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;/dashboard&#39;</span><span class="p">,</span> <span class="nx">connect</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span><span class="o">+</span><span class="s1">&#39;/dashboard&#39;</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'/dashboard'</span><span class="p">,</span> <span class="nx">connect</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span><span class="o">+</span><span class="s1">'/dashboard'</span><span class="p">))</span>
     <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">){</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;dashboard&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">'dashboard'</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
             <span class="nx">proxy</span><span class="p">.</span><span class="nx">web</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="p">{</span>
-                <span class="nx">target</span><span class="o">:</span> <span class="s1">&#39;http://localhost:3000&#39;</span>
+                <span class="nx">target</span><span class="o">:</span> <span class="s1">'http://localhost:3000'</span>
             <span class="p">})</span>
         <span class="p">}</span>
     <span class="p">})</span>
@@ -165,11 +162,11 @@ is a thorough reference, we illustrate the workflow through some examples.
 For example creating a task to clean our target js and css
 folders is as simple as:</p>
 
-<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp&#39;</span><span class="p">),</span>
-    <span class="nx">clean</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-clean&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">gulp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'gulp'</span><span class="p">),</span>
+    <span class="nx">clean</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'gulp-clean'</span><span class="p">)</span>
 
-<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;clean&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
-    <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">([</span><span class="s1">&#39;./dashboard/js/*&#39;</span><span class="p">,</span> <span class="s1">&#39;./dashboard/css/*&#39;</span><span class="p">])</span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">'clean'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">([</span><span class="s1">'./dashboard/js/*'</span><span class="p">,</span> <span class="s1">'./dashboard/css/*'</span><span class="p">])</span>
         <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">clean</span><span class="p">())</span>
 <span class="p">})</span>
 </code></pre></div>
@@ -177,21 +174,21 @@ folders is as simple as:</p>
 <p>The stream based based approach really shines when we use pre-processors for
 our js or css files. For example to use stylus for css we can add:</p>
 
-<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">stylus</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-stylus&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">stylus</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'gulp-stylus'</span><span class="p">)</span>
 
-<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;css&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
-    <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;./src/css/*.styl&#39;</span><span class="p">)</span>
+<span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">'css'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">'./src/css/*.styl'</span><span class="p">)</span>
         <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">stylus</span><span class="p">())</span>
-        <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;./dashboard/css&#39;</span><span class="p">))</span>
+        <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">'./dashboard/css'</span><span class="p">))</span>
 <span class="p">})</span>
 </code></pre></div>
 
 <p>To manage dependencies with browserify we can have:</p>
 
-<div class="highlight"><pre><code class="javascript"><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;js&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
-    <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">&#39;./src/js/index.js&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><code class="javascript"><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">'js'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="s1">'./src/js/index.js'</span><span class="p">)</span>
         <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">browserify</span><span class="p">())</span>
-        <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">&#39;./dashboard/js&#39;</span><span class="p">))</span>
+        <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="s1">'./dashboard/js'</span><span class="p">))</span>
 <span class="p">})</span>
 </code></pre></div>
 
@@ -204,7 +201,7 @@ have to be installed through npm before we can use them.</p>
 <p>While we can run <code>gulp js</code>, <code>gulp css</code>, <code>gulp clean</code> etc. from the command line
 we would probably want to have a default task that we run most of the time:</p>
 
-<div class="highlight"><pre><code class="javascript"><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;clean&#39;</span><span class="p">,</span> <span class="s1">&#39;js&#39;</span><span class="p">,</span> <span class="s1">&#39;css&#39;</span><span class="p">])</span>
+<div class="highlight"><pre><code class="javascript"><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">'default'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'clean'</span><span class="p">,</span> <span class="s1">'js'</span><span class="p">,</span> <span class="s1">'css'</span><span class="p">])</span>
 </code></pre></div>
 
 <p>Now running <code>gulp</code> will cleanup the dashboard/js and dashboard/css folders and
@@ -213,8 +210,8 @@ run our js and css tasks.</p>
 <p>To streamline our workflow we configure a watcher which can monitor our files, and
 run the associated tasks automatically. Writing a simple watcher is as simple as:</p>
 
-<div class="highlight"><pre><code class="javascript"><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;watch&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
-    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="s1">&#39;./src/js/**/*&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;default&#39;</span><span class="p">])</span>
+<div class="highlight"><pre><code class="javascript"><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">'watch'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="s1">'./src/js/**/*'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'default'</span><span class="p">])</span>
 <span class="p">})</span>
 </code></pre></div>
 
@@ -223,11 +220,11 @@ automatically reload our browser whenever the files change.</p>
 
 <p>We can add a watcher that notifies the livereload server with changes:</p>
 
-<div class="highlight"><pre><code class="javascript"><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;watch&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+<div class="highlight"><pre><code class="javascript"><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">'watch'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
     <span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">livereload</span><span class="p">()</span>
-    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="s1">&#39;./src/js/**/*&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;default&#39;</span><span class="p">])</span>
-    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="s1">&#39;./dashboard/**/*&#39;</span><span class="p">)</span>
-        <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;change&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">){</span>
+    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="s1">'./src/js/**/*'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'default'</span><span class="p">])</span>
+    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="s1">'./dashboard/**/*'</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'change'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">){</span>
             <span class="nx">server</span><span class="p">.</span><span class="nx">changed</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">)</span>
         <span class="p">})</span>
 <span class="p">})</span>
@@ -239,20 +236,20 @@ actually completed before our browser refreshes. Please never use timers for
 situations like this.</p>
 
 <p>If you have been using livereload for a while then you probably have the browser
-extension for livereload. But in case you haven&#39;t you can use a middleware for
+extension for livereload. But in case you haven't you can use a middleware for
 express in the server.js file. This is especially convenient for testing on
 several browsers.</p>
 
 <div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">connect</span><span class="p">()</span>
-    <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">connect</span><span class="p">.</span><span class="nx">logger</span><span class="p">(</span><span class="s1">&#39;dev&#39;</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">connect</span><span class="p">.</span><span class="nx">logger</span><span class="p">(</span><span class="s1">'dev'</span><span class="p">))</span>
     <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">livereload</span><span class="p">({</span>
         <span class="nx">port</span><span class="o">:</span> <span class="mi">35729</span>
     <span class="p">}))</span>
-    <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;/dashboard&#39;</span><span class="p">,</span> <span class="nx">connect</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span><span class="o">+</span><span class="s1">&#39;/dashboard&#39;</span><span class="p">))</span>
+    <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">'/dashboard'</span><span class="p">,</span> <span class="nx">connect</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span><span class="o">+</span><span class="s1">'/dashboard'</span><span class="p">))</span>
     <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">){</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;dashboard&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">url</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">'dashboard'</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
             <span class="nx">proxy</span><span class="p">.</span><span class="nx">web</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="p">{</span>
-                <span class="nx">target</span><span class="o">:</span> <span class="s1">&#39;http://localhost:3000&#39;</span>
+                <span class="nx">target</span><span class="o">:</span> <span class="s1">'http://localhost:3000'</span>
             <span class="p">})</span>
         <span class="p">}</span>
     <span class="p">})</span>
@@ -274,12 +271,12 @@ js and css files to be regerated and thus prompt livereload to refresh the page.
 
 <p>To remedy this we have to modify the watch handler:</p>
 
-<div class="highlight"><pre><code class="javascript"><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;watch&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+<div class="highlight"><pre><code class="javascript"><span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">'watch'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
     <span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">livereload</span><span class="p">()</span>
-    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="s1">&#39;./src/js/**/*.js&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;js&#39;</span><span class="p">])</span>
-    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="s1">&#39;./src/css/**/*.styl&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;css&#39;</span><span class="p">])</span>
-    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="s1">&#39;./dashboard/**/*&#39;</span><span class="p">)</span>
-        <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;change&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">){</span>
+    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="s1">'./src/js/**/*.js'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'js'</span><span class="p">])</span>
+    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="s1">'./src/css/**/*.styl'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'css'</span><span class="p">])</span>
+    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="s1">'./dashboard/**/*'</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'change'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">){</span>
             <span class="nx">server</span><span class="p">.</span><span class="nx">changed</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">)</span>
         <span class="p">})</span>
 <span class="p">})</span>
@@ -311,8 +308,9 @@ welcome.</p>
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 

@@ -67,10 +67,7 @@
 
           
 
-          
-
-
-  <p>A practise I always follow while working with tools that generate code is that any code that is generated and not written by me is committed in isolation. This makes skimming through commit logs later easier because generators often generate many files upfront that wouldn&#39;t be edited until much later. So the subsequent commit wouldn&#39;t be littered with changes that aren&#39;t directly related to the actual operation mentioned in the commit message. Also while browsing through commit diffs keeping generated code in their own commits speeds up the reviewing process - because in most cases we already have an idea of what the generated could be, so it can be skipped.</p>
+          <p>A practise I always follow while working with tools that generate code is that any code that is generated and not written by me is committed in isolation. This makes skimming through commit logs later easier because generators often generate many files upfront that wouldn't be edited until much later. So the subsequent commit wouldn't be littered with changes that aren't directly related to the actual operation mentioned in the commit message. Also while browsing through commit diffs keeping generated code in their own commits speeds up the reviewing process - because in most cases we already have an idea of what the generated could be, so it can be skipped.</p>
 
 <p>Now, if you use well designed frameworks with elegant command line interfaces, like Rails then the actual command typed along with the command output eg.</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">rails generate model post title:string body:text
@@ -86,10 +83,10 @@ create      spec/models/post_spec.rb
 <p>So I have created a simple zsh function which does exactly the above:</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">GC ()
 {
-  cmd=&quot;$@&quot;
-  output=$(&quot;$@&quot;)
+  cmd="$@"
+  output=$("$@")
   git add .
-  git commit -m &quot;$cmd&quot; -m &quot;$output&quot;
+  git commit -m "$cmd" -m "$output"
 }
 </code></pre></div>
 <p>Add it to your zshrc, and next time you can simply type :</p>
@@ -126,8 +123,9 @@ Date:   Sun Sep 14 00:58:03 2014 +0530
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 

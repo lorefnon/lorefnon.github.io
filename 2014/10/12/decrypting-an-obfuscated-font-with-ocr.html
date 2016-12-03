@@ -73,12 +73,9 @@
 
           
 
-          
+          <p>I recently came across <a href="http://protext.herokuapp.com/">this site</a> which demostrates a strategy for copy protection using an obfuscated font. So basically if you copy the text in the header you will realize that text copied is not exactly what is visible on the screen. The text is presented through a font that maps the characters to glyphs of a different character and hence though the output is human readable the underlying text is not. This is presented as a means towards protecting the site from crawlers and scrapers. In the post below I intend to demonstrate that this is not as full-proof as non-technical folks would be led to believe.</p>
 
-
-  <p>I recently came across <a href="http://protext.herokuapp.com/">this site</a> which demostrates a strategy for copy protection using an obfuscated font. So basically if you copy the text in the header you will realize that text copied is not exactly what is visible on the screen. The text is presented through a font that maps the characters to glyphs of a different character and hence though the output is human readable the underlying text is not. This is presented as a means towards protecting the site from crawlers and scrapers. In the post below I intend to demonstrate that this is not as full-proof as non-technical folks would be led to believe.</p>
-
-<p><img src="/images/protext_site.png" style="border: 1px solid silver;"/></p>
+<p><img src="/images/protext_site.png" style="border: 1px solid silver;"></p>
 
 <p>The Achilles heel of such strategies is that the unecrypted text is visible to the user. So a decent <a href="http://en.wikipedia.org/wiki/Optical_character_recognition">OCR</a> will be able to parse the output and generate the text to reasonable accuracy. So though this technique certainly presents hinderences to a scraper it is not a full proof solution. Through simple code snippets we see below how this can be accomplished in ruby.</p>
 
@@ -86,17 +83,19 @@
 
 <p>First of all download the font used for the text. The path should be clearly visible in the source of the site and can be scraped using conventional text parsing through regular expressions.</p>
 
-<p><img src="/images/protext_css_source.png"/></p>
+<p><img src="/images/protext_css_source.png"></p>
 
 <p>Alternatively it can be manually downloaded through devtools:</p>
 
-<p><img src="/images/protext_devtools_font.png"/></p>
+<p><img src="/images/protext_devtools_font.png"></p>
 
 <p>Now we need two gems:</p>
 
 <ul>
-<li><a href="https://www.ruby-toolbox.com/projects/tesseract-ocr">Tesseract-OCR</a> - Ruby bindings for Tesseract OCR</li>
-<li><a href="https://www.ruby-toolbox.com/projects/magick_title">Magic Title</a> - to convert the text to image using a specific font.</li>
+<li>
+<a href="https://www.ruby-toolbox.com/projects/tesseract-ocr">Tesseract-OCR</a> - Ruby bindings for Tesseract OCR</li>
+<li>
+<a href="https://www.ruby-toolbox.com/projects/magick_title">Magic Title</a> - to convert the text to image using a specific font.</li>
 </ul>
 
 <p>Quoting the <a href="http://code.google.com/p/tesseract-ocr/">Tesseract OCR Website</a>:</p>
@@ -108,19 +107,19 @@
 <p>Installing Tesseract on OS X is as simple as <code>brew install tesseract</code> and it is also available through several linux package managers.</p>
 
 <p>The ruby gems can be installed by adding the following to your Gemfile:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">gem &#39;magick_title&#39;, &#39;&gt;= 0.2.0&#39;
-gem &#39;tesseract-ocr&#39;
+<div class="highlight"><pre><code class="text language-text" data-lang="text">gem 'magick_title', '&gt;= 0.2.0'
+gem 'tesseract-ocr'
 </code></pre></div>
 <p>Now in irb (or a ruby script) you can do:</p>
 
-<div class="highlight"><pre><code class="ruby"><span class="nb">require</span> <span class="s1">&#39;magick_title&#39;</span>
-<span class="no">MagickTitle</span><span class="o">.</span><span class="n">options</span><span class="o">[</span><span class="ss">:font</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;font_dfcb813d6c003fb3e2fca9f5295e9f58.ttf&quot;</span>  <span class="c1"># Font downloaded from the site</span>
-<span class="no">MagickTitle</span><span class="o">.</span><span class="n">options</span><span class="o">[</span><span class="ss">:font_path</span><span class="o">]</span> <span class="o">=</span>  <span class="no">Proc</span><span class="o">.</span><span class="n">new</span><span class="p">{</span> <span class="s1">&#39;/tmp&#39;</span> <span class="p">}</span>  <span class="c1"># Directory where the font resides on our system</span>
+<div class="highlight"><pre><code class="ruby"><span class="nb">require</span> <span class="s1">'magick_title'</span>
+<span class="no">MagickTitle</span><span class="o">.</span><span class="n">options</span><span class="o">[</span><span class="ss">:font</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"font_dfcb813d6c003fb3e2fca9f5295e9f58.ttf"</span>  <span class="c1"># Font downloaded from the site</span>
+<span class="no">MagickTitle</span><span class="o">.</span><span class="n">options</span><span class="o">[</span><span class="ss">:font_path</span><span class="o">]</span> <span class="o">=</span>  <span class="no">Proc</span><span class="o">.</span><span class="n">new</span><span class="p">{</span> <span class="s1">'/tmp'</span> <span class="p">}</span>  <span class="c1"># Directory where the font resides on our system</span>
 <span class="no">MagickTitle</span><span class="o">.</span><span class="n">options</span><span class="o">[</span><span class="ss">:destination</span><span class="o">]</span> <span class="o">=</span>  <span class="no">Proc</span><span class="o">.</span><span class="n">new</span><span class="p">{</span> <span class="no">MagicTitle</span><span class="o">.</span><span class="n">root</span> <span class="p">}</span> <span class="c1"># Defaults to current directory</span>
 </code></pre></div>
 
 <p>Now let us fetch the string from the site header. For the sake of keeping the example minimal we omit the actual scraping code here:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">str =  &quot;1zb SN358 y6JBl HJL 7Nagq JRb6 kzb n2vP 9JV. F + h = t.&quot;
+<div class="highlight"><pre><code class="text language-text" data-lang="text">str =  "1zb SN358 y6JBl HJL 7Nagq JRb6 kzb n2vP 9JV. F + h = t."
 </code></pre></div>
 <p><code>MagickTitle.say(str)</code> will give us an image containing the text in exactly the same form as is visible to end user.</p>
 
@@ -128,13 +127,13 @@ gem &#39;tesseract-ocr&#39;
 
 <div class="highlight"><pre><code class="ruby"><span class="n">e</span> <span class="o">=</span> <span class="no">Tesseract</span><span class="o">::</span><span class="no">Engine</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span><span class="o">|</span><span class="n">e</span><span class="o">|</span>
     <span class="n">e</span><span class="o">.</span><span class="n">language</span>  <span class="o">=</span> <span class="ss">:eng</span>
-    <span class="n">e</span><span class="o">.</span><span class="n">blacklist</span> <span class="o">=</span> <span class="s1">&#39;|&#39;</span>
+    <span class="n">e</span><span class="o">.</span><span class="n">blacklist</span> <span class="o">=</span> <span class="s1">'|'</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <p>We can get the string using:</p>
-<div class="highlight"><pre><code class="text language-text" data-lang="text">&gt; e.text_for(&quot;./#{MagickTitle.say(str).filename}&quot;)
-=&gt; &quot;The quick brown fox jumps over\nthe lazy dog 1 2 3\n\n&quot;
+<div class="highlight"><pre><code class="text language-text" data-lang="text">&gt; e.text_for("./#{MagickTitle.say(str).filename}")
+=&gt; "The quick brown fox jumps over\nthe lazy dog 1 2 3\n\n"
 </code></pre></div>
 <p>As you can see that result is not perfect but quite accurate.</p>
 
@@ -158,8 +157,9 @@ gem &#39;tesseract-ocr&#39;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 

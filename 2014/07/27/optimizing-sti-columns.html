@@ -67,10 +67,7 @@
 
           
 
-          
-
-
-  <p>The <a href="http://api.rubyonrails.org/classes/ActiveRecord/Base.html#label-Single+table+inheritance">Single Table Inheritance</a>
+          <p>The <a href="http://api.rubyonrails.org/classes/ActiveRecord/Base.html#label-Single+table+inheritance">Single Table Inheritance</a>
 facility in Rails is quite awesome in that it is simple, minimal and easy to understand.
 However that simplicity comes with a small price - the type column stores the full name of the relevant class as a string.
 This becomes especially unweildy if you scope your models inside a module.</p>
@@ -82,7 +79,7 @@ This becomes especially unweildy if you scope your models inside a module.</p>
 <div class="highlight"><pre><code class="ruby"><span class="c1">#app/models/institution.rb</span>
 <span class="k">module</span> <span class="nn">Institution</span>
   <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">table_name_prefix</span>
-    <span class="s1">&#39;institution_&#39;</span>
+    <span class="s1">'institution_'</span>
   <span class="k">end</span>
 <span class="k">end</span>
 
@@ -101,11 +98,11 @@ This becomes especially unweildy if you scope your models inside a module.</p>
 
 <p>We deliberately keep the schema simple:</p>
 
-<div class="highlight"><pre><code class="ruby"><span class="n">create_table</span> <span class="s2">&quot;institution_bases&quot;</span><span class="p">,</span> <span class="ss">force</span><span class="p">:</span> <span class="kp">true</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
-    <span class="n">t</span><span class="o">.</span><span class="n">string</span>   <span class="s2">&quot;name&quot;</span>
-    <span class="n">t</span><span class="o">.</span><span class="n">string</span>   <span class="s2">&quot;type&quot;</span>
-    <span class="n">t</span><span class="o">.</span><span class="n">datetime</span> <span class="s2">&quot;created_at&quot;</span>
-    <span class="n">t</span><span class="o">.</span><span class="n">datetime</span> <span class="s2">&quot;updated_at&quot;</span>
+<div class="highlight"><pre><code class="ruby"><span class="n">create_table</span> <span class="s2">"institution_bases"</span><span class="p">,</span> <span class="ss">force</span><span class="p">:</span> <span class="kp">true</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">string</span>   <span class="s2">"name"</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">string</span>   <span class="s2">"type"</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">datetime</span> <span class="s2">"created_at"</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">datetime</span> <span class="s2">"updated_at"</span>
  <span class="k">end</span>
  
 </code></pre></div>
@@ -150,14 +147,14 @@ This becomes especially unweildy if you scope your models inside a module.</p>
 
 <p>Once we have done this the STI subsystem of ActiveRecord will the use the <code>ALLOWED_CLASSES</code> to infer the name Institution classes using the index stored in the database column.</p>
 
-<p>What is particularly nice is that if have any existing data, we don&#39;t end up getting
+<p>What is particularly nice is that if have any existing data, we don't end up getting
 any errors when trying to save or retrieve them since we delegate to default implementations. Although it would be a better option to write a migration to change the type column to integer.</p>
 
 <p>The eagle eyed among us might have noticed we are offsetting the index in the <code>ALLOWED_CLASSES</code> index by 1. This is a basic precaution because calling <code>to_i</code> on a string that is not a numeric string returns <code>0</code> instead of raising an error. So delegating to default implementation incase of zero value allows us to retain legacy compatibility.</p>
 
 <p>You might want to ask why the array ALLOWED_CLASS_NAMES is a string array rather than an actual array of classes. Having an array of classes leads to RecursiveDependency errors while autoloading when fetching the entries from databases.</p>
 
-<p>While this is nice and good, this functionality is generic and doesn&#39;t really belong to the <code>Institution::Base</code> class. What if we need another module tomorrow which is unreleated but needs the same functionality?</p>
+<p>While this is nice and good, this functionality is generic and doesn't really belong to the <code>Institution::Base</code> class. What if we need another module tomorrow which is unreleated but needs the same functionality?</p>
 
 <p>So in the spirit of reusability and separation of concerns we create a <code>concern</code> for this:</p>
 
@@ -206,17 +203,17 @@ any errors when trying to save or retrieve them since we delegate to default imp
 <p>All seems kosher, so we take our implementation for a test drive:</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">&gt; Institution::Base.all
 Institution::Base Load (0.4ms)  SELECT `institution_bases`.* FROM `institution_bases`
-=&gt; #&lt;ActiveRecord::Relation [#&lt;Institution::Commercial id: 3, name: &quot;loremipsum&quot;, type: &quot;2&quot;, created_at: &quot;2014-07-17 12:27:26&quot;, updated_at: &quot;2014-07-17 12:27:26&quot;&gt;]&gt;
+=&gt; #&lt;ActiveRecord::Relation [#&lt;Institution::Commercial id: 3, name: "loremipsum", type: "2", created_at: "2014-07-17 12:27:26", updated_at: "2014-07-17 12:27:26"&gt;]&gt;
 </code></pre></div>
 <p>While laoding instances of base class works well, we run into issues when we try to load all commercial
 institutions:</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">2.1.2 :005 &gt; Institution::Commercial.all
-NoMethodError: undefined method `index&#39; for nil:NilClass
-               from /Users/lorefnon/Workspace/sample/app/models/concerns/optimally_inheritable.rb:24:in `sti_name&#39;
-               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/inheritance.rb:170:in `block in type_condition&#39;
-               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/inheritance.rb:170:in `map&#39;
-               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/inheritance.rb:170:in `type_condition&#39;
-               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/core.rb:170:in `relation&#39;
+NoMethodError: undefined method `index' for nil:NilClass
+               from /Users/lorefnon/Workspace/sample/app/models/concerns/optimally_inheritable.rb:24:in `sti_name'
+               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/inheritance.rb:170:in `block in type_condition'
+               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/inheritance.rb:170:in `map'
+               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/inheritance.rb:170:in `type_condition'
+               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/core.rb:170:in `relation'
 </code></pre></div>
 <p>The problem is obvious : the variable <code>sti_class_list</code> is not available in subclasses.</p>
 
@@ -260,8 +257,9 @@ NoMethodError: undefined method `index&#39; for nil:NilClass
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 

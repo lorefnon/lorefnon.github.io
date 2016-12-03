@@ -73,25 +73,22 @@
 
           
 
-          
-
-
-  <h2>To begin with, what is strategy pattern ?</h2>
+          <a class="header-link" href="#to-begin-with-what-is-strategy-pattern-"><h2 id="to-begin-with-what-is-strategy-pattern-">To begin with, what is strategy pattern ?</h2></a>
 
 <p>Quoting from <a href="http://en.wikipedia.org/wiki/Strategy_pattern">Wikipedia</a>,</p>
 
 <blockquote>
 <p>the strategy pattern (also known as the policy pattern) is a software design
-pattern that enables an algorithm&#39;s behavior to be selected at runtime.</p>
+pattern that enables an algorithm's behavior to be selected at runtime.</p>
 </blockquote>
 
-<h2>So how does this help us ?</h2>
+<a class="header-link" href="#so-how-does-this-help-us-"><h2 id="so-how-does-this-help-us-">So how does this help us ?</h2></a>
 
 <p>Strategy pattern just helps us escape the soup of complex nested conditionals
 and model behavior selection in an object oriented fashion. To understand why this is
 required let us explore a fictional example:</p>
 
-<h2>An adventure</h2>
+<a class="header-link" href="#an-adventure"><h2 id="an-adventure">An adventure</h2></a>
 
 <p>Suppose that we are developing a social network for book lovers. To encourage users
 to read more we decide to show a recommendations panel which highlights books that
@@ -104,7 +101,7 @@ are trending in the community.</p>
   <span class="n">has_many</span> <span class="ss">:recommendations</span>
   <span class="n">has_many</span> <span class="ss">:tags</span>
 
-  <span class="n">scope</span> <span class="ss">:popular</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span>  <span class="n">where</span> <span class="s1">&#39;recommendations_count &gt; 100&#39;</span> <span class="p">}</span>
+  <span class="n">scope</span> <span class="ss">:popular</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span>  <span class="n">where</span> <span class="s1">'recommendations_count &gt; 100'</span> <span class="p">}</span>
 
   <span class="c1"># Return a random subset of recommended books</span>
   <span class="c1">#</span>
@@ -113,7 +110,7 @@ are trending in the community.</p>
   <span class="c1"># http://stackoverflow.com/questions/4329396/mysql-select-10-random-rows-from-600k-rows-fast</span>
   <span class="c1">#</span>
   <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">recommended</span>
-    <span class="n">popular</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">&#39;RAND()&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">popular</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">'RAND()'</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
   <span class="k">end</span>
 
 <span class="k">end</span>
@@ -126,7 +123,7 @@ are trending in the community.</p>
 
 <p>In home/index.html.erb</p>
 
-<div class="highlight"><pre><code class="erb"><span class="x">&lt;ul id=&#39;recommended-book-list&#39;&gt;</span>
+<div class="highlight"><pre><code class="erb"><span class="x">&lt;ul id='recommended-book-list'&gt;</span>
 <span class="x">  </span><span class="cp">&lt;%</span> <span class="no">Book</span><span class="o">.</span><span class="n">recommended</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">    &lt;li&gt; </span><span class="cp">&lt;%=</span> <span class="n">book</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x"> &lt;/li&gt;</span>
 <span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
@@ -144,7 +141,7 @@ shotgun surgery and modify our code to the following:</p>
       <span class="n">popular</span>
     <span class="k">else</span>
       <span class="n">not_recommended_by</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">tags</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">recommended_tags</span><span class="p">)</span>
-    <span class="k">end</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">&#39;RAND()&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">end</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">'RAND()'</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
   <span class="k">end</span>
 
 <span class="k">end</span>
@@ -165,7 +162,7 @@ shotgun surgery and modify our code to the following:</p>
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
   <span class="n">scope</span> <span class="ss">:not_recommended_by</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="k">do</span>
     <span class="n">joins</span><span class="p">(</span><span class="ss">:recommendations</span><span class="p">)</span>
-      <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;recommendations.user_id != ?&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+      <span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">'recommendations.user_id != ?'</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
   <span class="k">end</span>
 
 <span class="k">end</span>
@@ -173,7 +170,7 @@ shotgun surgery and modify our code to the following:</p>
 
 <p>And our template becomes something like:</p>
 
-<div class="highlight"><pre><code class="erb"><span class="x">&lt;ul id=&#39;recommended-book-list&#39;&gt;</span>
+<div class="highlight"><pre><code class="erb"><span class="x">&lt;ul id='recommended-book-list'&gt;</span>
 <span class="x">  </span><span class="cp">&lt;%</span> <span class="no">Book</span><span class="o">.</span><span class="n">recommended_for</span><span class="p">(</span><span class="n">current_user</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">    &lt;li&gt; </span><span class="cp">&lt;%=</span> <span class="n">book</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x"> &lt;/li&gt;</span>
 <span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
@@ -186,7 +183,7 @@ for multiple approaches all reside in the same method, which is not very ideal.<
 
 <p>Let us push this further. Say, after a couple of months our social networks gains
 a lot of traction and we strike a very profitable deal with a major publishing
-firm &#39;Jackass Kangaroo Publications&#39; and as a part of the deal we need to ensure
+firm 'Jackass Kangaroo Publications' and as a part of the deal we need to ensure
 that the recommended books include only those which have been published by this
 publication.</p>
 
@@ -198,13 +195,13 @@ publication.</p>
     <span class="n">query</span> <span class="o">=</span> <span class="no">Book</span>
 
     <span class="c1"># Comment this out when deal with Jackass Kangaroo Publication is over.</span>
-    <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">publisher</span><span class="p">:</span> <span class="no">Publisher</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Jackass Kangaroo Publication&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">)</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">publisher</span><span class="p">:</span> <span class="no">Publisher</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">'Jackass Kangaroo Publication'</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">blank?</span> <span class="o">||</span> <span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">recommendations_count</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">)</span>
       <span class="n">query</span><span class="o">.</span><span class="n">popular</span>
     <span class="k">else</span>
       <span class="n">query</span><span class="o">.</span><span class="n">not_recommended_by</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">tags</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">recommended_tags</span><span class="p">)</span>
-    <span class="k">end</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">&#39;RAND()&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">end</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">'RAND()'</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre></div>
@@ -224,7 +221,7 @@ by adding just another condition:</p>
 
     <span class="c1"># Comment this out when deal with Jackass Kangaroo Publication is over.</span>
     <span class="k">unless</span> <span class="n">user</span><span class="o">.</span><span class="n">located_in?</span> <span class="no">DISPUTED_DEMOGRAPHY</span>
-      <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">publisher</span><span class="p">:</span> <span class="no">Publisher</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Jackass Kangaroo Publication&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">)</span>
+      <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">publisher</span><span class="p">:</span> <span class="no">Publisher</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="s1">'Jackass Kangaroo Publication'</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">)</span>
     <span class="k">end</span>
 
     <span class="o">.</span><span class="n">.</span><span class="o">.</span>
@@ -232,7 +229,7 @@ by adding just another condition:</p>
 <span class="k">end</span>
 </code></pre></div>
 
-<h2>A downhill slope</h2>
+<a class="header-link" href="#a-downhill-slope"><h2 id="a-downhill-slope">A downhill slope</h2></a>
 
 <p>So requirements keep stacking up and we keep adding conditions. Fast forward a few years, and
 a sincere programmer who is new to the project, unfamiliar with our rocky history and now is responsible
@@ -241,7 +238,7 @@ blankly at the entangled mess of conditional statements. Of course the crutial d
 and the subsequent lawsuits are now lost in sands of time, and none of the present team members
 have any idea what is going on.</p>
 
-<h2>Retrospection</h2>
+<a class="header-link" href="#retrospection"><h2 id="retrospection">Retrospection</h2></a>
 
 <p>The question now is, what could be done to avoid a situation like this ? As you might have guessed
 at this point, burdening the Book class with responsibility to determine various aspects of
@@ -281,7 +278,7 @@ encourages us to embrace.</p>
     <span class="k">end</span>
 
     <span class="k">def</span> <span class="nf">execute</span>
-      <span class="n">scoped_collection</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">&#39;RAND()&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+      <span class="n">scoped_collection</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">'RAND()'</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
     <span class="k">end</span>
 
   <span class="k">end</span>
@@ -410,8 +407,9 @@ mistakes that I might have made in the post above.</p>
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 

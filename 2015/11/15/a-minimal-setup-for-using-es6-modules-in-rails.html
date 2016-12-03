@@ -77,10 +77,7 @@
 
           
 
-          
-
-
-  <h2>Using ES6 and ES7 features today with Babel</h2>
+          <a class="header-link" href="#using-es6-and-es7-features-today-with-babel"><h2 id="using-es6-and-es7-features-today-with-babel">Using ES6 and ES7 features today with Babel</h2></a>
 
 <p>While ES6 adoption is progressively improving across browsers, and the sprockets team is planning to integrate ES6 features into Rails asset pipeline in near future, using a widely popular transpiler: <a href="https://babeljs.io">Babel</a> we can leverage many of those features right away. This <a href="https://kangax.github.io/compat-table/es6/">ES6 compatibility table</a> establishes babel as argubaly the best solution for transpiling ES6/ES7.</p>
 
@@ -88,11 +85,11 @@
 
 <p>The specific aspect of interest for this post is ES6 modules feature which provides a standardized module system for javascript.</p>
 
-<h2>ES6 modules in Babel</h2>
+<a class="header-link" href="#es6-modules-in-babel"><h2 id="es6-modules-in-babel">ES6 modules in Babel</h2></a>
 
 <p>While babel does have a solution for ES6 modules, rather than handling dependency resolution itself - it transpiles the modules to existing javascript based module systems - the most popular ones being <a href="https://github.com/amdjs">AMD</a> and <a href="https://commonjs.org">CommonJS</a>. This post does not go into a compartive analysis of them, but there is an excellent <a href="addyosmani.com/writing-modular-js/">article</a> by <a href="https://twitter.com/addyosmani">Addy Osmani</a> which provides an in-depth elaboration on the topic.</p>
 
-<h2>Solutions for integrating Sprockets with babel</h2>
+<a class="header-link" href="#solutions-for-integrating-sprockets-with-babel"><h2 id="solutions-for-integrating-sprockets-with-babel">Solutions for integrating Sprockets with babel</h2></a>
 
 <p>The solution <a href="https://babeljs.io/docs/setup/#rails">recommended</a> by the Babel team for using babel with rails, is through an experimental <a href="https://github.com/TannerRogalsky/sprockets-es6">sprockets-es6</a> gem, which is intended to be a PoC for future work to be integrated into Sprockets. Quoting from the README:</p>
 
@@ -100,7 +97,7 @@
 <p>This plugin is primarily experimental and will never reach a stable 1.0. The purpose is to test out BabelJS features on Sprockets 3.x and include it by default in Sprockets 4.x.</p>
 </blockquote>
 
-<h2>Javascript bundling woes</h2>
+<a class="header-link" href="#javascript-bundling-woes"><h2 id="javascript-bundling-woes">Javascript bundling woes</h2></a>
 
 <p>Apart from the experimental status, the key issue with using this gem is that it is non-trivial to get ES6 modules to work with it. The primary reason being that, as mentioned above, even though babel transpiles ES6 modules to CommonJS (or AMD), we still need to provide an implementation of the relevant module system that will enable the browsers to recognize the modules. This means we will have to include another dependency like <a href="https://github.com/maccman/sprockets-commonjs">sprockets-commonjs</a>. However there is a caveat:</p>
 
@@ -113,72 +110,72 @@
 <blockquote>
 <p>The jQuery Plugin Registry is in read-only mode.
 New plugin releases will not be processed.
-We recommend moving to npm, using &quot;jquery-plugin&quot; as the keyword in your package.json. The npm blog has instructions for publishing your plugin to npm.</p>
+We recommend moving to npm, using "jquery-plugin" as the keyword in your package.json. The npm blog has instructions for publishing your plugin to npm.</p>
 </blockquote>
 
-<h2>Browserify-rails as an alternative</h2>
+<a class="header-link" href="#browserify-rails-as-an-alternative"><h2 id="browserify-rails-as-an-alternative">Browserify-rails as an alternative</h2></a>
 
 <p>There is however a simpler solution: Using the gem <a href="https://github.com/browserify-rails/browserify-rails">browserify-rails</a> which bridges sprockets and <a href="http://browserify.org/">browserify</a>. Browserify is a javascript bundler that leverages CommonJS :</p>
 
 <blockquote>
-<p>Browserify lets you require(&#39;modules&#39;) in the browser by bundling up all of your dependencies</p>
+<p>Browserify lets you require('modules') in the browser by bundling up all of your dependencies</p>
 </blockquote>
 
-<h2>Browserify and the ecosystem around transforms</h2>
+<a class="header-link" href="#browserify-and-the-ecosystem-around-transforms"><h2 id="browserify-and-the-ecosystem-around-transforms">Browserify and the ecosystem around transforms</h2></a>
 
 <p>The great thing about browserify is that we can hook in transforms which can take care of additional pre-processing before the <code>require</code>d files are bundled up. Of particular interest to us, is the browserify transform for babel - <a href="https://github.com/babel/babelify">babelify</a> which allows us to  sidestep the caveat above. We need to have a node installation on the system though, just having a javascript runtime is not sufficient - but this is not much of an issue because node.js is now widely supported on all widely used platforms.</p>
 
-<h2>Installation</h2>
+<a class="header-link" href="#installation"><h2 id="installation">Installation</h2></a>
 
 <p>To get this to work we need to add <code>browserify-rails</code> to Gemfile:</p>
-<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s2">&quot;browserify-rails&quot;</span>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s2">"browserify-rails"</span>
 </code></pre></div>
 <p>as well as a <code>package.json</code> in project root:</p>
 
 <div class="highlight"><pre><code class="javascript"><span id="snippet_1-1"><a name="snippet_1-1"></a><span class="p">{</span>
-</span><span id="snippet_1-2"><a name="snippet_1-2"></a>    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;something&quot;</span><span class="p">,</span>
-</span><span id="snippet_1-3"><a name="snippet_1-3"></a>    <span class="s2">&quot;license&quot;</span><span class="o">:</span> <span class="s2">&quot;MIT&quot;</span><span class="p">,</span>
-</span><span id="snippet_1-4"><a name="snippet_1-4"></a>    <span class="s2">&quot;engines&quot;</span><span class="o">:</span> <span class="p">{</span>
-</span><span id="snippet_1-5"><a name="snippet_1-5"></a>      <span class="s2">&quot;node&quot;</span><span class="o">:</span> <span class="s2">&quot;&gt;= 0.10&quot;</span>
+</span><span id="snippet_1-2"><a name="snippet_1-2"></a>    <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"something"</span><span class="p">,</span>
+</span><span id="snippet_1-3"><a name="snippet_1-3"></a>    <span class="s2">"license"</span><span class="o">:</span> <span class="s2">"MIT"</span><span class="p">,</span>
+</span><span id="snippet_1-4"><a name="snippet_1-4"></a>    <span class="s2">"engines"</span><span class="o">:</span> <span class="p">{</span>
+</span><span id="snippet_1-5"><a name="snippet_1-5"></a>      <span class="s2">"node"</span><span class="o">:</span> <span class="s2">"&gt;= 0.10"</span>
 </span><span id="snippet_1-6"><a name="snippet_1-6"></a>    <span class="p">},</span>
-</span><span id="snippet_1-7"><a name="snippet_1-7"></a>    <span class="s2">&quot;dependencies&quot;</span><span class="o">:</span> <span class="p">{</span>
-</span><span id="snippet_1-8"><a name="snippet_1-8"></a>        <span class="s2">&quot;babel-preset-es2015&quot;</span><span class="o">:</span> <span class="s2">&quot;^6.1.18&quot;</span><span class="p">,</span>
-</span><span id="snippet_1-9"><a name="snippet_1-9"></a>        <span class="s2">&quot;babelify&quot;</span><span class="o">:</span> <span class="s2">&quot;^7.2.0&quot;</span><span class="p">,</span>
-</span><span id="snippet_1-10"><a name="snippet_1-10"></a>        <span class="s2">&quot;browserify&quot;</span><span class="o">:</span> <span class="s2">&quot;~&gt; 10.2.4&quot;</span><span class="p">,</span>
-</span><span id="snippet_1-11"><a name="snippet_1-11"></a>        <span class="s2">&quot;browserify-incremental&quot;</span><span class="o">:</span> <span class="s2">&quot;^3.0.1&quot;</span>
+</span><span id="snippet_1-7"><a name="snippet_1-7"></a>    <span class="s2">"dependencies"</span><span class="o">:</span> <span class="p">{</span>
+</span><span id="snippet_1-8"><a name="snippet_1-8"></a>        <span class="s2">"babel-preset-es2015"</span><span class="o">:</span> <span class="s2">"^6.1.18"</span><span class="p">,</span>
+</span><span id="snippet_1-9"><a name="snippet_1-9"></a>        <span class="s2">"babelify"</span><span class="o">:</span> <span class="s2">"^7.2.0"</span><span class="p">,</span>
+</span><span id="snippet_1-10"><a name="snippet_1-10"></a>        <span class="s2">"browserify"</span><span class="o">:</span> <span class="s2">"~&gt; 10.2.4"</span><span class="p">,</span>
+</span><span id="snippet_1-11"><a name="snippet_1-11"></a>        <span class="s2">"browserify-incremental"</span><span class="o">:</span> <span class="s2">"^3.0.1"</span>
 </span><span id="snippet_1-12"><a name="snippet_1-12"></a>    <span class="p">}</span>
 </span><span id="snippet_1-13"><a name="snippet_1-13"></a><span class="p">}</span>
 </span></code></pre></div>
 
 <p>If we want to use other javascript libraries available through npm we can include them directly in the package.json.</p>
 
-<h2>Configuring browserify and babelify</h2>
+<a class="header-link" href="#configuring-browserify-and-babelify"><h2 id="configuring-browserify-and-babelify">Configuring browserify and babelify</h2></a>
 
 <p>In addition to the above, we will also have to pass a configuration option to browserify to use babelify. This can be done by adding the following line to <code>config/application.rb</code> :</p>
-<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="n">config</span><span class="o">.</span><span class="n">browserify_rails</span><span class="o">.</span><span class="n">commandline_options</span> <span class="o">=</span> <span class="s2">&quot;-t babelify&quot;</span>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="n">config</span><span class="o">.</span><span class="n">browserify_rails</span><span class="o">.</span><span class="n">commandline_options</span> <span class="o">=</span> <span class="s2">"-t babelify"</span>
 </code></pre></div>
 <p>You may have noticed that we have included the <code>babel-preset-es2015</code> in our dependencies. While babel is a generic javascript transformation utility, it is this present that encorporates the plugins required to transform the syntax for next generation javascript to javascript that browsers of today can understand. The recommended way to specify options for babel transformer is through a <code>.babelrc</code> file in the project root:</p>
 <div class="highlight"><pre><code class="json language-json" data-lang="json"><span class="p">{</span>
-  <span class="nt">&quot;presets&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;es2015&quot;</span><span class="p">]</span>
+  <span class="nt">"presets"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"es2015"</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>That is all the setup we needed. Now we can move on to the application code. There is a single caveat though: We can not directly start using ES6 modules in our top level files (typically application.js) but only in our <code>require</code>d files:</p>
 
-<h2>Using ES6 modules in application code</h2>
+<a class="header-link" href="#using-es6-modules-in-application-code"><h2 id="using-es6-modules-in-application-code">Using ES6 modules in application code</h2></a>
 
 <p>So our application.js can be fairly minimal with a single require statement:</p>
-<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./main&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="nx">require</span><span class="p">(</span><span class="s1">'./main'</span><span class="p">)</span>
 </code></pre></div>
 <p>Now we can use ES6 modules in main.js</p>
 
 <p>main.js:</p>
-<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">hello</span> <span class="nx">from</span> <span class="s1">&#39;./hello&#39;</span>
+<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kr">import</span> <span class="nx">hello</span> <span class="nx">from</span> <span class="s1">'./hello'</span>
 
 <span class="nx">hello</span><span class="p">()</span>
 </code></pre></div>
 <p>hello.js:</p>
 <div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">hello</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;hello world&#39;</span><span class="p">);</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">'hello world'</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">hello</span><span class="p">;</span>
@@ -203,8 +200,9 @@ We recommend moving to npm, using &quot;jquery-plugin&quot; as the keyword in yo
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 

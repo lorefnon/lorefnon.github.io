@@ -67,10 +67,7 @@
 
           
 
-          
-
-
-  <p>This post aims to provide some explanation about the lifecycle of dynamic data-bindings in KnockoutJS to  ease debugging of KO applications .</p>
+          <p>This post aims to provide some explanation about the lifecycle of dynamic data-bindings in KnockoutJS to  ease debugging of KO applications .</p>
 
 <p>A developer can remain perfectly oblivious of all that is going on under the hood and let the magic of declarative bindings do all the heavy-lifting of data-synchronization and it all works fine untill something unexpected happens. What now ? While most of the bugs in code can be directly resolved by inspecting the data-bind attributes manually, but if the complexity of application grows beyond a level an understanding of what goes on under the sheets becomes necessary.</p>
 
@@ -86,17 +83,17 @@
 
 <div class="highlight"><pre><code class="html"><span class="nt">&lt;html&gt;</span>
   <span class="nt">&lt;head&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;jquery-1.7.1.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;knockout-latest.debug.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;index.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"jquery-1.7.1.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"knockout-latest.debug.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"index.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
   <span class="nt">&lt;/head&gt;</span>
   <span class="nt">&lt;body&gt;</span>
     <span class="nt">&lt;div&gt;</span>
       Please Enter your name :
-      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">data-bind=</span><span class="s">&quot;value:name&quot;</span><span class="nt">&gt;&lt;/input&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">data-bind=</span><span class="s">"value:name"</span><span class="nt">&gt;&lt;/input&gt;</span>
     <span class="nt">&lt;/div&gt;</span>
     <span class="nt">&lt;div&gt;</span>
-      Hello <span class="nt">&lt;span</span> <span class="na">data-bind=</span><span class="s">&quot;text: name&quot;</span><span class="nt">&gt;&lt;/span&gt;</span>
+      Hello <span class="nt">&lt;span</span> <span class="na">data-bind=</span><span class="s">"text: name"</span><span class="nt">&gt;&lt;/span&gt;</span>
     <span class="nt">&lt;/div&gt;</span>
   <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
@@ -104,7 +101,7 @@
 
 <div class="highlight"><pre><code class="javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
     <span class="kd">var</span> <span class="nx">vmodel</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="nx">name</span><span class="o">:</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">observable</span><span class="p">(</span><span class="s2">&quot;Lorefnon&quot;</span><span class="p">)</span>
+        <span class="nx">name</span><span class="o">:</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">observable</span><span class="p">(</span><span class="s2">"Lorefnon"</span><span class="p">)</span>
     <span class="p">}</span>
     <span class="nx">ko</span><span class="p">.</span><span class="nx">applyBindings</span><span class="p">(</span><span class="nx">vmodel</span><span class="p">);</span>
 <span class="p">});</span>
@@ -112,8 +109,8 @@
 
 <p>There are two binders involved : text-binder and value-binder. Let us inspect the <strong>ko.bindingHandlers.text</strong>in javascript.   It has a single member : update function. Yes, you guessed it right – this is the function that is called when the span is to be updated. Let us checkout what it does :</p>
 
-<div class="highlight"><pre><code class="javascript"><span class="nx">ko</span><span class="p">.</span><span class="nx">bindingHandlers</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;update&#39;</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">valueAccessor</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="javascript"><span class="nx">ko</span><span class="p">.</span><span class="nx">bindingHandlers</span><span class="p">[</span><span class="s1">'text'</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'update'</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">valueAccessor</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">ko</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">setTextContent</span><span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">valueAccessor</span><span class="p">());</span>
     <span class="p">}</span>
 <span class="p">};</span>
@@ -123,8 +120,8 @@
 
 <div class="highlight"><pre><code class="javascript"><span class="nx">setTextContent</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">textContent</span><span class="p">)</span> <span class="p">{</span>
      <span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">unwrapObservable</span><span class="p">(</span><span class="nx">textContent</span><span class="p">);</span>
-     <span class="k">if</span> <span class="p">((</span><span class="nx">value</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="nx">value</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">))</span> <span class="nx">value</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
-     <span class="s1">&#39;innerText&#39;</span> <span class="k">in</span> <span class="nx">element</span> <span class="o">?</span> <span class="nx">element</span><span class="p">.</span><span class="nx">innerText</span> <span class="o">=</span> <span class="nx">value</span> <span class="o">:</span> <span class="nx">element</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+     <span class="k">if</span> <span class="p">((</span><span class="nx">value</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="nx">value</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">))</span> <span class="nx">value</span> <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
+     <span class="s1">'innerText'</span> <span class="k">in</span> <span class="nx">element</span> <span class="o">?</span> <span class="nx">element</span><span class="p">.</span><span class="nx">innerText</span> <span class="o">=</span> <span class="nx">value</span> <span class="o">:</span> <span class="nx">element</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
      <span class="k">if</span> <span class="p">(</span><span class="nx">ieVersion</span> <span class="o">&gt;=</span> <span class="mi">9</span><span class="p">)</span> <span class="p">{</span>
          <span class="c1">// Believe it or not, this actually fixes an IE9 rendering bug</span>
          <span class="c1">// (See https://github.com/SteveSanderson/knockout/issues/209)</span>
@@ -135,14 +132,14 @@
 
 <p>What about the other side of the code : What do you do to intercept a change in a form element ? Let us checkout the <strong>ko.bindingHandlers.value</strong></p>
 
-<p><img src="/images/ko.png" /></p>
+<p><img src="/images/ko.png"></p>
 
 <p>As you probably have already guessed, the init function creates the bindings to intercept any change in the form element. The actual handler that is called each time when the input element changes its value is the valueUpdateHandler function defined inside init :</p>
 
 <div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">valueUpdateHandler</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
      <span class="kd">var</span> <span class="nx">modelValue</span> <span class="o">=</span> <span class="nx">valueAccessor</span><span class="p">();</span>
      <span class="kd">var</span> <span class="nx">elementValue</span> <span class="o">=</span> <span class="nx">ko</span><span class="p">.</span><span class="nx">selectExtensions</span><span class="p">.</span><span class="nx">readValue</span><span class="p">(</span><span class="nx">element</span><span class="p">);</span>
-     <span class="nx">ko</span><span class="p">.</span><span class="nx">jsonExpressionRewriting</span><span class="p">.</span><span class="nx">writeValueToProperty</span><span class="p">(</span><span class="nx">modelValue</span><span class="p">,</span> <span class="nx">allBindingsAccessor</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="nx">elementValue</span><span class="p">,</span> <span class="cm">/* checkIfDifferent: */</span> <span class="kc">true</span><span class="p">);</span>
+     <span class="nx">ko</span><span class="p">.</span><span class="nx">jsonExpressionRewriting</span><span class="p">.</span><span class="nx">writeValueToProperty</span><span class="p">(</span><span class="nx">modelValue</span><span class="p">,</span> <span class="nx">allBindingsAccessor</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="nx">elementValue</span><span class="p">,</span> <span class="cm">/* checkIfDifferent: */</span> <span class="kc">true</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -172,8 +169,9 @@
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 

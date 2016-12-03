@@ -67,14 +67,11 @@
 
           
 
-          
-
-
-  <p><a href="https://github.com/plataformatec/devise">Devise</a> is an incredibly popular authorization gem for Rails. Unfortunately allowing a user to log in through multiple emails is not as straightforward as one might expect. This post outlines a way to do just that.</p>
+          <p><a href="https://github.com/plataformatec/devise">Devise</a> is an incredibly popular authorization gem for Rails. Unfortunately allowing a user to log in through multiple emails is not as straightforward as one might expect. This post outlines a way to do just that.</p>
 
 <p>The code for this blog is available <a href="https://github.com/lorefnon/devise_multi_email_demo.git">here</a>. We start off with a rudimentary devise installation (you may want to checkout <a href="https://github.com/lorefnon/devise_multi_email_demo/tree/3d5be26be7986aaf73c18497cffd67a9365e38cb">Commit:3d5be26</a> as a starting point - if you are not familiar with devise I suggest you take a look at the official documentation. As you may have noticed I am writing this post against Rails 4.2 Beta which Devise master does not support as of this writing. Luckily <a href="https://github.com/lucasmazza">lucasmazza</a> has already submitted a pull request for 4.2 compatibility and we just need to use the branch <code>lm-rails-4-2</code>.</p>
 
-<h2>Creating Email model</h2>
+<a class="header-link" href="#creating-email-model"><h2 id="creating-email-model">Creating Email model</h2></a>
 
 <p>First step is creating an email model.</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">rails g model email email:string user_id:integer
@@ -115,16 +112,16 @@ newsletters, fetching gravatars etc. So here we go:</p>
 
 <p>In user model:</p>
 
-<div class="highlight"><pre><code class="ruby"><span class="n">belongs_to</span> <span class="ss">:default_email</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">&quot;Email&quot;</span>
+<div class="highlight"><pre><code class="ruby"><span class="n">belongs_to</span> <span class="ss">:default_email</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">"Email"</span>
 </code></pre></div>
 
-<h2>Setting up the registration flow:</h2>
+<a class="header-link" href="#setting-up-the-registration-flow-"><h2 id="setting-up-the-registration-flow-">Setting up the registration flow:</h2></a>
 
 <p>At this point if we try visiting a devise sign up page, we will
 get an obvious error because devise views expect an email field in
 model.</p>
 
-<p><image src="/images/devise_email_not_found.png" /></p>
+<p><image src="/images/devise_email_not_found.png"></image></p>
 
 <p>We resort to a simple hack rather than put in a lot of effort in rewiring Devise. We add email accessors which (as far as devise is concerned) behave just like the email field devise had generated, but internally act as proxy to default email. Duck typing FTW.</p>
 
@@ -136,7 +133,7 @@ model.</p>
   <span class="n">has_many</span> <span class="ss">:emails</span><span class="p">,</span> <span class="ss">dependent</span><span class="p">:</span> <span class="ss">:destroy</span>
   <span class="n">after_commit</span> <span class="ss">:save_default_email</span><span class="p">,</span> <span class="ss">on</span><span class="p">:</span> <span class="ss">:create</span>
 
-  <span class="n">belongs_to</span> <span class="ss">:default_email</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">&quot;Email&quot;</span>
+  <span class="n">belongs_to</span> <span class="ss">:default_email</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="s2">"Email"</span>
   <span class="n">validates</span> <span class="ss">:default_email</span><span class="p">,</span> <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span>
   <span class="n">default_scope</span> <span class="p">{</span> <span class="n">includes</span> <span class="ss">:default_email</span> <span class="p">}</span>
 
@@ -167,11 +164,11 @@ by devise. Also the after commit hook is required because when we are saving the
 for the first time, user id is nil when email is instantiated and hence will have to assign it once we have saved the user. An email conflict will be raised if the email
 is already associated with another account. Handling that error gracefully is left as an exercise for the reader.</p>
 
-<h2>Setting up the login flow:</h2>
+<a class="header-link" href="#setting-up-the-login-flow-"><h2 id="setting-up-the-login-flow-">Setting up the login flow:</h2></a>
 
 <p>While registration should work smoothly at this point, if we try to login we will run into trouble:</p>
 
-<p><img src="/images/devise_login_flow_fail.png"/></p>
+<p><img src="/images/devise_login_flow_fail.png"></p>
 
 <p>The problem is obvious. Devise tries to search using email field which does not exist. So we need to
 configure devise to find using the emails table we have created.</p>
@@ -207,15 +204,15 @@ configure devise to find using the emails table we have created.</p>
 
 <p>Once we have done that, login flow should as intended.</p>
 
-<h2>Interface for managing emails</h2>
+<a class="header-link" href="#interface-for-managing-emails"><h2 id="interface-for-managing-emails">Interface for managing emails</h2></a>
 
 <p>At this point a user can login and signup but he can not manage the emails which are associated with his/her account. Let us take care of that.</p>
 
 <p>The default edit account view of devise looks something like this:</p>
 
-<p><img src="/images/devise_default_edit.png"/></p>
+<p><img src="/images/devise_default_edit.png"></p>
 
-<p>Note that this form works perfectly well - thanks to our email accessor hack. But users don&#39;t have the ability to add new emails or delete existing emails.</p>
+<p>Note that this form works perfectly well - thanks to our email accessor hack. But users don't have the ability to add new emails or delete existing emails.</p>
 
 <p>We will to augment this form to accept nested attributes for emails. For nested forms probably the most popular solution is <a href="https://github.com/ryanb/nested_form">nested_form</a> but it has been unmaintained for a while. So I resorted to <a href="https://github.com/nathanvda/cocoon">cocoon</a> which is more actively maintained. Both of them work in a similar fashion - through unobstructive javascript.</p>
 
@@ -237,15 +234,15 @@ configure devise to find using the emails table we have created.</p>
 <span class="cp">&lt;%=</span> <span class="n">form_for</span><span class="p">(</span><span class="n">resource</span><span class="p">,</span> <span class="ss">as</span><span class="p">:</span> <span class="n">resource_name</span><span class="p">,</span> <span class="ss">url</span><span class="p">:</span> <span class="n">registration_path</span><span class="p">(</span><span class="n">resource_name</span><span class="p">),</span> <span class="ss">html</span><span class="p">:</span> <span class="p">{</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:put</span> <span class="p">})</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">devise_error_messages!</span> <span class="cp">%&gt;</span><span class="x"></span>
 
-<span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:email</span><span class="p">,</span> <span class="s2">&quot;Default Email&quot;</span> <span class="cp">%&gt;</span><span class="x">&lt;br /&gt;</span>
+<span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:email</span><span class="p">,</span> <span class="s2">"Default Email"</span> <span class="cp">%&gt;</span><span class="x">&lt;br /&gt;</span>
 <span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">email_field</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">autofocus</span><span class="p">:</span> <span class="kp">true</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
 
 <span class="x">  &lt;div&gt;</span>
 <span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">fields_for</span> <span class="ss">:emails</span> <span class="k">do</span> <span class="o">|</span><span class="n">email_f</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">&#39;email_fields&#39;</span><span class="p">,</span> <span class="ss">f</span><span class="p">:</span> <span class="n">email_f</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">'email_fields'</span><span class="p">,</span> <span class="ss">f</span><span class="p">:</span> <span class="n">email_f</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">    </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">    &lt;div class=&quot;links&quot;&gt;</span>
-<span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">link_to_add_association</span> <span class="s1">&#39;Add Email&#39;</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="ss">:emails</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">    &lt;div class="links"&gt;</span>
+<span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">link_to_add_association</span> <span class="s1">'Add Email'</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="ss">:emails</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">    &lt;/div&gt;</span>
 <span class="x">  &lt;/div&gt;</span>
 
@@ -253,32 +250,32 @@ configure devise to find using the emails table we have created.</p>
 <span class="x">    &lt;div&gt;Currently waiting confirmation for: </span><span class="cp">&lt;%=</span> <span class="n">resource</span><span class="o">.</span><span class="n">unconfirmed_email</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
 <span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
 
-<span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password</span> <span class="cp">%&gt;</span><span class="x"> &lt;i&gt;(leave blank if you don&#39;t want to change it)&lt;/i&gt;&lt;br /&gt;</span>
-<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password</span><span class="p">,</span> <span class="ss">autocomplete</span><span class="p">:</span> <span class="s2">&quot;off&quot;</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+<span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password</span> <span class="cp">%&gt;</span><span class="x"> &lt;i&gt;(leave blank if you don't want to change it)&lt;/i&gt;&lt;br /&gt;</span>
+<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password</span><span class="p">,</span> <span class="ss">autocomplete</span><span class="p">:</span> <span class="s2">"off"</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
 
 <span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password_confirmation</span> <span class="cp">%&gt;</span><span class="x">&lt;br /&gt;</span>
-<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password_confirmation</span><span class="p">,</span> <span class="ss">autocomplete</span><span class="p">:</span> <span class="s2">&quot;off&quot;</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password_confirmation</span><span class="p">,</span> <span class="ss">autocomplete</span><span class="p">:</span> <span class="s2">"off"</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
 
 <span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:current_password</span> <span class="cp">%&gt;</span><span class="x"> &lt;i&gt;(we need your current password to confirm your changes)&lt;/i&gt;&lt;br /&gt;</span>
-<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:current_password</span><span class="p">,</span> <span class="ss">autocomplete</span><span class="p">:</span> <span class="s2">&quot;off&quot;</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+<span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:current_password</span><span class="p">,</span> <span class="ss">autocomplete</span><span class="p">:</span> <span class="s2">"off"</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
 
-<span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="s2">&quot;Update&quot;</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
+<span class="x">  &lt;div&gt;</span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="s2">"Update"</span> <span class="cp">%&gt;</span><span class="x">&lt;/div&gt;</span>
 <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
 
 <span class="x">&lt;h3&gt;Cancel my account&lt;/h3&gt;</span>
 
-<span class="x">&lt;p&gt;Unhappy? </span><span class="cp">&lt;%=</span> <span class="n">button_to</span> <span class="s2">&quot;Cancel my account&quot;</span><span class="p">,</span> <span class="n">registration_path</span><span class="p">(</span><span class="n">resource_name</span><span class="p">),</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span> <span class="ss">confirm</span><span class="p">:</span> <span class="s2">&quot;Are you sure?&quot;</span> <span class="p">},</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
+<span class="x">&lt;p&gt;Unhappy? </span><span class="cp">&lt;%=</span> <span class="n">button_to</span> <span class="s2">"Cancel my account"</span><span class="p">,</span> <span class="n">registration_path</span><span class="p">(</span><span class="n">resource_name</span><span class="p">),</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span> <span class="ss">confirm</span><span class="p">:</span> <span class="s2">"Are you sure?"</span> <span class="p">},</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
 
-<span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;Back&quot;</span><span class="p">,</span> <span class="ss">:back</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Back"</span><span class="p">,</span> <span class="ss">:back</span> <span class="cp">%&gt;</span><span class="x"></span>
 </code></pre></div>
 
 <p>Cocoon mandates a separate partial for email fields, which in our case is very simple:</p>
 
-<div class="highlight"><pre><code class="erb"><span class="x">&lt;div class=&quot;nested-fields&quot;&gt;</span>
+<div class="highlight"><pre><code class="erb"><span class="x">&lt;div class="nested-fields"&gt;</span>
 <span class="x">  &lt;div&gt;</span>
 <span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:email</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">email_field</span> <span class="ss">:email</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">link_to_remove_association</span> <span class="s2">&quot;remove email&quot;</span><span class="p">,</span> <span class="n">f</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">link_to_remove_association</span> <span class="s2">"remove email"</span><span class="p">,</span> <span class="n">f</span> <span class="cp">%&gt;</span><span class="x"></span>
 <span class="x">  &lt;/div&gt;</span>
 <span class="x">&lt;/div&gt;</span>
 </code></pre></div>
@@ -308,11 +305,11 @@ configure devise to find using the emails table we have created.</p>
 <p>Note that <code>:_destroy</code> symbol in the attribute list. It is required because to destroy nested models, rails uses a virtual attribute called _destroy. When _destroy is set, the nested model will be deleted.</p>
 
 <p>If we try adding, removing and editing emails now, everything should work smoothly.
-<img src="/images/devise_nested_form_edit.png"/></p>
+<img src="/images/devise_nested_form_edit.png"></p>
 
 <p>In a production setting we will most certainly need to send out confirmation mails before activating the emails. We skip the additional steps for the sake of brevity.</p>
 
-<h2>Omniauth integration:</h2>
+<a class="header-link" href="#omniauth-integration-"><h2 id="omniauth-integration-">Omniauth integration:</h2></a>
 
 <p>One of the things we all love about devise is that it integrates beautifully with
 <a href="https://github.com/intridea/omniauth">omniauth</a> making integration with a plethora of social services painless. However due to the fundamental changes we have made, omniauth integration requires jumping through a few extra hoops.</p>
@@ -323,8 +320,8 @@ configure devise to find using the emails table we have created.</p>
 
 <p>In Gemfile</p>
 
-<div class="highlight"><pre><code class="ruby"><span class="n">gem</span> <span class="s1">&#39;omniauth&#39;</span>
-<span class="n">gem</span> <span class="s1">&#39;omniauth-facebook&#39;</span>
+<div class="highlight"><pre><code class="ruby"><span class="n">gem</span> <span class="s1">'omniauth'</span>
+<span class="n">gem</span> <span class="s1">'omniauth-facebook'</span>
 </code></pre></div>
 
 <p>In config/initializers/devise.rb</p>
@@ -354,14 +351,14 @@ configure devise to find using the emails table we have created.</p>
 
 <p>In config/routes.rb</p>
 
-<div class="highlight"><pre><code class="ruby">  <span class="n">devise_for</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">controllers</span><span class="p">:</span> <span class="p">{</span> <span class="n">omniauth_callbacks</span><span class="p">:</span> <span class="s2">&quot;users/omniauth_callbacks&quot;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="ruby">  <span class="n">devise_for</span> <span class="ss">:users</span><span class="p">,</span> <span class="ss">controllers</span><span class="p">:</span> <span class="p">{</span> <span class="n">omniauth_callbacks</span><span class="p">:</span> <span class="s2">"users/omniauth_callbacks"</span> <span class="p">}</span>
 </code></pre></div>
 
 <p>where <code>users/omniauth_callbacks</code> is a controller we define to which facebook will redirect to after authenticating our application.</p>
 
 <p>If you have used omniauth with devise before, there is nothing out of the ordinary so far.</p>
 
-<p>Just like we wish to allow the user to sign up through multiple emails, we also wish to allow a user to sign up through multiple social networks. (s)he may be registered in different social networks with different emails. A simple and elegant way to represent a user&#39;s presence in multiple third party sites is through a separate <code>UserIdentity</code> model.</p>
+<p>Just like we wish to allow the user to sign up through multiple emails, we also wish to allow a user to sign up through multiple social networks. (s)he may be registered in different social networks with different emails. A simple and elegant way to represent a user's presence in multiple third party sites is through a separate <code>UserIdentity</code> model.</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">rails g model UserIdentity user_id:integer email_id:integer uid:string provider:string
 </code></pre></div>
 <div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">UserIdentity</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
@@ -375,7 +372,7 @@ configure devise to find using the emails table we have created.</p>
 
 <div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">Users</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span> <span class="o">&lt;</span> <span class="no">Devise</span><span class="o">::</span><span class="no">OmniauthCallbacksController</span>
   <span class="k">def</span> <span class="nf">facebook</span>
-    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">from_omniauth</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s2">&quot;omniauth.auth&quot;</span><span class="o">]</span><span class="p">)</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">from_omniauth</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s2">"omniauth.auth"</span><span class="o">]</span><span class="p">)</span>
     <span class="n">sign_in_and_redirect</span> <span class="vi">@user</span><span class="p">,</span> <span class="ss">:event</span> <span class="o">=&gt;</span> <span class="ss">:authentication</span> <span class="c1">#this will throw if @user is not activated</span>
   <span class="k">end</span>
 <span class="k">end</span>
@@ -390,7 +387,7 @@ Luckily facebook provides us with the email, so we can use that to identify a us
 <li><p><strong>User is signing up for the first time through facebook.</strong>
 In this case we just use the email obtained from facebook as the default email and register the user</p></li>
 <li><p><strong>User already has an account and has chosen to login through facebook for the first time</strong>
-We can identify this situation if user&#39;s existing email is the same as the one he has used in Facebook. In this case we create a new UserIdentity for an existing user.</p></li>
+We can identify this situation if user's existing email is the same as the one he has used in Facebook. In this case we create a new UserIdentity for an existing user.</p></li>
 <li><p><strong>User had logged in using facebook before, using the same email</strong>
 Nothing needs to be created. We just log the user in.</p></li>
 <li><p><strong>User had logged in using facebook before, using a different email</strong>
@@ -453,7 +450,7 @@ We keep the existing email, but associate the user identity with the new email.<
 </code></pre></div>
 
 <p>The code above raises an <code>EmailConflict</code> exception if we end up in a scenario where an existing user is logging in and the email is associated with another account. Gracefully handling the error is left as an exercise for the reader. Also we assume that the social login provider will provide us with an email.
-While this is true for many providers like Github, not all providers provide with emails. A prominent example is twitter. Since this is not intended to be a comprehensive tutorial on omniauth, for the sake of brevity we don&#39;t
+While this is true for many providers like Github, not all providers provide with emails. A prominent example is twitter. Since this is not intended to be a comprehensive tutorial on omniauth, for the sake of brevity we don't
 elaborate on those scenarios. A good way to handle such a case would be to direct a user to a profile completion after login where he/she can enter the email and warn them if an account already exists for that email.</p>
 
 <p>So we conclude the post with a functional setup that allows a user to have multiple emails associated with a devise account. Feel free to bug me if you face any issues. Any comments and suggestions are also welcome.</p>
@@ -476,8 +473,9 @@ elaborate on those scenarios. A good way to handle such a case would be to direc
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 

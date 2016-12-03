@@ -67,36 +67,33 @@
 
           
 
-          
-
-
-  <p>It seems that among the developer community, there exist multiple misconceptions regarding KnockoutJS. This is particularly true for developers who are not familiar with the MVVM pattern or declarative style followed by Knockout. This posts aims to clarify some of these misconceptions.</p>
+          <p>It seems that among the developer community, there exist multiple misconceptions regarding KnockoutJS. This is particularly true for developers who are not familiar with the MVVM pattern or declarative style followed by Knockout. This posts aims to clarify some of these misconceptions.</p>
 
 <p>I was particularly motivated to write this post after <a href="http://stackoverflow.com/questions/5112899/knockout-js-vs-backbone-js-vs/6340870#6340870">this discussion</a> at Stackoverflow.</p>
 
-<h1>KnockoutJS is tied to specific server side back-ends.</h1>
+<a class="header-link" href="#knockoutjs-is-tied-to-specific-server-side-back-ends-"><h1 id="knockoutjs-is-tied-to-specific-server-side-back-ends-">KnockoutJS is tied to specific server side back-ends.</h1></a>
 
 <p>This mainly stems from the similarities of the declarative binding style used in KO with the WPF declarative bindings. Since I do not work with Microsoft technologies, I can not really assert if the WPF declarative binding style was indeed an inspiration behind KO, however I would like to highlight that KO is strictly a client side library and an ASP.net backend (or any specific server side backend for that matter) is not mandatory. In fact KO will work happily with no server-side code at all. I strongly recommend people to checkout the basic examples presented in the site using jsfiddle and convince yourself that this is indeed the case.</p>
 
 <p>On a sidenote, there do exist libraries that aim to provide seamless integration layers between KO and ASP.net MVC eg. KnockoutMVC which claims to facilitate creation of complex client side applications without writing a single line of javascript. I strongly advocate against using such esoteric frameworks.</p>
 
-<h1>KnockoutJS has hard-wired dependency on jQuery and jQuery-templating plugin.</h1>
+<a class="header-link" href="#knockoutjs-has-hard-wired-dependency-on-jquery-and-jquery-templating-plugin-"><h1 id="knockoutjs-has-hard-wired-dependency-on-jquery-and-jquery-templating-plugin-">KnockoutJS has hard-wired dependency on jQuery and jQuery-templating plugin.</h1></a>
 
 <p>Again this is absolutely incorrect. The core functionality provided by KO is framework agonistic. And as far as templating is concerned integrating of third party templating engines is not very difficult. Since KO is open source you can probably find support for your favourite templating engine already available. For example the ko.mustache extension by Marcin Wtorkowski adds support for mustache templating engine.</p>
 
-<h1>Because of the level of abstraction offered by declarative bindings, KnockoutJS is difficult to debug.</h1>
+<a class="header-link" href="#because-of-the-level-of-abstraction-offered-by-declarative-bindings-knockoutjs-is-difficult-to-debug-"><h1 id="because-of-the-level-of-abstraction-offered-by-declarative-bindings-knockoutjs-is-difficult-to-debug-">Because of the level of abstraction offered by declarative bindings, KnockoutJS is difficult to debug.</h1></a>
 
 <p>While it is true that KO hides away the boiler plate code for data synchronization and the users are concerned with declaring the bindings in attributes, when things go wrong (either at your end or if you happen to discover a bug in the library) you will have to dig into the layers of abstraction. Fortunately in case of KO, the abstractions are not very convoluted and a basic understanding of the binding management lifecycle makes debugging pretty easy. KO source code is well written and not very difficult to understand, although that certainly is a subjective opinion.</p>
 
 <p>I plan to highlight some guidelines for debugging KO applications in a future post.</p>
 
-<h1>It is difficult to properly test a KnockoutJS application.</h1>
+<a class="header-link" href="#it-is-difficult-to-properly-test-a-knockoutjs-application-"><h1 id="it-is-difficult-to-properly-test-a-knockoutjs-application-">It is difficult to properly test a KnockoutJS application.</h1></a>
 
 <p>There is simply no reason for this to be true considering that KO is plain simple javascript. In particular KO is well tested and has a comprehensive test suite, which alleviates the developer from writing test cases for boilerplate code for managing data synchronizations. The domain logic is still javascript and KO does not abstract away any client-server interaction so testing the core of your application mostly involves testing your own javascript code only.</p>
 
 <p>Also, with a basic understanding of KO handlers, the bindingHandlers can be mocked, providing a greater control to the developer.</p>
 
-<h1>KnockoutJS applications do not degrade gracefully in absence of javascript.</h1>
+<a class="header-link" href="#knockoutjs-applications-do-not-degrade-gracefully-in-absence-of-javascript-"><h1 id="knockoutjs-applications-do-not-degrade-gracefully-in-absence-of-javascript-">KnockoutJS applications do not degrade gracefully in absence of javascript.</h1></a>
 
 <p>Graceful degradation in absense of javascript depends on the way your application has been architectured. Although KO being a pure javascript library, does not offer any support for graceful degradation in absence of javascript, nevertheless unlike many of the competing technologies it does not hinder graceful degradation.</p>
 
@@ -106,7 +103,7 @@
 
 <p>Since KO does not use special inline markup or custom html tags, but rather simple data-bind attributes which are anyways not visible in absence of javascript, it does not hinder graceful degradation.</p>
 
-<h1>Although simple attribute-binding works well, designing complex interactive UI results in cluttered code.</h1>
+<a class="header-link" href="#although-simple-attribute-binding-works-well-designing-complex-interactive-ui-results-in-cluttered-code-"><h1 id="although-simple-attribute-binding-works-well-designing-complex-interactive-ui-results-in-cluttered-code-">Although simple attribute-binding works well, designing complex interactive UI results in cluttered code.</h1></a>
 
 <p>Again code organization is something that KO does not enforce upon you. A very nice way to make to code modular and easy to understand is to use custom bindings. Custom bindings are not something to be used as a last resort . Creating them is easy and utilizing them you can write very succinct code that is easily understandable and manageable. Infact properly using custom bindings can significantly improve performance as compared to several data-bind attributes for same property across several adjacent DOM nodes.</p>
 
@@ -117,16 +114,16 @@
 
 <p>Yes code like</p>
 
-<div class="highlight"><pre><code class="html">The item is <span class="nt">&lt;span</span> <span class="na">data-bind=</span><span class="s">&quot;text: price() &gt; 50 ? &#39;expensive&#39; : &#39;affordable&#39;&quot;</span><span class="nt">&gt;&lt;/span&gt;</span> today.
+<div class="highlight"><pre><code class="html">The item is <span class="nt">&lt;span</span> <span class="na">data-bind=</span><span class="s">"text: price() &gt; 50 ? 'expensive' : 'affordable'"</span><span class="nt">&gt;&lt;/span&gt;</span> today.
 </code></pre></div>
 
 <p>is certainly ugly. But you can simply define a custom attribute that depends on price using ko.computable and have that in the view-model. As a developer you already are smart enough to avoid embedding javascript application logic inside html. KO does not come in your way.</p>
 
-<h1>KnockoutJS does not offer a multitude of widgets.</h1>
+<a class="header-link" href="#knockoutjs-does-not-offer-a-multitude-of-widgets-"><h1 id="knockoutjs-does-not-offer-a-multitude-of-widgets-">KnockoutJS does not offer a multitude of widgets.</h1></a>
 
 <p>This is absolutely correct. But KO noway advertises the same. It is essentially a data-binding library that does one thing and does it well. It is not a complete application SDK or UI framework.</p>
 
-<h1>Integrating KnockoutJS with a restful backend is difficult.</h1>
+<a class="header-link" href="#integrating-knockoutjs-with-a-restful-backend-is-difficult-"><h1 id="integrating-knockoutjs-with-a-restful-backend-is-difficult-">Integrating KnockoutJS with a restful backend is difficult.</h1></a>
 
 <p>As I previously pointed out, KO does not abstract out client server interaction. In fact the management of your Model layer is left almost entirely to you. Having said that, if your restful backend makes data available as json, the backbone mapping plugin makes it trivial to sync server data with view models.</p>
 
@@ -134,7 +131,7 @@
 
 <p>The knockout-rest plugin by Francesco Pontillo provides a very easy and intuitive way to integrate view-models with a restful backend.</p>
 
-<h1>Using libraries like KnockoutJS have serious negative impact on SEO.</h1>
+<a class="header-link" href="#using-libraries-like-knockoutjs-have-serious-negative-impact-on-seo-"><h1 id="using-libraries-like-knockoutjs-have-serious-negative-impact-on-seo-">Using libraries like KnockoutJS have serious negative impact on SEO.</h1></a>
 
 <p>If you follow the guidelines presented above on graceful degradation then there is no reason why this should happen.</p>
 
@@ -160,8 +157,9 @@
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 

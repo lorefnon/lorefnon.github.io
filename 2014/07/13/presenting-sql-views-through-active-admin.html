@@ -67,10 +67,7 @@
 
           
 
-          
-
-
-  <p><a href="http://en.wikipedia.org/wiki/View_(SQL)"> SQL Views </a> are a handy feature that allow us to
+          <p><a href="http://en.wikipedia.org/wiki/View_(SQL)"> SQL Views </a> are a handy feature that allow us to
 save a query whose results are computed/collated dynamically whenever the view is requested.
 Because the abstraction provided by a view is semantically close to a table we can leverage
 ActiveRecord to interface with the view through a proxy model and use it to
@@ -114,16 +111,16 @@ rails g model State name:string
 </code></pre></div>
 
 <p>Note: Using the most recent Rails version, 4.1.4, will cause numerous dependency
-conflicts, hence we use Rails 4.0.0 with ActiveAdmin edge.Since we don&#39;t plan
+conflicts, hence we use Rails 4.0.0 with ActiveAdmin edge.Since we don't plan
 to use any cutting edge features in this example this should be an acceptable
 compromise.</p>
 
 <p>We stick to default Devise based AdminUser for authentication. Once we generate
 active admin resources for our models, we have something like this:</p>
 
-<p><img src="/images/active_admin_states.png" />
-<img src="/images/active_admin_districts.png" />
-<img src="/images/active_admin_cities.png" /></p>
+<p><img src="/images/active_admin_states.png">
+<img src="/images/active_admin_districts.png">
+<img src="/images/active_admin_cities.png"></p>
 
 <p>The view that we intend to create combines the data in the three tables
 joins.</p>
@@ -132,7 +129,7 @@ FROM states
 INNER JOIN districts ON districts.state_id = states.id
 INNER JOIN cities ON cities.district_id = districts.id
 </code></pre></div>
-<p><img src="/images/joins_states.png" /></p>
+<p><img src="/images/joins_states.png"></p>
 
 <p>To create the view we generate a migration:</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">rails g migration create_state_district_city_view
@@ -149,7 +146,7 @@ INNER JOIN cities ON cities.district_id = districts.id
   <span class="k">end</span>
 
   <span class="k">def</span> <span class="nf">down</span>
-    <span class="nb">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">execute</span> <span class="s2">&quot;DROP VIEW IF EXISTS state_district_city_view;&quot;</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">execute</span> <span class="s2">"DROP VIEW IF EXISTS state_district_city_view;"</span>
   <span class="k">end</span>
 
 <span class="k">end</span>
@@ -159,7 +156,7 @@ INNER JOIN cities ON cities.district_id = districts.id
 can just define a normal ActiveRecord model to access this view.</p>
 
 <div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">StateDistrictCityViewProxy</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-    <span class="nb">self</span><span class="o">.</span><span class="n">table_name</span> <span class="o">=</span> <span class="s2">&quot;state_district_city_view&quot;</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">table_name</span> <span class="o">=</span> <span class="s2">"state_district_city_view"</span>
 <span class="k">end</span>
 </code></pre></div>
 
@@ -167,7 +164,7 @@ can just define a normal ActiveRecord model to access this view.</p>
 
 <div class="highlight"><pre><code class="ruby"><span class="o">&gt;</span> <span class="no">StateDistrictCityViewProxy</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>
   <span class="no">StateDistrictCityViewProxy</span> <span class="no">Load</span> <span class="p">(</span><span class="mi">0</span><span class="o">.</span><span class="mi">4</span><span class="n">ms</span><span class="p">)</span>  <span class="no">SELECT</span> <span class="sb">`state_district_city_view`</span><span class="o">.</span><span class="n">*</span> <span class="no">FROM</span> <span class="sb">`state_district_city_view`</span> <span class="no">LIMIT</span> <span class="mi">10</span>
-<span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;StateDistrictCityViewProxy id: 1, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Agali&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 2, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Amadagur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 3, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Amarapuram&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 4, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Anantapur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 5, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Atmakur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 6, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bathalapalle&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 7, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Beluguppa&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 8, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bommanahal&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 9, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Brahmasamudram&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 10, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bukkapatnam&quot;&gt;]</span>
+<span class="o">=&gt;</span> <span class="o">[</span><span class="c1">#&lt;StateDistrictCityViewProxy id: 1, state: "Andhra Pradesh", district: "Anantapur", city: "Agali"&gt;, #&lt;StateDistrictCityViewProxy id: 2, state: "Andhra Pradesh", district: "Anantapur", city: "Amadagur"&gt;, #&lt;StateDistrictCityViewProxy id: 3, state: "Andhra Pradesh", district: "Anantapur", city: "Amarapuram"&gt;, #&lt;StateDistrictCityViewProxy id: 4, state: "Andhra Pradesh", district: "Anantapur", city: "Anantapur"&gt;, #&lt;StateDistrictCityViewProxy id: 5, state: "Andhra Pradesh", district: "Anantapur", city: "Atmakur"&gt;, #&lt;StateDistrictCityViewProxy id: 6, state: "Andhra Pradesh", district: "Anantapur", city: "Bathalapalle"&gt;, #&lt;StateDistrictCityViewProxy id: 7, state: "Andhra Pradesh", district: "Anantapur", city: "Beluguppa"&gt;, #&lt;StateDistrictCityViewProxy id: 8, state: "Andhra Pradesh", district: "Anantapur", city: "Bommanahal"&gt;, #&lt;StateDistrictCityViewProxy id: 9, state: "Andhra Pradesh", district: "Anantapur", city: "Brahmasamudram"&gt;, #&lt;StateDistrictCityViewProxy id: 10, state: "Andhra Pradesh", district: "Anantapur", city: "Bukkapatnam"&gt;]</span>
 </code></pre></div>
 
 <p>Now that we have a model, generating an ActiveAdmin resource is as simple as:</p>
@@ -176,16 +173,16 @@ can just define a normal ActiveRecord model to access this view.</p>
 <p>At this point upon visiting the index page in ActiveAdmin we might have expected
 a fancy paginated table but instead we are greeted with a not-so-helpful error:</p>
 
-<p><img src="/images/err1.png"/></p>
+<p><img src="/images/err1.png"></p>
 
 <p>The problem is immediately obvious if we try to get the attributes of a model instance:</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">&gt; s1 = StateDistrictCityViewProxy.first
   StateDistrictCityViewProxy Load (0.3ms)  SELECT `state_district_city_view`.* FROM `state_district_city_view` LIMIT 1
-=&gt; #&lt;StateDistrictCityViewProxy id: 1, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Agali&quot;&gt;
+=&gt; #&lt;StateDistrictCityViewProxy id: 1, state: "Andhra Pradesh", district: "Anantapur", city: "Agali"&gt;
 &gt; s1.attributes
-=&gt; {&quot;id&quot;=&gt;1, &quot;state&quot;=&gt;&quot;Andhra Pradesh&quot;, &quot;district&quot;=&gt;&quot;Anantapur&quot;, &quot;city&quot;=&gt;&quot;Agali&quot;, nil=&gt;nil}
+=&gt; {"id"=&gt;1, "state"=&gt;"Andhra Pradesh", "district"=&gt;"Anantapur", "city"=&gt;"Agali", nil=&gt;nil}
 </code></pre></div>
-<p>So the question is where is the nil coming from? The problem is that an SQL view doesn&#39;t have a primary key. Rails doesn&#39;t automatically
+<p>So the question is where is the nil coming from? The problem is that an SQL view doesn't have a primary key. Rails doesn't automatically
 assume that our <code>id</code> field is a primary key.</p>
 <div class="highlight"><pre><code class="text language-text" data-lang="text">&gt; StateDistrictCityViewProxy.primary_key
 =&gt; nil
@@ -194,20 +191,20 @@ assume that our <code>id</code> field is a primary key.</p>
 as primary key.</p>
 
 <div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">StateDistrictCityViewProxy</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">table_name</span> <span class="o">=</span> <span class="s2">&quot;state_district_city_view&quot;</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">primary_key</span> <span class="o">=</span> <span class="s2">&quot;id&quot;</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">table_name</span> <span class="o">=</span> <span class="s2">"state_district_city_view"</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">primary_key</span> <span class="o">=</span> <span class="s2">"id"</span>
 <span class="k">end</span>
 </code></pre></div>
 
 <p>And voila. We have our fancy table:</p>
 
-<p><img src="/images/active_admin_view.png"/></p>
+<p><img src="/images/active_admin_view.png"></p>
 
-<h1>Caveats:</h1>
+<a class="header-link" href="#caveats-"><h1 id="caveats-">Caveats:</h1></a>
 
 <p>While everything looks great at this point, our setup has a couple of issues that need to be resolved:</p>
 
-<h2>schema.rb</h2>
+<a class="header-link" href="#schema-rb"><h2 id="schema-rb">schema.rb</h2></a>
 
 <p>If you take a look at schema.rb the problem immediately becomes obvious. Nothing about our view is to be found.
 The problem is that Rails is blissfully oblivious of our SQL views and the sql statements
@@ -224,18 +221,18 @@ for generating our views.</p>
 <p>An alternative option is the gem <a href="https://github.com/lomba/schema_plus">schema_plus</a> that augments ActiveRecord
 with support for views among other advanced database features.</p>
 
-<h2>Edit/Delete actions</h2>
+<a class="header-link" href="#edit-delete-actions"><h2 id="edit-delete-actions">Edit/Delete actions</h2></a>
 
 <p>Our ActiveAdmin view table has been blessed with <code>Edit</code> and <code>Delete</code> actions for every row, which
 oviously trigger an error. For example, here is what we end up with when clicking on <code>Delete</code> :</p>
 
-<p><img src="/images/err2.png"/></p>
+<p><img src="/images/err2.png"></p>
 
 <p>Let us declare the proxy model as readonly.</p>
 
 <div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">StateDistrictCityViewProxy</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">table_name</span> <span class="o">=</span> <span class="s2">&quot;state_district_city_view&quot;</span>
-  <span class="nb">self</span><span class="o">.</span><span class="n">primary_key</span> <span class="o">=</span> <span class="s2">&quot;id&quot;</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">table_name</span> <span class="o">=</span> <span class="s2">"state_district_city_view"</span>
+  <span class="nb">self</span><span class="o">.</span><span class="n">primary_key</span> <span class="o">=</span> <span class="s2">"id"</span>
 
   <span class="k">def</span> <span class="nf">readonly?</span>
     <span class="kp">true</span>
@@ -279,8 +276,9 @@ things easy for you.</p>
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 

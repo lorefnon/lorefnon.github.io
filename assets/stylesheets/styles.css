@@ -309,6 +309,25 @@ article:nth-child(3)::before,
 	  border: 1px solid rgba(144, 144, 144, .3);
 	  border-left: none;
 	  border-right: none;
+    max-width: 100%;
+    overflow: auto;
+}
+.post .table-wrapper {
+    max-width: 100%;
+    overflow: auto;
+}
+.post table {
+    border-collapse: collapse;
+    margin: auto;
+}
+
+.post table th, .post table td {
+    border: 1px solid silver;
+    padding: 5px;
+}
+
+.post table th {
+    background: #F8F8F8;
 }
 
 .post *,
@@ -1031,6 +1050,18 @@ font-size: 16px;
 @media(max-width: 850px) {
     #scrollbubble, .time-wrapper {
         display: none !important ;
+    }
+}
+
+@media(max-width: 700px) {
+    .header-container.detail-view {
+        display: none;
+    }
+    .home_logotype_link h1 {
+        color: black;
+    }
+    .foot_userbar {
+        padding-left: 10px !important;
     }
 }
 

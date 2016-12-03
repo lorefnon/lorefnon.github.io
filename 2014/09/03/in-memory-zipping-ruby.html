@@ -67,30 +67,27 @@
 
           
 
-          
-
-
-  <p><a href="https://github.com/rubyzip/rubyzip">Rubyzip</a> is pretty much the defacto solution for manipulating zip files in ruby. However an underdocumented feature of this library is that it allows for creating zip files in memory ie. without actually writing anything to a file.</p>
+          <p><a href="https://github.com/rubyzip/rubyzip">Rubyzip</a> is pretty much the defacto solution for manipulating zip files in ruby. However an underdocumented feature of this library is that it allows for creating zip files in memory ie. without actually writing anything to a file.</p>
 
 <p>There are many situations when this can come in handy. For example in a Web application it may be faster to zip a small number of files on the fly and deliver it to client without writing to disc. This is especially handy in cloud environments where direct disc access is prohibited.</p>
 
 <p>This can be accomplished as follows:</p>
 
 <div class="highlight"><pre><code class="ruby"><span class="n">file_stream</span> <span class="o">=</span> <span class="no">Zip</span><span class="o">::</span><span class="no">ZipOutputStream</span><span class="o">.</span><span class="n">write_buffer</span> <span class="k">do</span> <span class="o">|</span><span class="n">zip</span><span class="o">|</span>
-  <span class="n">zip</span><span class="o">.</span><span class="n">put_next_entry</span> <span class="s2">&quot;hello.txt&quot;</span>
-  <span class="n">zip</span><span class="o">.</span><span class="n">print</span> <span class="s2">&quot;Hello World&quot;</span>
+  <span class="n">zip</span><span class="o">.</span><span class="n">put_next_entry</span> <span class="s2">"hello.txt"</span>
+  <span class="n">zip</span><span class="o">.</span><span class="n">print</span> <span class="s2">"Hello World"</span>
 <span class="k">end</span>
 </code></pre></div>
 
-<p>The above creates a zip file with a single file hello.txt containing the text &quot;Hello World&quot;</p>
+<p>The above creates a zip file with a single file hello.txt containing the text "Hello World"</p>
 
 <p>Creating directory structures is just as easy:</p>
 
 <div class="highlight"><pre><code class="ruby"><span class="n">file_stream</span> <span class="o">=</span> <span class="no">Zip</span><span class="o">::</span><span class="no">ZipOutputStream</span><span class="o">.</span><span class="n">write_buffer</span> <span class="k">do</span> <span class="o">|</span><span class="n">zip</span><span class="o">|</span>
-  <span class="n">zip</span><span class="o">.</span><span class="n">put_next_entry</span> <span class="s2">&quot;dir1/hello.txt&quot;</span>
-  <span class="n">zip</span><span class="o">.</span><span class="n">print</span> <span class="s2">&quot;Hello&quot;</span>
-  <span class="n">zip</span><span class="o">.</span><span class="n">put_next_entry</span> <span class="s2">&quot;dir2/hello.txt&quot;</span>
-  <span class="n">zip</span><span class="o">.</span><span class="n">print</span> <span class="s2">&quot;World&quot;</span>
+  <span class="n">zip</span><span class="o">.</span><span class="n">put_next_entry</span> <span class="s2">"dir1/hello.txt"</span>
+  <span class="n">zip</span><span class="o">.</span><span class="n">print</span> <span class="s2">"Hello"</span>
+  <span class="n">zip</span><span class="o">.</span><span class="n">put_next_entry</span> <span class="s2">"dir2/hello.txt"</span>
+  <span class="n">zip</span><span class="o">.</span><span class="n">print</span> <span class="s2">"World"</span>
 <span class="k">end</span>
 </code></pre></div>
 
@@ -99,15 +96,15 @@
 <div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">SomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
   <span class="k">def</span> <span class="nf">some_action</span>
     <span class="n">file_stream</span> <span class="o">=</span> <span class="no">Zip</span><span class="o">::</span><span class="no">ZipOutputStream</span><span class="o">.</span><span class="n">write_buffer</span> <span class="k">do</span> <span class="o">|</span><span class="n">zip</span><span class="o">|</span>
-      <span class="n">zip</span><span class="o">.</span><span class="n">put_next_entry</span> <span class="s2">&quot;dir1/hello.txt&quot;</span>
-      <span class="n">zip</span><span class="o">.</span><span class="n">print</span> <span class="s2">&quot;Hello&quot;</span>
-      <span class="n">zip</span><span class="o">.</span><span class="n">put_next_entry</span> <span class="s2">&quot;dir2/hello.txt&quot;</span>
-      <span class="n">zip</span><span class="o">.</span><span class="n">print</span> <span class="s2">&quot;World&quot;</span>
+      <span class="n">zip</span><span class="o">.</span><span class="n">put_next_entry</span> <span class="s2">"dir1/hello.txt"</span>
+      <span class="n">zip</span><span class="o">.</span><span class="n">print</span> <span class="s2">"Hello"</span>
+      <span class="n">zip</span><span class="o">.</span><span class="n">put_next_entry</span> <span class="s2">"dir2/hello.txt"</span>
+      <span class="n">zip</span><span class="o">.</span><span class="n">print</span> <span class="s2">"World"</span>
     <span class="k">end</span>
     <span class="n">file_stream</span><span class="o">.</span><span class="n">rewind</span>
     <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
       <span class="nb">format</span><span class="o">.</span><span class="n">zip</span> <span class="k">do</span>
-        <span class="n">send_data</span> <span class="n">file_stream</span><span class="o">.</span><span class="n">read</span><span class="p">,</span> <span class="ss">filename</span><span class="p">:</span> <span class="s2">&quot;zip_file.zip&quot;</span>
+        <span class="n">send_data</span> <span class="n">file_stream</span><span class="o">.</span><span class="n">read</span><span class="p">,</span> <span class="ss">filename</span><span class="p">:</span> <span class="s2">"zip_file.zip"</span>
       <span class="k">end</span>
     <span class="k">end</span>
   <span class="k">end</span>
@@ -118,7 +115,7 @@
 
 <p>For <code>format.zip</code> to be available we will have to register <code>application/zip</code> mimetype. Add the following to an initializer:</p>
 
-<div class="highlight"><pre><code class="ruby"><span class="no">Mime</span><span class="o">::</span><span class="no">Type</span><span class="o">.</span><span class="n">register</span> <span class="s2">&quot;application/zip&quot;</span><span class="p">,</span> <span class="ss">:zip</span>
+<div class="highlight"><pre><code class="ruby"><span class="no">Mime</span><span class="o">::</span><span class="no">Type</span><span class="o">.</span><span class="n">register</span> <span class="s2">"application/zip"</span><span class="p">,</span> <span class="ss">:zip</span>
 </code></pre></div>
 
 <p>This concludes this small article. Please feel free to leave your suggestions in the comments below.</p>
@@ -141,8 +138,9 @@
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink disqus-link" >comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" class="disqus-link">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink disqus-link">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
 
