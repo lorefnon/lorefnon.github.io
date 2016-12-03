@@ -172,21 +172,21 @@
 <p>With eval each module entry in the modules array looks something like this:</p>
 <div class="highlight"><pre><code class="js language-js" data-lang="js"><span class="nb">eval</span><span class="p">(</span><span class="s2">"'use strict';...generated code of index.js...//# sourceURL=webpack:///./index.js?"</span><span class="p">);</span>
 </code></pre></div>
-<p>In this mode the only mapping we have is at file level so exceptions point to the right file in the source code, but not to the right line number of original source code. But while debugging you are not really debugging the original code that you wrote.</p>
+<p>In this mode the only mapping we have is at file level so exceptions point to the right file in the source code, but not to the right line number of original source code. But while debugging we are not really debugging the original code that we wrote.</p>
 
-<p>It is not really a great choice for compiled code. It is possible to deal with it for languages which are semantically similar to ES2015 like coffeescript, livescript or basic babel compilation with async/await transforms because it is easy to mentally map the compiled source to original code, but it is advisable that we look into the other options below for easier debuggability.</p>
+<p>It is not really a great choice for compiled code. It is possible to deal with it for languages which are semantically similar to ES2015 like coffeescript or basic babel compilation without async/await transforms (which result in significant restructuring of code) because it is easy to mentally map the compiled source to original code, but it is advisable that we look into the other options below for easier debuggability.</p>
 
-<p>It is notable that line number in exception stack traces not only don't match with original code before babel transpilation, it can potentially also not match with the babel transpiled code because of webpack specific transformations in post transpiled code. So we can not rely on our editor plugins' babel transpile feature to get the line numbers from exceptions.</p>
+<p>It is to be noted that the line numbers in exception stack traces not only don't match with original code before babel transpilation, it might also not match with the babel transpiled code because of webpack specific transformations that happen before bundle generation. So we can not reliable depend on our editor plugins' babel transpile output to get the line numbers from exceptions.</p>
 
-<p>It is however easy to copy a part of source code at any point, tweak it a bit and evaluate it in the javascript console - a feature, often taken for granted by developers habituated to vanilla javascript, that we loose in most of the other alternatives below.</p>
+<p>However, there is one advantage: During debugging, it is easy to copy a part of the source code from the sources panel at any point, tweak it a bit and evaluate it in the javascript console. While this feature is often taken for granted by developers habituated to vanilla javascript, we loose this in most of the other alternatives below.</p>
 
-<p>Because of its simplicity it is very fast to be built.</p>
+<p>Because of its simplicity the generation time is quite fast (in fact fastest among all the options below) and does not significantly add to the size of generated bundle.</p>
 
-<p>However it should not be used in production because eval potentially <a href="http://stackoverflow.com/questions/86513/why-is-using-the-javascript-eval-function-a-bad-idea">disables</a> multiple performance optimizations that javascript engine performs.</p>
+<p>However, it should not be used in production because eval potentially <a href="http://stackoverflow.com/questions/86513/why-is-using-the-javascript-eval-function-a-bad-idea">disables</a> multiple performance optimizations that javascript engines perform.</p>
 
 <a class="header-link" href="#cheap-eval-source-map"><h2 id="cheap-eval-source-map">cheap-eval-source-map</h2></a>
 
-<p>The above table mentions the quality as transformed code (lines code). What this means is that the code visible in browser devtools is the code after being transformed by babel (or other loaders) but before final stage webpack specific transformations, which transforms the require statements to use <code>__webpack_require__</code>, injects errors for missing modules etc.</p>
+<p>The above table mentions the quality as "transformed code (lines code)". What this means is that the code visible in browser devtools is the code <em>after</em> being transformed by babel (or other loaders) but before final stage webpack specific transformations, which transforms the require statements to use <code>__webpack_require__</code>, injects errors for missing modules etc.</p>
 
 <p>In this mode each module entry in the modules array looks something like this:</p>
 <div class="highlight"><pre><code class="js language-js" data-lang="js"><span class="nb">eval</span><span class="p">(</span><span class="s2">"'use strict';...generated code of index.js ...//# sourceMappingURL=data:application/json;charset=utf-8;base64,...base 64 encoded string of sourcemap..."</span><span class="p">);</span>
@@ -205,9 +205,9 @@
   <span class="nt">"sourceRoot"</span><span class="p">:</span> <span class="s2">""</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>The code in sourcesContent is the source code post babel transformation, so we can use editor plugin's babel transformation preview to get lines reported in exceptions.</p>
+<p>The code in <code>sourcesContent</code> is the source code after babel transformation, so we <em>can</em> use editor plugin's babel transformation preview (or for that matter babel cli) to get lines reported in exceptions.</p>
 
-<p>Besides the above, the advantages and disadvantages are mostly the same as <code>eval</code> and is primarily only useful if the code being webpacked is vanilla javascript which is loaded through webpack. For debugging original source code before babel transforms other options are outlined below.</p>
+<p>Besides the above, the advantages and disadvantages are mostly the same as <code>eval</code> and is basically only useful if the code being webpacked is vanilla javascript which is loaded through webpack. For debugging original source code before babel transpilation, other options are outlined below.</p>
 
 <p>This should also not be used in production because of not only the eval related issues highlighted above, but also because generated code is separately embedded in the code which increases the size of bundle significantly. For production usage it is desirable that the source map be saved as separate files which are loaded on demand during debugging sessions.</p>
 
@@ -235,14 +235,14 @@
 </code></pre></div>
 <a class="header-link" href="#cheap-source-map"><h2 id="cheap-source-map">cheap-source-map</h2></a>
 
-<p>In this case eval is no longer used. And a single source map file is generated which is referred in the generated bundle through a line in the end like:</p>
+<p>In this case <code>eval</code> is no longer used. And a single source map file is generated which is referred in the generated bundle through a line in the end like:</p>
 <div class="highlight"><pre><code class="js language-js" data-lang="js"><span class="c1">//# sourceMappingURL=bundle.js.map</span>
 </code></pre></div>
 <p>The code visible in browser dev-tools is still babel-transpiled code, like the case with <code>cheap-eval-source-map</code>.</p>
 
 <a class="header-link" href="#cheap-module-eval-source-map"><h2 id="cheap-module-eval-source-map">cheap-module-eval-source-map</h2></a>
 
-<p>As mentioned in the name this uses eval but the source is the actual source code before babel transpilation. Though we get line level mapping individual expressions are not mapped to expressions in original source.</p>
+<p>As mentioned in the name this uses <code>eval</code> but the source is the actual source code before babel transpilation. Though we get line level mapping, individual expressions are not mapped to expressions in the original source.</p>
 
 <p>However because of the same reasons as cheap-eval-source-map (eval usage, source map embedded in generated bundle leading to increased size) it is not suitable for production usage.</p>
 
@@ -252,11 +252,13 @@
 
 <a class="header-link" href="#eval-source-map"><h3 id="eval-source-map">eval-source-map</h3></a>
 
-<p>This maps to original source code at expression level, but uses eval making it suitable only for development.</p>
+<p>This maps to not only lines of original source code, but also columns. It does, however, use eval making it suitable only for development.</p>
+
+<p>The detailed source map generation results in an execution time penalty during bundling as well as larger source maps.</p>
 
 <a class="header-link" href="#source-map"><h2 id="source-map">source-map</h2></a>
 
-<p>This has expression level mapping to original source code, does not use eval and is suitable for production. This is the best option for production usage.</p>
+<p>This has column level mapping to original source code, does not use eval and is suitable for production. This is the best option for production usage, even though build times are slower than above options.</p>
 
 <hr>
 
@@ -317,11 +319,15 @@
   </tr>
 </table></div>
 
+<p>Given this is a small file with very few dependencies, the webpack bundling times are not representative of real world use cases.</p>
+
 <p>It is recommended to use separate webpack configurations for production and development. In development, when dealing with mostly well formatted source code <code>cheap-module-eval-source-map</code> is usually adequate where as in production it is good to have <code>source-map</code> as the devtool config.</p>
 
 <a class="header-link" href="#selective-source-map-generation"><h1 id="selective-source-map-generation">Selective source map generation</h1></a>
 
-<p>Webpack provides a <code>SourceMapDevToolPlugin</code> for greater control over which files source maps should be generated for.</p>
+<p>Webpack provides a <a href="https://webpack.github.io/docs/list-of-plugins.html#sourcemapdevtoolplugin"><code>SourceMapDevToolPlugin</code></a> for greater control over which files source maps should be generated for.</p>
+
+<p>For instance, using this plugin we can specify a regular expression for filtering all the files for which source maps should be generated.</p>
 
 <a class="header-link" href="#about-pragma-styles"><h1 id="about-pragma-styles">About pragma styles</h1></a>
 
