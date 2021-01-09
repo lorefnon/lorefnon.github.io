@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://lorefnon.me</id>
+    <title>Icicles of Thought • Posts by &#34;gulp&#34; tag</title>
+    <link href="https://lorefnon.me" />
+    <updated>2014-03-09T18:30:00.000Z</updated>
+    <category term="Javascript" />
+    <category term="KnockoutJS" />
+    <category term="Ruby" />
+    <category term="EventMachine" />
+    <category term="Websockets" />
+    <category term="Jade" />
+    <category term="Node.js" />
+    <category term="Rails" />
+    <category term="Emacs" />
+    <category term="Gulp" />
+    <category term="ActiveAdmin" />
+    <category term="ActiveRecord" />
+    <category term="Devise" />
+    <category term="Integration" />
+    <category term="Productivity Hacks" />
+    <category term="Design Patterns" />
+    <category term="InfluxDB" />
+    <category term="Grafana" />
+    <category term="Functional Programming" />
+    <category term="ES6" />
+    <category term="Typescript" />
+    <category term="ReasonML" />
+    <category term="React" />
+    <category term="Frontend" />
+    <category term="Next.js" />
+    <category term="Koa" />
+    <category term="Apollo" />
+    <category term="GraphQL" />
+    <category term="MongoDB" />
+    <category term="Automerge" />
+    <category term="CRDT" />
+    <category term="SVG" />
+    <category term="VSCode" />
+    <category term="Comlink" />
+    <category term="Web-workers" />
+    <category term="io-ts" />
+    <category term="MobX" />
+    <category term="MobX-State-Tree" />
+    <category term="Routing" />
+    <category term="SQLite" />
+    <category term="ZSH" />
+    <category term="OCR" />
+    <category term="Helm" />
+    <category term="SPF" />
+    <category term="CSS" />
+    <category term="Redux" />
+    <category term="Redux-loop" />
+    <category term="Vagrant" />
+    <category term="Clojure" />
+    <category term="Hashicorp" />
+    <category term="HAR" />
+    <category term="Jq" />
+    <category term="Lit-html" />
+    <category term="Stimulus" />
+    <entry>
+        <id>https://lorefnon.me/2014/03/10/decoupling-frontend-with-gulp-and-node-http-proxy.html</id>
+        <title>Decoupling your frontend development with gulp and http-proxy</title>
+        <link rel="alternate" href="https://lorefnon.me/2014/03/10/decoupling-frontend-with-gulp-and-node-http-proxy.html"/>
+        <content type="html">&lt;p&gt;In past developers have often relied on backend-specific toolchains for
+web application frontends. Some examples would be &lt;a href=&#34;http://edgeguides.rubyonrails.org/asset_pipeline.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Rails asset pipeline&lt;/a&gt; or
+the legacy ant based toolchain for YUI. However recently node.js based tooling support
+for frontend technologies has significantly evolved and it is quite viable
+to use a node.js based toolchain for managing your frontend projects, even if
+the backend is not node.js, thus keeping the workflow decoupled from the backend.&lt;/p&gt;
+&lt;p&gt;This has multiple advantages, primary among them being that javascript
+developers can configure their tools using a language they already are
+familiar with without relying on server-side developers.&lt;/p&gt;
+&lt;p&gt;The workflow I outline in this post utilizes &lt;a href=&#34;http://gulpjs.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;gulp&lt;/a&gt; and node module &lt;a href=&#34;https://www.npmjs.org/package/http-proxy&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;http-proxy&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Gulp is a build system. I prefer it over alternative task runners like grunt
+and mimosa because, as the gulp&amp;#39;s website states quite succinctly :&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;gulp&amp;#39;s use of streams and code-over-configuration makes for a simpler and more intuitive build.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;A claim that I have found to be true in practice.&lt;/p&gt;
+&lt;p&gt;The http-proxy library helps us connect with our backend seemlessly and at the same
+time keep the codebase in a separate project. By configuring a proxy server
+we can load frontend assets from our local system while route the rest of the
+requests to a potentially remote backend. This is particularly helpful when
+we have multiple loosely coupled mini-applications backed by a single monolithic
+server-side codebase.&lt;/p&gt;
+&lt;p&gt;An alternative to this would be to configure the backend to support &lt;a href=&#34;http://www.html5rocks.com/en/tutorials/cors/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;cross origin
+requests&lt;/a&gt;, but this is really unnecessary if eventually the application will be
+served from the same domain.&lt;/p&gt;
+&lt;p&gt;Let us say we have a javascript heavy dashboard which we would like to develop
+in a separate project. Here is the directory structure I&amp;#39;ll use. Please note that following this
+directory structure is not mandatory and is mainly illustrative.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;project
+  |_ gulpfile.js    &lt;span class=&#34;hljs-comment&#34;&gt;# task runner configuration&lt;/span&gt;
+  |_ dashboard      &lt;span class=&#34;hljs-comment&#34;&gt;# generated files go here&lt;/span&gt;
+  |  |_ css
+  |  |_ js
+  |_ node_modules   &lt;span class=&#34;hljs-comment&#34;&gt;# node.js dependencies are installed here&lt;/span&gt;
+  |_ package.json   &lt;span class=&#34;hljs-comment&#34;&gt;# configuration for node.js packages&lt;/span&gt;
+  |_ server.js      &lt;span class=&#34;hljs-comment&#34;&gt;# proxy server&lt;/span&gt;
+  |_ src            &lt;span class=&#34;hljs-comment&#34;&gt;# source files&lt;/span&gt;
+     |_ css
+     |_ js&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When deploying the application we can simply drop the dashboard folder to the
+web-root of our application eg. the public folder of a Rails application.&lt;/p&gt;
+&lt;p&gt;Next we illustrate usage of http-proxy module to create a simple proxy server.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// server.js&lt;/span&gt;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; httpProxy = &lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;http-proxy&amp;#x27;&lt;/span&gt;),
+    connect = &lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;connect&amp;#x27;&lt;/span&gt;),
+    livereload = &lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;connect-livereload&amp;#x27;&lt;/span&gt;)
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; proxy = httpProxy.createProxyServer()
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; app = connect()
+    .use(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/dashboard&amp;#x27;&lt;/span&gt;, connect.static(__dirname+&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/dashboard&amp;#x27;&lt;/span&gt;))
+    .use(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;req, res&lt;/span&gt;)&lt;/span&gt;&amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (req.url.indexOf(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;dashboard&amp;#x27;&lt;/span&gt;) == -&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;) &amp;#123;
+            proxy.web(req, res, &amp;#123;
+                target: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;http://localhost:3000&amp;#x27;&lt;/span&gt;
+            &amp;#125;)
+        &amp;#125;
+    &amp;#125;)
+    .listen(&lt;span class=&#34;hljs-number&#34;&gt;4000&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Before running the server, install the node.js dependencies:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;npm install --save connect http-proxy connect-livereload&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;What the above script does is simply serve the urls that
+have dashboard in the url from dashboard folder while
+directing the rest of the requests to another server, which
+in case is simply &lt;code&gt;http://localhost:3000&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;For complex routing we can use some of the &lt;a href=&#34;https://nodejsmodules.org/tags/router&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;routing libraries&lt;/a&gt;
+for node.js but for our example the simple script above works
+pretty well.&lt;/p&gt;
+&lt;p&gt;Our gulp tasks go in gulpfile.js. Configuring gulp tasks is fairly
+simple. While the &lt;a href=&#34;https://github.com/gulpjs/gulp/blob/master/docs/README.md&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;official documentation&lt;/a&gt;
+is a thorough reference, we illustrate the workflow through some examples.
+For example creating a task to clean our target js and css
+folders is as simple as:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; gulp = &lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;gulp&amp;#x27;&lt;/span&gt;),
+    clean = &lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;gulp-clean&amp;#x27;&lt;/span&gt;)
+
+gulp.task(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;clean&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;
+    gulp.src([&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/js/*&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/css/*&amp;#x27;&lt;/span&gt;])
+        .pipe(clean())
+&amp;#125;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The stream based based approach really shines when we use pre-processors for
+our js or css files. For example to use stylus for css we can add:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; stylus = &lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;gulp-stylus&amp;#x27;&lt;/span&gt;)
+
+gulp.task(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;css&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;
+    gulp.src(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/css/*.styl&amp;#x27;&lt;/span&gt;)
+        .pipe(stylus())
+        .pipe(gulp.dest(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/css&amp;#x27;&lt;/span&gt;))
+&amp;#125;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To manage dependencies with browserify we can have:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;gulp.task(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;js&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;
+    gulp.src(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/js/index.js&amp;#x27;&lt;/span&gt;)
+        .pipe(browserify())
+        .pipe(gulp.dest(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/js&amp;#x27;&lt;/span&gt;))
+&amp;#125;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As I hope is clear, the stream based approach makes configuration fairly
+simple, intuitive and consistent throughout.&lt;/p&gt;
+&lt;p&gt;Of course associated packages above like &lt;code&gt;gulp-stylus&lt;/code&gt;, &lt;code&gt;gulp-browserify&lt;/code&gt;, &lt;code&gt;gulp-clean&lt;/code&gt;
+have to be installed through npm before we can use them.&lt;/p&gt;
+&lt;p&gt;While we can run &lt;code&gt;gulp js&lt;/code&gt;, &lt;code&gt;gulp css&lt;/code&gt;, &lt;code&gt;gulp clean&lt;/code&gt; etc. from the command line
+we would probably want to have a default task that we run most of the time:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;gulp.task(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;default&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;clean&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;js&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;css&amp;#x27;&lt;/span&gt;])&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now running &lt;code&gt;gulp&lt;/code&gt; will cleanup the dashboard/js and dashboard/css folders and
+run our js and css tasks.&lt;/p&gt;
+&lt;p&gt;To streamline our workflow we configure a watcher which can monitor our files, and
+run the associated tasks automatically. Writing a simple watcher is as simple as:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;gulp.task(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;watch&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;
+    gulp.watch(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/js/**/*&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;default&amp;#x27;&lt;/span&gt;])
+&amp;#125;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And why stop here, let us automate browser refreshes too. We can use &lt;a href=&#34;http://livereload.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;livereload&lt;/a&gt; to
+automatically reload our browser whenever the files change.&lt;/p&gt;
+&lt;p&gt;We can add a watcher that notifies the livereload server with changes:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;gulp.task(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;watch&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; server = livereload()
+    gulp.watch(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/js/**/*&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;default&amp;#x27;&lt;/span&gt;])
+    gulp.watch(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/**/*&amp;#x27;&lt;/span&gt;)
+        .on(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;change&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;file&lt;/span&gt;)&lt;/span&gt;&amp;#123;
+            server.changed(file.path)
+        &amp;#125;)
+&amp;#125;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Please note that we could not have hooked up the callback to the watcher we
+already had because then it would not guarantee that the pre-processors have
+actually completed before our browser refreshes. Please never use timers for
+situations like this.&lt;/p&gt;
+&lt;p&gt;If you have been using livereload for a while then you probably have the browser
+extension for livereload. But in case you haven&amp;#39;t you can use a middleware for
+express in the server.js file. This is especially convenient for testing on
+several browsers.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; app = connect()
+    .use(connect.logger(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;dev&amp;#x27;&lt;/span&gt;))
+    .use(livereload(&amp;#123;
+        port: &lt;span class=&#34;hljs-number&#34;&gt;35729&lt;/span&gt;
+    &amp;#125;))
+    .use(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/dashboard&amp;#x27;&lt;/span&gt;, connect.static(__dirname+&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/dashboard&amp;#x27;&lt;/span&gt;))
+    .use(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;req, res&lt;/span&gt;)&lt;/span&gt;&amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (req.url.indexOf(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;dashboard&amp;#x27;&lt;/span&gt;) == -&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;) &amp;#123;
+            proxy.web(req, res, &amp;#123;
+                target: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;http://localhost:3000&amp;#x27;&lt;/span&gt;
+            &amp;#125;)
+        &amp;#125;
+    &amp;#125;)
+    .listen(&lt;span class=&#34;hljs-number&#34;&gt;4000&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;35729 is the default port on which livereload server runs. Note that this
+relieves us from having to add the livereload script in our page manually
+because the middleware takes care of it for us.&lt;/p&gt;
+&lt;p&gt;If you use the above configuration, you will soon notice something strange.
+When we edit a css file our entire page refreshes. If you have used livereload
+before or have seen the demos you know that this should not happen. It should
+just transparently reload the css files.&lt;/p&gt;
+&lt;p&gt;It happens because of the way our gulp tasks are configured. Whenever a file
+in src directory changes we run both our js and css tasks which cause both
+js and css files to be regerated and thus prompt livereload to refresh the page.&lt;/p&gt;
+&lt;p&gt;To remedy this we have to modify the watch handler:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;gulp.task(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;watch&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; server = livereload()
+    gulp.watch(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/js/**/*.js&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;js&amp;#x27;&lt;/span&gt;])
+    gulp.watch(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/css/**/*.styl&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;css&amp;#x27;&lt;/span&gt;])
+    gulp.watch(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/**/*&amp;#x27;&lt;/span&gt;)
+        .on(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;change&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;file&lt;/span&gt;)&lt;/span&gt;&amp;#123;
+            server.changed(file.path)
+        &amp;#125;)
+&amp;#125;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you try now, you will notice that css changes no longer refresh the full
+page as expected.&lt;/p&gt;
+&lt;p&gt;While the above was not an indepth introduction to any of the technologies involved,
+I hope that it gave a basic idea about how node.js based tools can be used
+for a streamlined frontend development workflow. As always any comment or criticism is
+welcome.&lt;/p&gt;
+</content>
+        <category term="Javascript" />
+        <category term="Gulp" />
+        <updated>2014-03-09T18:30:00.000Z</updated>
+    </entry>
+</feed>

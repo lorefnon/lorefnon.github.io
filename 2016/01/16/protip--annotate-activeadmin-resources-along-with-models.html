@@ -1,0 +1,46 @@
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta name="generator" content="Hexo 5.3.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2016-01-16">Posted &nbsp;5 years ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Ruby/"><img src="/images/tag.svg">Ruby</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Tip: Annotate ActiveAdmin resources along with models</div></div><div class="blog-main"><div class="flex-row post-warning"><img src="/images/primary/alert-triangle.svg" style="margin-right: 1rem">This post has not been updated in quite some time and the content here may be out of date 
+or not reflect my current my recommedation in the matter.</div><div class="page-content">
+
+
+          
+
+<p><a target="_blank" rel="noopener" href="https://github.com/ctran/annotate_models">Annotate</a> is a very useful utility for annotating schema information in Rails models. The gem prepends (or appends, as per your <a target="_blank" rel="noopener" href="https://github.com/ctran/annotate_models#options">configuration</a>) a summarized information about the table schema in each model file as comments) - saving multiple roundtrips to the <code>schema.rb</code> file during coding.</p>
+
+<p>For Example:</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="c1"># == Schema Information</span>
+<span class="c1">#</span>
+<span class="c1"># Table name: roles</span>
+<span class="c1">#</span>
+<span class="c1">#  id            :integer          not null, primary key</span>
+<span class="c1">#  name          :string</span>
+<span class="c1">#  resource_id   :integer</span>
+<span class="c1">#  resource_type :string</span>
+<span class="c1">#  created_at    :datetime</span>
+<span class="c1">#  updated_at    :datetime</span>
+<span class="c1">#</span>
+<span class="c1"># Indexes</span>
+<span class="c1">#</span>
+<span class="c1">#  index_roles_on_name                                    (name)</span>
+<span class="c1">#  index_roles_on_name_and_resource_type_and_resource_id  (name,resource_type,resource_id)</span>
+<span class="c1">#</span>
+</code></pre></div>
+<p>However while working with admin interfaces powered by <a target="_blank" rel="noopener" href="http://activeadmin.info">ActiveAdmin</a> I have often found it convenient to have the model schema annotations available right in the <a target="_blank" rel="noopener" href="http://activeadmin.info/docs/2-resource-customization.html">ActiveAdmin resource files</a>. There is a very simple way to achieve that:</p>
+
+<p>The rake task <a target="_blank" rel="noopener" href="https://github.com/ctran/annotate_models#configuration-in-rails">generated</a> by Annotate (<code>lib/tasks/auto_annotate_models.rake</code>) has option to specify the model directory. This is primarily intended for projects with non standard directory configuration. As it so happens we can specify multiple directories separated by commas.</p>
+
+<p>So taking advantage of the fact that our ActiveAdmin resource files are conventionally named same as the models, we can just add the admin directory to the list of model directories:</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">if</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">development?</span>
+  <span class="n">task</span> <span class="ss">:set_annotation_options</span> <span class="k">do</span>
+    <span class="c1"># You can override any of these by setting an environment variable of the</span>
+    <span class="c1"># same name.</span>
+    <span class="no">Annotate</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span>
+      <span class="s1">'model_dir'</span>               <span class="o">=&gt;</span> <span class="s1">'app/models,app/admin'</span><span class="p">,</span>
+      <span class="c1"># ... other configuration options</span>
+    <span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>Next time annotate is run, either manually invoked or through migration hooks, our ActiveAdmin resource files with annotated along with our model files.</p>
+
+<p>If you are not using the generated rake file, this approach of course works with the <code>--model-dir</code> command line option as well.</p>
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>

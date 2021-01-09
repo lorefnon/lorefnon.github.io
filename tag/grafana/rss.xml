@@ -1,0 +1,188 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>Icicles of Thought • Posts by &#34;grafana&#34; tag</title>
+        <link>https://lorefnon.me</link>
+        <description></description>
+        <language>en</language>
+        <pubDate>Sat, 04 Apr 2015 00:00:00 +0530</pubDate>
+        <lastBuildDate>Sat, 04 Apr 2015 00:00:00 +0530</lastBuildDate>
+        <category>Javascript</category>
+        <category>KnockoutJS</category>
+        <category>Ruby</category>
+        <category>EventMachine</category>
+        <category>Websockets</category>
+        <category>Jade</category>
+        <category>Node.js</category>
+        <category>Rails</category>
+        <category>Emacs</category>
+        <category>Gulp</category>
+        <category>ActiveAdmin</category>
+        <category>ActiveRecord</category>
+        <category>Devise</category>
+        <category>Integration</category>
+        <category>Productivity Hacks</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
+        <category>React</category>
+        <category>Frontend</category>
+        <category>Next.js</category>
+        <category>Koa</category>
+        <category>Apollo</category>
+        <category>GraphQL</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
+        <category>SQLite</category>
+        <category>ZSH</category>
+        <category>OCR</category>
+        <category>Helm</category>
+        <category>SPF</category>
+        <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>HAR</category>
+        <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
+        <item>
+            <guid isPermalink="true">https://lorefnon.me/2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</guid>
+            <title>Gathering and Visualizing metrics from Rails application using InfluxDB</title>
+            <link>https://lorefnon.me/2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</link>
+            <category>Ruby</category>
+            <category>Rails</category>
+            <category>InfluxDB</category>
+            <category>Grafana</category>
+            <pubDate>Sat, 04 Apr 2015 00:00:00 +0530</pubDate>
+            <description><![CDATA[ &lt;h2 id=&#34;Overview&#34;&gt;&lt;a href=&#34;#Overview&#34; class=&#34;headerlink&#34; title=&#34;Overview&#34;&gt;&lt;/a&gt;Overview&lt;/h2&gt;&lt;p&gt;InfluxDB is a distributed time series database. It is a specialized data store for saving large volumes of timestamped event data and this makes it especially suited for storing metrics, lifecycle events and analytics. The &lt;code&gt;influxdb-rails&lt;/code&gt; gem, maintained by the InfluxDB team, facilitates integration with Rails and makes it easy to save various metrics from a rails application to InfluxDB and visualize it through frontends like &lt;a href=&#34;http://grafana.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Grafana&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The rest of this post, explores various aspects of a simple setup in which we build a rudimentary cms based site and monitor it using influxdb and grafana. We don&amp;#39;t assume prior familiarity with InfluxDB, and elaborate on relevant aspects of time series databases on the go, but familiarity with Rails is assumed.&lt;/p&gt;
+&lt;p&gt;This post also assumes that InfluxDB is installed as per the official &lt;a href=&#34;http://influxdb.com/docs/v0.8/introduction/installation.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;installation instructions&lt;/a&gt; with default configuration. If installation has been customized eg. ports have been changed, the configurations provided to &lt;code&gt;influxdb-rails&lt;/code&gt; will have to be adapted accordingly. On mac influxdb can be installed using &lt;a href=&#34;http://brew.sh/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Homebrew&lt;/a&gt; : &lt;code&gt;brew install influxdb&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;Setting-up-a-basic-application&#34;&gt;&lt;a href=&#34;#Setting-up-a-basic-application&#34; class=&#34;headerlink&#34; title=&#34;Setting up a basic application&#34;&gt;&lt;/a&gt;Setting up a basic application&lt;/h2&gt;&lt;p&gt;Next, we bootstrap a simple rails application using the &lt;a href=&#34;https://github.com/comfy/comfortable-mexican-sofa&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Comfortable mexican sofa&lt;/a&gt; CMS to quickly setup a site with a few pages we can tinker with. This is not really important, but it simply helps us work with a reasonably more realistic setup than a typically crud ui generated through scaffolds.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;rails new influxdb-cms-demo --database=mysql&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In Gemfile:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;comfortable_mexican_sofa&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;~&amp;gt; 1.12.0&amp;#x27;&lt;/span&gt;
+gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;influxdb-rails&amp;#x27;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Setting up CMS requires an additional step:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;rails generate comfy:cms&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Setting up InfluxDB adapter also requires an additional step:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;rails g influxdb&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The default configuration options are available in the generated &lt;code&gt;influxdb-rails.rb&lt;/code&gt; and they correspond to the default settings of influxdb.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;InfluxDB::Rails.configure &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|config|&lt;/span&gt;
+  config.influxdb_database = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;rails&amp;quot;&lt;/span&gt;
+  config.influxdb_username = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;root&amp;quot;&lt;/span&gt;
+  config.influxdb_password = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;root&amp;quot;&lt;/span&gt;
+  config.influxdb_hosts    = [&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;localhost&amp;quot;&lt;/span&gt;]
+  config.influxdb_port     = &lt;span class=&#34;hljs-number&#34;&gt;8086&lt;/span&gt;
+
+  &lt;span class=&#34;hljs-comment&#34;&gt;# config.series_name_for_controller_runtimes = &amp;quot;rails.controller&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;hljs-comment&#34;&gt;# config.series_name_for_view_runtimes       = &amp;quot;rails.view&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;hljs-comment&#34;&gt;# config.series_name_for_db_runtimes         = &amp;quot;rails.db&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The last three lines signify the names of time series where the corresponding metrics would be stored, and we will use the same when querying the time series database.&lt;/p&gt;
+&lt;p&gt;Before our application can start dispatching metrics to InfluxDB the database &amp;quot;rails&amp;quot; specified in the above configuration file would have to be created. InfluxDB admin provides a means to do that using the GUI. The admin interface may be accessed by visiting: &lt;a href=&#34;http://localhost:8083/&#34;&gt;localhost:8083&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/influxdb_landing_page.png&#34; alt=&#34;InfluxDB landing page&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The default username/password combination is root/root, which is not advisable for production use.&lt;/p&gt;
+&lt;p&gt;The only option that is particularly relevant is database name: which we would have to change to &amp;quot;rails&amp;quot;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/influxdb_create_database.png&#34; alt=&#34;InfluxDB creating database&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;This would be a good point to run &lt;code&gt;db:migrate&lt;/code&gt; and visit the CMS dashboard &lt;code&gt;/admin&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Once a new site has been bootstrapped, we can rapidly create multiple pages through the CMS admin interface. These steps are not elaborated here because the guided CMS admin makes it pretty trivial. Once a few pages have been setup, we have some metrics to explore in InfluxDB.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/new_page_cms.png&#34; alt=&#34;Add a new page in CMS&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;Data-exploration&#34;&gt;&lt;a href=&#34;#Data-exploration&#34; class=&#34;headerlink&#34; title=&#34;Data exploration&#34;&gt;&lt;/a&gt;Data exploration&lt;/h2&gt;&lt;p&gt;In the list of databases, we should have an option to &lt;code&gt;Explore Data&lt;/code&gt;. Let us go ahead and click that:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/influxdb_database_list.png&#34; alt=&#34;InfluxDB database list&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We will be presented with a simple interface to read and write points (which are essentially multi-column timestamped datasets).&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/influxdb_query_interface.png&#34; alt=&#34;InfluxDB Query interface&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;This page also highlights an interesting aspect of InfluxDB - though it is not a relational database, it does provide an SQL like language to query the database.&lt;/p&gt;
+&lt;p&gt;A basic query might look something like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/influxdb_select_all_query.png&#34; alt=&#34;InfluxDB Select All Query&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Besides controllers, we can also run similar queries for our timeseries for views and db:
+&lt;img src=&#34;/images/influxdb_select_all_from_view.png&#34; alt=&#34;InfluxDB Select All from View Query&#34; loading=&#34;lazy&#34;&gt;
+&lt;img src=&#34;/images/influxdb_select_all_from_db.png&#34; alt=&#34;InfluxDB Select All from DB Query&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;Configuring-additional-lifecycle-events&#34;&gt;&lt;a href=&#34;#Configuring-additional-lifecycle-events&#34; class=&#34;headerlink&#34; title=&#34;Configuring additional lifecycle events&#34;&gt;&lt;/a&gt;Configuring additional lifecycle events&lt;/h2&gt;&lt;p&gt;In a real applications we would want to aggregate additional metrics of our choosing. A popular solution for dispatching and subscribing to various lifecycle events that ruby community has developed is &lt;code&gt;ActiveSupport::Notifications&lt;/code&gt; which Rails internally uses.&lt;/p&gt;
+&lt;p&gt;Using &lt;code&gt;ActiveSupport::Notifications&lt;/code&gt; we can subscribe to lifecycle events of a rails application and add callbacks to dispatch these metrics to InfluxDB.&lt;/p&gt;
+&lt;p&gt;For example if we would like to track the execution times of queries in InfluxDB we can write an initializer:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;ActiveSupport::Notifications.subscribe(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;sql.active_record&amp;#x27;&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|name, start, finish, id, payload|&lt;/span&gt;
+  InfluxDB::Rails.client.write_point(name, &amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;value:&lt;/span&gt; (finish-start), &lt;span class=&#34;hljs-symbol&#34;&gt;start:&lt;/span&gt; start, &lt;span class=&#34;hljs-symbol&#34;&gt;finish:&lt;/span&gt; finish &amp;#125;)
+&lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The value attribute is something that InfluxDB admin will use to generate graph by default. We can query this just like the previous queries:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/influxdb_lifecycle_event_query.png&#34; alt=&#34;InfluxDB Query lifecycle event&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;More lifecycle events of Rails application can be found in the &lt;a href=&#34;http://edgeguides.rubyonrails.org/active_support_instrumentation.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Rails guides&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In addition, the instrumentation API can be used directly to create a custom lifecycle events. Here is an example taken from the &lt;a href=&#34;http://api.rubyonrails.org/classes/ActiveSupport/Notifications.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;official documentation&lt;/a&gt; that outlines how a part of application code can be wrapped into an instrumented block which we could subscribe to in an identical fashion.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;ActiveSupport::Notifications.instrument(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;render&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;extra:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:information&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
+  render &lt;span class=&#34;hljs-symbol&#34;&gt;text:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Foo&amp;#x27;&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;While the InfluxDB admin interface provides a convenient dashboard to visualize the metrics, it is not ideal for complex, comparative or realtime visualizations. For such use cases it is better to resort to dedicated solutions like Grafana.&lt;/p&gt;
+&lt;h2 id=&#34;Setting-up-Grafana&#34;&gt;&lt;a href=&#34;#Setting-up-Grafana&#34; class=&#34;headerlink&#34; title=&#34;Setting up Grafana&#34;&gt;&lt;/a&gt;Setting up Grafana&lt;/h2&gt;&lt;p&gt;While Grafana releases binary downloads for most major versions of linux, there isn&amp;#39;t one available for Mac. And neither is it available from Homebrew. However installation from the sources is straightforward if you have Go. It is important that the version of Go is correct (1.4 +) otherwise installation fails with totally incomprehensible errors. The version of Go available from Homebrew is outdated - however Google provides &lt;a href=&#34;https://golang.org/doc/install&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;installers&lt;/a&gt; which work like a charm. Once Go is setup properly, the &lt;a href=&#34;https://github.com/grafana/grafana#building-the-backend&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;installation steps&lt;/a&gt; for Grafana are straightforward.&lt;/p&gt;
+&lt;p&gt;Another hiccup is that when running the web interface, Grafana uses the same default port as Rails (3000). To alleviate that we need to edit configuration file dev.ini in &lt;code&gt;$GOPATH/src/github.com/grafana/grafana/conf&lt;/code&gt; and specify an alternate port&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ini&#34;&gt;&lt;span class=&#34;hljs-attr&#34;&gt;app_mode&lt;/span&gt; = development
+
+&lt;span class=&#34;hljs-section&#34;&gt;[server]&lt;/span&gt;
+&lt;span class=&#34;hljs-attr&#34;&gt;router_logging&lt;/span&gt; = &lt;span class=&#34;hljs-literal&#34;&gt;false&lt;/span&gt;
+&lt;span class=&#34;hljs-attr&#34;&gt;http_port&lt;/span&gt; = &lt;span class=&#34;hljs-number&#34;&gt;8000&lt;/span&gt;
+
+&lt;span class=&#34;hljs-section&#34;&gt;[log]&lt;/span&gt;
+&lt;span class=&#34;hljs-attr&#34;&gt;level&lt;/span&gt; = Trace&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once this is configured running &lt;code&gt;./grafana web&lt;/code&gt; from grafana source directory, should run the webserver on port 8000:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/grafana_startup_log.png&#34; alt=&#34;Grafana server log&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now we can browse the Grafana dashboard and provide the default login details admin/admin. Again it is not advisable to use this in production.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/grafana_login.png&#34; alt=&#34;Grafana Login&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The default dashboard is pretty bare:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/grafana_home.png&#34; alt=&#34;Grafana Home page&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Adding a new dashboard is straightforward:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/grafana_add_dashboard.png&#34; alt=&#34;Grafana : Adding a dashboard&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Once we have a dedicated dashboard for our Rails application we can start adding graphs:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/grafana_add_graph.png&#34; alt=&#34;Grafana : Add Graph&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;It would be probably surprising to see a great looking graph instantly generated. After all no influxdb/rails specific configuration has been done yet, so what data is being presented ?&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/grafana_test_graph.png&#34; alt=&#34;Grafana : Default Graph&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Once we try to edit the data source, it would become clear that the graph being presented is infact coming from a dummy data source&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/grafana_edit_graph.png&#34; alt=&#34;Grafana : Edit Graph&#34; loading=&#34;lazy&#34;&gt;
+&lt;img src=&#34;/images/grafana_configure_graph_data_source.png&#34; alt=&#34;Grafana : Configure Graph Data Source&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;At this point, because InfluxDB data source hasn&amp;#39;t been configured hence no other data source is available :&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/grafana_singular_data_source.png&#34; alt=&#34;Grafana : Missing Data Source&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The sidebar has a section for data sources that can be used for this task:
+&lt;img src=&#34;/images/grafana_sidebar_close_up.png&#34; alt=&#34;Grafana : Sidebar&#34; loading=&#34;lazy&#34;&gt;
+&lt;img src=&#34;/images/grafana_add_data_source.png&#34; alt=&#34;Grafana : Add data source&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;While adding a data source it is of particular importance the version of InfluxDB is correct in the type field. Rest of the fields in form are self explanatory - It is advisable that in production Auth is configured to protect against intrusion.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/grafana_edit_data_source.png&#34; alt=&#34;Grafana : Edit data source&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Now in the graph editor multiple data sources should be available:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/grafana_multiple_data_source_selector.png&#34; alt=&#34;Grafana : Multiple data sources&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We can now specify the InfluxDB query to be made in the &lt;code&gt;Metrics&lt;/code&gt; section:
+&lt;img src=&#34;/images/grafana_metric_specification.png&#34; alt=&#34;Grafana : Specify Metric&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Since we don&amp;#39;t have a lot of historical data at this point, for inspection we can adjust the time range to something recent:
+&lt;img src=&#34;/images/grafana_range_selection.png&#34; alt=&#34;Grafana : Range Selection&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The dummy graph should now be replaced with a real visualization of our metric
+&lt;img src=&#34;/images/grafana_metric_output.png&#34; alt=&#34;Grfana : Metric Output&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;In similar fashion more graphs can be added and additional dashboards can be set up as per requirements.&lt;/p&gt;
+&lt;h2 id=&#34;Conclusion&#34;&gt;&lt;a href=&#34;#Conclusion&#34; class=&#34;headerlink&#34; title=&#34;Conclusion&#34;&gt;&lt;/a&gt;Conclusion&lt;/h2&gt;&lt;p&gt;This concludes this post, in which we have setup a basic development setup of InfluxDB and explored how a time series datastore can be used to save metrics from our Rails application and how we can query this data store and derive actionable insights. Also we explored creation of dashboards using Grafana to visualize these metrics in near-real time.&lt;/p&gt;
+&lt;p&gt;Our proof of concept setup, however is not suitable for production deployments with large volumes of data, in which case we would want to utilize advanced cluster management features of InfluxDB. Fortunately InfluxDB documentation already has a lot of &lt;a href=&#34;http://influxdb.com/docs/v0.8/clustering/setup.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;helpful information&lt;/a&gt; on scaling up production deployment which is only expected to mature over time. There are also &lt;a href=&#34;https://customers.influxdb.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;commercial options&lt;/a&gt; available for hosted InfluxDB which I encourage users to &lt;a href=&#34;https://customers.influxdb.com/users/sign_up&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;try out&lt;/a&gt; and evaluate.&lt;/p&gt;
+&lt;h2 id=&#34;Where-to-go-from-here&#34;&gt;&lt;a href=&#34;#Where-to-go-from-here&#34; class=&#34;headerlink&#34; title=&#34;Where to go from here&#34;&gt;&lt;/a&gt;Where to go from here&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://influxdb.com/docs/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;InfluxDB documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://docs.grafana.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Grafana Documentation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+ ]]></description>
+        </item>
+    </channel>
+</rss>

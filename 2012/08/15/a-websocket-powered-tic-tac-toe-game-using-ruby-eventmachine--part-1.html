@@ -1,0 +1,335 @@
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta name="generator" content="Hexo 5.3.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2012-08-15">Posted &nbsp;8 years ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Ruby/"><img src="/images/tag.svg">Ruby</a></li><li class="body-text"><a class="tag-link" href="/tags/EventMachine/"><img src="/images/tag.svg">EventMachine</a></li><li class="body-text"><a class="tag-link" href="/tags/Websockets/"><img src="/images/tag.svg">Websockets</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">A Websocket powered Tic tac toe game using Ruby EventMachine – Part 1</div></div><div class="blog-main"><div class="flex-row post-warning"><img src="/images/primary/alert-triangle.svg" style="margin-right: 1rem">This post has not been updated in quite some time and the content here may be out of date 
+or not reflect my current my recommedation in the matter.</div><div class="page-content"><p>Lately I have been fiddling around a bit with websockets. Websocket support is now available in most of the modern browsers and Flash based shims are available for older browsers. Having bi-directional communication stream between server and the browser based client opens up a whole new world of opportunities for dynamic web applications.</p>
+<p>Implementing a web-socket server in ruby is fairly easy given the plethora of libraries available. One such useful gem is em-websocket which is essentially an Event-Machine based asynchronous web-socket server.</p>
+<p>In this post I present a small tutorial implementing a simple tic-tac-toe game. Though the game will be pretty barebones, I hope it will serve as a good introduction to web-socket api.</p>
+<p>In the part-1 we focus primarily on the server-part to which we can communicate from the browser using the javascript console. In later parts we will create a client side frontend and further enhance server side facilities.</p>
+<p>First, we ensure that Ruby is installed (I have used ruby-1.9.3 for the tutorial) . eventmachine and em-websocket are available as ruby gems. So installing them is as easy as :
+    gem install eventmachine
+    gem install em-websocket</p>
+<p>To see if em-websocket is working without hassles, run the following minimal web-socket implementation.</p>
+<pre><code class="hljs ruby"><span class="hljs-keyword">require</span> <span class="hljs-string">&#x27;eventmachine&#x27;</span>
+<span class="hljs-keyword">require</span> <span class="hljs-string">&#x27;em-websocket&#x27;</span>
+
+EventMachine.run &#123;
+
+    EventMachine::WebSocket.start(<span class="hljs-symbol">:host</span> =&gt; <span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-symbol">:port</span> =&gt; <span class="hljs-number">8080</span>) <span class="hljs-keyword">do</span> <span class="hljs-params">|ws|</span>
+        ws.onopen &#123;
+          puts <span class="hljs-string">&quot;WebSocket connection open&quot;</span>
+        &#125;
+        ws.onclose &#123;
+          puts <span class="hljs-string">&quot;Connection closed&quot;</span>
+        &#125;
+    <span class="hljs-keyword">end</span>
+&#125;</code></pre>
+
+<p>What this code does is it creates a socket-server which listens at localhost:8080 . Callbacks have been provided for open and close events, so when a client creates a connection or a connection gets closed the associated callbacks print an appropriate message to the terminal.</p>
+<p>run the webserver with :</p>
+<pre><code>ruby server.rb</code></pre>
+<p>The server should go into an event-loop without any errors. Now fire up your browser’s javascript console (or NodeJS console) and try :</p>
+<pre><code>socket = new WebSocket(&quot;ws://localhost:8080&quot;)</code></pre>
+<p>If all goes well, it should return true and the message “Websocket connection open” should be displayed in the terminal.</p>
+<p>So far, so good. But the main purpose of a server is to relay data to the client. How do we do that ? Turns out that is pretty simple too.</p>
+<pre><code class="hljs ruby">EventMachine.run &#123;
+
+    EventMachine::WebSocket.start(<span class="hljs-symbol">:host</span> =&gt; <span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-symbol">:port</span> =&gt; <span class="hljs-number">8080</span>) <span class="hljs-keyword">do</span> <span class="hljs-params">|ws|</span>
+        ws.onopen &#123;
+          puts <span class="hljs-string">&quot;WebSocket connection open&quot;</span>
+          <span class="hljs-comment"># publish message to the client</span>
+          ws.send <span class="hljs-string">&quot;Hello Client&quot;</span>
+        &#125;
+
+        ws.onclose &#123;
+          puts <span class="hljs-string">&quot;Connection closed&quot;</span>
+        &#125;
+    <span class="hljs-keyword">end</span>
+&#125;</code></pre>
+
+<p>Using the send  method, the server sends data to the client. The client side socket has an onmessage event that enables you to recieve the data.</p>
+<pre><code class="hljs javascript">socket = <span class="hljs-keyword">new</span> WebSocket(<span class="hljs-string">&quot;ws://localhost:8080&quot;</span>);
+socket.onmessage = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">msg</span>)</span>&#123;
+    <span class="hljs-built_in">console</span>.log(msg.data)
+&#125;</code></pre>
+
+<p>Remember we said something socket being a two-way communication channel. The send message is available on the client too and the message can be received in the server in very similar way :</p>
+<p>Let us modify our server to enable it to receive data.</p>
+<pre><code class="hljs ruby">ws.onmessage &#123; <span class="hljs-params">|msg|</span>
+  puts msg
+  ws.send msg
+&#125;</code></pre>
+<p>What it does is, it prints any data that it receives and relays it back to the client. So now if you run in the javascript console :</p>
+<pre><code class="hljs javascript">socket.send(<span class="hljs-string">&quot;Hello world&quot;</span>)</code></pre>
+
+<p>You should receive the message back.</p>
+<p>Now that we have a basic familiarity with the usage of web-sockets let’s proceed with our game :</p>
+<p>The flow of the game is like this : A client, after opening the connection, requests the server to register it. Upon registration, if a free player is available, then he is paired up with this player and game begins. If a player is not free the player is added to a queue and once a new player arrives , they both commence a new game.</p>
+<p>For now let us not delve into user-registration and score management and satisfy ourselves with an anonymous player vs player game.</p>
+<p>In the simple examples above we have only focussed on a single client at a time. If in response to the actions of a client other players have to be relayed information the situation becomes slightly complex. The typical way to deal with such scenarios is to use a Pub-sub system. While a redis based pub-sub system is an excellent solution, we are not using one here to keep things simple and also we have the advantage that it is priorly known that players will always interact in pairs.</p>
+<p>Let us organize our code in an object oriented fashion :</p>
+<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GameController</span></span>
+
+  def add_player player
+    <span class="hljs-comment"># if partner is available</span>
+    <span class="hljs-comment">#   pair_up with partner</span>
+    <span class="hljs-comment"># else</span>
+    <span class="hljs-comment">#   enqueue partner</span>
+  <span class="hljs-keyword">end</span>
+
+  def pair_up player, partner
+    <span class="hljs-comment"># create a new game</span>
+    <span class="hljs-comment"># appoint one of the player as first, and start the game</span>
+  <span class="hljs-keyword">end</span>
+
+  def end_game game, players
+    <span class="hljs-comment"># re-allocate partner if someone is waiting</span>
+    <span class="hljs-comment"># ... call add_player - and a new game proceeds</span>
+  <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+EventMachine.run &#123;
+  <span class="hljs-variable">@gc</span> = GameController.new
+  EventMachine::WebSocket.start(<span class="hljs-symbol">:host</span> =&gt; <span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-symbol">:port</span> =&gt; <span class="hljs-number">8080</span>) <span class="hljs-keyword">do</span> <span class="hljs-params">|ws|</span>
+
+    ws.onmessage <span class="hljs-keyword">do</span> <span class="hljs-params">|req|</span>
+      req = JSON.parse(req)
+      <span class="hljs-keyword">case</span> req[<span class="hljs-string">&#x27;action&#x27;</span>]
+      <span class="hljs-keyword">when</span> <span class="hljs-string">&#x27;register&#x27;</span>
+        player = Player.new ws
+        puts <span class="hljs-string">&quot;Registering player : <span class="hljs-subst">#&#123;player.id&#125;</span>&quot;</span>
+        <span class="hljs-variable">@gc</span>.add_player player
+        player.notify (&#123;<span class="hljs-symbol">:success</span> =&gt; <span class="hljs-literal">true</span>, <span class="hljs-symbol">:id</span> =&gt; player.id&#125;)
+      <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+
+  <span class="hljs-keyword">end</span>
+&#125;</code></pre>
+
+<p>In the above example : when we have received a message from the client : we check if it is a request for registration. We have abstracted out the game management facilites in an external GameController class (yet unimplemented) which would take care of managing the users and games.</p>
+<p>For the sake of consistency, lets have all client server communications serialized as JSON.</p>
+<p>Rather than Running around with socket references, we encapsulate all the functionality of a single client in a player class :</p>
+<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Player</span></span>
+  <span class="hljs-keyword">attr_accessor</span> <span class="hljs-symbol">:socket</span>
+  <span class="hljs-keyword">attr_reader</span> <span class="hljs-symbol">:id</span>
+  def initialize ws
+    <span class="hljs-variable">@id</span> = rand(<span class="hljs-number">5000</span>)
+    <span class="hljs-variable">@socket</span> = ws
+    <span class="hljs-variable">@score</span> = <span class="hljs-number">0</span>
+  <span class="hljs-keyword">end</span>
+  def notify msg_hash
+    <span class="hljs-variable">@socket</span>.send JSON.dump msg_hash
+  <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>Also, we add a stub for a game class which will take care of managing the game state. The Game class instance would represent a single ongoing game between two opponents.</p>
+<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Game</span></span>
+  <span class="hljs-keyword">attr_reader</span> <span class="hljs-symbol">:id</span>
+  def initialize player1, player2, game_controller
+    <span class="hljs-variable">@id</span> = rand(<span class="hljs-number">5000</span>)
+    <span class="hljs-comment"># create initial game state</span>
+    <span class="hljs-comment"># notify the players about the game</span>
+    start
+  <span class="hljs-keyword">end</span>
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">start</span></span>
+    <span class="hljs-variable">@players</span>.each <span class="hljs-keyword">do</span> <span class="hljs-params">|id, player|</span>
+      ws = player.socket
+      ws.onmessage <span class="hljs-keyword">do</span> <span class="hljs-params">|msg|</span>
+        <span class="hljs-comment"># parse the msg</span>
+        <span class="hljs-comment"># is the user request valid in the current context of the game</span>
+        <span class="hljs-comment"># if yes :</span>
+        <span class="hljs-comment">#   change the state of the game to reflect this</span>
+        <span class="hljs-comment">#   notify the opponent about the changed state</span>
+        <span class="hljs-comment"># if no:</span>
+        <span class="hljs-comment">#   notify the initiator about failure</span>
+        <span class="hljs-comment"># has the game concluded:</span>
+        <span class="hljs-comment"># Declare the winner, if any.</span>
+      <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>Now that basic overview of the code is clear, implementing the details is not very difficult. Here is the complete code :</p>
+<pre><code class="hljs ruby"><span class="hljs-keyword">require</span> <span class="hljs-string">&#x27;eventmachine&#x27;</span>
+<span class="hljs-keyword">require</span> <span class="hljs-string">&#x27;em-websocket&#x27;</span>
+<span class="hljs-keyword">require</span> <span class="hljs-string">&#x27;json&#x27;</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Player</span></span>
+  <span class="hljs-keyword">attr_accessor</span> <span class="hljs-symbol">:score</span>, <span class="hljs-symbol">:socket</span>
+  <span class="hljs-keyword">attr_reader</span> <span class="hljs-symbol">:id</span>
+  def initialize ws
+    <span class="hljs-variable">@id</span> = rand(<span class="hljs-number">5000</span>)
+    <span class="hljs-variable">@socket</span> = ws
+    <span class="hljs-variable">@score</span> = <span class="hljs-number">0</span>
+  <span class="hljs-keyword">end</span>
+  def notify msg_hash
+    <span class="hljs-variable">@socket</span>.send JSON.dump msg_hash
+  <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Game</span></span>
+  <span class="hljs-keyword">attr_reader</span> <span class="hljs-symbol">:id</span>
+  def initialize player1, player2, game_controller
+    <span class="hljs-variable">@id</span> = rand(<span class="hljs-number">5000</span>)
+    <span class="hljs-variable">@players</span> = &#123;&#125;
+    [player1, player2].each <span class="hljs-keyword">do</span> <span class="hljs-params">|player|</span>
+      <span class="hljs-variable">@players</span>[player.id] = player
+    <span class="hljs-keyword">end</span>
+    <span class="hljs-variable">@game_controller</span> = game_controller
+    <span class="hljs-variable">@state</span> = [[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>],[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>],[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]]
+    <span class="hljs-variable">@players</span>.each <span class="hljs-keyword">do</span> <span class="hljs-params">|id, player|</span>
+      player.notify(&#123; <span class="hljs-symbol">:msg</span> =&gt; <span class="hljs-string">&quot;Game initiated !!!&quot;</span> &#125;)
+    <span class="hljs-keyword">end</span>
+    player1.notify(&#123;<span class="hljs-symbol">:msg</span> =&gt; <span class="hljs-string">&quot;Your turn&quot;</span>&#125;)
+    player2.notify(&#123;<span class="hljs-symbol">:msg</span> =&gt; <span class="hljs-string">&quot;Opponent&#x27;s turn&quot;</span>&#125;)
+    <span class="hljs-variable">@next_player</span> = player1.id
+  <span class="hljs-keyword">end</span>
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">start</span></span>
+    <span class="hljs-variable">@players</span>.each <span class="hljs-keyword">do</span> <span class="hljs-params">|id, player|</span>
+      ws = player.socket
+      ws.onmessage <span class="hljs-keyword">do</span> <span class="hljs-params">|msg|</span>
+        puts <span class="hljs-string">&quot;Message received : <span class="hljs-subst">#&#123;msg&#125;</span>&quot;</span>
+        msg = JSON.parse msg
+        puts <span class="hljs-string">&quot;id received : <span class="hljs-subst">#&#123;msg[<span class="hljs-string">&#x27;id&#x27;</span>]&#125;</span>&quot;</span>
+        puts <span class="hljs-string">&quot;players : <span class="hljs-subst">#&#123;<span class="hljs-variable">@players</span>.to_json&#125;</span>&quot;</span>
+        initiator = <span class="hljs-variable">@players</span>[msg[<span class="hljs-string">&#x27;id&#x27;</span>]]
+
+        puts <span class="hljs-string">&quot;initiator ===&gt; &quot;</span>, initiator.to_json
+        partner = find_partner initiator
+        <span class="hljs-keyword">case</span> msg[<span class="hljs-string">&#x27;action&#x27;</span>]
+        <span class="hljs-keyword">when</span> <span class="hljs-string">&#x27;move&#x27;</span>
+          validation_result = validate_move msg
+          initiator.notify(validation_result)
+          <span class="hljs-keyword">if</span> validation_result[<span class="hljs-symbol">:success</span>]
+            update_state msg
+            <span class="hljs-variable">@next_player</span> = partner.id
+            update_gamestate partner
+
+            <span class="hljs-keyword">if</span> victorious?
+              initiator.notify (&#123; <span class="hljs-symbol">:msg</span> =&gt; <span class="hljs-string">&quot;You win&quot;</span> &#125;)
+              partner.notify(&#123; <span class="hljs-symbol">:msg</span> =&gt; <span class="hljs-string">&quot;You lose&quot;</span> &#125;)
+              <span class="hljs-variable">@game_controller</span>.end_game <span class="hljs-keyword">self</span>, @players
+            <span class="hljs-keyword">elsif</span> finished?
+              resp = &#123;<span class="hljs-symbol">:msg</span> =&gt; <span class="hljs-string">&quot;Game Over&quot;</span>&#125;
+              initiator.notify resp
+              partner.notify resp
+              <span class="hljs-variable">@game_controller</span>.end_game <span class="hljs-keyword">self</span>, @players
+            <span class="hljs-keyword">end</span>
+          <span class="hljs-keyword">else</span>
+            update_gamestate initiator
+          <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+      <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">end</span>
+
+  def validate_move msg
+    res = &#123;<span class="hljs-symbol">:success</span> =&gt; <span class="hljs-literal">true</span>&#125;
+    <span class="hljs-keyword">if</span> msg[<span class="hljs-string">&#x27;id&#x27;</span>] != <span class="hljs-variable">@next</span>_player
+      res = &#123;<span class="hljs-symbol">:success</span> =&gt; <span class="hljs-literal">false</span>, <span class="hljs-symbol">:error</span> =&gt; <span class="hljs-string">&quot;Move out of turn&quot;</span>&#125;
+    <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-variable">@state</span>[msg[<span class="hljs-string">&#x27;x&#x27;</span>]][msg[<span class="hljs-string">&#x27;y&#x27;</span>]] != <span class="hljs-number">0</span>
+      res = &#123;<span class="hljs-symbol">:success</span> =&gt; <span class="hljs-literal">false</span>, <span class="hljs-symbol">:error</span> =&gt; <span class="hljs-string">&quot;Overrite not allowed&quot;</span>&#125;
+    <span class="hljs-keyword">end</span>
+    res
+  <span class="hljs-keyword">end</span>
+
+  def update_state msg
+    <span class="hljs-variable">@state</span>[msg[<span class="hljs-string">&#x27;x&#x27;</span>]][msg[<span class="hljs-string">&#x27;y&#x27;</span>]] = msg[<span class="hljs-string">&#x27;id&#x27;</span>]
+  <span class="hljs-keyword">end</span>
+
+  def update_gamestate player
+    player.notify (&#123;<span class="hljs-symbol">:game_state</span> =&gt; <span class="hljs-variable">@state</span> &#125;)
+  <span class="hljs-keyword">end</span>
+
+  def find_partner player
+    <span class="hljs-variable">@players</span>.each &#123; <span class="hljs-params">|id, pl|</span> <span class="hljs-keyword">return</span> pl <span class="hljs-keyword">unless</span>  id == player.id &#125;
+  <span class="hljs-keyword">end</span>
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">victorious?</span></span>
+    def teq a,b,c
+      a != <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> a == b <span class="hljs-keyword">and</span> b ==c
+    <span class="hljs-keyword">end</span>
+    i = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">while</span> i &lt; <span class="hljs-number">3</span>
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span> <span class="hljs-keyword">if</span> teq <span class="hljs-variable">@state</span>[i][<span class="hljs-number">0</span>], <span class="hljs-variable">@state</span>[i][<span class="hljs-number">1</span>], <span class="hljs-variable">@state</span>[i][<span class="hljs-number">2</span>]
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span> <span class="hljs-keyword">if</span> teq <span class="hljs-variable">@state</span>[<span class="hljs-number">0</span>][i], <span class="hljs-variable">@state</span>[<span class="hljs-number">1</span>][i], <span class="hljs-variable">@state</span>[<span class="hljs-number">2</span>][i]
+      i = i+<span class="hljs-number">1</span>
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span> <span class="hljs-keyword">if</span> teq <span class="hljs-variable">@state</span>[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>], <span class="hljs-variable">@state</span>[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>], <span class="hljs-variable">@state</span>[<span class="hljs-number">2</span>][<span class="hljs-number">2</span>]
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span> <span class="hljs-keyword">if</span> teq <span class="hljs-variable">@state</span>[<span class="hljs-number">2</span>][<span class="hljs-number">0</span>], <span class="hljs-variable">@state</span>[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>], <span class="hljs-variable">@state</span>[<span class="hljs-number">0</span>][<span class="hljs-number">2</span>]
+    <span class="hljs-literal">false</span>
+  <span class="hljs-keyword">end</span>
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">finished?</span></span>
+    <span class="hljs-keyword">not</span> <span class="hljs-variable">@state</span>[<span class="hljs-number">0</span>].<span class="hljs-keyword">include</span>? (<span class="hljs-number">0</span>) <span class="hljs-keyword">and</span>
+      <span class="hljs-keyword">not</span> <span class="hljs-variable">@state</span>[<span class="hljs-number">1</span>].<span class="hljs-keyword">include</span>? (<span class="hljs-number">0</span>) <span class="hljs-keyword">and</span>
+      <span class="hljs-keyword">not</span>  <span class="hljs-variable">@state</span>[<span class="hljs-number">2</span>].<span class="hljs-keyword">include</span>? (<span class="hljs-number">0</span>)
+  <span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GameController</span></span>
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">initialize</span></span>
+    <span class="hljs-variable">@games</span> = &#123;&#125;
+    <span class="hljs-variable">@free_players</span> = []
+    <span class="hljs-variable">@engaged_players</span> = []
+  <span class="hljs-keyword">end</span>
+
+  def add_player player
+    puts <span class="hljs-string">&quot;Adding player : <span class="hljs-subst">#&#123;player.id&#125;</span>&quot;</span>
+    partner = <span class="hljs-variable">@free_players</span>.pop
+    <span class="hljs-keyword">if</span> partner.<span class="hljs-literal">nil</span>?
+      <span class="hljs-variable">@free_players</span> &lt;&lt; player
+      puts <span class="hljs-string">&quot;Putting on wait&quot;</span>
+      player.notify (&#123;
+        <span class="hljs-symbol">:msg</span> =&gt; <span class="hljs-string">&quot;You will have to wait till we find a partner for you&quot;</span>
+      &#125;)
+    <span class="hljs-keyword">else</span>
+      puts <span class="hljs-string">&quot;Pairing up : <span class="hljs-subst">#&#123;player.id&#125;</span>, <span class="hljs-subst">#&#123;partner.id&#125;</span>&quot;</span>
+      pair_up player, partner
+    <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">end</span>
+
+  def pair_up player, partner
+    puts <span class="hljs-string">&quot;Starting game between player <span class="hljs-subst">#&#123;player.id&#125;</span> and <span class="hljs-subst">#&#123;partner.id&#125;</span>&quot;</span>
+    game = Game.new player, partner, <span class="hljs-keyword">self</span>
+    <span class="hljs-variable">@games</span>[game.id] = game.id
+    game.start
+  <span class="hljs-keyword">end</span>
+
+  def end_game game, players
+    <span class="hljs-variable">@games</span>[game.id] = <span class="hljs-literal">nil</span>
+    players.each <span class="hljs-keyword">do</span> <span class="hljs-params">|id, player|</span>
+      add_player player
+    <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+EventMachine.run &#123;
+  <span class="hljs-variable">@gc</span> = GameController.new
+  EventMachine::WebSocket.start(<span class="hljs-symbol">:host</span> =&gt; <span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-symbol">:port</span> =&gt; <span class="hljs-number">8080</span>) <span class="hljs-keyword">do</span> <span class="hljs-params">|ws|</span>
+
+    ws.onmessage <span class="hljs-keyword">do</span> <span class="hljs-params">|req|</span>
+      req = JSON.parse(req)
+      <span class="hljs-keyword">case</span> req[<span class="hljs-string">&#x27;action&#x27;</span>]
+      <span class="hljs-keyword">when</span> <span class="hljs-string">&#x27;register&#x27;</span>
+        player = Player.new ws
+        puts <span class="hljs-string">&quot;Registering player : <span class="hljs-subst">#&#123;player.id&#125;</span>&quot;</span>
+        <span class="hljs-variable">@gc</span>.add_player player
+        player.notify (&#123;<span class="hljs-symbol">:success</span> =&gt; <span class="hljs-literal">true</span>, <span class="hljs-symbol">:id</span> =&gt; player.id&#125;)
+      <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+
+  <span class="hljs-keyword">end</span>
+&#125;
+</code></pre>
+
+<p>While I have skipped over the details of management of game, I believe the code above is fairly readable.</p>
+<p>And yes, I am aware of the several issues with the code above. The most obvious one is that serialized state passed to client contains the id of other player as well. So it is easy to cheat the game.  Apart from this there are several other things I have looked over. What if a player passes in a request that cannot be parsed as JSON ? A malformed request initiates an exception that crashes the whole game.  These issues will be resolved and  a score management system and a front-end will be added in the later parts of the tutorial. So stay tuned.</p>
+<p>Here is a snapshot of my Javascript console showing a game in progress :</p>
+<img src="/images/game.png" />
+
+<p>As always, feel free to provide your suggestions and to point out errors.</p>
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>

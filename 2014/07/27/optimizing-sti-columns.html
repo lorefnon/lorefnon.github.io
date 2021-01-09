@@ -1,0 +1,143 @@
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta name="generator" content="Hexo 5.3.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2014-07-27">Posted &nbsp;6 years ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Ruby/"><img src="/images/tag.svg">Ruby</a></li><li class="body-text"><a class="tag-link" href="/tags/Rails/"><img src="/images/tag.svg">Rails</a></li><li class="body-text"><a class="tag-link" href="/tags/ActiveRecord/"><img src="/images/tag.svg">ActiveRecord</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Optimizing space taken by type column in Rails STI</div></div><div class="blog-main"><div class="flex-row post-warning"><img src="/images/primary/alert-triangle.svg" style="margin-right: 1rem">This post has not been updated in quite some time and the content here may be out of date 
+or not reflect my current my recommedation in the matter.</div><div class="page-content"><p>The <a href="http://api.rubyonrails.org/classes/ActiveRecord/Base.html#label-Single+table+inheritance" target="_blank" rel="noopener external nofollow noreferrer">Single Table Inheritance</a>
+facility in Rails is quite awesome in that it is simple, minimal and easy to understand.
+However that simplicity comes with a small price - the type column stores the full name of the relevant class as a string.
+This becomes especially unweildy if you scope your models inside a module.</p>
+<p>Let us illustrate this with an example:</p>
+<p>Let us say, we have a database of institutions. For non profit and commercial institutions we have two subclasses of <code>Institution::Base</code> namely, <code>Institution::NonProfit</code>, <code>Institution::Commercial</code>.</p>
+<pre><code class="hljs ruby"><span class="hljs-comment">#app/models/institution.rb</span>
+<span class="hljs-class"><span class="hljs-keyword">module</span> <span class="hljs-title">Institution</span></span>
+  def <span class="hljs-keyword">self</span>.table_name_prefix
+    <span class="hljs-string">&#x27;institution_&#x27;</span>
+  <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># app/models/institution/base.rb</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Institution::Base</span> &lt; ActiveRecord::Base</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">#app/models/institution/non_profit.rb</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Institution::NonProfit</span> &lt; Institution::Base</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment">#app/models/institution/commercial.rb</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Institution::Commercial</span> &lt; Institution::Base</span>
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>We deliberately keep the schema simple:</p>
+<pre><code class="hljs ruby">create_table <span class="hljs-string">&quot;institution_bases&quot;</span>, <span class="hljs-symbol">force:</span> <span class="hljs-literal">true</span> <span class="hljs-keyword">do</span> <span class="hljs-params">|t|</span>
+    t.string   <span class="hljs-string">&quot;name&quot;</span>
+    t.string   <span class="hljs-string">&quot;type&quot;</span>
+    t.datetime <span class="hljs-string">&quot;created_at&quot;</span>
+    t.datetime <span class="hljs-string">&quot;updated_at&quot;</span>
+ <span class="hljs-keyword">end</span></code></pre>
+
+<p>The subclasses simply reuse the table and Rails distinguishes between them using the type column. If we  try to store some sample entries, we would notice that the value stored in type field contains the fully namespaces class name: <code>Institution::NonProfit</code>, <code>Institution::Commercial</code> etc.</p>
+<p>Since we know that our application will not store models from other namespace in this table, the extra space taken by the module name is wasteful. In fact storing the name in its entirety is wasteful. So this post highlights a simple approach to minimise the space taken by type column without sacrificing the ease of use of STI in rails.</p>
+<p>It turns out we can override the methods Rails uses to convert the table name to class name and vice versa:</p>
+<p>The relevant methods are <code>find_sti_class</code> which is responsible for the translating the value stored in the type column to the respective ActiveRecord model and <code>sti_name</code> which is responsible for retriving the value stored in type column given an ActiveRecord subclass.</p>
+<p>So we override the default implementations to the following:</p>
+<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Institution::Base</span> &lt; ActiveRecord::Base</span>
+
+  ALLOWED_CLASSES = <span class="hljs-string">%w[Institution::NonProfit Institution::Commercial]</span>
+
+  <span class="hljs-class"><span class="hljs-keyword">class</span> &lt;&lt; self</span>
+
+    def find_sti_class type_name
+      idx = type_name.to_i
+      <span class="hljs-keyword">super</span> <span class="hljs-keyword">if</span> idx == <span class="hljs-number">0</span>
+      ALLOWED_CLASSES[idx-<span class="hljs-number">1</span>].constantize
+    <span class="hljs-keyword">rescue</span> NameError, TypeError
+      <span class="hljs-keyword">super</span>
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sti_name</span></span>
+      idx = ALLOWED_CLASSES.index(<span class="hljs-keyword">self</span>.name)
+      <span class="hljs-keyword">if</span> idx.<span class="hljs-literal">nil</span>?
+        <span class="hljs-keyword">super</span>
+      <span class="hljs-keyword">else</span>
+        idx + <span class="hljs-number">1</span>
+      <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+
+  <span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>Once we have done this the STI subsystem of ActiveRecord will the use the <code>ALLOWED_CLASSES</code> to infer the name Institution classes using the index stored in the database column.</p>
+<p>What is particularly nice is that if have any existing data, we don&#39;t end up getting
+any errors when trying to save or retrieve them since we delegate to default implementations. Although it would be a better option to write a migration to change the type column to integer.</p>
+<p>The eagle eyed among us might have noticed we are offsetting the index in the <code>ALLOWED_CLASSES</code> index by 1. This is a basic precaution because calling <code>to_i</code> on a string that is not a numeric string returns <code>0</code> instead of raising an error. So delegating to default implementation incase of zero value allows us to retain legacy compatibility.</p>
+<p>You might want to ask why the array ALLOWED_CLASS_NAMES is a string array rather than an actual array of classes. Having an array of classes leads to RecursiveDependency errors while autoloading when fetching the entries from databases.</p>
+<p>While this is nice and good, this functionality is generic and doesn&#39;t really belong to the <code>Institution::Base</code> class. What if we need another module tomorrow which is unreleated but needs the same functionality?</p>
+<p>So in the spirit of reusability and separation of concerns we create a <code>concern</code> for this:</p>
+<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">module</span> <span class="hljs-title">OptimallyInheritable</span></span>
+  extend ActiveSupport::Concern
+
+  <span class="hljs-class"><span class="hljs-keyword">module</span> <span class="hljs-title">ClassMethods</span></span>
+    def support_sti_for cls_list
+      <span class="hljs-variable">@sti_cls_list</span> = []
+      <span class="hljs-variable">@sti_cls_list</span> += cls_list
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sti_cls_list</span></span>
+      <span class="hljs-variable">@sti_cls</span>_list
+    <span class="hljs-keyword">end</span>
+
+    def find_sti_class type_name
+      idx = type_name.to_i
+      <span class="hljs-keyword">super</span> <span class="hljs-keyword">if</span> idx == <span class="hljs-number">0</span>
+      sti_cls_list[type_name.to_i-<span class="hljs-number">1</span>].constantize
+    <span class="hljs-keyword">rescue</span> NameError, TypeError
+      <span class="hljs-keyword">super</span>
+    <span class="hljs-keyword">end</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sti_name</span></span>
+      idx = sti_cls_list.index(<span class="hljs-keyword">self</span>.name)
+      <span class="hljs-keyword">if</span> idx.<span class="hljs-literal">nil</span>?
+        <span class="hljs-keyword">super</span>
+      <span class="hljs-keyword">else</span>
+        idx + <span class="hljs-number">1</span>
+      <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+
+  <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>And our <code>Institution::Base</code> class just reduces to:</p>
+<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Institution::Base</span> &lt; ActiveRecord::Base</span>
+  <span class="hljs-keyword">include</span> OptimallyInheritable
+  support_sti_for <span class="hljs-string">%w[Institution::NonProfit Institution::Commercial]</span>
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>All seems kosher, so we take our implementation for a test drive:</p>
+<pre><code>&gt; Institution::Base.all
+Institution::Base Load (0.4ms)  SELECT `institution_bases`.* FROM `institution_bases`
+=&gt; #&lt;ActiveRecord::Relation [#&lt;Institution::Commercial id: 3, name: &quot;loremipsum&quot;, type: &quot;2&quot;, created_at: &quot;2014-07-17 12:27:26&quot;, updated_at: &quot;2014-07-17 12:27:26&quot;&gt;]&gt;</code></pre>
+<p>While laoding instances of base class works well, we run into issues when we try to load all commercial
+institutions:</p>
+<pre><code>2.1.2 :005 &gt; Institution::Commercial.all
+NoMethodError: undefined method `index&#39; for nil:NilClass
+               from /Users/lorefnon/Workspace/sample/app/models/concerns/optimally_inheritable.rb:24:in `sti_name&#39;
+               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/inheritance.rb:170:in `block in type_condition&#39;
+               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/inheritance.rb:170:in `map&#39;
+               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/inheritance.rb:170:in `type_condition&#39;
+               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/core.rb:170:in `relation&#39;</code></pre>
+<p>The problem is obvious : the variable <code>sti_class_list</code> is not available in subclasses.</p>
+<p>So we rectify our solution:</p>
+<pre><code class="hljs ruby"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sti_cls_list</span></span>
+  <span class="hljs-keyword">if</span> superclass.respond_to? <span class="hljs-symbol">:sti_cls_list</span>
+    superclass.sti_cls_list
+  <span class="hljs-keyword">else</span>
+    <span class="hljs-variable">@sti_cls</span>_list
+  <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>This resolves the aforementioned issues.</p>
+<p>Now that we have reached the end of the post, it would be a good time to highlight the drawbacks of our approach:</p>
+<ol>
+<li>Firstly, The array passed to <code>support_sti_for</code> function will have to be kept in sync with the class names, if the name of any model class changes in future.</li>
+<li>Secondly, While it is safe to add new entries to supported classes, their order can not be arbitrarily changed without running a data correction script first.</li>
+</ol>
+<p>This concludes our post. The full source code is available at <a href="https://github.com/lorefnon/sti_optimization_demo.git" target="_blank" rel="noopener external nofollow noreferrer">Github</a>. As always, any criticism or feedback is welcome.</p>
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>

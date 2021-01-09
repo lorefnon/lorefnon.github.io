@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://lorefnon.me</id>
+    <title>Icicles of Thought • Posts by &#34;css&#34; tag</title>
+    <link href="https://lorefnon.me" />
+    <updated>2016-04-03T18:30:00.000Z</updated>
+    <category term="Javascript" />
+    <category term="KnockoutJS" />
+    <category term="Ruby" />
+    <category term="EventMachine" />
+    <category term="Websockets" />
+    <category term="Jade" />
+    <category term="Node.js" />
+    <category term="Rails" />
+    <category term="Emacs" />
+    <category term="Gulp" />
+    <category term="ActiveAdmin" />
+    <category term="ActiveRecord" />
+    <category term="Devise" />
+    <category term="Integration" />
+    <category term="Productivity Hacks" />
+    <category term="Design Patterns" />
+    <category term="InfluxDB" />
+    <category term="Grafana" />
+    <category term="Functional Programming" />
+    <category term="ES6" />
+    <category term="Typescript" />
+    <category term="ReasonML" />
+    <category term="React" />
+    <category term="Frontend" />
+    <category term="Next.js" />
+    <category term="Koa" />
+    <category term="Apollo" />
+    <category term="GraphQL" />
+    <category term="MongoDB" />
+    <category term="Automerge" />
+    <category term="CRDT" />
+    <category term="SVG" />
+    <category term="VSCode" />
+    <category term="Comlink" />
+    <category term="Web-workers" />
+    <category term="io-ts" />
+    <category term="MobX" />
+    <category term="MobX-State-Tree" />
+    <category term="Routing" />
+    <category term="SQLite" />
+    <category term="ZSH" />
+    <category term="OCR" />
+    <category term="Helm" />
+    <category term="SPF" />
+    <category term="CSS" />
+    <category term="Redux" />
+    <category term="Redux-loop" />
+    <category term="Vagrant" />
+    <category term="Clojure" />
+    <category term="Hashicorp" />
+    <category term="HAR" />
+    <category term="Jq" />
+    <category term="Lit-html" />
+    <category term="Stimulus" />
+    <entry>
+        <id>https://lorefnon.me/2016/04/04/embracing-bem-methodology-in-react-applications.html</id>
+        <title>Embracing BEM methodology in React applications</title>
+        <link rel="alternate" href="https://lorefnon.me/2016/04/04/embracing-bem-methodology-in-react-applications.html"/>
+        <content type="html">
+&lt;a class=&#34;header-link&#34; href=&#34;#react-and-modular-css&#34;&gt;&lt;h2 id=&#34;react-and-modular-css&#34;&gt;React and modular CSS&lt;/h2&gt;&lt;/a&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/facebook/react&#34;&gt;React&lt;/a&gt; provides an elegant component oriented approach towards structuring our User interface. However it is not very prescriptive of how to modularize the CSS. Many React core team members have &lt;a href=&#34;https://speakerdeck.com/vjeux/react-css-in-js&#34;&gt;opined&lt;/a&gt; that it is better to ditch css entirely and embrace js based inline styles. However that decision does not go well with a lot of frontend teams and makes things difficult for newcomers.&lt;/p&gt;
+
+&lt;p&gt;However there many popular approaches for modularizing CSS that have evolved from community experience independent of React. Once such approach is &lt;a href=&#34;http://getbem.com/&#34;&gt;BEM&lt;/a&gt; which has proven to be quite popular and effective in practice.&lt;/p&gt;
+
+&lt;p&gt;This post outlines a few functional utilities to effectively and succinctly use BEM alongside React.&lt;/p&gt;
+
+&lt;a class=&#34;header-link&#34; href=&#34;#composing-class-names&#34;&gt;&lt;h2 id=&#34;composing-class-names&#34;&gt;Composing class names&lt;/h2&gt;&lt;/a&gt;
+
+&lt;p&gt;While ES6 template strings provide a decent solution for string interpolation, it becomes cumbersome when we assign/toggle many classnames based on props or state variables. &lt;a href=&#34;https://github.com/JedWatson/classnames&#34;&gt;JedWatson/classnames&lt;/a&gt; is a nifty functional utility that alleviates some of this pain. Some examples directly taken from the &lt;a href=&#34;https://github.com/JedWatson/classnames/blob/master/README.md&#34;&gt;README&lt;/a&gt; illustrate the use case very well:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;javascript language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;nx&#34;&gt;classNames&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&#39;foo&#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&#39;bar&#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// =&amp;gt; &#39;foo bar&#39;&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;classNames&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&#39;foo&#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#123;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;bar&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#125;);&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// =&amp;gt; &#39;foo bar&#39;&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;classNames&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&amp;#123;&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&#39;foo-bar&#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#125;);&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// =&amp;gt; &#39;foo-bar&#39;&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;classNames&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&amp;#123;&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&#39;foo-bar&#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#125;);&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// =&amp;gt; &#39;&#39;&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;classNames&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&amp;#123;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#125;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#123;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;bar&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#125;);&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// =&amp;gt; &#39;foo bar&#39;&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;classNames&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&amp;#123;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;bar&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#125;);&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// =&amp;gt; &#39;foo bar&#39;&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;// lots of arguments of various types&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;classNames&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&#39;foo&#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#123;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;bar&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;duck&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#125;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&#39;baz&#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#123;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;quux&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#125;);&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// =&amp;gt; &#39;foo bar baz quux&#39;&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;// other falsy values are just ignored&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;classNames&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&#39;bar&#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;undefined&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#123;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;baz&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#125;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&#39;&#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// =&amp;gt; &#39;bar 1&#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;a class=&#34;header-link&#34; href=&#34;#eliminating-redundancy-in-class-names-using-css-precompilers&#34;&gt;&lt;h2 id=&#34;eliminating-redundancy-in-class-names-using-css-precompilers&#34;&gt;Eliminating redundancy in class names using CSS precompilers&lt;/h2&gt;&lt;/a&gt;
+
+&lt;p&gt;CSS precompilers like &lt;a href=&#34;http://sass-lang.com/&#34;&gt;SASS&lt;/a&gt; and &lt;a href=&#34;http://lesscss.org/&#34;&gt;LESS&lt;/a&gt; allow us to augment the parent context in included scope using ampersand (&lt;code&gt;&amp;amp;&lt;/code&gt;) prefix. This significantly helps towards keeping our stylesheets DRY:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;text language-text&#34; data-lang=&#34;text&#34;&gt;.block &amp;#123;
+    background: white;
+
+    &amp;amp;__element-one &amp;#123;
+        border-bottom: 1px solid red;
+
+        &amp;amp;--modifier-one &amp;#123;
+            color: red;
+        &amp;#125;
+
+    &amp;#125;
+&amp;#125;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;a class=&#34;header-link&#34; href=&#34;#eliminating-redundancy-in-class-names-in-react-components&#34;&gt;&lt;h2 id=&#34;eliminating-redundancy-in-class-names-in-react-components&#34;&gt;Eliminating redundancy in class names in react components&lt;/h2&gt;&lt;/a&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.npmjs.com/package/bem-classname&#34;&gt;&lt;code&gt;bem-classname&lt;/code&gt;&lt;/a&gt; is a nifty utility that allows us to eliminate the redundancy while assigning classnames to DOM elements.&lt;/p&gt;
+
+&lt;p&gt;The canonical approach is to pass the block, element and modifier names to the function exposed by the utility:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;javascript language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;nx&#34;&gt;bemClassName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&#39;block&#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&#39;element&#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&#39;awesome&#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]);&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// block__element block__element--awesome&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;However the function can also be bound to a block context allowing us to strip away some of the boilerplate:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;text language-text&#34; data-lang=&#34;text&#34;&gt;import React from &#39;react&#39;
+import bem from &#39;bem-classname&#39;
+
+const Home = () =&amp;gt; (
+  &amp;lt;div className=&amp;#123;className()&amp;#125;&amp;gt;
+    &amp;lt;h1 className=&amp;#123;className(&#39;header&#39;)&amp;#125;&amp;gt; Lorefnon &amp;lt;/h1&amp;gt;
+    &amp;lt;div className=&amp;#123;className(&#39;description&#39;)&amp;#125;&amp;gt;
+      Full Stack Web Application Developer
+    &amp;lt;/div&amp;gt;
+  &amp;lt;/div&amp;gt;
+)
+
+export default Home
+
+// Private:
+
+const className = bem.bind(null, &#39;Home&#39;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The above stateless component generates the following markup:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;html language-html&#34; data-lang=&#34;html&#34;&gt;  &lt;span class=&#34;nt&#34;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;class=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&#34;Home&#34;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;h1&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;class=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&#34;Home__header&#34;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;gt;&lt;/span&gt; Lorefnon &lt;span class=&#34;nt&#34;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;class=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&#34;Home__description&#34;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;&amp;gt;&lt;/span&gt;
+      Full Stack Web Application Developer
+    &lt;span class=&#34;nt&#34;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+  &lt;span class=&#34;nt&#34;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Not that BEM does not restrict us to one block/element per node. So a single node can represent multiple blocks. In such cases it is helpful to combine the aforementioned two utilities.&lt;/p&gt;
+
+&lt;a class=&#34;header-link&#34; href=&#34;#compressing-classnames-in-production&#34;&gt;&lt;h2 id=&#34;compressing-classnames-in-production&#34;&gt;Compressing classnames in production&lt;/h2&gt;&lt;/a&gt;
+
+&lt;p&gt;While BEM is very useful from a developer perspective as it eliminates the tedium of dealing with CSS specificity to a significant extent - however it has been crticised for the elaborate classnames which contribute towards increased size of HTML &amp;amp; CSS files.&lt;/p&gt;
+
+&lt;p&gt;If your use case really demands this level of optimization, then there are utilities like &lt;a href=&#34;https://www.npmjs.com/package/grunt-class-id-minifier&#34;&gt;grunt-class-id-minifier&lt;/a&gt; which can compress these class names as a part of the build process.&lt;/p&gt;
+
+&lt;p&gt;The plugin generates a mapping file which we can consume in our components as a normal javascript module.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;javascript language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#123;&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#123;&lt;/span&gt;
+        &lt;span class=&#34;s2&#34;&gt;&#34;Home__header&#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&#34;a&#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;s2&#34;&gt;&#34;Home__description&#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&#34;b&#34;&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;&amp;#125;;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;&amp;#125;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;javascript language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;kr&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;mapper&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&#39;./map.js&#39;&lt;/span&gt;
+
+&lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_className&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;bem&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;bind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&#39;Home&#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;className&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(...&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;#123;&lt;/span&gt;
+  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_className&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(...&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;mapper&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;c&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;&amp;#125;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</content>
+        <category term="Javascript" />
+        <category term="CSS" />
+        <updated>2016-04-03T18:30:00.000Z</updated>
+    </entry>
+</feed>

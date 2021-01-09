@@ -1,0 +1,154 @@
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta name="generator" content="Hexo 5.3.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2015-03-02">Posted &nbsp;6 years ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Ruby/"><img src="/images/tag.svg">Ruby</a></li><li class="body-text"><a class="tag-link" href="/tags/Rails/"><img src="/images/tag.svg">Rails</a></li><li class="body-text"><a class="tag-link" href="/tags/ActiveAdmin/"><img src="/images/tag.svg">ActiveAdmin</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Dealing with JSON data in Active Admin</div></div><div class="blog-main"><div class="flex-row post-warning"><img src="/images/primary/alert-triangle.svg" style="margin-right: 1rem">This post has not been updated in quite some time and the content here may be out of date 
+or not reflect my current my recommedation in the matter.</div><div class="page-content"><p>Many a times, depending on the requirements, it makes sense to store
+unstructured json data in database fields. PostgreSQL recognizes this
+requirement and provides a dedicated json field that automatically
+handles JSON validation. As has been outlined in the
+<a href="http://edgeguides.rubyonrails.org/active_record_postgresql.html" target="_blank" rel="noopener external nofollow noreferrer">RoR Guides</a>
+, it is pretty simple to take advantage of this feature from Rails.
+However if you also use <a href="https://github.com/activeadmin/activeadmin" target="_blank" rel="noopener external nofollow noreferrer">ActiveAdmin</a> to manage your admin interface,
+you will quickly find out that library <a href="https://github.com/justinfrench/formtastic" target="_blank" rel="noopener external nofollow noreferrer">Formtastic</a> that ActiveAdmin
+uses to manage its forms, leaves a lot to be desired when it comes to
+JSON editing support.</p>
+<p>In this post we outline a simple approach to improve JSON editing
+support in ActiveAdmin using the excellent <a href="https://github.com/josdejong/jsoneditor/" target="_blank" rel="noopener external nofollow noreferrer">JSON editor widget</a>
+by <a href="https://github.com/josdejong" target="_blank" rel="noopener external nofollow noreferrer">Jos de Jong</a>. It is worth pointing
+out that our implementation has very little to do with PostgreSQL
+and may be used without modifications if you are storing JSON in say MySQL
+text fields. Of course you will need to handle server side validation yourself in that case.</p>
+<p>The source code for the post is available on <a href="https://github.com/lorefnon/activeadmin-jsoneditor-demo" target="_blank" rel="noopener external nofollow noreferrer">Github</a>.</p>
+<p>Let us have a simple product model with following schema:</p>
+<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CreateProducts</span> &lt; ActiveRecord::Migration</span>
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">change</span></span>
+    create_table <span class="hljs-symbol">:products</span> <span class="hljs-keyword">do</span> <span class="hljs-params">|t|</span>
+      t.string <span class="hljs-symbol">:name</span>
+      t.text <span class="hljs-symbol">:description</span>
+      t.json <span class="hljs-symbol">:metadata</span>
+      t.timestamps
+    <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>You may expect providing admin support for this model will just be
+a matter of adding a file <code>app/admin/product.rb</code>:</p>
+<pre><code class="hljs ruby">ActiveAdmin.register Product <span class="hljs-keyword">do</span>
+  permit_params <span class="hljs-symbol">:name</span>, <span class="hljs-symbol">:description</span>, <span class="hljs-symbol">:metadata</span>
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>However the moment you try to create a new instance, you will be greeted
+with an error message:</p>
+<p><img src="/images/formtastic_unknown_input.png" alt="Formtastic unknown input error" loading="lazy"></p>
+<p>So basically Formtastic has no input field pre-configured for json
+field. A rudimentary workaround is fairly simple - We explicitly ask
+it to use a textarea for metadata field</p>
+<pre><code class="hljs ruby">ActiveAdmin.register Product <span class="hljs-keyword">do</span>
+
+  permit_params <span class="hljs-symbol">:name</span>, <span class="hljs-symbol">:description</span>, <span class="hljs-symbol">:metadata</span>
+
+  form <span class="hljs-keyword">do</span> <span class="hljs-params">|f|</span>
+    f.inputs <span class="hljs-keyword">do</span>
+      f.input <span class="hljs-symbol">:name</span>
+      f.input <span class="hljs-symbol">:description</span>
+      f.input <span class="hljs-symbol">:metadata</span>, <span class="hljs-symbol">as:</span> <span class="hljs-symbol">:text</span>
+    <span class="hljs-keyword">end</span>
+    f.actions
+  <span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>This does the job:</p>
+<p><img src="/images/aa1.png" alt="Form with explicitly specified textarea" loading="lazy"></p>
+<p>But seriously, if you have to edit this json very frequently or manage
+large json entries, a simple textarea is not an ideal solution. Plus
+if you accidentally enter some invalid json, You will be provided with a
+feedback only post submission:</p>
+<p><img src="/images/aa2.png" alt="Error in JSON field" loading="lazy">
+<img src="/images/aa3.png" alt="JSON validation error" loading="lazy"></p>
+<p>The <a href="https://github.com/josdejong/jsoneditor/" target="_blank" rel="noopener external nofollow noreferrer">JSON editor widget</a>
+by <a href="https://github.com/josdejong" target="_blank" rel="noopener external nofollow noreferrer">Jos de Jong</a> provides a lot better json editing
+interface. You can try it out <a href="http://jsoneditoronline.org/" target="_blank" rel="noopener external nofollow noreferrer">online</a>.</p>
+<p>If you like what you see, you will be pleased to find that the widget
+is pretty easy to integrate right inside ActiveAdmin.</p>
+<p>Let us first configure our form to add a class to the json field
+so that we can handle json input fields in a generic fashion.</p>
+<pre><code class="hljs ruby">ActiveAdmin.register Product <span class="hljs-keyword">do</span>
+
+  permit_params <span class="hljs-symbol">:name</span>, <span class="hljs-symbol">:description</span>, <span class="hljs-symbol">:metadata</span>
+
+  form <span class="hljs-keyword">do</span> <span class="hljs-params">|f|</span>
+    f.inputs <span class="hljs-keyword">do</span>
+      f.input <span class="hljs-symbol">:name</span>
+      f.input <span class="hljs-symbol">:description</span>
+      f.input <span class="hljs-symbol">:metadata</span>, <span class="hljs-symbol">as:</span> <span class="hljs-symbol">:text</span>, <span class="hljs-symbol">input_html:</span> &#123; <span class="hljs-class"><span class="hljs-keyword">class</span>: &#x27;<span class="hljs-title">jsoneditor</span>-<span class="hljs-title">target</span>&#x27; &#125;</span>
+    <span class="hljs-keyword">end</span>
+    f.actions
+  <span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>Next we will need to download the <a href="http://jsoneditoronline.org/downloads/" target="_blank" rel="noopener external nofollow noreferrer">relevant files</a> and add to our vendor
+directory. I have already changed the files to use sprockets urls, so you can
+grab the files form the repo.</p>
+<p>Next we modify the active_admin.js.coffee:</p>
+<pre><code class="hljs coffeescript"><span class="hljs-comment">#= require active_admin/base</span>
+<span class="hljs-comment">#= require jsoneditor</span>
+<span class="hljs-comment">#= require jsoneditor_activeadmin_integration</span></code></pre>
+
+<p>Once we have the required files in place, integration is pretty simple -
+<code>app/assets/javascripts/jsoneditor_activeadmin_integration</code>:</p>
+<pre><code class="hljs coffeescript">$ -&gt;
+
+  $(<span class="hljs-string">&#x27;.jsoneditor-target&#x27;</span>).each -&gt;
+
+    target = $ <span class="hljs-built_in">this</span>
+
+    container = $(<span class="hljs-string">&#x27;&lt;div class=&quot;jsoneditor-container&quot;&gt;&#x27;</span>)
+      .insertAfter target
+
+    editor = <span class="hljs-keyword">new</span> JSONEditor container[<span class="hljs-number">0</span>],
+      modes: [<span class="hljs-string">&#x27;code&#x27;</span>, <span class="hljs-string">&#x27;form&#x27;</span>, <span class="hljs-string">&#x27;text&#x27;</span>, <span class="hljs-string">&#x27;tree&#x27;</span>, <span class="hljs-string">&#x27;view&#x27;</span>]
+      change: <span class="hljs-function">-&gt;</span>
+        target.val editor.get()
+
+    editor.set(
+      <span class="hljs-keyword">try</span>
+        <span class="hljs-built_in">JSON</span>.parse target.val()
+    )
+
+    target.hide()</code></pre>
+
+<p>This simply hides the textarea for json field, and adds a json editor
+widget. When the editor is updated, the hidden textarea is updated
+with the new value - so our form continues to work just as expected,
+without Formtastic having to be aware of the widget at all.</p>
+<p>I had to explicitly override some of the conflicting styles from
+ActiveAdmin which were messing up the Editor Widget css:</p>
+<pre><code class="hljs scss"><span class="hljs-selector-class">.jsoneditor-container</span>, <span class="hljs-selector-class">.jsoneditor-contextmenu</span> &#123;
+    <span class="hljs-selector-tag">table</span> &#123;
+        <span class="hljs-attribute">width</span>: auto;
+        <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
+    &#125;
+
+    <span class="hljs-selector-class">.jsoneditor</span> &#123;
+        <span class="hljs-attribute">background</span>: white;
+    &#125;
+
+    <span class="hljs-selector-tag">button</span>, <span class="hljs-selector-tag">button</span><span class="hljs-selector-pseudo">:hover</span>, <span class="hljs-selector-class">.menu</span> <span class="hljs-selector-tag">button</span>, <span class="hljs-selector-class">.menu</span> <span class="hljs-selector-tag">button</span><span class="hljs-selector-pseudo">:hover</span> &#123;
+        <span class="hljs-attribute">background</span>: none;
+        <span class="hljs-attribute">text-shadow</span>: none;
+        <span class="hljs-attribute">box-shadow</span>: none;
+        <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">0</span>;
+    &#125;
+&#125;
+
+<span class="hljs-selector-class">.jsoneditor-container</span> &#123;
+    <span class="hljs-attribute">margin-left</span>: <span class="hljs-number">20%</span>;
+    <span class="hljs-attribute">width</span>: <span class="hljs-number">80%</span>;
+&#125;</code></pre>
+
+<p>And we are pretty much done:
+<img src="/images/aa4.png" alt="Widget integrated with Active Admin" loading="lazy"></p>
+<p>I realize that the default styling of the widget sticks out a bit against
+ the default styling of ActiveAdmin page, but all that is needed to rectify is a few CSS
+rules which I leave as an exercise for the reader.</p>
+<p>As always, any feedback and suggestions are more than welcome.</p>
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>

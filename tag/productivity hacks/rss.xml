@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>Icicles of Thought • Posts by &#34;productivity hacks&#34; tag</title>
+        <link>https://lorefnon.me</link>
+        <description></description>
+        <language>en</language>
+        <pubDate>Sat, 13 Sep 2014 00:00:00 +0530</pubDate>
+        <lastBuildDate>Sat, 13 Sep 2014 00:00:00 +0530</lastBuildDate>
+        <category>Javascript</category>
+        <category>KnockoutJS</category>
+        <category>Ruby</category>
+        <category>EventMachine</category>
+        <category>Websockets</category>
+        <category>Jade</category>
+        <category>Node.js</category>
+        <category>Rails</category>
+        <category>Emacs</category>
+        <category>Gulp</category>
+        <category>ActiveAdmin</category>
+        <category>ActiveRecord</category>
+        <category>Devise</category>
+        <category>Integration</category>
+        <category>Productivity Hacks</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
+        <category>React</category>
+        <category>Frontend</category>
+        <category>Next.js</category>
+        <category>Koa</category>
+        <category>Apollo</category>
+        <category>GraphQL</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
+        <category>SQLite</category>
+        <category>ZSH</category>
+        <category>OCR</category>
+        <category>Helm</category>
+        <category>SPF</category>
+        <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>HAR</category>
+        <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
+        <item>
+            <guid isPermalink="true">https://lorefnon.me/2014/09/13/commit-messages-from-generator-outputs.html</guid>
+            <title>Commit messages from generator outputs</title>
+            <link>https://lorefnon.me/2014/09/13/commit-messages-from-generator-outputs.html</link>
+            <category>Productivity Hacks</category>
+            <category>ZSH</category>
+            <pubDate>Sat, 13 Sep 2014 00:00:00 +0530</pubDate>
+            <description><![CDATA[ &lt;p&gt;A practise I always follow while working with tools that generate code is that any code that is generated and not written by me is committed in isolation. This makes skimming through commit logs later easier because generators often generate many files upfront that wouldn&amp;#39;t be edited until much later. So the subsequent commit wouldn&amp;#39;t be littered with changes that aren&amp;#39;t directly related to the actual operation mentioned in the commit message. Also while browsing through commit diffs keeping generated code in their own commits speeds up the reviewing process - because in most cases we already have an idea of what the generated could be, so it can be skipped.&lt;/p&gt;
+&lt;p&gt;Now, if you use well designed frameworks with elegant command line interfaces, like Rails then the actual command typed along with the command output eg.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;rails generate model post title:string body:text
+
+invoke  active_record
+create    db/migrate/20140913191020_create_posts.rb
+create    app/models/post.rb
+invoke    rspec
+create      spec/models/post_spec.rb&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;is expressive enough for a commit message. A person familiar enough with the framework can instantly see the above and know what happened there. In such case, spending time writing an explanatory commit message for a auto-generated code is pretty much a waste of time.&lt;/p&gt;
+&lt;p&gt;So I have created a simple zsh function which does exactly the above:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;GC ()
+&amp;#123;
+  cmd=&amp;quot;$@&amp;quot;
+  output=$(&amp;quot;$@&amp;quot;)
+  git add .
+  git commit -m &amp;quot;$cmd&amp;quot; -m &amp;quot;$output&amp;quot;
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Add it to your zshrc, and next time you can simply type :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;GC rails g model comment body:text commenter:string&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;GC will add all the generated code (please ensure you have a clean state before running the generator - GC will not help you that) and committing it with the message as the command combined with the output of generator in separate paragraphs.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;commit 029cb2e60187a196d918a08563d95775d73f5100
+Author: Lorefnon &amp;lt;lorefnon@gmail.com&amp;gt;
+Date:   Sun Sep 14 00:58:03 2014 +0530
+
+    rails g model comment body:text commenter:string
+
+          invoke  active_record
+          create    db/migrate/20140913192803_create_comments.rb
+          create    app/models/comment.rb
+          invoke    rspec
+          create      spec/models/comment_spec.rb&lt;/code&gt;&lt;/pre&gt;
+ ]]></description>
+        </item>
+    </channel>
+</rss>

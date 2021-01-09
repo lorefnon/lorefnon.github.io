@@ -1,0 +1,153 @@
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta name="generator" content="Hexo 5.3.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2014-07-13">Posted &nbsp;6 years ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Ruby/"><img src="/images/tag.svg">Ruby</a></li><li class="body-text"><a class="tag-link" href="/tags/Rails/"><img src="/images/tag.svg">Rails</a></li><li class="body-text"><a class="tag-link" href="/tags/ActiveAdmin/"><img src="/images/tag.svg">ActiveAdmin</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Presenting SQL views through ActiveAdmin</div></div><div class="blog-main"><div class="flex-row post-warning"><img src="/images/primary/alert-triangle.svg" style="margin-right: 1rem">This post has not been updated in quite some time and the content here may be out of date 
+or not reflect my current my recommedation in the matter.</div><div class="page-content"><p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/View_(SQL)"> SQL Views </a> are a handy feature that allow us to
+save a query whose results are computed/collated dynamically whenever the view is requested.
+Because the abstraction provided by a view is semantically close to a table we can leverage
+ActiveRecord to interface with the view through a proxy model and use it to
+present the result set through <a href="http://activeadmin.info/" target="_blank" rel="noopener external nofollow noreferrer">ActiveAdmin</a> interface.</p>
+<p>This can be very useful for reporting and visual inspection, especially by
+non technical staff.</p>
+<p>The rest of the post elaborates on a simple approach for doing this through
+code examples. Please note that henceforth we use the term view
+to refer to an SQL View rather than Rails view templates. Also the code is
+written for Rails 4 but should be usable with Rails 3 as well.</p>
+<p>For the sake of illustration we use an example database containing
+geographical information of Indian cities. The full code is available <a href="https://github.com/lorefnon/active_admin_view_demo" target="_blank" rel="noopener external nofollow noreferrer">here</a>.
+For brevity we just mention the generator commands and
+model classes here:</p>
+<pre><code class="hljs sh">rails g model City name:string district_id:<span class="hljs-built_in">integer</span>
+rails g model District name:string state_id:<span class="hljs-built_in">integer</span>
+rails g model State name:string</code></pre>
+
+<pre><code class="hljs ruby"><span class="hljs-comment"># app/models/state.rb</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">State</span> &lt; ActiveRecord::Base</span>
+  has_many <span class="hljs-symbol">:districts</span>
+  has_many <span class="hljs-symbol">:cities</span>, <span class="hljs-symbol">through:</span> <span class="hljs-symbol">:districts</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># app/models/district.rb</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">District</span> &lt; ActiveRecord::Base</span>
+  belongs_to <span class="hljs-symbol">:state</span>
+  has_many <span class="hljs-symbol">:cities</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># app/models/city.rb</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">City</span> &lt; ActiveRecord::Base</span>
+  belongs_to <span class="hljs-symbol">:district</span>
+  has_one <span class="hljs-symbol">:state</span>, <span class="hljs-symbol">through:</span> <span class="hljs-symbol">:district</span>
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>Note: Using the most recent Rails version, 4.1.4, will cause numerous dependency
+conflicts, hence we use Rails 4.0.0 with ActiveAdmin edge.Since we don&#39;t plan
+to use any cutting edge features in this example this should be an acceptable
+compromise.</p>
+<p>We stick to default Devise based AdminUser for authentication. Once we generate
+active admin resources for our models, we have something like this:</p>
+<img src="/images/active_admin_states.png" />
+<img src="/images/active_admin_districts.png" />
+<img src="/images/active_admin_cities.png" />
+
+<p>The view that we intend to create combines the data in the three tables
+joins.</p>
+<pre><code>SELECT cities.id AS id, states.name AS state, districts.name AS district, cities.name AS city
+FROM states
+INNER JOIN districts ON districts.state_id = states.id
+INNER JOIN cities ON cities.district_id = districts.id</code></pre>
+<img src="/images/joins_states.png" />
+
+<p>To create the view we generate a migration:</p>
+<pre><code>rails g migration create_state_district_city_view</code></pre>
+<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CreateStateDistrictCityView</span> &lt; ActiveRecord::Migration</span>
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">up</span></span>
+    <span class="hljs-keyword">self</span>.connection.execute <span class="hljs-string">%Q( CREATE OR REPLACE VIEW state_district_city_view AS</span>
+<span class="hljs-string">      SELECT cities.id AS id, states.name AS state, districts.name AS district, cities.name AS city</span>
+<span class="hljs-string">      FROM states</span>
+<span class="hljs-string">      INNER JOIN districts ON districts.state_id = states.id</span>
+<span class="hljs-string">      INNER JOIN cities ON cities.district_id = districts.id</span>
+<span class="hljs-string">    )</span>
+  <span class="hljs-keyword">end</span>
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">down</span></span>
+    <span class="hljs-keyword">self</span>.connection.execute <span class="hljs-string">&quot;DROP VIEW IF EXISTS state_district_city_view;&quot;</span>
+  <span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>Now a view, as far as read access is concerned, behaves similar to a table, we
+can just define a normal ActiveRecord model to access this view.</p>
+<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StateDistrictCityViewProxy</span> &lt; ActiveRecord::Base</span>
+    <span class="hljs-keyword">self</span>.table_name = <span class="hljs-string">&quot;state_district_city_view&quot;</span>
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>We can take the proxy model for a test drive using IRB:</p>
+<pre><code class="hljs ruby">&gt; StateDistrictCityViewProxy.limit(<span class="hljs-number">10</span>).to_a
+  StateDistrictCityViewProxy Load (<span class="hljs-number">0</span>.4ms)  SELECT <span class="hljs-string">`state_district_city_view`</span>.* FROM <span class="hljs-string">`state_district_city_view`</span> LIMIT <span class="hljs-number">10</span>
+=&gt; [#&lt;StateDistrictCityViewProxy id: 1, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Agali&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 2, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Amadagur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 3, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Amarapuram&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 4, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Anantapur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 5, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Atmakur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 6, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bathalapalle&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 7, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Beluguppa&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 8, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bommanahal&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 9, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Brahmasamudram&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 10, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bukkapatnam&quot;&gt;]</code></pre>
+
+<p>Now that we have a model, generating an ActiveAdmin resource is as simple as:</p>
+<pre><code> rails g active_admin:resource StateDistrictCityViewProxy</code></pre>
+<p>At this point upon visiting the index page in ActiveAdmin we might have expected
+a fancy paginated table but instead we are greeted with a not-so-helpful error:</p>
+<img src="/images/err1.png"/>
+
+<p>The problem is immediately obvious if we try to get the attributes of a model instance:</p>
+<pre><code>&gt; s1 = StateDistrictCityViewProxy.first
+  StateDistrictCityViewProxy Load (0.3ms)  SELECT `state_district_city_view`.* FROM `state_district_city_view` LIMIT 1
+=&gt; #&lt;StateDistrictCityViewProxy id: 1, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Agali&quot;&gt;
+&gt; s1.attributes
+=&gt; &#123;&quot;id&quot;=&gt;1, &quot;state&quot;=&gt;&quot;Andhra Pradesh&quot;, &quot;district&quot;=&gt;&quot;Anantapur&quot;, &quot;city&quot;=&gt;&quot;Agali&quot;, nil=&gt;nil&#125;</code></pre>
+<p>So the question is where is the nil coming from? The problem is that an SQL view doesn&#39;t have a primary key. Rails doesn&#39;t automatically
+assume that our <code>id</code> field is a primary key.</p>
+<pre><code>&gt; StateDistrictCityViewProxy.primary_key
+=&gt; nil</code></pre>
+<p>We can not somehow add a primary key to an SQL view, that is utterly pointless. However we can force ActiveRecord to use the <code>id</code> attribute
+as primary key.</p>
+<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StateDistrictCityViewProxy</span> &lt; ActiveRecord::Base</span>
+  <span class="hljs-keyword">self</span>.table_name = <span class="hljs-string">&quot;state_district_city_view&quot;</span>
+  <span class="hljs-keyword">self</span>.primary_key = <span class="hljs-string">&quot;id&quot;</span>
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>And voila. We have our fancy table:</p>
+<img src="/images/active_admin_view.png"/>
+
+<h1 id="Caveats"><a href="#Caveats" class="headerlink" title="Caveats:"></a>Caveats:</h1><p>While everything looks great at this point, our setup has a couple of issues that need to be resolved:</p>
+<h2 id="schema-rb"><a href="#schema-rb" class="headerlink" title="schema.rb"></a>schema.rb</h2><p>If you take a look at schema.rb the problem immediately becomes obvious. Nothing about our view is to be found.
+The problem is that Rails is blissfully oblivious of our SQL views and the sql statements
+in our migrations have not introducted any changes in schema.rb. So when you regenerate the database from
+schema.yml the view will not be created. This has multiple solutions. A simple one
+is to get rid of schema.rb in favor of sql schema format.</p>
+<p>In config/application.rb:</p>
+<pre><code>config.active_record.schema_format = :sql</code></pre>
+<p>Next time we run <code>rake db:migrate</code> a <code>structure.sql</code> file will be generated that contains the SQL
+for generating our views.</p>
+<p>An alternative option is the gem <a href="https://github.com/lomba/schema_plus" target="_blank" rel="noopener external nofollow noreferrer">schema_plus</a> that augments ActiveRecord
+with support for views among other advanced database features.</p>
+<h2 id="Edit-Delete-actions"><a href="#Edit-Delete-actions" class="headerlink" title="Edit/Delete actions"></a>Edit/Delete actions</h2><p>Our ActiveAdmin view table has been blessed with <code>Edit</code> and <code>Delete</code> actions for every row, which
+oviously trigger an error. For example, here is what we end up with when clicking on <code>Delete</code> :</p>
+<img src="/images/err2.png"/>
+
+<p>Let us declare the proxy model as readonly.</p>
+<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StateDistrictCityViewProxy</span> &lt; ActiveRecord::Base</span>
+  <span class="hljs-keyword">self</span>.table_name = <span class="hljs-string">&quot;state_district_city_view&quot;</span>
+  <span class="hljs-keyword">self</span>.primary_key = <span class="hljs-string">&quot;id&quot;</span>
+
+  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">readonly?</span></span>
+    <span class="hljs-literal">true</span>
+  <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>Next we simply remove the irrelevant actions from the ActiveAdmin view:</p>
+<pre><code class="hljs ruby">ActiveAdmin.register StateDistrictCityViewProxy <span class="hljs-keyword">do</span>
+
+  actions <span class="hljs-symbol">:index</span>, <span class="hljs-symbol">:show</span>
+
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>Now that the quirks of our setup have been ironed out, feel free to go ahead and try it out.
+Of course SQL views are not the only solution for a problem like this and the aforementioned table could have been
+built entirely through DSLs provided by ActiveAdmin. But nonetheless, SQL views are something that
+most DBAs are already familiar with and is a hassle free setup. If you already have a legacy database
+with views or need to use views for other auxiliary purposes, the aforementioned approach may make
+things easy for you.</p>
+<p>Any suggestion or criticism is welcome.</p>
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>

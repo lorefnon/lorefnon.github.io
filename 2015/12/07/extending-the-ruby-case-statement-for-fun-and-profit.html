@@ -1,0 +1,241 @@
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta name="generator" content="Hexo 5.3.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2015-12-07">Posted &nbsp;5 years ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Ruby/"><img src="/images/tag.svg">Ruby</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Extending the ruby case statement for fun and profit</div></div><div class="blog-main"><div class="flex-row post-warning"><img src="/images/primary/alert-triangle.svg" style="margin-right: 1rem">This post has not been updated in quite some time and the content here may be out of date 
+or not reflect my current my recommedation in the matter.</div><div class="page-content">
+<p>I have often found that, despite being one of the most powerful constructs of the language, ruby case statement is often undervalued in everyday code. </p>
+
+<p>This is especially true when the people involved are coming from C/Java background because the switch statements in those languages are very restrictive in comparision to ruby. While ruby's case statement still leaves quite a bit to be desired after a taste of pattern matching in languages like <a target="_blank" rel="noopener" href="http://elixir-lang.org/getting-started/pattern-matching.html">elixir</a> and <a target="_blank" rel="noopener" href="https://kerflyn.wordpress.com/2011/02/14/playing-with-scalas-pattern-matching/">scala</a>, nevertheless, with a little effort we can adapt ruby's case statement to handle variety of use cases very expressively.</p>
+
+<a class="header-link" href="#under-the-hood-of-case-statement"><h2 id="under-the-hood-of-case-statement">Under the hood of case statement</h2></a>
+
+<p>Behind the scenes, ruby uses the case equality method (===) for matching in case statements. So our primary appraoch for adding custom behavior to case statement would be through overriden behavior implemented in this method. </p>
+
+<a class="header-link" href="#proc-as-a-match-target"><h2 id="proc-as-a-match-target">Proc as a match target</h2></a>
+
+<p>An especially convenient aspect of proc is that it's case equality method results in invocation of the proc itself - this comes in handy for quickly matching conditions:</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">palindrome?</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+  <span class="k">case</span> <span class="n">word</span>
+  <span class="k">when</span> <span class="nb">proc</span><span class="p">&#123;</span><span class="o">|</span><span class="n">w</span><span class="o">|</span> <span class="n">w</span><span class="o">.</span><span class="n">reverse</span> <span class="o">==</span> <span class="n">w</span> <span class="p">&#125;</span>
+    <span class="kp">true</span>
+  <span class="k">else</span>
+    <span class="kp">false</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<a class="header-link" href="#more-expressive-code-with-custom-matchers"><h2 id="more-expressive-code-with-custom-matchers">More expressive code with custom matchers</h2></a>
+
+<p>Custom matchers can often help us make our code more expressive and closer to intent.</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="no">DivisibilityMatcher</span> <span class="o">=</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:divisor</span><span class="p">)</span> <span class="k">do</span>
+  <span class="k">def</span> <span class="nf">===</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+    <span class="n">target</span> <span class="o">%</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">divisible_by</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+  <span class="no">DivisibilityMatcher</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">case</span> <span class="mi">18</span>
+<span class="k">when</span> <span class="n">divisible_by</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"divisible by 5"</span>
+<span class="k">when</span> <span class="n">divisible_by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"divisible by 3"</span>
+<span class="k">when</span> <span class="n">divisible_by</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"divisible by 2"</span>
+<span class="k">end</span>
+
+<span class="o">=&gt;</span> <span class="n">divisible</span> <span class="n">by</span> <span class="mi">3</span>
+</code></pre></div>
+<a class="header-link" href="#matchers-for-membership-evaluation"><h2 id="matchers-for-membership-evaluation">Matchers for membership evaluation</h2></a>
+
+<p>A simple use case might be to extend case to handle membership evaluation:</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="no">MembershipEvaluationMatcher</span> <span class="o">=</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:collection</span><span class="p">)</span> <span class="k">do</span>
+  <span class="k">def</span> <span class="nf">===</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+    <span class="n">collection</span><span class="o">.</span><span class="n">include?</span> <span class="n">target</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">member_of</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span>
+  <span class="no">MembershipEvaluationMatcher</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">case</span> <span class="mi">1</span>
+<span class="k">when</span> <span class="n">member_of</span><span class="p">(</span><span class="sx">%w[a b c]</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s1">'case 1'</span>
+<span class="k">when</span> <span class="n">member_of</span><span class="p">(</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s1">'case 2'</span>
+<span class="k">end</span>
+
+<span class="o">=&gt;</span> <span class="k">case</span> <span class="mi">2</span>
+</code></pre></div>
+<a class="header-link" href="#matcher-composition"><h2 id="matcher-composition">Matcher composition</h2></a>
+
+<p>Advantage of having matcher objects dedicatedly handling only the responsibility of matching is that we can compose them in ways that make sense from the perspective of match making. </p>
+
+<p>Let us extend our divisibility check to illustrate the above. You may have noticed that our checks don't fall through the conditions -- so while divisibility with 3 is reported, divisibility with 2 is not. Let us check both using a matcher.</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="no">CompositeDivisibilityMatcher</span> <span class="o">=</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:matchers</span><span class="p">)</span> <span class="k">do</span>
+  <span class="k">def</span> <span class="nf">===</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> 
+    <span class="n">combine_results</span> <span class="n">matchers</span><span class="o">.</span><span class="n">map</span><span class="p">&#123;</span><span class="o">|</span><span class="n">m</span><span class="o">|</span> <span class="n">m</span> <span class="o">===</span> <span class="n">target</span> <span class="p">&#125;</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">combine_results</span> <span class="n">match_results</span>
+    <span class="kp">false</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">AllDivisibilityMatcher</span> <span class="o">&lt;</span> <span class="no">CompositeDivisibilityMatcher</span> 
+  <span class="k">def</span> <span class="nf">combine_results</span> <span class="n">match_results</span>
+    <span class="n">match_results</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="ss">:&amp;</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">AnyDivisibilityMatcher</span> <span class="o">&lt;</span> <span class="no">CompositeDivisibilityMatcher</span>
+  <span class="k">def</span> <span class="nf">combine_results</span> <span class="n">match_results</span>
+    <span class="n">match_results</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="ss">:|</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">DivisibilityMatcher</span> <span class="o">=</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:divisor</span><span class="p">)</span> <span class="k">do</span>
+  <span class="k">def</span> <span class="nf">===</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+    <span class="n">target</span> <span class="o">%</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">&amp;</span><span class="p">(</span><span class="n">matcher</span><span class="p">)</span>
+    <span class="no">AllDivisibilityMatcher</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="nb">self</span><span class="p">,</span> <span class="n">matcher</span><span class="o">]</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">|</span><span class="p">(</span><span class="n">matcher</span><span class="p">)</span>
+    <span class="no">AnyDivisibilityMatcher</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="nb">self</span><span class="p">,</span> <span class="n">matcher</span><span class="o">]</span><span class="p">)</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">divisible_by</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+  <span class="no">DivisibilityMatcher</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span>
+  <span class="k">case</span> <span class="n">num</span>
+  <span class="k">when</span> <span class="n">divisible_by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">divisible_by</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="s1">'FizzBuzz'</span>
+  <span class="k">when</span> <span class="n">divisible_by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="s1">'Fizz'</span>
+  <span class="k">when</span> <span class="n">divisible_by</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="s1">'Buzz'</span>
+  <span class="k">else</span>
+    <span class="nb">puts</span> <span class="n">num</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>We can also take advantage of <a target="_blank" rel="noopener" href="https://ruby-doc.org/core-1.9.3/Proc.html#method-i-curry">proc currying</a> reduce some verbosity here.</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="n">is_divisible</span> <span class="o">=</span> <span class="nb">proc</span> <span class="p">&#123;</span><span class="o">|</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="o">|</span> <span class="n">a</span> <span class="o">%</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">&#125;</span>
+<span class="n">is_divisible_by_all</span> <span class="o">=</span> <span class="nb">proc</span> <span class="p">&#123;</span><span class="o">|</span><span class="n">arr</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">arr</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="n">is_divisible</span><span class="o">.</span><span class="n">curry</span><span class="o">[</span><span class="n">a</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="ss">:&amp;</span><span class="p">)</span> <span class="p">&#125;</span>
+<span class="n">is_divisible_by_any</span> <span class="o">=</span> <span class="nb">proc</span> <span class="p">&#123;</span><span class="o">|</span><span class="n">arr</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">arr</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="n">is_divisible</span><span class="o">.</span><span class="n">curry</span><span class="o">[</span><span class="n">a</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="ss">:|</span><span class="p">)</span> <span class="p">&#125;</span>
+
+<span class="k">case</span> <span class="mi">18</span>
+<span class="k">when</span> <span class="n">is_divisible_by_all</span><span class="o">.</span><span class="n">curry</span><span class="o">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]]</span>
+<span class="nb">puts</span> <span class="s1">'div by 2 and 3'</span>
+<span class="k">when</span> <span class="n">is_divisible_by_any</span><span class="o">.</span><span class="n">curry</span><span class="o">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]]</span>
+<span class="nb">puts</span> <span class="s1">'div by 2 or 3'</span>
+<span class="k">end</span>
+
+<span class="o">=&gt;</span> <span class="n">div</span> <span class="n">by</span> <span class="mi">2</span> <span class="ow">and</span> <span class="mi">3</span>
+</code></pre></div>
+<a class="header-link" href="#matching-against-incomplete-data-structures"><h2 id="matching-against-incomplete-data-structures">Matching against incomplete data structures</h2></a>
+
+<p>We can extend this concept to match against analogous data structures that are incompletely specified. In the example below we match against a list where missing values are denoted by :_ . The case statement will ignore these missing items when matching.</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">Matchers</span>
+  <span class="no">ListMatcher</span> <span class="o">=</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:matchable_list</span><span class="p">)</span> <span class="k">do</span>
+    <span class="k">def</span> <span class="nf">===</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
+      <span class="k">return</span> <span class="kp">false</span> <span class="k">unless</span> <span class="n">list</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="n">matchable_list</span><span class="o">.</span><span class="n">length</span>
+      <span class="n">list</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="p">,</span> <span class="n">idx</span><span class="o">|</span>
+        <span class="k">case</span> <span class="n">matchable_list</span><span class="o">[</span><span class="n">idx</span><span class="o">]</span>
+        <span class="k">when</span> <span class="ss">:_</span><span class="p">,</span> <span class="n">item</span>
+          <span class="k">next</span>
+        <span class="k">else</span>
+          <span class="k">return</span> <span class="kp">false</span>
+        <span class="k">end</span>       
+      <span class="k">end</span>
+      <span class="kp">true</span>
+    <span class="k">end</span> 
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">matches</span> <span class="n">array</span>
+  <span class="no">Matchers</span><span class="o">::</span><span class="no">ListMatcher</span><span class="o">.</span><span class="n">new</span> <span class="n">array</span>
+<span class="k">end</span>
+
+<span class="k">case</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span>
+<span class="k">when</span> <span class="n">matches</span><span class="p">(</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="ss">:_</span> <span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"case 1"</span>
+<span class="k">when</span> <span class="n">matches</span><span class="p">(</span><span class="o">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="o">]</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"case 2"</span>
+<span class="k">when</span> <span class="n">matches</span><span class="p">(</span><span class="o">[</span><span class="ss">:_</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"case 3"</span>
+<span class="k">when</span> <span class="n">matches</span><span class="p">(</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="ss">:_</span> <span class="p">,</span> <span class="mi">3</span><span class="o">]</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"case 4"</span>
+<span class="k">end</span>
+
+<span class="c1"># Outputs: case 4</span>
+</code></pre></div>
+<a class="header-link" href="#retrieving-the-missing-data-items"><h2 id="retrieving-the-missing-data-items">Retrieving the missing data items</h2></a>
+
+<p>If we are matching against incomplete data structures perhaps it would be nice to extract the missing items as well. This requires a bit more boilerplate though.</p>
+<div class="highlight"><pre><code class="ruby language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">Matchers</span>
+
+  <span class="no">Matchable</span> <span class="o">=</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:target</span><span class="p">)</span> <span class="k">do</span>
+    <span class="k">def</span> <span class="nf">matches</span>
+      <span class="vi">@matches</span> <span class="o">||=</span> <span class="o">[]</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="no">ListMatcher</span> <span class="o">=</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:matchable_list</span><span class="p">)</span> <span class="k">do</span>
+    <span class="k">def</span> <span class="nf">===</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
+      <span class="k">return</span> <span class="kp">false</span> <span class="k">unless</span> <span class="n">list</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="n">matchable_list</span><span class="o">.</span><span class="n">length</span>
+
+      <span class="n">match_results</span> <span class="o">=</span> <span class="o">[]</span>
+
+      <span class="n">list</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="p">,</span> <span class="n">idx</span><span class="o">|</span>
+        <span class="k">case</span> <span class="n">matchable_list</span><span class="o">[</span><span class="n">idx</span><span class="o">]</span>
+        <span class="k">when</span> <span class="ss">:_</span>
+          <span class="n">match_results</span> <span class="o">&lt;&lt;</span> <span class="n">item</span>
+          <span class="k">next</span>
+        <span class="k">when</span> <span class="n">item</span>
+          <span class="k">next</span>
+        <span class="k">else</span>
+          <span class="k">return</span> <span class="kp">false</span>
+        <span class="k">end</span>       
+      <span class="k">end</span>
+
+      <span class="n">list</span><span class="o">.</span><span class="n">matches</span> <span class="o">&lt;&lt;</span> <span class="n">match_results</span>
+      <span class="kp">true</span>
+    <span class="k">end</span> 
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">matches</span> <span class="n">array</span>
+  <span class="no">Matchers</span><span class="o">::</span><span class="no">ListMatcher</span><span class="o">.</span><span class="n">new</span> <span class="n">array</span>
+<span class="k">end</span>
+
+<span class="n">matchable</span> <span class="o">=</span> <span class="no">Matchers</span><span class="o">::</span><span class="no">Matchable</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span><span class="p">)</span>
+
+<span class="k">case</span> <span class="n">matchable</span>
+<span class="k">when</span> <span class="n">matches</span><span class="p">(</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="ss">:_</span> <span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"case 1"</span>
+<span class="k">when</span> <span class="n">matches</span><span class="p">(</span><span class="o">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="o">]</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"case 2"</span>
+<span class="k">when</span> <span class="n">matches</span><span class="p">(</span><span class="o">[</span><span class="ss">:_</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"case 3"</span>
+<span class="k">when</span> <span class="n">matches</span><span class="p">(</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="ss">:_</span> <span class="p">,</span> <span class="mi">3</span><span class="o">]</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"case 4"</span>
+<span class="k">end</span>
+
+<span class="nb">puts</span> <span class="n">matchable</span><span class="o">.</span><span class="n">matches</span>
+ <span class="o">=&gt;</span> <span class="o">[[</span><span class="mi">2</span><span class="o">]]</span>
+</code></pre></div>
+<p>Running the matchable through the case statements multiple times will keep appending the match results to the matches.</p>
+
+<p>Thus we have explored a variety of use cases where the case construct can, perhaps unexpectedly, be applied to our advantage. </p>
+
+<p>This concludes on our exploration of extensibility of the ruby case equality and I hope that it helps you write more expressive and elegant code using matchers.</p>
+
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>

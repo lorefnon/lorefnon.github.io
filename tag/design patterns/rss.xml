@@ -1,0 +1,348 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>Icicles of Thought • Posts by &#34;design patterns&#34; tag</title>
+        <link>https://lorefnon.me</link>
+        <description></description>
+        <language>en</language>
+        <pubDate>Sat, 03 Jan 2015 00:00:00 +0530</pubDate>
+        <lastBuildDate>Sat, 03 Jan 2015 00:00:00 +0530</lastBuildDate>
+        <category>Javascript</category>
+        <category>KnockoutJS</category>
+        <category>Ruby</category>
+        <category>EventMachine</category>
+        <category>Websockets</category>
+        <category>Jade</category>
+        <category>Node.js</category>
+        <category>Rails</category>
+        <category>Emacs</category>
+        <category>Gulp</category>
+        <category>ActiveAdmin</category>
+        <category>ActiveRecord</category>
+        <category>Devise</category>
+        <category>Integration</category>
+        <category>Productivity Hacks</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
+        <category>React</category>
+        <category>Frontend</category>
+        <category>Next.js</category>
+        <category>Koa</category>
+        <category>Apollo</category>
+        <category>GraphQL</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
+        <category>SQLite</category>
+        <category>ZSH</category>
+        <category>OCR</category>
+        <category>Helm</category>
+        <category>SPF</category>
+        <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>HAR</category>
+        <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
+        <item>
+            <guid isPermalink="true">https://lorefnon.me/2015/01/03/leveraging-strategy-pattern-in-rails.html</guid>
+            <title>Leveraging the strategy pattern in Rails - I</title>
+            <link>https://lorefnon.me/2015/01/03/leveraging-strategy-pattern-in-rails.html</link>
+            <category>Ruby</category>
+            <category>Rails</category>
+            <category>Design Patterns</category>
+            <pubDate>Sat, 03 Jan 2015 00:00:00 +0530</pubDate>
+            <description><![CDATA[ &lt;h1 id=&#34;To-begin-with-what-is-strategy-pattern&#34;&gt;&lt;a href=&#34;#To-begin-with-what-is-strategy-pattern&#34; class=&#34;headerlink&#34; title=&#34;To begin with, what is strategy pattern ?&#34;&gt;&lt;/a&gt;To begin with, what is strategy pattern ?&lt;/h1&gt;&lt;p&gt;Quoting from &lt;a href=&#34;http://en.wikipedia.org/wiki/Strategy_pattern&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Wikipedia&lt;/a&gt;,&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;the strategy pattern (also known as the policy pattern) is a software design
+pattern that enables an algorithm&amp;#39;s behavior to be selected at runtime.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;So-how-does-this-help-us&#34;&gt;&lt;a href=&#34;#So-how-does-this-help-us&#34; class=&#34;headerlink&#34; title=&#34;So how does this help us ?&#34;&gt;&lt;/a&gt;So how does this help us ?&lt;/h1&gt;&lt;p&gt;Strategy pattern just helps us escape the soup of complex nested conditionals
+and model behavior selection in an object oriented fashion. To understand why this is
+required let us explore a fictional example:&lt;/p&gt;
+&lt;h1 id=&#34;An-adventure&#34;&gt;&lt;a href=&#34;#An-adventure&#34; class=&#34;headerlink&#34; title=&#34;An adventure&#34;&gt;&lt;/a&gt;An adventure&lt;/h1&gt;&lt;p&gt;Suppose that we are developing a social network for book lovers. To encourage users
+to read more we decide to show a recommendations panel which highlights books that
+are trending in the community.&lt;/p&gt;
+&lt;p&gt;Our (over-simplified) implementation might be something like:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Book&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
+
+  has_many &lt;span class=&#34;hljs-symbol&#34;&gt;:recommendations&lt;/span&gt;
+  has_many &lt;span class=&#34;hljs-symbol&#34;&gt;:tags&lt;/span&gt;
+
+  scope &lt;span class=&#34;hljs-symbol&#34;&gt;:popular&lt;/span&gt;, -&amp;gt; &amp;#123;  where &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;recommendations_count &amp;gt; 100&amp;#x27;&lt;/span&gt; &amp;#125;
+
+  &lt;span class=&#34;hljs-comment&#34;&gt;# Return a random subset of recommended books&lt;/span&gt;
+  &lt;span class=&#34;hljs-comment&#34;&gt;#&lt;/span&gt;
+  &lt;span class=&#34;hljs-comment&#34;&gt;# Yes, this approach is sub-optimal for large number of popular books. Better&lt;/span&gt;
+  &lt;span class=&#34;hljs-comment&#34;&gt;# approaches are outlined here:&lt;/span&gt;
+  &lt;span class=&#34;hljs-comment&#34;&gt;# http://stackoverflow.com/questions/4329396/mysql-select-10-random-rows-from-600k-rows-fast&lt;/span&gt;
+  &lt;span class=&#34;hljs-comment&#34;&gt;#&lt;/span&gt;
+  def &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.recommended
+    popular.order(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;RAND()&amp;#x27;&lt;/span&gt;).limit(&lt;span class=&#34;hljs-number&#34;&gt;5&lt;/span&gt;)
+  &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Recommendation&lt;/span&gt;&lt;/span&gt;
+  belongs_to &lt;span class=&#34;hljs-symbol&#34;&gt;:user&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;counter_cache:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;
+  belongs_to &lt;span class=&#34;hljs-symbol&#34;&gt;:book&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;counter_cache:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In home/index.html.erb&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;recommended-book-list&amp;#x27;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; Book.recommended.each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; book.title &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So far so good, however we realize that for users who have been using our service
+for a while, it makes more sense to show recommendations based on their intersts. So we do a
+shotgun surgery and modify our code to the following:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Book&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
+  ...
+  def &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.recommended_for user
+    &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; user.blank? &lt;span class=&#34;hljs-params&#34;&gt;||&lt;/span&gt; (user.recommendations_count &amp;lt; &lt;span class=&#34;hljs-number&#34;&gt;5&lt;/span&gt;)
+      popular
+    &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
+      not_recommended_by(user).where(&lt;span class=&#34;hljs-symbol&#34;&gt;tags:&lt;/span&gt; user.recommended_tags)
+    &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;.order(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;RAND()&amp;#x27;&lt;/span&gt;).limit(&lt;span class=&#34;hljs-number&#34;&gt;5&lt;/span&gt;)
+  &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;User&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
+  ...
+  has_many &lt;span class=&#34;hljs-symbol&#34;&gt;:recommendations&lt;/span&gt;
+  has_many &lt;span class=&#34;hljs-symbol&#34;&gt;:recommended_books&lt;/span&gt;,
+    &lt;span class=&#34;hljs-symbol&#34;&gt;through:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:recommendations&lt;/span&gt;,
+    &lt;span class=&#34;hljs-symbol&#34;&gt;source:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:book&lt;/span&gt;
+  has_many &lt;span class=&#34;hljs-symbol&#34;&gt;:recommended_tags&lt;/span&gt;,
+    &lt;span class=&#34;hljs-symbol&#34;&gt;through:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:recommended_books&lt;/span&gt;,
+    &lt;span class=&#34;hljs-symbol&#34;&gt;source:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:tags&lt;/span&gt;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Book&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
+  ...
+  scope &lt;span class=&#34;hljs-symbol&#34;&gt;:not_recommended_by&lt;/span&gt;, -&amp;gt; (user) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
+    joins(&lt;span class=&#34;hljs-symbol&#34;&gt;:recommendations&lt;/span&gt;)
+      .where(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;recommendations.user_id != ?&amp;#x27;&lt;/span&gt;, user.id)
+  &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And our template becomes something like:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;recommended-book-list&amp;#x27;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; Book.recommended_for(current_user).each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; book.title &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We see that at this point our &lt;code&gt;recommended_for&lt;/code&gt; method is burdened with multiple
+responsibilities - the decision for the approach to be used as well as the logic
+for multiple approaches all reside in the same method, which is not very ideal.&lt;/p&gt;
+&lt;p&gt;Let us push this further. Say, after a couple of months our social networks gains
+a lot of traction and we strike a very profitable deal with a major publishing
+firm &amp;#39;Jackass Kangaroo Publications&amp;#39; and as a part of the deal we need to ensure
+that the recommended books include only those which have been published by this
+publication.&lt;/p&gt;
+&lt;p&gt;No problem, we just need add a few lines of code:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Book&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
+  ...
+  def &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.recommended_for user
+    query = Book
+
+    &lt;span class=&#34;hljs-comment&#34;&gt;# Comment this out when deal with Jackass Kangaroo Publication is over.&lt;/span&gt;
+    query = query.where(&lt;span class=&#34;hljs-symbol&#34;&gt;publisher:&lt;/span&gt; Publisher.where(&lt;span class=&#34;hljs-symbol&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Jackass Kangaroo Publication&amp;#x27;&lt;/span&gt;).first)
+
+    &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; user.blank? &lt;span class=&#34;hljs-params&#34;&gt;||&lt;/span&gt; (user.recommendations_count &amp;lt; &lt;span class=&#34;hljs-number&#34;&gt;5&lt;/span&gt;)
+      query.popular
+    &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
+      query.not_recommended_by(user).where(&lt;span class=&#34;hljs-symbol&#34;&gt;tags:&lt;/span&gt; user.recommended_tags)
+    &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;.order(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;RAND()&amp;#x27;&lt;/span&gt;).limit(&lt;span class=&#34;hljs-number&#34;&gt;5&lt;/span&gt;)
+  &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;No words are needed to describe the ugliness of the code above. Our eyes bleed but we
+choose to look away and carry on with our buisness.&lt;/p&gt;
+&lt;p&gt;Of course, the journey of our social network is not all rosy. We get hit by a
+lawsuit making our deal with &lt;code&gt;Jackass Kangaroo Publications&lt;/code&gt; illegal in a specific country.
+But why bother backing off from this insanity when all problems can be resolved
+by adding just another condition:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Book&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
+  ...
+  def &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.recommended_for user
+    query = Book
+
+    &lt;span class=&#34;hljs-comment&#34;&gt;# Comment this out when deal with Jackass Kangaroo Publication is over.&lt;/span&gt;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;unless&lt;/span&gt; user.located_in? DISPUTED_DEMOGRAPHY
+      query = query.where(&lt;span class=&#34;hljs-symbol&#34;&gt;publisher:&lt;/span&gt; Publisher.where(&lt;span class=&#34;hljs-symbol&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Jackass Kangaroo Publication&amp;#x27;&lt;/span&gt;).first)
+    &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+    ...
+  &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;A-downhill-slope&#34;&gt;&lt;a href=&#34;#A-downhill-slope&#34; class=&#34;headerlink&#34; title=&#34;A downhill slope&#34;&gt;&lt;/a&gt;A downhill slope&lt;/h1&gt;&lt;p&gt;So requirements keep stacking up and we keep adding conditions. Fast forward a few years, and
+a sincere programmer who is new to the project, unfamiliar with our rocky history and now is responsible
+for maintenance of the project is staring
+blankly at the entangled mess of conditional statements. Of course the crutial details of the deal
+and the subsequent lawsuits are now lost in sands of time, and none of the present team members
+have any idea what is going on.&lt;/p&gt;
+&lt;h1 id=&#34;Retrospection&#34;&gt;&lt;a href=&#34;#Retrospection&#34; class=&#34;headerlink&#34; title=&#34;Retrospection&#34;&gt;&lt;/a&gt;Retrospection&lt;/h1&gt;&lt;p&gt;The question now is, what could be done to avoid a situation like this ? As you might have guessed
+at this point, burdening the Book class with responsibility to determine various aspects of
+application that affect our recommendation policy as well as the complete implementation of all these policies
+is cumbersome. What we can do is that we can refactor out the specific strategies into dedicated
+classes that encapsulate the actual implementation details. This is exactly what the strategy pattern
+encourages us to embrace.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Strategies&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;RecommendationGeneration&lt;/span&gt; &amp;lt; Struct.&lt;span class=&#34;hljs-title&#34;&gt;new&lt;/span&gt;(&lt;span class=&#34;hljs-title&#34;&gt;user&lt;/span&gt;, &lt;span class=&#34;hljs-title&#34;&gt;scoped_collection&lt;/span&gt;)&lt;/span&gt;
+    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;scoped_collection&lt;/span&gt;&lt;/span&gt;
+      &lt;span class=&#34;hljs-keyword&#34;&gt;super&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;||&lt;/span&gt; Book
+    &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;applicable?&lt;/span&gt;&lt;/span&gt;
+      &lt;span class=&#34;hljs-literal&#34;&gt;false&lt;/span&gt;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;execute&lt;/span&gt;&lt;/span&gt;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+  &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;br&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Strategies&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;DefaultRecommendationGeneration&lt;/span&gt; &amp;lt; RecommendationGeneration&lt;/span&gt;
+
+    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;applicable?&lt;/span&gt;&lt;/span&gt;
+          &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+        &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;scoped_collection&lt;/span&gt;&lt;/span&gt;
+          &lt;span class=&#34;hljs-keyword&#34;&gt;super&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;||&lt;/span&gt; popular
+        &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;execute&lt;/span&gt;&lt;/span&gt;
+          scoped_collection.order(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;RAND()&amp;#x27;&lt;/span&gt;).limit(&lt;span class=&#34;hljs-number&#34;&gt;5&lt;/span&gt;)
+    &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+  &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;br&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;
+&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Strategies&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;UserAdaptedRecommendationGeneration&lt;/span&gt; &amp;lt; RecommendationGeneration&lt;/span&gt;
+
+    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;applicable?&lt;/span&gt;&lt;/span&gt;
+      user.present?
+    &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;scoped_collection&lt;/span&gt;&lt;/span&gt;
+      &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; user.present?
+        not_recommended_by(user).where(&lt;span class=&#34;hljs-symbol&#34;&gt;tags:&lt;/span&gt; user.recommended_tags)
+      &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
+            &lt;span class=&#34;hljs-keyword&#34;&gt;super&lt;/span&gt;
+          &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+        &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;execute&lt;/span&gt;&lt;/span&gt;
+          Strategies::DefaultRecommendation
+            .new(user, scoped_collection)
+                .execute
+        &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+  &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;br&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;
+&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Strategies&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;PartnershipAdaptedRecommendationGeneration&lt;/span&gt; &amp;lt; RecommendationGeneration&lt;/span&gt;
+
+    &lt;span class=&#34;hljs-comment&#34;&gt;# It is better to model buisness constraints in the persistance layer&lt;/span&gt;
+        &lt;span class=&#34;hljs-comment&#34;&gt;# rather than relying on implicit assumptions.&lt;/span&gt;
+        &lt;span class=&#34;hljs-comment&#34;&gt;#&lt;/span&gt;
+        &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;applicable?&lt;/span&gt;&lt;/span&gt;
+          ! partner_publisher.blank?
+        &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+        &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;partner_publisher&lt;/span&gt;&lt;/span&gt;
+          Partnership
+            .legal_in(user.demography)
+        .having_recommendation_priviledge
+                .active
+                .first
+                .publisher
+        &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+        &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;scoped_collection&lt;/span&gt;&lt;/span&gt;
+          Book.where(&lt;span class=&#34;hljs-symbol&#34;&gt;publisher:&lt;/span&gt; partner_publisher)
+        &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+        &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;execute&lt;/span&gt;&lt;/span&gt;
+          Strategies::UserAdaptedRecommendationGeneration
+                .new(user, scoped_collection)
+                .execute
+        &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+  &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now our &lt;code&gt;recommended_for&lt;/code&gt; method just has to decide which is the applicable strategy and execute
+it:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;
+&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Book&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
+  ...
+
+  RECOMMENDATION_STRATEGIES = [
+    PartnershipAdaptedRecommendationGeneration
+        UserAdaptedRecommendationGeneration
+        DefaultRecommendationGeneration
+  ]
+
+  def &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.recommended_for user
+    RECOMMENDATION_STRATEGIES.each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|strategy_class|&lt;/span&gt;
+          strategy = strategy_class.new(user)
+          &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; strategy.applicable?
+            strategy.execute
+                &lt;span class=&#34;hljs-keyword&#34;&gt;break&lt;/span&gt;
+          &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+  &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is signficantly better than our prior approach and aligns well with the tenets of
+&lt;a href=&#34;http://en.wikipedia.org/wiki/SOLID_(object-oriented_design)&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;SOLID&lt;/a&gt; principles. Apart from
+explaining the use of strategy pattern it also illustrates how strategies can reuse existing
+strategies by means of composition thus keeping our code DRY.&lt;/p&gt;
+&lt;p&gt;So we see that, the strategy pattern is especially helpful when it comes to applications where
+requirements are rapidly changing all the time. Since the core logic is encapsulated
+into interchangeable concrete implementations, strategy implementations can be
+introduced or switched with relative ease at a later phase.&lt;/p&gt;
+&lt;p&gt;While this post focussed on use of strategy pattern to simply complex logic in model layer, in
+subsequent posts we will cover how this pattern can simplify our implementations in controller
+and view layers as well.&lt;/p&gt;
+&lt;p&gt;This concludes the post. Please feel free to let me know about your suggestions for improvements, or
+mistakes that I might have made in the post above.&lt;/p&gt;
+ ]]></description>
+        </item>
+    </channel>
+</rss>

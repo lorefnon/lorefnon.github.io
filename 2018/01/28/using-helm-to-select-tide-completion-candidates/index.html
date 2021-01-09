@@ -1,0 +1,32 @@
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta name="generator" content="Hexo 5.3.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2018-01-28">Posted &nbsp;3 years ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Emacs/"><img src="/images/tag.svg">Emacs</a></li><li class="body-text"><a class="tag-link" href="/tags/Helm/"><img src="/images/tag.svg">Helm</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Using helm to select tide completion candidates</div></div><div class="blog-main"><div class="flex-row post-warning"><img src="/images/primary/alert-triangle.svg" style="margin-right: 1rem">This post has not been updated in quite some time and the content here may be out of date 
+or not reflect my current my recommedation in the matter.</div><div class="page-content"><link rel="stylesheet" href="/css/crayon.min.css" >
+<link rel="stylesheet" href="/css/crayon-flatui-light.css" >
+
+
+
+	<p><a target="_blank" rel="noopener" href="https://github.com/ananthakumaran/tide">Tide</a> (TypeScript Interactive Development Environment for Emacs) uses a custom <a target="_blank" rel="noopener" href="https://github.com/ananthakumaran/tide/blob/master/tide-lv.el">hydra-derived popup menu</a> for prompting the user to select candidates when there are many completion options available.</p>
+<p>However, this is jarring when the rest of your emacs environment is configured to use <a target="_blank" rel="noopener" href="https://github.com/emacs-helm/helm">helm</a> as the completion engine.</p>
+<p>Fortunately, this is easy to fix by overriding the <code>tide-popup-select-item</code> implementation to use a custom helm source derived from the completion list.</p>
+<p><span id="more-101"></span></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44f01e7f6640911890" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44f01e7f6640911890-1">1</div><div class="crayon-num" data-line="crayon-5fba44f01e7f6640911890-2">2</div><div class="crayon-num" data-line="crayon-5fba44f01e7f6640911890-3">3</div><div class="crayon-num" data-line="crayon-5fba44f01e7f6640911890-4">4</div><div class="crayon-num" data-line="crayon-5fba44f01e7f6640911890-5">5</div><div class="crayon-num" data-line="crayon-5fba44f01e7f6640911890-6">6</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44f01e7f6640911890-1"><span class="crayon-o">(</span><span class="crayon-r">defun</span><span class="crayon-h"> </span><span class="crayon-i">tide-popup-select-item</span><span class="crayon-h"> </span><span class="crayon-o">(</span><span class="crayon-k">prompt</span><span class="crayon-h"> </span><span class="crayon-t">list</span><span class="crayon-o">)</span></div><div class="crayon-line" id="crayon-5fba44f01e7f6640911890-2"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-o">(</span><span class="crayon-k">helm</span></div><div class="crayon-line" id="crayon-5fba44f01e7f6640911890-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-o">:</span><span class="crayon-i">sources</span></div><div class="crayon-line" id="crayon-5fba44f01e7f6640911890-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-o">(</span><span class="crayon-k">helm-build-sync-source</span><span class="crayon-h"> </span><span class="crayon-i">prompt</span></div><div class="crayon-line" id="crayon-5fba44f01e7f6640911890-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-o">:</span><span class="crayon-i">candidates</span><span class="crayon-h"> </span><span class="crayon-t">list</span><span class="crayon-o">)</span></div><div class="crayon-line" id="crayon-5fba44f01e7f6640911890-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-o">:</span><span class="crayon-i">buffer</span><span class="crayon-h"> </span><span class="crayon-s">"*Tide Completion Candidates*"</span><span class="crayon-o">)</span><span class="crayon-o">)</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0017 seconds] -->
+<p><img loading="lazy" class="alignnone size-full wp-image-102" src="/wp-content/uploads/2018/01/tide-helm.gif" alt="" width="499" height="725"></p>
+<hr>
+<p>As far as auto-completion is concerned, since tide configures a company-backend, it is possible to directly use <a target="_blank" rel="noopener" href="https://github.com/Sodel-the-Vociferous/helm-company">helm-company</a> to use helm for selecting auto-completion candidates.</p>
+
+
+    </div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>

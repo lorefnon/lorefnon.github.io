@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://lorefnon.me</id>
+    <title>Icicles of Thought • Posts by &#34;io-ts&#34; tag</title>
+    <link href="https://lorefnon.me" />
+    <updated>2019-08-11T00:00:00.000Z</updated>
+    <category term="Javascript" />
+    <category term="KnockoutJS" />
+    <category term="Ruby" />
+    <category term="EventMachine" />
+    <category term="Websockets" />
+    <category term="Jade" />
+    <category term="Node.js" />
+    <category term="Rails" />
+    <category term="Emacs" />
+    <category term="Gulp" />
+    <category term="ActiveAdmin" />
+    <category term="ActiveRecord" />
+    <category term="Devise" />
+    <category term="Integration" />
+    <category term="Productivity Hacks" />
+    <category term="Design Patterns" />
+    <category term="InfluxDB" />
+    <category term="Grafana" />
+    <category term="Functional Programming" />
+    <category term="ES6" />
+    <category term="Typescript" />
+    <category term="ReasonML" />
+    <category term="React" />
+    <category term="Frontend" />
+    <category term="Next.js" />
+    <category term="Koa" />
+    <category term="Apollo" />
+    <category term="GraphQL" />
+    <category term="MongoDB" />
+    <category term="Automerge" />
+    <category term="CRDT" />
+    <category term="SVG" />
+    <category term="VSCode" />
+    <category term="Comlink" />
+    <category term="Web-workers" />
+    <category term="io-ts" />
+    <category term="MobX" />
+    <category term="MobX-State-Tree" />
+    <category term="Routing" />
+    <category term="SQLite" />
+    <category term="ZSH" />
+    <category term="OCR" />
+    <category term="Helm" />
+    <category term="SPF" />
+    <category term="CSS" />
+    <category term="Redux" />
+    <category term="Redux-loop" />
+    <category term="Vagrant" />
+    <category term="Clojure" />
+    <category term="Hashicorp" />
+    <category term="HAR" />
+    <category term="Jq" />
+    <category term="Lit-html" />
+    <category term="Stimulus" />
+    <entry>
+        <id>https://lorefnon.me/2019/08/11/enforcing-runtime-validations-at-compile-time-in-typescript/</id>
+        <title>Enforcing runtime validations at compile time in TypeScript</title>
+        <link rel="alternate" href="https://lorefnon.me/2019/08/11/enforcing-runtime-validations-at-compile-time-in-typescript/"/>
+        <content type="html">&lt;link rel=&#34;stylesheet&#34; href=&#34;/css/crayon.min.css&#34; &gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;/css/crayon-flatui-light.css&#34; &gt;
+
+
+
+	&lt;p&gt;The title may sound something like an oxymoron, so perhaps some clarification is needed.&lt;/p&gt;
+&lt;p&gt;I freqently deal with operations against databases. When I mention that I increasingly prefer using a functional style, in particular, using a query builder directly as opposed to an ORM – one of the primary concerns brought up by people is that ORMs can ensure that data validations are performed for every operation that performs a mutation against the data source.&lt;/p&gt;
+&lt;p&gt;This post is not much of a rant against ORMs. It is a practical outline of how we can utilize types to ensure (at compile time) that our data access layer only allows validated data. Even if the actual validation happens at runtime.&lt;/p&gt;
+&lt;p&gt;&lt;span id=&#34;more-582&#34;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Let’s say we have a &lt;code&gt;User&lt;/code&gt; type:&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;!-- Crayon Syntax Highlighter v_2.7.2_beta --&gt;
+
+		&lt;div id=&#34;crayon-5fba4471174ce777419878&#34; class=&#34;crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate&#34; data-settings=&#34; minimize scroll-mouseover&#34; style=&#34; margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;&#34;&gt;
+		
+			&lt;div class=&#34;crayon-plain-wrap&#34;&gt;&lt;/div&gt;
+			&lt;div class=&#34;crayon-main&#34; style=&#34;&#34;&gt;
+				&lt;table class=&#34;crayon-table&#34;&gt;
+					&lt;tbody&gt;&lt;tr class=&#34;crayon-row&#34;&gt;
+				&lt;td class=&#34;crayon-nums&#34; data-settings=&#34;hide&#34;&gt;
+					&lt;div class=&#34;crayon-nums-content&#34; style=&#34;font-size: 15px !important; line-height: 20px !important;&#34;&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174ce777419878-1&#34;&gt;1&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174ce777419878-2&#34;&gt;2&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174ce777419878-3&#34;&gt;3&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174ce777419878-4&#34;&gt;4&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174ce777419878-5&#34;&gt;5&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174ce777419878-6&#34;&gt;6&lt;/div&gt;&lt;/div&gt;
+				&lt;/td&gt;
+						&lt;td class=&#34;crayon-code&#34;&gt;&lt;div class=&#34;crayon-pre&#34; style=&#34;font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;&#34;&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174ce777419878-1&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174ce777419878-2&#34;&gt;&lt;span class=&#34;crayon-t&#34;&gt;interface&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-e&#34;&gt;User&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;{&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174ce777419878-3&#34;&gt;&lt;span class=&#34;crayon-h&#34;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-t&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174ce777419878-4&#34;&gt;&lt;span class=&#34;crayon-h&#34;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;email&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-t&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174ce777419878-5&#34;&gt;&lt;span class=&#34;crayon-sy&#34;&gt;}&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174ce777419878-6&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;/div&gt;&lt;/td&gt;
+					&lt;/tr&gt;
+				&lt;/tbody&gt;&lt;/table&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+&lt;!-- [Format Time: 0.0027 seconds] --&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;Now assume that we have a function &lt;code&gt;enrollUser&lt;/code&gt; where we only want to allow valid users. If our function takes a &lt;code&gt;User&lt;/code&gt; object:&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;!-- Crayon Syntax Highlighter v_2.7.2_beta --&gt;
+
+		&lt;div id=&#34;crayon-5fba4471174da405233932&#34; class=&#34;crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate&#34; data-settings=&#34; minimize scroll-mouseover&#34; style=&#34; margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;&#34;&gt;
+		
+			&lt;div class=&#34;crayon-plain-wrap&#34;&gt;&lt;/div&gt;
+			&lt;div class=&#34;crayon-main&#34; style=&#34;&#34;&gt;
+				&lt;table class=&#34;crayon-table&#34;&gt;
+					&lt;tbody&gt;&lt;tr class=&#34;crayon-row&#34;&gt;
+				&lt;td class=&#34;crayon-nums&#34; data-settings=&#34;hide&#34;&gt;
+					&lt;div class=&#34;crayon-nums-content&#34; style=&#34;font-size: 15px !important; line-height: 20px !important;&#34;&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174da405233932-1&#34;&gt;1&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174da405233932-2&#34;&gt;2&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174da405233932-3&#34;&gt;3&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174da405233932-4&#34;&gt;4&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174da405233932-5&#34;&gt;5&lt;/div&gt;&lt;/div&gt;
+				&lt;/td&gt;
+						&lt;td class=&#34;crayon-code&#34;&gt;&lt;div class=&#34;crayon-pre&#34; style=&#34;font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;&#34;&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174da405233932-1&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174da405233932-2&#34;&gt;&lt;span class=&#34;crayon-e&#34;&gt;export &lt;/span&gt;&lt;span class=&#34;crayon-m&#34;&gt;const&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;enrollUser&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-e&#34;&gt;async&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;User&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;{&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174da405233932-3&#34;&gt;&lt;span class=&#34;crayon-h&#34;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span class=&#34;crayon-c&#34;&gt;// ... enrollment logic&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174da405233932-4&#34;&gt;&lt;span class=&#34;crayon-sy&#34;&gt;}&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174da405233932-5&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;/div&gt;&lt;/td&gt;
+					&lt;/tr&gt;
+				&lt;/tbody&gt;&lt;/table&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+&lt;!-- [Format Time: 0.0005 seconds] --&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;In the above, it is possible for this function to be called with either a valid or an invalid user and it is up to consumers invoking this function to ensure that this is called after validating, which can be error prone in larger applications.&lt;/p&gt;
+&lt;p&gt;So, lets try to enforce at the type level that this function will only consume valid users. We can do something like:&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;!-- Crayon Syntax Highlighter v_2.7.2_beta --&gt;
+
+		&lt;div id=&#34;crayon-5fba4471174de983989256&#34; class=&#34;crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate&#34; data-settings=&#34; minimize scroll-mouseover&#34; style=&#34; margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;&#34;&gt;
+		
+			&lt;div class=&#34;crayon-plain-wrap&#34;&gt;&lt;/div&gt;
+			&lt;div class=&#34;crayon-main&#34; style=&#34;&#34;&gt;
+				&lt;table class=&#34;crayon-table&#34;&gt;
+					&lt;tbody&gt;&lt;tr class=&#34;crayon-row&#34;&gt;
+				&lt;td class=&#34;crayon-nums&#34; data-settings=&#34;hide&#34;&gt;
+					&lt;div class=&#34;crayon-nums-content&#34; style=&#34;font-size: 15px !important; line-height: 20px !important;&#34;&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174de983989256-1&#34;&gt;1&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174de983989256-2&#34;&gt;2&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174de983989256-3&#34;&gt;3&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174de983989256-4&#34;&gt;4&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174de983989256-5&#34;&gt;5&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174de983989256-6&#34;&gt;6&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174de983989256-7&#34;&gt;7&lt;/div&gt;&lt;/div&gt;
+				&lt;/td&gt;
+						&lt;td class=&#34;crayon-code&#34;&gt;&lt;div class=&#34;crayon-pre&#34; style=&#34;font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;&#34;&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174de983989256-1&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174de983989256-2&#34;&gt;&lt;span class=&#34;crayon-e&#34;&gt;type &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;Valid&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-e&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;_isValid&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-t&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;}&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174de983989256-3&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174de983989256-4&#34;&gt;&lt;span class=&#34;crayon-e&#34;&gt;export &lt;/span&gt;&lt;span class=&#34;crayon-m&#34;&gt;const&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;enrollUser&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;Valid&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;User&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;{&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174de983989256-5&#34;&gt;&lt;span class=&#34;crayon-h&#34;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span class=&#34;crayon-c&#34;&gt;// ... enrollment logic&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174de983989256-6&#34;&gt;&lt;span class=&#34;crayon-sy&#34;&gt;}&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174de983989256-7&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;/div&gt;&lt;/td&gt;
+					&lt;/tr&gt;
+				&lt;/tbody&gt;&lt;/table&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+&lt;!-- [Format Time: 0.0010 seconds] --&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;Now, our validator functions will have to tell the compiler that a user is indeed valid:&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;!-- Crayon Syntax Highlighter v_2.7.2_beta --&gt;
+
+		&lt;div id=&#34;crayon-5fba4471174e2193180767&#34; class=&#34;crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate&#34; data-settings=&#34; minimize scroll-mouseover&#34; style=&#34; margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;&#34;&gt;
+		
+			&lt;div class=&#34;crayon-plain-wrap&#34;&gt;&lt;/div&gt;
+			&lt;div class=&#34;crayon-main&#34; style=&#34;&#34;&gt;
+				&lt;table class=&#34;crayon-table&#34;&gt;
+					&lt;tbody&gt;&lt;tr class=&#34;crayon-row&#34;&gt;
+				&lt;td class=&#34;crayon-nums&#34; data-settings=&#34;hide&#34;&gt;
+					&lt;div class=&#34;crayon-nums-content&#34; style=&#34;font-size: 15px !important; line-height: 20px !important;&#34;&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e2193180767-1&#34;&gt;1&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e2193180767-2&#34;&gt;2&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e2193180767-3&#34;&gt;3&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e2193180767-4&#34;&gt;4&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e2193180767-5&#34;&gt;5&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e2193180767-6&#34;&gt;6&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e2193180767-7&#34;&gt;7&lt;/div&gt;&lt;/div&gt;
+				&lt;/td&gt;
+						&lt;td class=&#34;crayon-code&#34;&gt;&lt;div class=&#34;crayon-pre&#34; style=&#34;font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;&#34;&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e2193180767-1&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e2193180767-2&#34;&gt;&lt;span class=&#34;crayon-e&#34;&gt;export &lt;/span&gt;&lt;span class=&#34;crayon-m&#34;&gt;const&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;validateUser&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;User&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-e&#34;&gt;user &lt;/span&gt;&lt;span class=&#34;crayon-st&#34;&gt;is&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;Valid&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;User&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;{&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e2193180767-3&#34;&gt;&lt;span class=&#34;crayon-h&#34;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span class=&#34;crayon-st&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;email&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;||&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;email&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;crayon-e&#34;&gt;match&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;^&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;S&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;@&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;S&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-st&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-t&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e2193180767-4&#34;&gt;&lt;span class=&#34;crayon-h&#34;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span class=&#34;crayon-c&#34;&gt;// (Don&#39;t use that regex in real applications).&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e2193180767-5&#34;&gt;&lt;span class=&#34;crayon-h&#34;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span class=&#34;crayon-st&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-t&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e2193180767-6&#34;&gt;&lt;span class=&#34;crayon-sy&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e2193180767-7&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;/div&gt;&lt;/td&gt;
+					&lt;/tr&gt;
+				&lt;/tbody&gt;&lt;/table&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+&lt;!-- [Format Time: 0.0014 seconds] --&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;validateUser&lt;/code&gt; here acts as &lt;a class=&#34;wp-editor-md-post-content-link&#34; href=&#34;https://basarat.gitbooks.io/typescript/docs/types/typeGuard.html&#34;&gt;type-guard&lt;/a&gt; telling the compiler if the user complies to &lt;code&gt;Valid&amp;lt;User&amp;gt;&lt;/code&gt; type.&lt;/p&gt;
+&lt;p&gt;So, now if we try to invoke enrollUser with a user that has not been validated we will get an error:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/wp-content/uploads/2019/08/enrolluser.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;But if we validate it first, the error goes away:&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;!-- Crayon Syntax Highlighter v_2.7.2_beta --&gt;
+
+		&lt;div id=&#34;crayon-5fba4471174e5655426667&#34; class=&#34;crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate&#34; data-settings=&#34; minimize scroll-mouseover&#34; style=&#34; margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;&#34;&gt;
+		
+			&lt;div class=&#34;crayon-plain-wrap&#34;&gt;&lt;/div&gt;
+			&lt;div class=&#34;crayon-main&#34; style=&#34;&#34;&gt;
+				&lt;table class=&#34;crayon-table&#34;&gt;
+					&lt;tbody&gt;&lt;tr class=&#34;crayon-row&#34;&gt;
+				&lt;td class=&#34;crayon-nums&#34; data-settings=&#34;hide&#34;&gt;
+					&lt;div class=&#34;crayon-nums-content&#34; style=&#34;font-size: 15px !important; line-height: 20px !important;&#34;&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e5655426667-1&#34;&gt;1&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e5655426667-2&#34;&gt;2&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e5655426667-3&#34;&gt;3&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e5655426667-4&#34;&gt;4&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e5655426667-5&#34;&gt;5&lt;/div&gt;&lt;/div&gt;
+				&lt;/td&gt;
+						&lt;td class=&#34;crayon-code&#34;&gt;&lt;div class=&#34;crayon-pre&#34; style=&#34;font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;&#34;&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e5655426667-1&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e5655426667-2&#34;&gt;&lt;span class=&#34;crayon-st&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;crayon-e&#34;&gt;validateUser&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;{&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e5655426667-3&#34;&gt;&lt;span class=&#34;crayon-h&#34;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span class=&#34;crayon-e&#34;&gt;enrollUser&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e5655426667-4&#34;&gt;&lt;span class=&#34;crayon-sy&#34;&gt;}&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e5655426667-5&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;/div&gt;&lt;/td&gt;
+					&lt;/tr&gt;
+				&lt;/tbody&gt;&lt;/table&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+&lt;!-- [Format Time: 0.0005 seconds] --&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;There is one caveat with this approach though:&lt;/p&gt;
+&lt;p&gt;Our type-guard is lying to the compiler and the compiler believes that lie unconditionally:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/wp-content/uploads/2019/08/userisvalidproperty.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Here TypeScript is telling us that we have an &lt;code&gt;_isValid&lt;/code&gt; property in user but that is not exactly true, because that property will not be present at runtime. So if someone comes to rely on a runtime check on that property, the check will fail at runtime. So effectively we have traded possibility of one runtime fault for another.&lt;/p&gt;
+&lt;p&gt;We can do a couple of things to prevent this. The obvious one is to actually have a &lt;code&gt;_isValid&lt;/code&gt; property in the object. Or to wrap the type of objects being validated (so that the primary record type can be directly serialized):&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;!-- Crayon Syntax Highlighter v_2.7.2_beta --&gt;
+
+		&lt;div id=&#34;crayon-5fba4471174e8354605648&#34; class=&#34;crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate&#34; data-settings=&#34; minimize scroll-mouseover&#34; style=&#34; margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;&#34;&gt;
+		
+			&lt;div class=&#34;crayon-plain-wrap&#34;&gt;&lt;/div&gt;
+			&lt;div class=&#34;crayon-main&#34; style=&#34;&#34;&gt;
+				&lt;table class=&#34;crayon-table&#34;&gt;
+					&lt;tbody&gt;&lt;tr class=&#34;crayon-row&#34;&gt;
+				&lt;td class=&#34;crayon-nums&#34; data-settings=&#34;hide&#34;&gt;
+					&lt;div class=&#34;crayon-nums-content&#34; style=&#34;font-size: 15px !important; line-height: 20px !important;&#34;&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e8354605648-1&#34;&gt;1&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e8354605648-2&#34;&gt;2&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e8354605648-3&#34;&gt;3&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e8354605648-4&#34;&gt;4&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e8354605648-5&#34;&gt;5&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e8354605648-6&#34;&gt;6&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e8354605648-7&#34;&gt;7&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e8354605648-8&#34;&gt;8&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174e8354605648-9&#34;&gt;9&lt;/div&gt;&lt;/div&gt;
+				&lt;/td&gt;
+						&lt;td class=&#34;crayon-code&#34;&gt;&lt;div class=&#34;crayon-pre&#34; style=&#34;font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;&#34;&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e8354605648-1&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e8354605648-2&#34;&gt;&lt;span class=&#34;crayon-t&#34;&gt;interface&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;Validated&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;TTarget&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-e&#34;&gt;TValid&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-r&#34;&gt;extends&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-t&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;{&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e8354605648-3&#34;&gt;&lt;span class=&#34;crayon-h&#34;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;target&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;TTarget&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e8354605648-4&#34;&gt;&lt;span class=&#34;crayon-h&#34;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;isValid&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;TValid&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e8354605648-5&#34;&gt;&lt;span class=&#34;crayon-sy&#34;&gt;}&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e8354605648-6&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e8354605648-7&#34;&gt;&lt;span class=&#34;crayon-e&#34;&gt;type &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;Valid&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;TTarget&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;Validated&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;TTarget&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-t&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e8354605648-8&#34;&gt;&lt;span class=&#34;crayon-e&#34;&gt;type &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;Invalid&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;TTarget&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;Validated&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;TTarget&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-t&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174e8354605648-9&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;/div&gt;&lt;/td&gt;
+					&lt;/tr&gt;
+				&lt;/tbody&gt;&lt;/table&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+&lt;!-- [Format Time: 0.0015 seconds] --&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;However, ff we don’t want any runtime overhead at all, instead of a string property we can use a &lt;a class=&#34;wp-editor-md-post-content-link&#34; href=&#34;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol&#34;&gt;symbol&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;!-- Crayon Syntax Highlighter v_2.7.2_beta --&gt;
+
+		&lt;div id=&#34;crayon-5fba4471174eb758520154&#34; class=&#34;crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate&#34; data-settings=&#34; minimize scroll-mouseover&#34; style=&#34; margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;&#34;&gt;
+		
+			&lt;div class=&#34;crayon-plain-wrap&#34;&gt;&lt;/div&gt;
+			&lt;div class=&#34;crayon-main&#34; style=&#34;&#34;&gt;
+				&lt;table class=&#34;crayon-table&#34;&gt;
+					&lt;tbody&gt;&lt;tr class=&#34;crayon-row&#34;&gt;
+				&lt;td class=&#34;crayon-nums&#34; data-settings=&#34;hide&#34;&gt;
+					&lt;div class=&#34;crayon-nums-content&#34; style=&#34;font-size: 15px !important; line-height: 20px !important;&#34;&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174eb758520154-1&#34;&gt;1&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174eb758520154-2&#34;&gt;2&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174eb758520154-3&#34;&gt;3&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174eb758520154-4&#34;&gt;4&lt;/div&gt;&lt;div class=&#34;crayon-num&#34; data-line=&#34;crayon-5fba4471174eb758520154-5&#34;&gt;5&lt;/div&gt;&lt;/div&gt;
+				&lt;/td&gt;
+						&lt;td class=&#34;crayon-code&#34;&gt;&lt;div class=&#34;crayon-pre&#34; style=&#34;font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;&#34;&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174eb758520154-1&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174eb758520154-2&#34;&gt;&lt;span class=&#34;crayon-r&#34;&gt;declare&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-m&#34;&gt;const&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt; isValid:&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-e&#34;&gt;unique &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;symbol&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174eb758520154-3&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174eb758520154-4&#34;&gt;&lt;span class=&#34;crayon-e&#34;&gt;type &lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;Valid&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-e&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;crayon-v&#34;&gt;isValid&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;crayon-o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-t&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;crayon-h&#34;&gt; &lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;crayon-sy&#34;&gt;;&lt;/span&gt;&lt;/div&gt;&lt;div class=&#34;crayon-line&#34; id=&#34;crayon-5fba4471174eb758520154-5&#34;&gt;&amp;nbsp;&lt;/div&gt;&lt;/div&gt;&lt;/td&gt;
+					&lt;/tr&gt;
+				&lt;/tbody&gt;&lt;/table&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+&lt;!-- [Format Time: 0.0008 seconds] --&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;The benefit of using a symbol is that, as long as this symbol is not exported from the containing module or namespace, it will not be possible to use it at runtime. &lt;a class=&#34;wp-editor-md-post-content-link&#34; href=&#34;https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-7.html&#34;&gt;TypeScript 2.7 release announcements&lt;/a&gt; go into more details on type level treatment of unique symbols.&lt;/p&gt;
+&lt;p&gt;No other symbol (even if they have the same name) will be equal to this symbol. This will hold true even if &lt;code&gt;Symbol&lt;/code&gt; is polyfilled.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/wp-content/uploads/2019/08/symbolduplicate.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;TypeScript autocompletion will not show this as a completion candidate, eliminating the possibility of accidental usage:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/wp-content/uploads/2019/08/symbolcompletions.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+
+
+    </content>
+        <category term="Typescript" />
+        <category term="io-ts" />
+        <updated>2019-08-11T00:00:00.000Z</updated>
+    </entry>
+</feed>

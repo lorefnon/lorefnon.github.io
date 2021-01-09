@@ -1,0 +1,99 @@
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta name="generator" content="Hexo 5.3.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2015-08-24">Posted &nbsp;5 years ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Javascript/"><img src="/images/tag.svg">Javascript</a></li><li class="body-text"><a class="tag-link" href="/tags/KnockoutJS/"><img src="/images/tag.svg">KnockoutJS</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Smarter knockout applications with ES6/7</div></div><div class="blog-main"><div class="flex-row post-warning"><img src="/images/primary/alert-triangle.svg" style="margin-right: 1rem">This post has not been updated in quite some time and the content here may be out of date 
+or not reflect my current my recommedation in the matter.</div><div class="page-content"><h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>This post is an outline of ES6/7 features that we can leverage today in our <a href="http://knockoutjs.com/" target="_blank" rel="noopener external nofollow noreferrer">Knockout</a> based applications to make them more maintainable.</p>
+<p>Thanks to powerful and reliable transpilers like <a href="http://babeljs.io/" target="_blank" rel="noopener external nofollow noreferrer">Babel</a> we don&#39;t have to wait for mass adoption across browser vendors, to try out features from next generation javascript. While this post is essentially an overview written in a specific context, ie. Knockout applications, I encourage readers to refer to excellent online resources like <a href="https://leanpub.com/javascriptallongesix" target="_blank" rel="noopener external nofollow noreferrer">Javascript Allonge</a> for a broader coverage.</p>
+<h2 id="View-Models-as-ES-6-classes"><a href="#View-Models-as-ES-6-classes" class="headerlink" title="View Models as ES 6 classes:"></a>View Models as ES 6 classes:</h2><p>View models are typically defined as javascript constructor functions. ES6 classes offer a bit of syntax sugar over prototypal inheritance and the outcome might appeal to people coming other object oriented languages.</p>
+<pre><code class="hljs javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SomeViewModel</span> </span>&#123;
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> &#123;
+    <span class="hljs-built_in">this</span>.firstName = ko.observable();
+  &#125;
+&#125;
+
+ko.components.register(&#123;
+  viewModel: SomeViewModel,
+  template: <span class="hljs-string">&#x27;&lt;div data-bind=&quot;text: firstName&quot;&gt;&lt;/div&gt;&#x27;</span>
+&#125;)</code></pre>
+<h2 id="Arrow-functions-in-computed-properties"><a href="#Arrow-functions-in-computed-properties" class="headerlink" title="Arrow functions in computed properties:"></a>Arrow functions in computed properties:</h2><p>In computed properties it is more often than not desirable that the context of function be the same as that of the outer function. Patterns like <code>var self = this</code> have been adopted widely for situations like this.</p>
+<pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">SomeViewModel</span>(<span class="hljs-params"></span>) </span>&#123;
+  <span class="hljs-built_in">this</span>.firstName = ko.observable();
+  <span class="hljs-built_in">this</span>.lastName = ko.observable();
+  <span class="hljs-keyword">var</span> self = <span class="hljs-built_in">this</span>;
+  <span class="hljs-built_in">this</span>.fullName = ko.computed(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">return</span> self.firstName() + <span class="hljs-string">&#x27; &#x27;</span> + self.lastName();
+  &#125;);
+&#125;</code></pre>
+<p>Arrow functions simplify this use case by providing special syntax for functions which, as MDN <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions" target="_blank" rel="noopener external nofollow noreferrer">explains</a> it, capture the this value of the enclosing context</p>
+<pre><code class="hljs javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SomeViewModel</span> </span>&#123;
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> &#123;
+    <span class="hljs-built_in">this</span>.firstName = ko.observable();
+    <span class="hljs-built_in">this</span>.lastName = ko.observable();
+    <span class="hljs-built_in">this</span>.fullName = ko.computed(<span class="hljs-function">() =&gt;</span> &#123;
+      <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.firstName() + <span class="hljs-string">&#x27; &#x27;</span> + <span class="hljs-built_in">this</span>.lastName();
+    &#125;);
+  &#125;
+&#125;</code></pre>
+<p>Or for smaller functions we can reduce the verbosity even further:</p>
+<pre><code class="hljs javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SomeViewModel</span> </span>&#123;
+  <span class="hljs-function"><span class="hljs-title">constructor</span>(<span class="hljs-params"></span>)</span> &#123;
+    <span class="hljs-built_in">this</span>.firstName = ko.observable();
+    <span class="hljs-built_in">this</span>.lastName = ko.observable();
+    <span class="hljs-built_in">this</span>.fullName = ko.computed(<span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">this</span>.firstName() + <span class="hljs-string">&#x27; &#x27;</span> + <span class="hljs-built_in">this</span>.lastName());
+  &#125;
+&#125;</code></pre>
+<h2 id="Imports-for-code-organization"><a href="#Imports-for-code-organization" class="headerlink" title="Imports for code organization:"></a>Imports for code organization:</h2><p>JS imports are the new standard approach to deal with modularization in JS code, and I can only anticipate <a href="https://angular.io/" target="_blank" rel="noopener external nofollow noreferrer">more</a> and <a href="http://aurelia.io/" target="_blank" rel="noopener external nofollow noreferrer">more</a> libraries moving to them from older patterns like <a href="https://github.com/amdjs/amdjs-api/wiki/AMD" target="_blank" rel="noopener external nofollow noreferrer">AMD</a> or <a href="http://wiki.commonjs.org/wiki/CommonJS" target="_blank" rel="noopener external nofollow noreferrer">CommonJS</a>. Babel can transpile imports to require invocations that follow AMD/CommonJS syntax so you can move to newer syntax progressively and continue using your existing loaders/bundlers. My personal recommendation for bundler is <a href="http://webpack.github.io/" target="_blank" rel="noopener external nofollow noreferrer">webpack</a> which offers interesting features like <a href="http://webpack.github.io/docs/code-splitting.html" target="_blank" rel="noopener external nofollow noreferrer">Code splitting</a> out of the box.</p>
+<h2 id="Template-strings"><a href="#Template-strings" class="headerlink" title="Template strings"></a>Template strings</h2><p>Template strings make it easy to define small multi-line templates along side view models.</p>
+<pre><code class="hljs plain">ko.components.register(&#123;
+  viewModel: SomeViewModel,
+  template:
+    &#96;&lt;div&gt;
+      &lt;h1&gt; Hello friend, nice to meet you &lt;&#x2F;h1&gt;
+      &lt;div&gt;
+        Dear &lt;span data-bind&#x3D;&quot;text: firstName()&quot;&gt;&lt;&#x2F;span&gt; It is nice to meet you.
+      &lt;&#x2F;div&gt;
+    &lt;&#x2F;div&gt;&#96;
+&#125;);</code></pre>
+<p>Although for larger templates I recommend using something like <a href="https://github.com/webpack/raw-loader" target="_blank" rel="noopener external nofollow noreferrer">webpack-raw-loader</a> so you can write:</p>
+<pre><code class="hljs javascript">ko.components.register(&#123;
+  viewModel: SomeViewModel,
+  template: <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./some_view_model.html&#x27;</span>)
+&#125;);</code></pre>
+<p>However larger templates more often than not indicate need for fine-grained modularization, so the above recommendation should be taken with a pinch of salt.</p>
+<h2 id="ES7-Decorators-for-Component-registration"><a href="#ES7-Decorators-for-Component-registration" class="headerlink" title="ES7 Decorators for Component registration:"></a>ES7 Decorators for Component registration:</h2><p>If you have been keeping up with advancements with Angular 2.0, you may have noticed the use of annotations for component registration. Here is an example from their <a href="https://angular.io/docs/js/latest/quickstart.html" target="_blank" rel="noopener external nofollow noreferrer">quick start tutorial</a> showing how annotations go hand in hand with the new class syntax:</p>
+<pre><code class="hljs plain">&#x2F;&#x2F; Annotation section
+@Component(&#123;
+  selector: &#39;my-app&#39;
+&#125;)
+@View(&#123;
+  template: &#39;&lt;h1&gt;Hello &#123;&#123; name &#125;&#125;&lt;&#x2F;h1&gt;&#39;
+&#125;)
+&#x2F;&#x2F; Component controller
+class MyAppComponent &#123;
+  name: string;
+  constructor() &#123;
+    this.name &#x3D; &#39;Alice&#39;;
+  &#125;
+&#125;</code></pre>
+<p>While I refer to <a href="https://github.com/wycats/javascript-decorators" target="_blank" rel="noopener external nofollow noreferrer">this excellent writeup</a> by <a href="https://twitter.com/wycats" target="_blank" rel="noopener external nofollow noreferrer">Yehuda Katz</a> on javascript decorators for an indepth overview, the following snippet is a quick overview as to how we can leverage javascript decorators to handle component registration in knockout:</p>
+<pre><code class="hljs plain">function Component(params) &#123;
+  return function(viewModel) &#123;
+    ko.components.register(params.name, &#123;
+      viewModel: viewModel,
+      template: params.template
+    &#125;)
+  &#125;
+&#125;</code></pre>
+<p>Once our <code>Component</code> decorator has been defined we can simply use it like this:</p>
+<pre><code class="hljs plain">@Component(&#123;
+  name: &#39;my-app-component&#39;,
+  template:
+    &#96;&lt;div&gt;
+      ...
+    &lt;&#x2F;div&gt;&#96;
+&#125;)
+class MyAppViewModel &#123;
+  constructor() &#123;
+    ...
+  &#125;
+&#125;</code></pre>
+<p>You may be tempted to use the <code>target.name</code> to enforce some module naming conventions, but before you tread that way please be aware of lack of IE support for <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name" target="_blank" rel="noopener external nofollow noreferrer">Function#name</a>.</p>
+<p>This concludes this overview for now, though there is a lot to be explored in next generation javascript beyond this basic introduction. As always, I welcome any suggestions or requests for improvement in the comments section below.</p>
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>

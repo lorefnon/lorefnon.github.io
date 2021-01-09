@@ -1,0 +1,267 @@
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta name="generator" content="Hexo 5.3.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2014-02-02">Posted &nbsp;7 years ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Rails/"><img src="/images/tag.svg">Rails</a></li><li class="body-text"><a class="tag-link" href="/tags/Emacs/"><img src="/images/tag.svg">Emacs</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Configuring Emacs as a productive development environment for Rails development.</div></div><div class="blog-main"><div class="flex-row post-warning"><img src="/images/primary/alert-triangle.svg" style="margin-right: 1rem">This post has not been updated in quite some time and the content here may be out of date 
+or not reflect my current my recommedation in the matter.</div><div class="page-content"><h2 id="Updates"><a href="#Updates" class="headerlink" title="Updates"></a>Updates</h2><ul>
+<li>The default keybindings have been updated based on the feedback from <a href="https://github.com/asok" target="_blank" rel="noopener external nofollow noreferrer">Asok</a>, the author of the awesmoe <code>projectile-rails</code> package.</li>
+</ul>
+<hr>
+<p>This post outlines some of the Emacs extensions (open source, of course) which can significantly ease the life of a Rails developer. While Rails is, by design, quite a productive framework, having the dev environment properly setup can multiply developer efficiency by an order of magnitude. Although almost all of this information is available online elsewhere, I nevertheless wanted to summarize my explorations in form of a basic guide to easily configure extensions I have found to be useful, during the course of my Rails projects. While the primary audience is a forgetful me from the future, I hope developers new to Rails or Emacs (or both) will find this helpful to get up and running with Emacs and Rails, without having to wade through reams of documentation right upfront. I have tried my best to link the appropriate authoritative resources, which may be helpful for people looking forward to customizing and extending the setup.</p>
+<p>While the setup below has been tested only in Linux Elementary, it should work for other Posix environments as well. Please ensure that you have got atleast <a href="http://www.gnu.org/software/emacs/#Obtaining" target="_blank" rel="noopener external nofollow noreferrer">Emacs 24</a> and can download packages through <a href="https://github.com/technomancy/package.el" target="_blank" rel="noopener external nofollow noreferrer"><code>package.el</code></a>. If you are not familiar with package management in emacs <a href="https://github.com/bbatsov" target="_blank" rel="noopener external nofollow noreferrer">Bozhidar Batsov</a> has presented <a href="http://batsov.com/articles/2012/02/19/package-management-in-emacs-the-good-the-bad-and-the-ugly/" target="_blank" rel="noopener external nofollow noreferrer">a great introduction</a>. Adding the following snippet to your <code>~/.emacs</code> should provide access to <a href="http://marmalade-repo.org/" target="_blank" rel="noopener external nofollow noreferrer">marmalade</a> and <a href="http://melpa.milkbox.net/#/" target="_blank" rel="noopener external nofollow noreferrer">melpa</a> package archives:</p>
+<pre><code class="hljs lisp">(<span class="hljs-name">require</span> &#x27;package)
+(<span class="hljs-name">add-to-list</span> &#x27;package-archives
+    &#x27;(<span class="hljs-string">&quot;marmalade&quot;</span> .
+      <span class="hljs-string">&quot;http://marmalade-repo.org/packages/&quot;</span>))
+(<span class="hljs-name">add-to-list</span> &#x27;package-archives
+    &#x27;(<span class="hljs-string">&quot;melpa&quot;</span> . <span class="hljs-string">&quot;http://melpa.milkbox.net/packages/&quot;</span>) <span class="hljs-literal">t</span>)
+(<span class="hljs-name">package-initialize</span>)</code></pre>
+
+<h1 id="Syntax-Checking"><a href="#Syntax-Checking" class="headerlink" title="Syntax Checking"></a>Syntax Checking</h1><p>While the <code>ruby-mode</code> bundled with Emacs works well with syntax highlighting, it does not automatically handle syntax checking. Luckily we have <a href="http://www.emacswiki.org/emacs/FlyMake" target="_blank" rel="noopener external nofollow noreferrer">flymake</a>, which is a generic on the fly syntax checking system. We can install <a href="https://github.com/purcell/flymake-ruby" target="_blank" rel="noopener external nofollow noreferrer">flymake-ruby</a> which facilitates syntax checking for ruby through our package manager. Just hit <code>M-x package-install</code> and type in <code>flymake-ruby</code>.</p>
+<p>Once flymake-ruby is installed, we just have to hook it up with the ruby-mode.</p>
+<pre><code class="hljs lisp">(<span class="hljs-name">require</span> &#x27;flymake-ruby)
+(<span class="hljs-name">add-hook</span> &#x27;ruby-mode-hook &#x27;flymake-ruby-load)</code></pre>
+
+<p>And voila, no syntax errors go unnoticed ever again:</p>
+<p><img src="/images/emacs-flymake.png" alt="Emacs flymake screenshot" loading="lazy"></p>
+<h1 id="Sane-indentation"><a href="#Sane-indentation" class="headerlink" title="Sane indentation"></a>Sane indentation</h1><p>The default indentation system attempts to align the arguments of a function
+with the opening bracket vertically.</p>
+<pre><code class="hljs ruby">function_call (arg1,
+               arg2);</code></pre>
+
+<p>While this is subjective, but if you, like me, find this behaviour erratic - the following will make emacs indent code inside parenthesis similar to elsewhere.</p>
+<pre><code class="hljs lisp">(<span class="hljs-name">setq</span> ruby-deep-indent-paren <span class="hljs-literal">nil</span>)</code></pre>
+
+<h1 id="Ruby-shell-inside-emacs"><a href="#Ruby-shell-inside-emacs" class="headerlink" title="Ruby shell inside emacs"></a>Ruby shell inside emacs</h1><p><a href="https://github.com/nonsequitur/inf-ruby" target="_blank" rel="noopener external nofollow noreferrer">inf-ruby</a> provides a REPL buffer connected to a Ruby subprocess. It is available through the package manager. Once installed you would probably want to bind it to a convenient shortcut. The following would bind it to <code>C-c r r</code>.</p>
+<pre><code class="hljs lisp">(<span class="hljs-name">global-set-key</span> (<span class="hljs-name">kbd</span> <span class="hljs-string">&quot;C-c r r&quot;</span>) &#x27;inf-ruby)</code></pre>
+
+<h1 id="Integration-with-RVM"><a href="#Integration-with-RVM" class="headerlink" title="Integration with RVM"></a>Integration with RVM</h1><p>If you use RVM for managing ruby versions, you would want to use <a href="https://github.com/senny/rvm.el" target="_blank" rel="noopener external nofollow noreferrer">rvm.el</a>. Once installed you will just have to call <code>rvm-activate-corresponding-ruby</code> and rvm.el will automatically pick up your ruby version and gemset from .rvmrc file.</p>
+<p>The following will bind the aforementioned command to <code>C-c r a</code></p>
+<pre><code class="hljs lisp">(<span class="hljs-name">global-set-key</span> (<span class="hljs-name">kbd</span> <span class="hljs-string">&quot;C-c r a&quot;</span>) &#x27;rvm-activate-corresponding-ruby)</code></pre>
+
+<p><img src="/images/emacs-rvm.png" alt="rvm.el" loading="lazy"></p>
+<p>It seamlessly integrates with <code>inf-ruby</code> so if you invoke <code>inf-ruby</code> after the previous step, you will get the version of ruby and gemset you expect.</p>
+<h1 id="Project-management-with-projectile"><a href="#Project-management-with-projectile" class="headerlink" title="Project management with projectile"></a>Project management with projectile</h1><p>So far the steps had nothing to do with Rails and were equally useful for vanilla ruby projects. However for managing large Rails applications some basic project management facilities might come in handy.</p>
+<p>While there are a plethora of project management utilities for emacs, One that is particularly simple and easy to install is <a href="https://github.com/bbatsov/projectile" target="_blank" rel="noopener external nofollow noreferrer">projectile</a>. It is available through the package manager. Once installed it can be configured as a global mode as follows:</p>
+<pre><code class="hljs lisp">(<span class="hljs-name">projectile-global-mode</span>)</code></pre>
+
+<p>or it can be hooked into particular modes:</p>
+<pre><code class="hljs lisp">(<span class="hljs-name">add-hook</span> &#x27;ruby-mode-hook &#x27;projectile-on)</code></pre>
+
+<p>I would also strongly recommend using the <a href="http://www.emacswiki.org/emacs/InteractivelyDoThings" target="_blank" rel="noopener external nofollow noreferrer">ido-mode</a> which, among other things, provides various enhancements to make navigation between files and buffers easy. The default behaviour of <code>C-x C-f</code> and <code>C-x C-b</code> are changed to a more interactive version, which shows a list of matched options while typing right inside the minibuffer. <a href="https://github.com/lewang/flx" target="_blank" rel="noopener external nofollow noreferrer">flx-ido</a> is an extension which further enhances the matching capabilities of ido to perform fuzzy matching (a-la sublime text) which can be a great productivity boost, particularly if you are a bit sloppy with keyboard. <code>ido</code> is built into emacs and <code>flx-ido</code> is available through package manager.</p>
+<p><code>flx-ido-mode</code> activates the ido mode augmenting with flexible matching.</p>
+<p>You may want to use following snippet to display ido completions vertically instead of horizontally, as is the default behaviour.</p>
+<pre><code class="hljs lisp"><span class="hljs-comment">;; Display ido results vertically, rather than horizontally</span>
+ (<span class="hljs-name">setq</span> ido-decorations (<span class="hljs-name">quote</span> (<span class="hljs-string">&quot;\n-&gt; &quot;</span> <span class="hljs-string">&quot;&quot;</span> <span class="hljs-string">&quot;\n   &quot;</span> <span class="hljs-string">&quot;\n   ...&quot;</span> <span class="hljs-string">&quot;[&quot;</span> <span class="hljs-string">&quot;]&quot;</span> <span class="hljs-string">&quot; [No match]&quot;</span> <span class="hljs-string">&quot; [Matched]&quot;</span> <span class="hljs-string">&quot; [Not readable]&quot;</span> <span class="hljs-string">&quot; [Too big]&quot;</span> <span class="hljs-string">&quot; [Confirm]&quot;</span>)))
+ (<span class="hljs-name">defun</span> ido-disable-line-truncation () (<span class="hljs-name">set</span> (<span class="hljs-name">make-local-variable</span> &#x27;truncate-lines) <span class="hljs-literal">nil</span>))
+ (<span class="hljs-name">add-hook</span> &#x27;ido-minibuffer-setup-hook &#x27;ido-disable-line-truncation)
+ (<span class="hljs-name">defun</span> ido-define-keys () <span class="hljs-comment">;; C-n/p is more intuitive in vertical layout</span>
+   (<span class="hljs-name">define-key</span> ido-completion-map (<span class="hljs-name">kbd</span> <span class="hljs-string">&quot;C-n&quot;</span>) &#x27;ido-next-match)
+   (<span class="hljs-name">define-key</span> ido-completion-map (<span class="hljs-name">kbd</span> <span class="hljs-string">&quot;C-p&quot;</span>) &#x27;ido-prev-match))
+ (<span class="hljs-name">add-hook</span> &#x27;ido-setup-hook &#x27;ido-define-keys)</code></pre>
+
+<p><img src="/images/emacs-ido-vertical.png" alt="Emacs ido vertical completions" loading="lazy"></p>
+<p>Projectile integrates with ido and uses it as its indexing method. For projectile to recognize the project root, you just have to drop an empty .projectile file there. Once that is done, you can simply perform a fuzzy search for files using <code>C-c C-p f</code> and directories using <code>C-c C-p d</code></p>
+<p><img src="/images/emacs-projectile-file-search.png" alt="Projectile find file" loading="lazy">
+<img src="/images/emcas-projectile-dir-search.png" alt="Projectile find dir" loading="lazy"></p>
+<p><a href="https://github.com/asok/projectile-rails" target="_blank" rel="noopener external nofollow noreferrer">Projectile Rails</a> builds upon <code>projectile</code> to provide project management facilities specifically tailored for Rails applications. It is available through package manager and can be hooked up with projectile using :</p>
+<pre><code class="hljs lisp">(<span class="hljs-name">add-hook</span> &#x27;projectile-mode-hook &#x27;projectile-rails-on)</code></pre>
+
+<p>Projectile Rails adds a large number of keybindings to ease navigation across files in a rails project, running rake tasks, invoking console etc.
+Following is the list of commands and associated bindings taken from the home page of projectile rails.</p>
+<table>
+<thead><tr>
+<th>Command</th>
+<th>Keybinding</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>projectile-rails-find-model</td>
+<td><kbd>C-c r m</kbd></td>
+<td>Find a model using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-current-model</td>
+<td><kbd>C-c r M</kbd></td>
+<td>Go to a model connected with the current resource.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-controller</td>
+<td><kbd>C-c r c</kbd></td>
+<td>Find a controller using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-current-controller</td>
+<td><kbd>C-c r C</kbd></td>
+<td>Go to a controller connected with the current resource.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-view</td>
+<td><kbd>C-c r v</kbd></td>
+<td>Find a template or partial using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-current-view</td>
+<td><kbd>C-c r V</kbd></td>
+<td>Go to a view connected with the current resource.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-helper</td>
+<td><kbd>C-c r h</kbd></td>
+<td>Find a helper using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-current-helper</td>
+<td><kbd>C-c r H</kbd></td>
+<td>Go to a helper connected with the current resource.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-lib</td>
+<td><kbd>C-c r l</kbd></td>
+<td>Find a lib using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-feature</td>
+<td><kbd>C-c r f</kbd></td>
+<td>Find a feature using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-spec</td>
+<td><kbd>C-c r p</kbd></td>
+<td>Find a spec using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-current-spec</td>
+<td><kbd>C-c r P</kbd></td>
+<td>Go to a spec connected with the current resource.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-migration</td>
+<td><kbd>C-c r n</kbd></td>
+<td>Find a migration using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-current-migration</td>
+<td><kbd>C-c r N</kbd></td>
+<td>Go to a migration connected with the current resource.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-javascript</td>
+<td><kbd>C-c r j</kbd></td>
+<td>Find a javascript using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-stylesheet</td>
+<td><kbd>C-c r s</kbd></td>
+<td>Find a stylesheet using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-log</td>
+<td><kbd>C-c r o</kbd></td>
+<td>Find a log file and enable <code>auto-revert-tail-mode</code> in its buffer.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-initializer</td>
+<td><kbd>C-c r i</kbd></td>
+<td>Find an initializer file using <code>projectile-completions-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-environment</td>
+<td><kbd>C-c r e</kbd></td>
+<td>Find an environment file using <code>projectile-completions-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-locale</td>
+<td><kbd>C-c r a</kbd></td>
+<td>Find a locale file using <code>projectile-completions-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-mailer</td>
+<td><kbd>C-c r @</kbd></td>
+<td>Find a mailer file using <code>projectile-completions-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-find-layout</td>
+<td><kbd>C-c r y</kbd></td>
+<td>Find a layout file using <code>projectile-completions-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-console</td>
+<td>
+<kbd>C-c r ! c</kbd>, <kbd>C-c r r</kbd>
+</td>
+<td>Run <code>rails console</code> command in <code>inf-ruby</code> buffer.</td>
+</tr>
+<tr>
+<td>projectile-rails-server</td>
+<td>
+<kbd>C-c r ! s</kbd>, <kbd>C-c r R</kbd>
+</td>
+<td>Run <code>rails server</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-rake</td>
+<td><kbd>C-c r ! r</kbd></td>
+<td>Select a rake task to run using <code>projectile-completion-system</code>.</td>
+</tr>
+<tr>
+<td>projectile-rails-generate</td>
+<td><kbd>C-c r ! g</kbd></td>
+<td>Run <code>rails generate</code> command.</td>
+</tr>
+<tr>
+<td>projectile-rails-extract-region</td>
+<td><kbd>C-c r x</kbd></td>
+<td>Extract the selected region to a partial.</td>
+</tr>
+<tr>
+<td>projectile-rails-goto-file-at-point</td>
+<td>
+<kbd>C-c r RET</kbd>, <kbd>C-c r g f</kbd>
+</td>
+<td>Go to a file at point. Depending on the context that might be a constant, template or partial, or a gem.</td>
+</tr>
+<tr>
+<td>projectile-rails-goto-gemfile</td>
+<td><kbd>C-c r g g</kbd></td>
+<td>Go to <code>Gemfile</code> file.</td>
+</tr>
+<tr>
+<td>projectile-rails-goto-routes</td>
+<td><kbd>C-c r g r</kbd></td>
+<td>Go to <code>config/routes.rb</code> file.</td>
+</tr>
+<tr>
+<td>projectile-rails-goto-schema</td>
+<td><kbd>C-c r g d</kbd></td>
+<td>Go to <code>db/schema.rb</code> file.</td>
+</tr>
+<tr>
+<td>projectile-rails-goto-spec-helper</td>
+<td><kbd>C-c r g l</kbd></td>
+<td>Go to <code>spec/spec_helper.rb</code> file.</td>
+</tr>
+</tbody>
+</table>
+
+<p>Note that <code>rails console</code> uses <code>inf-ruby</code>, so integration with rvm is smooth and effortless.</p>
+<p><img src="/images/projectile-rails-console.png" alt="Projectile Rails console" loading="lazy"></p>
+<h1 id="Intelligent-Code-navigation-and-Completion-with-Robe"><a href="#Intelligent-Code-navigation-and-Completion-with-Robe" class="headerlink" title="Intelligent Code navigation and Completion with Robe"></a>Intelligent Code navigation and Completion with Robe</h1><p><a href="https://github.com/dgutov/robe" target="_blank" rel="noopener external nofollow noreferrer">Robe</a> is a code assistance tool that uses a Ruby REPL subprocess with your application or gem code loaded, to provide information about loaded classes and modules, and where each method is defined.</p>
+<p>Robe is available via package manager. Once installed it can be hooked into ruby mode.</p>
+<pre><code class="hljs lisp">(<span class="hljs-name">require</span> &#x27;robe)
+(<span class="hljs-name">add-hook</span> &#x27;ruby-mode-hook &#x27;robe-mode)</code></pre>
+
+<p>If you are using rvm you  may want to instruct robe to auto-trigger <code>rvm-activate-corresponding-ruby</code>.</p>
+<pre><code class="hljs lisp">(<span class="hljs-name">defadvice</span> inf-ruby-console-auto (<span class="hljs-name">before</span> activate-rvm-for-robe activate)
+  (<span class="hljs-name">rvm-activate-corresponding-ruby</span>))</code></pre>
+
+<p><code>robe-jump</code> bound by default to <code>M-.</code> can be used to jump to definitions of various classes and methods. While it is not ideal, in most of the scenarios, the expected entry is present in the first few suggestions.</p>
+<p>For intelligent completion robe can be integrated with <a href="http://company-mode.github.io/" target="_blank" rel="noopener external nofollow noreferrer">company mode</a>. Company mode is a modern and modular completion system for emacs which accepts a multitude of pluggable back-ends and front-ends to provide rich completions on the fly. Robe provides a backend to the completion in form of company-robe. This can be configured as follows :</p>
+<pre><code class="hljs lisp">(<span class="hljs-name">global-company-mode</span> <span class="hljs-literal">t</span>)
+(<span class="hljs-name">push</span> &#x27;company-robe company-backends)</code></pre>
+
+<p>Now all you have to do is hit <code>robe-start</code> when you navigate into your project. After that at any point
+if you trigger <code>company-robe</code> you should be greeted with an intellisense like method definitions.</p>
+<p>Completion will start automatically after you type a few letters. Use M-n, M-p, &lt;tab&gt; and &lt;return&gt; to complete. Search through the completions with C-s, C-r and C-o. Even the documentations are available right from the editor (Press F1 at any menu entry).</p>
+<p><img src="/images/emacs-robe-completions.png" alt="Emacs robe completions" loading="lazy"></p>
+<p>One of the caveats is that robe requires <code>pry</code> and <code>pry-doc</code> to be in Gemfile. This is a problem when working with third party projects and I don&#39;t have a workaround for that yet.</p>
+<p>Also Ruby being a dynamic language which strives to push the limits on flexibility, perfect completion is simply not possible. Many of known caveats are listed <a href="https://github.com/dgutov/robe#notes" target="_blank" rel="noopener external nofollow noreferrer">here</a> and some are being actively being worked upon. But nevertheless, I have found the setup to be quite useful for day to day development and hope you do too.</p>
+<p>I hope that this quick detour into the world of emacs-extensions has motivated you to atleast try out Emacs. How far you go down the rabbit hole is of-course for you to decide. As always, any criticism, suggestions and comments are welcome.</p>
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>

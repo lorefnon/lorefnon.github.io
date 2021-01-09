@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>Icicles of Thought • Posts by &#34;jade&#34; tag</title>
+        <link>https://lorefnon.me</link>
+        <description></description>
+        <language>en</language>
+        <pubDate>Wed, 12 Dec 2012 00:00:00 +0530</pubDate>
+        <lastBuildDate>Wed, 12 Dec 2012 00:00:00 +0530</lastBuildDate>
+        <category>Javascript</category>
+        <category>KnockoutJS</category>
+        <category>Ruby</category>
+        <category>EventMachine</category>
+        <category>Websockets</category>
+        <category>Jade</category>
+        <category>Node.js</category>
+        <category>Rails</category>
+        <category>Emacs</category>
+        <category>Gulp</category>
+        <category>ActiveAdmin</category>
+        <category>ActiveRecord</category>
+        <category>Devise</category>
+        <category>Integration</category>
+        <category>Productivity Hacks</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
+        <category>React</category>
+        <category>Frontend</category>
+        <category>Next.js</category>
+        <category>Koa</category>
+        <category>Apollo</category>
+        <category>GraphQL</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
+        <category>SQLite</category>
+        <category>ZSH</category>
+        <category>OCR</category>
+        <category>Helm</category>
+        <category>SPF</category>
+        <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>HAR</category>
+        <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
+        <item>
+            <guid isPermalink="true">https://lorefnon.me/2012/12/12/sharing-jade-templates-between-nodejs-server-and-client.html</guid>
+            <title>Sharing Jade templates between Node.js server and client</title>
+            <link>https://lorefnon.me/2012/12/12/sharing-jade-templates-between-nodejs-server-and-client.html</link>
+            <category>Javascript</category>
+            <category>Jade</category>
+            <category>Node.js</category>
+            <pubDate>Wed, 12 Dec 2012 00:00:00 +0530</pubDate>
+            <description><![CDATA[ &lt;p&gt;Although there are several templating options available for the client eg. &lt;a href=&#34;http://handlebarsjs.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Handlebars&lt;/a&gt;, &lt;a href=&#34;http://mustache.github.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Mustache&lt;/a&gt;, &lt;a href=&#34;http://beebole.com/pure/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Pure&lt;/a&gt; etc. nevertheless, &lt;a href=&#34;http://jade-lang.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Jade&lt;/a&gt; is attractive in its own right.  Its succinct syntax is cleaner even than &lt;a href=&#34;http://haml.info/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Haml&lt;/a&gt;, which is arguably the predecessor and inspiration-source of all the minimalist whitespace sensitive templating systems. Using Node.js on the server offers an interesting opportunity to reuse the same servers on the server as well as client. This has been made particulary easy by the &lt;a href=&#34;https://github.com/search?q=jade&amp;ref=commandbar&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;numerous community contributions&lt;/a&gt; by Jade enthusiasts which I will attempt to highlight in this post.&lt;/p&gt;
+&lt;p&gt;When using Jade on the client the most naive approach would be  fetching our typical .jade file via ajax and then parsing the file and then  manipulating the structure and  interpolating the various variables. However,  we can pre-process the jade file beforehand thereby eliminating the heavyweight parsing step in the client. The end result of the pre-processing is a function which takes in the variables needed to render the template and then outputs the resultant HTML string which can be injected into the DOM.&lt;/p&gt;
+&lt;p&gt;Preprocessing also takes care of &lt;a href=&#34;https://github.com/visionmedia/jade#template-inheritance&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;template-inheritance&lt;/a&gt; and &lt;a href=&#34;https://github.com/visionmedia/jade#includes&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;template-inclusion&lt;/a&gt; seamlessly which are difficult to implement in pure clienside parsing without an added layer of complexity and overhead of multiple ajax calls.&lt;/p&gt;
+&lt;p&gt;Client-side rendering is made possible by a Jade feature called jade-runtime. On supplying a -c flag to jade, it generates the compiled javascript template which can be used along with the &lt;a href=&#34;https://github.com/visionmedia/jade/blob/master/runtime.js&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;runtime.js&lt;/a&gt; .&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/jgallen23/clientjade&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Clientjade&lt;/a&gt; takes the process to next level of simplicity.  It is simple npm module which provides you with a command line utility to compile several jade templates into a single compiled javascript file. Compilation is as simple as:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;clientjade test1.jade test2.jade &amp;gt; templates.js&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Once templates.js has been included in the page,  individual templates can be accessed using their filenames.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;jade.render($(&amp;#39;#target&amp;#39;), &amp;#39;test1&amp;#39;, &amp;#123; name: &amp;#39;Bob&amp;#39; &amp;#125;);&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;First argument is the DOM node where the template is to be rendered, second is a reference to the template and last is the data required to render the template.&lt;/p&gt;
+&lt;p&gt;While this entire procedure is very simple, inclusion of multiple compiled templates in an HTML page leads to headaches.  Reason is that every individual compiled file assigns an empty hash to internal object containing references to templates. While in casual usage this is usually not a problem because you can always compile all the templates you need into a single javascript file, this can become troublesome if you are loading templates on-the-fly, as per requirements. The most common scenario is the case when an AMD loader eg. RequireJS is being used to manage dependencies.&lt;/p&gt;
+&lt;p&gt;Fortunately there is a sister project &lt;a href=&#34;https://github.com/mysociety/node-jade-amd&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;node-jade-amd&lt;/a&gt; which focusses on exactly this usage scenario. As you might expect, after installing the &lt;a href=&#34;https://github.com/mysociety/node-jade-amd&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;jade-amd&lt;/a&gt; npm module you have a handy command line utility using which is as simple as :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;jade-amd --from &amp;lt;source-folder&amp;gt; --to &amp;lt;destination-folder&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The compiled templates have a dependency on jadeRuntime amd module which can be obtained by :&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;jade-amd --runtime &amp;gt; jadeRuntime.js&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then the compiled template can be used just like you would use any other amd module :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;([ &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;templates/person&amp;#x27;&lt;/span&gt; ],            &lt;span class=&#34;hljs-comment&#34;&gt;// Compiled template AMD modules&lt;/span&gt;
+    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;personTemplate&lt;/span&gt;) &lt;/span&gt;&amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; rendered_content = personTemplate(&amp;#123;
+              name: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Joe Bloggs&amp;#x27;&lt;/span&gt;                &lt;span class=&#34;hljs-comment&#34;&gt;// Data to be used in the template&lt;/span&gt;
+         &amp;#125;);
+    &amp;#125;
+);&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Note that explitly requiring the runtime is not necessary because it is implicitly required by the compiled templates.&lt;/p&gt;
+&lt;p&gt;If repeated manual recompilation feels like a headache, and you don’t already have a file watcher setup there is a connect middleware &lt;a href=&#34;https://github.com/storify/jade-browser&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;jade-browser&lt;/a&gt; which exposes jade templates to the web browser and also provides a few additional features like express-like render function with partial handling. If you already using &lt;a href=&#34;http://gruntjs.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;grunt&lt;/a&gt;, you can checkout the plugin &lt;a href=&#34;https://github.com/phated/grunt-jade&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;grunt-jade&lt;/a&gt; .&lt;/p&gt;
+&lt;p&gt;So jade is an immensely popular templating solution among Node.js developers and the benefit of this is that there are numerous compilation options available to fit into your development toolchain.  I hope this quick detour around jade was helpful.  There are multiple other similar projects aiming to solve similar scenarios.  The ones aforementioned, were a few that I recently used. Please feel free to express any opinions or criticisms. If there is a project with related objectives which is particularly noteworthy,  feel free to add a link.&lt;/p&gt;
+ ]]></description>
+        </item>
+    </channel>
+</rss>

@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://lorefnon.me</id>
+    <title>Icicles of Thought • Posts by &#34;jq&#34; tag</title>
+    <link href="https://lorefnon.me" />
+    <updated>2020-11-26T18:30:00.000Z</updated>
+    <category term="Javascript" />
+    <category term="KnockoutJS" />
+    <category term="Ruby" />
+    <category term="EventMachine" />
+    <category term="Websockets" />
+    <category term="Jade" />
+    <category term="Node.js" />
+    <category term="Rails" />
+    <category term="Emacs" />
+    <category term="Gulp" />
+    <category term="ActiveAdmin" />
+    <category term="ActiveRecord" />
+    <category term="Devise" />
+    <category term="Integration" />
+    <category term="Productivity Hacks" />
+    <category term="Design Patterns" />
+    <category term="InfluxDB" />
+    <category term="Grafana" />
+    <category term="Functional Programming" />
+    <category term="ES6" />
+    <category term="Typescript" />
+    <category term="ReasonML" />
+    <category term="React" />
+    <category term="Frontend" />
+    <category term="Next.js" />
+    <category term="Koa" />
+    <category term="Apollo" />
+    <category term="GraphQL" />
+    <category term="MongoDB" />
+    <category term="Automerge" />
+    <category term="CRDT" />
+    <category term="SVG" />
+    <category term="VSCode" />
+    <category term="Comlink" />
+    <category term="Web-workers" />
+    <category term="io-ts" />
+    <category term="MobX" />
+    <category term="MobX-State-Tree" />
+    <category term="Routing" />
+    <category term="SQLite" />
+    <category term="ZSH" />
+    <category term="OCR" />
+    <category term="Helm" />
+    <category term="SPF" />
+    <category term="CSS" />
+    <category term="Redux" />
+    <category term="Redux-loop" />
+    <category term="Vagrant" />
+    <category term="Clojure" />
+    <category term="Hashicorp" />
+    <category term="HAR" />
+    <category term="Jq" />
+    <category term="Lit-html" />
+    <category term="Stimulus" />
+    <entry>
+        <id>https://lorefnon.me/2020/11/27/exploring-har-http-archive-logs-with-jq/</id>
+        <title>Exporing HAR (HTTP Archive) logs with Jq</title>
+        <link rel="alternate" href="https://lorefnon.me/2020/11/27/exploring-har-http-archive-logs-with-jq/"/>
+        <content type="html">&lt;p&gt;&lt;a href=&#34;https://stedolan.github.io/jq/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Jq&lt;/a&gt; is a versatile utility for quickly exploring/filtering/transforming JSON on the command line. It is similar to grep/sed/awk utilities in that it is standalone, portable and composable. If you are not familiar with basics of jq yet, I recommend skimming through the well written &lt;a href=&#34;https://stedolan.github.io/jq/manual&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;official manual&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;The HTTP Archive format, or HAR, is a JSON-formatted archive file format for logging of a web browser&amp;#39;s interaction with a site (Source: &lt;a href=&#34;https://en.wikipedia.org/wiki/HAR_(file_format)&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Wikipedia&lt;/a&gt;. Both Chrome and Firefox provide a &lt;a href=&#34;https://knowledge.vidyard.com/hc/en-us/articles/360009996213-Download-a-HAR-file-from-your-browser&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;convenient option&lt;/a&gt; to download information about all the http requests when visiting a particular site as a HAR file which makes it a very useful format in practice. &lt;/p&gt;
+&lt;p&gt;One simple way to analyze HAR files is to import them back into dev-tools and explore them manually. But for many common scenarios it is more efficient to analyze these files through CLI using a tool like jq to zero into the exact information we need.&lt;/p&gt;
+&lt;p&gt;The rest of this post is basically a cheatsheet of one-liners for using jq to analyze HAR logs. It mostly covers scenarios that I have found useful in day-to-day exploration as a web developer. &lt;/p&gt;
+&lt;p&gt;For the examples here I&amp;#39;ll be using the HAR exported from twitter.com (I am &lt;a href=&#34;https://twitter.com/lorefnon&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;@lorefnon&lt;/a&gt; on twitter as well BTW).&lt;/p&gt;
+&lt;p&gt;You may or may not have familiar with the structure of HAR file. Let&amp;#39;s see how we can explore some JSON of unfamiliar structure. &lt;/p&gt;
+&lt;p&gt;For starters, jq can be used a simple JSON formatter or syntax highligher. &lt;/p&gt;
+&lt;p&gt;So something like this gives us properly formatted syntax highlighted json: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;$ jq &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;.&amp;#x27;&lt;/span&gt; twitter.com.har&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Or we can feed in json through STDIN which is quite useful with curl etc.: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;$ cat twitter.com.har | jq &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;.&amp;#x27;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This essentially applies an identity filter (&lt;code&gt;.&lt;/code&gt;) to input (incoming stream) that returns it unchanged, and lets jq pretty-prints the output. &lt;/p&gt;
+&lt;p&gt;However, HAR files are often fairly large, and thus this is unweildy when you have several MBs of content. &lt;/p&gt;
+&lt;p&gt;So let us just find out the top level keys to begin with: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;$ jq &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;. | keys&amp;#x27;&lt;/span&gt; twitter.com.har
+
+[
+  &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;log&amp;quot;&lt;/span&gt;
+]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Pipe (|) similar to unix pipes is jq&amp;#39;s syntax for forward application. In this case the output of identity filter to the &lt;code&gt;keys&lt;/code&gt; builtin function which returns us an array of keys in the object.&lt;/p&gt;
+&lt;p&gt;And now we can drill down from there and explore the subtree: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;$ jq &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;.log | keys&amp;#x27;&lt;/span&gt; twitter.com.har
+
+[
+  &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;creator&amp;quot;&lt;/span&gt;,
+  &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;entries&amp;quot;&lt;/span&gt;,
+  &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;pages&amp;quot;&lt;/span&gt;,
+  &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;version&amp;quot;&lt;/span&gt;
+]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;$ jq &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;.log.pages[0] | keys&amp;#x27;&lt;/span&gt; twitter.com.har
+
+[
+  &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;id&amp;quot;&lt;/span&gt;,
+  &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;pageTimings&amp;quot;&lt;/span&gt;,
+  &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;startedDateTime&amp;quot;&lt;/span&gt;,
+  &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;title&amp;quot;&lt;/span&gt;
+]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We will not go into an exploration of the complete format. Besides interactive exploration through jq it may also be useful to consult the &lt;a href=&#34;http://www.softwareishard.com/blog/har-12-spec/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;HAR specification&lt;/a&gt; on how this file is structured. &lt;/p&gt;
+&lt;h2 id=&#34;Enumerating-accessed-resources&#34;&gt;&lt;a href=&#34;#Enumerating-accessed-resources&#34; class=&#34;headerlink&#34; title=&#34;Enumerating accessed resources&#34;&gt;&lt;/a&gt;Enumerating accessed resources&lt;/h2&gt;&lt;p&gt;As part of our exploration we&amp;#39;d usually want to narrow down our selection by the HTTP resources which were accessed. &lt;/p&gt;
+&lt;p&gt;We can find all the urls that were accessed as a part of this browsing session: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;jq &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;.log.entries[] | .request.url&amp;#x27;&lt;/span&gt; twitter.com.har
+
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://twitter.com/home&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://abs.twimg.com/responsive-web/client-web/polyfills.18a65025.js&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://abs.twimg.com/responsive-web/client-web/vendors~main.d0d6d775.js&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://abs.twimg.com/responsive-web/client-web/i18n/en.96bbaf75.js&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://abs.twimg.com/responsive-web/client-web/main.a3119725.js&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://abs.twimg.com/responsive-web/client-web/ondemand.Dropdown.fa0fef85.js&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://abs.twimg.com/responsive-web/client-web/sharedCore.c5e0a615.js&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://abs.twimg.com/responsive-web/client-web/ondemand.Dropdown.fa0fef85.js&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://abs.twimg.com/favicons/twitter.ico&amp;quot;&lt;/span&gt;
+...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We would often be interested in a subset of these resources. We can filter by HTTP method: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;jq &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;.log.entries[] | select(.request.method == &amp;quot;GET&amp;quot;) | .request.url&amp;#x27;&lt;/span&gt; twitter.com.har&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(Note use of select function to select by a predicate)&lt;/p&gt;
+&lt;p&gt;Or by extension: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;jq &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;.log.entries[] | select(.request.url | test(&amp;quot;.js$&amp;quot;)) | .request.url&amp;#x27;&lt;/span&gt; twitter.com.har&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(Note use of &lt;code&gt;test&lt;/code&gt; to create a predicate based on regular expression)&lt;/p&gt;
+&lt;p&gt;A better alternative (for well behaved services anyways) for filtering with type of content is to filter by mime type: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;$ jq &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;.log.entries[] | select(.response.content.mimeType == &amp;quot;text/html&amp;quot;) | .request.url&amp;#x27;&lt;/span&gt; twitter.com.har
+
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://twitter.com/home&amp;quot;&lt;/span&gt;
+
+$ jq &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;.log.entries[] | select(.response.content.mimeType == &amp;quot;application/javascript&amp;quot;) | .request.url&amp;#x27;&lt;/span&gt; twitter.com.har
+
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://abs.twimg.com/responsive-web/client-web/polyfills.18a65025.js&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://abs.twimg.com/responsive-web/client-web/vendors~main.d0d6d775.js&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://abs.twimg.com/responsive-web/client-web/i18n/en.96bbaf75.js&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://abs.twimg.com/responsive-web/client-web/main.a3119725.js&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://abs.twimg.com/responsive-web/client-web/ondemand.Dropdown.fa0fef85.js&amp;quot;&lt;/span&gt;
+..&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If we want to get the first item, we can collect all the results into an array and apply the first filter on it&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;$ jq &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;[.log.entries[] | select(.request.url | test(&amp;quot;home\\.json&amp;quot;))] | first&amp;#x27;&lt;/span&gt; twitter.com.har  | less&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(Note the use of &lt;code&gt;[...]&lt;/code&gt; to collect the resultset into an array so that we can apply functions (in this case &lt;code&gt;first&lt;/code&gt;) that operate on arrays). &lt;/p&gt;
+&lt;p&gt;This gives us the first request to home.json&lt;/p&gt;
+&lt;h2 id=&#34;Exploring-response&#34;&gt;&lt;a href=&#34;#Exploring-response&#34; class=&#34;headerlink&#34; title=&#34;Exploring response&#34;&gt;&lt;/a&gt;Exploring response&lt;/h2&gt;&lt;p&gt;jq is useful primarily for json. &lt;/p&gt;
+&lt;p&gt;So for services returning json we can just use jq to further explore the server response as well. &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;$ jq &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;[.log.entries[] | select(.request.url | test(&amp;quot;home\\.json&amp;quot;))] | first | .response.content.text&amp;#x27;&lt;/span&gt; twitter.com.har&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;However this gives us a string containing json, so before can apply further filters we&amp;#39;ll have to unwrap this content. &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;$ jq &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;[.log.entries[] | select(.request.url | test(&amp;quot;home\\.json&amp;quot;))] | first | .response.content.text | fromjson | .&amp;#x27;&lt;/span&gt; twitter.com.har&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;(Note the use of &lt;code&gt;fromjson&lt;/code&gt; to extract the JSON content embedded in the string).&lt;/p&gt;
+&lt;p&gt;But for other formats we can forward the result of jq to something else that deal with that format. &lt;/p&gt;
+&lt;p&gt;So for instance, if you have &lt;a href=&#34;https://github.com/sharkdp/bat&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;bat&lt;/a&gt; installed, we can do something like this to get syntax highlighted HTML content. &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;$ jq -r &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;[.log.entries[] | select(.response.content.mimeType == &amp;quot;text/html&amp;quot;) ] | first | .response.content.text | @base64d&amp;#x27;&lt;/span&gt; twitter.com.har  | bat&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Remember our mention above about jq being composable ? jq fits in well with unix philosophy - doing one thing well and making it easy to use with other tools.&lt;/p&gt;
+&lt;p&gt;Before we go further, a couple of things to note here: &lt;/p&gt;
+&lt;p&gt;In case of twitter, the response from the server is base64 encoded. So we had to use &lt;code&gt;@base64d&lt;/code&gt; to decode it. Also we had to pass the &lt;code&gt;-r&lt;/code&gt; flag to jq to remove the quotes around the output so that the output is proper HTML. &lt;/p&gt;
+&lt;p&gt;We can&amp;#39;t however use the &lt;code&gt;@base64d&lt;/code&gt; when the input is not utf8. But fortunately we have a base64 cli utility available for OS X (pre-installed) and most major linux variants which works well with arbitrary content including binary data. &lt;/p&gt;
+&lt;p&gt;So we can save some images fetched during the HTTP session to a image files which can then be viewed through any image viewer:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;$ jq -r &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;[ .log.entries[] | select(.response.content.mimeType == &amp;quot;image/png&amp;quot;) ] | first | .response.content.text&amp;#x27;&lt;/span&gt; twitter.com.har | base64 --decode &amp;gt; file.png&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can now, for instance, use something like &lt;a href=&#34;https://github.com/dmtrKovalenko/odiff&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;odiff&lt;/a&gt; to compare images from multiple HAR archives and see if they have changed. &lt;/p&gt;
+&lt;p&gt;Also, if you are using &lt;a href=&#34;https://iterm2.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;iterm2&lt;/a&gt; and have &lt;a href=&#34;https://iterm2.com/documentation-images.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;imgcat&lt;/a&gt; installed, we can display the images right in the terminal: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;$ jq -r &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;[ .log.entries[] | select(.response.content.mimeType == &amp;quot;image/png&amp;quot;) ] | first | .response.content.text&amp;#x27;&lt;/span&gt; twitter.com.har | base64 --decode | imgcat&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;/images/Uw4uhn_mK.png&#34; alt=&#34;image.png&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;Summarizing-stats&#34;&gt;&lt;a href=&#34;#Summarizing-stats&#34; class=&#34;headerlink&#34; title=&#34;Summarizing stats&#34;&gt;&lt;/a&gt;Summarizing stats&lt;/h2&gt;&lt;p&gt;If you are analyzing HAR files you probably care about size of the paylodas. &lt;/p&gt;
+&lt;p&gt;Let&amp;#39;s sort the responses by download size and take the top 10: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;jq -r &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;[.log.entries[]] | sort_by(.response.content.size) | reverse | .[0:10] | map([.request.url, .response.content.size])&amp;#x27;&lt;/span&gt; twitter.com.har&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Couple of things here: &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Note the use of &lt;code&gt;sort_by&lt;/code&gt; operator to sort results&lt;/li&gt;
+&lt;li&gt;This function operates on arrays, so we constructed one using &lt;code&gt;[.log.entries[]]&lt;/code&gt; similar to before.&lt;/li&gt;
+&lt;li&gt;We use &lt;code&gt;reverse&lt;/code&gt; to reverse the array and &lt;code&gt;.[0:10]&lt;/code&gt; slice operator to take a slice of first 10 results&lt;/li&gt;
+&lt;li&gt;Finally we are not interested in the whole data - just the size and url so we use &lt;code&gt;map&lt;/code&gt; to map over the results and extract exactly what we needed.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We can also generate a CSV from this resultset which you can then preview in your favorite spreadsheet software: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;jq -r &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;[.log.entries[]] | sort_by(.response.content.size) | reverse | .[0:10] | map([.request.url, .response.content.size]) | [&amp;quot;url&amp;quot;, &amp;quot;size&amp;quot;],  .[] | @csv&amp;#x27;&lt;/span&gt; twitter.com.har&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Personally I prefer using &lt;a href=&#34;https://github.com/johnkerl/miller&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;miller&lt;/a&gt; for exploring tabular data but that is a topic for another post.  &lt;/p&gt;
+&lt;p&gt;One thing to note here is that in all of the above examples, we didn&amp;#39;t (need to) use any variables, loops etc. We just applied functional transformations over a stream of json - resulting in succinct and easy to grok code. &lt;/p&gt;
+&lt;p&gt;This is one of the things that makes jq such an elegant choice for this kind of work. We do have functions, variables, foreach etc. but for most simple use cases like the ones above we don&amp;#39;t need them. &lt;/p&gt;
+&lt;p&gt;This brings us to end of our post. Hope this serves as a quick reference for common one-liners when dealing with jq &amp;amp; har files and points you to the right direction for use-cases not covered above.&lt;/p&gt;
+</content>
+        <category term="HAR" />
+        <category term="Jq" />
+        <updated>2020-11-26T18:30:00.000Z</updated>
+    </entry>
+</feed>
