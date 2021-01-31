@@ -58,6 +58,11 @@
     <category term="Jq" />
     <category term="Lit-html" />
     <category term="Stimulus" />
+    <category term="Kotlin" />
+    <category term="Vert.X" />
+    <category term="Vert.X-Web" />
+    <category term="Backend-development" />
+    <category term="API-development" />
     <entry>
         <id>https://lorefnon.me/2019/03/16/using-theme-specific-keybindings-in-vscode-to-improve-productivity/</id>
         <title>Using theme specific keybindings in VSCode to improve productivity</title>

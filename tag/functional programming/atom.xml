@@ -58,6 +58,11 @@
     <category term="Jq" />
     <category term="Lit-html" />
     <category term="Stimulus" />
+    <category term="Kotlin" />
+    <category term="Vert.X" />
+    <category term="Vert.X-Web" />
+    <category term="Backend-development" />
+    <category term="API-development" />
     <entry>
         <id>https://lorefnon.me/2015/09/21/react-and-livescript-in-harmony.html</id>
         <title>React and Livescript in harmony</title>

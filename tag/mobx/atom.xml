@@ -58,6 +58,11 @@
     <category term="Jq" />
     <category term="Lit-html" />
     <category term="Stimulus" />
+    <category term="Kotlin" />
+    <category term="Vert.X" />
+    <category term="Vert.X-Web" />
+    <category term="Backend-development" />
+    <category term="API-development" />
     <entry>
         <id>https://lorefnon.me/2019/08/15/dealing-with-circular-type-references-in-mobx-state-tree/</id>
         <title>Dealing with circular type references in Mobx-state-tree</title>

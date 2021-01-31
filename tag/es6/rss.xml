@@ -61,6 +61,11 @@
         <category>Jq</category>
         <category>Lit-html</category>
         <category>Stimulus</category>
+        <category>Kotlin</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</guid>
             <title>A minimal setup for using ES6 modules in Rails</title>

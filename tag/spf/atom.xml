@@ -58,6 +58,11 @@
     <category term="Jq" />
     <category term="Lit-html" />
     <category term="Stimulus" />
+    <category term="Kotlin" />
+    <category term="Vert.X" />
+    <category term="Vert.X-Web" />
+    <category term="Backend-development" />
+    <category term="API-development" />
     <entry>
         <id>https://lorefnon.me/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</id>
         <title>Boost your content focussed site with Structured Page Fragments</title>

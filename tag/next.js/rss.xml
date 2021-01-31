@@ -61,6 +61,11 @@
         <category>Jq</category>
         <category>Lit-html</category>
         <category>Stimulus</category>
+        <category>Kotlin</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/08/18/integrating-next-js-apollo-server-and-koa/</guid>
             <title>Integrating Next.js, Apollo Server and Koa</title>

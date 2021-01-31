@@ -61,6 +61,11 @@
         <category>Jq</category>
         <category>Lit-html</category>
         <category>Stimulus</category>
+        <category>Kotlin</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/02/04/redux-loop-a-better-solution-for-managing-asynchronous-operations-in-redux/</guid>
             <title>Redux-loop: A better solution for managing asynchronous operations in redux</title>

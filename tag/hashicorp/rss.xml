@@ -61,6 +61,11 @@
         <category>Jq</category>
         <category>Lit-html</category>
         <category>Stimulus</category>
+        <category>Kotlin</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/03/16/a-vagrantdocker-based-workflow-for-clojure-web-development/</guid>
             <title>A Vagrant+Docker based workflow for clojure web development</title>

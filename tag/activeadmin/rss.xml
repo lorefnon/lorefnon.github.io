@@ -61,6 +61,11 @@
         <category>Jq</category>
         <category>Lit-html</category>
         <category>Stimulus</category>
+        <category>Kotlin</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/03/02/dealing-with-json-fields-in-active-admin.html</guid>
             <title>Dealing with JSON data in Active Admin</title>
