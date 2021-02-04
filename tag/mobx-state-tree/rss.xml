@@ -12,6 +12,7 @@
         <category>Ruby</category>
         <category>EventMachine</category>
         <category>Websockets</category>
+        <category>SQLite</category>
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
@@ -21,46 +22,45 @@
         <category>ActiveRecord</category>
         <category>Devise</category>
         <category>Integration</category>
+        <category>ZSH</category>
         <category>Productivity Hacks</category>
+        <category>OCR</category>
+        <category>CSS</category>
         <category>Design Patterns</category>
         <category>InfluxDB</category>
         <category>Grafana</category>
+        <category>React</category>
         <category>Functional Programming</category>
         <category>ES6</category>
-        <category>Typescript</category>
-        <category>ReasonML</category>
-        <category>React</category>
-        <category>Frontend</category>
+        <category>Helm</category>
+        <category>SPF</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>GraphQL</category>
-        <category>MongoDB</category>
+        <category>Typescript</category>
+        <category>HAR</category>
+        <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
         <category>Automerge</category>
         <category>CRDT</category>
+        <category>Frontend</category>
         <category>SVG</category>
-        <category>VSCode</category>
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
+        <category>GraphQL</category>
         <category>Routing</category>
-        <category>SQLite</category>
-        <category>ZSH</category>
-        <category>OCR</category>
-        <category>Helm</category>
-        <category>SPF</category>
-        <category>CSS</category>
         <category>Redux</category>
         <category>Redux-loop</category>
         <category>Vagrant</category>
         <category>Clojure</category>
         <category>Hashicorp</category>
-        <category>HAR</category>
-        <category>Jq</category>
-        <category>Lit-html</category>
-        <category>Stimulus</category>
+        <category>MongoDB</category>
+        <category>VSCode</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>ReasonML</category>
         <category>Kotlin</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>

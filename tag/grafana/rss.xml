@@ -12,6 +12,7 @@
         <category>Ruby</category>
         <category>EventMachine</category>
         <category>Websockets</category>
+        <category>SQLite</category>
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
@@ -21,46 +22,45 @@
         <category>ActiveRecord</category>
         <category>Devise</category>
         <category>Integration</category>
+        <category>ZSH</category>
         <category>Productivity Hacks</category>
+        <category>OCR</category>
+        <category>CSS</category>
         <category>Design Patterns</category>
         <category>InfluxDB</category>
         <category>Grafana</category>
+        <category>React</category>
         <category>Functional Programming</category>
         <category>ES6</category>
-        <category>Typescript</category>
-        <category>ReasonML</category>
-        <category>React</category>
-        <category>Frontend</category>
+        <category>Helm</category>
+        <category>SPF</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>GraphQL</category>
-        <category>MongoDB</category>
+        <category>Typescript</category>
+        <category>HAR</category>
+        <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
         <category>Automerge</category>
         <category>CRDT</category>
+        <category>Frontend</category>
         <category>SVG</category>
-        <category>VSCode</category>
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
+        <category>GraphQL</category>
         <category>Routing</category>
-        <category>SQLite</category>
-        <category>ZSH</category>
-        <category>OCR</category>
-        <category>Helm</category>
-        <category>SPF</category>
-        <category>CSS</category>
         <category>Redux</category>
         <category>Redux-loop</category>
         <category>Vagrant</category>
         <category>Clojure</category>
         <category>Hashicorp</category>
-        <category>HAR</category>
-        <category>Jq</category>
-        <category>Lit-html</category>
-        <category>Stimulus</category>
+        <category>MongoDB</category>
+        <category>VSCode</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>ReasonML</category>
         <category>Kotlin</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
@@ -105,7 +105,7 @@ gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;influxdb-rails&amp;#x27;&l
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The last three lines signify the names of time series where the corresponding metrics would be stored, and we will use the same when querying the time series database.&lt;/p&gt;
-&lt;p&gt;Before our application can start dispatching metrics to InfluxDB the database &amp;quot;rails&amp;quot; specified in the above configuration file would have to be created. InfluxDB admin provides a means to do that using the GUI. The admin interface may be accessed by visiting: &lt;a href=&#34;http://localhost:8083/&#34;&gt;localhost:8083&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Before our application can start dispatching metrics to InfluxDB the database &amp;quot;rails&amp;quot; specified in the above configuration file would have to be created. InfluxDB admin provides a means to do that using the GUI. The admin interface may be accessed by visiting: &lt;a href=&#34;http://localhost:8083/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;localhost:8083&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/influxdb_landing_page.png&#34; alt=&#34;InfluxDB landing page&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;The default username/password combination is root/root, which is not advisable for production use.&lt;/p&gt;
 &lt;p&gt;The only option that is particularly relevant is database name: which we would have to change to &amp;quot;rails&amp;quot;.&lt;/p&gt;

@@ -29,7 +29,7 @@ gem <span class="hljs-string">&#x27;influxdb-rails&#x27;</span></code></pre>
 <span class="hljs-keyword">end</span></code></pre>
 
 <p>The last three lines signify the names of time series where the corresponding metrics would be stored, and we will use the same when querying the time series database.</p>
-<p>Before our application can start dispatching metrics to InfluxDB the database &quot;rails&quot; specified in the above configuration file would have to be created. InfluxDB admin provides a means to do that using the GUI. The admin interface may be accessed by visiting: <a target="_blank" rel="noopener" href="http://localhost:8083/">localhost:8083</a></p>
+<p>Before our application can start dispatching metrics to InfluxDB the database &quot;rails&quot; specified in the above configuration file would have to be created. InfluxDB admin provides a means to do that using the GUI. The admin interface may be accessed by visiting: <a href="http://localhost:8083/" target="_blank" rel="noopener external nofollow noreferrer">localhost:8083</a></p>
 <p><img src="/images/influxdb_landing_page.png" alt="InfluxDB landing page" loading="lazy"></p>
 <p>The default username/password combination is root/root, which is not advisable for production use.</p>
 <p>The only option that is particularly relevant is database name: which we would have to change to &quot;rails&quot;.</p>

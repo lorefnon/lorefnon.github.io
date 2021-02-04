@@ -9,6 +9,7 @@
     <category term="Ruby" />
     <category term="EventMachine" />
     <category term="Websockets" />
+    <category term="SQLite" />
     <category term="Jade" />
     <category term="Node.js" />
     <category term="Rails" />
@@ -18,46 +19,45 @@
     <category term="ActiveRecord" />
     <category term="Devise" />
     <category term="Integration" />
+    <category term="ZSH" />
     <category term="Productivity Hacks" />
+    <category term="OCR" />
+    <category term="CSS" />
     <category term="Design Patterns" />
     <category term="InfluxDB" />
     <category term="Grafana" />
+    <category term="React" />
     <category term="Functional Programming" />
     <category term="ES6" />
-    <category term="Typescript" />
-    <category term="ReasonML" />
-    <category term="React" />
-    <category term="Frontend" />
+    <category term="Helm" />
+    <category term="SPF" />
     <category term="Next.js" />
     <category term="Koa" />
     <category term="Apollo" />
-    <category term="GraphQL" />
-    <category term="MongoDB" />
+    <category term="Typescript" />
+    <category term="HAR" />
+    <category term="Jq" />
+    <category term="Lit-html" />
+    <category term="Stimulus" />
     <category term="Automerge" />
     <category term="CRDT" />
+    <category term="Frontend" />
     <category term="SVG" />
-    <category term="VSCode" />
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
-    <category term="MobX" />
-    <category term="MobX-State-Tree" />
+    <category term="GraphQL" />
     <category term="Routing" />
-    <category term="SQLite" />
-    <category term="ZSH" />
-    <category term="OCR" />
-    <category term="Helm" />
-    <category term="SPF" />
-    <category term="CSS" />
     <category term="Redux" />
     <category term="Redux-loop" />
     <category term="Vagrant" />
     <category term="Clojure" />
     <category term="Hashicorp" />
-    <category term="HAR" />
-    <category term="Jq" />
-    <category term="Lit-html" />
-    <category term="Stimulus" />
+    <category term="MongoDB" />
+    <category term="VSCode" />
+    <category term="MobX" />
+    <category term="MobX-State-Tree" />
+    <category term="ReasonML" />
     <category term="Kotlin" />
     <category term="Vert.X" />
     <category term="Vert.X-Web" />
@@ -97,7 +97,7 @@ gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;influxdb-rails&amp;#x27;&l
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The last three lines signify the names of time series where the corresponding metrics would be stored, and we will use the same when querying the time series database.&lt;/p&gt;
-&lt;p&gt;Before our application can start dispatching metrics to InfluxDB the database &amp;quot;rails&amp;quot; specified in the above configuration file would have to be created. InfluxDB admin provides a means to do that using the GUI. The admin interface may be accessed by visiting: &lt;a href=&#34;http://localhost:8083/&#34;&gt;localhost:8083&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Before our application can start dispatching metrics to InfluxDB the database &amp;quot;rails&amp;quot; specified in the above configuration file would have to be created. InfluxDB admin provides a means to do that using the GUI. The admin interface may be accessed by visiting: &lt;a href=&#34;http://localhost:8083/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;localhost:8083&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/influxdb_landing_page.png&#34; alt=&#34;InfluxDB landing page&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;The default username/password combination is root/root, which is not advisable for production use.&lt;/p&gt;
 &lt;p&gt;The only option that is particularly relevant is database name: which we would have to change to &amp;quot;rails&amp;quot;.&lt;/p&gt;

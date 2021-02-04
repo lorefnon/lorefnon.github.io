@@ -9,6 +9,7 @@
     <category term="Ruby" />
     <category term="EventMachine" />
     <category term="Websockets" />
+    <category term="SQLite" />
     <category term="Jade" />
     <category term="Node.js" />
     <category term="Rails" />
@@ -18,46 +19,45 @@
     <category term="ActiveRecord" />
     <category term="Devise" />
     <category term="Integration" />
+    <category term="ZSH" />
     <category term="Productivity Hacks" />
+    <category term="OCR" />
+    <category term="CSS" />
     <category term="Design Patterns" />
     <category term="InfluxDB" />
     <category term="Grafana" />
+    <category term="React" />
     <category term="Functional Programming" />
     <category term="ES6" />
-    <category term="Typescript" />
-    <category term="ReasonML" />
-    <category term="React" />
-    <category term="Frontend" />
+    <category term="Helm" />
+    <category term="SPF" />
     <category term="Next.js" />
     <category term="Koa" />
     <category term="Apollo" />
-    <category term="GraphQL" />
-    <category term="MongoDB" />
+    <category term="Typescript" />
+    <category term="HAR" />
+    <category term="Jq" />
+    <category term="Lit-html" />
+    <category term="Stimulus" />
     <category term="Automerge" />
     <category term="CRDT" />
+    <category term="Frontend" />
     <category term="SVG" />
-    <category term="VSCode" />
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
-    <category term="MobX" />
-    <category term="MobX-State-Tree" />
+    <category term="GraphQL" />
     <category term="Routing" />
-    <category term="SQLite" />
-    <category term="ZSH" />
-    <category term="OCR" />
-    <category term="Helm" />
-    <category term="SPF" />
-    <category term="CSS" />
     <category term="Redux" />
     <category term="Redux-loop" />
     <category term="Vagrant" />
     <category term="Clojure" />
     <category term="Hashicorp" />
-    <category term="HAR" />
-    <category term="Jq" />
-    <category term="Lit-html" />
-    <category term="Stimulus" />
+    <category term="MongoDB" />
+    <category term="VSCode" />
+    <category term="MobX" />
+    <category term="MobX-State-Tree" />
+    <category term="ReasonML" />
     <category term="Kotlin" />
     <category term="Vert.X" />
     <category term="Vert.X-Web" />
@@ -2671,9 +2671,9 @@ Similarly we can extract out &lt;code&gt;SnapshotIn&amp;lt;typeof Snippet$1&amp;
 
 
     </content>
-        <category term="Frontend" />
         <category term="Automerge" />
         <category term="CRDT" />
+        <category term="Frontend" />
         <updated>2018-09-23T00:00:00.000Z</updated>
     </entry>
     <entry>
@@ -6848,7 +6848,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;h2 id=&#34;JSX-and-designer-languages&#34;&gt;&lt;a href=&#34;#JSX-and-designer-languages&#34; class=&#34;headerlink&#34; title=&#34;JSX and designer languages&#34;&gt;&lt;/a&gt;JSX and designer languages&lt;/h2&gt;&lt;blockquote&gt;
 &lt;p&gt;Open standards? Nah, how about lock-in to custom language extensions that will prevent you from migrating your code to the next web standard! Much better.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;JSX is a custom language extension alright but it is not mandatory for using React. It is &lt;a href=&#34;http://jamesknelson.com/learn-raw-react-no-jsx-flux-es6-webpack/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;fairly easy&lt;/a&gt; to use vanilla javascript and benefit from all the features of React. In fact it is also easy to use React with other AltJS languages like &lt;a href=&#34;http://blog.vjeux.com/2013/javascript/react-coffeescript.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Coffeescript&lt;/a&gt;, &lt;a href=&#34;http://lorefnon.me/2015/09/21/react-and-livescript-in-harmony.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Livescript&lt;/a&gt; and &lt;a href=&#34;https://github.com/Asana/typed-react&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Typescript&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;JSX is a custom language extension alright but it is not mandatory for using React. It is &lt;a href=&#34;http://jamesknelson.com/learn-raw-react-no-jsx-flux-es6-webpack/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;fairly easy&lt;/a&gt; to use vanilla javascript and benefit from all the features of React. In fact it is also easy to use React with other AltJS languages like &lt;a href=&#34;http://blog.vjeux.com/2013/javascript/react-coffeescript.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Coffeescript&lt;/a&gt;, &lt;a href=&#34;http://lorefnon.me/2015/09/21/react-and-livescript-in-harmony.html&#34;&gt;Livescript&lt;/a&gt; and &lt;a href=&#34;https://github.com/Asana/typed-react&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Typescript&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;While I agree that without JSX, the code is much more verbose - there are solutions like &lt;a href=&#34;https://github.com/mlmorg/react-hyperscript&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;React hyperscript&lt;/a&gt; that let you express the DOM structure within javascript, or &lt;a href=&#34;https://github.com/wix/react-templates&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;React Templates&lt;/a&gt; and &lt;a href=&#34;https://github.com/jadejs/react-jade&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;React Jade&lt;/a&gt; which allow you to use external templates with React.&lt;/p&gt;
 &lt;p&gt;Also there is a &lt;a href=&#34;https://facebook.github.io/jsx/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;draft specification&lt;/a&gt; for JSX in place and some other frameworks have already &lt;a href=&#34;https://github.com/insin/msx&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;started&lt;/a&gt; adopting it.&lt;/p&gt;
 &lt;h2 id=&#34;About-open-standards&#34;&gt;&lt;a href=&#34;#About-open-standards&#34; class=&#34;headerlink&#34; title=&#34;About open standards&#34;&gt;&lt;/a&gt;About open standards&lt;/h2&gt;&lt;h3 id=&#34;Web-Components&#34;&gt;&lt;a href=&#34;#Web-Components&#34; class=&#34;headerlink&#34; title=&#34;Web Components&#34;&gt;&lt;/a&gt;Web Components&lt;/h3&gt;&lt;p&gt;The reasons for not using an open standard like web components have been &lt;a href=&#34;https://github.com/facebook/react/issues/5052#issuecomment-145594782&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;explained&lt;/a&gt; by the React team:&lt;/p&gt;
@@ -7204,8 +7204,8 @@ React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;
 &lt;p&gt;Apart from getting rid of null for attribute hashes, hyperscript is particularly useful for shorter syntax for class names and ids. Also it insulates our codebase against changes in the DOM builder API, which have happened in past.&lt;/p&gt;
 </content>
         <category term="Javascript" />
-        <category term="Functional Programming" />
         <category term="React" />
+        <category term="Functional Programming" />
         <updated>2015-09-20T18:30:00.000Z</updated>
     </entry>
     <entry>
@@ -7348,7 +7348,7 @@ gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;influxdb-rails&amp;#x27;&l
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The last three lines signify the names of time series where the corresponding metrics would be stored, and we will use the same when querying the time series database.&lt;/p&gt;
-&lt;p&gt;Before our application can start dispatching metrics to InfluxDB the database &amp;quot;rails&amp;quot; specified in the above configuration file would have to be created. InfluxDB admin provides a means to do that using the GUI. The admin interface may be accessed by visiting: &lt;a href=&#34;http://localhost:8083/&#34;&gt;localhost:8083&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Before our application can start dispatching metrics to InfluxDB the database &amp;quot;rails&amp;quot; specified in the above configuration file would have to be created. InfluxDB admin provides a means to do that using the GUI. The admin interface may be accessed by visiting: &lt;a href=&#34;http://localhost:8083/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;localhost:8083&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/influxdb_landing_page.png&#34; alt=&#34;InfluxDB landing page&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;The default username/password combination is root/root, which is not advisable for production use.&lt;/p&gt;
 &lt;p&gt;The only option that is particularly relevant is database name: which we would have to change to &amp;quot;rails&amp;quot;.&lt;/p&gt;
@@ -7972,8 +7972,8 @@ Date:   Sun Sep 14 00:58:03 2014 +0530
           invoke    rspec
           create      spec/models/comment_spec.rb&lt;/code&gt;&lt;/pre&gt;
 </content>
-        <category term="Productivity Hacks" />
         <category term="ZSH" />
+        <category term="Productivity Hacks" />
         <updated>2014-09-12T18:30:00.000Z</updated>
     </entry>
     <entry>
