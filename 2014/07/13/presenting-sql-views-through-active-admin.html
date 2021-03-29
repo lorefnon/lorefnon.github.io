@@ -51,11 +51,13 @@ joins.</p>
 <pre><code>SELECT cities.id AS id, states.name AS state, districts.name AS district, cities.name AS city
 FROM states
 INNER JOIN districts ON districts.state_id = states.id
-INNER JOIN cities ON cities.district_id = districts.id</code></pre>
+INNER JOIN cities ON cities.district_id = districts.id
+</code></pre>
 <img src="/images/joins_states.png" />
 
 <p>To create the view we generate a migration:</p>
-<pre><code>rails g migration create_state_district_city_view</code></pre>
+<pre><code>rails g migration create_state_district_city_view
+</code></pre>
 <pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CreateStateDistrictCityView</span> &lt; ActiveRecord::Migration</span>
 
   <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">up</span></span>
@@ -85,7 +87,8 @@ can just define a normal ActiveRecord model to access this view.</p>
 =&gt; [#&lt;StateDistrictCityViewProxy id: 1, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Agali&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 2, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Amadagur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 3, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Amarapuram&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 4, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Anantapur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 5, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Atmakur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 6, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bathalapalle&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 7, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Beluguppa&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 8, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bommanahal&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 9, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Brahmasamudram&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 10, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bukkapatnam&quot;&gt;]</code></pre>
 
 <p>Now that we have a model, generating an ActiveAdmin resource is as simple as:</p>
-<pre><code> rails g active_admin:resource StateDistrictCityViewProxy</code></pre>
+<pre><code> rails g active_admin:resource StateDistrictCityViewProxy
+</code></pre>
 <p>At this point upon visiting the index page in ActiveAdmin we might have expected
 a fancy paginated table but instead we are greeted with a not-so-helpful error:</p>
 <img src="/images/err1.png"/>
@@ -95,11 +98,13 @@ a fancy paginated table but instead we are greeted with a not-so-helpful error:<
   StateDistrictCityViewProxy Load (0.3ms)  SELECT `state_district_city_view`.* FROM `state_district_city_view` LIMIT 1
 =&gt; #&lt;StateDistrictCityViewProxy id: 1, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Agali&quot;&gt;
 &gt; s1.attributes
-=&gt; &#123;&quot;id&quot;=&gt;1, &quot;state&quot;=&gt;&quot;Andhra Pradesh&quot;, &quot;district&quot;=&gt;&quot;Anantapur&quot;, &quot;city&quot;=&gt;&quot;Agali&quot;, nil=&gt;nil&#125;</code></pre>
+=&gt; &#123;&quot;id&quot;=&gt;1, &quot;state&quot;=&gt;&quot;Andhra Pradesh&quot;, &quot;district&quot;=&gt;&quot;Anantapur&quot;, &quot;city&quot;=&gt;&quot;Agali&quot;, nil=&gt;nil&#125;
+</code></pre>
 <p>So the question is where is the nil coming from? The problem is that an SQL view doesn&#39;t have a primary key. Rails doesn&#39;t automatically
 assume that our <code>id</code> field is a primary key.</p>
 <pre><code>&gt; StateDistrictCityViewProxy.primary_key
-=&gt; nil</code></pre>
+=&gt; nil
+</code></pre>
 <p>We can not somehow add a primary key to an SQL view, that is utterly pointless. However we can force ActiveRecord to use the <code>id</code> attribute
 as primary key.</p>
 <pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StateDistrictCityViewProxy</span> &lt; ActiveRecord::Base</span>
@@ -117,7 +122,8 @@ in our migrations have not introducted any changes in schema.rb. So when you reg
 schema.yml the view will not be created. This has multiple solutions. A simple one
 is to get rid of schema.rb in favor of sql schema format.</p>
 <p>In config/application.rb:</p>
-<pre><code>config.active_record.schema_format = :sql</code></pre>
+<pre><code>config.active_record.schema_format = :sql
+</code></pre>
 <p>Next time we run <code>rake db:migrate</code> a <code>structure.sql</code> file will be generated that contains the SQL
 for generating our views.</p>
 <p>An alternative option is the gem <a href="https://github.com/lomba/schema_plus" target="_blank" rel="noopener external nofollow noreferrer">schema_plus</a> that augments ActiveRecord

@@ -22,7 +22,8 @@ or not reflect my current my recommedation in the matter.</div><div class="page-
 <p>Installing Tesseract on OS X is as simple as <code>brew install tesseract</code> and it is also available through several linux package managers.</p>
 <p>The ruby gems can be installed by adding the following to your Gemfile:</p>
 <pre><code>gem &#39;magick_title&#39;, &#39;&gt;= 0.2.0&#39;
-gem &#39;tesseract-ocr&#39;</code></pre>
+gem &#39;tesseract-ocr&#39;
+</code></pre>
 <p>Now in irb (or a ruby script) you can do:</p>
 <pre><code class="hljs ruby"><span class="hljs-keyword">require</span> <span class="hljs-string">&#x27;magick_title&#x27;</span>
 MagickTitle.options[<span class="hljs-symbol">:font</span>] = <span class="hljs-string">&quot;font_dfcb813d6c003fb3e2fca9f5295e9f58.ttf&quot;</span>  <span class="hljs-comment"># Font downloaded from the site</span>
@@ -30,7 +31,8 @@ MagickTitle.options[<span class="hljs-symbol">:font_path</span>] =  Proc.new&#12
 MagickTitle.options[<span class="hljs-symbol">:destination</span>] =  Proc.new&#123; MagicTitle.root &#125; <span class="hljs-comment"># Defaults to current directory</span></code></pre>
 
 <p>Now let us fetch the string from the site header. For the sake of keeping the example minimal we omit the actual scraping code here:</p>
-<pre><code>str =  &quot;1zb SN358 y6JBl HJL 7Nagq JRb6 kzb n2vP 9JV. F + h = t.&quot;</code></pre>
+<pre><code>str =  &quot;1zb SN358 y6JBl HJL 7Nagq JRb6 kzb n2vP 9JV. F + h = t.&quot;
+</code></pre>
 <p><code>MagickTitle.say(str)</code> will give us an image containing the text in exactly the same form as is visible to end user.</p>
 <p>Now we pass the image to Tesseract engine:</p>
 <pre><code class="hljs ruby">e = Tesseract::Engine.new &#123;<span class="hljs-params">|e|</span>
@@ -40,7 +42,8 @@ MagickTitle.options[<span class="hljs-symbol">:destination</span>] =  Proc.new&#
 
 <p>We can get the string using:</p>
 <pre><code>&gt; e.text_for(&quot;./#&#123;MagickTitle.say(str).filename&#125;&quot;)
-=&gt; &quot;The quick brown fox jumps over\nthe lazy dog 1 2 3\n\n&quot;</code></pre>
+=&gt; &quot;The quick brown fox jumps over\nthe lazy dog 1 2 3\n\n&quot;
+</code></pre>
 <p>As you can see that result is not perfect but quite accurate.</p>
 <p>To further improve the performance of the solution we can create an image of every character through MagickTitle and pass it to Tesseract to generate a character by character map. Now large chunks of text can be translated using this map much more efficiently.</p>
 </div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>

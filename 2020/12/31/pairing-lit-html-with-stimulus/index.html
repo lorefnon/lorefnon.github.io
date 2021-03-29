@@ -152,7 +152,6 @@ application.register(<span class="hljs-string">&quot;todo&quot;</span>, TodoCont
 <span class="hljs-subst">    )&#125;</span>
 <span class="xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span>
 <span class="xml">`</span>;</code></pre>
-
 <h2 id="Making-things-reactive"><a href="#Making-things-reactive" class="headerlink" title="Making things reactive:"></a>Making things reactive:</h2><p>Calling rerender ourselves doesn&#39;t quite cut it in 2020 (almost 2021 :P) and in JS ecosystem we have a plethora of state-management micro-libraries. One that I particularly like is <a href="https://effector.dev/" target="_blank" rel="noopener external nofollow noreferrer">Effector</a>, which is quite feature rich for a <a href="https://bundlephobia.com/result?p=effector@21.7.5" target="_blank" rel="noopener external nofollow noreferrer">9.5k bundle</a>. </p>
 <p>Let&#39;s quickly see how our toy todo list will look like with some state management thrown in.</p>
 <p>Let&#39;s setup our store first (Effector&#39;s store follow a unidirectional data flow approach that you might be familiar from redux etc.): </p>

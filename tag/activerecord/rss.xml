@@ -7,24 +7,20 @@
         <language>en</language>
         <pubDate>Sun, 27 Jul 2014 00:00:00 +0530</pubDate>
         <lastBuildDate>Sun, 27 Jul 2014 00:00:00 +0530</lastBuildDate>
-        <category>Javascript</category>
-        <category>KnockoutJS</category>
         <category>Ruby</category>
-        <category>EventMachine</category>
-        <category>Websockets</category>
         <category>SQLite</category>
+        <category>Javascript</category>
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
         <category>Emacs</category>
-        <category>Gulp</category>
         <category>ActiveAdmin</category>
         <category>ActiveRecord</category>
-        <category>Devise</category>
-        <category>Integration</category>
-        <category>ZSH</category>
-        <category>Productivity Hacks</category>
+        <category>KnockoutJS</category>
+        <category>EventMachine</category>
+        <category>Websockets</category>
         <category>OCR</category>
+        <category>Gulp</category>
         <category>CSS</category>
         <category>Design Patterns</category>
         <category>InfluxDB</category>
@@ -34,22 +30,31 @@
         <category>ES6</category>
         <category>Helm</category>
         <category>SPF</category>
+        <category>Typescript</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>Typescript</category>
         <category>HAR</category>
         <category>Jq</category>
         <category>Lit-html</category>
         <category>Stimulus</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Frontend</category>
-        <category>SVG</category>
+        <category>Kotlin</category>
+        <category>GraphQL</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
+        <category>ZSH</category>
+        <category>Productivity Hacks</category>
+        <category>Devise</category>
+        <category>Integration</category>
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
-        <category>GraphQL</category>
+        <category>SVG</category>
+        <category>Frontend</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
         <category>Routing</category>
         <category>Redux</category>
         <category>Redux-loop</category>
@@ -61,11 +66,6 @@
         <category>MobX</category>
         <category>MobX-State-Tree</category>
         <category>ReasonML</category>
-        <category>Kotlin</category>
-        <category>Vert.X</category>
-        <category>Vert.X-Web</category>
-        <category>Backend-development</category>
-        <category>API-development</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2014/07/27/optimizing-sti-columns.html</guid>
             <title>Optimizing space taken by type column in Rails STI</title>
@@ -188,7 +188,8 @@ any errors when trying to save or retrieve them since we delegate to default imp
 &lt;p&gt;All seems kosher, so we take our implementation for a test drive:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;&amp;gt; Institution::Base.all
 Institution::Base Load (0.4ms)  SELECT `institution_bases`.* FROM `institution_bases`
-=&amp;gt; #&amp;lt;ActiveRecord::Relation [#&amp;lt;Institution::Commercial id: 3, name: &amp;quot;loremipsum&amp;quot;, type: &amp;quot;2&amp;quot;, created_at: &amp;quot;2014-07-17 12:27:26&amp;quot;, updated_at: &amp;quot;2014-07-17 12:27:26&amp;quot;&amp;gt;]&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+=&amp;gt; #&amp;lt;ActiveRecord::Relation [#&amp;lt;Institution::Commercial id: 3, name: &amp;quot;loremipsum&amp;quot;, type: &amp;quot;2&amp;quot;, created_at: &amp;quot;2014-07-17 12:27:26&amp;quot;, updated_at: &amp;quot;2014-07-17 12:27:26&amp;quot;&amp;gt;]&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;While laoding instances of base class works well, we run into issues when we try to load all commercial
 institutions:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;2.1.2 :005 &amp;gt; Institution::Commercial.all
@@ -197,7 +198,8 @@ NoMethodError: undefined method `index&amp;#39; for nil:NilClass
                from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/inheritance.rb:170:in `block in type_condition&amp;#39;
                from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/inheritance.rb:170:in `map&amp;#39;
                from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/inheritance.rb:170:in `type_condition&amp;#39;
-               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/core.rb:170:in `relation&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+               from /Users/lorefnon/.rvm/gems/ruby-2.1.2@sample/gems/activerecord-4.1.4/lib/active_record/core.rb:170:in `relation&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The problem is obvious : the variable &lt;code&gt;sti_class_list&lt;/code&gt; is not available in subclasses.&lt;/p&gt;
 &lt;p&gt;So we rectify our solution:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;sti_cls_list&lt;/span&gt;&lt;/span&gt;

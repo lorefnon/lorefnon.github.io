@@ -7,7 +7,8 @@ invoke  active_record
 create    db/migrate/20140913191020_create_posts.rb
 create    app/models/post.rb
 invoke    rspec
-create      spec/models/post_spec.rb</code></pre>
+create      spec/models/post_spec.rb
+</code></pre>
 <p>is expressive enough for a commit message. A person familiar enough with the framework can instantly see the above and know what happened there. In such case, spending time writing an explanatory commit message for a auto-generated code is pretty much a waste of time.</p>
 <p>So I have created a simple zsh function which does exactly the above:</p>
 <pre><code>GC ()
@@ -16,9 +17,11 @@ create      spec/models/post_spec.rb</code></pre>
   output=$(&quot;$@&quot;)
   git add .
   git commit -m &quot;$cmd&quot; -m &quot;$output&quot;
-&#125;</code></pre>
+&#125;
+</code></pre>
 <p>Add it to your zshrc, and next time you can simply type :</p>
-<pre><code>GC rails g model comment body:text commenter:string</code></pre>
+<pre><code>GC rails g model comment body:text commenter:string
+</code></pre>
 <p>GC will add all the generated code (please ensure you have a clean state before running the generator - GC will not help you that) and committing it with the message as the command combined with the output of generator in separate paragraphs.</p>
 <pre><code>commit 029cb2e60187a196d918a08563d95775d73f5100
 Author: Lorefnon &lt;lorefnon@gmail.com&gt;
@@ -30,5 +33,6 @@ Date:   Sun Sep 14 00:58:03 2014 +0530
           create    db/migrate/20140913192803_create_comments.rb
           create    app/models/comment.rb
           invoke    rspec
-          create      spec/models/comment_spec.rb</code></pre>
+          create      spec/models/comment_spec.rb
+</code></pre>
 </div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>

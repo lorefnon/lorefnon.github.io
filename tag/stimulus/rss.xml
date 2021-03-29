@@ -7,24 +7,20 @@
         <language>en</language>
         <pubDate>Thu, 31 Dec 2020 00:00:00 +0530</pubDate>
         <lastBuildDate>Thu, 31 Dec 2020 00:00:00 +0530</lastBuildDate>
-        <category>Javascript</category>
-        <category>KnockoutJS</category>
         <category>Ruby</category>
-        <category>EventMachine</category>
-        <category>Websockets</category>
         <category>SQLite</category>
+        <category>Javascript</category>
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
         <category>Emacs</category>
-        <category>Gulp</category>
         <category>ActiveAdmin</category>
         <category>ActiveRecord</category>
-        <category>Devise</category>
-        <category>Integration</category>
-        <category>ZSH</category>
-        <category>Productivity Hacks</category>
+        <category>KnockoutJS</category>
+        <category>EventMachine</category>
+        <category>Websockets</category>
         <category>OCR</category>
+        <category>Gulp</category>
         <category>CSS</category>
         <category>Design Patterns</category>
         <category>InfluxDB</category>
@@ -34,22 +30,31 @@
         <category>ES6</category>
         <category>Helm</category>
         <category>SPF</category>
+        <category>Typescript</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>Typescript</category>
         <category>HAR</category>
         <category>Jq</category>
         <category>Lit-html</category>
         <category>Stimulus</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Frontend</category>
-        <category>SVG</category>
+        <category>Kotlin</category>
+        <category>GraphQL</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
+        <category>ZSH</category>
+        <category>Productivity Hacks</category>
+        <category>Devise</category>
+        <category>Integration</category>
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
-        <category>GraphQL</category>
+        <category>SVG</category>
+        <category>Frontend</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
         <category>Routing</category>
         <category>Redux</category>
         <category>Redux-loop</category>
@@ -61,11 +66,6 @@
         <category>MobX</category>
         <category>MobX-State-Tree</category>
         <category>ReasonML</category>
-        <category>Kotlin</category>
-        <category>Vert.X</category>
-        <category>Vert.X-Web</category>
-        <category>Backend-development</category>
-        <category>API-development</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2020/12/31/pairing-lit-html-with-stimulus/</guid>
             <title>Pairing lit-html with stimulus</title>
@@ -227,7 +227,6 @@ application.register(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;todo&amp;
 &lt;span class=&#34;hljs-subst&#34;&gt;    )&amp;#125;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;`&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;
-
 &lt;h2 id=&#34;Making-things-reactive&#34;&gt;&lt;a href=&#34;#Making-things-reactive&#34; class=&#34;headerlink&#34; title=&#34;Making things reactive:&#34;&gt;&lt;/a&gt;Making things reactive:&lt;/h2&gt;&lt;p&gt;Calling rerender ourselves doesn&amp;#39;t quite cut it in 2020 (almost 2021 :P) and in JS ecosystem we have a plethora of state-management micro-libraries. One that I particularly like is &lt;a href=&#34;https://effector.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Effector&lt;/a&gt;, which is quite feature rich for a &lt;a href=&#34;https://bundlephobia.com/result?p=effector@21.7.5&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;9.5k bundle&lt;/a&gt;. &lt;/p&gt;
 &lt;p&gt;Let&amp;#39;s quickly see how our toy todo list will look like with some state management thrown in.&lt;/p&gt;
 &lt;p&gt;Let&amp;#39;s setup our store first (Effector&amp;#39;s store follow a unidirectional data flow approach that you might be familiar from redux etc.): &lt;/p&gt;

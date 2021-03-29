@@ -4,24 +4,20 @@
     <title>Icicles of Thought • Posts by &#34;activeadmin&#34; tag</title>
     <link href="https://lorefnon.me" />
     <updated>2015-03-01T18:30:00.000Z</updated>
-    <category term="Javascript" />
-    <category term="KnockoutJS" />
     <category term="Ruby" />
-    <category term="EventMachine" />
-    <category term="Websockets" />
     <category term="SQLite" />
+    <category term="Javascript" />
     <category term="Jade" />
     <category term="Node.js" />
     <category term="Rails" />
     <category term="Emacs" />
-    <category term="Gulp" />
     <category term="ActiveAdmin" />
     <category term="ActiveRecord" />
-    <category term="Devise" />
-    <category term="Integration" />
-    <category term="ZSH" />
-    <category term="Productivity Hacks" />
+    <category term="KnockoutJS" />
+    <category term="EventMachine" />
+    <category term="Websockets" />
     <category term="OCR" />
+    <category term="Gulp" />
     <category term="CSS" />
     <category term="Design Patterns" />
     <category term="InfluxDB" />
@@ -31,22 +27,31 @@
     <category term="ES6" />
     <category term="Helm" />
     <category term="SPF" />
+    <category term="Typescript" />
     <category term="Next.js" />
     <category term="Koa" />
     <category term="Apollo" />
-    <category term="Typescript" />
     <category term="HAR" />
     <category term="Jq" />
     <category term="Lit-html" />
     <category term="Stimulus" />
-    <category term="Automerge" />
-    <category term="CRDT" />
-    <category term="Frontend" />
-    <category term="SVG" />
+    <category term="Kotlin" />
+    <category term="GraphQL" />
+    <category term="Vert.X" />
+    <category term="Vert.X-Web" />
+    <category term="Backend-development" />
+    <category term="API-development" />
+    <category term="ZSH" />
+    <category term="Productivity Hacks" />
+    <category term="Devise" />
+    <category term="Integration" />
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
-    <category term="GraphQL" />
+    <category term="SVG" />
+    <category term="Frontend" />
+    <category term="Automerge" />
+    <category term="CRDT" />
     <category term="Routing" />
     <category term="Redux" />
     <category term="Redux-loop" />
@@ -58,11 +63,6 @@
     <category term="MobX" />
     <category term="MobX-State-Tree" />
     <category term="ReasonML" />
-    <category term="Kotlin" />
-    <category term="Vert.X" />
-    <category term="Vert.X-Web" />
-    <category term="Backend-development" />
-    <category term="API-development" />
     <entry>
         <id>https://lorefnon.me/2015/03/02/dealing-with-json-fields-in-active-admin.html</id>
         <title>Dealing with JSON data in Active Admin</title>
@@ -281,11 +281,13 @@ joins.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;SELECT cities.id AS id, states.name AS state, districts.name AS district, cities.name AS city
 FROM states
 INNER JOIN districts ON districts.state_id = states.id
-INNER JOIN cities ON cities.district_id = districts.id&lt;/code&gt;&lt;/pre&gt;
+INNER JOIN cities ON cities.district_id = districts.id
+&lt;/code&gt;&lt;/pre&gt;
 &lt;img src=&#34;/images/joins_states.png&#34; /&gt;
 
 &lt;p&gt;To create the view we generate a migration:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;rails g migration create_state_district_city_view&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;rails g migration create_state_district_city_view
+&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;CreateStateDistrictCityView&lt;/span&gt; &amp;lt; ActiveRecord::Migration&lt;/span&gt;
 
   &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;up&lt;/span&gt;&lt;/span&gt;
@@ -315,7 +317,8 @@ can just define a normal ActiveRecord model to access this view.&lt;/p&gt;
 =&amp;gt; [#&amp;lt;StateDistrictCityViewProxy id: 1, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Agali&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 2, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Amadagur&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 3, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Amarapuram&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 4, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Anantapur&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 5, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Atmakur&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 6, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Bathalapalle&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 7, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Beluguppa&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 8, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Bommanahal&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 9, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Brahmasamudram&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 10, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Bukkapatnam&amp;quot;&amp;gt;]&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now that we have a model, generating an ActiveAdmin resource is as simple as:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt; rails g active_admin:resource StateDistrictCityViewProxy&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt; rails g active_admin:resource StateDistrictCityViewProxy
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;At this point upon visiting the index page in ActiveAdmin we might have expected
 a fancy paginated table but instead we are greeted with a not-so-helpful error:&lt;/p&gt;
 &lt;img src=&#34;/images/err1.png&#34;/&gt;
@@ -325,11 +328,13 @@ a fancy paginated table but instead we are greeted with a not-so-helpful error:&
   StateDistrictCityViewProxy Load (0.3ms)  SELECT `state_district_city_view`.* FROM `state_district_city_view` LIMIT 1
 =&amp;gt; #&amp;lt;StateDistrictCityViewProxy id: 1, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Agali&amp;quot;&amp;gt;
 &amp;gt; s1.attributes
-=&amp;gt; &amp;#123;&amp;quot;id&amp;quot;=&amp;gt;1, &amp;quot;state&amp;quot;=&amp;gt;&amp;quot;Andhra Pradesh&amp;quot;, &amp;quot;district&amp;quot;=&amp;gt;&amp;quot;Anantapur&amp;quot;, &amp;quot;city&amp;quot;=&amp;gt;&amp;quot;Agali&amp;quot;, nil=&amp;gt;nil&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+=&amp;gt; &amp;#123;&amp;quot;id&amp;quot;=&amp;gt;1, &amp;quot;state&amp;quot;=&amp;gt;&amp;quot;Andhra Pradesh&amp;quot;, &amp;quot;district&amp;quot;=&amp;gt;&amp;quot;Anantapur&amp;quot;, &amp;quot;city&amp;quot;=&amp;gt;&amp;quot;Agali&amp;quot;, nil=&amp;gt;nil&amp;#125;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;So the question is where is the nil coming from? The problem is that an SQL view doesn&amp;#39;t have a primary key. Rails doesn&amp;#39;t automatically
 assume that our &lt;code&gt;id&lt;/code&gt; field is a primary key.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;&amp;gt; StateDistrictCityViewProxy.primary_key
-=&amp;gt; nil&lt;/code&gt;&lt;/pre&gt;
+=&amp;gt; nil
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;We can not somehow add a primary key to an SQL view, that is utterly pointless. However we can force ActiveRecord to use the &lt;code&gt;id&lt;/code&gt; attribute
 as primary key.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;StateDistrictCityViewProxy&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
@@ -347,7 +352,8 @@ in our migrations have not introducted any changes in schema.rb. So when you reg
 schema.yml the view will not be created. This has multiple solutions. A simple one
 is to get rid of schema.rb in favor of sql schema format.&lt;/p&gt;
 &lt;p&gt;In config/application.rb:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;config.active_record.schema_format = :sql&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;config.active_record.schema_format = :sql
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Next time we run &lt;code&gt;rake db:migrate&lt;/code&gt; a &lt;code&gt;structure.sql&lt;/code&gt; file will be generated that contains the SQL
 for generating our views.&lt;/p&gt;
 &lt;p&gt;An alternative option is the gem &lt;a href=&#34;https://github.com/lomba/schema_plus&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;schema_plus&lt;/a&gt; that augments ActiveRecord

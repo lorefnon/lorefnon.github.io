@@ -7,24 +7,20 @@
         <language>en</language>
         <pubDate>Sat, 13 Sep 2014 00:00:00 +0530</pubDate>
         <lastBuildDate>Sat, 13 Sep 2014 00:00:00 +0530</lastBuildDate>
-        <category>Javascript</category>
-        <category>KnockoutJS</category>
         <category>Ruby</category>
-        <category>EventMachine</category>
-        <category>Websockets</category>
         <category>SQLite</category>
+        <category>Javascript</category>
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
         <category>Emacs</category>
-        <category>Gulp</category>
         <category>ActiveAdmin</category>
         <category>ActiveRecord</category>
-        <category>Devise</category>
-        <category>Integration</category>
-        <category>ZSH</category>
-        <category>Productivity Hacks</category>
+        <category>KnockoutJS</category>
+        <category>EventMachine</category>
+        <category>Websockets</category>
         <category>OCR</category>
+        <category>Gulp</category>
         <category>CSS</category>
         <category>Design Patterns</category>
         <category>InfluxDB</category>
@@ -34,22 +30,31 @@
         <category>ES6</category>
         <category>Helm</category>
         <category>SPF</category>
+        <category>Typescript</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>Typescript</category>
         <category>HAR</category>
         <category>Jq</category>
         <category>Lit-html</category>
         <category>Stimulus</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Frontend</category>
-        <category>SVG</category>
+        <category>Kotlin</category>
+        <category>GraphQL</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
+        <category>ZSH</category>
+        <category>Productivity Hacks</category>
+        <category>Devise</category>
+        <category>Integration</category>
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
-        <category>GraphQL</category>
+        <category>SVG</category>
+        <category>Frontend</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
         <category>Routing</category>
         <category>Redux</category>
         <category>Redux-loop</category>
@@ -61,11 +66,6 @@
         <category>MobX</category>
         <category>MobX-State-Tree</category>
         <category>ReasonML</category>
-        <category>Kotlin</category>
-        <category>Vert.X</category>
-        <category>Vert.X-Web</category>
-        <category>Backend-development</category>
-        <category>API-development</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2014/09/13/commit-messages-from-generator-outputs.html</guid>
             <title>Commit messages from generator outputs</title>
@@ -81,7 +81,8 @@ invoke  active_record
 create    db/migrate/20140913191020_create_posts.rb
 create    app/models/post.rb
 invoke    rspec
-create      spec/models/post_spec.rb&lt;/code&gt;&lt;/pre&gt;
+create      spec/models/post_spec.rb
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;is expressive enough for a commit message. A person familiar enough with the framework can instantly see the above and know what happened there. In such case, spending time writing an explanatory commit message for a auto-generated code is pretty much a waste of time.&lt;/p&gt;
 &lt;p&gt;So I have created a simple zsh function which does exactly the above:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;GC ()
@@ -90,9 +91,11 @@ create      spec/models/post_spec.rb&lt;/code&gt;&lt;/pre&gt;
   output=$(&amp;quot;$@&amp;quot;)
   git add .
   git commit -m &amp;quot;$cmd&amp;quot; -m &amp;quot;$output&amp;quot;
-&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+&amp;#125;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Add it to your zshrc, and next time you can simply type :&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;GC rails g model comment body:text commenter:string&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;GC rails g model comment body:text commenter:string
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;GC will add all the generated code (please ensure you have a clean state before running the generator - GC will not help you that) and committing it with the message as the command combined with the output of generator in separate paragraphs.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;commit 029cb2e60187a196d918a08563d95775d73f5100
 Author: Lorefnon &amp;lt;lorefnon@gmail.com&amp;gt;
@@ -104,7 +107,8 @@ Date:   Sun Sep 14 00:58:03 2014 +0530
           create    db/migrate/20140913192803_create_comments.rb
           create    app/models/comment.rb
           invoke    rspec
-          create      spec/models/comment_spec.rb&lt;/code&gt;&lt;/pre&gt;
+          create      spec/models/comment_spec.rb
+&lt;/code&gt;&lt;/pre&gt;
  ]]></description>
         </item>
     </channel>

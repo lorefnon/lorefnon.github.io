@@ -7,24 +7,20 @@
         <language>en</language>
         <pubDate>Wed, 15 Aug 2012 00:00:00 +0530</pubDate>
         <lastBuildDate>Wed, 15 Aug 2012 00:00:00 +0530</lastBuildDate>
-        <category>Javascript</category>
-        <category>KnockoutJS</category>
         <category>Ruby</category>
-        <category>EventMachine</category>
-        <category>Websockets</category>
         <category>SQLite</category>
+        <category>Javascript</category>
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
         <category>Emacs</category>
-        <category>Gulp</category>
         <category>ActiveAdmin</category>
         <category>ActiveRecord</category>
-        <category>Devise</category>
-        <category>Integration</category>
-        <category>ZSH</category>
-        <category>Productivity Hacks</category>
+        <category>KnockoutJS</category>
+        <category>EventMachine</category>
+        <category>Websockets</category>
         <category>OCR</category>
+        <category>Gulp</category>
         <category>CSS</category>
         <category>Design Patterns</category>
         <category>InfluxDB</category>
@@ -34,22 +30,31 @@
         <category>ES6</category>
         <category>Helm</category>
         <category>SPF</category>
+        <category>Typescript</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>Typescript</category>
         <category>HAR</category>
         <category>Jq</category>
         <category>Lit-html</category>
         <category>Stimulus</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Frontend</category>
-        <category>SVG</category>
+        <category>Kotlin</category>
+        <category>GraphQL</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
+        <category>ZSH</category>
+        <category>Productivity Hacks</category>
+        <category>Devise</category>
+        <category>Integration</category>
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
-        <category>GraphQL</category>
+        <category>SVG</category>
+        <category>Frontend</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
         <category>Routing</category>
         <category>Redux</category>
         <category>Redux-loop</category>
@@ -61,11 +66,6 @@
         <category>MobX</category>
         <category>MobX-State-Tree</category>
         <category>ReasonML</category>
-        <category>Kotlin</category>
-        <category>Vert.X</category>
-        <category>Vert.X-Web</category>
-        <category>Backend-development</category>
-        <category>API-development</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2012/08/15/a-websocket-powered-tic-tac-toe-game-using-ruby-eventmachine--part-1.html</guid>
             <title>A Websocket powered Tic tac toe game using Ruby EventMachine – Part 1</title>
@@ -99,9 +99,11 @@ EventMachine.run &amp;#123;
 
 &lt;p&gt;What this code does is it creates a socket-server which listens at localhost:8080 . Callbacks have been provided for open and close events, so when a client creates a connection or a connection gets closed the associated callbacks print an appropriate message to the terminal.&lt;/p&gt;
 &lt;p&gt;run the webserver with :&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ruby server.rb&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;ruby server.rb
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The server should go into an event-loop without any errors. Now fire up your browser’s javascript console (or NodeJS console) and try :&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;socket = new WebSocket(&amp;quot;ws://localhost:8080&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;socket = new WebSocket(&amp;quot;ws://localhost:8080&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;If all goes well, it should return true and the message “Websocket connection open” should be displayed in the terminal.&lt;/p&gt;
 &lt;p&gt;So far, so good. But the main purpose of a server is to relay data to the client. How do we do that ? Turns out that is pretty simple too.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;EventMachine.run &amp;#123;

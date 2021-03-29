@@ -4,24 +4,20 @@
     <title>Icicles of Thought • Posts by &#34;websockets&#34; tag</title>
     <link href="https://lorefnon.me" />
     <updated>2012-08-14T18:30:00.000Z</updated>
-    <category term="Javascript" />
-    <category term="KnockoutJS" />
     <category term="Ruby" />
-    <category term="EventMachine" />
-    <category term="Websockets" />
     <category term="SQLite" />
+    <category term="Javascript" />
     <category term="Jade" />
     <category term="Node.js" />
     <category term="Rails" />
     <category term="Emacs" />
-    <category term="Gulp" />
     <category term="ActiveAdmin" />
     <category term="ActiveRecord" />
-    <category term="Devise" />
-    <category term="Integration" />
-    <category term="ZSH" />
-    <category term="Productivity Hacks" />
+    <category term="KnockoutJS" />
+    <category term="EventMachine" />
+    <category term="Websockets" />
     <category term="OCR" />
+    <category term="Gulp" />
     <category term="CSS" />
     <category term="Design Patterns" />
     <category term="InfluxDB" />
@@ -31,22 +27,31 @@
     <category term="ES6" />
     <category term="Helm" />
     <category term="SPF" />
+    <category term="Typescript" />
     <category term="Next.js" />
     <category term="Koa" />
     <category term="Apollo" />
-    <category term="Typescript" />
     <category term="HAR" />
     <category term="Jq" />
     <category term="Lit-html" />
     <category term="Stimulus" />
-    <category term="Automerge" />
-    <category term="CRDT" />
-    <category term="Frontend" />
-    <category term="SVG" />
+    <category term="Kotlin" />
+    <category term="GraphQL" />
+    <category term="Vert.X" />
+    <category term="Vert.X-Web" />
+    <category term="Backend-development" />
+    <category term="API-development" />
+    <category term="ZSH" />
+    <category term="Productivity Hacks" />
+    <category term="Devise" />
+    <category term="Integration" />
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
-    <category term="GraphQL" />
+    <category term="SVG" />
+    <category term="Frontend" />
+    <category term="Automerge" />
+    <category term="CRDT" />
     <category term="Routing" />
     <category term="Redux" />
     <category term="Redux-loop" />
@@ -58,11 +63,6 @@
     <category term="MobX" />
     <category term="MobX-State-Tree" />
     <category term="ReasonML" />
-    <category term="Kotlin" />
-    <category term="Vert.X" />
-    <category term="Vert.X-Web" />
-    <category term="Backend-development" />
-    <category term="API-development" />
     <entry>
         <id>https://lorefnon.me/2012/08/15/a-websocket-powered-tic-tac-toe-game-using-ruby-eventmachine--part-1.html</id>
         <title>A Websocket powered Tic tac toe game using Ruby EventMachine – Part 1</title>
@@ -92,9 +92,11 @@ EventMachine.run &amp;#123;
 
 &lt;p&gt;What this code does is it creates a socket-server which listens at localhost:8080 . Callbacks have been provided for open and close events, so when a client creates a connection or a connection gets closed the associated callbacks print an appropriate message to the terminal.&lt;/p&gt;
 &lt;p&gt;run the webserver with :&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ruby server.rb&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;ruby server.rb
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The server should go into an event-loop without any errors. Now fire up your browser’s javascript console (or NodeJS console) and try :&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;socket = new WebSocket(&amp;quot;ws://localhost:8080&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;socket = new WebSocket(&amp;quot;ws://localhost:8080&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;If all goes well, it should return true and the message “Websocket connection open” should be displayed in the terminal.&lt;/p&gt;
 &lt;p&gt;So far, so good. But the main purpose of a server is to relay data to the client. How do we do that ? Turns out that is pretty simple too.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;EventMachine.run &amp;#123;

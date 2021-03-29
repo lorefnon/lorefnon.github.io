@@ -24,9 +24,11 @@ EventMachine.run &#123;
 
 <p>What this code does is it creates a socket-server which listens at localhost:8080 . Callbacks have been provided for open and close events, so when a client creates a connection or a connection gets closed the associated callbacks print an appropriate message to the terminal.</p>
 <p>run the webserver with :</p>
-<pre><code>ruby server.rb</code></pre>
+<pre><code>ruby server.rb
+</code></pre>
 <p>The server should go into an event-loop without any errors. Now fire up your browser’s javascript console (or NodeJS console) and try :</p>
-<pre><code>socket = new WebSocket(&quot;ws://localhost:8080&quot;)</code></pre>
+<pre><code>socket = new WebSocket(&quot;ws://localhost:8080&quot;)
+</code></pre>
 <p>If all goes well, it should return true and the message “Websocket connection open” should be displayed in the terminal.</p>
 <p>So far, so good. But the main purpose of a server is to relay data to the client. How do we do that ? Turns out that is pretty simple too.</p>
 <pre><code class="hljs ruby">EventMachine.run &#123;

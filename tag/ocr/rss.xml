@@ -7,24 +7,20 @@
         <language>en</language>
         <pubDate>Sun, 12 Oct 2014 00:00:00 +0530</pubDate>
         <lastBuildDate>Sun, 12 Oct 2014 00:00:00 +0530</lastBuildDate>
-        <category>Javascript</category>
-        <category>KnockoutJS</category>
         <category>Ruby</category>
-        <category>EventMachine</category>
-        <category>Websockets</category>
         <category>SQLite</category>
+        <category>Javascript</category>
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
         <category>Emacs</category>
-        <category>Gulp</category>
         <category>ActiveAdmin</category>
         <category>ActiveRecord</category>
-        <category>Devise</category>
-        <category>Integration</category>
-        <category>ZSH</category>
-        <category>Productivity Hacks</category>
+        <category>KnockoutJS</category>
+        <category>EventMachine</category>
+        <category>Websockets</category>
         <category>OCR</category>
+        <category>Gulp</category>
         <category>CSS</category>
         <category>Design Patterns</category>
         <category>InfluxDB</category>
@@ -34,22 +30,31 @@
         <category>ES6</category>
         <category>Helm</category>
         <category>SPF</category>
+        <category>Typescript</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>Typescript</category>
         <category>HAR</category>
         <category>Jq</category>
         <category>Lit-html</category>
         <category>Stimulus</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Frontend</category>
-        <category>SVG</category>
+        <category>Kotlin</category>
+        <category>GraphQL</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
+        <category>ZSH</category>
+        <category>Productivity Hacks</category>
+        <category>Devise</category>
+        <category>Integration</category>
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
-        <category>GraphQL</category>
+        <category>SVG</category>
+        <category>Frontend</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
         <category>Routing</category>
         <category>Redux</category>
         <category>Redux-loop</category>
@@ -61,11 +66,6 @@
         <category>MobX</category>
         <category>MobX-State-Tree</category>
         <category>ReasonML</category>
-        <category>Kotlin</category>
-        <category>Vert.X</category>
-        <category>Vert.X-Web</category>
-        <category>Backend-development</category>
-        <category>API-development</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2014/10/12/decrypting-an-obfuscated-font-with-ocr.html</guid>
             <title>Decrypting an obfuscated font with OCR</title>
@@ -96,7 +96,8 @@
 &lt;p&gt;Installing Tesseract on OS X is as simple as &lt;code&gt;brew install tesseract&lt;/code&gt; and it is also available through several linux package managers.&lt;/p&gt;
 &lt;p&gt;The ruby gems can be installed by adding the following to your Gemfile:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;gem &amp;#39;magick_title&amp;#39;, &amp;#39;&amp;gt;= 0.2.0&amp;#39;
-gem &amp;#39;tesseract-ocr&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+gem &amp;#39;tesseract-ocr&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now in irb (or a ruby script) you can do:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;require&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;magick_title&amp;#x27;&lt;/span&gt;
 MagickTitle.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:font&lt;/span&gt;] = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;font_dfcb813d6c003fb3e2fca9f5295e9f58.ttf&amp;quot;&lt;/span&gt;  &lt;span class=&#34;hljs-comment&#34;&gt;# Font downloaded from the site&lt;/span&gt;
@@ -104,7 +105,8 @@ MagickTitle.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:font_path&lt;/span&
 MagickTitle.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:destination&lt;/span&gt;] =  Proc.new&amp;#123; MagicTitle.root &amp;#125; &lt;span class=&#34;hljs-comment&#34;&gt;# Defaults to current directory&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now let us fetch the string from the site header. For the sake of keeping the example minimal we omit the actual scraping code here:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;str =  &amp;quot;1zb SN358 y6JBl HJL 7Nagq JRb6 kzb n2vP 9JV. F + h = t.&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;str =  &amp;quot;1zb SN358 y6JBl HJL 7Nagq JRb6 kzb n2vP 9JV. F + h = t.&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;code&gt;MagickTitle.say(str)&lt;/code&gt; will give us an image containing the text in exactly the same form as is visible to end user.&lt;/p&gt;
 &lt;p&gt;Now we pass the image to Tesseract engine:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;e = Tesseract::Engine.new &amp;#123;&lt;span class=&#34;hljs-params&#34;&gt;|e|&lt;/span&gt;
@@ -114,7 +116,8 @@ MagickTitle.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:destination&lt;/spa
 
 &lt;p&gt;We can get the string using:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;&amp;gt; e.text_for(&amp;quot;./#&amp;#123;MagickTitle.say(str).filename&amp;#125;&amp;quot;)
-=&amp;gt; &amp;quot;The quick brown fox jumps over\nthe lazy dog 1 2 3\n\n&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+=&amp;gt; &amp;quot;The quick brown fox jumps over\nthe lazy dog 1 2 3\n\n&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As you can see that result is not perfect but quite accurate.&lt;/p&gt;
 &lt;p&gt;To further improve the performance of the solution we can create an image of every character through MagickTitle and pass it to Tesseract to generate a character by character map. Now large chunks of text can be translated using this map much more efficiently.&lt;/p&gt;
  ]]></description>

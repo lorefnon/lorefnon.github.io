@@ -4,24 +4,20 @@
     <title>Icicles of Thought • Posts by &#34;stimulus&#34; tag</title>
     <link href="https://lorefnon.me" />
     <updated>2020-12-30T18:30:00.000Z</updated>
-    <category term="Javascript" />
-    <category term="KnockoutJS" />
     <category term="Ruby" />
-    <category term="EventMachine" />
-    <category term="Websockets" />
     <category term="SQLite" />
+    <category term="Javascript" />
     <category term="Jade" />
     <category term="Node.js" />
     <category term="Rails" />
     <category term="Emacs" />
-    <category term="Gulp" />
     <category term="ActiveAdmin" />
     <category term="ActiveRecord" />
-    <category term="Devise" />
-    <category term="Integration" />
-    <category term="ZSH" />
-    <category term="Productivity Hacks" />
+    <category term="KnockoutJS" />
+    <category term="EventMachine" />
+    <category term="Websockets" />
     <category term="OCR" />
+    <category term="Gulp" />
     <category term="CSS" />
     <category term="Design Patterns" />
     <category term="InfluxDB" />
@@ -31,22 +27,31 @@
     <category term="ES6" />
     <category term="Helm" />
     <category term="SPF" />
+    <category term="Typescript" />
     <category term="Next.js" />
     <category term="Koa" />
     <category term="Apollo" />
-    <category term="Typescript" />
     <category term="HAR" />
     <category term="Jq" />
     <category term="Lit-html" />
     <category term="Stimulus" />
-    <category term="Automerge" />
-    <category term="CRDT" />
-    <category term="Frontend" />
-    <category term="SVG" />
+    <category term="Kotlin" />
+    <category term="GraphQL" />
+    <category term="Vert.X" />
+    <category term="Vert.X-Web" />
+    <category term="Backend-development" />
+    <category term="API-development" />
+    <category term="ZSH" />
+    <category term="Productivity Hacks" />
+    <category term="Devise" />
+    <category term="Integration" />
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
-    <category term="GraphQL" />
+    <category term="SVG" />
+    <category term="Frontend" />
+    <category term="Automerge" />
+    <category term="CRDT" />
     <category term="Routing" />
     <category term="Redux" />
     <category term="Redux-loop" />
@@ -58,11 +63,6 @@
     <category term="MobX" />
     <category term="MobX-State-Tree" />
     <category term="ReasonML" />
-    <category term="Kotlin" />
-    <category term="Vert.X" />
-    <category term="Vert.X-Web" />
-    <category term="Backend-development" />
-    <category term="API-development" />
     <entry>
         <id>https://lorefnon.me/2020/12/31/pairing-lit-html-with-stimulus/</id>
         <title>Pairing lit-html with stimulus</title>
@@ -221,7 +221,6 @@ application.register(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;todo&amp;
 &lt;span class=&#34;hljs-subst&#34;&gt;    )&amp;#125;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;`&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;
-
 &lt;h2 id=&#34;Making-things-reactive&#34;&gt;&lt;a href=&#34;#Making-things-reactive&#34; class=&#34;headerlink&#34; title=&#34;Making things reactive:&#34;&gt;&lt;/a&gt;Making things reactive:&lt;/h2&gt;&lt;p&gt;Calling rerender ourselves doesn&amp;#39;t quite cut it in 2020 (almost 2021 :P) and in JS ecosystem we have a plethora of state-management micro-libraries. One that I particularly like is &lt;a href=&#34;https://effector.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Effector&lt;/a&gt;, which is quite feature rich for a &lt;a href=&#34;https://bundlephobia.com/result?p=effector@21.7.5&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;9.5k bundle&lt;/a&gt;. &lt;/p&gt;
 &lt;p&gt;Let&amp;#39;s quickly see how our toy todo list will look like with some state management thrown in.&lt;/p&gt;
 &lt;p&gt;Let&amp;#39;s setup our store first (Effector&amp;#39;s store follow a unidirectional data flow approach that you might be familiar from redux etc.): &lt;/p&gt;
