@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>Icicles of Thought • Posts by &#34;jooq&#34; tag</title>
+        <link>https://lorefnon.me</link>
+        <description></description>
+        <language>en</language>
+        <pubDate>Tue, 03 Aug 2021 00:00:00 +0530</pubDate>
+        <lastBuildDate>Tue, 03 Aug 2021 00:00:00 +0530</lastBuildDate>
+        <category>Ruby</category>
+        <category>Rails</category>
+        <category>ActiveAdmin</category>
+        <category>Design Patterns</category>
+        <category>Javascript</category>
+        <category>KnockoutJS</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>React</category>
+        <category>Functional Programming</category>
+        <category>SPF</category>
+        <category>ES6</category>
+        <category>Emacs</category>
+        <category>Helm</category>
+        <category>Gulp</category>
+        <category>ActiveRecord</category>
+        <category>ZSH</category>
+        <category>Productivity Hacks</category>
+        <category>Devise</category>
+        <category>Integration</category>
+        <category>OCR</category>
+        <category>Next.js</category>
+        <category>Koa</category>
+        <category>Apollo</category>
+        <category>EventMachine</category>
+        <category>Websockets</category>
+        <category>SQLite</category>
+        <category>Jade</category>
+        <category>Node.js</category>
+        <category>CSS</category>
+        <category>GraphQL</category>
+        <category>Kotlin</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
+        <category>HAR</category>
+        <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
+        <category>Typescript</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>Frontend</category>
+        <category>Routing</category>
+        <category>SVG</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>MongoDB</category>
+        <category>VSCode</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>ReasonML</category>
+        <category>Java</category>
+        <category>Ruby on Rails</category>
+        <category>JOOQ</category>
+        <item>
+            <guid isPermalink="true">https://lorefnon.me/2021/08/03/Adapting-Jooq-To-Rails-DB-Naming-Conventions/</guid>
+            <title>Adapting jOOQ code generator to Rails database naming conventions</title>
+            <link>https://lorefnon.me/2021/08/03/Adapting-Jooq-To-Rails-DB-Naming-Conventions/</link>
+            <category>Java</category>
+            <category>Ruby on Rails</category>
+            <category>JOOQ</category>
+            <pubDate>Tue, 03 Aug 2021 00:00:00 +0530</pubDate>
+            <description><![CDATA[ &lt;p&gt;I recently updated an application which was historically built using Ruby on Rails to &lt;a href=&#34;https://spring.io/projects/spring-boot&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Spring boot&lt;/a&gt; &amp;amp; &lt;a href=&#34;https://www.jooq.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;jOOQ&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;The Rails convention is to use plural table names (eg. &lt;code&gt;users&lt;/code&gt;) which are auto-mapped to models with singular names (eg. &lt;code&gt;User&lt;/code&gt;). &lt;/p&gt;
+&lt;p&gt;JOOQ doesn&amp;#39;t do any automatic plural-&amp;gt;singular conversion by default, so if we directly use code-generator we end up with pojos named like &lt;code&gt;class Users&lt;/code&gt; and interfaces like &lt;code&gt;interface IUsers&lt;/code&gt; which are not ideal because an instance here represents a single entity/row and so should be named singular.&lt;/p&gt;
+&lt;p&gt;Fortunately this is easy to address with a custom &lt;code&gt;NamingStrategy&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs java&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; com.example;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.jibx.schema.codegen.extend.DefaultNameConverter;
+&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.jibx.schema.codegen.extend.NameConverter;
+&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.jooq.codegen.DefaultGeneratorStrategy;
+&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.jooq.meta.Definition;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;NamingStrategy&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;DefaultGeneratorStrategy&lt;/span&gt; &lt;/span&gt;&amp;#123;
+
+    &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;final&lt;/span&gt; NameConverter nameTools = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; DefaultNameConverter();
+
+    &lt;span class=&#34;hljs-meta&#34;&gt;@Override&lt;/span&gt;
+    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;public&lt;/span&gt; String &lt;span class=&#34;hljs-title&#34;&gt;getJavaClassName&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(&lt;span class=&#34;hljs-keyword&#34;&gt;final&lt;/span&gt; Definition definition, &lt;span class=&#34;hljs-keyword&#34;&gt;final&lt;/span&gt; Mode mode)&lt;/span&gt; &lt;/span&gt;&amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;final&lt;/span&gt; String javaClassName = &lt;span class=&#34;hljs-keyword&#34;&gt;super&lt;/span&gt;.getJavaClassName(definition, mode);
+
+        &lt;span class=&#34;hljs-comment&#34;&gt;// Let&amp;#x27;s retain the plural names for TableImpl clasess&lt;/span&gt;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (mode == Mode.DEFAULT) &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; javaClassName;
+
+        &lt;span class=&#34;hljs-comment&#34;&gt;// Let&amp;#x27;s use singular names for others&lt;/span&gt;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; nameTools.depluralize(javaClassName);
+    &amp;#125;
+
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Support for custom &lt;code&gt;GeneratorStrategy&lt;/code&gt; implementations in JooQ offers possibility of very low level customizations of how SQL layer names are translated to java/kotlin layer.&lt;/p&gt;
+&lt;p&gt;In our case, we simply use the depluralize utility from jibx to singularize our names.&lt;/p&gt;
+&lt;p&gt;We can configure our JooQ configuration to use this naming strategy: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&amp;lt;configuration&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &amp;lt;jdbc&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &amp;lt;driver&amp;gt;${db.driverClassName}&amp;lt;/driver&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &amp;lt;url&amp;gt;${db.url}&amp;lt;/url&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &amp;lt;user&amp;gt;${db.username}&amp;lt;/user&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &amp;lt;password&amp;gt;${db.password}&amp;lt;/password&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &amp;lt;/jdbc&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &amp;lt;generator&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &amp;lt;name&amp;gt;org.jooq.codegen.JavaGenerator&amp;lt;/name&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &amp;lt;!-- Other configuration options --&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &amp;lt;strategy&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &amp;lt;name&amp;gt;com.example.NamingStrategy&amp;lt;/name&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &amp;lt;/strategy&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &amp;lt;/generator&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&amp;lt;/configuration&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://lorefnon.me/2021/08/03/Integrating-JooQ-With-Netflix-DGS/</guid>
+            <title>Integrating jOOQ with Netflix DGS</title>
+            <link>https://lorefnon.me/2021/08/03/Integrating-JooQ-With-Netflix-DGS/</link>
+            <category>Java</category>
+            <category>Ruby on Rails</category>
+            <category>JOOQ</category>
+            <pubDate>Tue, 03 Aug 2021 00:00:00 +0530</pubDate>
+            <description><![CDATA[ &lt;p&gt;&lt;a href=&#34;jooq.org/&#34;&gt;jOOQ&lt;/a&gt; is a really versatile SQL builder for JVM which I have found myself using more and more recently. My workflow usually involves evolving the database schema through &lt;a href=&#34;https://www.liquibase.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;liquibase&lt;/a&gt;, after which jOOQ is used to generate record classes from the DB schema.&lt;/p&gt;
+&lt;p&gt;This enables type safe database access and ensures that application level types are always in sync with database schema.&lt;/p&gt;
+&lt;p&gt;I recently used jOOQ with &lt;a href=&#34;https://netflix.github.io/dgs/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Netflix DGS&lt;/a&gt; to build a &lt;a href=&#34;https://graphql.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;GraphQL&lt;/a&gt; API. Netflix DGS is a higher level abstraction over &lt;a href=&#34;https://www.graphql-java.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;graphql-java&lt;/a&gt; which makes it easy to rapidly build GraphQL APIs in a &lt;a href=&#34;https://blog.logrocket.com/code-first-vs-schema-first-development-graphql/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;schema-first&lt;/a&gt; manner.&lt;/p&gt;
+&lt;p&gt;One issue with using them together is that both of them provide code-generation support. DGS generates kotlin data classes (or POJOs for java) from GraphQL SDL where as jOOQ generates classes from database schema.&lt;/p&gt;
+&lt;p&gt;The simplest thing to do is to retrieve data from the DB using jOOQ DSL, populate them into jOOQ generated record classes and then map them to DGS generated DTO classes when returning from our services. &lt;/p&gt;
+&lt;p&gt;This is quite necessary for scenarios where there is substantial difference between the properties of our record classes (which usually mirror the table columns) and the fields in the exposed GraphQL types, and jOOQ does provide a &lt;a href=&#34;https://www.jooq.org/doc/latest/manual/sql-execution/fetching/pojos-with-recordmapper-provider/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;record-mapping support&lt;/a&gt; to make this kind of mapping simpler. &lt;/p&gt;
+&lt;p&gt;However, in a vast majority of scenarios, our GraphQL type fields are either same as entity properties or are resolved through dedicated data fetchers (and hence do not need corresponding properties in DTO). So this object mapping step is wasteful and can be avoided.&lt;/p&gt;
+&lt;p&gt;Folks familiar with graphql-java may wonder why is this even a problem ?&lt;/p&gt;
+&lt;p&gt;After all graphql-java is not aware of what classes are generated by DGS at all. It simply uses reflection to map instance properties to GrpahQL fields. So when there is sufficient overlap between the two, we can simply ditch the classes generated by DGS (or skip generating them by splitting up our graphql schema file) and just use the record classes generated by jOOQ. &lt;/p&gt;
+&lt;p&gt;This does work fine. Even having some extraneous fields in record class which are not present in the GraphQL type is not a problem because GraphQL resolver will cherry-pick only the fields which are defined in schema.&lt;/p&gt;
+&lt;p&gt;However this becomes a problem when we want to use some of the DTOs generated by DGS and not others. &lt;/p&gt;
+&lt;p&gt;Consider following example (taken from &lt;a href=&#34;https://relay.dev/graphql/connections.htm&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Relay docs&lt;/a&gt;): &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs graphql&#34;&gt;&amp;#123;
+  user &amp;#123;
+    id
+    name
+    friends(first: 10, after: &amp;quot;opaqueCursor&amp;quot;) &amp;#123;
+      edges &amp;#123;
+        cursor
+        node &amp;#123;
+          id
+          name
+        &amp;#125;
+      &amp;#125;
+      pageInfo &amp;#123;
+        hasNextPage
+      &amp;#125;
+    &amp;#125;
+  &amp;#125;
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Our schema might look something like this: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs graphql&#34;&gt;type User &amp;#123;
+    id: ID!
+    name: String!
+    friends(first: Int, after: Cursor): UserConnection
+&amp;#125;
+
+scalar Cursor
+
+type UserConnection &amp;#123;
+    pageInfo: PageInfo!
+    edges: [UserEdge!]
+&amp;#125;
+
+type UserEdge &amp;#123;
+    cursor: Cursor!
+    node: User!
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So now the generated data classes for &lt;code&gt;UserEdge&lt;/code&gt; will be referencing the generated &lt;code&gt;User&lt;/code&gt; class, and we won&amp;#39;t be able to use it if are using a jOOQ generated &lt;code&gt;UsersRecord&lt;/code&gt; instead of the &lt;code&gt;User&lt;/code&gt; DTO.&lt;/p&gt;
+&lt;p&gt;Fortunately this is easy to address through support for &lt;a href=&#34;https://netflix.github.io/dgs/generating-code-from-schema/#mapping-existing-types&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;typeMapping configuration&lt;/a&gt; in DGS. &lt;/p&gt;
+&lt;p&gt;We can configure jOOQ to use our record class for User instead of &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs groovy&#34;&gt;generateJava &amp;#123;
+   typeMapping = [&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;User&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.jooq.generated.tables.records.UsersRecord&amp;quot;&lt;/span&gt;]
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Problem solved. Now, wherever User type is needed, DGS generated DTOs will use our &lt;code&gt;UsersRecord&lt;/code&gt; class. Of course, this works equally well if we want to use jOOQ generated POJOs/interfaces or other classes defined in the application.&lt;/p&gt;
+&lt;p&gt;Only caveat here is that if the mapped class is not really structurally compatible with the the type defined in GraphQL schema, we will end up with a runtime error. Currently we don&amp;#39;t have a statically verify this compatibility. However such bugs are easily caught in preliminary testing.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;An alternative solution to address this would be to use an annotation driven approach. Annotation-heavy libraries are quite popular in the JVM ecosystem and we can use entity classes in our application which are annotated with both JPA annotations and GraphQL specific annotations (provided by &lt;a href=&#34;https://github.com/leangen/graphql-spqr&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;graphql-spqr&lt;/a&gt;, &lt;a href=&#34;https://github.com/eclipse/microprofile-graphql&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;MP GraphQL&lt;/a&gt; etc.)&lt;/p&gt;
+&lt;p&gt;In this approach both the GraphQL schema and database schema can be derived from the corresponding set of annotations and we also have type safety. &lt;/p&gt;
+&lt;p&gt;However I am currently not a proponent of this approach because I am not a big fan of the JPA spec., esp. the projection &amp;amp; criteria APIs. In contrast, the jOOQ DSL is explicit, maps closely to SQL and enables me to spend more of my time in pure java/kotlin code that I can easily step through in a debugger as opposed to an annotation based DSL.&lt;/p&gt;
+ ]]></description>
+        </item>
+    </channel>
+</rss>

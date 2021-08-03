@@ -8,64 +8,67 @@
         <pubDate>Sat, 16 Mar 2019 05:30:00 +0530</pubDate>
         <lastBuildDate>Sat, 16 Mar 2019 05:30:00 +0530</lastBuildDate>
         <category>Ruby</category>
-        <category>SQLite</category>
-        <category>Javascript</category>
-        <category>Jade</category>
-        <category>Node.js</category>
         <category>Rails</category>
-        <category>Emacs</category>
         <category>ActiveAdmin</category>
-        <category>ActiveRecord</category>
-        <category>KnockoutJS</category>
-        <category>EventMachine</category>
-        <category>Websockets</category>
-        <category>OCR</category>
-        <category>Gulp</category>
-        <category>CSS</category>
         <category>Design Patterns</category>
+        <category>Javascript</category>
+        <category>KnockoutJS</category>
         <category>InfluxDB</category>
         <category>Grafana</category>
         <category>React</category>
         <category>Functional Programming</category>
-        <category>ES6</category>
-        <category>Helm</category>
         <category>SPF</category>
-        <category>Typescript</category>
-        <category>Next.js</category>
-        <category>Koa</category>
-        <category>Apollo</category>
-        <category>HAR</category>
-        <category>Jq</category>
-        <category>Lit-html</category>
-        <category>Stimulus</category>
-        <category>Kotlin</category>
-        <category>GraphQL</category>
-        <category>Vert.X</category>
-        <category>Vert.X-Web</category>
-        <category>Backend-development</category>
-        <category>API-development</category>
+        <category>ES6</category>
+        <category>Emacs</category>
+        <category>Helm</category>
+        <category>Gulp</category>
+        <category>ActiveRecord</category>
         <category>ZSH</category>
         <category>Productivity Hacks</category>
         <category>Devise</category>
         <category>Integration</category>
+        <category>OCR</category>
+        <category>Next.js</category>
+        <category>Koa</category>
+        <category>Apollo</category>
+        <category>EventMachine</category>
+        <category>Websockets</category>
+        <category>SQLite</category>
+        <category>Jade</category>
+        <category>Node.js</category>
+        <category>CSS</category>
+        <category>GraphQL</category>
+        <category>Kotlin</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
+        <category>HAR</category>
+        <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
+        <category>Typescript</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>Frontend</category>
+        <category>Routing</category>
+        <category>SVG</category>
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
-        <category>SVG</category>
-        <category>Frontend</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Routing</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
         <category>Vagrant</category>
         <category>Clojure</category>
         <category>Hashicorp</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
         <category>MongoDB</category>
         <category>VSCode</category>
         <category>MobX</category>
         <category>MobX-State-Tree</category>
         <category>ReasonML</category>
+        <category>Java</category>
+        <category>Ruby on Rails</category>
+        <category>JOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/03/16/using-theme-specific-keybindings-in-vscode-to-improve-productivity/</guid>
             <title>Using theme specific keybindings in VSCode to improve productivity</title>

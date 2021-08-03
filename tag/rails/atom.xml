@@ -5,64 +5,67 @@
     <link href="https://lorefnon.me" />
     <updated>2016-03-30T18:30:00.000Z</updated>
     <category term="Ruby" />
-    <category term="SQLite" />
-    <category term="Javascript" />
-    <category term="Jade" />
-    <category term="Node.js" />
     <category term="Rails" />
-    <category term="Emacs" />
     <category term="ActiveAdmin" />
-    <category term="ActiveRecord" />
-    <category term="KnockoutJS" />
-    <category term="EventMachine" />
-    <category term="Websockets" />
-    <category term="OCR" />
-    <category term="Gulp" />
-    <category term="CSS" />
     <category term="Design Patterns" />
+    <category term="Javascript" />
+    <category term="KnockoutJS" />
     <category term="InfluxDB" />
     <category term="Grafana" />
     <category term="React" />
     <category term="Functional Programming" />
-    <category term="ES6" />
-    <category term="Helm" />
     <category term="SPF" />
-    <category term="Typescript" />
-    <category term="Next.js" />
-    <category term="Koa" />
-    <category term="Apollo" />
-    <category term="HAR" />
-    <category term="Jq" />
-    <category term="Lit-html" />
-    <category term="Stimulus" />
-    <category term="Kotlin" />
-    <category term="GraphQL" />
-    <category term="Vert.X" />
-    <category term="Vert.X-Web" />
-    <category term="Backend-development" />
-    <category term="API-development" />
+    <category term="ES6" />
+    <category term="Emacs" />
+    <category term="Helm" />
+    <category term="Gulp" />
+    <category term="ActiveRecord" />
     <category term="ZSH" />
     <category term="Productivity Hacks" />
     <category term="Devise" />
     <category term="Integration" />
+    <category term="OCR" />
+    <category term="Next.js" />
+    <category term="Koa" />
+    <category term="Apollo" />
+    <category term="EventMachine" />
+    <category term="Websockets" />
+    <category term="SQLite" />
+    <category term="Jade" />
+    <category term="Node.js" />
+    <category term="CSS" />
+    <category term="GraphQL" />
+    <category term="Kotlin" />
+    <category term="Vert.X" />
+    <category term="Vert.X-Web" />
+    <category term="Backend-development" />
+    <category term="API-development" />
+    <category term="HAR" />
+    <category term="Jq" />
+    <category term="Lit-html" />
+    <category term="Stimulus" />
+    <category term="Typescript" />
+    <category term="Automerge" />
+    <category term="CRDT" />
+    <category term="Frontend" />
+    <category term="Routing" />
+    <category term="SVG" />
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
-    <category term="SVG" />
-    <category term="Frontend" />
-    <category term="Automerge" />
-    <category term="CRDT" />
-    <category term="Routing" />
-    <category term="Redux" />
-    <category term="Redux-loop" />
     <category term="Vagrant" />
     <category term="Clojure" />
     <category term="Hashicorp" />
+    <category term="Redux" />
+    <category term="Redux-loop" />
     <category term="MongoDB" />
     <category term="VSCode" />
     <category term="MobX" />
     <category term="MobX-State-Tree" />
     <category term="ReasonML" />
+    <category term="Java" />
+    <category term="Ruby on Rails" />
+    <category term="JOOQ" />
     <entry>
         <id>https://lorefnon.me/2016/03/31/database-driven-scheduling-with-clockwork-and-activejob.html</id>
         <title>Database driven scheduling with Clockwork and ActiveJob</title>
@@ -1082,8 +1085,8 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;h2 id=&#34;Conclusion&#34;&gt;&lt;a href=&#34;#Conclusion&#34; class=&#34;headerlink&#34; title=&#34;Conclusion&#34;&gt;&lt;/a&gt;Conclusion&lt;/h2&gt;&lt;p&gt;This concludes our small post on SPF integration with Rails. SPF allows for a lot more customization options beyond what our small covers. In particular SPF allows us to inject new scripts and styles dynamically, sophisticated &lt;a href=&#34;https://youtube.github.io/spfjs/documentation/caching/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;cache management&lt;/a&gt; and &lt;a href=&#34;https://youtube.github.io/spfjs/documentation/versioning/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;resource versioning&lt;/a&gt; support, which are all very useful features.&lt;/p&gt;
 &lt;p&gt;The &lt;a href=&#34;https://youtube.github.io/spfjs/documentation&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;official documentation&lt;/a&gt; is a great place to start exploring more.&lt;/p&gt;
 </content>
-        <category term="Javascript" />
         <category term="Rails" />
+        <category term="Javascript" />
         <category term="SPF" />
         <updated>2015-11-25T18:30:00.000Z</updated>
     </entry>
@@ -1144,8 +1147,8 @@ hello()&lt;/code&gt;&lt;/pre&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;default&lt;/span&gt; hello;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;If we run the server now and visit the home page, we should be greeted with a hello prompt.&lt;/p&gt;
 </content>
-        <category term="Javascript" />
         <category term="Rails" />
+        <category term="Javascript" />
         <category term="ES6" />
         <updated>2015-11-14T18:30:00.000Z</updated>
     </entry>
