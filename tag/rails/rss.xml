@@ -69,6 +69,9 @@
         <category>Java</category>
         <category>Ruby on Rails</category>
         <category>JOOQ</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2016/03/31/database-driven-scheduling-with-clockwork-and-activejob.html</guid>
             <title>Database driven scheduling with Clockwork and ActiveJob</title>

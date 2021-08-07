@@ -66,6 +66,9 @@
     <category term="Java" />
     <category term="Ruby on Rails" />
     <category term="JOOQ" />
+    <category term="Liquibase" />
+    <category term="tbls" />
+    <category term="jOOQ" />
     <entry>
         <id>https://lorefnon.me/2018/06/09/javascript-async-await-with-arbitrary-thenables/</id>
         <title>Javascript Async/Await with arbitrary Thenables</title>

@@ -69,6 +69,9 @@
         <category>Java</category>
         <category>Ruby on Rails</category>
         <category>JOOQ</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/03/16/using-theme-specific-keybindings-in-vscode-to-improve-productivity/</guid>
             <title>Using theme specific keybindings in VSCode to improve productivity</title>

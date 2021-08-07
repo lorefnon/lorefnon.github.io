@@ -66,6 +66,9 @@
     <category term="Java" />
     <category term="Ruby on Rails" />
     <category term="JOOQ" />
+    <category term="Liquibase" />
+    <category term="tbls" />
+    <category term="jOOQ" />
     <entry>
         <id>https://lorefnon.me/2018/01/28/using-helm-to-select-tide-completion-candidates/</id>
         <title>Using helm to select tide completion candidates</title>

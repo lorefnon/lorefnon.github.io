@@ -66,6 +66,9 @@
     <category term="Java" />
     <category term="Ruby on Rails" />
     <category term="JOOQ" />
+    <category term="Liquibase" />
+    <category term="tbls" />
+    <category term="jOOQ" />
     <entry>
         <id>https://lorefnon.me/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</id>
         <title>Boost your content focussed site with Structured Page Fragments</title>

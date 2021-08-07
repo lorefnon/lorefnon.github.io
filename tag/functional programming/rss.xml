@@ -69,6 +69,9 @@
         <category>Java</category>
         <category>Ruby on Rails</category>
         <category>JOOQ</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/09/21/react-and-livescript-in-harmony.html</guid>
             <title>React and Livescript in harmony</title>

@@ -66,6 +66,9 @@
     <category term="Java" />
     <category term="Ruby on Rails" />
     <category term="JOOQ" />
+    <category term="Liquibase" />
+    <category term="tbls" />
+    <category term="jOOQ" />
     <entry>
         <id>https://lorefnon.me/2019/01/12/using-an-svg-grid-background-for-aligning-elements-in-web-page/</id>
         <title>Using an SVG grid background for aligning elements in web page</title>

@@ -69,6 +69,9 @@
         <category>Java</category>
         <category>Ruby on Rails</category>
         <category>JOOQ</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2021/03/26/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-III/</guid>
             <title>Building GraphQL APIs powered by Vert.x, jOOQ &amp; Kotlin - III</title>

@@ -66,6 +66,9 @@
     <category term="Java" />
     <category term="Ruby on Rails" />
     <category term="JOOQ" />
+    <category term="Liquibase" />
+    <category term="tbls" />
+    <category term="jOOQ" />
     <entry>
         <id>https://lorefnon.me/2019/08/11/enforcing-runtime-validations-at-compile-time-in-typescript/</id>
         <title>Enforcing runtime validations at compile time in TypeScript</title>

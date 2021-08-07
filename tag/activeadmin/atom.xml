@@ -66,6 +66,9 @@
     <category term="Java" />
     <category term="Ruby on Rails" />
     <category term="JOOQ" />
+    <category term="Liquibase" />
+    <category term="tbls" />
+    <category term="jOOQ" />
     <entry>
         <id>https://lorefnon.me/2015/03/02/dealing-with-json-fields-in-active-admin.html</id>
         <title>Dealing with JSON data in Active Admin</title>

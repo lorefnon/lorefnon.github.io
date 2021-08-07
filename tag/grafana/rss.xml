@@ -69,6 +69,9 @@
         <category>Java</category>
         <category>Ruby on Rails</category>
         <category>JOOQ</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</guid>
             <title>Gathering and Visualizing metrics from Rails application using InfluxDB</title>

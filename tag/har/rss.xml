@@ -69,6 +69,9 @@
         <category>Java</category>
         <category>Ruby on Rails</category>
         <category>JOOQ</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2020/11/27/exploring-har-http-archive-logs-with-jq/</guid>
             <title>Exporing HAR (HTTP Archive) logs with Jq</title>

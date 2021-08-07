@@ -69,6 +69,9 @@
         <category>Java</category>
         <category>Ruby on Rails</category>
         <category>JOOQ</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/07/14/getting-productive-with-selection-and-navigation-in-emacs/</guid>
             <title>Getting productive with selection and navigation in Emacs</title>

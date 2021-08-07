@@ -69,6 +69,9 @@
         <category>Java</category>
         <category>Ruby on Rails</category>
         <category>JOOQ</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2012/08/15/a-websocket-powered-tic-tac-toe-game-using-ruby-eventmachine--part-1.html</guid>
             <title>A Websocket powered Tic tac toe game using Ruby EventMachine – Part 1</title>

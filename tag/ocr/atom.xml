@@ -66,6 +66,9 @@
     <category term="Java" />
     <category term="Ruby on Rails" />
     <category term="JOOQ" />
+    <category term="Liquibase" />
+    <category term="tbls" />
+    <category term="jOOQ" />
     <entry>
         <id>https://lorefnon.me/2014/10/12/decrypting-an-obfuscated-font-with-ocr.html</id>
         <title>Decrypting an obfuscated font with OCR</title>
