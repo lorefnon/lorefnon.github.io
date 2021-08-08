@@ -11,9 +11,9 @@
             "date_published": "2018-08-18T00:00:00.000Z",
             "content_html": "<link rel=\"stylesheet\" href=\"/css/crayon.min.css\" >\n<link rel=\"stylesheet\" href=\"/css/crayon-flatui-light.css\" >\n\n\n\n\t<p>It is fairly straightforward to add a GraphQL API powered by <a href=\"https://www.apollographql.com/docs/apollo-server/\" target=\"_blank\" rel=\"noreferrer noopener\">Apollo Server</a> to a <a href=\"http://nextjs.org/\" target=\"_blank\" rel=\"noreferrer noopener\">Next.js</a> application through a <a href=\"https://koajs.com/\" target=\"_blank\" rel=\"noreferrer noopener\">koa</a> middleware.</p>\n<p>The abbreviated snippet below summarizes the setup along with the libraries involved:</p>\n<p><span id=\"more-325\"></span><br>\n<script src=\"https://gist.github.com/lorefnon/65b50deebef37228416331234885cde6.js\"></script></p>\n\n\n    ",
             "tags": [
+                "Apollo",
                 "Next.js",
-                "Koa",
-                "Apollo"
+                "Koa"
             ]
         }
     ]

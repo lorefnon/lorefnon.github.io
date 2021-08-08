@@ -1,7 +1,6 @@
 (() => {
   // source/js/_fold.js
   document.addEventListener("click", (e) => {
-    debugger;
     let handle;
     if (e.target.classList.contains("hlcode-fold-handle")) {
       hadle = e.target;

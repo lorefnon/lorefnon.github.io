@@ -7,77 +7,77 @@
         <language>en</language>
         <pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
         <lastBuildDate>Sun, 15 Nov 2015 00:00:00 +0530</lastBuildDate>
-        <category>Ruby</category>
-        <category>Rails</category>
-        <category>ActiveAdmin</category>
-        <category>Design Patterns</category>
+        <category>CSS</category>
         <category>Javascript</category>
-        <category>KnockoutJS</category>
-        <category>InfluxDB</category>
-        <category>Grafana</category>
-        <category>React</category>
-        <category>Functional Programming</category>
-        <category>SPF</category>
-        <category>ES6</category>
-        <category>Emacs</category>
-        <category>Helm</category>
-        <category>Gulp</category>
-        <category>ActiveRecord</category>
-        <category>ZSH</category>
-        <category>Productivity Hacks</category>
-        <category>Devise</category>
-        <category>Integration</category>
-        <category>OCR</category>
-        <category>Next.js</category>
-        <category>Koa</category>
-        <category>Apollo</category>
+        <category>Ruby</category>
         <category>EventMachine</category>
         <category>Websockets</category>
+        <category>KnockoutJS</category>
         <category>SQLite</category>
         <category>Jade</category>
         <category>Node.js</category>
-        <category>CSS</category>
-        <category>GraphQL</category>
+        <category>Rails</category>
+        <category>ActiveAdmin</category>
+        <category>Emacs</category>
+        <category>Gulp</category>
+        <category>OCR</category>
+        <category>Devise</category>
+        <category>Integration</category>
+        <category>ActiveRecord</category>
+        <category>ZSH</category>
+        <category>Productivity Hacks</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>Design Patterns</category>
+        <category>React</category>
+        <category>Functional Programming</category>
         <category>Kotlin</category>
+        <category>GraphQL</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
         <category>Backend-development</category>
         <category>API-development</category>
+        <category>Apollo</category>
+        <category>SPF</category>
         <category>HAR</category>
         <category>Jq</category>
         <category>Lit-html</category>
         <category>Stimulus</category>
+        <category>Helm</category>
+        <category>Java</category>
+        <category>JOOQ</category>
+        <category>Ruby on Rails</category>
+        <category>Next.js</category>
+        <category>Koa</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <category>Typescript</category>
+        <category>ES6</category>
+        <category>Routing</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
         <category>Automerge</category>
         <category>CRDT</category>
         <category>Frontend</category>
-        <category>Routing</category>
-        <category>SVG</category>
-        <category>Comlink</category>
-        <category>Web-workers</category>
         <category>io-ts</category>
+        <category>SVG</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
         <category>Vagrant</category>
         <category>Clojure</category>
         <category>Hashicorp</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
         <category>MongoDB</category>
         <category>VSCode</category>
         <category>MobX</category>
         <category>MobX-State-Tree</category>
         <category>ReasonML</category>
-        <category>Java</category>
-        <category>Ruby on Rails</category>
-        <category>JOOQ</category>
-        <category>Liquibase</category>
-        <category>tbls</category>
-        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</guid>
             <title>A minimal setup for using ES6 modules in Rails</title>
             <link>https://lorefnon.me/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</link>
-            <category>Rails</category>
             <category>Javascript</category>
+            <category>Rails</category>
             <category>ES6</category>
             <pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
             <description><![CDATA[ &lt;p&gt;While ES6 adoption is progressively improving across browsers, and the sprockets team is planning to integrate ES6 features into Rails asset pipeline in near future, using a widely popular transpiler: &lt;a href=&#34;https://babeljs.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Babel&lt;/a&gt; we can leverage many of those features right away. The specific aspect of interest for this post is ES6 modules feature which provides a standardized module system for javascript.&lt;/p&gt;

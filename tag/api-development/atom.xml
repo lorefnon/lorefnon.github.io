@@ -4,71 +4,71 @@
     <title>Icicles of Thought • Posts by &#34;api-development&#34; tag</title>
     <link href="https://lorefnon.me" />
     <updated>2021-03-25T18:30:00.000Z</updated>
-    <category term="Ruby" />
-    <category term="Rails" />
-    <category term="ActiveAdmin" />
-    <category term="Design Patterns" />
+    <category term="CSS" />
     <category term="Javascript" />
-    <category term="KnockoutJS" />
-    <category term="InfluxDB" />
-    <category term="Grafana" />
-    <category term="React" />
-    <category term="Functional Programming" />
-    <category term="SPF" />
-    <category term="ES6" />
-    <category term="Emacs" />
-    <category term="Helm" />
-    <category term="Gulp" />
-    <category term="ActiveRecord" />
-    <category term="ZSH" />
-    <category term="Productivity Hacks" />
-    <category term="Devise" />
-    <category term="Integration" />
-    <category term="OCR" />
-    <category term="Next.js" />
-    <category term="Koa" />
-    <category term="Apollo" />
+    <category term="Ruby" />
     <category term="EventMachine" />
     <category term="Websockets" />
+    <category term="KnockoutJS" />
     <category term="SQLite" />
     <category term="Jade" />
     <category term="Node.js" />
-    <category term="CSS" />
-    <category term="GraphQL" />
+    <category term="Rails" />
+    <category term="ActiveAdmin" />
+    <category term="Emacs" />
+    <category term="Gulp" />
+    <category term="OCR" />
+    <category term="Devise" />
+    <category term="Integration" />
+    <category term="ActiveRecord" />
+    <category term="ZSH" />
+    <category term="Productivity Hacks" />
+    <category term="InfluxDB" />
+    <category term="Grafana" />
+    <category term="Design Patterns" />
+    <category term="React" />
+    <category term="Functional Programming" />
     <category term="Kotlin" />
+    <category term="GraphQL" />
     <category term="Vert.X" />
     <category term="Vert.X-Web" />
     <category term="Backend-development" />
     <category term="API-development" />
+    <category term="Apollo" />
+    <category term="SPF" />
     <category term="HAR" />
     <category term="Jq" />
     <category term="Lit-html" />
     <category term="Stimulus" />
+    <category term="Helm" />
+    <category term="Java" />
+    <category term="JOOQ" />
+    <category term="Ruby on Rails" />
+    <category term="Next.js" />
+    <category term="Koa" />
+    <category term="Liquibase" />
+    <category term="tbls" />
+    <category term="jOOQ" />
     <category term="Typescript" />
+    <category term="ES6" />
+    <category term="Routing" />
+    <category term="Comlink" />
+    <category term="Web-workers" />
     <category term="Automerge" />
     <category term="CRDT" />
     <category term="Frontend" />
-    <category term="Routing" />
-    <category term="SVG" />
-    <category term="Comlink" />
-    <category term="Web-workers" />
     <category term="io-ts" />
+    <category term="SVG" />
+    <category term="Redux" />
+    <category term="Redux-loop" />
     <category term="Vagrant" />
     <category term="Clojure" />
     <category term="Hashicorp" />
-    <category term="Redux" />
-    <category term="Redux-loop" />
     <category term="MongoDB" />
     <category term="VSCode" />
     <category term="MobX" />
     <category term="MobX-State-Tree" />
     <category term="ReasonML" />
-    <category term="Java" />
-    <category term="Ruby on Rails" />
-    <category term="JOOQ" />
-    <category term="Liquibase" />
-    <category term="tbls" />
-    <category term="jOOQ" />
     <entry>
         <id>https://lorefnon.me/2021/03/26/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-III/</id>
         <title>Building GraphQL APIs powered by Vert.x, jOOQ &amp; Kotlin - III</title>
@@ -84,16 +84,16 @@
 &lt;p&gt;We will write an &lt;code&gt;AppConfigModule&lt;/code&gt; which will make the parsed configuration available to other services through dagger.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.module
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-18&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-18&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-9&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-9&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
         &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
             &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
         &lt;/g&gt;
-    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;3 lines collapsed (Imports)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-18&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Module
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-18&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Provides
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-18&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; java.io.FileInputStream
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-18&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; java.util.*
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;3 lines collapsed (Imports)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-9&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Module
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-9&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Provides
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-9&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; java.io.FileInputStream
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-9&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; java.util.*
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;@Module&lt;/span&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;AppConfigModule&lt;/span&gt; &lt;/span&gt;{
@@ -131,19 +131,19 @@
 &lt;p&gt;Let us add a &lt;code&gt;DBAccessModule&lt;/code&gt; which uses this configuration to wire up database access: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.module
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-19&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-19&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-10&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-10&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
         &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
             &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
         &lt;/g&gt;
-    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;6 lines collapsed (Imports)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-19&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Module
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-19&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Provides
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-19&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.pgclient.PgConnectOptions
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-19&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.pgclient.PgPool
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-19&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.sqlclient.PoolOptions
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-19&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.sqlclient.SqlClient
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-19&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; javax.inject.Singleton
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;6 lines collapsed (Imports)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-10&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Module
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-10&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Provides
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-10&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.pgclient.PgConnectOptions
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-10&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.pgclient.PgPool
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-10&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.sqlclient.PoolOptions
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-10&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.sqlclient.SqlClient
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-10&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; javax.inject.Singleton
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;@Module&lt;/span&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;DBAccessModule&lt;/span&gt; &lt;/span&gt;{
@@ -179,21 +179,21 @@
 &lt;p&gt;So we can simply instantiate these DAO classes providing passing this postgres client to them. Let us write a module that instantiates our generated DAO classes: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.module
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-11&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-11&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
         &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
             &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
         &lt;/g&gt;
-    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;8 lines collapsed (Imports)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Module
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Provides
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.core.Vertx
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.sqlclient.SqlClient
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.generated.tables.daos.UsersDao
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.jooq.Configuration
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.jooq.SQLDialect
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.jooq.impl.DefaultConfiguration
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; javax.inject.Singleton
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;8 lines collapsed (Imports)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-11&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Module
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-11&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Provides
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-11&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.core.Vertx
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-11&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.sqlclient.SqlClient
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-11&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.generated.tables.daos.UsersDao
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-11&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.jooq.Configuration
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-11&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.jooq.SQLDialect
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-11&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.jooq.impl.DefaultConfiguration
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-11&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; javax.inject.Singleton
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;@Module&lt;/span&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;DAOModule&lt;/span&gt; &lt;/span&gt;{
@@ -217,19 +217,19 @@
 &lt;p&gt;We will also need to make our &lt;code&gt;MainVerticleComponent&lt;/code&gt; aware of these modules: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-12&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-12&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
         &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
             &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
         &lt;/g&gt;
-    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;6 lines collapsed (Imports)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Component
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.GraphQL
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.ext.web.Router
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.sqlclient.SqlClient
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.generated.tables.daos.UsersDao
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.module.*
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; javax.inject.Singleton
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;6 lines collapsed (Imports)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-12&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Component
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-12&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.GraphQL
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-12&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.ext.web.Router
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-12&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.sqlclient.SqlClient
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-12&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.generated.tables.daos.UsersDao
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-12&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.module.*
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-12&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; javax.inject.Singleton
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;@Component(modules = [
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    AppConfigModule::class,
@@ -264,18 +264,18 @@
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .createHttpServer()
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .requestHandler(component.getRouter())
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .listen(appPort) { http -&amp;gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-22&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-22&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-13&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-13&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
         &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
             &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
         &lt;/g&gt;
-    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;5 lines collapsed&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-22&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (http.succeeded()) {
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-22&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    startPromise.complete()
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-22&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    println(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;HTTP server started on port &lt;span class=&#34;hljs-variable&#34;&gt;$appPort&lt;/span&gt;&amp;quot;&lt;/span&gt;)
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-22&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                } &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt; {
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-22&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    startPromise.fail(http.cause());
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-22&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                }
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;5 lines collapsed&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-13&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (http.succeeded()) {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-13&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    startPromise.complete()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-13&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    println(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;HTTP server started on port &lt;span class=&#34;hljs-variable&#34;&gt;$appPort&lt;/span&gt;&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-13&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                } &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt; {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-13&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    startPromise.fail(http.cause());
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-13&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                }
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            }
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    }
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
@@ -285,17 +285,17 @@
 &lt;p&gt;Here is the simplest &lt;code&gt;UserRegistrationService&lt;/code&gt; implementation, that receives incoming credentials, and saves it in DB after hashing the password: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.service
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-23&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-23&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-14&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-14&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
         &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
             &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
         &lt;/g&gt;
-    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;4 lines collapsed&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-23&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; at.favre.lib.crypto.bcrypt.BCrypt
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-23&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.core.Future
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-23&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.generated.tables.daos.UserDao
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-23&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.generated.tables.pojos.User
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-23&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; javax.inject.Inject
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;4 lines collapsed&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-14&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; at.favre.lib.crypto.bcrypt.BCrypt
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-14&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.core.Future
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-14&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.generated.tables.daos.UserDao
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-14&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.generated.tables.pojos.User
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-14&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; javax.inject.Inject
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;UserRegistrationService&lt;/span&gt; &lt;span class=&#34;hljs-meta&#34;&gt;@Inject&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;constructor&lt;/span&gt;&lt;/span&gt;(
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; userDao: UserDao,
@@ -349,22 +349,22 @@
 &lt;p&gt;We need to next expose this service through a resolver: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.module
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-24&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-24&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-15&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-15&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
         &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
             &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
         &lt;/g&gt;
-    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;9 lines collapsed (Imports)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-24&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.GraphQL
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-24&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.RuntimeWiring.newRuntimeWiring
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-24&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.SchemaGenerator
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-24&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.SchemaParser
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-24&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-24&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Module
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-24&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Provides
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-24&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.TypeRuntimeWiring
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-24&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.service.UserRegistrationService
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-24&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; javax.inject.Singleton
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;9 lines collapsed (Imports)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-15&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.GraphQL
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-15&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.RuntimeWiring.newRuntimeWiring
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-15&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.SchemaGenerator
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-15&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.SchemaParser
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-15&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-15&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Module
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-15&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Provides
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-15&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.TypeRuntimeWiring
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-15&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.service.UserRegistrationService
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-15&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; javax.inject.Singleton
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;@Module&lt;/span&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;GraphQLModule&lt;/span&gt; &lt;/span&gt;{
@@ -491,24 +491,24 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
 &lt;p&gt;Let&amp;#39;s add that to our GraphQL module similar to the registration field: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.module
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-25&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-25&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-16&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-16&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
         &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
             &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
         &lt;/g&gt;
-    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;11 lines collapsed (Imports)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-25&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.GraphQL
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-25&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.RuntimeWiring.newRuntimeWiring
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-25&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.SchemaGenerator
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-25&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.SchemaParser
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-25&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-25&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Module
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-25&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Provides
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-25&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.TypeRuntimeWiring
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-25&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.ext.web.handler.graphql.schema.VertxDataFetcher
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-25&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.service.UserLoginService
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-25&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.service.UserRegistrationService
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-25&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; javax.inject.Singleton
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;11 lines collapsed (Imports)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-16&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.GraphQL
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-16&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.RuntimeWiring.newRuntimeWiring
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-16&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.SchemaGenerator
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-16&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.SchemaParser
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-16&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-16&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Module
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-16&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Provides
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-16&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.TypeRuntimeWiring
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-16&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.ext.web.handler.graphql.schema.VertxDataFetcher
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-16&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.service.UserLoginService
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-16&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.service.UserRegistrationService
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-16&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; javax.inject.Singleton
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;@Module&lt;/span&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;GraphQLModule&lt;/span&gt; &lt;/span&gt;{
@@ -546,17 +546,17 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                login(username: String!, password: String!): String
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            }
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
         &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
             &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
         &lt;/g&gt;
-    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;4 lines collapsed&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            type RegistrationResult {
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                success: Boolean!
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                comments: [String]
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            }
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;4 lines collapsed&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            type RegistrationResult {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                success: Boolean!
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                comments: [String]
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;.trimIndent()
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;buildRuntimeWiring&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; = newRuntimeWiring()
@@ -569,19 +569,19 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            }
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .build()
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
         &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
             &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
             &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
         &lt;/g&gt;
-    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;6 lines collapsed&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; TypeRuntimeWiring.Builder.&lt;span class=&#34;hljs-title&#34;&gt;associateRegisterUserMutation&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; =
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            dataFetcher(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;registerUser&amp;quot;&lt;/span&gt;, VertxDataFetcher.create { env -&amp;gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; username = env.getArgument&amp;lt;String&amp;gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;username&amp;quot;&lt;/span&gt;)
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; email = env.getArgument&amp;lt;String&amp;gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;email&amp;quot;&lt;/span&gt;)
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; password = env.getArgument&amp;lt;String&amp;gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;password&amp;quot;&lt;/span&gt;)
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                userRegistrationService.registerUser(username, email, password)
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-26&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            })
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;6 lines collapsed&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; TypeRuntimeWiring.Builder.&lt;span class=&#34;hljs-title&#34;&gt;associateRegisterUserMutation&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; =
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            dataFetcher(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;registerUser&amp;quot;&lt;/span&gt;, VertxDataFetcher.create { env -&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; username = env.getArgument&amp;lt;String&amp;gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;username&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; email = env.getArgument&amp;lt;String&amp;gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;email&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; password = env.getArgument&amp;lt;String&amp;gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;password&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                userRegistrationService.registerUser(username, email, password)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-17&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            })
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; TypeRuntimeWiring.Builder.&lt;span class=&#34;hljs-title&#34;&gt;associateLoginMutation&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; =
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            dataFetcher(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;login&amp;quot;&lt;/span&gt;, VertxDataFetcher.create { env -&amp;gt;
@@ -610,8 +610,8 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;In the next post we will utilize this API to secure other fields in our GraphQL API.&lt;/p&gt;
 </content>
-        <category term="GraphQL" />
         <category term="Kotlin" />
+        <category term="GraphQL" />
         <category term="Vert.X" />
         <category term="Vert.X-Web" />
         <category term="Backend-development" />
@@ -1093,8 +1093,8 @@ HTTP server started on port 8888&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;So we see that our simple API works and our field (&lt;code&gt;hello&lt;/code&gt;) is resolved through the dataFetcher we have defined.&lt;/p&gt;
 &lt;p&gt;For now, our minimal resolver returns a simple static string. In the &lt;a href=&#34;/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/&#34;&gt;next post&lt;/a&gt; we will integrate a basic DI setup using Dagger, and in the in the subsequent one we will setup a signup and signin mechanism where our resolvers will connect to the database for persisting data.&lt;/p&gt;
 </content>
-        <category term="GraphQL" />
         <category term="Kotlin" />
+        <category term="GraphQL" />
         <category term="Vert.X" />
         <category term="Vert.X-Web" />
         <category term="Backend-development" />

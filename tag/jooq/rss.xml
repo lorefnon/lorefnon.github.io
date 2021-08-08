@@ -7,71 +7,71 @@
         <language>en</language>
         <pubDate>Sat, 07 Aug 2021 00:00:00 +0530</pubDate>
         <lastBuildDate>Sat, 07 Aug 2021 00:00:00 +0530</lastBuildDate>
-        <category>Ruby</category>
-        <category>Rails</category>
-        <category>ActiveAdmin</category>
-        <category>Design Patterns</category>
+        <category>CSS</category>
         <category>Javascript</category>
-        <category>KnockoutJS</category>
-        <category>InfluxDB</category>
-        <category>Grafana</category>
-        <category>React</category>
-        <category>Functional Programming</category>
-        <category>SPF</category>
-        <category>ES6</category>
-        <category>Emacs</category>
-        <category>Helm</category>
-        <category>Gulp</category>
-        <category>ActiveRecord</category>
-        <category>ZSH</category>
-        <category>Productivity Hacks</category>
-        <category>Devise</category>
-        <category>Integration</category>
-        <category>OCR</category>
-        <category>Next.js</category>
-        <category>Koa</category>
-        <category>Apollo</category>
+        <category>Ruby</category>
         <category>EventMachine</category>
         <category>Websockets</category>
+        <category>KnockoutJS</category>
         <category>SQLite</category>
         <category>Jade</category>
         <category>Node.js</category>
-        <category>CSS</category>
-        <category>GraphQL</category>
+        <category>Rails</category>
+        <category>ActiveAdmin</category>
+        <category>Emacs</category>
+        <category>Gulp</category>
+        <category>OCR</category>
+        <category>Devise</category>
+        <category>Integration</category>
+        <category>ActiveRecord</category>
+        <category>ZSH</category>
+        <category>Productivity Hacks</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>Design Patterns</category>
+        <category>React</category>
+        <category>Functional Programming</category>
         <category>Kotlin</category>
+        <category>GraphQL</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
         <category>Backend-development</category>
         <category>API-development</category>
+        <category>Apollo</category>
+        <category>SPF</category>
         <category>HAR</category>
         <category>Jq</category>
         <category>Lit-html</category>
         <category>Stimulus</category>
+        <category>Helm</category>
+        <category>Java</category>
+        <category>JOOQ</category>
+        <category>Ruby on Rails</category>
+        <category>Next.js</category>
+        <category>Koa</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <category>Typescript</category>
+        <category>ES6</category>
+        <category>Routing</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
         <category>Automerge</category>
         <category>CRDT</category>
         <category>Frontend</category>
-        <category>Routing</category>
-        <category>SVG</category>
-        <category>Comlink</category>
-        <category>Web-workers</category>
         <category>io-ts</category>
+        <category>SVG</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
         <category>Vagrant</category>
         <category>Clojure</category>
         <category>Hashicorp</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
         <category>MongoDB</category>
         <category>VSCode</category>
         <category>MobX</category>
         <category>MobX-State-Tree</category>
         <category>ReasonML</category>
-        <category>Java</category>
-        <category>Ruby on Rails</category>
-        <category>JOOQ</category>
-        <category>Liquibase</category>
-        <category>tbls</category>
-        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2021/08/07/Documenting-Your-Data-Model-With-Liquibase-and-Tbls/</guid>
             <title>Documenting your data model with liquibase, tbls &amp; jOOQ</title>
@@ -167,8 +167,8 @@
             <title>Adapting jOOQ code generator to Rails database naming conventions</title>
             <link>https://lorefnon.me/2021/08/03/Adapting-Jooq-To-Rails-DB-Naming-Conventions/</link>
             <category>Java</category>
-            <category>Ruby on Rails</category>
             <category>JOOQ</category>
+            <category>Ruby on Rails</category>
             <pubDate>Tue, 03 Aug 2021 00:00:00 +0530</pubDate>
             <description><![CDATA[ &lt;p&gt;I recently updated an application which was historically built using Ruby on Rails to &lt;a href=&#34;https://spring.io/projects/spring-boot&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Spring boot&lt;/a&gt; &amp;amp; &lt;a href=&#34;https://www.jooq.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;jOOQ&lt;/a&gt;. &lt;/p&gt;
 &lt;p&gt;The Rails convention is to use plural table names (eg. &lt;code&gt;users&lt;/code&gt;) which are auto-mapped to models with singular names (eg. &lt;code&gt;User&lt;/code&gt;). &lt;/p&gt;
@@ -223,8 +223,8 @@
             <title>Integrating jOOQ with Netflix DGS</title>
             <link>https://lorefnon.me/2021/08/03/Integrating-JooQ-With-Netflix-DGS/</link>
             <category>Java</category>
-            <category>Ruby on Rails</category>
             <category>JOOQ</category>
+            <category>Ruby on Rails</category>
             <pubDate>Tue, 03 Aug 2021 00:00:00 +0530</pubDate>
             <description><![CDATA[ &lt;h1 id=&#34;About-jOOQ-and-DGS&#34;&gt;&lt;a href=&#34;#About-jOOQ-and-DGS&#34; class=&#34;headerlink&#34; title=&#34;About jOOQ and DGS&#34;&gt;&lt;/a&gt;About jOOQ and DGS&lt;/h1&gt;&lt;p&gt;&lt;a href=&#34;jooq.org/&#34;&gt;jOOQ&lt;/a&gt; is a really versatile SQL builder for JVM which I have found myself using more and more recently. My workflow usually involves evolving the database schema through &lt;a href=&#34;https://www.liquibase.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;liquibase&lt;/a&gt;, after which jOOQ is used to generate record classes from the DB schema.&lt;/p&gt;
 &lt;p&gt;This enables type safe database access and ensures that application level types are always in sync with database schema.&lt;/p&gt;
