@@ -7,61 +7,62 @@
         <language>en</language>
         <pubDate>Sun, 07 Sep 2014 00:00:00 +0530</pubDate>
         <lastBuildDate>Sun, 07 Sep 2014 00:00:00 +0530</lastBuildDate>
-        <category>CSS</category>
         <category>Javascript</category>
+        <category>KnockoutJS</category>
         <category>Ruby</category>
         <category>EventMachine</category>
         <category>Websockets</category>
-        <category>KnockoutJS</category>
         <category>SQLite</category>
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
         <category>ActiveAdmin</category>
-        <category>Emacs</category>
-        <category>Gulp</category>
-        <category>OCR</category>
-        <category>Devise</category>
-        <category>Integration</category>
-        <category>ActiveRecord</category>
-        <category>ZSH</category>
-        <category>Productivity Hacks</category>
         <category>InfluxDB</category>
         <category>Grafana</category>
         <category>Design Patterns</category>
         <category>React</category>
         <category>Functional Programming</category>
-        <category>Kotlin</category>
+        <category>Emacs</category>
+        <category>Helm</category>
+        <category>ES6</category>
+        <category>SPF</category>
+        <category>Gulp</category>
+        <category>ActiveRecord</category>
+        <category>Devise</category>
+        <category>Integration</category>
+        <category>ZSH</category>
+        <category>Productivity Hacks</category>
+        <category>OCR</category>
+        <category>CSS</category>
+        <category>Next.js</category>
+        <category>Koa</category>
+        <category>Apollo</category>
+        <category>Typescript</category>
         <category>GraphQL</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
+        <category>HAR</category>
+        <category>Jq</category>
+        <category>Kotlin</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
         <category>Backend-development</category>
         <category>API-development</category>
-        <category>Apollo</category>
-        <category>SPF</category>
-        <category>HAR</category>
-        <category>Jq</category>
-        <category>Lit-html</category>
-        <category>Stimulus</category>
-        <category>Helm</category>
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
-        <category>Next.js</category>
-        <category>Koa</category>
         <category>Liquibase</category>
         <category>tbls</category>
         <category>jOOQ</category>
-        <category>Typescript</category>
-        <category>ES6</category>
-        <category>Routing</category>
-        <category>Comlink</category>
-        <category>Web-workers</category>
+        <category>Vue</category>
         <category>Automerge</category>
         <category>CRDT</category>
         <category>Frontend</category>
-        <category>io-ts</category>
         <category>SVG</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>Routing</category>
         <category>Redux</category>
         <category>Redux-loop</category>
         <category>Vagrant</category>
