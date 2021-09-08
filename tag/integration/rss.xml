@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Sun, 07 Sep 2014 00:00:00 +0530</pubDate>
-        <lastBuildDate>Sun, 07 Sep 2014 00:00:00 +0530</lastBuildDate>
+        <pubDate>Sun, 07 Sep 2014 00:00:00 +0000</pubDate>
+        <lastBuildDate>Sun, 07 Sep 2014 00:00:00 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -16,33 +16,51 @@
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
-        <category>ActiveAdmin</category>
-        <category>InfluxDB</category>
-        <category>Grafana</category>
-        <category>Design Patterns</category>
-        <category>React</category>
-        <category>Functional Programming</category>
         <category>Emacs</category>
-        <category>Helm</category>
-        <category>ES6</category>
-        <category>SPF</category>
         <category>Gulp</category>
+        <category>ActiveAdmin</category>
         <category>ActiveRecord</category>
         <category>Devise</category>
         <category>Integration</category>
         <category>ZSH</category>
         <category>Productivity Hacks</category>
         <category>OCR</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>React</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Helm</category>
+        <category>SPF</category>
         <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>Typescript</category>
         <category>GraphQL</category>
-        <category>Lit-html</category>
-        <category>Stimulus</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
         <category>Kotlin</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
@@ -51,28 +69,15 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Vue</category>
+        <category>TypeScript</category>
         <category>Liquibase</category>
+        <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
         <category>tbls</category>
         <category>jOOQ</category>
-        <category>Vue</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Frontend</category>
-        <category>SVG</category>
-        <category>Comlink</category>
-        <category>Web-workers</category>
-        <category>io-ts</category>
-        <category>Routing</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
-        <category>Vagrant</category>
-        <category>Clojure</category>
-        <category>Hashicorp</category>
-        <category>MongoDB</category>
-        <category>VSCode</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
-        <category>ReasonML</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2014/09/07/devise-multiple-emails.html</guid>
             <title>Allowing multiple emails for a user in Devise</title>
@@ -81,7 +86,7 @@
             <category>Rails</category>
             <category>Devise</category>
             <category>Integration</category>
-            <pubDate>Sun, 07 Sep 2014 00:00:00 +0530</pubDate>
+            <pubDate>Sun, 07 Sep 2014 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;&lt;a href=&#34;https://github.com/plataformatec/devise&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Devise&lt;/a&gt; is an incredibly popular authorization gem for Rails. Unfortunately allowing a user to log in through multiple emails is not as straightforward as one might expect. This post outlines a way to do just that.&lt;/p&gt;
 &lt;p&gt;The code for this blog is available &lt;a href=&#34;https://github.com/lorefnon/devise_multi_email_demo.git&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;here&lt;/a&gt;. We start off with a rudimentary devise installation (you may want to checkout &lt;a href=&#34;https://github.com/lorefnon/devise_multi_email_demo/tree/3d5be26be7986aaf73c18497cffd67a9365e38cb&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Commit:3d5be26&lt;/a&gt; as a starting point - if you are not familiar with devise I suggest you take a look at the official documentation. As you may have noticed I am writing this post against Rails 4.2 Beta which Devise master does not support as of this writing. Luckily &lt;a href=&#34;https://github.com/lucasmazza&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;lucasmazza&lt;/a&gt; has already submitted a pull request for 4.2 compatibility and we just need to use the branch &lt;code&gt;lm-rails-4-2&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;Creating-Email-model&#34;&gt;&lt;a href=&#34;#Creating-Email-model&#34; class=&#34;headerlink&#34; title=&#34;Creating Email model&#34;&gt;&lt;/a&gt;Creating Email model&lt;/h2&gt;&lt;p&gt;First step is creating an email model.&lt;/p&gt;

@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
-        <lastBuildDate>Sun, 15 Nov 2015 00:00:00 +0530</lastBuildDate>
+        <pubDate>Sun, 15 Nov 2015 00:00:00 +0000</pubDate>
+        <lastBuildDate>Sun, 15 Nov 2015 00:00:00 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -16,33 +16,51 @@
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
-        <category>ActiveAdmin</category>
-        <category>InfluxDB</category>
-        <category>Grafana</category>
-        <category>Design Patterns</category>
-        <category>React</category>
-        <category>Functional Programming</category>
         <category>Emacs</category>
-        <category>Helm</category>
-        <category>ES6</category>
-        <category>SPF</category>
         <category>Gulp</category>
+        <category>ActiveAdmin</category>
         <category>ActiveRecord</category>
         <category>Devise</category>
         <category>Integration</category>
         <category>ZSH</category>
         <category>Productivity Hacks</category>
         <category>OCR</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>React</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Helm</category>
+        <category>SPF</category>
         <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>Typescript</category>
         <category>GraphQL</category>
-        <category>Lit-html</category>
-        <category>Stimulus</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
         <category>Kotlin</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
@@ -51,28 +69,15 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Vue</category>
+        <category>TypeScript</category>
         <category>Liquibase</category>
+        <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
         <category>tbls</category>
         <category>jOOQ</category>
-        <category>Vue</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Frontend</category>
-        <category>SVG</category>
-        <category>Comlink</category>
-        <category>Web-workers</category>
-        <category>io-ts</category>
-        <category>Routing</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
-        <category>Vagrant</category>
-        <category>Clojure</category>
-        <category>Hashicorp</category>
-        <category>MongoDB</category>
-        <category>VSCode</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
-        <category>ReasonML</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</guid>
             <title>A minimal setup for using ES6 modules in Rails</title>
@@ -80,7 +85,7 @@
             <category>Javascript</category>
             <category>Rails</category>
             <category>ES6</category>
-            <pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
+            <pubDate>Sun, 15 Nov 2015 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;While ES6 adoption is progressively improving across browsers, and the sprockets team is planning to integrate ES6 features into Rails asset pipeline in near future, using a widely popular transpiler: &lt;a href=&#34;https://babeljs.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Babel&lt;/a&gt; we can leverage many of those features right away. The specific aspect of interest for this post is ES6 modules feature which provides a standardized module system for javascript.&lt;/p&gt;
 &lt;p&gt;While babel does have a solution for ES6 modules, rather than handling dependency resolution itself - it transpiles the modules to existing javascript based module systems - the most popular ones being &lt;a href=&#34;https://github.com/amdjs&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;AMD&lt;/a&gt; and &lt;a href=&#34;https://commonjs.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;CommonJS&lt;/a&gt;. This post does not go into a compartive analysis of them, but there is an excellent &lt;a href=&#34;addyosmani.com/writing-modular-js/&#34;&gt;article&lt;/a&gt; by &lt;a href=&#34;https://twitter.com/addyosmani&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Addy Osmani&lt;/a&gt; which provides an in-depth elaboration on the topic.&lt;/p&gt;
 &lt;p&gt;The solution &lt;a href=&#34;https://babeljs.io/docs/setup/#rails&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;recommended&lt;/a&gt; by the Babel team for using babel with rails, is through an experimental &lt;a href=&#34;https://github.com/TannerRogalsky/sprockets-es6&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;sprockets-es6&lt;/a&gt; gem, which is intended to be a PoC for future work to be integrated into Sprockets. Quoting from the README:&lt;/p&gt;

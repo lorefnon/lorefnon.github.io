@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Mon, 04 Apr 2016 00:00:00 +0530</pubDate>
-        <lastBuildDate>Mon, 04 Apr 2016 00:00:00 +0530</lastBuildDate>
+        <pubDate>Mon, 04 Apr 2016 00:00:00 +0000</pubDate>
+        <lastBuildDate>Mon, 04 Apr 2016 00:00:00 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -16,33 +16,51 @@
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
-        <category>ActiveAdmin</category>
-        <category>InfluxDB</category>
-        <category>Grafana</category>
-        <category>Design Patterns</category>
-        <category>React</category>
-        <category>Functional Programming</category>
         <category>Emacs</category>
-        <category>Helm</category>
-        <category>ES6</category>
-        <category>SPF</category>
         <category>Gulp</category>
+        <category>ActiveAdmin</category>
         <category>ActiveRecord</category>
         <category>Devise</category>
         <category>Integration</category>
         <category>ZSH</category>
         <category>Productivity Hacks</category>
         <category>OCR</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>React</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Helm</category>
+        <category>SPF</category>
         <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>Typescript</category>
         <category>GraphQL</category>
-        <category>Lit-html</category>
-        <category>Stimulus</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
         <category>Kotlin</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
@@ -51,35 +69,22 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Vue</category>
+        <category>TypeScript</category>
         <category>Liquibase</category>
+        <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
         <category>tbls</category>
         <category>jOOQ</category>
-        <category>Vue</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Frontend</category>
-        <category>SVG</category>
-        <category>Comlink</category>
-        <category>Web-workers</category>
-        <category>io-ts</category>
-        <category>Routing</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
-        <category>Vagrant</category>
-        <category>Clojure</category>
-        <category>Hashicorp</category>
-        <category>MongoDB</category>
-        <category>VSCode</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
-        <category>ReasonML</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2016/04/04/embracing-bem-methodology-in-react-applications.html</guid>
             <title>Embracing BEM methodology in React applications</title>
             <link>https://lorefnon.me/2016/04/04/embracing-bem-methodology-in-react-applications.html</link>
             <category>Javascript</category>
             <category>CSS</category>
-            <pubDate>Mon, 04 Apr 2016 00:00:00 +0530</pubDate>
+            <pubDate>Mon, 04 Apr 2016 00:00:00 +0000</pubDate>
             <description><![CDATA[ 
 &lt;a class=&#34;header-link&#34; href=&#34;#react-and-modular-css&#34;&gt;&lt;h2 id=&#34;react-and-modular-css&#34;&gt;React and modular CSS&lt;/h2&gt;&lt;/a&gt;
 

@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Wed, 15 Aug 2012 00:00:00 +0530</pubDate>
-        <lastBuildDate>Wed, 15 Aug 2012 00:00:00 +0530</lastBuildDate>
+        <pubDate>Wed, 15 Aug 2012 00:00:00 +0000</pubDate>
+        <lastBuildDate>Wed, 15 Aug 2012 00:00:00 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -16,33 +16,51 @@
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
-        <category>ActiveAdmin</category>
-        <category>InfluxDB</category>
-        <category>Grafana</category>
-        <category>Design Patterns</category>
-        <category>React</category>
-        <category>Functional Programming</category>
         <category>Emacs</category>
-        <category>Helm</category>
-        <category>ES6</category>
-        <category>SPF</category>
         <category>Gulp</category>
+        <category>ActiveAdmin</category>
         <category>ActiveRecord</category>
         <category>Devise</category>
         <category>Integration</category>
         <category>ZSH</category>
         <category>Productivity Hacks</category>
         <category>OCR</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>React</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Helm</category>
+        <category>SPF</category>
         <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>Typescript</category>
         <category>GraphQL</category>
-        <category>Lit-html</category>
-        <category>Stimulus</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
         <category>Kotlin</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
@@ -51,28 +69,15 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Vue</category>
+        <category>TypeScript</category>
         <category>Liquibase</category>
+        <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
         <category>tbls</category>
         <category>jOOQ</category>
-        <category>Vue</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Frontend</category>
-        <category>SVG</category>
-        <category>Comlink</category>
-        <category>Web-workers</category>
-        <category>io-ts</category>
-        <category>Routing</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
-        <category>Vagrant</category>
-        <category>Clojure</category>
-        <category>Hashicorp</category>
-        <category>MongoDB</category>
-        <category>VSCode</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
-        <category>ReasonML</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2012/08/15/a-websocket-powered-tic-tac-toe-game-using-ruby-eventmachine--part-1.html</guid>
             <title>A Websocket powered Tic tac toe game using Ruby EventMachine – Part 1</title>
@@ -80,7 +85,7 @@
             <category>Ruby</category>
             <category>EventMachine</category>
             <category>Websockets</category>
-            <pubDate>Wed, 15 Aug 2012 00:00:00 +0530</pubDate>
+            <pubDate>Wed, 15 Aug 2012 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;Lately I have been fiddling around a bit with websockets. Websocket support is now available in most of the modern browsers and Flash based shims are available for older browsers. Having bi-directional communication stream between server and the browser based client opens up a whole new world of opportunities for dynamic web applications.&lt;/p&gt;
 &lt;p&gt;Implementing a web-socket server in ruby is fairly easy given the plethora of libraries available. One such useful gem is em-websocket which is essentially an Event-Machine based asynchronous web-socket server.&lt;/p&gt;
 &lt;p&gt;In this post I present a small tutorial implementing a simple tic-tac-toe game. Though the game will be pretty barebones, I hope it will serve as a good introduction to web-socket api.&lt;/p&gt;

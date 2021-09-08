@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Sat, 07 Aug 2021 00:00:00 +0530</pubDate>
-        <lastBuildDate>Sat, 07 Aug 2021 00:00:00 +0530</lastBuildDate>
+        <pubDate>Sat, 07 Aug 2021 00:00:00 +0000</pubDate>
+        <lastBuildDate>Sat, 07 Aug 2021 00:00:00 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -16,33 +16,51 @@
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
-        <category>ActiveAdmin</category>
-        <category>InfluxDB</category>
-        <category>Grafana</category>
-        <category>Design Patterns</category>
-        <category>React</category>
-        <category>Functional Programming</category>
         <category>Emacs</category>
-        <category>Helm</category>
-        <category>ES6</category>
-        <category>SPF</category>
         <category>Gulp</category>
+        <category>ActiveAdmin</category>
         <category>ActiveRecord</category>
         <category>Devise</category>
         <category>Integration</category>
         <category>ZSH</category>
         <category>Productivity Hacks</category>
         <category>OCR</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>React</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Helm</category>
+        <category>SPF</category>
         <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>Typescript</category>
         <category>GraphQL</category>
-        <category>Lit-html</category>
-        <category>Stimulus</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
         <category>Kotlin</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
@@ -51,28 +69,15 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Vue</category>
+        <category>TypeScript</category>
         <category>Liquibase</category>
+        <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
         <category>tbls</category>
         <category>jOOQ</category>
-        <category>Vue</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Frontend</category>
-        <category>SVG</category>
-        <category>Comlink</category>
-        <category>Web-workers</category>
-        <category>io-ts</category>
-        <category>Routing</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
-        <category>Vagrant</category>
-        <category>Clojure</category>
-        <category>Hashicorp</category>
-        <category>MongoDB</category>
-        <category>VSCode</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
-        <category>ReasonML</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2021/08/08/Vue-composition-api-and-type-safe-graphql-access/</guid>
             <title>Vue composition API and type-safe GraphQL access</title>
@@ -80,7 +85,8 @@
             <category>Apollo</category>
             <category>GraphQL</category>
             <category>Vue</category>
-            <pubDate>Sat, 07 Aug 2021 00:00:00 +0530</pubDate>
+            <category>TypeScript</category>
+            <pubDate>Sat, 07 Aug 2021 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;h1 id=&#34;About-setup-script&#34;&gt;&lt;a href=&#34;#About-setup-script&#34; class=&#34;headerlink&#34; title=&#34;About setup script&#34;&gt;&lt;/a&gt;About setup script&lt;/h1&gt;&lt;p&gt;The &lt;a href=&#34;https://v3.vuejs.org/guide/composition-api-introduction.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;vue composition API&lt;/a&gt; is pretty cool, esp. with the recent addition of &lt;a href=&#34;https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;setup script support&lt;/a&gt; in &lt;a href=&#34;https://blog.vuejs.org/posts/vue-3.2.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Vue 3.2&lt;/a&gt; which drastically reduces unnecessary boilerplate when most of the logic is present in the setup function of the component. &lt;/p&gt;
 &lt;p&gt;From the announcement post: &lt;/p&gt;
 &lt;blockquote&gt;
@@ -247,7 +253,7 @@ div(v-else)
             <link>https://lorefnon.me/2021/03/19/Using-apollo-batch-link-selectively/</link>
             <category>Apollo</category>
             <category>GraphQL</category>
-            <pubDate>Fri, 19 Mar 2021 00:00:00 +0530</pubDate>
+            <pubDate>Fri, 19 Mar 2021 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;In a &lt;a href=&#34;/2021/03/18/Using-apollo-file-link-and-batch-link-simultaneously/&#34;&gt;previous post&lt;/a&gt; we have explored the concept of &lt;a href=&#34;https://www.apollographql.com/docs/react/api/link/introduction/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Links&lt;/a&gt; in Apollo and usage of &lt;code&gt;ApolloLink.split&lt;/code&gt; for routing requests selectively towards one of multiple terminating links.&lt;/p&gt;
 &lt;p&gt;This utility is also useful when we want to selectively batch our operations. &lt;/p&gt;
 &lt;p&gt;The caveat with &lt;a href=&#34;https://www.apollographql.com/docs/react/api/link/apollo-link-batch-http/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Apollo batch-link&lt;/a&gt; is that, the entire batch is delivered only once the slowest operation in the batch completes.&lt;/p&gt;
@@ -292,7 +298,7 @@ operationBatchingBlacklist.add(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot
             <link>https://lorefnon.me/2021/03/18/Using-apollo-file-link-and-batch-link-simultaneously/</link>
             <category>Apollo</category>
             <category>GraphQL</category>
-            <pubDate>Thu, 18 Mar 2021 00:00:00 +0530</pubDate>
+            <pubDate>Thu, 18 Mar 2021 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;Apollo GraphQL client offers generic extensibility of the client-server interaction through a &amp;quot;Link&amp;quot; API. &lt;/p&gt;
 &lt;p&gt;From the &lt;a href=&#34;https://www.apollographql.com/docs/react/api/link/introduction/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;official docs&lt;/a&gt;, the high level idea is: &lt;/p&gt;
 &lt;blockquote&gt;
@@ -350,7 +356,7 @@ operationBatchingBlacklist.add(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot
             <category>Apollo</category>
             <category>GraphQL</category>
             <category>MongoDB</category>
-            <pubDate>Mon, 20 Aug 2018 05:30:00 +0530</pubDate>
+            <pubDate>Mon, 20 Aug 2018 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; href=&#34;/css/crayon.min.css&#34; &gt;
 &lt;link rel=&#34;stylesheet&#34; href=&#34;/css/crayon-flatui-light.css&#34; &gt;
 
@@ -469,7 +475,7 @@ operationBatchingBlacklist.add(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot
             <category>Next.js</category>
             <category>Koa</category>
             <category>Apollo</category>
-            <pubDate>Sat, 18 Aug 2018 05:30:00 +0530</pubDate>
+            <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; href=&#34;/css/crayon.min.css&#34; &gt;
 &lt;link rel=&#34;stylesheet&#34; href=&#34;/css/crayon-flatui-light.css&#34; &gt;
 

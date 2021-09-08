@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Fri, 27 Nov 2020 00:00:00 +0530</pubDate>
-        <lastBuildDate>Fri, 27 Nov 2020 00:00:00 +0530</lastBuildDate>
+        <pubDate>Fri, 27 Nov 2020 00:00:00 +0000</pubDate>
+        <lastBuildDate>Fri, 27 Nov 2020 00:00:00 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -16,33 +16,51 @@
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
-        <category>ActiveAdmin</category>
-        <category>InfluxDB</category>
-        <category>Grafana</category>
-        <category>Design Patterns</category>
-        <category>React</category>
-        <category>Functional Programming</category>
         <category>Emacs</category>
-        <category>Helm</category>
-        <category>ES6</category>
-        <category>SPF</category>
         <category>Gulp</category>
+        <category>ActiveAdmin</category>
         <category>ActiveRecord</category>
         <category>Devise</category>
         <category>Integration</category>
         <category>ZSH</category>
         <category>Productivity Hacks</category>
         <category>OCR</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>React</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Helm</category>
+        <category>SPF</category>
         <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>Typescript</category>
         <category>GraphQL</category>
-        <category>Lit-html</category>
-        <category>Stimulus</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
         <category>Kotlin</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
@@ -51,35 +69,22 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Vue</category>
+        <category>TypeScript</category>
         <category>Liquibase</category>
+        <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
         <category>tbls</category>
         <category>jOOQ</category>
-        <category>Vue</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Frontend</category>
-        <category>SVG</category>
-        <category>Comlink</category>
-        <category>Web-workers</category>
-        <category>io-ts</category>
-        <category>Routing</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
-        <category>Vagrant</category>
-        <category>Clojure</category>
-        <category>Hashicorp</category>
-        <category>MongoDB</category>
-        <category>VSCode</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
-        <category>ReasonML</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2020/11/27/exploring-har-http-archive-logs-with-jq/</guid>
             <title>Exporing HAR (HTTP Archive) logs with Jq</title>
             <link>https://lorefnon.me/2020/11/27/exploring-har-http-archive-logs-with-jq/</link>
             <category>HAR</category>
             <category>Jq</category>
-            <pubDate>Fri, 27 Nov 2020 00:00:00 +0530</pubDate>
+            <pubDate>Fri, 27 Nov 2020 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;&lt;a href=&#34;https://stedolan.github.io/jq/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Jq&lt;/a&gt; is a versatile utility for quickly exploring/filtering/transforming JSON on the command line. It is similar to grep/sed/awk utilities in that it is standalone, portable and composable. If you are not familiar with basics of jq yet, I recommend skimming through the well written &lt;a href=&#34;https://stedolan.github.io/jq/manual&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;official manual&lt;/a&gt;. &lt;/p&gt;
 &lt;p&gt;The HTTP Archive format, or HAR, is a JSON-formatted archive file format for logging of a web browser&amp;#39;s interaction with a site (Source: &lt;a href=&#34;https://en.wikipedia.org/wiki/HAR_(file_format)&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Wikipedia&lt;/a&gt;. Both Chrome and Firefox provide a &lt;a href=&#34;https://knowledge.vidyard.com/hc/en-us/articles/360009996213-Download-a-HAR-file-from-your-browser&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;convenient option&lt;/a&gt; to download information about all the http requests when visiting a particular site as a HAR file which makes it a very useful format in practice. &lt;/p&gt;
 &lt;p&gt;One simple way to analyze HAR files is to import them back into dev-tools and explore them manually. But for many common scenarios it is more efficient to analyze these files through CLI using a tool like jq to zero into the exact information we need.&lt;/p&gt;

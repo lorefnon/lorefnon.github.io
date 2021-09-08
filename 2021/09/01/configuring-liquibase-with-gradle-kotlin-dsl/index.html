@@ -1,0 +1,43 @@
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta property="og:title" content="Gaurab Paul | Blog"><meta property="og:description" content="Ramblings on Web Development and software architecture"><meta name="generator" content="Hexo 5.3.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2021-09-01">Posted &nbsp;7 days ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Kotlin/"><img src="/images/tag.svg">Kotlin</a></li><li class="body-text"><a class="tag-link" href="/tags/Liquibase/"><img src="/images/tag.svg">Liquibase</a></li><li class="body-text"><a class="tag-link" href="/tags/Gradle/"><img src="/images/tag.svg">Gradle</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Configuring Liquibase through Gradle Kotlin DSL</div></div><div class="blog-main"><div class="page-content"><p>This post is a minimal recipe for configuring Liquibase runner through the Gradle kotlin DSL. This is mostly ported from the offical examples <a href="https://github.com/liquibase/liquibase-gradle-plugin#usage" target="_blank" rel="noopener external nofollow noreferrer">here</a> written using the Gradle&#39;s Groovy DSL: </p>
+<p>We can specify our database properties in gradle.properties:</p>
+<pre><code class="hljs plain">db_url&#x3D;jdbc:mysql:&#x2F;&#x2F;172.17.0.2:3306&#x2F;oms_dev
+db_user&#x3D;root
+db_password&#x3D;rootroot</code></pre>
+<p>And use them in our build.gradle.kts:</p>
+<pre><code class="hljs kotlin">version = <span class="hljs-string">&quot;1.0-SNAPSHOT&quot;</span>
+
+repositories &#123;
+    mavenCentral()
+    jcenter()
+&#125;
+
+plugins &#123;
+    kotlin(<span class="hljs-string">&quot;jvm&quot;</span>) version <span class="hljs-string">&quot;1.5.21&quot;</span>
+    id(<span class="hljs-string">&quot;org.liquibase.gradle&quot;</span>) version <span class="hljs-string">&quot;2.0.3&quot;</span>
+&#125;
+
+<span class="hljs-comment">// Liquibase plugin configuration</span>
+liquibase &#123;
+    activities.register(<span class="hljs-string">&quot;main&quot;</span>) &#123;
+        <span class="hljs-keyword">val</span> db_url <span class="hljs-keyword">by</span> project.extra.properties
+        <span class="hljs-keyword">val</span> db_user <span class="hljs-keyword">by</span> project.extra.properties
+        <span class="hljs-keyword">val</span> db_password <span class="hljs-keyword">by</span> project.extra.properties
+
+        <span class="hljs-keyword">this</span>.arguments = mapOf(
+            <span class="hljs-string">&quot;logLevel&quot;</span> to <span class="hljs-string">&quot;info&quot;</span>,
+            <span class="hljs-string">&quot;changeLogFile&quot;</span> to <span class="hljs-string">&quot;src/main/resources/db/changelog.yml&quot;</span>,
+            <span class="hljs-string">&quot;url&quot;</span> to db_url,
+            <span class="hljs-string">&quot;username&quot;</span> to db_user,
+            <span class="hljs-string">&quot;password&quot;</span> to db_password,
+            <span class="hljs-string">&quot;driver&quot;</span> to <span class="hljs-string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>
+        )
+    &#125;
+    runList = <span class="hljs-string">&quot;main&quot;</span>
+&#125;
+
+dependencies &#123;
+    <span class="hljs-comment">// Include database drivers to be used by liquibase</span>
+    liquibaseRuntime(<span class="hljs-string">&quot;mysql:mysql-connector-java:8.0.26&quot;</span>)
+    liquibaseRuntime(<span class="hljs-string">&quot;org.liquibase:liquibase-core:4.4.3&quot;</span>)
+    liquibaseRuntime(<span class="hljs-string">&quot;org.yaml:snakeyaml:1.29&quot;</span>)
+&#125;</code></pre></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>

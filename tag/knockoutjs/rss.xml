@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Mon, 24 Aug 2015 00:00:00 +0530</pubDate>
-        <lastBuildDate>Mon, 24 Aug 2015 00:00:00 +0530</lastBuildDate>
+        <pubDate>Mon, 24 Aug 2015 00:00:00 +0000</pubDate>
+        <lastBuildDate>Mon, 24 Aug 2015 00:00:00 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -16,33 +16,51 @@
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
-        <category>ActiveAdmin</category>
-        <category>InfluxDB</category>
-        <category>Grafana</category>
-        <category>Design Patterns</category>
-        <category>React</category>
-        <category>Functional Programming</category>
         <category>Emacs</category>
-        <category>Helm</category>
-        <category>ES6</category>
-        <category>SPF</category>
         <category>Gulp</category>
+        <category>ActiveAdmin</category>
         <category>ActiveRecord</category>
         <category>Devise</category>
         <category>Integration</category>
         <category>ZSH</category>
         <category>Productivity Hacks</category>
         <category>OCR</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>React</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Helm</category>
+        <category>SPF</category>
         <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>Typescript</category>
         <category>GraphQL</category>
-        <category>Lit-html</category>
-        <category>Stimulus</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
         <category>Kotlin</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
@@ -51,35 +69,22 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Vue</category>
+        <category>TypeScript</category>
         <category>Liquibase</category>
+        <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
         <category>tbls</category>
         <category>jOOQ</category>
-        <category>Vue</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Frontend</category>
-        <category>SVG</category>
-        <category>Comlink</category>
-        <category>Web-workers</category>
-        <category>io-ts</category>
-        <category>Routing</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
-        <category>Vagrant</category>
-        <category>Clojure</category>
-        <category>Hashicorp</category>
-        <category>MongoDB</category>
-        <category>VSCode</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
-        <category>ReasonML</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/08/24/smarter-knockout-applications-with-es-next.html</guid>
             <title>Smarter knockout applications with ES6/7</title>
             <link>https://lorefnon.me/2015/08/24/smarter-knockout-applications-with-es-next.html</link>
             <category>Javascript</category>
             <category>KnockoutJS</category>
-            <pubDate>Mon, 24 Aug 2015 00:00:00 +0530</pubDate>
+            <pubDate>Mon, 24 Aug 2015 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;h1 id=&#34;Overview&#34;&gt;&lt;a href=&#34;#Overview&#34; class=&#34;headerlink&#34; title=&#34;Overview&#34;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;This post is an outline of ES6/7 features that we can leverage today in our &lt;a href=&#34;http://knockoutjs.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Knockout&lt;/a&gt; based applications to make them more maintainable.&lt;/p&gt;
 &lt;p&gt;Thanks to powerful and reliable transpilers like &lt;a href=&#34;http://babeljs.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Babel&lt;/a&gt; we don&amp;#39;t have to wait for mass adoption across browser vendors, to try out features from next generation javascript. While this post is essentially an overview written in a specific context, ie. Knockout applications, I encourage readers to refer to excellent online resources like &lt;a href=&#34;https://leanpub.com/javascriptallongesix&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Javascript Allonge&lt;/a&gt; for a broader coverage.&lt;/p&gt;
 &lt;h2 id=&#34;View-Models-as-ES-6-classes&#34;&gt;&lt;a href=&#34;#View-Models-as-ES-6-classes&#34; class=&#34;headerlink&#34; title=&#34;View Models as ES 6 classes:&#34;&gt;&lt;/a&gt;View Models as ES 6 classes:&lt;/h2&gt;&lt;p&gt;View models are typically defined as javascript constructor functions. ES6 classes offer a bit of syntax sugar over prototypal inheritance and the outcome might appeal to people coming other object oriented languages.&lt;/p&gt;
@@ -185,7 +190,7 @@ class MyAppViewModel &amp;#123;
             <link>https://lorefnon.me/2012/08/12/effectively-debugging-knockoutjs-applications.html</link>
             <category>Javascript</category>
             <category>KnockoutJS</category>
-            <pubDate>Sun, 12 Aug 2012 00:00:00 +0530</pubDate>
+            <pubDate>Sun, 12 Aug 2012 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;This post aims to provide some explanation about the lifecycle of dynamic data-bindings in KnockoutJS to  ease debugging of KO applications .&lt;/p&gt;
 &lt;p&gt;A developer can remain perfectly oblivious of all that is going on under the hood and let the magic of declarative bindings do all the heavy-lifting of data-synchronization and it all works fine untill something unexpected happens. What now ? While most of the bugs in code can be directly resolved by inspecting the data-bind attributes manually, but if the complexity of application grows beyond a level an understanding of what goes on under the sheets becomes necessary.&lt;/p&gt;
 &lt;p&gt;While UI does appear to be getting magically updated when the models change, in reality the code underneath is all plain javascript. So what happens when something doesn’t turn out to be as expected ? Where do we start debugging from ?&lt;/p&gt;
@@ -259,7 +264,7 @@ class MyAppViewModel &amp;#123;
             <link>https://lorefnon.me/2012/08/11/debunking-10-common-knockoutjs-myths.html</link>
             <category>Javascript</category>
             <category>KnockoutJS</category>
-            <pubDate>Sat, 11 Aug 2012 00:00:00 +0530</pubDate>
+            <pubDate>Sat, 11 Aug 2012 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;It seems that among the developer community, there exist multiple misconceptions regarding KnockoutJS. This is particularly true for developers who are not familiar with the MVVM pattern or declarative style followed by Knockout. This posts aims to clarify some of these misconceptions.&lt;/p&gt;
 &lt;p&gt;I was particularly motivated to write this post after &lt;a href=&#34;http://stackoverflow.com/questions/5112899/knockout-js-vs-backbone-js-vs/6340870#6340870&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;this discussion&lt;/a&gt; at Stackoverflow.&lt;/p&gt;
 &lt;h1 id=&#34;KnockoutJS-is-tied-to-specific-server-side-back-ends&#34;&gt;&lt;a href=&#34;#KnockoutJS-is-tied-to-specific-server-side-back-ends&#34; class=&#34;headerlink&#34; title=&#34;KnockoutJS is tied to specific server side back-ends.&#34;&gt;&lt;/a&gt;KnockoutJS is tied to specific server side back-ends.&lt;/h1&gt;&lt;p&gt;This mainly stems from the similarities of the declarative binding style used in KO with the WPF declarative bindings. Since I do not work with Microsoft technologies, I can not really assert if the WPF declarative binding style was indeed an inspiration behind KO, however I would like to highlight that KO is strictly a client side library and an ASP.net backend (or any specific server side backend for that matter) is not mandatory. In fact KO will work happily with no server-side code at all. I strongly recommend people to checkout the basic examples presented in the site using jsfiddle and convince yourself that this is indeed the case.&lt;/p&gt;

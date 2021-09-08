@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Sat, 09 Jun 2018 05:30:00 +0530</pubDate>
-        <lastBuildDate>Sat, 09 Jun 2018 05:30:00 +0530</lastBuildDate>
+        <pubDate>Sat, 09 Jun 2018 00:00:00 +0000</pubDate>
+        <lastBuildDate>Sat, 09 Jun 2018 00:00:00 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -16,33 +16,51 @@
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
-        <category>ActiveAdmin</category>
-        <category>InfluxDB</category>
-        <category>Grafana</category>
-        <category>Design Patterns</category>
-        <category>React</category>
-        <category>Functional Programming</category>
         <category>Emacs</category>
-        <category>Helm</category>
-        <category>ES6</category>
-        <category>SPF</category>
         <category>Gulp</category>
+        <category>ActiveAdmin</category>
         <category>ActiveRecord</category>
         <category>Devise</category>
         <category>Integration</category>
         <category>ZSH</category>
         <category>Productivity Hacks</category>
         <category>OCR</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>React</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Helm</category>
+        <category>SPF</category>
         <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>Typescript</category>
         <category>GraphQL</category>
-        <category>Lit-html</category>
-        <category>Stimulus</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
         <category>Kotlin</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
@@ -51,35 +69,22 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Vue</category>
+        <category>TypeScript</category>
         <category>Liquibase</category>
+        <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
         <category>tbls</category>
         <category>jOOQ</category>
-        <category>Vue</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Frontend</category>
-        <category>SVG</category>
-        <category>Comlink</category>
-        <category>Web-workers</category>
-        <category>io-ts</category>
-        <category>Routing</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
-        <category>Vagrant</category>
-        <category>Clojure</category>
-        <category>Hashicorp</category>
-        <category>MongoDB</category>
-        <category>VSCode</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
-        <category>ReasonML</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/06/09/javascript-async-await-with-arbitrary-thenables/</guid>
             <title>Javascript Async/Await with arbitrary Thenables</title>
             <link>https://lorefnon.me/2018/06/09/javascript-async-await-with-arbitrary-thenables/</link>
             <category>Javascript</category>
             <category>Frontend</category>
-            <pubDate>Sat, 09 Jun 2018 05:30:00 +0530</pubDate>
+            <pubDate>Sat, 09 Jun 2018 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; href=&#34;/css/crayon.min.css&#34; &gt;
 &lt;link rel=&#34;stylesheet&#34; href=&#34;/css/crayon-flatui-light.css&#34; &gt;
 
@@ -374,10 +379,10 @@
             <title>Redux-loop: A better solution for managing asynchronous operations in redux</title>
             <link>https://lorefnon.me/2018/02/04/redux-loop-a-better-solution-for-managing-asynchronous-operations-in-redux/</link>
             <category>Javascript</category>
-            <category>Frontend</category>
             <category>Redux</category>
             <category>Redux-loop</category>
-            <pubDate>Sun, 04 Feb 2018 05:30:00 +0530</pubDate>
+            <category>Frontend</category>
+            <pubDate>Sun, 04 Feb 2018 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; href=&#34;/css/crayon.min.css&#34; &gt;
 &lt;link rel=&#34;stylesheet&#34; href=&#34;/css/crayon-flatui-light.css&#34; &gt;
 
@@ -496,7 +501,7 @@
             <link>https://lorefnon.me/2016/04/04/embracing-bem-methodology-in-react-applications.html</link>
             <category>Javascript</category>
             <category>CSS</category>
-            <pubDate>Mon, 04 Apr 2016 00:00:00 +0530</pubDate>
+            <pubDate>Mon, 04 Apr 2016 00:00:00 +0000</pubDate>
             <description><![CDATA[ 
 &lt;a class=&#34;header-link&#34; href=&#34;#react-and-modular-css&#34;&gt;&lt;h2 id=&#34;react-and-modular-css&#34;&gt;React and modular CSS&lt;/h2&gt;&lt;/a&gt;
 
@@ -606,7 +611,7 @@ const className = bem.bind(null, &#39;Home&#39;)
             <category>Javascript</category>
             <category>Rails</category>
             <category>SPF</category>
-            <pubDate>Thu, 26 Nov 2015 00:00:00 +0530</pubDate>
+            <pubDate>Thu, 26 Nov 2015 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;h2 id=&#34;The-context&#34;&gt;&lt;a href=&#34;#The-context&#34; class=&#34;headerlink&#34; title=&#34;The context&#34;&gt;&lt;/a&gt;The context&lt;/h2&gt;&lt;p&gt;SPF.js a lightweight javascript library to incorporate dynamic page updates that dramatically reduces perceived page latency. Quoting from the Repo Homepage:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Using progressive enhancement and HTML5, SPF integrates with your site to enable a faster, more fluid user experience by updating just the sections of the page that change during navigation, not the whole page. SPF provides a response format for sending document fragments, a robust system for script and style management, an in-memory cache, on-the-fly processing, and more.&lt;/p&gt;
@@ -895,7 +900,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
             <link>https://lorefnon.me/2015/11/22/an-answer-to-react-is-the-new-java.html</link>
             <category>Javascript</category>
             <category>React</category>
-            <pubDate>Sun, 22 Nov 2015 00:00:00 +0530</pubDate>
+            <pubDate>Sun, 22 Nov 2015 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;This post is essentially my attempt to answer some of the concerns presented in this &lt;a href=&#34;https://news.ycombinator.com/item?id=10609159&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;opinion&lt;/a&gt; posted in HN. The author has likened the success of React with the success of Java, exemplifying how time again, what (s)he identifies as worse technology, has been pushed to a higher popularity rather than more competent alternatives available.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;I have been learning new technologies pretty much continuously. It&amp;#39;s not impossible, especially if you follow sites like Hacker News, to keep a finger on the direction of the industry, and then try to stay on top of the next new hot technology of the year.&lt;/p&gt;
@@ -963,7 +968,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
             <category>Javascript</category>
             <category>Rails</category>
             <category>ES6</category>
-            <pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
+            <pubDate>Sun, 15 Nov 2015 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;While ES6 adoption is progressively improving across browsers, and the sprockets team is planning to integrate ES6 features into Rails asset pipeline in near future, using a widely popular transpiler: &lt;a href=&#34;https://babeljs.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Babel&lt;/a&gt; we can leverage many of those features right away. The specific aspect of interest for this post is ES6 modules feature which provides a standardized module system for javascript.&lt;/p&gt;
 &lt;p&gt;While babel does have a solution for ES6 modules, rather than handling dependency resolution itself - it transpiles the modules to existing javascript based module systems - the most popular ones being &lt;a href=&#34;https://github.com/amdjs&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;AMD&lt;/a&gt; and &lt;a href=&#34;https://commonjs.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;CommonJS&lt;/a&gt;. This post does not go into a compartive analysis of them, but there is an excellent &lt;a href=&#34;addyosmani.com/writing-modular-js/&#34;&gt;article&lt;/a&gt; by &lt;a href=&#34;https://twitter.com/addyosmani&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Addy Osmani&lt;/a&gt; which provides an in-depth elaboration on the topic.&lt;/p&gt;
 &lt;p&gt;The solution &lt;a href=&#34;https://babeljs.io/docs/setup/#rails&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;recommended&lt;/a&gt; by the Babel team for using babel with rails, is through an experimental &lt;a href=&#34;https://github.com/TannerRogalsky/sprockets-es6&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;sprockets-es6&lt;/a&gt; gem, which is intended to be a PoC for future work to be integrated into Sprockets. Quoting from the README:&lt;/p&gt;
@@ -1025,7 +1030,7 @@ hello()&lt;/code&gt;&lt;/pre&gt;
             <category>Javascript</category>
             <category>React</category>
             <category>Functional Programming</category>
-            <pubDate>Mon, 21 Sep 2015 00:00:00 +0530</pubDate>
+            <pubDate>Mon, 21 Sep 2015 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;h1 id=&#34;Overview&#34;&gt;&lt;a href=&#34;#Overview&#34; class=&#34;headerlink&#34; title=&#34;Overview&#34;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;&lt;a href=&#34;http://livescript.net/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Livescript&lt;/a&gt; is a programming language that compiles to readable javascript (similar to coffeescript) and provides language level facilities to &lt;a href=&#34;http://livescript.net/#inspiration&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;encourage&lt;/a&gt; functional programming. &lt;a href=&#34;https://facebook.github.io/react/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;React.js&lt;/a&gt; is a user interface library from &lt;a href=&#34;https://facebook.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;facebook&lt;/a&gt; that uses &lt;a href=&#34;http://calendar.perfplanet.com/2013/diff/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;intelligent heuristics&lt;/a&gt; for efficient DOM updates, simplifying the process of building data driven applications. This post outlines how the two can play well together, and tries to demostrate how livescript allows us write much more compact and succinct code. Basic familiarity with both of them is assumed.&lt;/p&gt;
 &lt;p&gt;To begin with let us see what a basic component looks like:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs html&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;
@@ -1240,7 +1245,7 @@ React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;
             <link>https://lorefnon.me/2015/08/24/smarter-knockout-applications-with-es-next.html</link>
             <category>Javascript</category>
             <category>KnockoutJS</category>
-            <pubDate>Mon, 24 Aug 2015 00:00:00 +0530</pubDate>
+            <pubDate>Mon, 24 Aug 2015 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;h1 id=&#34;Overview&#34;&gt;&lt;a href=&#34;#Overview&#34; class=&#34;headerlink&#34; title=&#34;Overview&#34;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;This post is an outline of ES6/7 features that we can leverage today in our &lt;a href=&#34;http://knockoutjs.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Knockout&lt;/a&gt; based applications to make them more maintainable.&lt;/p&gt;
 &lt;p&gt;Thanks to powerful and reliable transpilers like &lt;a href=&#34;http://babeljs.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Babel&lt;/a&gt; we don&amp;#39;t have to wait for mass adoption across browser vendors, to try out features from next generation javascript. While this post is essentially an overview written in a specific context, ie. Knockout applications, I encourage readers to refer to excellent online resources like &lt;a href=&#34;https://leanpub.com/javascriptallongesix&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Javascript Allonge&lt;/a&gt; for a broader coverage.&lt;/p&gt;
 &lt;h2 id=&#34;View-Models-as-ES-6-classes&#34;&gt;&lt;a href=&#34;#View-Models-as-ES-6-classes&#34; class=&#34;headerlink&#34; title=&#34;View Models as ES 6 classes:&#34;&gt;&lt;/a&gt;View Models as ES 6 classes:&lt;/h2&gt;&lt;p&gt;View models are typically defined as javascript constructor functions. ES6 classes offer a bit of syntax sugar over prototypal inheritance and the outcome might appeal to people coming other object oriented languages.&lt;/p&gt;
@@ -1346,7 +1351,7 @@ class MyAppViewModel &amp;#123;
             <link>https://lorefnon.me/2014/03/10/decoupling-frontend-with-gulp-and-node-http-proxy.html</link>
             <category>Javascript</category>
             <category>Gulp</category>
-            <pubDate>Mon, 10 Mar 2014 00:00:00 +0530</pubDate>
+            <pubDate>Mon, 10 Mar 2014 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;In past developers have often relied on backend-specific toolchains for
 web application frontends. Some examples would be &lt;a href=&#34;http://edgeguides.rubyonrails.org/asset_pipeline.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Rails asset pipeline&lt;/a&gt; or
 the legacy ant based toolchain for YUI. However recently node.js based tooling support
@@ -1537,7 +1542,7 @@ welcome.&lt;/p&gt;
             <category>Javascript</category>
             <category>Jade</category>
             <category>Node.js</category>
-            <pubDate>Wed, 12 Dec 2012 00:00:00 +0530</pubDate>
+            <pubDate>Wed, 12 Dec 2012 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;Although there are several templating options available for the client eg. &lt;a href=&#34;http://handlebarsjs.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Handlebars&lt;/a&gt;, &lt;a href=&#34;http://mustache.github.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Mustache&lt;/a&gt;, &lt;a href=&#34;http://beebole.com/pure/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Pure&lt;/a&gt; etc. nevertheless, &lt;a href=&#34;http://jade-lang.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Jade&lt;/a&gt; is attractive in its own right.  Its succinct syntax is cleaner even than &lt;a href=&#34;http://haml.info/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Haml&lt;/a&gt;, which is arguably the predecessor and inspiration-source of all the minimalist whitespace sensitive templating systems. Using Node.js on the server offers an interesting opportunity to reuse the same servers on the server as well as client. This has been made particulary easy by the &lt;a href=&#34;https://github.com/search?q=jade&amp;ref=commandbar&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;numerous community contributions&lt;/a&gt; by Jade enthusiasts which I will attempt to highlight in this post.&lt;/p&gt;
 &lt;p&gt;When using Jade on the client the most naive approach would be  fetching our typical .jade file via ajax and then parsing the file and then  manipulating the structure and  interpolating the various variables. However,  we can pre-process the jade file beforehand thereby eliminating the heavyweight parsing step in the client. The end result of the pre-processing is a function which takes in the variables needed to render the template and then outputs the resultant HTML string which can be injected into the DOM.&lt;/p&gt;
 &lt;p&gt;Preprocessing also takes care of &lt;a href=&#34;https://github.com/visionmedia/jade#template-inheritance&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;template-inheritance&lt;/a&gt; and &lt;a href=&#34;https://github.com/visionmedia/jade#includes&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;template-inclusion&lt;/a&gt; seamlessly which are difficult to implement in pure clienside parsing without an added layer of complexity and overhead of multiple ajax calls.&lt;/p&gt;
@@ -1575,7 +1580,7 @@ welcome.&lt;/p&gt;
             <link>https://lorefnon.me/2012/08/12/effectively-debugging-knockoutjs-applications.html</link>
             <category>Javascript</category>
             <category>KnockoutJS</category>
-            <pubDate>Sun, 12 Aug 2012 00:00:00 +0530</pubDate>
+            <pubDate>Sun, 12 Aug 2012 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;This post aims to provide some explanation about the lifecycle of dynamic data-bindings in KnockoutJS to  ease debugging of KO applications .&lt;/p&gt;
 &lt;p&gt;A developer can remain perfectly oblivious of all that is going on under the hood and let the magic of declarative bindings do all the heavy-lifting of data-synchronization and it all works fine untill something unexpected happens. What now ? While most of the bugs in code can be directly resolved by inspecting the data-bind attributes manually, but if the complexity of application grows beyond a level an understanding of what goes on under the sheets becomes necessary.&lt;/p&gt;
 &lt;p&gt;While UI does appear to be getting magically updated when the models change, in reality the code underneath is all plain javascript. So what happens when something doesn’t turn out to be as expected ? Where do we start debugging from ?&lt;/p&gt;
@@ -1649,7 +1654,7 @@ welcome.&lt;/p&gt;
             <link>https://lorefnon.me/2012/08/11/debunking-10-common-knockoutjs-myths.html</link>
             <category>Javascript</category>
             <category>KnockoutJS</category>
-            <pubDate>Sat, 11 Aug 2012 00:00:00 +0530</pubDate>
+            <pubDate>Sat, 11 Aug 2012 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;It seems that among the developer community, there exist multiple misconceptions regarding KnockoutJS. This is particularly true for developers who are not familiar with the MVVM pattern or declarative style followed by Knockout. This posts aims to clarify some of these misconceptions.&lt;/p&gt;
 &lt;p&gt;I was particularly motivated to write this post after &lt;a href=&#34;http://stackoverflow.com/questions/5112899/knockout-js-vs-backbone-js-vs/6340870#6340870&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;this discussion&lt;/a&gt; at Stackoverflow.&lt;/p&gt;
 &lt;h1 id=&#34;KnockoutJS-is-tied-to-specific-server-side-back-ends&#34;&gt;&lt;a href=&#34;#KnockoutJS-is-tied-to-specific-server-side-back-ends&#34; class=&#34;headerlink&#34; title=&#34;KnockoutJS is tied to specific server side back-ends.&#34;&gt;&lt;/a&gt;KnockoutJS is tied to specific server side back-ends.&lt;/h1&gt;&lt;p&gt;This mainly stems from the similarities of the declarative binding style used in KO with the WPF declarative bindings. Since I do not work with Microsoft technologies, I can not really assert if the WPF declarative binding style was indeed an inspiration behind KO, however I would like to highlight that KO is strictly a client side library and an ASP.net backend (or any specific server side backend for that matter) is not mandatory. In fact KO will work happily with no server-side code at all. I strongly recommend people to checkout the basic examples presented in the site using jsfiddle and convince yourself that this is indeed the case.&lt;/p&gt;

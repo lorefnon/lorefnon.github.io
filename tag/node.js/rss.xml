@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Wed, 12 Dec 2012 00:00:00 +0530</pubDate>
-        <lastBuildDate>Wed, 12 Dec 2012 00:00:00 +0530</lastBuildDate>
+        <pubDate>Wed, 12 Dec 2012 00:00:00 +0000</pubDate>
+        <lastBuildDate>Wed, 12 Dec 2012 00:00:00 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -16,33 +16,51 @@
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
-        <category>ActiveAdmin</category>
-        <category>InfluxDB</category>
-        <category>Grafana</category>
-        <category>Design Patterns</category>
-        <category>React</category>
-        <category>Functional Programming</category>
         <category>Emacs</category>
-        <category>Helm</category>
-        <category>ES6</category>
-        <category>SPF</category>
         <category>Gulp</category>
+        <category>ActiveAdmin</category>
         <category>ActiveRecord</category>
         <category>Devise</category>
         <category>Integration</category>
         <category>ZSH</category>
         <category>Productivity Hacks</category>
         <category>OCR</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>React</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Helm</category>
+        <category>SPF</category>
         <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>Typescript</category>
         <category>GraphQL</category>
-        <category>Lit-html</category>
-        <category>Stimulus</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
         <category>Kotlin</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
@@ -51,28 +69,15 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Vue</category>
+        <category>TypeScript</category>
         <category>Liquibase</category>
+        <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
         <category>tbls</category>
         <category>jOOQ</category>
-        <category>Vue</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Frontend</category>
-        <category>SVG</category>
-        <category>Comlink</category>
-        <category>Web-workers</category>
-        <category>io-ts</category>
-        <category>Routing</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
-        <category>Vagrant</category>
-        <category>Clojure</category>
-        <category>Hashicorp</category>
-        <category>MongoDB</category>
-        <category>VSCode</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
-        <category>ReasonML</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2012/12/12/sharing-jade-templates-between-nodejs-server-and-client.html</guid>
             <title>Sharing Jade templates between Node.js server and client</title>
@@ -80,7 +85,7 @@
             <category>Javascript</category>
             <category>Jade</category>
             <category>Node.js</category>
-            <pubDate>Wed, 12 Dec 2012 00:00:00 +0530</pubDate>
+            <pubDate>Wed, 12 Dec 2012 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;Although there are several templating options available for the client eg. &lt;a href=&#34;http://handlebarsjs.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Handlebars&lt;/a&gt;, &lt;a href=&#34;http://mustache.github.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Mustache&lt;/a&gt;, &lt;a href=&#34;http://beebole.com/pure/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Pure&lt;/a&gt; etc. nevertheless, &lt;a href=&#34;http://jade-lang.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Jade&lt;/a&gt; is attractive in its own right.  Its succinct syntax is cleaner even than &lt;a href=&#34;http://haml.info/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Haml&lt;/a&gt;, which is arguably the predecessor and inspiration-source of all the minimalist whitespace sensitive templating systems. Using Node.js on the server offers an interesting opportunity to reuse the same servers on the server as well as client. This has been made particulary easy by the &lt;a href=&#34;https://github.com/search?q=jade&amp;ref=commandbar&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;numerous community contributions&lt;/a&gt; by Jade enthusiasts which I will attempt to highlight in this post.&lt;/p&gt;
 &lt;p&gt;When using Jade on the client the most naive approach would be  fetching our typical .jade file via ajax and then parsing the file and then  manipulating the structure and  interpolating the various variables. However,  we can pre-process the jade file beforehand thereby eliminating the heavyweight parsing step in the client. The end result of the pre-processing is a function which takes in the variables needed to render the template and then outputs the resultant HTML string which can be injected into the DOM.&lt;/p&gt;
 &lt;p&gt;Preprocessing also takes care of &lt;a href=&#34;https://github.com/visionmedia/jade#template-inheritance&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;template-inheritance&lt;/a&gt; and &lt;a href=&#34;https://github.com/visionmedia/jade#includes&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;template-inclusion&lt;/a&gt; seamlessly which are difficult to implement in pure clienside parsing without an added layer of complexity and overhead of multiple ajax calls.&lt;/p&gt;

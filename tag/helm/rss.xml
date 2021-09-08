@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Sun, 28 Jan 2018 05:30:00 +0530</pubDate>
-        <lastBuildDate>Sun, 28 Jan 2018 05:30:00 +0530</lastBuildDate>
+        <pubDate>Sun, 28 Jan 2018 00:00:00 +0000</pubDate>
+        <lastBuildDate>Sun, 28 Jan 2018 00:00:00 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -16,33 +16,51 @@
         <category>Jade</category>
         <category>Node.js</category>
         <category>Rails</category>
-        <category>ActiveAdmin</category>
-        <category>InfluxDB</category>
-        <category>Grafana</category>
-        <category>Design Patterns</category>
-        <category>React</category>
-        <category>Functional Programming</category>
         <category>Emacs</category>
-        <category>Helm</category>
-        <category>ES6</category>
-        <category>SPF</category>
         <category>Gulp</category>
+        <category>ActiveAdmin</category>
         <category>ActiveRecord</category>
         <category>Devise</category>
         <category>Integration</category>
         <category>ZSH</category>
         <category>Productivity Hacks</category>
         <category>OCR</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>React</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Helm</category>
+        <category>SPF</category>
         <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
-        <category>Typescript</category>
         <category>GraphQL</category>
-        <category>Lit-html</category>
-        <category>Stimulus</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
         <category>Kotlin</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
@@ -51,35 +69,22 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Vue</category>
+        <category>TypeScript</category>
         <category>Liquibase</category>
+        <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
         <category>tbls</category>
         <category>jOOQ</category>
-        <category>Vue</category>
-        <category>Automerge</category>
-        <category>CRDT</category>
-        <category>Frontend</category>
-        <category>SVG</category>
-        <category>Comlink</category>
-        <category>Web-workers</category>
-        <category>io-ts</category>
-        <category>Routing</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
-        <category>Vagrant</category>
-        <category>Clojure</category>
-        <category>Hashicorp</category>
-        <category>MongoDB</category>
-        <category>VSCode</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
-        <category>ReasonML</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/01/28/using-helm-to-select-tide-completion-candidates/</guid>
             <title>Using helm to select tide completion candidates</title>
             <link>https://lorefnon.me/2018/01/28/using-helm-to-select-tide-completion-candidates/</link>
             <category>Emacs</category>
             <category>Helm</category>
-            <pubDate>Sun, 28 Jan 2018 05:30:00 +0530</pubDate>
+            <pubDate>Sun, 28 Jan 2018 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; href=&#34;/css/crayon.min.css&#34; &gt;
 &lt;link rel=&#34;stylesheet&#34; href=&#34;/css/crayon-flatui-light.css&#34; &gt;
 
@@ -118,7 +123,7 @@
             <link>https://lorefnon.me/2015/11/15/utilities-for-efficient-filesystem-navigation-in-emacs.html</link>
             <category>Emacs</category>
             <category>Helm</category>
-            <pubDate>Sun, 15 Nov 2015 00:00:00 +0530</pubDate>
+            <pubDate>Sun, 15 Nov 2015 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;While most of time spent working on a project goes into coding, finding the right files or understanding the directory structure is fairly time consuming as well. This is especially true when we are exploring unknown projects - in particular, projects with custom directory structures as opposed to CoC frameworks. This post outlines a few tools which aid in project exploration and navigation across files which I have found to be useful in practice&lt;/p&gt;
 &lt;h2 id=&#34;Dired&#34;&gt;&lt;a href=&#34;#Dired&#34; class=&#34;headerlink&#34; title=&#34;Dired&#34;&gt;&lt;/a&gt;Dired&lt;/h2&gt;&lt;p&gt;While built into emacs, Dired is indespensable. I sincerely regret not spending the time required to develop familiarity with Dired when I was initially learning basics of Emacs. While the facilities provided by Dired are powerful enough to replace the full fledged file manager of your operating system, the real power comes from native integration with the rest of emacs.&lt;/p&gt;
 &lt;img src=&#39;/images/2015-11-15/dired.png&#39;&gt;

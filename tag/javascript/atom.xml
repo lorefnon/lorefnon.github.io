@@ -13,33 +13,51 @@
     <category term="Jade" />
     <category term="Node.js" />
     <category term="Rails" />
-    <category term="ActiveAdmin" />
-    <category term="InfluxDB" />
-    <category term="Grafana" />
-    <category term="Design Patterns" />
-    <category term="React" />
-    <category term="Functional Programming" />
     <category term="Emacs" />
-    <category term="Helm" />
-    <category term="ES6" />
-    <category term="SPF" />
     <category term="Gulp" />
+    <category term="ActiveAdmin" />
     <category term="ActiveRecord" />
     <category term="Devise" />
     <category term="Integration" />
     <category term="ZSH" />
     <category term="Productivity Hacks" />
     <category term="OCR" />
+    <category term="Design Patterns" />
+    <category term="InfluxDB" />
+    <category term="Grafana" />
+    <category term="React" />
+    <category term="Functional Programming" />
+    <category term="ES6" />
+    <category term="Helm" />
+    <category term="SPF" />
     <category term="CSS" />
+    <category term="Redux" />
+    <category term="Redux-loop" />
+    <category term="Frontend" />
+    <category term="Vagrant" />
+    <category term="Clojure" />
+    <category term="Hashicorp" />
+    <category term="Typescript" />
+    <category term="ReasonML" />
     <category term="Next.js" />
     <category term="Koa" />
     <category term="Apollo" />
-    <category term="Typescript" />
     <category term="GraphQL" />
-    <category term="Lit-html" />
-    <category term="Stimulus" />
+    <category term="MongoDB" />
+    <category term="Automerge" />
+    <category term="CRDT" />
+    <category term="SVG" />
+    <category term="VSCode" />
+    <category term="Comlink" />
+    <category term="Web-workers" />
+    <category term="io-ts" />
+    <category term="MobX" />
+    <category term="MobX-State-Tree" />
+    <category term="Routing" />
     <category term="HAR" />
     <category term="Jq" />
+    <category term="Lit-html" />
+    <category term="Stimulus" />
     <category term="Kotlin" />
     <category term="Vert.X" />
     <category term="Vert.X-Web" />
@@ -48,28 +66,15 @@
     <category term="Java" />
     <category term="JOOQ" />
     <category term="Ruby on Rails" />
+    <category term="Vue" />
+    <category term="TypeScript" />
     <category term="Liquibase" />
+    <category term="Gradle" />
+    <category term="Spring" />
+    <category term="Spring-Boot" />
+    <category term="gRPC" />
     <category term="tbls" />
     <category term="jOOQ" />
-    <category term="Vue" />
-    <category term="Automerge" />
-    <category term="CRDT" />
-    <category term="Frontend" />
-    <category term="SVG" />
-    <category term="Comlink" />
-    <category term="Web-workers" />
-    <category term="io-ts" />
-    <category term="Routing" />
-    <category term="Redux" />
-    <category term="Redux-loop" />
-    <category term="Vagrant" />
-    <category term="Clojure" />
-    <category term="Hashicorp" />
-    <category term="MongoDB" />
-    <category term="VSCode" />
-    <category term="MobX" />
-    <category term="MobX-State-Tree" />
-    <category term="ReasonML" />
     <entry>
         <id>https://lorefnon.me/2018/06/09/javascript-async-await-with-arbitrary-thenables/</id>
         <title>Javascript Async/Await with arbitrary Thenables</title>
@@ -482,9 +487,9 @@
 
     </content>
         <category term="Javascript" />
-        <category term="Frontend" />
         <category term="Redux" />
         <category term="Redux-loop" />
+        <category term="Frontend" />
         <updated>2018-02-04T00:00:00.000Z</updated>
     </entry>
     <entry>
@@ -594,7 +599,7 @@ const className = bem.bind(null, &#39;Home&#39;)
 </content>
         <category term="Javascript" />
         <category term="CSS" />
-        <updated>2016-04-03T18:30:00.000Z</updated>
+        <updated>2016-04-04T00:00:00.000Z</updated>
     </entry>
     <entry>
         <id>https://lorefnon.me/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</id>
@@ -884,7 +889,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
         <category term="Javascript" />
         <category term="Rails" />
         <category term="SPF" />
-        <updated>2015-11-25T18:30:00.000Z</updated>
+        <updated>2015-11-26T00:00:00.000Z</updated>
     </entry>
     <entry>
         <id>https://lorefnon.me/2015/11/22/an-answer-to-react-is-the-new-java.html</id>
@@ -951,7 +956,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 </content>
         <category term="Javascript" />
         <category term="React" />
-        <updated>2015-11-21T18:30:00.000Z</updated>
+        <updated>2015-11-22T00:00:00.000Z</updated>
     </entry>
     <entry>
         <id>https://lorefnon.me/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</id>
@@ -1013,7 +1018,7 @@ hello()&lt;/code&gt;&lt;/pre&gt;
         <category term="Javascript" />
         <category term="Rails" />
         <category term="ES6" />
-        <updated>2015-11-14T18:30:00.000Z</updated>
+        <updated>2015-11-15T00:00:00.000Z</updated>
     </entry>
     <entry>
         <id>https://lorefnon.me/2015/09/21/react-and-livescript-in-harmony.html</id>
@@ -1229,7 +1234,7 @@ React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;
         <category term="Javascript" />
         <category term="React" />
         <category term="Functional Programming" />
-        <updated>2015-09-20T18:30:00.000Z</updated>
+        <updated>2015-09-21T00:00:00.000Z</updated>
     </entry>
     <entry>
         <id>https://lorefnon.me/2015/08/24/smarter-knockout-applications-with-es-next.html</id>
@@ -1335,7 +1340,7 @@ class MyAppViewModel &amp;#123;
 </content>
         <category term="Javascript" />
         <category term="KnockoutJS" />
-        <updated>2015-08-23T18:30:00.000Z</updated>
+        <updated>2015-08-24T00:00:00.000Z</updated>
     </entry>
     <entry>
         <id>https://lorefnon.me/2014/03/10/decoupling-frontend-with-gulp-and-node-http-proxy.html</id>
@@ -1525,7 +1530,7 @@ welcome.&lt;/p&gt;
 </content>
         <category term="Javascript" />
         <category term="Gulp" />
-        <updated>2014-03-09T18:30:00.000Z</updated>
+        <updated>2014-03-10T00:00:00.000Z</updated>
     </entry>
     <entry>
         <id>https://lorefnon.me/2012/12/12/sharing-jade-templates-between-nodejs-server-and-client.html</id>
@@ -1564,7 +1569,7 @@ welcome.&lt;/p&gt;
         <category term="Javascript" />
         <category term="Jade" />
         <category term="Node.js" />
-        <updated>2012-12-11T18:30:00.000Z</updated>
+        <updated>2012-12-12T00:00:00.000Z</updated>
     </entry>
     <entry>
         <id>https://lorefnon.me/2012/08/12/effectively-debugging-knockoutjs-applications.html</id>
@@ -1638,7 +1643,7 @@ welcome.&lt;/p&gt;
 </content>
         <category term="Javascript" />
         <category term="KnockoutJS" />
-        <updated>2012-08-11T18:30:00.000Z</updated>
+        <updated>2012-08-12T00:00:00.000Z</updated>
     </entry>
     <entry>
         <id>https://lorefnon.me/2012/08/11/debunking-10-common-knockoutjs-myths.html</id>
@@ -1675,6 +1680,6 @@ welcome.&lt;/p&gt;
 </content>
         <category term="Javascript" />
         <category term="KnockoutJS" />
-        <updated>2012-08-10T18:30:00.000Z</updated>
+        <updated>2012-08-11T00:00:00.000Z</updated>
     </entry>
 </feed>
