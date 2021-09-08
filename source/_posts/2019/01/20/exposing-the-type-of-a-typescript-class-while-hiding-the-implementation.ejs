@@ -1,0 +1,44 @@
+---
+date: "2019-01-20"
+title: "Exposing the type of a typescript class while hiding the implementation"
+permalink: "2019/01/20/exposing-the-type-of-a-typescript-class-while-hiding-the-implementation/"
+tags: [Typescript]
+---
+<link rel="stylesheet" href="/css/crayon.min.css" >
+<link rel="stylesheet" href="/css/crayon-flatui-light.css" >
+
+
+
+	<p>When we define a typescript class, we are actually defining two things, a constructor function, and a type. The instances constructed using the constructor defined by a class will have the type of the class.</p>
+<p>One might wonder, if it is possible, say from a library, to expose only the type of the class and not the actual type constructor. The goal here may be to prevent direct instantiation of the class, or prevent consumers from monkeying around with the prototype chain of the constructor.</p>
+<p><span id="more-536"></span></p>
+<p>Of course, direct instantiation can be prevented using private constructors, but that is only if the consumers are using typescript. A consumer using plain javascript, or who is liberal with use of <code>any</code> is more than welcome to instatiate the class directly.</p>
+<p>One obvious approach is that we could define an interface, make our class implement the interface and expose just the interface.</p>
+<p>This works, but requires quite a bit of extra effort and duplication of signatures (assuming that interface is being created just for this purpose only).</p>
+<p>But, what if we could just strip out the run time entity (constructor function) of a class definition, and just retain the type of the class. This is indeed possible and very easy to do.</p>
+<p>We can just make an interface which extends a class (and doesn’t add anything extra).</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44b559193905619872" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44b559193905619872-1">1</div><div class="crayon-num" data-line="crayon-5fba44b559193905619872-2">2</div><div class="crayon-num" data-line="crayon-5fba44b559193905619872-3">3</div><div class="crayon-num" data-line="crayon-5fba44b559193905619872-4">4</div><div class="crayon-num" data-line="crayon-5fba44b559193905619872-5">5</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44b559193905619872-1"><span class="crayon-t">class</span><span class="crayon-h"> </span><span class="crayon-e">PersonImpl</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44b559193905619872-2"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">name</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-t">string</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44b559193905619872-3"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba44b559193905619872-4">&nbsp;</div><div class="crayon-line" id="crayon-5fba44b559193905619872-5"><span class="crayon-t">interface</span><span class="crayon-h"> </span><span class="crayon-e">Person</span><span class="crayon-h"> </span><span class="crayon-r">extends</span><span class="crayon-h"> </span><span class="crayon-e">PersonImpl</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-sy">}</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0016 seconds] -->
+<p></p>
+<p>Exporting this interface provides our typescript consumers access to the type of the class, but doesn’t provide anyone access to the constructor function or the prototype chain.</p>
+<p>If we are not ever exposing any instance of this class, and the class is for internal use only, we are pretty much done here.</p>
+<p>However, in case we are exposing instances of this class, then we are not finished, because, any instance of the class also facilitates access to the constructor through the constructor property (which can be overriden) and the prototype chain can be accessed through <code>Object.getPrototypeOf</code> or the controversial (and legacy <code>__proto__</code> property.</p>
+<p>The safest way to completely hide the implementation of prototype chain while exposing the instances is to wrap the instances in a Proxy that delegates method access and property access to the underlying target instance.</p>
+
+
+    

@@ -1,0 +1,156 @@
+@use "shared"
+@use "post_content"
+@use "hlcode"
+
+* a
+    text-decoration: none !important
+
+a:hover, a:focus
+    color: #fc9e4f
+
+.blog-body
+    display: grid
+    width: 100% !important
+    max-width: 100% !important
+
+    @media(min-width: 900px)
+        grid-template-columns: [vl-1] 300px [vl-2] calc(100% - 300px) [vl-3]
+        .blog-summary, .blog-sidebar
+            border-right: #fc9e4f 4px solid
+
+    @media(max-width: 900px)
+        grid-template-columns: 100%
+
+    .blog-summary
+        @media(max-width: 900px)
+            grid-row-start: 1
+            grid-column-start: 1
+        @media(min-width: 900px)
+            grid-row-start: 1
+            grid-column-start: vl-1
+            grid-column-end: vl-2
+        background: #ddd
+        text-decoration: none
+        color: #757575
+        padding: 1.5rem
+
+        h1, h2
+            font-weight: 100
+            line-height: 2rem
+
+    .blog-sidebar, .blog-main
+        ul
+            list-style-type: none
+            padding: 0
+
+    .blog-sidebar
+        @media(max-width: 900px)
+            grid-row-start: 4
+            grid-column-start: 1
+        @media(min-width: 900px)
+            grid-column-start: 1
+            grid-row-start: 2
+            grid-row-end: 4
+        background: #f5f5f5
+        padding: 1rem
+        a
+            color: #757575
+        a:hover, a:focus
+            color: #fc9e4f
+    .blog-main
+        @media(max-width: 900px)
+            grid-column-start: 1
+            grid-row-start: 3
+        @media(min-width: 900px)
+            grid-column-start: 2
+            grid-row-start: 2
+        background: white
+        padding: 2rem 4rem
+        @include post_content.post_content
+
+    .blog-header
+        @media(max-width: 900px)
+            grid-row-start: 2
+            grid-column-start: 1
+            background-image: url('/images/primary/bulb-bkg-900x579.jpg')
+    
+        @media(min-width: 900px)
+            grid-row-start: 1
+            grid-row-end: 2
+            grid-column-start: 2
+
+        @media(min-width: 900px) and (max-width: 2000px)
+            background-image: url('/images/primary/bulb-bkg-1024x659.jpg')
+
+        @media(min-width: 2000px)
+            background-image: url('/images/primary/bulb-bkg-3689x2374.jpg')
+
+        background-repeat: no-repeat
+        background-size: cover
+        border-bottom: #fc9e4f 4px solid
+        display: inline-grid
+        justify-content: center
+        align-content: center
+        grid-template-columns: 1fr
+
+        &-inner
+          color: white
+          font-size: 2rem
+          display: block
+          padding: 2rem
+          background: rgba(0,0,0,0.7)
+
+    .tag-link
+        text-decoration: none
+        font-size: 1.2rem
+        line-height: 2rem
+        display: flex
+        flex-direction: row
+        align-items: center
+
+        img
+          margin-right: 0.5rem
+
+    .posted-date
+        font-size: 1.5rem
+        color: #757575
+
+    .post-header
+        font-size: 2rem
+        font-weight: 300
+        text-decoration: none
+        color: rgb(53, 53, 53)
+
+    .blog-footer
+        background: #ddd
+        color: #757575
+
+        p
+            margin: 2rem
+
+        @media(max-width: 900px)
+            grid-row-start: 5
+            grid-column-start: 1
+        @media(min-width: 900px)
+            grid-row-start: 3
+            grid-column-start: 2
+
+    .post-list-item
+        border-bottom: 1px dotted #ddd
+        clear: both
+
+    .post-warning
+        padding: 0.8rem
+        line-height: 1.5rem
+        background: lemonchiffon
+        border-bottom: 1px solid orange
+        
+    code
+        background: #f9f9f9
+        border: 1px solid #ddd
+        border-radius: 4px
+        padding: 0 0.4rem
+
+    .hljs 
+        border-radius: 0
+        padding: 0.4rem

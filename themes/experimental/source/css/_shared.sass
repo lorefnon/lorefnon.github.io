@@ -1,0 +1,43 @@
+@use "normalize.css/normalize.css"
+@use "@openfonts/open-sans_all/index.css" as open_sans
+@use "@openfonts/oswald_all/index.css" as oswald
+@use "@openfonts/inconsolata_all/index.css" as inconsolata
+@use "highlight.js/scss/github.scss"
+
+html, body
+    min-height: 100vh
+    margin: 0 !important
+    padding: 0 !important
+
+.hidden 
+    display: none
+
+.block
+    display: block !important
+
+.header-text
+    font-family: 'Oswald'
+    font-weight: 100
+
+.body-text
+    font-family: 'Open Sans'
+    font-weight: 100
+
+.flex-row
+    display: flex
+    flex-direction: row
+    align-items: center
+.flex-spacer
+    flex-grow: 1
+    flex-shrink: 1   
+
+.ghost-button
+    border: 4px solid #ddd
+    color:  #757575
+    padding: 0.5rem 1rem
+    border-radius: 2rem
+    & + .ghost-button
+        margin-left: 1rem
+
+.float-right
+    float: right

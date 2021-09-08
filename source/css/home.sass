@@ -1,0 +1,83 @@
+@use "shared"
+
+body
+    border-top: #fc9e4f 4px solid
+
+.page-container
+    background-repeat: no-repeat
+    background-size: cover
+    background-image: radial-gradient(#f9dcba, #96774b, #262127)
+
+.page-container-inner
+    height: calc(100vh - 4px)
+    overflow: auto
+    display: grid
+    justify-content: center
+    align-content: center
+    background-size: cover
+    @media(max-width: 900px)
+        background-image: url('/images/primary/bulb-bkg-900x579.jpg')
+
+    @media(min-width: 900px) and (max-width: 1024px)
+        background-image: url('/images/primary/bulb-bkg-1024x659.jpg')
+
+    @media(min-width: 1024px) and (max-width: 2000px)
+        background-image: url('/images/primary/bulb-bkg-2000x1287.jpg')
+
+    @media(min-width: 2000px)
+        background-image: url('/images/primary/bulb-bkg-3689x2374.jpg')
+
+.author-intro
+    position: relative
+    width: 100vw
+    padding: 2.5rem 0
+    overflow: hidden
+    background: rgba(0,0,0,0.5)
+    backdrop-filter: blur(10px)
+    -moz-backdrop-filter: blur(10px)
+    -webkit-backdrop-filter: blur(10px)
+
+    
+    &-inner
+        z-index: 2
+        max-width: 60%
+        margin: auto
+        border-left: 4px solid gold
+        padding-left: 2rem
+        padding-right: 2rem
+        position: relative
+
+        @media(max-width: 900px)
+            max-width: 100%
+            border: none
+
+    .header-text
+        font-weight: 200
+
+    h1
+        color: gold
+        font-size: 3.5rem
+        margin-top: 0
+
+    h2
+        color: white
+        font-size: 2rem
+        line-height: 3rem
+
+    .links
+        color: white
+        border-top: 1px dotted rgba(255, 255, 255, 0.5)
+        padding-top: 1rem
+        padding-bottom: 1rem
+        align-items: center
+
+        .ico-link
+            margin-left: 1rem
+
+        .blog-link
+            color: white
+            text-decoration: none
+            padding: 0 1rem
+            line-height: 1.5rem
+            border: 2px solid white
+            border-radius: 20px

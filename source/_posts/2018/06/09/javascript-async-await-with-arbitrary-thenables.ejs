@@ -1,0 +1,294 @@
+---
+date: "2018-06-09"
+title: "Javascript Async/Await with arbitrary Thenables"
+permalink: "2018/06/09/javascript-async-await-with-arbitrary-thenables/"
+tags: [Javascript, Frontend]
+---
+<link rel="stylesheet" href="/css/crayon.min.css" >
+<link rel="stylesheet" href="/css/crayon-flatui-light.css" >
+
+
+
+	<p>Usage of C# inspired <code>async/await</code> syntax (Now a <a href="https://github.com/tc39/proposals/blob/master/finished-proposals.md" target="_blank">stage 4 proposal</a>) is now fairly mainstream in javascript, and native support is available in major browsers and Node.</p>
+<p>Most of the times we <code>await</code> on promises (typically returned from async functions), however, it is relatively less well known that <code>await</code> works on arbitrary thenables. By thenables we mean any object with a <code>then</code> function member.</p>
+<p>This post covers this usage, and explores some scenarios where it can be interesting.</p>
+<p><span id="more-252"></span></p>
+<h2>Using thenables to represent lazy computations</h2>
+<p>Promises are used to represent output of an operation which has been initiated but may not have yet completed. So by the time we have a promise, the operation it represents has already begun and using await keyword we can (effectively) wait for it to complete.</p>
+<p>Thenables can be useful to represent a computation that is yet to begin. For example:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44c051aef694301312" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44c051aef694301312-1">1</div><div class="crayon-num" data-line="crayon-5fba44c051aef694301312-2">2</div><div class="crayon-num" data-line="crayon-5fba44c051aef694301312-3">3</div><div class="crayon-num" data-line="crayon-5fba44c051aef694301312-4">4</div><div class="crayon-num" data-line="crayon-5fba44c051aef694301312-5">5</div><div class="crayon-num" data-line="crayon-5fba44c051aef694301312-6">6</div><div class="crayon-num" data-line="crayon-5fba44c051aef694301312-7">7</div><div class="crayon-num" data-line="crayon-5fba44c051aef694301312-8">8</div><div class="crayon-num" data-line="crayon-5fba44c051aef694301312-9">9</div><div class="crayon-num" data-line="crayon-5fba44c051aef694301312-10">10</div><div class="crayon-num" data-line="crayon-5fba44c051aef694301312-11">11</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44c051aef694301312-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051aef694301312-2"><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-v">fn</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44c051aef694301312-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">then</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">resolve</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">reject</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44c051aef694301312-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">console</span><span class="crayon-sy">.</span><span class="crayon-e">log</span><span class="crayon-sy">(</span><span class="crayon-s">'Started Then'</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051aef694301312-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">setTimeout</span><span class="crayon-sy">(</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44c051aef694301312-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">console</span><span class="crayon-sy">.</span><span class="crayon-e">log</span><span class="crayon-sy">(</span><span class="crayon-s">'Finishing Task'</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051aef694301312-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">resolve</span><span class="crayon-sy">(</span><span class="crayon-t">true</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051aef694301312-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">1000</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051aef694301312-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba44c051aef694301312-10"><span class="crayon-sy">}</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051aef694301312-11">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0049 seconds] -->
+<p></p>
+<p>It would be obvious here, that calling <code>fn</code> does not actually initiate an asynchronous operation, but simply returns an object – a thenable.</p>
+<p>However, given that <code>await</code> syntax implicitly calls <code>then</code>, we can simply <code>await</code> on the returned thenable exactly in the same way we could have awaited on a promise, but unlike the latter, in this case, calling await will actually initiate the execution of our asynchronous operation.</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44c051afd651445880" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44c051afd651445880-1">1</div><div class="crayon-num" data-line="crayon-5fba44c051afd651445880-2">2</div><div class="crayon-num" data-line="crayon-5fba44c051afd651445880-3">3</div><div class="crayon-num" data-line="crayon-5fba44c051afd651445880-4">4</div><div class="crayon-num" data-line="crayon-5fba44c051afd651445880-5">5</div><div class="crayon-num" data-line="crayon-5fba44c051afd651445880-6">6</div><div class="crayon-num" data-line="crayon-5fba44c051afd651445880-7">7</div><div class="crayon-num" data-line="crayon-5fba44c051afd651445880-8">8</div><div class="crayon-num" data-line="crayon-5fba44c051afd651445880-9">9</div><div class="crayon-num" data-line="crayon-5fba44c051afd651445880-10">10</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44c051afd651445880-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051afd651445880-2"><span class="crayon-v">node</span><span class="crayon-h"> </span><span class="crayon-o">--</span><span class="crayon-v">experimental</span><span class="crayon-o">-</span><span class="crayon-v">repl</span><span class="crayon-o">-</span><span class="crayon-v">await</span></div><div class="crayon-line" id="crayon-5fba44c051afd651445880-3"><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-v">fn</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-c">/* Function above */</span><span class="crayon-h"> </span><span class="crayon-sy">}</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051afd651445880-4"><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-e">await </span><span class="crayon-e">fn</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5fba44c051afd651445880-5"><span class="crayon-e">Started </span><span class="crayon-st">Then</span></div><div class="crayon-line" id="crayon-5fba44c051afd651445880-6"><span class="crayon-e">Finishing </span><span class="crayon-e">Task</span></div><div class="crayon-line" id="crayon-5fba44c051afd651445880-7"><span class="crayon-t">true</span></div><div class="crayon-line" id="crayon-5fba44c051afd651445880-8"><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-i">_</span></div><div class="crayon-line" id="crayon-5fba44c051afd651445880-9"><span class="crayon-t">true</span></div><div class="crayon-line" id="crayon-5fba44c051afd651445880-10">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p></p>
+<p>Libraries like <a href="http://mongoosejs.com/" target="_blank">Mongoose</a> (A popular ODM for mongodb) utilize this behavior and implement the thenable protocol in their <a href="https://github.com/Automattic/mongoose/blob/master/lib/query.js#L3143" target="_blank">Query class</a>.</p>
+<p>This enables us to <code>await</code> on fluent query builder chains.</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44c051b01870047597" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44c051b01870047597-1">1</div><div class="crayon-num" data-line="crayon-5fba44c051b01870047597-2">2</div><div class="crayon-num" data-line="crayon-5fba44c051b01870047597-3">3</div><div class="crayon-num" data-line="crayon-5fba44c051b01870047597-4">4</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44c051b01870047597-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b01870047597-2"><span class="crayon-e">await </span><span class="crayon-v">Person</span><span class="crayon-sy">.</span><span class="crayon-e">where</span><span class="crayon-sy">(</span><span class="crayon-s">'name'</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">equals</span><span class="crayon-sy">(</span><span class="crayon-s">'lorefnon'</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b01870047597-3"><span class="crayon-e">await </span><span class="crayon-v">Person</span><span class="crayon-sy">.</span><span class="crayon-e">where</span><span class="crayon-sy">(</span><span class="crayon-s">'name'</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">equals</span><span class="crayon-sy">(</span><span class="crayon-s">'lorefnon'</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">where</span><span class="crayon-sy">(</span><span class="crayon-s">'age'</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">gt</span><span class="crayon-sy">(</span><span class="crayon-cn">100</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b01870047597-4">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0008 seconds] -->
+<p></p>
+<h3>Caveats</h3>
+<p>Even though being a thenable enables Query to “quack” like a promise in this case, an important distinction is that calling then multiple times will trigger multiple calls to the database (unlike a promise which is guaranteed to resolve or reject exactly once).</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44c051b04749275254" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44c051b04749275254-1">1</div><div class="crayon-num" data-line="crayon-5fba44c051b04749275254-2">2</div><div class="crayon-num" data-line="crayon-5fba44c051b04749275254-3">3</div><div class="crayon-num" data-line="crayon-5fba44c051b04749275254-4">4</div><div class="crayon-num" data-line="crayon-5fba44c051b04749275254-5">5</div><div class="crayon-num" data-line="crayon-5fba44c051b04749275254-6">6</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44c051b04749275254-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b04749275254-2"><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-v">thenable</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">Person</span><span class="crayon-sy">.</span><span class="crayon-e">where</span><span class="crayon-sy">(</span><span class="crayon-s">'name'</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">equals</span><span class="crayon-sy">(</span><span class="crayon-s">'lorefnon'</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b04749275254-3"><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-v">p1</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">await </span><span class="crayon-v">thenable</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-c">// triggers database query</span></div><div class="crayon-line" id="crayon-5fba44c051b04749275254-4"><span class="crayon-c">// After some lines</span></div><div class="crayon-line" id="crayon-5fba44c051b04749275254-5"><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-v">p2</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">await </span><span class="crayon-v">thenable</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-c">// triggers another database query</span></div><div class="crayon-line" id="crayon-5fba44c051b04749275254-6">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+<p></p>
+<p>If this behavior is undesirable, then we can <a href="https://github.com/lodash/lodash/blob/4.17.10/lodash.js#L10539" target="_blank">memoize</a> our then function.</p>
+<p>Also, note that our <code>fn</code> function above could not be an async function.</p>
+<p>An async function is guaranteed to return a promise, and returning a thenable in async function, will cause its then to be invoked.</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44c051b07702009001" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-1">1</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-2">2</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-3">3</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-4">4</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-5">5</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-6">6</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-7">7</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-8">8</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-9">9</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-10">10</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-11">11</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-12">12</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-13">13</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-14">14</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-15">15</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-16">16</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-17">17</div><div class="crayon-num" data-line="crayon-5fba44c051b07702009001-18">18</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44c051b07702009001-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b07702009001-2"><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-v">fn</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">asycn</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44c051b07702009001-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">then</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44c051b07702009001-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">console</span><span class="crayon-sy">.</span><span class="crayon-e">log</span><span class="crayon-sy">(</span><span class="crayon-s">'Starting Task'</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b07702009001-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">// ....</span></div><div class="crayon-line" id="crayon-5fba44c051b07702009001-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba44c051b07702009001-7"><span class="crayon-sy">}</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b07702009001-8">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b07702009001-9"><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-v">promise</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">fn</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-c">// Without await</span></div><div class="crayon-line" id="crayon-5fba44c051b07702009001-10"><span class="crayon-e">Starting </span><span class="crayon-v">Task</span></div><div class="crayon-line" id="crayon-5fba44c051b07702009001-11"><span class="crayon-c">// ...</span></div><div class="crayon-line" id="crayon-5fba44c051b07702009001-12">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b07702009001-13"><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-e">promise</span></div><div class="crayon-line" id="crayon-5fba44c051b07702009001-14"><span class="crayon-e">Promise</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44c051b07702009001-15"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-o">&lt;</span><span class="crayon-v">pending</span><span class="crayon-o">&gt;</span><span class="crayon-sy">,</span></div><div class="crayon-line" id="crayon-5fba44c051b07702009001-16"><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-sy">.</span><span class="crayon-sy">.</span><span class="crayon-sy">.</span></div><div class="crayon-line" id="crayon-5fba44c051b07702009001-17"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba44c051b07702009001-18">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0016 seconds] -->
+<p></p>
+<h2>Stubbing/Spying</h2>
+<p>Since we know that await implicitly calls promises, we can safely spy on then of a promise in test cases. Or stub async methods to return spied thenables.</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44c051b0a860841833" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44c051b0a860841833-1">1</div><div class="crayon-num" data-line="crayon-5fba44c051b0a860841833-2">2</div><div class="crayon-num" data-line="crayon-5fba44c051b0a860841833-3">3</div><div class="crayon-num" data-line="crayon-5fba44c051b0a860841833-4">4</div><div class="crayon-num" data-line="crayon-5fba44c051b0a860841833-5">5</div><div class="crayon-num" data-line="crayon-5fba44c051b0a860841833-6">6</div><div class="crayon-num" data-line="crayon-5fba44c051b0a860841833-7">7</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44c051b0a860841833-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b0a860841833-2"><span class="crayon-v">sinon</span><span class="crayon-sy">.</span><span class="crayon-e">stub</span><span class="crayon-sy">(</span><span class="crayon-v">apiClient</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">'makeRequest'</span><span class="crayon-sy">)</span><span class="crayon-sy">.</span><span class="crayon-e">returns</span><span class="crayon-sy">(</span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44c051b0a860841833-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">then</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">sinon</span><span class="crayon-sy">.</span><span class="crayon-e">spy</span><span class="crayon-sy">(</span><span class="crayon-sy">(</span><span class="crayon-v">resolve</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">reject</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-e">resolve</span><span class="crayon-sy">(</span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44c051b0a860841833-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">title</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-s">'Dummy Response'</span></div><div class="crayon-line" id="crayon-5fba44c051b0a860841833-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5fba44c051b0a860841833-6"><span class="crayon-sy">}</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5fba44c051b0a860841833-7">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p></p>
+<p>Since sinon’s stub/spy functions track invocations, we can later find if makeRequest was invoked as well as whether our (pseudo) promises returned were actually awaited upon.</p>
+<h2>Dynamic imports and Thenable modules</h2>
+<p>ES6 modules can export a then method which will be called when these modules are dynamically imported:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44c051b0d585804715" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44c051b0d585804715-1">1</div><div class="crayon-num" data-line="crayon-5fba44c051b0d585804715-2">2</div><div class="crayon-num" data-line="crayon-5fba44c051b0d585804715-3">3</div><div class="crayon-num" data-line="crayon-5fba44c051b0d585804715-4">4</div><div class="crayon-num" data-line="crayon-5fba44c051b0d585804715-5">5</div><div class="crayon-num" data-line="crayon-5fba44c051b0d585804715-6">6</div><div class="crayon-num" data-line="crayon-5fba44c051b0d585804715-7">7</div><div class="crayon-num" data-line="crayon-5fba44c051b0d585804715-8">8</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44c051b0d585804715-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b0d585804715-2"><span class="crayon-c">// importee.mjs</span></div><div class="crayon-line" id="crayon-5fba44c051b0d585804715-3">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b0d585804715-4"><span class="crayon-e">export </span><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-st">then</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">resolve</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">reject</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44c051b0d585804715-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">console</span><span class="crayon-sy">.</span><span class="crayon-e">log</span><span class="crayon-sy">(</span><span class="crayon-s">'Running Task'</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b0d585804715-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">resolve</span><span class="crayon-sy">(</span><span class="crayon-t">true</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b0d585804715-7"><span class="crayon-sy">}</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b0d585804715-8">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0008 seconds] -->
+<p></p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44c051b10211716304" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44c051b10211716304-1">1</div><div class="crayon-num" data-line="crayon-5fba44c051b10211716304-2">2</div><div class="crayon-num" data-line="crayon-5fba44c051b10211716304-3">3</div><div class="crayon-num" data-line="crayon-5fba44c051b10211716304-4">4</div><div class="crayon-num" data-line="crayon-5fba44c051b10211716304-5">5</div><div class="crayon-num" data-line="crayon-5fba44c051b10211716304-6">6</div><div class="crayon-num" data-line="crayon-5fba44c051b10211716304-7">7</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44c051b10211716304-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b10211716304-2"><span class="crayon-c">// importer.mjs</span></div><div class="crayon-line" id="crayon-5fba44c051b10211716304-3">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b10211716304-4"><span class="crayon-sy">(</span><span class="crayon-e">async</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44c051b10211716304-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">console</span><span class="crayon-sy">.</span><span class="crayon-e">log</span><span class="crayon-sy">(</span><span class="crayon-s">'resolved =&gt;'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-e">await </span><span class="crayon-e">import</span><span class="crayon-sy">(</span><span class="crayon-s">'./importee'</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b10211716304-6"><span class="crayon-sy">}</span><span class="crayon-sy">)</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b10211716304-7">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0007 seconds] -->
+<p></p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44c051b12392719844" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44c051b12392719844-1">1</div><div class="crayon-num" data-line="crayon-5fba44c051b12392719844-2">2</div><div class="crayon-num" data-line="crayon-5fba44c051b12392719844-3">3</div><div class="crayon-num" data-line="crayon-5fba44c051b12392719844-4">4</div><div class="crayon-num" data-line="crayon-5fba44c051b12392719844-5">5</div><div class="crayon-num" data-line="crayon-5fba44c051b12392719844-6">6</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44c051b12392719844-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b12392719844-2"><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-v">node</span><span class="crayon-h"> </span><span class="crayon-o">--</span><span class="crayon-v">experimental</span><span class="crayon-o">-</span><span class="crayon-e">modules </span><span class="crayon-v">importer</span><span class="crayon-sy">.</span><span class="crayon-e">mjs</span></div><div class="crayon-line" id="crayon-5fba44c051b12392719844-3"><span class="crayon-sy">(</span><span class="crayon-v">node</span><span class="crayon-o">:</span><span class="crayon-cn">25619</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-v">ExperimentalWarning</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-e">The </span><span class="crayon-e">ESM </span><span class="crayon-e">module </span><span class="crayon-e">loader </span><span class="crayon-st">is</span><span class="crayon-h"> </span><span class="crayon-v">experimental</span><span class="crayon-sy">.</span></div><div class="crayon-line" id="crayon-5fba44c051b12392719844-4"><span class="crayon-e">Running </span><span class="crayon-e">Task</span></div><div class="crayon-line" id="crayon-5fba44c051b12392719844-5"><span class="crayon-v">resolved</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-t">true</span></div><div class="crayon-line" id="crayon-5fba44c051b12392719844-6">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+<p></p>
+<p>Note that static imports are not asynchronous and don’t cause thenables to be executed:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44c051b15466922518" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44c051b15466922518-1">1</div><div class="crayon-num" data-line="crayon-5fba44c051b15466922518-2">2</div><div class="crayon-num" data-line="crayon-5fba44c051b15466922518-3">3</div><div class="crayon-num" data-line="crayon-5fba44c051b15466922518-4">4</div><div class="crayon-num" data-line="crayon-5fba44c051b15466922518-5">5</div><div class="crayon-num" data-line="crayon-5fba44c051b15466922518-6">6</div><div class="crayon-num" data-line="crayon-5fba44c051b15466922518-7">7</div><div class="crayon-num" data-line="crayon-5fba44c051b15466922518-8">8</div><div class="crayon-num" data-line="crayon-5fba44c051b15466922518-9">9</div><div class="crayon-num" data-line="crayon-5fba44c051b15466922518-10">10</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44c051b15466922518-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b15466922518-2"><span class="crayon-c">// importee.mjs</span></div><div class="crayon-line" id="crayon-5fba44c051b15466922518-3">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b15466922518-4"><span class="crayon-e">export </span><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-e">foo</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">"foo"</span></div><div class="crayon-line" id="crayon-5fba44c051b15466922518-5">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b15466922518-6"><span class="crayon-e">export </span><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-st">then</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">resolve</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">reject</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44c051b15466922518-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">console</span><span class="crayon-sy">.</span><span class="crayon-e">log</span><span class="crayon-sy">(</span><span class="crayon-s">'Running Task'</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b15466922518-8"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">resolve</span><span class="crayon-sy">(</span><span class="crayon-t">true</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b15466922518-9"><span class="crayon-sy">}</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b15466922518-10">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p></p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44c051b18426522605" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44c051b18426522605-1">1</div><div class="crayon-num" data-line="crayon-5fba44c051b18426522605-2">2</div><div class="crayon-num" data-line="crayon-5fba44c051b18426522605-3">3</div><div class="crayon-num" data-line="crayon-5fba44c051b18426522605-4">4</div><div class="crayon-num" data-line="crayon-5fba44c051b18426522605-5">5</div><div class="crayon-num" data-line="crayon-5fba44c051b18426522605-6">6</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44c051b18426522605-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b18426522605-2"><span class="crayon-c">// importer.mjs</span></div><div class="crayon-line" id="crayon-5fba44c051b18426522605-3"><span class="crayon-e">import</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-v">foo</span><span class="crayon-sy">}</span><span class="crayon-h"> </span><span class="crayon-i">from</span><span class="crayon-h"> </span><span class="crayon-s">"./importee"</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b18426522605-4">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b18426522605-5"><span class="crayon-v">console</span><span class="crayon-sy">.</span><span class="crayon-e">log</span><span class="crayon-sy">(</span><span class="crayon-s">'foo =&gt;'</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">foo</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b18426522605-6">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0006 seconds] -->
+<p></p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44c051b1a362248770" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44c051b1a362248770-1">1</div><div class="crayon-num" data-line="crayon-5fba44c051b1a362248770-2">2</div><div class="crayon-num" data-line="crayon-5fba44c051b1a362248770-3">3</div><div class="crayon-num" data-line="crayon-5fba44c051b1a362248770-4">4</div><div class="crayon-num" data-line="crayon-5fba44c051b1a362248770-5">5</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44c051b1a362248770-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b1a362248770-2"><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-v">node</span><span class="crayon-h"> </span><span class="crayon-o">--</span><span class="crayon-v">experimental</span><span class="crayon-o">-</span><span class="crayon-e">modules </span><span class="crayon-v">importer</span><span class="crayon-sy">.</span><span class="crayon-e">mjs</span></div><div class="crayon-line" id="crayon-5fba44c051b1a362248770-3"><span class="crayon-sy">(</span><span class="crayon-v">node</span><span class="crayon-o">:</span><span class="crayon-cn">25619</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-v">ExperimentalWarning</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-e">The </span><span class="crayon-e">ESM </span><span class="crayon-e">module </span><span class="crayon-e">loader </span><span class="crayon-st">is</span><span class="crayon-h"> </span><span class="crayon-v">experimental</span><span class="crayon-sy">.</span></div><div class="crayon-line" id="crayon-5fba44c051b1a362248770-4"><span class="crayon-v">foo</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-i">foo</span></div><div class="crayon-line" id="crayon-5fba44c051b1a362248770-5">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0008 seconds] -->
+<p></p>
+<h2>Chaining of thenables</h2>
+<p>Similar to promises, thenables can be chained:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44c051b1d808928575" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44c051b1d808928575-1">1</div><div class="crayon-num" data-line="crayon-5fba44c051b1d808928575-2">2</div><div class="crayon-num" data-line="crayon-5fba44c051b1d808928575-3">3</div><div class="crayon-num" data-line="crayon-5fba44c051b1d808928575-4">4</div><div class="crayon-num" data-line="crayon-5fba44c051b1d808928575-5">5</div><div class="crayon-num" data-line="crayon-5fba44c051b1d808928575-6">6</div><div class="crayon-num" data-line="crayon-5fba44c051b1d808928575-7">7</div><div class="crayon-num" data-line="crayon-5fba44c051b1d808928575-8">8</div><div class="crayon-num" data-line="crayon-5fba44c051b1d808928575-9">9</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44c051b1d808928575-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b1d808928575-2"><span class="crayon-v">node</span><span class="crayon-h"> </span><span class="crayon-o">--</span><span class="crayon-v">experimental</span><span class="crayon-o">-</span><span class="crayon-v">repl</span><span class="crayon-o">-</span><span class="crayon-v">await</span></div><div class="crayon-line" id="crayon-5fba44c051b1d808928575-3"><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-v">thenable</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-st">then</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">r</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-e">r</span><span class="crayon-sy">(</span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-st">then</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">r</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-e">r</span><span class="crayon-sy">(</span><span class="crayon-sy">{</span><span class="crayon-h"> </span><span class="crayon-st">then</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">r</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-e">r</span><span class="crayon-sy">(</span><span class="crayon-t">true</span><span class="crayon-sy">)</span><span class="crayon-sy">}</span><span class="crayon-sy">)</span><span class="crayon-sy">}</span><span class="crayon-sy">)</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba44c051b1d808928575-4"><span class="crayon-v">undefined</span></div><div class="crayon-line" id="crayon-5fba44c051b1d808928575-5"><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-e">await </span><span class="crayon-e">thenable</span></div><div class="crayon-line" id="crayon-5fba44c051b1d808928575-6"><span class="crayon-t">true</span></div><div class="crayon-line" id="crayon-5fba44c051b1d808928575-7"><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-i">_</span></div><div class="crayon-line" id="crayon-5fba44c051b1d808928575-8"><span class="crayon-t">true</span></div><div class="crayon-line" id="crayon-5fba44c051b1d808928575-9">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0016 seconds] -->
+<p></p>
+<h2>Usage with Proxies</h2>
+<p>Dynamic interception of then invocations through proxies works exactly the way we’d expect:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44c051b20469144398" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44c051b20469144398-1">1</div><div class="crayon-num" data-line="crayon-5fba44c051b20469144398-2">2</div><div class="crayon-num" data-line="crayon-5fba44c051b20469144398-3">3</div><div class="crayon-num" data-line="crayon-5fba44c051b20469144398-4">4</div><div class="crayon-num" data-line="crayon-5fba44c051b20469144398-5">5</div><div class="crayon-num" data-line="crayon-5fba44c051b20469144398-6">6</div><div class="crayon-num" data-line="crayon-5fba44c051b20469144398-7">7</div><div class="crayon-num" data-line="crayon-5fba44c051b20469144398-8">8</div><div class="crayon-num" data-line="crayon-5fba44c051b20469144398-9">9</div><div class="crayon-num" data-line="crayon-5fba44c051b20469144398-10">10</div><div class="crayon-num" data-line="crayon-5fba44c051b20469144398-11">11</div><div class="crayon-num" data-line="crayon-5fba44c051b20469144398-12">12</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44c051b20469144398-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b20469144398-2"><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-v">thenable</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-r">new</span><span class="crayon-h"> </span><span class="crayon-e">Proxy</span><span class="crayon-sy">(</span><span class="crayon-sy">{</span><span class="crayon-sy">}</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44c051b20469144398-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">get</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-t">object</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">prop</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44c051b20469144398-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">prop</span><span class="crayon-h"> </span><span class="crayon-o">===</span><span class="crayon-h"> </span><span class="crayon-s">'then'</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44c051b20469144398-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-st">return</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-v">resolve</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">reject</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-e">resolve</span><span class="crayon-sy">(</span><span class="crayon-t">true</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5fba44c051b20469144398-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba44c051b20469144398-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba44c051b20469144398-8"><span class="crayon-sy">}</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b20469144398-9">&nbsp;</div><div class="crayon-line" id="crayon-5fba44c051b20469144398-10"><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-e">await </span><span class="crayon-v">thenable</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44c051b20469144398-11"><span class="crayon-t">true</span></div><div class="crayon-line" id="crayon-5fba44c051b20469144398-12">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0016 seconds] -->
+<p></p>
+<h2>Closure</h2>
+<p>While implicit resolution of thenables opens up some interesting opportunities, it can also lead to unexpected/surprising behavior if we are not aware of it.</p>
+
+
+    

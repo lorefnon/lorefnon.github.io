@@ -1,0 +1,58 @@
+@use "legacy_highlight"
+
+@mixin post_content
+    h1, h2, h3, h4, h5, h6
+        font-family: 'Oswald'
+        font-weight: 300
+        position: relative
+
+    blockquote
+        border-left: 4px solid #ddd
+        padding-left: 1rem
+
+    p
+        margin-top: 2rem
+        margin-bottom: 2rem
+        line-height: 1.5rem
+
+    *
+        font-family: 'Open Sans'
+
+    pre
+        position: relative
+        overflow-x: auto
+
+    code
+        max-width: 100%
+        &, *
+            font-family: 'Inconsolata', monospace !important
+            font-size: 1.2rem
+            font-weight: 300
+            line-height: 1.8rem
+
+    img
+        max-width: 90%
+
+    .page-content
+        a
+            color: #bd5e0b
+
+    a:hover, a:focus
+        color: #fc9e4f
+
+    table
+        border-collapse: collapse
+        td:not(.hlcode-code-cell):not(.hlcode-lineno-cell), th
+            padding: 1rem
+            border: 1px solid #ddd
+
+    .headerlink
+        height: 1.5rem
+        width: 1.5rem
+        display: inline-block
+        background: url("/images/primary/anchor.svg")
+        background-size: cover
+        position: absolute
+        left: -2rem
+        top: 0.5rem
+        color: #ddd

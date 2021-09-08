@@ -1,0 +1,20 @@
+doctype html
+
+html.no-js
+
+    include _blog_head.pug
+
+    body.blog-body(hx-boost="true")
+        include _blog_summary.pug
+
+        .blog-sidebar
+            include _tag_list.pug
+
+        .blog-header
+            .blog-header-inner.header-text
+                | Posts
+
+        .blog-main
+            include _post_list.pug
+
+        include _blog_tail.pug

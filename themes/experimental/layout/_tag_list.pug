@@ -1,0 +1,9 @@
+h1.header-text Tags
+
+ul.tag-list
+
+    each tag in (page.tags || site.tags).data
+        li.body-text
+            a.tag-link(href=url_for(tag.path))
+                img(src="/images/tag.svg")
+                = tag && tag.name

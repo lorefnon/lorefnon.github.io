@@ -1,0 +1,92 @@
+---
+date: "2019-08-18"
+title: "Deriving interfaces from classes in TypeScript"
+permalink: "2019/08/18/deriving-interfaces-from-classes-in-typescript/"
+tags: [Typescript]
+---
+<link rel="stylesheet" href="/css/crayon.min.css" >
+<link rel="stylesheet" href="/css/crayon-flatui-light.css" >
+
+
+
+	<p>Most object oriented programming languages encourage the pattern of <a class="wp-editor-md-post-content-link" href="https://tuhrig.de/programming-to-an-interface/">Programming to an interface</a>. TypeScript supports this of course, you can create one or more interfaces, and then define classes (or factories) that generate instances of this interface.</p>
+<p>However, as the linked article above points out, programming to an interface is sometimes overused when the programmer anticipates the possibility of multiple concrete implementations in future although there may exist just one at the time of implementation.</p>
+<p>But, until these multiple implementations are actually required, these single-implementation interfaces continue to increase maintenance overhead, because every time we need to introduce a new member, we need to modify two places. Sure, the tooling helps with this but it still not ideal.</p>
+<p>Also, relying on just the concrete implementation is not ideal because TypeScript compiler service doesn’t yet have a good mechanism to bulk-replace all usage of a concrete implementation with the corresponding interface should we need multiple implementations in future.</p>
+<p>So, in this post we explore two features of typescript that may help us with this.<br>
+<span id="more-622"></span></p>
+<h1>Interfaces derived from classes</h1>
+<p>A lesser known feature of TypeScript is that interfaces can be derived from classes.</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba4468f1d79369408977" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba4468f1d79369408977-1">1</div><div class="crayon-num" data-line="crayon-5fba4468f1d79369408977-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba4468f1d79369408977-1"><span class="crayon-e">export</span><span class="crayon-h"> </span><span class="crayon-t">interface</span><span class="crayon-h"> </span><span class="crayon-e">SyncBackend</span><span class="crayon-h"> </span><span class="crayon-r">extends</span><span class="crayon-h"> </span><span class="crayon-e">FSSyncBackend</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba4468f1d79369408977-2">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0026 seconds] -->
+<p></p>
+<p>It may seem like a no-brainer that this is a solution for our use case. But there is an important caveat: All private/protected members of the implementation are exposed in the derived interface.</p>
+<p>If you are surprised by this, you wouldn’t be alone. I found it highly counter-intuitive when I encountered it first, but the rationale behind this is explained in the <a class="wp-editor-md-post-content-link" href="https://www.typescriptlang.org/docs/handbook/interfaces.html">official docs</a>:</p>
+<blockquote><p>
+  When an interface type extends a class type it inherits the members of the class but not their implementations. It is as if the interface had declared all of the members of the class without providing an implementation. Interfaces inherit even the private and protected members of a base class. This means that when you create an interface that extends a class with private or protected members, that interface type can only be implemented by that class or a subclass of it.</p>
+<p>  This is useful when you have a large inheritance hierarchy, but want to specify that your code works with only subclasses that have certain properties. The subclasses don’t have to be related besides inheriting from the base class.
+</p></blockquote>
+<p>So, that is all good, but if we want just the public members, what do we do ?<br>
+Thankfully a simple solution exists:</p>
+<h1>Using Mapped types</h1>
+<p>We can use <a class="wp-editor-md-post-content-link" href="https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-1.html">mapped types</a> derived from public members of a type.</p>
+<p>Since a class definition is implicitly a type definition, this works well for classes too:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba4468f1d87855263947" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba4468f1d87855263947-1">1</div><div class="crayon-num" data-line="crayon-5fba4468f1d87855263947-2">2</div><div class="crayon-num" data-line="crayon-5fba4468f1d87855263947-3">3</div><div class="crayon-num" data-line="crayon-5fba4468f1d87855263947-4">4</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba4468f1d87855263947-1"><span class="crayon-e">export </span><span class="crayon-e">type </span><span class="crayon-v">SyncBackend</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-5fba4468f1d87855263947-2"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-i">K</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-e">keyof </span><span class="crayon-v">FSSyncBackend</span><span class="crayon-sy">]</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">FSSyncBackend</span><span class="crayon-sy">[</span><span class="crayon-v">K</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba4468f1d87855263947-3"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba4468f1d87855263947-4">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0007 seconds] -->
+<p></p>
+<p>Now <code>SyncBackend</code> type will have only public members of <code>FSSyncBackend</code> class.</p>
+<p>While for most uses this solves our purpose, but if we strictly need an interface &amp; not an alias (perhaps to improve type error messages), we can simply define an interface that extends from this alias:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba4468f1d8b787760405" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba4468f1d8b787760405-1">1</div><div class="crayon-num" data-line="crayon-5fba4468f1d8b787760405-2">2</div><div class="crayon-num" data-line="crayon-5fba4468f1d8b787760405-3">3</div><div class="crayon-num" data-line="crayon-5fba4468f1d8b787760405-4">4</div><div class="crayon-num" data-line="crayon-5fba4468f1d8b787760405-5">5</div><div class="crayon-num" data-line="crayon-5fba4468f1d8b787760405-6">6</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba4468f1d8b787760405-1"><span class="crayon-e">type </span><span class="crayon-v">SyncBackend</span><span class="crayon-sy">$</span><span class="crayon-cn">1</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-5fba4468f1d8b787760405-2"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-i">K</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-e">keyof </span><span class="crayon-v">FSSyncBackend</span><span class="crayon-sy">]</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">FSSyncBackend</span><span class="crayon-sy">[</span><span class="crayon-v">K</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba4468f1d8b787760405-3"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba4468f1d8b787760405-4">&nbsp;</div><div class="crayon-line" id="crayon-5fba4468f1d8b787760405-5"><span class="crayon-e">export</span><span class="crayon-h"> </span><span class="crayon-t">interface</span><span class="crayon-h"> </span><span class="crayon-e">SyncBackend</span><span class="crayon-h"> </span><span class="crayon-r">extends</span><span class="crayon-h"> </span><span class="crayon-e">SyncBackend</span><span class="crayon-sy">$</span><span class="crayon-cn">1</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba4468f1d8b787760405-6">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+<p></p>
+<p>Eventually if we do need multiple implementations, we can choose to either have an explicitly defined interface or keep one implementation as the canonical implementation, derive the interface from it and make the other implementations comply to that.</p>
+<p>I usually resort to the latter when the other implementations are not for public consumption and exist just for stubbing in test cases.</p>
+<p>If multiple implementations are actually exposed then the former solution (explicitly defined interface) helps with separating the API documentation of the interface from the documentation of individual implementations.</p>
+
+
+    

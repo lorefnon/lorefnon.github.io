@@ -1,0 +1,24 @@
+.post-list
+    if page.tag
+        h1.page-title.header-text
+            | Posts for tag:&nbsp;
+            span.current-tag= page.tag
+        hr
+        br
+    ul.body-text.post-list
+        each post in page.posts.data
+            li.post-list-item
+                h2: a.post-header.header-text(href=url_for(post.path))= post.title
+                p
+                    = post.excerpt
+                    | ...
+                .flex-row
+                    a.ghost-button(href=url_for(post.path))
+                        | Continue Reading
+                br
+    .flex-row
+        if page.prev
+            a.ghost-button(href=page.prev_link) Previous Page
+        .flex-spacer
+        if page.next
+            a.ghost-button(href=page.next_link) Next Page

@@ -1,0 +1,41 @@
+.hlcode-table
+    width: 100%
+    td, tr 
+        padding: 0 !important
+
+    .hlcode-fold-handle
+        background: rgba(0,0,0,0.1)
+        cursor: pointer
+        user-select: none
+
+    .hlcode-fold-text
+        user-select: none
+
+    .hlcode-fold-handle
+        display: flex
+        flex-direction: row
+        align-items: center
+
+    .hlcode-line:hover 
+        border-top: rgba(0, 0, 0, 0.2) !important
+        border-bottom: rgba(0, 0, 0, 0.2) !important
+        td
+            background: rgba(255, 255, 255, 0.5)
+
+    .hlcode-fold-text
+        margin-left: 5px
+
+    .hlcode-lineno-cell
+        user-select: none
+        border-right: 1px solid silver !important
+        padding-right: 5px !important
+        padding: 0 5px
+        pre
+            margin: 0
+            padding: 0
+
+    .hlcode-line-highlight
+        background: lemonchiffon
+
+    .hlcode-line-fold
+        background: rgba(0,0,0, 0.05)

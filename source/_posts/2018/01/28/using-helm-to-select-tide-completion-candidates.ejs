@@ -1,0 +1,38 @@
+---
+date: "2018-01-28"
+title: "Using helm to select tide completion candidates"
+permalink: "2018/01/28/using-helm-to-select-tide-completion-candidates/"
+is_outdated: true
+tags: [Emacs, Helm]
+---
+<link rel="stylesheet" href="/css/crayon.min.css" >
+<link rel="stylesheet" href="/css/crayon-flatui-light.css" >
+
+
+
+	<p><a href="https://github.com/ananthakumaran/tide">Tide</a> (TypeScript Interactive Development Environment for Emacs) uses a custom <a href="https://github.com/ananthakumaran/tide/blob/master/tide-lv.el">hydra-derived popup menu</a> for prompting the user to select candidates when there are many completion options available.</p>
+<p>However, this is jarring when the rest of your emacs environment is configured to use <a href="https://github.com/emacs-helm/helm">helm</a> as the completion engine.</p>
+<p>Fortunately, this is easy to fix by overriding the <code>tide-popup-select-item</code> implementation to use a custom helm source derived from the completion list.</p>
+<p><span id="more-101"></span></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44f01e7f6640911890" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44f01e7f6640911890-1">1</div><div class="crayon-num" data-line="crayon-5fba44f01e7f6640911890-2">2</div><div class="crayon-num" data-line="crayon-5fba44f01e7f6640911890-3">3</div><div class="crayon-num" data-line="crayon-5fba44f01e7f6640911890-4">4</div><div class="crayon-num" data-line="crayon-5fba44f01e7f6640911890-5">5</div><div class="crayon-num" data-line="crayon-5fba44f01e7f6640911890-6">6</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44f01e7f6640911890-1"><span class="crayon-o">(</span><span class="crayon-r">defun</span><span class="crayon-h"> </span><span class="crayon-i">tide-popup-select-item</span><span class="crayon-h"> </span><span class="crayon-o">(</span><span class="crayon-k">prompt</span><span class="crayon-h"> </span><span class="crayon-t">list</span><span class="crayon-o">)</span></div><div class="crayon-line" id="crayon-5fba44f01e7f6640911890-2"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-o">(</span><span class="crayon-k">helm</span></div><div class="crayon-line" id="crayon-5fba44f01e7f6640911890-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-o">:</span><span class="crayon-i">sources</span></div><div class="crayon-line" id="crayon-5fba44f01e7f6640911890-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-o">(</span><span class="crayon-k">helm-build-sync-source</span><span class="crayon-h"> </span><span class="crayon-i">prompt</span></div><div class="crayon-line" id="crayon-5fba44f01e7f6640911890-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-o">:</span><span class="crayon-i">candidates</span><span class="crayon-h"> </span><span class="crayon-t">list</span><span class="crayon-o">)</span></div><div class="crayon-line" id="crayon-5fba44f01e7f6640911890-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-o">:</span><span class="crayon-i">buffer</span><span class="crayon-h"> </span><span class="crayon-s">"*Tide Completion Candidates*"</span><span class="crayon-o">)</span><span class="crayon-o">)</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0017 seconds] -->
+<p><img loading="lazy" class="alignnone size-full wp-image-102" src="/wp-content/uploads/2018/01/tide-helm.gif" alt="" width="499" height="725"></p>
+<hr>
+<p>As far as auto-completion is concerned, since tide configures a company-backend, it is possible to directly use <a href="https://github.com/Sodel-the-Vociferous/helm-company">helm-company</a> to use helm for selecting auto-completion candidates.</p>
+
+
+    

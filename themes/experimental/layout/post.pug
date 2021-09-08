@@ -1,0 +1,36 @@
+doctype html
+
+html.no-js
+    include _blog_head.pug
+
+    body.blog-body(hx-boost="true")
+        include _blog_summary.pug
+
+        .blog-sidebar
+            if page.date
+                span.posted-date.header-text(title=page.date.format("YYYY-MM-DD"))
+                    | Posted &nbsp;
+                    = page.date.fromNow()
+                hr
+            
+            include _tag_list.pug
+
+        .blog-header
+            .blog-header-inner.header-text= page.title
+
+        .blog-main
+            if page.is_outdated
+                .flex-row.post-warning
+                    img(src="/images/primary/alert-triangle.svg", style="margin-right: 1rem")
+                    | This post has not been updated in quite some time and the content here may be out of date 
+                    | or not reflect my current my recommedation in the matter.
+
+            if page.post_warnings
+                each warning in page.post_warnings
+                    .flex-row.post-warning
+                        img(src="/images/primary/alert-triangle.svg", style="margin-right: 1rem")
+                        = warning
+
+            .page-content !{page.content}
+
+        include _blog_tail.pug

@@ -1,0 +1,139 @@
+---
+date: "2019-03-24"
+title: "Using comlink with typescript and worker-loader"
+permalink: "2019/03/24/using-comlink-with-typescript-and-worker-loader/"
+tags: [Typescript, Comlink, Web-workers]
+---
+<link rel="stylesheet" href="/css/crayon.min.css" >
+<link rel="stylesheet" href="/css/crayon-flatui-light.css" >
+
+
+
+	<p><a href="https://github.com/webpack-contrib/worker-loader">worker-loader</a> and <a href="https://github.com/GoogleChromeLabs/comlink">comlink</a> are two solution which make web-workers a joy to use. This short post summarizes how to make them play well with each other in a typescript codebase.</p>
+<p><span id="more-548"></span></p>
+<h2>What is comlink ?</h2>
+<p>Comlink is a Google project that implements a proxy based RPC mechanism to invoke methods on objects present in web-workers.</p>
+<p>Being proxy based, most of the times invocation is fairly transparent and the outcome is a lot easier to read than if we were using postMessage and MessagePort APIs directly. Internally of-course comlink use the same APIs under the hood.</p>
+<p>Comlink’s <a href="https://github.com/GoogleChromeLabs/comlink/blob/master/README.md">README</a> already outlines the usage adequately and also David East has <a href="https://davidea.st/articles/comlink-simple-web-worker">written</a> a great introduction to Comlink here, so this post will mostly focus on usage with typescript.</p>
+<h2>Worker loader</h2>
+<p>worker-loader is a webpack plugin that makes it trivial to use webworkers with webpack. When you are using webpack, you’d usually want to have hash appended file paths for <a href="https://webpack.js.org/guides/caching/">long term caching</a> and worker-loader removes the need to refer to a manifest to derive the file path to be used for passing to Worker constructor.</p>
+<p>With worker-loader installed, we can simply do:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44b380fab472108539" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44b380fab472108539-1">1</div><div class="crayon-num" data-line="crayon-5fba44b380fab472108539-2">2</div><div class="crayon-num" data-line="crayon-5fba44b380fab472108539-3">3</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44b380fab472108539-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44b380fab472108539-2"><span class="crayon-e">import </span><span class="crayon-e">ExpensiveProcessor </span><span class="crayon-i">from</span><span class="crayon-h"> </span><span class="crayon-s">"worker-loader!../core/expensive-processor.worker"</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44b380fab472108539-3">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0023 seconds] -->
+<p></p>
+<p>And it will create a separate webpack chunk, and generate a facade class instantiating which gives us the worker instance. This worker instance happens to be what <a href="https://github.com/GoogleChromeLabs/comlink#comlinkproxyendpoint">Comlink.proxy</a> expects, so we can just pass it on.</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44b380fba197430070" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44b380fba197430070-1">1</div><div class="crayon-num" data-line="crayon-5fba44b380fba197430070-2">2</div><div class="crayon-num" data-line="crayon-5fba44b380fba197430070-3">3</div><div class="crayon-num" data-line="crayon-5fba44b380fba197430070-4">4</div><div class="crayon-num" data-line="crayon-5fba44b380fba197430070-5">5</div><div class="crayon-num" data-line="crayon-5fba44b380fba197430070-6">6</div><div class="crayon-num" data-line="crayon-5fba44b380fba197430070-7">7</div><div class="crayon-num" data-line="crayon-5fba44b380fba197430070-8">8</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44b380fba197430070-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44b380fba197430070-2"><span class="crayon-c">// expensive-processor.worker.ts</span></div><div class="crayon-line" id="crayon-5fba44b380fba197430070-3"><span class="crayon-t">class</span><span class="crayon-h"> </span><span class="crayon-e">ExpensiveProcessor</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44b380fba197430070-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">/* ... async methods here ... */</span></div><div class="crayon-line" id="crayon-5fba44b380fba197430070-5"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba44b380fba197430070-6">&nbsp;</div><div class="crayon-line" id="crayon-5fba44b380fba197430070-7"><span class="crayon-v">Comlink</span><span class="crayon-sy">.</span><span class="crayon-e">expose</span><span class="crayon-sy">(</span><span class="crayon-v">ExpensiveProcessor</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44b380fba197430070-8">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0006 seconds] -->
+<p></p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44b380fbe773217982" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44b380fbe773217982-1">1</div><div class="crayon-num" data-line="crayon-5fba44b380fbe773217982-2">2</div><div class="crayon-num" data-line="crayon-5fba44b380fbe773217982-3">3</div><div class="crayon-num" data-line="crayon-5fba44b380fbe773217982-4">4</div><div class="crayon-num" data-line="crayon-5fba44b380fbe773217982-5">5</div><div class="crayon-num" data-line="crayon-5fba44b380fbe773217982-6">6</div><div class="crayon-num" data-line="crayon-5fba44b380fbe773217982-7">7</div><div class="crayon-num" data-line="crayon-5fba44b380fbe773217982-8">8</div><div class="crayon-num" data-line="crayon-5fba44b380fbe773217982-9">9</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44b380fbe773217982-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44b380fbe773217982-2"><span class="crayon-c">// main.ts</span></div><div class="crayon-line" id="crayon-5fba44b380fbe773217982-3">&nbsp;</div><div class="crayon-line" id="crayon-5fba44b380fbe773217982-4"><span class="crayon-e">import </span><span class="crayon-e">ExpensiveProcessor </span><span class="crayon-i">from</span><span class="crayon-h"> </span><span class="crayon-s">"worker-loader!../core/expensive-processor.worker"</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44b380fbe773217982-5">&nbsp;</div><div class="crayon-line" id="crayon-5fba44b380fbe773217982-6"><span class="crayon-c">// Later inside an async function:</span></div><div class="crayon-line" id="crayon-5fba44b380fbe773217982-7"><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-v">ProcessorFacade</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">Comlink</span><span class="crayon-sy">.</span><span class="crayon-e">proxy</span><span class="crayon-sy">(</span><span class="crayon-r">new</span><span class="crayon-h"> </span><span class="crayon-e">ExpensiveProcessor</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44b380fbe773217982-8"><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-v">processor</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">await </span><span class="crayon-r">new</span><span class="crayon-h"> </span><span class="crayon-e">ProcessorFacade</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44b380fbe773217982-9">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p></p>
+<h2>Typescript integration</h2>
+<p>The last piece here is to make typescript play well. Because as of now, typescript has no way to figure out the type of the imported ExpensiveProcessor because the code generated by webpack doesn’t go through the type checker.</p>
+<p>The first step is to declare an <a href="https://www.typescriptlang.org/docs/handbook/modules.html#ambient-modules">ambient module</a> having a <a href="https://www.typescriptlang.org/docs/handbook/modules.html#wildcard-module-declarations">wildcard declaration</a> for all worker-loader related imports so that worker-loader imports are identified as Worker implementations.</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44b380fc2143634162" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44b380fc2143634162-1">1</div><div class="crayon-num" data-line="crayon-5fba44b380fc2143634162-2">2</div><div class="crayon-num" data-line="crayon-5fba44b380fc2143634162-3">3</div><div class="crayon-num" data-line="crayon-5fba44b380fc2143634162-4">4</div><div class="crayon-num" data-line="crayon-5fba44b380fc2143634162-5">5</div><div class="crayon-num" data-line="crayon-5fba44b380fc2143634162-6">6</div><div class="crayon-num" data-line="crayon-5fba44b380fc2143634162-7">7</div><div class="crayon-num" data-line="crayon-5fba44b380fc2143634162-8">8</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44b380fc2143634162-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44b380fc2143634162-2"><span class="crayon-r">declare</span><span class="crayon-h"> </span><span class="crayon-i">module</span><span class="crayon-h"> </span><span class="crayon-s">"worker-loader!*"</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44b380fc2143634162-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-t">class</span><span class="crayon-h"> </span><span class="crayon-e">WebpackWorker</span><span class="crayon-h"> </span><span class="crayon-r">extends</span><span class="crayon-h"> </span><span class="crayon-e">Worker</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44b380fc2143634162-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">constructor</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44b380fc2143634162-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba44b380fc2143634162-6"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-e">export </span><span class="crayon-st">default</span><span class="crayon-h"> </span><span class="crayon-v">WebpackWorker</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44b380fc2143634162-7"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba44b380fc2143634162-8">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0013 seconds] -->
+<p></p>
+<p>The second step is to pass a type parameter to Comlink.proxy:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44b380fc5795232898" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44b380fc5795232898-1">1</div><div class="crayon-num" data-line="crayon-5fba44b380fc5795232898-2">2</div><div class="crayon-num" data-line="crayon-5fba44b380fc5795232898-3">3</div><div class="crayon-num" data-line="crayon-5fba44b380fc5795232898-4">4</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44b380fc5795232898-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44b380fc5795232898-2"><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-v">ProcessorFacade</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">Comlink</span><span class="crayon-sy">.</span><span class="crayon-v">proxy</span><span class="crayon-o">&lt;</span><span class="crayon-sy">{</span><span class="crayon-r">new</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">Promise</span><span class="crayon-o">&lt;</span><span class="crayon-v">IProcessorFacade</span><span class="crayon-o">&gt;</span><span class="crayon-sy">}</span><span class="crayon-o">&gt;</span><span class="crayon-sy">(</span><span class="crayon-r">new</span><span class="crayon-h"> </span><span class="crayon-e">ExpensiveProcessor</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44b380fc5795232898-3"><span class="crayon-m">const</span><span class="crayon-h"> </span><span class="crayon-v">processor</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">await </span><span class="crayon-r">new</span><span class="crayon-h"> </span><span class="crayon-e">ProcessorFacade</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44b380fc5795232898-4">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0011 seconds] -->
+<p></p>
+<p>Here <code>IProcessorFacade</code> is an interface implemented by ExpensiveProcessor that defines a subset of the public API that plays well with <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm">structured cloning</a>.</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba44b380fc8612717809" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba44b380fc8612717809-1">1</div><div class="crayon-num" data-line="crayon-5fba44b380fc8612717809-2">2</div><div class="crayon-num" data-line="crayon-5fba44b380fc8612717809-3">3</div><div class="crayon-num" data-line="crayon-5fba44b380fc8612717809-4">4</div><div class="crayon-num" data-line="crayon-5fba44b380fc8612717809-5">5</div><div class="crayon-num" data-line="crayon-5fba44b380fc8612717809-6">6</div><div class="crayon-num" data-line="crayon-5fba44b380fc8612717809-7">7</div><div class="crayon-num" data-line="crayon-5fba44b380fc8612717809-8">8</div><div class="crayon-num" data-line="crayon-5fba44b380fc8612717809-9">9</div><div class="crayon-num" data-line="crayon-5fba44b380fc8612717809-10">10</div><div class="crayon-num" data-line="crayon-5fba44b380fc8612717809-11">11</div><div class="crayon-num" data-line="crayon-5fba44b380fc8612717809-12">12</div><div class="crayon-num" data-line="crayon-5fba44b380fc8612717809-13">13</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba44b380fc8612717809-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba44b380fc8612717809-2"><span class="crayon-c">// expensive-processor.worker.ts</span></div><div class="crayon-line" id="crayon-5fba44b380fc8612717809-3"><span class="crayon-t">interface</span><span class="crayon-h"> </span><span class="crayon-e">IProcessorFacade</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44b380fc8612717809-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">/* ... Methods whose arguments are either compatible with structured-cloning or have been wrapped in </span></div><div class="crayon-line" id="crayon-5fba44b380fc8612717809-5"><span class="crayon-c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Comlink.proxyValue ... */</span></div><div class="crayon-line" id="crayon-5fba44b380fc8612717809-6"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba44b380fc8612717809-7">&nbsp;</div><div class="crayon-line" id="crayon-5fba44b380fc8612717809-8"><span class="crayon-t">class</span><span class="crayon-h"> </span><span class="crayon-e">ExpensiveProcessor</span><span class="crayon-h"> </span><span class="crayon-r">implements</span><span class="crayon-h"> </span><span class="crayon-e">IProcessorFacade</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba44b380fc8612717809-9"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-c">/* ... async methods here ... */</span></div><div class="crayon-line" id="crayon-5fba44b380fc8612717809-10"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba44b380fc8612717809-11">&nbsp;</div><div class="crayon-line" id="crayon-5fba44b380fc8612717809-12"><span class="crayon-v">Comlink</span><span class="crayon-sy">.</span><span class="crayon-e">expose</span><span class="crayon-sy">(</span><span class="crayon-v">ExpensiveProcessor</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-r">self</span><span class="crayon-sy">)</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba44b380fc8612717809-13">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+<p></p>
+<p>Of course, this generics based implementation is not exactly type safe even though it eliminates all type errors.</p>
+<p>The reason is that there is nothing stopping us from exposing something that doesn’t implement <code>IProcessorFacade</code> but until the typescript’s <a href="https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API">compile time transformation API</a> gets well supported by all ts ecosystem tooling, the only practical solution is to use a lint rule based on file name conventions if this is a concern.</p>
+
+
+    

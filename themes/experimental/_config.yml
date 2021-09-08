@@ -1,0 +1,21 @@
+# Links on sidebar
+menu:
+  Home: /
+  Archive: /archives/
+  Tags: /tags/
+  About: /about/
+
+rss: /atom.xml
+
+# Content
+excerpt_link: Read On »
+
+source_han_font: true
+
+cli_renderer:
+  - executable: sass
+    args:
+      - "--load-path=node_modules"
+      - "--load-path=themes/experimental/source/css"
+      - "--style=compressed"
+      - "{{filePath}}"

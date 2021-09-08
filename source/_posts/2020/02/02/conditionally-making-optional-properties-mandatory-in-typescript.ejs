@@ -1,0 +1,238 @@
+---
+date: "2020-02-02"
+title: "Conditionally making optional properties mandatory in typescript"
+permalink: "2020/02/02/conditionally-making-optional-properties-mandatory-in-typescript/"
+tags: [Typescript]
+---
+<link rel="stylesheet" href="/css/crayon.min.css" >
+<link rel="stylesheet" href="/css/crayon-flatui-light.css" >
+
+
+
+	<p>A common case in applications is to work with types where certain properties are nullable. However, it is also common to need derived types of these same types which are stricter around nullablity of properties.</p>
+<p>Let’s imagine a note taking app: We have a <code>Notebook</code> type where <code>id</code> is nullable because unsaved notebooks haven’t been assigned an <code>id</code> yet. However after saving it, we know for a fact that a <code>Notebook</code> instance will have an <code>id</code> and ideally we shouldn’t have to say <code>notebook.id!</code> in the rest of the application.</p>
+<p>So, in this post we will explore a generic way to derive types like <code>SavedNotebook</code> where certain properties are conditionally mapped to non-optional.</p>
+<p><span id="more-681"></span></p>
+<p>TS comes with a <code>NonNullable</code> type, which essentially strips out <code>null</code> and <code>undefined</code> from any type.</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba445ce893c080196261" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba445ce893c080196261-1">1</div><div class="crayon-num" data-line="crayon-5fba445ce893c080196261-2">2</div><div class="crayon-num" data-line="crayon-5fba445ce893c080196261-3">3</div><div class="crayon-num" data-line="crayon-5fba445ce893c080196261-4">4</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba445ce893c080196261-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba445ce893c080196261-2"><span class="crayon-e">type </span><span class="crayon-v">T1</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-t">string</span><span class="crayon-h"> </span><span class="crayon-o">|</span><span class="crayon-h"> </span><span class="crayon-t">null</span><span class="crayon-h"> </span><span class="crayon-o">|</span><span class="crayon-h"> </span><span class="crayon-v">undefined</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba445ce893c080196261-3"><span class="crayon-e">type </span><span class="crayon-v">T2</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">NonNullable</span><span class="crayon-o">&lt;</span><span class="crayon-v">T1</span><span class="crayon-o">&gt;</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-c">// string</span></div><div class="crayon-line" id="crayon-5fba445ce893c080196261-4">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0042 seconds] -->
+<p></p>
+<p>We also have <a class="wp-editor-md-post-content-link" href="https://www.typescriptlang.org/docs/handbook/advanced-types.html#mapped-types">mapped types</a> that allow us to map over a type and programmatically derive the type for each key.</p>
+<p>So the following makes all values non-nullable:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba445ce894c519604699" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba445ce894c519604699-1">1</div><div class="crayon-num" data-line="crayon-5fba445ce894c519604699-2">2</div><div class="crayon-num" data-line="crayon-5fba445ce894c519604699-3">3</div><div class="crayon-num" data-line="crayon-5fba445ce894c519604699-4">4</div><div class="crayon-num" data-line="crayon-5fba445ce894c519604699-5">5</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba445ce894c519604699-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba445ce894c519604699-2"><span class="crayon-e">export </span><span class="crayon-e">type </span><span class="crayon-v">SavedNotebook</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba445ce894c519604699-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-i">T</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-e">keyof </span><span class="crayon-v">Notebook</span><span class="crayon-sy">]</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">NonNullable</span><span class="crayon-o">&lt;</span><span class="crayon-v">Notebook</span><span class="crayon-sy">[</span><span class="crayon-v">T</span><span class="crayon-sy">]</span><span class="crayon-o">&gt;</span></div><div class="crayon-line" id="crayon-5fba445ce894c519604699-4"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba445ce894c519604699-5">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0011 seconds] -->
+<p></p>
+<p>Now, we can use <a class="wp-editor-md-post-content-link" href="https://www.typescriptlang.org/docs/handbook/advanced-types.html#conditional-types">conditional types</a> to make only certain values non-nullable:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba445ce8953823116233" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba445ce8953823116233-1">1</div><div class="crayon-num" data-line="crayon-5fba445ce8953823116233-2">2</div><div class="crayon-num" data-line="crayon-5fba445ce8953823116233-3">3</div><div class="crayon-num" data-line="crayon-5fba445ce8953823116233-4">4</div><div class="crayon-num" data-line="crayon-5fba445ce8953823116233-5">5</div><div class="crayon-num" data-line="crayon-5fba445ce8953823116233-6">6</div><div class="crayon-num" data-line="crayon-5fba445ce8953823116233-7">7</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba445ce8953823116233-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba445ce8953823116233-2"><span class="crayon-e">export </span><span class="crayon-e">type </span><span class="crayon-v">SavedNotebook</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba445ce8953823116233-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-i">T</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-e">keyof </span><span class="crayon-v">Notebook</span><span class="crayon-sy">]</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-i">T</span><span class="crayon-h"> </span><span class="crayon-r">extends</span><span class="crayon-h"> </span><span class="crayon-s">"id"</span></div><div class="crayon-line" id="crayon-5fba445ce8953823116233-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">?</span><span class="crayon-h"> </span><span class="crayon-v">NonNullable</span><span class="crayon-o">&lt;</span><span class="crayon-v">Notebook</span><span class="crayon-sy">[</span><span class="crayon-v">T</span><span class="crayon-sy">]</span><span class="crayon-o">&gt;</span></div><div class="crayon-line" id="crayon-5fba445ce8953823116233-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">Notebook</span><span class="crayon-sy">[</span><span class="crayon-v">T</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="crayon-5fba445ce8953823116233-6"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba445ce8953823116233-7">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+<p></p>
+<p>Or, a more generic implementation:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba445ce8958257407111" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba445ce8958257407111-1">1</div><div class="crayon-num" data-line="crayon-5fba445ce8958257407111-2">2</div><div class="crayon-num" data-line="crayon-5fba445ce8958257407111-3">3</div><div class="crayon-num" data-line="crayon-5fba445ce8958257407111-4">4</div><div class="crayon-num" data-line="crayon-5fba445ce8958257407111-5">5</div><div class="crayon-num" data-line="crayon-5fba445ce8958257407111-6">6</div><div class="crayon-num" data-line="crayon-5fba445ce8958257407111-7">7</div><div class="crayon-num" data-line="crayon-5fba445ce8958257407111-8">8</div><div class="crayon-num" data-line="crayon-5fba445ce8958257407111-9">9</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba445ce8958257407111-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba445ce8958257407111-2"><span class="crayon-e">export</span><span class="crayon-h"> </span><span class="crayon-e">type</span><span class="crayon-h"> </span><span class="crayon-e">MandateProps</span><span class="crayon-o">&lt;</span><span class="crayon-e">T</span><span class="crayon-h"> </span><span class="crayon-r">extends</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-sy">}</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-i">K</span><span class="crayon-h"> </span><span class="crayon-r">extends</span><span class="crayon-h"> </span><span class="crayon-i">keyof</span><span class="crayon-h"> </span><span class="crayon-v">T</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba445ce8958257407111-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-e">TK </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-i">keyof</span><span class="crayon-h"> </span><span class="crayon-v">T</span><span class="crayon-sy">]</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-e">TK </span><span class="crayon-r">extends</span><span class="crayon-h"> </span><span class="crayon-i">K</span><span class="crayon-h"> </span></div><div class="crayon-line" id="crayon-5fba445ce8958257407111-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">?</span><span class="crayon-h"> </span><span class="crayon-v">NonNullable</span><span class="crayon-o">&lt;</span><span class="crayon-v">T</span><span class="crayon-sy">[</span><span class="crayon-v">TK</span><span class="crayon-sy">]</span><span class="crayon-o">&gt;</span></div><div class="crayon-line" id="crayon-5fba445ce8958257407111-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">T</span><span class="crayon-sy">[</span><span class="crayon-v">TK</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="crayon-5fba445ce8958257407111-6"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba445ce8958257407111-7">&nbsp;</div><div class="crayon-line" id="crayon-5fba445ce8958257407111-8"><span class="crayon-e">type </span><span class="crayon-v">SavedNotebook</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">MandateProps</span><span class="crayon-o">&lt;</span><span class="crayon-v">Notebook</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">"id"</span><span class="crayon-o">&gt;</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba445ce8958257407111-9">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0014 seconds] -->
+<p></p>
+<p>Our <code>SavedNotebook</code> type will effectively be:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba445ce895d989196490" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba445ce895d989196490-1">1</div><div class="crayon-num" data-line="crayon-5fba445ce895d989196490-2">2</div><div class="crayon-num" data-line="crayon-5fba445ce895d989196490-3">3</div><div class="crayon-num" data-line="crayon-5fba445ce895d989196490-4">4</div><div class="crayon-num" data-line="crayon-5fba445ce895d989196490-5">5</div><div class="crayon-num" data-line="crayon-5fba445ce895d989196490-6">6</div><div class="crayon-num" data-line="crayon-5fba445ce895d989196490-7">7</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba445ce895d989196490-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba445ce895d989196490-2"><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba445ce895d989196490-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">id</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">number</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba445ce895d989196490-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">name</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-t">string</span><span class="crayon-h"> </span><span class="crayon-o">|</span><span class="crayon-h"> </span><span class="crayon-t">null</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba445ce895d989196490-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">description</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-t">string</span><span class="crayon-h"> </span><span class="crayon-o">|</span><span class="crayon-h"> </span><span class="crayon-t">null</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba445ce895d989196490-6"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba445ce895d989196490-7">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0011 seconds] -->
+<p></p>
+<p>Looks good! Are we done then ? It turns out, not quite.</p>
+<p>Let’s tweak our <code>Notebook</code> interface a bit:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba445ce8962456978648" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba445ce8962456978648-1">1</div><div class="crayon-num" data-line="crayon-5fba445ce8962456978648-2">2</div><div class="crayon-num" data-line="crayon-5fba445ce8962456978648-3">3</div><div class="crayon-num" data-line="crayon-5fba445ce8962456978648-4">4</div><div class="crayon-num" data-line="crayon-5fba445ce8962456978648-5">5</div><div class="crayon-num" data-line="crayon-5fba445ce8962456978648-6">6</div><div class="crayon-num" data-line="crayon-5fba445ce8962456978648-7">7</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba445ce8962456978648-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba445ce8962456978648-2"><span class="crayon-t">interface</span><span class="crayon-h"> </span><span class="crayon-e">Notebook</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba445ce8962456978648-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">id</span><span class="crayon-sy">?</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">number</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba445ce8962456978648-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">name</span><span class="crayon-sy">?</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-t">string</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba445ce8962456978648-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">description</span><span class="crayon-sy">?</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-t">string</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba445ce8962456978648-6"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba445ce8962456978648-7">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0006 seconds] -->
+<p></p>
+<p>We made the properties optional. Our <code>SavedNotebook</code> type will no longer evaluate to what we expect:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba445ce8966800033072" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba445ce8966800033072-1">1</div><div class="crayon-num" data-line="crayon-5fba445ce8966800033072-2">2</div><div class="crayon-num" data-line="crayon-5fba445ce8966800033072-3">3</div><div class="crayon-num" data-line="crayon-5fba445ce8966800033072-4">4</div><div class="crayon-num" data-line="crayon-5fba445ce8966800033072-5">5</div><div class="crayon-num" data-line="crayon-5fba445ce8966800033072-6">6</div><div class="crayon-num" data-line="crayon-5fba445ce8966800033072-7">7</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba445ce8966800033072-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba445ce8966800033072-2"><span class="crayon-e">type </span><span class="crayon-v">SavedNotebook</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba445ce8966800033072-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">id</span><span class="crayon-sy">?</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">number</span><span class="crayon-h"> </span><span class="crayon-o">|</span><span class="crayon-h"> </span><span class="crayon-v">undefined</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba445ce8966800033072-4"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-r">name</span><span class="crayon-sy">?</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-t">string</span><span class="crayon-h"> </span><span class="crayon-o">|</span><span class="crayon-h"> </span><span class="crayon-v">undefined</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba445ce8966800033072-5"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">description</span><span class="crayon-sy">?</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-t">string</span><span class="crayon-h"> </span><span class="crayon-o">|</span><span class="crayon-h"> </span><span class="crayon-v">undefined</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba445ce8966800033072-6"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba445ce8966800033072-7">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0009 seconds] -->
+<p></p>
+<p>What happened here ? Wasn’t our <code>NonNullable</code> type supposed to take care of <em>both</em> <code>null</code> and <code>undefined</code> ?</p>
+<p>Well, it did, but it turns out typescript treats the following as different cases:</p>
+<ol>
+<li>Whether a key may (or may not) be present in an object type</li>
+<li>Whether the corresponding value may be <code>undefined</code>.</li>
+</ol>
+<p>Mapped types preserve the former, and so our <code>MandateProps</code> is not able to remove the <code>undefined</code> from <code>Notebook["id"]</code>.</p>
+<p>So, what should be do if we do want to make that key mandatory as well ?</p>
+<p>Thankfully typescript allows us to suffix our key with <code>-?</code> while mapping over types to remove optionality.</p>
+<p>But doing that conditionally requires another workaround:</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba445ce896b987927910" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba445ce896b987927910-1">1</div><div class="crayon-num" data-line="crayon-5fba445ce896b987927910-2">2</div><div class="crayon-num" data-line="crayon-5fba445ce896b987927910-3">3</div><div class="crayon-num" data-line="crayon-5fba445ce896b987927910-4">4</div><div class="crayon-num" data-line="crayon-5fba445ce896b987927910-5">5</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba445ce896b987927910-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba445ce896b987927910-2"><span class="crayon-e">export</span><span class="crayon-h"> </span><span class="crayon-e">type</span><span class="crayon-h"> </span><span class="crayon-e">MandateProps</span><span class="crayon-o">&lt;</span><span class="crayon-e">T</span><span class="crayon-h"> </span><span class="crayon-r">extends</span><span class="crayon-h"> </span><span class="crayon-sy">{</span><span class="crayon-sy">}</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-i">K</span><span class="crayon-h"> </span><span class="crayon-r">extends</span><span class="crayon-h"> </span><span class="crayon-i">keyof</span><span class="crayon-h"> </span><span class="crayon-v">T</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">Omit</span><span class="crayon-o">&lt;</span><span class="crayon-v">T</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-e">K</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-o">&amp;</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba445ce896b987927910-3"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-sy">[</span><span class="crayon-e">MK </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-v">K</span><span class="crayon-sy">]</span><span class="crayon-o">-</span><span class="crayon-sy">?</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">NonNullable</span><span class="crayon-o">&lt;</span><span class="crayon-v">T</span><span class="crayon-sy">[</span><span class="crayon-v">MK</span><span class="crayon-sy">]</span><span class="crayon-o">&gt;</span></div><div class="crayon-line" id="crayon-5fba445ce896b987927910-4"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba445ce896b987927910-5">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0012 seconds] -->
+<p></p>
+<p><code>Omit&lt;T, K&gt;</code> retains all the optional keys that we don’t care about and gets rid of the keys that are assignable to <code>K</code>. Then we create another type for the keys which match <code>K</code>, and while mapping over them we make the keys not optional. Intersection of the both gives us a type where all keys that are assignable to <code>K</code> are mandatory.</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba445ce8971862497170" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba445ce8971862497170-1">1</div><div class="crayon-num" data-line="crayon-5fba445ce8971862497170-2">2</div><div class="crayon-num" data-line="crayon-5fba445ce8971862497170-3">3</div><div class="crayon-num" data-line="crayon-5fba445ce8971862497170-4">4</div><div class="crayon-num" data-line="crayon-5fba445ce8971862497170-5">5</div><div class="crayon-num" data-line="crayon-5fba445ce8971862497170-6">6</div><div class="crayon-num" data-line="crayon-5fba445ce8971862497170-7">7</div><div class="crayon-num" data-line="crayon-5fba445ce8971862497170-8">8</div><div class="crayon-num" data-line="crayon-5fba445ce8971862497170-9">9</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba445ce8971862497170-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba445ce8971862497170-2"><span class="crayon-e">type </span><span class="crayon-v">SavedNotebook</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">MandateProps</span><span class="crayon-o">&lt;</span><span class="crayon-v">Notebook</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">"id"</span><span class="crayon-o">&gt;</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba445ce8971862497170-3">&nbsp;</div><div class="crayon-line" id="crayon-5fba445ce8971862497170-4"><span class="crayon-c">// ^ Is equivalent to:</span></div><div class="crayon-line" id="crayon-5fba445ce8971862497170-5">&nbsp;</div><div class="crayon-line" id="crayon-5fba445ce8971862497170-6"><span class="crayon-e">type </span><span class="crayon-v">SavedNotebook</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">Pick</span><span class="crayon-o">&lt;</span><span class="crayon-v">Notebook</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-s">"name"</span><span class="crayon-h"> </span><span class="crayon-o">|</span><span class="crayon-h"> </span><span class="crayon-s">"description"</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-o">&amp;</span><span class="crayon-h"> </span><span class="crayon-sy">{</span></div><div class="crayon-line" id="crayon-5fba445ce8971862497170-7"><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-v">id</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">number</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba445ce8971862497170-8"><span class="crayon-sy">}</span></div><div class="crayon-line" id="crayon-5fba445ce8971862497170-9">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0010 seconds] -->
+<p></p>
+<p>This is pretty much what we want. <code>Omit</code> is internally implemented using <code>Pick</code> and typescript is being lazy about <code>Pick</code>.</p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba445ce8976911642548" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba445ce8976911642548-1">1</div><div class="crayon-num" data-line="crayon-5fba445ce8976911642548-2">2</div><div class="crayon-num" data-line="crayon-5fba445ce8976911642548-3">3</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba445ce8976911642548-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba445ce8976911642548-2"><span class="crayon-e">type </span><span class="crayon-v">Omit</span><span class="crayon-o">&lt;</span><span class="crayon-v">T</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-i">K</span><span class="crayon-h"> </span><span class="crayon-r">extends</span><span class="crayon-h"> </span><span class="crayon-e">keyof </span><span class="crayon-v">any</span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">Pick</span><span class="crayon-o">&lt;</span><span class="crayon-v">T</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">Exclude</span><span class="crayon-o">&lt;</span><span class="crayon-i">keyof</span><span class="crayon-h"> </span><span class="crayon-v">T</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">K</span><span class="crayon-o">&gt;&gt;</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-5fba445ce8976911642548-3">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0007 seconds] -->
+<p></p>
+<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+
+		<div id="crayon-5fba445ce897b353313842" class="crayon-syntax crayon-theme-flatui-light crayon-font-inconsolata crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; font-size: 15px !important; line-height: 20px !important;">
+		
+			<div class="crayon-plain-wrap"></div>
+			<div class="crayon-main" style="">
+				<table class="crayon-table">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums" data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 15px !important; line-height: 20px !important;"><div class="crayon-num" data-line="crayon-5fba445ce897b353313842-1">1</div><div class="crayon-num" data-line="crayon-5fba445ce897b353313842-2">2</div><div class="crayon-num" data-line="crayon-5fba445ce897b353313842-3">3</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 15px !important; line-height: 20px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-5fba445ce897b353313842-1">&nbsp;</div><div class="crayon-line" id="crayon-5fba445ce897b353313842-2"><span class="crayon-e">type </span><span class="crayon-v">ID</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">SavedNotebook</span><span class="crayon-sy">[</span><span class="crayon-s">"id"</span><span class="crayon-sy">]</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-c">// number</span></div><div class="crayon-line" id="crayon-5fba445ce897b353313842-3">&nbsp;</div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0004 seconds] -->
+<p></p>
+<p>Voila.</p>
+
+
+    
