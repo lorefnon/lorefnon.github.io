@@ -903,13 +903,6 @@ he@^1.0.0:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-hexo-auto-excerpt@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/hexo-auto-excerpt/-/hexo-auto-excerpt-1.1.2.tgz#d19d3449e4c4c164c629a5641a2e688fff9aace3"
-  integrity sha512-Gj6TJhp/Vk6XrE44CiDl3qjSZsp2J9T6lv70EjDGOoDmNNQRcdvP2B/zVoe8co7mJt8YwD6sPNppIxQc/8KCGQ==
-  dependencies:
-    html-to-text "^3.3.0"
-
 hexo-cli@^4.0.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/hexo-cli/-/hexo-cli-4.2.0.tgz#74647bc72a90b9cebf04af5bc70839ab281a305d"
@@ -925,6 +918,13 @@ hexo-cli@^4.0.0:
     minimist "^1.2.5"
     resolve "^1.11.0"
     tildify "^2.0.0"
+
+hexo-description@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/hexo-description/-/hexo-description-0.1.0.tgz#02967fec6ab4215002cf865df1fde2953a598d6e"
+  integrity sha512-ritpuEza2a/6UWEao8PEx86g+k/PY1YAdWsLeZmIyjx263viu/zct9NUNdu83BB5qV1nGzRGdgsOe0bRFrkKNg==
+  dependencies:
+    html-to-text "^3.3.0"
 
 hexo-feed@^1.1.0:
   version "1.1.0"
