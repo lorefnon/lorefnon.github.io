@@ -66,15 +66,15 @@
     <category term="Java" />
     <category term="JOOQ" />
     <category term="Ruby on Rails" />
+    <category term="Liquibase" />
+    <category term="tbls" />
+    <category term="jOOQ" />
     <category term="Vue" />
     <category term="TypeScript" />
-    <category term="Liquibase" />
     <category term="Gradle" />
     <category term="Spring" />
     <category term="Spring-Boot" />
     <category term="gRPC" />
-    <category term="tbls" />
-    <category term="jOOQ" />
     <entry>
         <id>https://lorefnon.me/2014/07/27/optimizing-sti-columns.html</id>
         <title>Optimizing space taken by type column in Rails STI</title>
@@ -161,7 +161,7 @@ any errors when trying to save or retrieve them since we delegate to default imp
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
     &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;sti_cls_list&lt;/span&gt;&lt;/span&gt;
-      &lt;span class=&#34;hljs-variable&#34;&gt;@sti_cls&lt;/span&gt;_list
+      &lt;span class=&#34;hljs-variable&#34;&gt;@sti_cls_list&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
     def find_sti_class type_name
@@ -211,7 +211,7 @@ NoMethodError: undefined method `index&amp;#39; for nil:NilClass
   &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; superclass.respond_to? &lt;span class=&#34;hljs-symbol&#34;&gt;:sti_cls_list&lt;/span&gt;
     superclass.sti_cls_list
   &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
-    &lt;span class=&#34;hljs-variable&#34;&gt;@sti_cls&lt;/span&gt;_list
+    &lt;span class=&#34;hljs-variable&#34;&gt;@sti_cls_list&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 

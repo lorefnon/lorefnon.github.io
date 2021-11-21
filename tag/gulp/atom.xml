@@ -66,15 +66,15 @@
     <category term="Java" />
     <category term="JOOQ" />
     <category term="Ruby on Rails" />
+    <category term="Liquibase" />
+    <category term="tbls" />
+    <category term="jOOQ" />
     <category term="Vue" />
     <category term="TypeScript" />
-    <category term="Liquibase" />
     <category term="Gradle" />
     <category term="Spring" />
     <category term="Spring-Boot" />
     <category term="gRPC" />
-    <category term="tbls" />
-    <category term="jOOQ" />
     <entry>
         <id>https://lorefnon.me/2014/03/10/decoupling-frontend-with-gulp-and-node-http-proxy.html</id>
         <title>Decoupling your frontend development with gulp and http-proxy</title>
@@ -135,7 +135,7 @@ web-root of our application eg. the public folder of a Rails application.&lt;/p&
     .use(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;req, res&lt;/span&gt;)&lt;/span&gt;&amp;#123;
         &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (req.url.indexOf(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;dashboard&amp;#x27;&lt;/span&gt;) == -&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;) &amp;#123;
             proxy.web(req, res, &amp;#123;
-                target: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;http://localhost:3000&amp;#x27;&lt;/span&gt;
+                &lt;span class=&#34;hljs-attr&#34;&gt;target&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;http://localhost:3000&amp;#x27;&lt;/span&gt;
             &amp;#125;)
         &amp;#125;
     &amp;#125;)
@@ -221,13 +221,13 @@ several browsers.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; app = connect()
     .use(connect.logger(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;dev&amp;#x27;&lt;/span&gt;))
     .use(livereload(&amp;#123;
-        port: &lt;span class=&#34;hljs-number&#34;&gt;35729&lt;/span&gt;
+        &lt;span class=&#34;hljs-attr&#34;&gt;port&lt;/span&gt;: &lt;span class=&#34;hljs-number&#34;&gt;35729&lt;/span&gt;
     &amp;#125;))
     .use(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/dashboard&amp;#x27;&lt;/span&gt;, connect.static(__dirname+&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/dashboard&amp;#x27;&lt;/span&gt;))
     .use(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;req, res&lt;/span&gt;)&lt;/span&gt;&amp;#123;
         &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (req.url.indexOf(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;dashboard&amp;#x27;&lt;/span&gt;) == -&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;) &amp;#123;
             proxy.web(req, res, &amp;#123;
-                target: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;http://localhost:3000&amp;#x27;&lt;/span&gt;
+                &lt;span class=&#34;hljs-attr&#34;&gt;target&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;http://localhost:3000&amp;#x27;&lt;/span&gt;
             &amp;#125;)
         &amp;#125;
     &amp;#125;)

@@ -69,15 +69,15 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <category>Vue</category>
         <category>TypeScript</category>
-        <category>Liquibase</category>
         <category>Gradle</category>
         <category>Spring</category>
         <category>Spring-Boot</category>
         <category>gRPC</category>
-        <category>tbls</category>
-        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2021/09/04/bootstrapping-a-grpc-server-with-spring-boot-and-kotlin/</guid>
             <title>Bootstrapping a Kotlin gRPC service with Spring Boot</title>
@@ -88,8 +88,10 @@
             <category>gRPC</category>
             <pubDate>Sat, 04 Sep 2021 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;It has always been possible to build gRPC services in kotlin through java interop, but with the recently improved first class support for kotlin in the official gRPC/protobuf libraries it is quite straightforward to build gRPC services in Kotlin which take advantage of kotlin native features like coroutines. In addition, the grpc-spring-boot-starter makes it really convenient for spring boot users to integrate gRPC.&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+
 &lt;p&gt;Note that while our services are using coroutines, we will not need webflux (although it is perfectly fine to use both of them together)&lt;/p&gt;
-&lt;p&gt;This post is primarily a recipe for integrating these components to quickly get started with gRPC on spring boot. &lt;/p&gt;
+&lt;p&gt;This post is primarily a recipe for integrating these components to quickly get started with gRPC on spring boot.&lt;/p&gt;
 &lt;h1 id=&#34;Gradle-configuration&#34;&gt;&lt;a href=&#34;#Gradle-configuration&#34; class=&#34;headerlink&#34; title=&#34;Gradle configuration:&#34;&gt;&lt;/a&gt;Gradle configuration:&lt;/h1&gt;&lt;p&gt;First part is to configure our gradle configuration (&lt;code&gt;build.gradle.kts&lt;/code&gt;) to use the protobuf and grpc codegen utilities.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; com.google.protobuf.gradle.*
@@ -178,7 +180,7 @@
 
 &lt;p&gt;Note the use of the additional grpckt plugin for protoc along with the grpc plugin for java code-generation.&lt;/p&gt;
 &lt;p&gt;Given, the above configuration, we can start defining our API schema in protobuf format.&lt;/p&gt;
-&lt;p&gt;Let us start with a minimal example of &lt;code&gt;src/main/proto/demo.proto&lt;/code&gt;: &lt;/p&gt;
+&lt;p&gt;Let us start with a minimal example of &lt;code&gt;src/main/proto/demo.proto&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;syntax = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;proto3&amp;quot;&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; com.example.grpcdemo.service;
@@ -197,7 +199,7 @@
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;We will look at the code generated for the above in a bit. But let us first look at how to implement this service in our kotlin backend. Our UserService has just one method for now which returns a user given it&amp;#39;s id. &lt;/p&gt;
+&lt;p&gt;We will look at the code generated for the above in a bit. But let us first look at how to implement this service in our kotlin backend. Our UserService has just one method for now which returns a user given it&amp;#39;s id.&lt;/p&gt;
 &lt;p&gt;Our &lt;code&gt;UserService.kt&lt;/code&gt; implementing this RPC service looks something like this:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; com.example.grpcdemo.service
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
@@ -221,17 +223,18 @@
 &lt;p&gt;Our implementation derives from the &lt;code&gt;UserServiceGrpcKt.UserServiceCoroutineImplBase&lt;/code&gt; which was generated for us. The generated functions use some protobuf specific types and we return a &lt;code&gt;User&lt;/code&gt; instance constructed through the builder that was also generated for us.&lt;/p&gt;
 &lt;p&gt;Overall our code loooks pretty readable, and we didn&amp;#39;t have to write any mapping boilerplate.&lt;/p&gt;
 &lt;p&gt;If we peek into the build directory, we can find all the code our code-generator generated for us:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs plain&#34;&gt;▾ build&amp;#x2F;
-  ▸ classes&amp;#x2F;
-  ▸ extracted-include-protos&amp;#x2F;
-  ▸ extracted-protos&amp;#x2F;
-  ▾ generated&amp;#x2F;
-    ▾ source&amp;#x2F;proto&amp;#x2F;main&amp;#x2F;
-      ▾ grpc&amp;#x2F;com&amp;#x2F;example&amp;#x2F;grpcdemo&amp;#x2F;service&amp;#x2F;
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;▾ build/
+  ▸ classes/
+  ▸ extracted-include-protos/
+  ▸ extracted-protos/
+  ▾ generated/
+    ▾ source/proto/main/
+      ▾ grpc/com/example/grpcdemo/service/
           UserServiceGrpc.java
-      ▾ grpckt&amp;#x2F;com&amp;#x2F;example&amp;#x2F;grpcdemo&amp;#x2F;service&amp;#x2F;
+      ▾ grpckt/com/example/grpcdemo/service/
           DemoGrpcKt.kt&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The first thing we want to look at is the &lt;code&gt;UserServiceKt&lt;/code&gt; where our base class we derived from resides: &lt;/p&gt;
+
+&lt;p&gt;The first thing we want to look at is the &lt;code&gt;UserServiceKt&lt;/code&gt; where our base class we derived from resides:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; com.example.grpcdemo.service
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-18&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-18&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
@@ -348,9 +351,9 @@
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;There isn&amp;#39;t much rocket science here. The code looks much similar to what we would have written if we were implementing this boilerplate ourselves. &lt;/p&gt;
-&lt;p&gt;In our previous example, we have used a unary call. gRPC also has good support for streaming. &lt;/p&gt;
-&lt;p&gt;Before we conclude our post, let&amp;#39;s quickly look at what implementing a stream returning endpoint looks like. We add a &lt;code&gt;listUsers&lt;/code&gt; method to our &lt;code&gt;UserService&lt;/code&gt; which returns a stream of &lt;code&gt;User&lt;/code&gt;. &lt;/p&gt;
+&lt;p&gt;There isn&amp;#39;t much rocket science here. The code looks much similar to what we would have written if we were implementing this boilerplate ourselves.&lt;/p&gt;
+&lt;p&gt;In our previous example, we have used a unary call. gRPC also has good support for streaming.&lt;/p&gt;
+&lt;p&gt;Before we conclude our post, let&amp;#39;s quickly look at what implementing a stream returning endpoint looks like. We add a &lt;code&gt;listUsers&lt;/code&gt; method to our &lt;code&gt;UserService&lt;/code&gt; which returns a stream of &lt;code&gt;User&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;syntax = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;proto3&amp;quot;&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; com.example.grpcdemo.service;
@@ -372,9 +375,9 @@
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;One weird gRPC oddity is that even though our function does not need an argument, it is required to accept an argument, and hence we have defined an empty message type. &lt;/p&gt;
-&lt;p&gt;As you may expect, on the kotlin side our return value is a &lt;a href=&#34;https://kotlinlang.org/docs/flow.html#sequences&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Flow&lt;/a&gt; - enabling us to return a collection of values over time. &lt;/p&gt;
-&lt;p&gt;In our simple example below, we simply return a list, converted to a flow through a convenient extension function from kotlinx.coroutines. &lt;/p&gt;
+&lt;p&gt;One weird gRPC oddity is that even though our function does not need an argument, it is required to accept an argument, and hence we have defined an empty message type.&lt;/p&gt;
+&lt;p&gt;As you may expect, on the kotlin side our return value is a &lt;a href=&#34;https://kotlinlang.org/docs/flow.html#sequences&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Flow&lt;/a&gt; - enabling us to return a collection of values over time.&lt;/p&gt;
+&lt;p&gt;In our simple example below, we simply return a list, converted to a flow through a convenient extension function from kotlinx.coroutines.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;@GrpcService&lt;/span&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;UserService&lt;/span&gt;: &lt;span class=&#34;hljs-type&#34;&gt;UserServiceGrpcKt.UserServiceCoroutineImplBase&lt;/span&gt;&lt;/span&gt;() {
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
@@ -410,7 +413,7 @@
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;This brings us to the end of this short post. We explored how we can bootstrap a simple gRPC service using kotlin and spring boot, and handle unary calls and streaming. As next steps you are encouraged to explore the &lt;a href=&#34;https://yidongnan.github.io/grpc-spring-boot-starter/en/server/getting-started.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;grpc-spring-boot-starter&amp;#39;s introduction&lt;/a&gt; and the &lt;a href=&#34;https://grpc.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;gRPC official site&lt;/a&gt; which provide detailed documentation on gRPC integrations. &lt;/p&gt;
+&lt;p&gt;This brings us to the end of this short post. We explored how we can bootstrap a simple gRPC service using kotlin and spring boot, and handle unary calls and streaming. As next steps you are encouraged to explore the &lt;a href=&#34;https://yidongnan.github.io/grpc-spring-boot-starter/en/server/getting-started.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;grpc-spring-boot-starter&amp;#39;s introduction&lt;/a&gt; and the &lt;a href=&#34;https://grpc.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;gRPC official site&lt;/a&gt; which provide detailed documentation on gRPC integrations.&lt;/p&gt;
  ]]></description>
         </item>
     </channel>

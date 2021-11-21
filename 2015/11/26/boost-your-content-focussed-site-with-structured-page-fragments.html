@@ -1,10 +1,10 @@
-<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta property="og:title" content="Gaurab Paul | Blog"><meta property="og:description" content="Ramblings on Web Development and software architecture"><meta name="generator" content="Hexo 5.3.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2015-11-26">Posted &nbsp;6 years ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Javascript/"><img src="/images/tag.svg">Javascript</a></li><li class="body-text"><a class="tag-link" href="/tags/Rails/"><img src="/images/tag.svg">Rails</a></li><li class="body-text"><a class="tag-link" href="/tags/SPF/"><img src="/images/tag.svg">SPF</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Boost your content focussed site with Structured Page Fragments</div></div><div class="blog-main"><div class="flex-row post-warning"><img src="/images/primary/alert-triangle.svg" style="margin-right: 1rem">This post has not been updated in quite some time and the content here may be out of date 
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta property="og:title" content="Gaurab Paul | Blog"><meta property="og:description" content="Ramblings on Web Development and software architecture"><meta name="generator" content="Hexo 5.4.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2015-11-26">Posted &nbsp;6 years ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Javascript/"><img src="/images/tag.svg">Javascript</a></li><li class="body-text"><a class="tag-link" href="/tags/Rails/"><img src="/images/tag.svg">Rails</a></li><li class="body-text"><a class="tag-link" href="/tags/SPF/"><img src="/images/tag.svg">SPF</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Boost your content focussed site with Structured Page Fragments</div></div><div class="blog-main"><div class="flex-row post-warning"><img src="/images/primary/alert-triangle.svg" style="margin-right: 1rem">This post has not been updated in quite some time and the content here may be out of date 
 or not reflect my current my recommedation in the matter.</div><div class="page-content"><h2 id="The-context"><a href="#The-context" class="headerlink" title="The context"></a>The context</h2><p>SPF.js a lightweight javascript library to incorporate dynamic page updates that dramatically reduces perceived page latency. Quoting from the Repo Homepage:</p>
 <blockquote>
 <p>Using progressive enhancement and HTML5, SPF integrates with your site to enable a faster, more fluid user experience by updating just the sections of the page that change during navigation, not the whole page. SPF provides a response format for sending document fragments, a robust system for script and style management, an in-memory cache, on-the-fly processing, and more.</p>
 </blockquote>
 <p>While for complex dynamic sites which have a significant amount of client side logic, I still recommend adopting a client side javascript framework, but for content focussed sites, a nifty utility like SPF.js can be very useful.</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="Why-not-good-old-js-erb-templates"><a href="#Why-not-good-old-js-erb-templates" class="headerlink" title="Why not good old js.erb templates ?"></a>Why not good old js.erb templates ?</h2><p>While Rails allows us to render server generated javascript templates, using them to generate dynamic page updates is a bit cumbersome for most scenarios. Especially you have to handle page url updates manually, scroll back the pages manually etc. None of them are very complex concerns, but having a library deal with such cross cutting concerns is much more elegant IMHO.</p>
 <h2 id="What-about-turbolinks"><a href="#What-about-turbolinks" class="headerlink" title="What about turbolinks ?"></a>What about turbolinks ?</h2><p>While yes, turbolinks does enjoy being a part of the default Rails stack, but frankly, it has always seemed like a half baked product. While turbolinks does improve the experience over full page reloads, behind the scenes it still loads the full page content.</p>
@@ -69,34 +69,37 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 
 <span class="hljs-keyword">end</span>
 </code></pre>
+
 <p>So now that we have our dummy posts in place, we just need to show them:</p>
 <pre><code class="hljs erb"><span class="xml"><span class="hljs-comment">&lt;!-- posts/index.html.erb --&gt;</span></span>
 <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;blog-container&quot;</span>&gt;</span></span>
-
+<span class="xml"></span>
 <span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;blog-title title&quot;</span>&gt;</span> Lorefnon&#x27;s Awesome blog <span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>
 <span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">h2</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;page-title title&quot;</span>&gt;</span> Posts <span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></span>
-
+<span class="xml"></span>
 <span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;posts-container&quot;</span>&gt;</span></span>
 <span class="xml">    &lt;%=</span><span class="ruby"> render <span class="hljs-string">&#x27;posts/posts&#x27;</span> </span><span class="xml">%&gt;</span>
 <span class="xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
-
+<span class="xml"></span>
 <span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></code></pre>
+
 <br/>
 
 <pre><code class="hljs erb"><span class="xml"><span class="hljs-comment">&lt;!-- posts/_posts.html.erb --&gt;</span></span>
 <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;posts-list&quot;</span>&gt;</span></span>
-
+<span class="xml"></span>
 <span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;posts&quot;</span>&gt;</span></span>
 <span class="xml">    &lt;%</span><span class="ruby"> <span class="hljs-variable">@posts</span>.each <span class="hljs-keyword">do</span> <span class="hljs-params">|post|</span> </span><span class="xml">%&gt;</span>
 <span class="xml">    &lt;%=</span><span class="ruby"> render <span class="hljs-string">&#x27;posts/summary&#x27;</span>, <span class="hljs-symbol">post:</span> post </span><span class="xml">%&gt;</span>
 <span class="xml">    &lt;%</span><span class="ruby"> <span class="hljs-keyword">end</span> </span><span class="xml">%&gt;</span>
 <span class="xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
-
+<span class="xml"></span>
 <span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></span>
-
+<span class="xml"></span>
 <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;navigation-links&quot;</span>&gt;</span></span>
 <span class="xml">  &lt;%=</span><span class="ruby"> render <span class="hljs-string">&#x27;posts/navigation_links&#x27;</span> </span><span class="xml">%&gt;</span>
 <span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></code></pre>
+
 <br/>
 
 <pre><code class="hljs erb"><span class="xml"><span class="hljs-comment">&lt;!-- posts/_summary.html.erb --&gt;</span></span>
@@ -104,6 +107,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 <span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;title post-title&quot;</span>&gt;</span> &lt;%=</span><span class="ruby"> link_to post.title, post_path(<span class="hljs-symbol">id:</span> post.id) </span><span class="xml">%&gt; <span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span></span>
 <span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span> &lt;%=</span><span class="ruby"> post.summary </span><span class="xml">%&gt; <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
 <span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span></code></pre>
+
 <br/>
 
 <pre><code class="hljs erb"><span class="xml"><span class="hljs-comment">&lt;!-- posts/_navigation_links.html.erb --&gt;</span></span>
@@ -113,6 +117,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 <span class="xml">&lt;%</span><span class="ruby"> <span class="hljs-keyword">if</span> <span class="hljs-variable">@page</span> &lt; <span class="hljs-variable">@num_pages</span> -<span class="hljs-number">1</span> </span><span class="xml">%&gt;</span>
 <span class="xml">   &lt;%=</span><span class="ruby"> link_to <span class="hljs-string">&#x27;Next Page&#x27;</span>, posts_path(<span class="hljs-symbol">page:</span> <span class="hljs-variable">@page</span>+<span class="hljs-number">1</span>) </span><span class="xml">%&gt;</span>
 <span class="xml">&lt;%</span><span class="ruby"> <span class="hljs-keyword">end</span> </span><span class="xml">%&gt;</span></code></pre>
+
 <br/>
 
 <pre><code class="hljs erb"><span class="xml"><span class="hljs-comment">&lt;!-- posts/show.html.erb --&gt;</span></span>
@@ -120,6 +125,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 <span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">h2</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;post-title title&quot;</span>&gt;</span> &lt;%=</span><span class="ruby"> link_to <span class="hljs-variable">@post</span>.title, post_path(<span class="hljs-symbol">id:</span> <span class="hljs-variable">@post</span>.id) </span><span class="xml">%&gt; <span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></span>
 <span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;post-body&quot;</span>&gt;</span> &lt;%=</span><span class="ruby"> <span class="hljs-variable">@post</span>.body </span><span class="xml">%&gt; <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
 <span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></code></pre>
+
 <p>The above templates have nothing particularly characteristic. If you would have written them yourself, I guess you would have implemented something very similar. I have presented above to particularly highlight that the way you structure your views does not need to be drastically altered to use SPF.js. Hence it is easy to take your existing sites and start using SPF.js.</p>
 <p>Our dummy blog looks something like this now:</p>
 <img src="/images/2015-11-26/blog_index.png">
@@ -127,9 +133,9 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 <h2 id="Including-SPF"><a href="#Including-SPF" class="headerlink" title="Including SPF"></a>Including SPF</h2><p>Next step for us is to include SPF.js in the page. For that we will just add the cdn link to our layout. Other methods of including are available <a href="https://github.com/youtube/spfjs#download" target="_blank" rel="noopener external nofollow noreferrer">here</a>.</p>
 <p>After this inclusion our template might look something like this:</p>
 <pre><code class="hljs erb"><span class="xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span></span>
-
+<span class="xml"></span>
 <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span></span>
-
+<span class="xml"></span>
 <span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span></span>
 <span class="xml">    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Rails Spfjs Demo<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span></span>
 <span class="xml">    &lt;%=</span><span class="ruby"> javascript_include_tag <span class="hljs-string">&#x27;//ajax.googleapis.com/ajax/libs/spf/2.3.0/spf.js&#x27;</span> </span><span class="xml">%&gt;</span>
@@ -137,17 +143,18 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 <span class="xml">    &lt;%=</span><span class="ruby"> javascript_include_tag <span class="hljs-string">&#x27;application&#x27;</span> </span><span class="xml">%&gt;</span>
 <span class="xml">    &lt;%=</span><span class="ruby"> csrf_meta_tags </span><span class="xml">%&gt;</span>
 <span class="xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span></span>
-
+<span class="xml"></span>
 <span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span></span>
-
+<span class="xml"></span>
 <span class="xml">  &lt;%=</span><span class="ruby"> <span class="hljs-keyword">yield</span> </span><span class="xml">%&gt;</span>
-
+<span class="xml"></span>
 <span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span></span>
 <span class="xml">    spf.init();</span>
 <span class="xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
-
+<span class="xml"></span>
 <span class="xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span>
 <span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span></code></pre>
+
 <h2 id="Making-navigation-links-SPF-aware"><a href="#Making-navigation-links-SPF-aware" class="headerlink" title="Making navigation links SPF aware"></a>Making navigation links SPF aware</h2><p>However just initializing SPF.js does not magically ajaxify all navigation links. In fact by so far SPF.js does not alter the navigation in any way. We need to explicitly enable SPFjs for links for which our server knows how to server partial content. For SPF to process a link, it should have the class &#39;spf-link&#39;. Let us start with our navigation links:</p>
 <pre><code class="hljs erb"><span class="xml">&lt;%</span><span class="ruby"> <span class="hljs-keyword">if</span> <span class="hljs-variable">@page</span> &gt; <span class="hljs-number">0</span> </span><span class="xml">%&gt;</span>
 <span class="xml">   &lt;%=</span><span class="ruby"> link_to <span class="hljs-string">&#x27;Previous Page&#x27;</span>, posts_path(<span class="hljs-symbol">page:</span> <span class="hljs-variable">@page</span>-<span class="hljs-number">1</span>), <span class="hljs-class"><span class="hljs-keyword">class</span>: &#x27;<span class="hljs-title">spf</span>-<span class="hljs-title">link</span>&#x27; </span></span><span class="xml">%&gt;</span>
@@ -155,6 +162,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 <span class="xml">&lt;%</span><span class="ruby"> <span class="hljs-keyword">if</span> <span class="hljs-variable">@page</span> &lt; <span class="hljs-variable">@num_pages</span> -<span class="hljs-number">1</span> </span><span class="xml">%&gt;</span>
 <span class="xml">   &lt;%=</span><span class="ruby"> link_to <span class="hljs-string">&#x27;Next Page&#x27;</span>, posts_path(<span class="hljs-symbol">page:</span> <span class="hljs-variable">@page</span>+<span class="hljs-number">1</span>), <span class="hljs-class"><span class="hljs-keyword">class</span>: &#x27;<span class="hljs-title">spf</span>-<span class="hljs-title">link</span>&#x27; </span></span><span class="xml">%&gt;</span>
 <span class="xml">&lt;%</span><span class="ruby"> <span class="hljs-keyword">end</span> </span><span class="xml">%&gt;</span></code></pre>
+
 <p>One great feature of SPF.js is that it handles graceful degradation. So, since we haven&#39;t done anything on the server side to generate partial contents, SPF will try to make an ajax request to server (with the special query parameter spf=navigate) and once that response format does not match what SPF expects, it will allow a full page reload.</p>
 <h2 id="Server-side-handling-for-SPF"><a href="#Server-side-handling-for-SPF" class="headerlink" title="Server side handling for SPF"></a>Server side handling for SPF</h2><p>Let us move on to server side handling:</p>
 <p>As we have previously mentioned that SPF sends an ajax request using spf=navigate query parameter. We can detect that in our controller and send out a special response that only includes the parts of the page we need to update:</p>
@@ -171,11 +179,13 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
   <span class="hljs-keyword">end</span>
 
 ...</code></pre>
+
 <p>Next we will have to designate the parts that can be dynamically replace using an id. In our modified <code>posts/_summary.html.erb</code> below, <code>spf-posts-container</code> serves that purpose:</p>
 <pre><code class="hljs erb"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">data-post-id</span>=<span class="hljs-string">&quot;&lt;%=</span></span></span><span class="ruby"> post.id </span><span class="xml"><span class="hljs-tag"><span class="hljs-string">%&gt;&quot;</span>&gt;</span></span>
 <span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">h3</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;title post-title&quot;</span>&gt;</span> &lt;%=</span><span class="ruby"> link_to post.title, post_path(<span class="hljs-symbol">id:</span> post.id) </span><span class="xml">%&gt; <span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span></span>
 <span class="xml">  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span> &lt;%=</span><span class="ruby"> post.summary </span><span class="xml">%&gt; <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
 <span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span></code></pre>
+
 
 <p>While SPF does not require DOM node IDs to begin with <code>spf-</code> prefix I think this is a good convention and makes the intent explict.</p>
 <p>Finally here is our json template that contains the partial page update, in the format that SPF.js <a href="https://youtube.github.io/spfjs/documentation/responses/" target="_blank" rel="noopener external nofollow noreferrer">can process</a>.</p>
@@ -185,6 +195,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 <span class="xml">    &quot;spf-posts-container&quot;: &quot;&lt;%=</span><span class="ruby"> j render <span class="hljs-string">&#x27;posts/posts&#x27;</span> </span><span class="xml">%&gt;&quot;</span>
 <span class="xml">  &#125;</span>
 <span class="xml">&#125;</span></code></pre>
+
 <p>While we are using a simple <code>json.erb</code> template, it should be noted that any generic approach that can generate json response in rails, works well. So if you are already using <code>rabl</code> or <code>jbuilder</code> in your APIs, you can continue using that.</p>
 <p>Now when a navigation link is clicked, the json response is fetched via ajax and the page is dynamically updated - resulting in a much smoother user experience. Also note that browser url has been automatically updated and the page scrolls to the top. SPF tries to emulate the experience the experience of page change as much as possible to prevent uncanny surprises.</p>
 <img src="/images/2015-11-26/spf_response.png">
@@ -202,6 +213,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
     <span class="hljs-keyword">end</span>
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></code></pre>
+
 <p>We can override this in our ApplicationController</p>
 <pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ApplicationController</span> &lt; ActionController::Base</span>
 
@@ -218,6 +230,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
   <span class="hljs-keyword">end</span>
 
 <span class="hljs-keyword">end</span></code></pre>
+
 <p>Now all we have to do is prefix the names of our SPF specific templates with <code>spf_</code> and we are done. Our <code>spf_index.json.erb</code> remains unchanged.</p>
 <p>We can clean up the action and remove SPF specific code:</p>
 <pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PostsController</span> &lt; ApplicationController</span>
@@ -229,6 +242,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
   <span class="hljs-keyword">end</span>
 
 ...</code></pre>
+
 <h2 id="Navigation-hooks"><a href="#Navigation-hooks" class="headerlink" title="Navigation hooks"></a>Navigation hooks</h2><p>While so far everything works pretty well, we may want to hook into navigation events for greater flexibility. This may be useful for sending events to analytics service or for highlighting specific parts of page. The latter is useful because in some cases when the part replaced is very small, user might not immediate notice a quick change in the page content.</p>
 <p>For instance <code>spfdone</code> event is invoked after the asynchronous update has been applied to the page. We can attach handlers to this event just like any other event, and hook custom logic:</p>
 <img src="/images/2015-11-26/spfdone.png">
@@ -246,37 +260,39 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
   &#125;
 
 &#125;);</code></pre>
+
 <br/>
 
 <pre><code class="hljs css"><span class="hljs-selector-class">.flash</span> &#123;
-  <span class="hljs-attribute">-moz-animation</span>: flash <span class="hljs-number">1s</span> ease-out;
-  <span class="hljs-attribute">-moz-animation-iteration-count</span>: <span class="hljs-number">1</span>;
+  -moz-<span class="hljs-attribute">animation</span>: flash <span class="hljs-number">1s</span> ease-out;
+  -moz-<span class="hljs-attribute">animation-iteration-count</span>: <span class="hljs-number">1</span>;
 
-  <span class="hljs-attribute">-webkit-animation</span>: flash <span class="hljs-number">1s</span> ease-out;
-  <span class="hljs-attribute">-webkit-animation-iteration-count</span>: <span class="hljs-number">1</span>;
+  -webkit-<span class="hljs-attribute">animation</span>: flash <span class="hljs-number">1s</span> ease-out;
+  -webkit-<span class="hljs-attribute">animation-iteration-count</span>: <span class="hljs-number">1</span>;
 
-  <span class="hljs-attribute">-ms-animation</span>: flash <span class="hljs-number">1s</span> ease-out;
-  <span class="hljs-attribute">-ms-animation-iteration-count</span>: <span class="hljs-number">1</span>;
+  -ms-<span class="hljs-attribute">animation</span>: flash <span class="hljs-number">1s</span> ease-out;
+  -ms-<span class="hljs-attribute">animation-iteration-count</span>: <span class="hljs-number">1</span>;
 &#125;
 
 <span class="hljs-keyword">@-webkit-keyframes</span> flash &#123;
-    0% &#123; <span class="hljs-attribute">background-color</span>: none; &#125;
-    50% &#123; <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#fbf8b2</span>; &#125;
-    100% &#123; <span class="hljs-attribute">background-color</span>: none; &#125;
+    <span class="hljs-number">0%</span> &#123; <span class="hljs-attribute">background-color</span>: none; &#125;
+    <span class="hljs-number">50%</span> &#123; <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#fbf8b2</span>; &#125;
+    <span class="hljs-number">100%</span> &#123; <span class="hljs-attribute">background-color</span>: none; &#125;
 &#125;
 
 <span class="hljs-keyword">@-moz-keyframes</span> flash &#123;
-    0% &#123; <span class="hljs-attribute">background-color</span>: none; &#125;
-    50% &#123; <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#fbf8b2</span>; &#125;
-    100% &#123; <span class="hljs-attribute">background-color</span>: none; &#125;
+    <span class="hljs-number">0%</span> &#123; <span class="hljs-attribute">background-color</span>: none; &#125;
+    <span class="hljs-number">50%</span> &#123; <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#fbf8b2</span>; &#125;
+    <span class="hljs-number">100%</span> &#123; <span class="hljs-attribute">background-color</span>: none; &#125;
 &#125;
 
 <span class="hljs-keyword">@-ms-keyframes</span> flash &#123;
-    0% &#123; <span class="hljs-attribute">background-color</span>: none; &#125;
-    50% &#123; <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#fbf8b2</span>; &#125;
-    100% &#123; <span class="hljs-attribute">background-color</span>: none; &#125;
+    <span class="hljs-number">0%</span> &#123; <span class="hljs-attribute">background-color</span>: none; &#125;
+    <span class="hljs-number">50%</span> &#123; <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#fbf8b2</span>; &#125;
+    <span class="hljs-number">100%</span> &#123; <span class="hljs-attribute">background-color</span>: none; &#125;
 &#125;</code></pre>
+
 <p>Now you should see a subtle flash when page content has been replaced.</p>
 <h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>This concludes our small post on SPF integration with Rails. SPF allows for a lot more customization options beyond what our small covers. In particular SPF allows us to inject new scripts and styles dynamically, sophisticated <a href="https://youtube.github.io/spfjs/documentation/caching/" target="_blank" rel="noopener external nofollow noreferrer">cache management</a> and <a href="https://youtube.github.io/spfjs/documentation/versioning/" target="_blank" rel="noopener external nofollow noreferrer">resource versioning</a> support, which are all very useful features.</p>
 <p>The <a href="https://youtube.github.io/spfjs/documentation" target="_blank" rel="noopener external nofollow noreferrer">official documentation</a> is a great place to start exploring more.</p>
-</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p>Header Image credit:<a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.6.0/dist/htmx.min.js"></script><script src="/js/blog.js"></script></body></html>

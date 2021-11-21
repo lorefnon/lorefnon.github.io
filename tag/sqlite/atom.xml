@@ -66,15 +66,15 @@
     <category term="Java" />
     <category term="JOOQ" />
     <category term="Ruby on Rails" />
+    <category term="Liquibase" />
+    <category term="tbls" />
+    <category term="jOOQ" />
     <category term="Vue" />
     <category term="TypeScript" />
-    <category term="Liquibase" />
     <category term="Gradle" />
     <category term="Spring" />
     <category term="Spring-Boot" />
     <category term="gRPC" />
-    <category term="tbls" />
-    <category term="jOOQ" />
     <entry>
         <id>https://lorefnon.me/2012/09/08/creating-a-basic-command-line-based-todo-app-using-ruby-and-sqlite.html</id>
         <title>Creating a basic command line based todo app using ruby and sqlite.</title>

@@ -69,15 +69,15 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <category>Vue</category>
         <category>TypeScript</category>
-        <category>Liquibase</category>
         <category>Gradle</category>
         <category>Spring</category>
         <category>Spring-Boot</category>
         <category>gRPC</category>
-        <category>tbls</category>
-        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/02/04/redux-loop-a-better-solution-for-managing-asynchronous-operations-in-redux/</guid>
             <title>Redux-loop: A better solution for managing asynchronous operations in redux</title>

@@ -1,6 +1,8 @@
-<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta property="og:title" content="Gaurab Paul | Blog"><meta property="og:description" content="Ramblings on Web Development and software architecture"><meta name="generator" content="Hexo 5.3.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2021-09-04">Posted &nbsp;4 days ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Kotlin/"><img src="/images/tag.svg">Kotlin</a></li><li class="body-text"><a class="tag-link" href="/tags/Spring/"><img src="/images/tag.svg">Spring</a></li><li class="body-text"><a class="tag-link" href="/tags/Spring-Boot/"><img src="/images/tag.svg">Spring-Boot</a></li><li class="body-text"><a class="tag-link" href="/tags/gRPC/"><img src="/images/tag.svg">gRPC</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Bootstrapping a Kotlin gRPC service with Spring Boot</div></div><div class="blog-main"><div class="page-content"><p>It has always been possible to build gRPC services in kotlin through java interop, but with the recently improved first class support for kotlin in the official gRPC/protobuf libraries it is quite straightforward to build gRPC services in Kotlin which take advantage of kotlin native features like coroutines. In addition, the grpc-spring-boot-starter makes it really convenient for spring boot users to integrate gRPC.</p>
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta property="og:title" content="Gaurab Paul | Blog"><meta property="og:description" content="Ramblings on Web Development and software architecture"><meta name="generator" content="Hexo 5.4.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2021-09-04">Posted &nbsp;3 months ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Kotlin/"><img src="/images/tag.svg">Kotlin</a></li><li class="body-text"><a class="tag-link" href="/tags/Spring/"><img src="/images/tag.svg">Spring</a></li><li class="body-text"><a class="tag-link" href="/tags/Spring-Boot/"><img src="/images/tag.svg">Spring-Boot</a></li><li class="body-text"><a class="tag-link" href="/tags/gRPC/"><img src="/images/tag.svg">gRPC</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Bootstrapping a Kotlin gRPC service with Spring Boot</div></div><div class="blog-main"><div class="page-content"><p>It has always been possible to build gRPC services in kotlin through java interop, but with the recently improved first class support for kotlin in the official gRPC/protobuf libraries it is quite straightforward to build gRPC services in Kotlin which take advantage of kotlin native features like coroutines. In addition, the grpc-spring-boot-starter makes it really convenient for spring boot users to integrate gRPC.</p>
+<span id="more"></span>
+
 <p>Note that while our services are using coroutines, we will not need webflux (although it is perfectly fine to use both of them together)</p>
-<p>This post is primarily a recipe for integrating these components to quickly get started with gRPC on spring boot. </p>
+<p>This post is primarily a recipe for integrating these components to quickly get started with gRPC on spring boot.</p>
 <h1 id="Gradle-configuration"><a href="#Gradle-configuration" class="headerlink" title="Gradle configuration:"></a>Gradle configuration:</h1><p>First part is to configure our gradle configuration (<code>build.gradle.kts</code>) to use the protobuf and grpc codegen utilities.</p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> com.google.protobuf.gradle.*
@@ -89,7 +91,7 @@
 
 <p>Note the use of the additional grpckt plugin for protoc along with the grpc plugin for java code-generation.</p>
 <p>Given, the above configuration, we can start defining our API schema in protobuf format.</p>
-<p>Let us start with a minimal example of <code>src/main/proto/demo.proto</code>: </p>
+<p>Let us start with a minimal example of <code>src/main/proto/demo.proto</code>:</p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">syntax = <span class="hljs-string">&quot;proto3&quot;</span>;
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> com.example.grpcdemo.service;
@@ -108,7 +110,7 @@
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr></table></code></pre>
 
-<p>We will look at the code generated for the above in a bit. But let us first look at how to implement this service in our kotlin backend. Our UserService has just one method for now which returns a user given it&#39;s id. </p>
+<p>We will look at the code generated for the above in a bit. But let us first look at how to implement this service in our kotlin backend. Our UserService has just one method for now which returns a user given it&#39;s id.</p>
 <p>Our <code>UserService.kt</code> implementing this RPC service looks something like this:</p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> com.example.grpcdemo.service
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
@@ -132,17 +134,18 @@
 <p>Our implementation derives from the <code>UserServiceGrpcKt.UserServiceCoroutineImplBase</code> which was generated for us. The generated functions use some protobuf specific types and we return a <code>User</code> instance constructed through the builder that was also generated for us.</p>
 <p>Overall our code loooks pretty readable, and we didn&#39;t have to write any mapping boilerplate.</p>
 <p>If we peek into the build directory, we can find all the code our code-generator generated for us:</p>
-<pre><code class="hljs plain">▾ build&#x2F;
-  ▸ classes&#x2F;
-  ▸ extracted-include-protos&#x2F;
-  ▸ extracted-protos&#x2F;
-  ▾ generated&#x2F;
-    ▾ source&#x2F;proto&#x2F;main&#x2F;
-      ▾ grpc&#x2F;com&#x2F;example&#x2F;grpcdemo&#x2F;service&#x2F;
+<pre><code class="hljs plaintext">▾ build/
+  ▸ classes/
+  ▸ extracted-include-protos/
+  ▸ extracted-protos/
+  ▾ generated/
+    ▾ source/proto/main/
+      ▾ grpc/com/example/grpcdemo/service/
           UserServiceGrpc.java
-      ▾ grpckt&#x2F;com&#x2F;example&#x2F;grpcdemo&#x2F;service&#x2F;
+      ▾ grpckt/com/example/grpcdemo/service/
           DemoGrpcKt.kt</code></pre>
-<p>The first thing we want to look at is the <code>UserServiceKt</code> where our base class we derived from resides: </p>
+
+<p>The first thing we want to look at is the <code>UserServiceKt</code> where our base class we derived from resides:</p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> com.example.grpcdemo.service
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-18"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-18"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
@@ -259,9 +262,9 @@
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
 </td></tr></table></code></pre>
 
-<p>There isn&#39;t much rocket science here. The code looks much similar to what we would have written if we were implementing this boilerplate ourselves. </p>
-<p>In our previous example, we have used a unary call. gRPC also has good support for streaming. </p>
-<p>Before we conclude our post, let&#39;s quickly look at what implementing a stream returning endpoint looks like. We add a <code>listUsers</code> method to our <code>UserService</code> which returns a stream of <code>User</code>. </p>
+<p>There isn&#39;t much rocket science here. The code looks much similar to what we would have written if we were implementing this boilerplate ourselves.</p>
+<p>In our previous example, we have used a unary call. gRPC also has good support for streaming.</p>
+<p>Before we conclude our post, let&#39;s quickly look at what implementing a stream returning endpoint looks like. We add a <code>listUsers</code> method to our <code>UserService</code> which returns a stream of <code>User</code>.</p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">syntax = <span class="hljs-string">&quot;proto3&quot;</span>;
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> com.example.grpcdemo.service;
@@ -283,9 +286,9 @@
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr></table></code></pre>
 
-<p>One weird gRPC oddity is that even though our function does not need an argument, it is required to accept an argument, and hence we have defined an empty message type. </p>
-<p>As you may expect, on the kotlin side our return value is a <a href="https://kotlinlang.org/docs/flow.html#sequences" target="_blank" rel="noopener external nofollow noreferrer">Flow</a> - enabling us to return a collection of values over time. </p>
-<p>In our simple example below, we simply return a list, converted to a flow through a convenient extension function from kotlinx.coroutines. </p>
+<p>One weird gRPC oddity is that even though our function does not need an argument, it is required to accept an argument, and hence we have defined an empty message type.</p>
+<p>As you may expect, on the kotlin side our return value is a <a href="https://kotlinlang.org/docs/flow.html#sequences" target="_blank" rel="noopener external nofollow noreferrer">Flow</a> - enabling us to return a collection of values over time.</p>
+<p>In our simple example below, we simply return a list, converted to a flow through a convenient extension function from kotlinx.coroutines.</p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@GrpcService</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserService</span>: <span class="hljs-type">UserServiceGrpcKt.UserServiceCoroutineImplBase</span></span>() {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
@@ -321,5 +324,5 @@
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
 </td></tr></table></code></pre>
 
-<p>This brings us to the end of this short post. We explored how we can bootstrap a simple gRPC service using kotlin and spring boot, and handle unary calls and streaming. As next steps you are encouraged to explore the <a href="https://yidongnan.github.io/grpc-spring-boot-starter/en/server/getting-started.html" target="_blank" rel="noopener external nofollow noreferrer">grpc-spring-boot-starter&#39;s introduction</a> and the <a href="https://grpc.io/" target="_blank" rel="noopener external nofollow noreferrer">gRPC official site</a> which provide detailed documentation on gRPC integrations. </p>
-</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>
+<p>This brings us to the end of this short post. We explored how we can bootstrap a simple gRPC service using kotlin and spring boot, and handle unary calls and streaming. As next steps you are encouraged to explore the <a href="https://yidongnan.github.io/grpc-spring-boot-starter/en/server/getting-started.html" target="_blank" rel="noopener external nofollow noreferrer">grpc-spring-boot-starter&#39;s introduction</a> and the <a href="https://grpc.io/" target="_blank" rel="noopener external nofollow noreferrer">gRPC official site</a> which provide detailed documentation on gRPC integrations.</p>
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p>Header Image credit:<a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.6.0/dist/htmx.min.js"></script><script src="/js/blog.js"></script></body></html>

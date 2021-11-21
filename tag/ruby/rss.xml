@@ -69,15 +69,15 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <category>Vue</category>
         <category>TypeScript</category>
-        <category>Liquibase</category>
         <category>Gradle</category>
         <category>Spring</category>
         <category>Spring-Boot</category>
         <category>gRPC</category>
-        <category>tbls</category>
-        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2016/03/31/database-driven-scheduling-with-clockwork-and-activejob.html</guid>
             <title>Database driven scheduling with Clockwork and ActiveJob</title>
@@ -2274,13 +2274,13 @@ configure devise to find using the emails table we have created.&lt;/p&gt;
 &lt;p&gt;Nest we need to generate devise views using &lt;code&gt;rails g devise:views&lt;/code&gt; and edit the &lt;code&gt;app/views/devise/registrations/edit.html.erb&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;We edit the template to add nested form for emails:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;Edit &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; resource_name.to_s.humanize &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; form_for(resource, &lt;span class=&#34;hljs-symbol&#34;&gt;as:&lt;/span&gt; resource_name, &lt;span class=&#34;hljs-symbol&#34;&gt;url:&lt;/span&gt; registration_path(resource_name), &lt;span class=&#34;hljs-symbol&#34;&gt;html:&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;method:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:put&lt;/span&gt; &amp;#125;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|f|&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; devise_error_messages! &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:email&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Default Email&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.email_field &lt;span class=&#34;hljs-symbol&#34;&gt;:email&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autofocus:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.fields_for &lt;span class=&#34;hljs-symbol&#34;&gt;:emails&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|email_f|&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;      &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;email_fields&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;f:&lt;/span&gt; email_f &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
@@ -2289,29 +2289,29 @@ configure devise to find using the emails table we have created.&lt;/p&gt;
 &lt;span class=&#34;xml&#34;&gt;      &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to_add_association &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Add Email&amp;#x27;&lt;/span&gt;, f, &lt;span class=&#34;hljs-symbol&#34;&gt;:emails&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; devise_mapping.confirmable? &amp;amp;&amp;amp; resource.pending_reconfirmation? &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;Currently waiting confirmation for: &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; resource.unconfirmed_email &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:password&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;(leave blank if you don&amp;#x27;t want to change it)&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.password_field &lt;span class=&#34;hljs-symbol&#34;&gt;:password&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autocomplete:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;off&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:password_confirmation&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.password_field &lt;span class=&#34;hljs-symbol&#34;&gt;:password_confirmation&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autocomplete:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;off&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:current_password&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;(we need your current password to confirm your changes)&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.password_field &lt;span class=&#34;hljs-symbol&#34;&gt;:current_password&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autocomplete:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;off&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.submit &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Update&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt;&amp;gt;&lt;/span&gt;Cancel my account&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;Unhappy? &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; button_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Cancel my account&amp;quot;&lt;/span&gt;, registration_path(resource_name), &lt;span class=&#34;hljs-symbol&#34;&gt;data:&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;confirm:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Are you sure?&amp;quot;&lt;/span&gt; &amp;#125;, &lt;span class=&#34;hljs-symbol&#34;&gt;method:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:delete&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Back&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:back&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Cocoon mandates a separate partial for email fields, which in our case is very simple:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;nested-fields&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
@@ -2608,7 +2608,7 @@ any errors when trying to save or retrieve them since we delegate to default imp
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
     &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;sti_cls_list&lt;/span&gt;&lt;/span&gt;
-      &lt;span class=&#34;hljs-variable&#34;&gt;@sti_cls&lt;/span&gt;_list
+      &lt;span class=&#34;hljs-variable&#34;&gt;@sti_cls_list&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
     def find_sti_class type_name
@@ -2658,7 +2658,7 @@ NoMethodError: undefined method `index&amp;#39; for nil:NilClass
   &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; superclass.respond_to? &lt;span class=&#34;hljs-symbol&#34;&gt;:sti_cls_list&lt;/span&gt;
     superclass.sti_cls_list
   &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
-    &lt;span class=&#34;hljs-variable&#34;&gt;@sti_cls&lt;/span&gt;_list
+    &lt;span class=&#34;hljs-variable&#34;&gt;@sti_cls_list&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
@@ -3366,12 +3366,12 @@ EventMachine.run &amp;#123;
             &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; victorious?
               initiator.notify (&amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;:msg&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;You win&amp;quot;&lt;/span&gt; &amp;#125;)
               partner.notify(&amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;:msg&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;You lose&amp;quot;&lt;/span&gt; &amp;#125;)
-              &lt;span class=&#34;hljs-variable&#34;&gt;@game_controller&lt;/span&gt;.end_game &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;, @players
+              &lt;span class=&#34;hljs-variable&#34;&gt;@game_controller&lt;/span&gt;.end_game &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;, &lt;span class=&#34;hljs-variable&#34;&gt;@players&lt;/span&gt;
             &lt;span class=&#34;hljs-keyword&#34;&gt;elsif&lt;/span&gt; finished?
               resp = &amp;#123;&lt;span class=&#34;hljs-symbol&#34;&gt;:msg&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Game Over&amp;quot;&lt;/span&gt;&amp;#125;
               initiator.notify resp
               partner.notify resp
-              &lt;span class=&#34;hljs-variable&#34;&gt;@game_controller&lt;/span&gt;.end_game &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;, @players
+              &lt;span class=&#34;hljs-variable&#34;&gt;@game_controller&lt;/span&gt;.end_game &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;, &lt;span class=&#34;hljs-variable&#34;&gt;@players&lt;/span&gt;
             &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
           &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
             update_gamestate initiator
@@ -3383,7 +3383,7 @@ EventMachine.run &amp;#123;
 
   def validate_move msg
     res = &amp;#123;&lt;span class=&#34;hljs-symbol&#34;&gt;:success&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;&amp;#125;
-    &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; msg[&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;id&amp;#x27;&lt;/span&gt;] != &lt;span class=&#34;hljs-variable&#34;&gt;@next&lt;/span&gt;_player
+    &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; msg[&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;id&amp;#x27;&lt;/span&gt;] != &lt;span class=&#34;hljs-variable&#34;&gt;@next_player&lt;/span&gt;
       res = &amp;#123;&lt;span class=&#34;hljs-symbol&#34;&gt;:success&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-literal&#34;&gt;false&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:error&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Move out of turn&amp;quot;&lt;/span&gt;&amp;#125;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@state&lt;/span&gt;[msg[&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;x&amp;#x27;&lt;/span&gt;]][msg[&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;y&amp;#x27;&lt;/span&gt;]] != &lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt;

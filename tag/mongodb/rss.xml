@@ -69,15 +69,15 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <category>Vue</category>
         <category>TypeScript</category>
-        <category>Liquibase</category>
         <category>Gradle</category>
         <category>Spring</category>
         <category>Spring-Boot</category>
         <category>gRPC</category>
-        <category>tbls</category>
-        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/08/20/uploading-files-to-mongodb-gridfs-via-apollo-powered-graphql-api/</guid>
             <title>Uploading files to MongoDB GridFS via Apollo powered GraphQL API</title>

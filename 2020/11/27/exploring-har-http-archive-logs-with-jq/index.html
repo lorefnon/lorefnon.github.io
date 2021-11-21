@@ -1,24 +1,27 @@
-<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta property="og:title" content="Gaurab Paul | Blog"><meta property="og:description" content="Ramblings on Web Development and software architecture"><meta name="generator" content="Hexo 5.3.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2020-11-27">Posted &nbsp;9 months ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/HAR/"><img src="/images/tag.svg">HAR</a></li><li class="body-text"><a class="tag-link" href="/tags/Jq/"><img src="/images/tag.svg">Jq</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Exporing HAR (HTTP Archive) logs with Jq</div></div><div class="blog-main"><div class="page-content"><p><a href="https://stedolan.github.io/jq/" target="_blank" rel="noopener external nofollow noreferrer">Jq</a> is a versatile utility for quickly exploring/filtering/transforming JSON on the command line. It is similar to grep/sed/awk utilities in that it is standalone, portable and composable. If you are not familiar with basics of jq yet, I recommend skimming through the well written <a href="https://stedolan.github.io/jq/manual" target="_blank" rel="noopener external nofollow noreferrer">official manual</a>. </p>
-<p>The HTTP Archive format, or HAR, is a JSON-formatted archive file format for logging of a web browser&#39;s interaction with a site (Source: <a href="https://en.wikipedia.org/wiki/HAR_(file_format)" target="_blank" rel="noopener external nofollow noreferrer">Wikipedia</a>. Both Chrome and Firefox provide a <a href="https://knowledge.vidyard.com/hc/en-us/articles/360009996213-Download-a-HAR-file-from-your-browser" target="_blank" rel="noopener external nofollow noreferrer">convenient option</a> to download information about all the http requests when visiting a particular site as a HAR file which makes it a very useful format in practice. </p>
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta property="og:title" content="Gaurab Paul | Blog"><meta property="og:description" content="Ramblings on Web Development and software architecture"><meta name="generator" content="Hexo 5.4.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2020-11-27">Posted &nbsp;a year ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/HAR/"><img src="/images/tag.svg">HAR</a></li><li class="body-text"><a class="tag-link" href="/tags/Jq/"><img src="/images/tag.svg">Jq</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Exporing HAR (HTTP Archive) logs with Jq</div></div><div class="blog-main"><div class="page-content"><p><a href="https://stedolan.github.io/jq/" target="_blank" rel="noopener external nofollow noreferrer">Jq</a> is a versatile utility for quickly exploring/filtering/transforming JSON on the command line. It is similar to grep/sed/awk utilities in that it is standalone, portable and composable. If you are not familiar with basics of jq yet, I recommend skimming through the well written <a href="https://stedolan.github.io/jq/manual" target="_blank" rel="noopener external nofollow noreferrer">official manual</a>.</p>
+<p>The HTTP Archive format, or HAR, is a JSON-formatted archive file format for logging of a web browser&#39;s interaction with a site (Source: <a href="https://en.wikipedia.org/wiki/HAR_(file_format)" target="_blank" rel="noopener external nofollow noreferrer">Wikipedia</a>. Both Chrome and Firefox provide a <a href="https://knowledge.vidyard.com/hc/en-us/articles/360009996213-Download-a-HAR-file-from-your-browser" target="_blank" rel="noopener external nofollow noreferrer">convenient option</a> to download information about all the http requests when visiting a particular site as a HAR file which makes it a very useful format in practice.</p>
 <p>One simple way to analyze HAR files is to import them back into dev-tools and explore them manually. But for many common scenarios it is more efficient to analyze these files through CLI using a tool like jq to zero into the exact information we need.</p>
-<p>The rest of this post is basically a cheatsheet of one-liners for using jq to analyze HAR logs. It mostly covers scenarios that I have found useful in day-to-day exploration as a web developer. </p>
+<p>The rest of this post is basically a cheatsheet of one-liners for using jq to analyze HAR logs. It mostly covers scenarios that I have found useful in day-to-day exploration as a web developer.</p>
 <p>For the examples here I&#39;ll be using the HAR exported from twitter.com (I am <a href="https://twitter.com/lorefnon" target="_blank" rel="noopener external nofollow noreferrer">@lorefnon</a> on twitter as well BTW).</p>
-<p>You may or may not have familiar with the structure of HAR file. Let&#39;s see how we can explore some JSON of unfamiliar structure. </p>
-<p>For starters, jq can be used a simple JSON formatter or syntax highligher. </p>
-<p>So something like this gives us properly formatted syntax highlighted json: </p>
+<p>You may or may not have familiar with the structure of HAR file. Let&#39;s see how we can explore some JSON of unfamiliar structure.</p>
+<p>For starters, jq can be used a simple JSON formatter or syntax highligher.</p>
+<p>So something like this gives us properly formatted syntax highlighted json:</p>
 <pre><code class="hljs sh">$ jq <span class="hljs-string">&#x27;.&#x27;</span> twitter.com.har</code></pre>
-<p>Or we can feed in json through STDIN which is quite useful with curl etc.: </p>
+
+<p>Or we can feed in json through STDIN which is quite useful with curl etc.:</p>
 <pre><code class="hljs sh">$ cat twitter.com.har | jq <span class="hljs-string">&#x27;.&#x27;</span></code></pre>
-<p>This essentially applies an identity filter (<code>.</code>) to input (incoming stream) that returns it unchanged, and lets jq pretty-prints the output. </p>
-<p>However, HAR files are often fairly large, and thus this is unweildy when you have several MBs of content. </p>
-<p>So let us just find out the top level keys to begin with: </p>
+
+<p>This essentially applies an identity filter (<code>.</code>) to input (incoming stream) that returns it unchanged, and lets jq pretty-prints the output.</p>
+<p>However, HAR files are often fairly large, and thus this is unweildy when you have several MBs of content.</p>
+<p>So let us just find out the top level keys to begin with:</p>
 <pre><code class="hljs sh">$ jq <span class="hljs-string">&#x27;. | keys&#x27;</span> twitter.com.har
 
 [
   <span class="hljs-string">&quot;log&quot;</span>
 ]</code></pre>
+
 <p>Pipe (|) similar to unix pipes is jq&#39;s syntax for forward application. In this case the output of identity filter to the <code>keys</code> builtin function which returns us an array of keys in the object.</p>
-<p>And now we can drill down from there and explore the subtree: </p>
+<p>And now we can drill down from there and explore the subtree:</p>
 <pre><code class="hljs sh">$ jq <span class="hljs-string">&#x27;.log | keys&#x27;</span> twitter.com.har
 
 [
@@ -27,6 +30,7 @@
   <span class="hljs-string">&quot;pages&quot;</span>,
   <span class="hljs-string">&quot;version&quot;</span>
 ]</code></pre>
+
 <pre><code class="hljs sh">$ jq <span class="hljs-string">&#x27;.log.pages[0] | keys&#x27;</span> twitter.com.har
 
 [
@@ -35,9 +39,10 @@
   <span class="hljs-string">&quot;startedDateTime&quot;</span>,
   <span class="hljs-string">&quot;title&quot;</span>
 ]</code></pre>
-<p>We will not go into an exploration of the complete format. Besides interactive exploration through jq it may also be useful to consult the <a href="http://www.softwareishard.com/blog/har-12-spec/" target="_blank" rel="noopener external nofollow noreferrer">HAR specification</a> on how this file is structured. </p>
-<h2 id="Enumerating-accessed-resources"><a href="#Enumerating-accessed-resources" class="headerlink" title="Enumerating accessed resources"></a>Enumerating accessed resources</h2><p>As part of our exploration we&#39;d usually want to narrow down our selection by the HTTP resources which were accessed. </p>
-<p>We can find all the urls that were accessed as a part of this browsing session: </p>
+
+<p>We will not go into an exploration of the complete format. Besides interactive exploration through jq it may also be useful to consult the <a href="http://www.softwareishard.com/blog/har-12-spec/" target="_blank" rel="noopener external nofollow noreferrer">HAR specification</a> on how this file is structured.</p>
+<h2 id="Enumerating-accessed-resources"><a href="#Enumerating-accessed-resources" class="headerlink" title="Enumerating accessed resources"></a>Enumerating accessed resources</h2><p>As part of our exploration we&#39;d usually want to narrow down our selection by the HTTP resources which were accessed.</p>
+<p>We can find all the urls that were accessed as a part of this browsing session:</p>
 <pre><code class="hljs sh">jq <span class="hljs-string">&#x27;.log.entries[] | .request.url&#x27;</span> twitter.com.har
 
 <span class="hljs-string">&quot;https://twitter.com/home&quot;</span>
@@ -50,13 +55,16 @@
 <span class="hljs-string">&quot;https://abs.twimg.com/responsive-web/client-web/ondemand.Dropdown.fa0fef85.js&quot;</span>
 <span class="hljs-string">&quot;https://abs.twimg.com/favicons/twitter.ico&quot;</span>
 ...</code></pre>
-<p>We would often be interested in a subset of these resources. We can filter by HTTP method: </p>
+
+<p>We would often be interested in a subset of these resources. We can filter by HTTP method:</p>
 <pre><code class="hljs sh">jq <span class="hljs-string">&#x27;.log.entries[] | select(.request.method == &quot;GET&quot;) | .request.url&#x27;</span> twitter.com.har</code></pre>
+
 <p>(Note use of select function to select by a predicate)</p>
-<p>Or by extension: </p>
+<p>Or by extension:</p>
 <pre><code class="hljs sh">jq <span class="hljs-string">&#x27;.log.entries[] | select(.request.url | test(&quot;.js$&quot;)) | .request.url&#x27;</span> twitter.com.har</code></pre>
+
 <p>(Note use of <code>test</code> to create a predicate based on regular expression)</p>
-<p>A better alternative (for well behaved services anyways) for filtering with type of content is to filter by mime type: </p>
+<p>A better alternative (for well behaved services anyways) for filtering with type of content is to filter by mime type:</p>
 <pre><code class="hljs sh">$ jq <span class="hljs-string">&#x27;.log.entries[] | select(.response.content.mimeType == &quot;text/html&quot;) | .request.url&#x27;</span> twitter.com.har
 
 <span class="hljs-string">&quot;https://twitter.com/home&quot;</span>
@@ -69,45 +77,53 @@ $ jq <span class="hljs-string">&#x27;.log.entries[] | select(.response.content.m
 <span class="hljs-string">&quot;https://abs.twimg.com/responsive-web/client-web/main.a3119725.js&quot;</span>
 <span class="hljs-string">&quot;https://abs.twimg.com/responsive-web/client-web/ondemand.Dropdown.fa0fef85.js&quot;</span>
 ..</code></pre>
+
 <p>If we want to get the first item, we can collect all the results into an array and apply the first filter on it</p>
 <pre><code class="hljs sh">$ jq <span class="hljs-string">&#x27;[.log.entries[] | select(.request.url | test(&quot;home\\.json&quot;))] | first&#x27;</span> twitter.com.har  | less</code></pre>
 
-<p>(Note the use of <code>[...]</code> to collect the resultset into an array so that we can apply functions (in this case <code>first</code>) that operate on arrays). </p>
+<p>(Note the use of <code>[...]</code> to collect the resultset into an array so that we can apply functions (in this case <code>first</code>) that operate on arrays).</p>
 <p>This gives us the first request to home.json</p>
-<h2 id="Exploring-response"><a href="#Exploring-response" class="headerlink" title="Exploring response"></a>Exploring response</h2><p>jq is useful primarily for json. </p>
-<p>So for services returning json we can just use jq to further explore the server response as well. </p>
+<h2 id="Exploring-response"><a href="#Exploring-response" class="headerlink" title="Exploring response"></a>Exploring response</h2><p>jq is useful primarily for json.</p>
+<p>So for services returning json we can just use jq to further explore the server response as well.</p>
 <pre><code class="hljs sh">$ jq <span class="hljs-string">&#x27;[.log.entries[] | select(.request.url | test(&quot;home\\.json&quot;))] | first | .response.content.text&#x27;</span> twitter.com.har</code></pre>
-<p>However this gives us a string containing json, so before can apply further filters we&#39;ll have to unwrap this content. </p>
+
+<p>However this gives us a string containing json, so before can apply further filters we&#39;ll have to unwrap this content.</p>
 <pre><code class="hljs sh">$ jq <span class="hljs-string">&#x27;[.log.entries[] | select(.request.url | test(&quot;home\\.json&quot;))] | first | .response.content.text | fromjson | .&#x27;</span> twitter.com.har</code></pre>
+
 <p>(Note the use of <code>fromjson</code> to extract the JSON content embedded in the string).</p>
-<p>But for other formats we can forward the result of jq to something else that deal with that format. </p>
-<p>So for instance, if you have <a href="https://github.com/sharkdp/bat" target="_blank" rel="noopener external nofollow noreferrer">bat</a> installed, we can do something like this to get syntax highlighted HTML content. </p>
+<p>But for other formats we can forward the result of jq to something else that deal with that format.</p>
+<p>So for instance, if you have <a href="https://github.com/sharkdp/bat" target="_blank" rel="noopener external nofollow noreferrer">bat</a> installed, we can do something like this to get syntax highlighted HTML content.</p>
 <pre><code class="hljs sh">$ jq -r <span class="hljs-string">&#x27;[.log.entries[] | select(.response.content.mimeType == &quot;text/html&quot;) ] | first | .response.content.text | @base64d&#x27;</span> twitter.com.har  | bat</code></pre>
+
 <p>Remember our mention above about jq being composable ? jq fits in well with unix philosophy - doing one thing well and making it easy to use with other tools.</p>
-<p>Before we go further, a couple of things to note here: </p>
-<p>In case of twitter, the response from the server is base64 encoded. So we had to use <code>@base64d</code> to decode it. Also we had to pass the <code>-r</code> flag to jq to remove the quotes around the output so that the output is proper HTML. </p>
-<p>We can&#39;t however use the <code>@base64d</code> when the input is not utf8. But fortunately we have a base64 cli utility available for OS X (pre-installed) and most major linux variants which works well with arbitrary content including binary data. </p>
+<p>Before we go further, a couple of things to note here:</p>
+<p>In case of twitter, the response from the server is base64 encoded. So we had to use <code>@base64d</code> to decode it. Also we had to pass the <code>-r</code> flag to jq to remove the quotes around the output so that the output is proper HTML.</p>
+<p>We can&#39;t however use the <code>@base64d</code> when the input is not utf8. But fortunately we have a base64 cli utility available for OS X (pre-installed) and most major linux variants which works well with arbitrary content including binary data.</p>
 <p>So we can save some images fetched during the HTTP session to a image files which can then be viewed through any image viewer:</p>
 <pre><code class="hljs sh">$ jq -r <span class="hljs-string">&#x27;[ .log.entries[] | select(.response.content.mimeType == &quot;image/png&quot;) ] | first | .response.content.text&#x27;</span> twitter.com.har | base64 --decode &gt; file.png</code></pre>
-<p>You can now, for instance, use something like <a href="https://github.com/dmtrKovalenko/odiff" target="_blank" rel="noopener external nofollow noreferrer">odiff</a> to compare images from multiple HAR archives and see if they have changed. </p>
-<p>Also, if you are using <a href="https://iterm2.com/" target="_blank" rel="noopener external nofollow noreferrer">iterm2</a> and have <a href="https://iterm2.com/documentation-images.html" target="_blank" rel="noopener external nofollow noreferrer">imgcat</a> installed, we can display the images right in the terminal: </p>
+
+<p>You can now, for instance, use something like <a href="https://github.com/dmtrKovalenko/odiff" target="_blank" rel="noopener external nofollow noreferrer">odiff</a> to compare images from multiple HAR archives and see if they have changed.</p>
+<p>Also, if you are using <a href="https://iterm2.com/" target="_blank" rel="noopener external nofollow noreferrer">iterm2</a> and have <a href="https://iterm2.com/documentation-images.html" target="_blank" rel="noopener external nofollow noreferrer">imgcat</a> installed, we can display the images right in the terminal:</p>
 <pre><code class="hljs sh">$ jq -r <span class="hljs-string">&#x27;[ .log.entries[] | select(.response.content.mimeType == &quot;image/png&quot;) ] | first | .response.content.text&#x27;</span> twitter.com.har | base64 --decode | imgcat</code></pre>
 
+
 <p><img src="/images/Uw4uhn_mK.png" alt="image.png" loading="lazy"></p>
-<h2 id="Summarizing-stats"><a href="#Summarizing-stats" class="headerlink" title="Summarizing stats"></a>Summarizing stats</h2><p>If you are analyzing HAR files you probably care about size of the paylodas. </p>
-<p>Let&#39;s sort the responses by download size and take the top 10: </p>
+<h2 id="Summarizing-stats"><a href="#Summarizing-stats" class="headerlink" title="Summarizing stats"></a>Summarizing stats</h2><p>If you are analyzing HAR files you probably care about size of the paylodas.</p>
+<p>Let&#39;s sort the responses by download size and take the top 10:</p>
 <pre><code class="hljs sh">jq -r <span class="hljs-string">&#x27;[.log.entries[]] | sort_by(.response.content.size) | reverse | .[0:10] | map([.request.url, .response.content.size])&#x27;</span> twitter.com.har</code></pre>
-<p>Couple of things here: </p>
+
+<p>Couple of things here:</p>
 <ul>
 <li>Note the use of <code>sort_by</code> operator to sort results</li>
 <li>This function operates on arrays, so we constructed one using <code>[.log.entries[]]</code> similar to before.</li>
 <li>We use <code>reverse</code> to reverse the array and <code>.[0:10]</code> slice operator to take a slice of first 10 results</li>
 <li>Finally we are not interested in the whole data - just the size and url so we use <code>map</code> to map over the results and extract exactly what we needed.</li>
 </ul>
-<p>We can also generate a CSV from this resultset which you can then preview in your favorite spreadsheet software: </p>
+<p>We can also generate a CSV from this resultset which you can then preview in your favorite spreadsheet software:</p>
 <pre><code class="hljs sh">jq -r <span class="hljs-string">&#x27;[.log.entries[]] | sort_by(.response.content.size) | reverse | .[0:10] | map([.request.url, .response.content.size]) | [&quot;url&quot;, &quot;size&quot;],  .[] | @csv&#x27;</span> twitter.com.har</code></pre>
-<p>Personally I prefer using <a href="https://github.com/johnkerl/miller" target="_blank" rel="noopener external nofollow noreferrer">miller</a> for exploring tabular data but that is a topic for another post.  </p>
-<p>One thing to note here is that in all of the above examples, we didn&#39;t (need to) use any variables, loops etc. We just applied functional transformations over a stream of json - resulting in succinct and easy to grok code. </p>
-<p>This is one of the things that makes jq such an elegant choice for this kind of work. We do have functions, variables, foreach etc. but for most simple use cases like the ones above we don&#39;t need them. </p>
+
+<p>Personally I prefer using <a href="https://github.com/johnkerl/miller" target="_blank" rel="noopener external nofollow noreferrer">miller</a> for exploring tabular data but that is a topic for another post.</p>
+<p>One thing to note here is that in all of the above examples, we didn&#39;t (need to) use any variables, loops etc. We just applied functional transformations over a stream of json - resulting in succinct and easy to grok code.</p>
+<p>This is one of the things that makes jq such an elegant choice for this kind of work. We do have functions, variables, foreach etc. but for most simple use cases like the ones above we don&#39;t need them.</p>
 <p>This brings us to end of our post. Hope this serves as a quick reference for common one-liners when dealing with jq &amp; har files and points you to the right direction for use-cases not covered above.</p>
-</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p>Header Image credit:<a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.6.0/dist/htmx.min.js"></script><script src="/js/blog.js"></script></body></html>

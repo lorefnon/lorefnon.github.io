@@ -66,24 +66,25 @@
     <category term="Java" />
     <category term="JOOQ" />
     <category term="Ruby on Rails" />
+    <category term="Liquibase" />
+    <category term="tbls" />
+    <category term="jOOQ" />
     <category term="Vue" />
     <category term="TypeScript" />
-    <category term="Liquibase" />
     <category term="Gradle" />
     <category term="Spring" />
     <category term="Spring-Boot" />
     <category term="gRPC" />
-    <category term="tbls" />
-    <category term="jOOQ" />
     <entry>
         <id>https://lorefnon.me/2021/09/01/configuring-liquibase-with-gradle-kotlin-dsl/</id>
         <title>Configuring Liquibase through Gradle Kotlin DSL</title>
         <link rel="alternate" href="https://lorefnon.me/2021/09/01/configuring-liquibase-with-gradle-kotlin-dsl/"/>
-        <content type="html">&lt;p&gt;This post is a minimal recipe for configuring Liquibase runner through the Gradle kotlin DSL. This is mostly ported from the offical examples &lt;a href=&#34;https://github.com/liquibase/liquibase-gradle-plugin#usage&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;here&lt;/a&gt; written using the Gradle&amp;#39;s Groovy DSL: &lt;/p&gt;
+        <content type="html">&lt;p&gt;This post is a minimal recipe for configuring Liquibase runner through the Gradle kotlin DSL. This is mostly ported from the offical examples &lt;a href=&#34;https://github.com/liquibase/liquibase-gradle-plugin#usage&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;here&lt;/a&gt; written using the Gradle&amp;#39;s Groovy DSL:&lt;/p&gt;
 &lt;p&gt;We can specify our database properties in gradle.properties:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs plain&#34;&gt;db_url&amp;#x3D;jdbc:mysql:&amp;#x2F;&amp;#x2F;172.17.0.2:3306&amp;#x2F;oms_dev
-db_user&amp;#x3D;root
-db_password&amp;#x3D;rootroot&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;db_url=jdbc:mysql://172.17.0.2:3306/oms_dev
+db_user=root
+db_password=rootroot&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;And use them in our build.gradle.kts:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;version = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;1.0-SNAPSHOT&amp;quot;&lt;/span&gt;
 
@@ -121,7 +122,8 @@ dependencies &amp;#123;
     liquibaseRuntime(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;mysql:mysql-connector-java:8.0.26&amp;quot;&lt;/span&gt;)
     liquibaseRuntime(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.liquibase:liquibase-core:4.4.3&amp;quot;&lt;/span&gt;)
     liquibaseRuntime(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.yaml:snakeyaml:1.29&amp;quot;&lt;/span&gt;)
-&amp;#125;&lt;/code&gt;&lt;/pre&gt;</content>
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+</content>
         <category term="Kotlin" />
         <category term="Liquibase" />
         <category term="Gradle" />

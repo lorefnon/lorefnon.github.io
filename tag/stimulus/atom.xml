@@ -66,15 +66,15 @@
     <category term="Java" />
     <category term="JOOQ" />
     <category term="Ruby on Rails" />
+    <category term="Liquibase" />
+    <category term="tbls" />
+    <category term="jOOQ" />
     <category term="Vue" />
     <category term="TypeScript" />
-    <category term="Liquibase" />
     <category term="Gradle" />
     <category term="Spring" />
     <category term="Spring-Boot" />
     <category term="gRPC" />
-    <category term="tbls" />
-    <category term="jOOQ" />
     <entry>
         <id>https://lorefnon.me/2020/12/31/pairing-lit-html-with-stimulus/</id>
         <title>Pairing lit-html with stimulus</title>
@@ -96,66 +96,74 @@
 &lt;span class=&#34;hljs-comment&#34;&gt;    &amp;#125; &lt;/span&gt;
 &lt;span class=&#34;hljs-comment&#34;&gt;    */&lt;/span&gt; 
 ];&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;Now, we define some utility functions that render our tasks through lit-html: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// Our top level template can delegate to other template renderers:&lt;/span&gt;
-&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; appTemplate = &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&amp;#123; tasks &amp;#125;&lt;/span&gt;) =&amp;gt;&lt;/span&gt; html`
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; appTemplate = &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&amp;#123; tasks &amp;#125;&lt;/span&gt;) =&amp;gt;&lt;/span&gt; html`&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;todoListTemplate(tasks)&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;todoListTemplate(tasks)&amp;#125;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;`&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; todoListTemplate = &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;tasks&lt;/span&gt;) =&amp;gt;&lt;/span&gt; html`
+
+&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; todoListTemplate = &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;tasks&lt;/span&gt;) =&amp;gt;&lt;/span&gt; html`&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;input&lt;/span&gt; &lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    type=&amp;quot;text&amp;quot; &lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    placeholder=&amp;quot;Enter task here&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;text&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;placeholder&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Enter task here&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;  &amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;tasks.map((task) =&amp;gt; taskTemplate(task))&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;tasks.map((task) =&amp;gt; taskTemplate(task))&amp;#125;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;`&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; taskTemplate = &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;task&lt;/span&gt;) =&amp;gt;&lt;/span&gt; html`
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;li&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    style=&lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;task.done ? &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;text-decoration: line-through&amp;quot;&lt;/span&gt; : &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&amp;#125;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;gt;&lt;/span&gt;
+
+&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; taskTemplate = &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;task&lt;/span&gt;) =&amp;gt;&lt;/span&gt; html`&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;style&lt;/span&gt;=&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;task.done ? &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;text-decoration: line-through&amp;quot;&lt;/span&gt; : &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&amp;#125;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;  &amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;input&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;checkbox&amp;quot;&lt;/span&gt; ?&lt;span class=&#34;hljs-attr&#34;&gt;checked&lt;/span&gt;=&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;task.done&amp;#125;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt; ? /&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;task.content&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;task.content&amp;#125;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;`&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;em&gt;(Our templates can make use of variables we passed to them and inject them into the rendered content as well as derive attributes/styles etc. from these values).&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Note that we haven&amp;#39;t done anything yet to make this interactive (handle user events). We will get to them in a bit (using stimulus).&lt;/p&gt;
 &lt;p&gt;We can render the top level appTemplate renderer in a DOM node: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;render(appTemplate(&amp;#123; tasks &amp;#125;), &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.getElementById(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;app&amp;quot;&lt;/span&gt;));&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;At this point we will see an empty input box and nothing is gonna happen when we click on it.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/YWarVmaNy.png&#34; alt=&#34;image.png&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Now, let us make this interactive by adding stimulus:&lt;/p&gt;
 &lt;p&gt;The primary abstraction offered by stimulus is the concept of &lt;a href=&#34;https://stimulus.hotwire.dev/reference/controllers&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;controllers&lt;/a&gt;. &lt;/p&gt;
 &lt;p&gt;We define behavior in controllers, and associate them with markup through data attributes.&lt;/p&gt;
 &lt;p&gt;So, if we have a TodoController we can associate it with our top level node through a &lt;code&gt;data-controller&lt;/code&gt; attribute: &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; appTemplate = &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&amp;#123; tasks &amp;#125;&lt;/span&gt;) =&amp;gt;&lt;/span&gt; html`
+&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; appTemplate = &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&amp;#123; tasks &amp;#125;&lt;/span&gt;) =&amp;gt;&lt;/span&gt; html`&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;data-controller&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;todo&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;todoListTemplate(tasks)&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;todoListTemplate(tasks)&amp;#125;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;`&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;em&gt;(This entire stringly-typed business is a bit icky if you are typescript aficionado, but bear with me for now).&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Once our controller has been attached, we can bind event handlers (methods in the controller) through more data attributes: &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; todoListTemplate = &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;tasks&lt;/span&gt;) =&amp;gt;&lt;/span&gt; html`
+&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; todoListTemplate = &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;tasks&lt;/span&gt;) =&amp;gt;&lt;/span&gt; html`&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;input&lt;/span&gt; &lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    type=&amp;quot;text&amp;quot; &lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    placeholder=&amp;quot;Enter task here&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    data-action=&amp;quot;keydown-&amp;gt;todo#handleKeyDown&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;text&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;placeholder&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Enter task here&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;data-action&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;keydown-&amp;gt;todo#handleKeyDown&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;  &amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;tasks.map((task) =&amp;gt; taskTemplate(task))&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;tasks.map((task) =&amp;gt; taskTemplate(task))&amp;#125;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;`&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;(&lt;code&gt;keydown&lt;/code&gt; event will be handled by &lt;code&gt;handleKeyDown&lt;/code&gt; method of  &lt;code&gt;TodoController&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;Similarly, we can handle click action on the todo item to toggle done state of the task: &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; taskTemplate = &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;task&lt;/span&gt;) =&amp;gt;&lt;/span&gt; html`
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;li&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    style=&lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;task.done ? &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;text-decoration: line-through&amp;quot;&lt;/span&gt; : &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&amp;#125;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    data-id=&lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;task.id&amp;#125;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    data-action=&amp;quot;click-&amp;gt;todo#toggleTask&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;gt;&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; taskTemplate = &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;task&lt;/span&gt;) =&amp;gt;&lt;/span&gt; html`&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;style&lt;/span&gt;=&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;task.done ? &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;text-decoration: line-through&amp;quot;&lt;/span&gt; : &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&amp;#125;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;data-id&lt;/span&gt;=&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;task.id&amp;#125;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;data-action&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;click-&amp;gt;todo#toggleTask&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;  &amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;input&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;checkbox&amp;quot;&lt;/span&gt; ?&lt;span class=&#34;hljs-attr&#34;&gt;checked&lt;/span&gt;=&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;task.done&amp;#125;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt; ? /&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;task.content&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;xml&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;task.content&amp;#125;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;`&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;So, now what does our controller look like: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &amp;#123; Controller &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;stimulus&amp;quot;&lt;/span&gt;;
 
@@ -180,9 +188,9 @@
   &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-title&#34;&gt;handleKeyDown&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;event&lt;/span&gt;)&lt;/span&gt; &amp;#123;
     &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (event.key === &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Enter&amp;quot;&lt;/span&gt;) &amp;#123;
       tasks.push(&amp;#123;
-        id: ++counter,
-        content: event.target.value,
-        done: &lt;span class=&#34;hljs-literal&#34;&gt;false&lt;/span&gt;
+        &lt;span class=&#34;hljs-attr&#34;&gt;id&lt;/span&gt;: ++counter,
+        &lt;span class=&#34;hljs-attr&#34;&gt;content&lt;/span&gt;: event.target.value,
+        &lt;span class=&#34;hljs-attr&#34;&gt;done&lt;/span&gt;: &lt;span class=&#34;hljs-literal&#34;&gt;false&lt;/span&gt;
       &amp;#125;);
       &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.rerender();
     &amp;#125;
@@ -193,6 +201,7 @@
     render(todoListTemplate(tasks), &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.element);
   &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;The &lt;code&gt;rerender&lt;/code&gt; function is the only part that is lit-html aware and will takes care of re-rendering the template after the our tasks array has been updated. &lt;/p&gt;
 &lt;p&gt;At this point our tasks array is a plain js array, so we don&amp;#39;t have a mechanism to subscribe to it, so whenever we modify the array, we will need to call the rerender function ourselves (Not cool, but works).&lt;/p&gt;
 &lt;p&gt;All that is left to do, is hooking up our controller into the &lt;code&gt;Application&lt;/code&gt; singleton provided by stimulus: &lt;/p&gt;
@@ -202,6 +211,7 @@
 application.register(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;todo&amp;quot;&lt;/span&gt;, TodoController); 
 &lt;span class=&#34;hljs-comment&#34;&gt;//                               ^ The name here (&amp;quot;todo&amp;quot;) should match &lt;/span&gt;
 &lt;span class=&#34;hljs-comment&#34;&gt;//                                  what we passed to the data-controller attribute&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;em&gt;(If you are using webpack, there is a &lt;a href=&#34;https://stimulus.hotwire.dev/handbook/installing&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;fancier way&lt;/a&gt; to auto-register all controllers but that is besides the core focus of this article)&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;Believe it or not, our todo list &lt;strong&gt;actually works&lt;/strong&gt; now: &lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/SSRcYqSrf.png&#34; alt=&#34;image.png&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
@@ -213,24 +223,25 @@ application.register(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;todo&amp;
     render(template(tasks), &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.element)
   );
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;To emphasise, we can easily server-render our UI when using libraries like React, Angular etc. but if we need our components to be interactive on the client-side, we&amp;#39;d need the JS code for the component (including the JS representation of our templates) before we can handle a single click. &lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;This is not the case here:&lt;/strong&gt; Given the controller-view separation, we need the controller to handle interactions on the client, but we need the view (template rendering functions) only when we need to actually update the content.&lt;/p&gt;
 &lt;p&gt;This allows for more fine grained code-splitting and is not so easy to do with libraries like React. &lt;/p&gt;
 &lt;h2 id=&#34;Some-obligatory-cleanup&#34;&gt;&lt;a href=&#34;#Some-obligatory-cleanup&#34; class=&#34;headerlink&#34; title=&#34;Some obligatory cleanup:&#34;&gt;&lt;/a&gt;Some obligatory cleanup:&lt;/h2&gt;&lt;p&gt;Our list rendering strategy is not ideal here, and we should be using a &lt;a href=&#34;https://lit-html.polymer-project.org/guide/template-reference#repeat&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;repeat directive&lt;/a&gt; for rendering lists (The motivation is similar to why we need key attribute in react, the linked docs explain it in more detail):&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &amp;#123; repeat &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;lit-html/directives/repeat&amp;quot;&lt;/span&gt;;
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; todoListTemplate = &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;tasks&lt;/span&gt;) =&amp;gt;&lt;/span&gt; html`
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; todoListTemplate = &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;tasks&lt;/span&gt;) =&amp;gt;&lt;/span&gt; html`&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;input&lt;/span&gt; &lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    type=&amp;quot;text&amp;quot; &lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    placeholder=&amp;quot;Enter task here&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    data-action=&amp;quot;keydown-&amp;gt;todo#handleKeyDown&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;text&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;placeholder&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Enter task here&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;data-action&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;keydown-&amp;gt;todo#handleKeyDown&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;xml&#34;&gt;  &amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;repeat(&lt;/span&gt;
 &lt;span class=&#34;hljs-subst&#34;&gt;      tasks,&lt;/span&gt;
 &lt;span class=&#34;hljs-subst&#34;&gt;      (task) =&amp;gt; task.id, &lt;span class=&#34;hljs-regexp&#34;&gt;//&lt;/span&gt; Unique key &lt;span class=&#34;hljs-keyword&#34;&gt;for&lt;/span&gt; each task&lt;/span&gt;
 &lt;span class=&#34;hljs-subst&#34;&gt;      (task) =&amp;gt; taskTemplate(task)&lt;/span&gt;
-&lt;span class=&#34;hljs-subst&#34;&gt;    )&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;hljs-subst&#34;&gt;    )&amp;#125;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;`&lt;/span&gt;;&lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;Making-things-reactive&#34;&gt;&lt;a href=&#34;#Making-things-reactive&#34; class=&#34;headerlink&#34; title=&#34;Making things reactive:&#34;&gt;&lt;/a&gt;Making things reactive:&lt;/h2&gt;&lt;p&gt;Calling rerender ourselves doesn&amp;#39;t quite cut it in 2020 (almost 2021 :P) and in JS ecosystem we have a plethora of state-management micro-libraries. One that I particularly like is &lt;a href=&#34;https://effector.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Effector&lt;/a&gt;, which is quite feature rich for a &lt;a href=&#34;https://bundlephobia.com/result?p=effector@21.7.5&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;9.5k bundle&lt;/a&gt;. &lt;/p&gt;
@@ -260,6 +271,7 @@ tasksStore.on(toggleTask, &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span cl
     task.id == taskId ? &amp;#123; ...task, &lt;span class=&#34;hljs-attr&#34;&gt;done&lt;/span&gt;: !task.done &amp;#125; : task
   )
 );&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;Let&amp;#39;s hook our controller to use that instead of the vanilla array: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;TodoController&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Controller&lt;/span&gt; &lt;/span&gt;&amp;#123;
   &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-title&#34;&gt;constructor&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;context&lt;/span&gt;)&lt;/span&gt; &amp;#123;
@@ -274,9 +286,9 @@ tasksStore.on(toggleTask, &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span cl
   &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-title&#34;&gt;handleKeyDown&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;event&lt;/span&gt;)&lt;/span&gt; &amp;#123;
     &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (event.key === &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Enter&amp;quot;&lt;/span&gt;) &amp;#123;
       addTask(&amp;#123;
-        id: ++counter,
-        content: event.target.value,
-        done: &lt;span class=&#34;hljs-literal&#34;&gt;false&lt;/span&gt;
+        &lt;span class=&#34;hljs-attr&#34;&gt;id&lt;/span&gt;: ++counter,
+        &lt;span class=&#34;hljs-attr&#34;&gt;content&lt;/span&gt;: event.target.value,
+        &lt;span class=&#34;hljs-attr&#34;&gt;done&lt;/span&gt;: &lt;span class=&#34;hljs-literal&#34;&gt;false&lt;/span&gt;
       &amp;#125;);
     &amp;#125;
   &amp;#125;
@@ -284,6 +296,7 @@ tasksStore.on(toggleTask, &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span cl
     render(todoListTemplate(tasks), &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.element);
   &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;The repeated calls to rerender are now gone, as we have configured our constructor to rerender the template whenever state updates. &lt;/p&gt;
 &lt;p&gt;You can try out this implementation in the sandbox &lt;a href=&#34;https://codesandbox.io/s/happy-fog-sfje3?file=/src/index.js:1562-2058&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;Caveats&#34;&gt;&lt;a href=&#34;#Caveats&#34; class=&#34;headerlink&#34; title=&#34;Caveats:&#34;&gt;&lt;/a&gt;Caveats:&lt;/h2&gt;&lt;p&gt;*No such thing as free lunch, yadda, yadda ... *&lt;/p&gt;

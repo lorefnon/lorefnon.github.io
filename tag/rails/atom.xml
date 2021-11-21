@@ -66,15 +66,15 @@
     <category term="Java" />
     <category term="JOOQ" />
     <category term="Ruby on Rails" />
+    <category term="Liquibase" />
+    <category term="tbls" />
+    <category term="jOOQ" />
     <category term="Vue" />
     <category term="TypeScript" />
-    <category term="Liquibase" />
     <category term="Gradle" />
     <category term="Spring" />
     <category term="Spring-Boot" />
     <category term="gRPC" />
-    <category term="tbls" />
-    <category term="jOOQ" />
     <entry>
         <id>https://lorefnon.me/2016/03/31/database-driven-scheduling-with-clockwork-and-activejob.html</id>
         <title>Database driven scheduling with Clockwork and ActiveJob</title>
@@ -818,7 +818,7 @@ end
 &lt;p&gt;Using progressive enhancement and HTML5, SPF integrates with your site to enable a faster, more fluid user experience by updating just the sections of the page that change during navigation, not the whole page. SPF provides a response format for sending document fragments, a robust system for script and style management, an in-memory cache, on-the-fly processing, and more.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;While for complex dynamic sites which have a significant amount of client side logic, I still recommend adopting a client side javascript framework, but for content focussed sites, a nifty utility like SPF.js can be very useful.&lt;/p&gt;
-&lt;a id=&#34;more&#34;&gt;&lt;/a&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 
 &lt;h2 id=&#34;Why-not-good-old-js-erb-templates&#34;&gt;&lt;a href=&#34;#Why-not-good-old-js-erb-templates&#34; class=&#34;headerlink&#34; title=&#34;Why not good old js.erb templates ?&#34;&gt;&lt;/a&gt;Why not good old js.erb templates ?&lt;/h2&gt;&lt;p&gt;While Rails allows us to render server generated javascript templates, using them to generate dynamic page updates is a bit cumbersome for most scenarios. Especially you have to handle page url updates manually, scroll back the pages manually etc. None of them are very complex concerns, but having a library deal with such cross cutting concerns is much more elegant IMHO.&lt;/p&gt;
 &lt;h2 id=&#34;What-about-turbolinks&#34;&gt;&lt;a href=&#34;#What-about-turbolinks&#34; class=&#34;headerlink&#34; title=&#34;What about turbolinks ?&#34;&gt;&lt;/a&gt;What about turbolinks ?&lt;/h2&gt;&lt;p&gt;While yes, turbolinks does enjoy being a part of the default Rails stack, but frankly, it has always seemed like a half baked product. While turbolinks does improve the experience over full page reloads, behind the scenes it still loads the full page content.&lt;/p&gt;
@@ -883,34 +883,37 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;So now that we have our dummy posts in place, we just need to show them:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;&amp;lt;!-- posts/index.html.erb --&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;blog-container&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h1&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;blog-title title&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; Lorefnon&amp;#x27;s Awesome blog &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h1&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;page-title title&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; Posts &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;posts-container&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;posts/posts&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;br/&gt;
 
 &lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;&amp;lt;!-- posts/_posts.html.erb --&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;posts-list&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;posts&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@posts&lt;/span&gt;.each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|post|&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;posts/summary&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;post:&lt;/span&gt; post &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;navigation-links&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;posts/navigation_links&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;br/&gt;
 
 &lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;&amp;lt;!-- posts/_summary.html.erb --&amp;gt;&lt;/span&gt;&lt;/span&gt;
@@ -918,6 +921,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;title post-title&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to post.title, post_path(&lt;span class=&#34;hljs-symbol&#34;&gt;id:&lt;/span&gt; post.id) &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; post.summary &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;br/&gt;
 
 &lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;&amp;lt;!-- posts/_navigation_links.html.erb --&amp;gt;&lt;/span&gt;&lt;/span&gt;
@@ -927,6 +931,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-variable&#34;&gt;@num_pages&lt;/span&gt; -&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;   &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Next Page&amp;#x27;&lt;/span&gt;, posts_path(&lt;span class=&#34;hljs-symbol&#34;&gt;page:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt;+&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;) &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;br/&gt;
 
 &lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;&amp;lt;!-- posts/show.html.erb --&amp;gt;&lt;/span&gt;&lt;/span&gt;
@@ -934,6 +939,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;post-title title&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to &lt;span class=&#34;hljs-variable&#34;&gt;@post&lt;/span&gt;.title, post_path(&lt;span class=&#34;hljs-symbol&#34;&gt;id:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@post&lt;/span&gt;.id) &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;post-body&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@post&lt;/span&gt;.body &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;The above templates have nothing particularly characteristic. If you would have written them yourself, I guess you would have implemented something very similar. I have presented above to particularly highlight that the way you structure your views does not need to be drastically altered to use SPF.js. Hence it is easy to take your existing sites and start using SPF.js.&lt;/p&gt;
 &lt;p&gt;Our dummy blog looks something like this now:&lt;/p&gt;
 &lt;img src=&#34;/images/2015-11-26/blog_index.png&#34;&gt;
@@ -941,9 +947,9 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;h2 id=&#34;Including-SPF&#34;&gt;&lt;a href=&#34;#Including-SPF&#34; class=&#34;headerlink&#34; title=&#34;Including SPF&#34;&gt;&lt;/a&gt;Including SPF&lt;/h2&gt;&lt;p&gt;Next step for us is to include SPF.js in the page. For that we will just add the cdn link to our layout. Other methods of including are available &lt;a href=&#34;https://github.com/youtube/spfjs#download&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;After this inclusion our template might look something like this:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;&amp;lt;!DOCTYPE &lt;span class=&#34;hljs-meta-keyword&#34;&gt;html&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;html&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;head&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;title&lt;/span&gt;&amp;gt;&lt;/span&gt;Rails Spfjs Demo&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;title&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; javascript_include_tag &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;//ajax.googleapis.com/ajax/libs/spf/2.3.0/spf.js&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
@@ -951,17 +957,18 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; javascript_include_tag &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;application&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; csrf_meta_tags &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;head&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;yield&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    spf.init();&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;html&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;h2 id=&#34;Making-navigation-links-SPF-aware&#34;&gt;&lt;a href=&#34;#Making-navigation-links-SPF-aware&#34; class=&#34;headerlink&#34; title=&#34;Making navigation links SPF aware&#34;&gt;&lt;/a&gt;Making navigation links SPF aware&lt;/h2&gt;&lt;p&gt;However just initializing SPF.js does not magically ajaxify all navigation links. In fact by so far SPF.js does not alter the navigation in any way. We need to explicitly enable SPFjs for links for which our server knows how to server partial content. For SPF to process a link, it should have the class &amp;#39;spf-link&amp;#39;. Let us start with our navigation links:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; &amp;gt; &lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;   &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Previous Page&amp;#x27;&lt;/span&gt;, posts_path(&lt;span class=&#34;hljs-symbol&#34;&gt;page:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt;-&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;), &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;: &amp;#x27;&lt;span class=&#34;hljs-title&#34;&gt;spf&lt;/span&gt;-&lt;span class=&#34;hljs-title&#34;&gt;link&lt;/span&gt;&amp;#x27; &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
@@ -969,6 +976,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-variable&#34;&gt;@num_pages&lt;/span&gt; -&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;   &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Next Page&amp;#x27;&lt;/span&gt;, posts_path(&lt;span class=&#34;hljs-symbol&#34;&gt;page:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt;+&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;), &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;: &amp;#x27;&lt;span class=&#34;hljs-title&#34;&gt;spf&lt;/span&gt;-&lt;span class=&#34;hljs-title&#34;&gt;link&lt;/span&gt;&amp;#x27; &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;One great feature of SPF.js is that it handles graceful degradation. So, since we haven&amp;#39;t done anything on the server side to generate partial contents, SPF will try to make an ajax request to server (with the special query parameter spf=navigate) and once that response format does not match what SPF expects, it will allow a full page reload.&lt;/p&gt;
 &lt;h2 id=&#34;Server-side-handling-for-SPF&#34;&gt;&lt;a href=&#34;#Server-side-handling-for-SPF&#34; class=&#34;headerlink&#34; title=&#34;Server side handling for SPF&#34;&gt;&lt;/a&gt;Server side handling for SPF&lt;/h2&gt;&lt;p&gt;Let us move on to server side handling:&lt;/p&gt;
 &lt;p&gt;As we have previously mentioned that SPF sends an ajax request using spf=navigate query parameter. We can detect that in our controller and send out a special response that only includes the parts of the page we need to update:&lt;/p&gt;
@@ -985,11 +993,13 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
 ...&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;Next we will have to designate the parts that can be dynamically replace using an id. In our modified &lt;code&gt;posts/_summary.html.erb&lt;/code&gt; below, &lt;code&gt;spf-posts-container&lt;/code&gt; serves that purpose:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;data-post-id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;lt;%=&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; post.id &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;hljs-string&#34;&gt;%&amp;gt;&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;title post-title&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to post.title, post_path(&lt;span class=&#34;hljs-symbol&#34;&gt;id:&lt;/span&gt; post.id) &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; post.summary &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
 
 &lt;p&gt;While SPF does not require DOM node IDs to begin with &lt;code&gt;spf-&lt;/code&gt; prefix I think this is a good convention and makes the intent explict.&lt;/p&gt;
 &lt;p&gt;Finally here is our json template that contains the partial page update, in the format that SPF.js &lt;a href=&#34;https://youtube.github.io/spfjs/documentation/responses/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;can process&lt;/a&gt;.&lt;/p&gt;
@@ -999,6 +1009,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;quot;spf-posts-container&amp;quot;: &amp;quot;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; j render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;posts/posts&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&amp;quot;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &amp;#125;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;While we are using a simple &lt;code&gt;json.erb&lt;/code&gt; template, it should be noted that any generic approach that can generate json response in rails, works well. So if you are already using &lt;code&gt;rabl&lt;/code&gt; or &lt;code&gt;jbuilder&lt;/code&gt; in your APIs, you can continue using that.&lt;/p&gt;
 &lt;p&gt;Now when a navigation link is clicked, the json response is fetched via ajax and the page is dynamically updated - resulting in a much smoother user experience. Also note that browser url has been automatically updated and the page scrolls to the top. SPF tries to emulate the experience the experience of page change as much as possible to prevent uncanny surprises.&lt;/p&gt;
 &lt;img src=&#34;/images/2015-11-26/spf_response.png&#34;&gt;
@@ -1016,6 +1027,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;We can override this in our ApplicationController&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;ApplicationController&lt;/span&gt; &amp;lt; ActionController::Base&lt;/span&gt;
 
@@ -1032,6 +1044,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;Now all we have to do is prefix the names of our SPF specific templates with &lt;code&gt;spf_&lt;/code&gt; and we are done. Our &lt;code&gt;spf_index.json.erb&lt;/code&gt; remains unchanged.&lt;/p&gt;
 &lt;p&gt;We can clean up the action and remove SPF specific code:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;PostsController&lt;/span&gt; &amp;lt; ApplicationController&lt;/span&gt;
@@ -1043,6 +1056,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
 ...&lt;/code&gt;&lt;/pre&gt;
+
 &lt;h2 id=&#34;Navigation-hooks&#34;&gt;&lt;a href=&#34;#Navigation-hooks&#34; class=&#34;headerlink&#34; title=&#34;Navigation hooks&#34;&gt;&lt;/a&gt;Navigation hooks&lt;/h2&gt;&lt;p&gt;While so far everything works pretty well, we may want to hook into navigation events for greater flexibility. This may be useful for sending events to analytics service or for highlighting specific parts of page. The latter is useful because in some cases when the part replaced is very small, user might not immediate notice a quick change in the page content.&lt;/p&gt;
 &lt;p&gt;For instance &lt;code&gt;spfdone&lt;/code&gt; event is invoked after the asynchronous update has been applied to the page. We can attach handlers to this event just like any other event, and hook custom logic:&lt;/p&gt;
 &lt;img src=&#34;/images/2015-11-26/spfdone.png&#34;&gt;
@@ -1060,36 +1074,38 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
   &amp;#125;
 
 &amp;#125;);&lt;/code&gt;&lt;/pre&gt;
+
 &lt;br/&gt;
 
 &lt;pre&gt;&lt;code class=&#34;hljs css&#34;&gt;&lt;span class=&#34;hljs-selector-class&#34;&gt;.flash&lt;/span&gt; &amp;#123;
-  &lt;span class=&#34;hljs-attribute&#34;&gt;-moz-animation&lt;/span&gt;: flash &lt;span class=&#34;hljs-number&#34;&gt;1s&lt;/span&gt; ease-out;
-  &lt;span class=&#34;hljs-attribute&#34;&gt;-moz-animation-iteration-count&lt;/span&gt;: &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
+  -moz-&lt;span class=&#34;hljs-attribute&#34;&gt;animation&lt;/span&gt;: flash &lt;span class=&#34;hljs-number&#34;&gt;1s&lt;/span&gt; ease-out;
+  -moz-&lt;span class=&#34;hljs-attribute&#34;&gt;animation-iteration-count&lt;/span&gt;: &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
 
-  &lt;span class=&#34;hljs-attribute&#34;&gt;-webkit-animation&lt;/span&gt;: flash &lt;span class=&#34;hljs-number&#34;&gt;1s&lt;/span&gt; ease-out;
-  &lt;span class=&#34;hljs-attribute&#34;&gt;-webkit-animation-iteration-count&lt;/span&gt;: &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
+  -webkit-&lt;span class=&#34;hljs-attribute&#34;&gt;animation&lt;/span&gt;: flash &lt;span class=&#34;hljs-number&#34;&gt;1s&lt;/span&gt; ease-out;
+  -webkit-&lt;span class=&#34;hljs-attribute&#34;&gt;animation-iteration-count&lt;/span&gt;: &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
 
-  &lt;span class=&#34;hljs-attribute&#34;&gt;-ms-animation&lt;/span&gt;: flash &lt;span class=&#34;hljs-number&#34;&gt;1s&lt;/span&gt; ease-out;
-  &lt;span class=&#34;hljs-attribute&#34;&gt;-ms-animation-iteration-count&lt;/span&gt;: &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
+  -ms-&lt;span class=&#34;hljs-attribute&#34;&gt;animation&lt;/span&gt;: flash &lt;span class=&#34;hljs-number&#34;&gt;1s&lt;/span&gt; ease-out;
+  -ms-&lt;span class=&#34;hljs-attribute&#34;&gt;animation-iteration-count&lt;/span&gt;: &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
 &amp;#125;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;@-webkit-keyframes&lt;/span&gt; flash &amp;#123;
-    0% &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: none; &amp;#125;
-    50% &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: &lt;span class=&#34;hljs-number&#34;&gt;#fbf8b2&lt;/span&gt;; &amp;#125;
-    100% &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: none; &amp;#125;
+    &lt;span class=&#34;hljs-number&#34;&gt;0%&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: none; &amp;#125;
+    &lt;span class=&#34;hljs-number&#34;&gt;50%&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: &lt;span class=&#34;hljs-number&#34;&gt;#fbf8b2&lt;/span&gt;; &amp;#125;
+    &lt;span class=&#34;hljs-number&#34;&gt;100%&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: none; &amp;#125;
 &amp;#125;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;@-moz-keyframes&lt;/span&gt; flash &amp;#123;
-    0% &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: none; &amp;#125;
-    50% &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: &lt;span class=&#34;hljs-number&#34;&gt;#fbf8b2&lt;/span&gt;; &amp;#125;
-    100% &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: none; &amp;#125;
+    &lt;span class=&#34;hljs-number&#34;&gt;0%&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: none; &amp;#125;
+    &lt;span class=&#34;hljs-number&#34;&gt;50%&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: &lt;span class=&#34;hljs-number&#34;&gt;#fbf8b2&lt;/span&gt;; &amp;#125;
+    &lt;span class=&#34;hljs-number&#34;&gt;100%&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: none; &amp;#125;
 &amp;#125;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;@-ms-keyframes&lt;/span&gt; flash &amp;#123;
-    0% &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: none; &amp;#125;
-    50% &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: &lt;span class=&#34;hljs-number&#34;&gt;#fbf8b2&lt;/span&gt;; &amp;#125;
-    100% &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: none; &amp;#125;
+    &lt;span class=&#34;hljs-number&#34;&gt;0%&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: none; &amp;#125;
+    &lt;span class=&#34;hljs-number&#34;&gt;50%&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: &lt;span class=&#34;hljs-number&#34;&gt;#fbf8b2&lt;/span&gt;; &amp;#125;
+    &lt;span class=&#34;hljs-number&#34;&gt;100%&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-attribute&#34;&gt;background-color&lt;/span&gt;: none; &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;Now you should see a subtle flash when page content has been replaced.&lt;/p&gt;
 &lt;h2 id=&#34;Conclusion&#34;&gt;&lt;a href=&#34;#Conclusion&#34; class=&#34;headerlink&#34; title=&#34;Conclusion&#34;&gt;&lt;/a&gt;Conclusion&lt;/h2&gt;&lt;p&gt;This concludes our small post on SPF integration with Rails. SPF allows for a lot more customization options beyond what our small covers. In particular SPF allows us to inject new scripts and styles dynamically, sophisticated &lt;a href=&#34;https://youtube.github.io/spfjs/documentation/caching/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;cache management&lt;/a&gt; and &lt;a href=&#34;https://youtube.github.io/spfjs/documentation/versioning/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;resource versioning&lt;/a&gt; support, which are all very useful features.&lt;/p&gt;
 &lt;p&gt;The &lt;a href=&#34;https://youtube.github.io/spfjs/documentation&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;official documentation&lt;/a&gt; is a great place to start exploring more.&lt;/p&gt;
@@ -1126,6 +1142,7 @@ We recommend moving to npm, using &amp;quot;jquery-plugin&amp;quot; as the keywo
 &lt;p&gt;The great thing about browserify is that we can hook in transforms which can take care of additional pre-processing before the &lt;code&gt;require&lt;/code&gt;d files are bundled up. Of particular interest to us, is the browserify transform for babel - &lt;a href=&#34;https://github.com/babel/babelify&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;babelify&lt;/a&gt; which allows us to  sidestep the caveat above. We need to have a node installation on the system though, just having a javascript runtime is not sufficient - but this is not much of an issue because node.js is now widely supported on all widely used platforms.&lt;/p&gt;
 &lt;p&gt;To get this to work we need to add &lt;code&gt;browserify-rails&lt;/code&gt; to Gemfile:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;browserify-rails&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;as well as a &lt;code&gt;package.json&lt;/code&gt; in project root:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&amp;#123;
     &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;something&amp;quot;&lt;/span&gt;,
@@ -1140,20 +1157,24 @@ We recommend moving to npm, using &amp;quot;jquery-plugin&amp;quot; as the keywo
         &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;browserify-incremental&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^3.0.1&amp;quot;&lt;/span&gt;
     &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;If we want to use other javascript libraries available through npm we can include them directly in the package.json. There is a single caveat though: We can not directly start using ES6 modules in our top level files (typically application.js) but only in our &lt;code&gt;require&lt;/code&gt;d files:&lt;/p&gt;
 &lt;p&gt;So our application.js can be fairly minimal with a single require statement:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./main&amp;#x27;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;Now we can use ES6 modules in main.js&lt;/p&gt;
 &lt;p&gt;main.js:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; hello &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./hello&amp;#x27;&lt;/span&gt;
 
 hello()&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;hello.js:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;hello&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;
     alert(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;hello world&amp;#x27;&lt;/span&gt;);
 &amp;#125;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;default&lt;/span&gt; hello;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;If we run the server now and visit the home page, we should be greeted with a hello prompt.&lt;/p&gt;
 </content>
         <category term="Javascript" />
@@ -2263,13 +2284,13 @@ configure devise to find using the emails table we have created.&lt;/p&gt;
 &lt;p&gt;Nest we need to generate devise views using &lt;code&gt;rails g devise:views&lt;/code&gt; and edit the &lt;code&gt;app/views/devise/registrations/edit.html.erb&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;We edit the template to add nested form for emails:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;Edit &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; resource_name.to_s.humanize &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; form_for(resource, &lt;span class=&#34;hljs-symbol&#34;&gt;as:&lt;/span&gt; resource_name, &lt;span class=&#34;hljs-symbol&#34;&gt;url:&lt;/span&gt; registration_path(resource_name), &lt;span class=&#34;hljs-symbol&#34;&gt;html:&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;method:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:put&lt;/span&gt; &amp;#125;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|f|&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; devise_error_messages! &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:email&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Default Email&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.email_field &lt;span class=&#34;hljs-symbol&#34;&gt;:email&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autofocus:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.fields_for &lt;span class=&#34;hljs-symbol&#34;&gt;:emails&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|email_f|&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;      &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;email_fields&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;f:&lt;/span&gt; email_f &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
@@ -2278,29 +2299,29 @@ configure devise to find using the emails table we have created.&lt;/p&gt;
 &lt;span class=&#34;xml&#34;&gt;      &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to_add_association &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Add Email&amp;#x27;&lt;/span&gt;, f, &lt;span class=&#34;hljs-symbol&#34;&gt;:emails&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; devise_mapping.confirmable? &amp;amp;&amp;amp; resource.pending_reconfirmation? &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;Currently waiting confirmation for: &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; resource.unconfirmed_email &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:password&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;(leave blank if you don&amp;#x27;t want to change it)&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.password_field &lt;span class=&#34;hljs-symbol&#34;&gt;:password&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autocomplete:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;off&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:password_confirmation&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.password_field &lt;span class=&#34;hljs-symbol&#34;&gt;:password_confirmation&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autocomplete:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;off&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:current_password&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;(we need your current password to confirm your changes)&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.password_field &lt;span class=&#34;hljs-symbol&#34;&gt;:current_password&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autocomplete:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;off&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.submit &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Update&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt;&amp;gt;&lt;/span&gt;Cancel my account&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;Unhappy? &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; button_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Cancel my account&amp;quot;&lt;/span&gt;, registration_path(resource_name), &lt;span class=&#34;hljs-symbol&#34;&gt;data:&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;confirm:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Are you sure?&amp;quot;&lt;/span&gt; &amp;#125;, &lt;span class=&#34;hljs-symbol&#34;&gt;method:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:delete&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;xml&#34;&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Back&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:back&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Cocoon mandates a separate partial for email fields, which in our case is very simple:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;nested-fields&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
@@ -2550,7 +2571,7 @@ any errors when trying to save or retrieve them since we delegate to default imp
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
     &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;sti_cls_list&lt;/span&gt;&lt;/span&gt;
-      &lt;span class=&#34;hljs-variable&#34;&gt;@sti_cls&lt;/span&gt;_list
+      &lt;span class=&#34;hljs-variable&#34;&gt;@sti_cls_list&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
     def find_sti_class type_name
@@ -2600,7 +2621,7 @@ NoMethodError: undefined method `index&amp;#39; for nil:NilClass
   &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; superclass.respond_to? &lt;span class=&#34;hljs-symbol&#34;&gt;:sti_cls_list&lt;/span&gt;
     superclass.sti_cls_list
   &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
-    &lt;span class=&#34;hljs-variable&#34;&gt;@sti_cls&lt;/span&gt;_list
+    &lt;span class=&#34;hljs-variable&#34;&gt;@sti_cls_list&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 

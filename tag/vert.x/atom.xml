@@ -66,20 +66,22 @@
     <category term="Java" />
     <category term="JOOQ" />
     <category term="Ruby on Rails" />
+    <category term="Liquibase" />
+    <category term="tbls" />
+    <category term="jOOQ" />
     <category term="Vue" />
     <category term="TypeScript" />
-    <category term="Liquibase" />
     <category term="Gradle" />
     <category term="Spring" />
     <category term="Spring-Boot" />
     <category term="gRPC" />
-    <category term="tbls" />
-    <category term="jOOQ" />
     <entry>
         <id>https://lorefnon.me/2021/03/26/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-III/</id>
         <title>Building GraphQL APIs powered by Vert.x, jOOQ &amp; Kotlin - III</title>
         <link rel="alternate" href="https://lorefnon.me/2021/03/26/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-III/"/>
         <content type="html">&lt;p&gt;This is the third post in our series of articles where we explore a JVM based stack comprising of Kotlin, Vert.X and jOOQ for development of GraphQL APIs.&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+
 &lt;p&gt;In the &lt;a href=&#34;/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/&#34;&gt;previous post&lt;/a&gt; we integrated a dagger based DI system to simplify wiring up of components. In this post we will add some more GraphQL resolvers which connect to the database using the jooq based DAO layer.&lt;/p&gt;
 &lt;p&gt;Before we do that, let&amp;#39;s add an AppConfig component to read configuration from a properties file in a type safe manner so that our application becomes runtime configurable: &lt;/p&gt;
 &lt;p&gt;Our configuration file (&lt;code&gt;src/resources/app-config.properties&lt;/code&gt;) looks like this:&lt;/p&gt;
@@ -87,6 +89,7 @@
 &lt;span class=&#34;hljs-meta&#34;&gt;db.host&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;localhost&lt;/span&gt;
 &lt;span class=&#34;hljs-meta&#34;&gt;db.database&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;jooq_graphql_sample&lt;/span&gt;
 &lt;span class=&#34;hljs-meta&#34;&gt;db.user&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;lorefnon&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;We will write an &lt;code&gt;AppConfigModule&lt;/code&gt; which will make the parsed configuration available to other services through dagger.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.module
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
@@ -451,6 +454,7 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
     comments
   &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;If it&amp;#39;s all wired up correctly, we should get a successful response:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&amp;#123;
   &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;: &amp;#123;
@@ -460,6 +464,7 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
     &amp;#125;
   &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;If we try to create another user with the same login, we should receive a clear error:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&amp;#123;
   &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;: &amp;#123;
@@ -472,6 +477,7 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
     &amp;#125;
   &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;We also need a mechanism to allow users to login. So let us add another mutation where we can pass in the credentials are retrieve a JWT token:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.service
 
@@ -494,6 +500,7 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
             &amp;#125;
         &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;Let&amp;#39;s add that to our GraphQL module similar to the registration field: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.module
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
@@ -609,11 +616,13 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
 &lt;pre&gt;&lt;code class=&#34;hljs graphql&#34;&gt;mutation &amp;#123;
   login(username: &amp;quot;lorefnon&amp;quot;, password: &amp;quot;password&amp;quot;)
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&amp;#123;
   &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;: &amp;#123;
     &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;login&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtZS5sb3JlZm5vbi5zYW1wbGUiLCJ1c2VyIjoibG9yZWZub24ifQ.vJNjffx0dMAqoORfXlf-dUF6cAhwMfTPLeZzxB632_k&amp;quot;&lt;/span&gt;
   &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;In the next post we will utilize this API to secure other fields in our GraphQL API.&lt;/p&gt;
 </content>
         <category term="GraphQL" />
@@ -623,6 +632,251 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
         <category term="Backend-development" />
         <category term="API-development" />
         <updated>2021-03-26T00:00:00.000Z</updated>
+    </entry>
+    <entry>
+        <id>https://lorefnon.me/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/</id>
+        <title>Building GraphQL APIs powered by Vert.x, Dagger, jOOQ &amp; Kotlin - II</title>
+        <link rel="alternate" href="https://lorefnon.me/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/"/>
+        <content type="html">&lt;p&gt;This continues from our &lt;a href=&#34;/2021/02/01/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-I&#34;&gt;previous post&lt;/a&gt; in a series of articles where we explore a JVM based stack comprising of Kotlin, Vert.X and jOOQ for development of GraphQL APIs.&lt;/p&gt;
+&lt;p&gt;When we last left off, we had a simple GraphQL API with a single field in our &lt;code&gt;Query&lt;/code&gt; type which was statically resolved. &lt;/p&gt;
+&lt;p&gt;Before we go further, let&amp;#39;s integrate a dependency injection system that simplies the task of wiring up our application components. In this post we&amp;#39;ll use &lt;a href=&#34;https://dagger.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Dagger&lt;/a&gt;. In contrast to many other popular DI/IoC solutions, dagger operates through compile time code generation, reducing the reflection overhead causing startup delay.&lt;/p&gt;
+&lt;p&gt;Feel free to skip this post, and checkout the &lt;a href=&#34;/2021/03/26/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-III/&#34;&gt;next one in series&lt;/a&gt; if you don&amp;#39;t want to use Dagger.&lt;/p&gt;
+&lt;p&gt;We will need to add dagger as a dependency as well as configure Kotlin&amp;#39;s annotation processor &lt;a href=&#34;https://kotlinlang.org/docs/kapt.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Kapt&lt;/a&gt; to use dagger. &lt;/p&gt;
+&lt;p&gt;In pom.xml: project &amp;gt; dependencies&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;dependency&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;com.google.dagger&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;dagger&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;version&lt;/span&gt;&amp;gt;&lt;/span&gt;2.16&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;version&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;dependency&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Kapt configuration goes into the Kotlin maven-plugin&amp;#39;s configuration section: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;plugin&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;org.jetbrains.kotlin&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;kotlin-maven-plugin&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;version&lt;/span&gt;&amp;gt;&lt;/span&gt;${kotlin.version}&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;version&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;executions&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;execution&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;id&lt;/span&gt;&amp;gt;&lt;/span&gt;kapt&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;id&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;goals&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;goal&lt;/span&gt;&amp;gt;&lt;/span&gt;kapt&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;goal&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;goals&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;configuration&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;sourceDirs&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;sourceDir&lt;/span&gt;&amp;gt;&lt;/span&gt;src/main/kotlin&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;sourceDir&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;sourceDir&lt;/span&gt;&amp;gt;&lt;/span&gt;src/main/java&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;sourceDir&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;sourceDirs&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;annotationProcessorPaths&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;annotationProcessorPath&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                        &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;com.google.dagger&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;groupId&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                        &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;dagger-compiler&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;artifactId&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                        &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;version&lt;/span&gt;&amp;gt;&lt;/span&gt;2.16&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;version&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;annotationProcessorPath&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;annotationProcessorPaths&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;configuration&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;execution&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+        &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
+            &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
+            &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
+            &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
+        &lt;/g&gt;
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;23 lines collapsed (Other Execution Tags)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;execution&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;id&lt;/span&gt;&amp;gt;&lt;/span&gt;compile&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;id&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;goals&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;goal&lt;/span&gt;&amp;gt;&lt;/span&gt;compile&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;goal&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;goals&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;configuration&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;sourceDirs&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;sourceDir&lt;/span&gt;&amp;gt;&lt;/span&gt;${project.basedir}/src/main/kotlin&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;sourceDir&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;sourceDir&lt;/span&gt;&amp;gt;&lt;/span&gt;${project.basedir}/src/main/java&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;sourceDir&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;sourceDirs&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;configuration&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;execution&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;execution&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;id&lt;/span&gt;&amp;gt;&lt;/span&gt;test-compile&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;id&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;goals&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;goal&lt;/span&gt;&amp;gt;&lt;/span&gt;test-compile&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;goal&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;goals&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;configuration&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;sourceDirs&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;sourceDir&lt;/span&gt;&amp;gt;&lt;/span&gt;${project.basedir}/src/test/kotlin&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;sourceDir&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;sourceDir&lt;/span&gt;&amp;gt;&lt;/span&gt;${project.basedir}/src/test/java&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;sourceDir&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;sourceDirs&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;configuration&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-5&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;execution&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;executions&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;plugin&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Let us move our GraphQL wiring to a Dagger module: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.module
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-6&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-6&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+        &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
+            &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
+            &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
+            &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
+        &lt;/g&gt;
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;11 lines collapsed (Imports)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-6&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.GraphQL
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-6&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.RuntimeWiring.newRuntimeWiring
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-6&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.SchemaGenerator
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-6&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.SchemaParser
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-6&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-6&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Module
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-6&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Provides
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-6&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.schema.idl.TypeRuntimeWiring
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-6&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.ext.web.handler.graphql.schema.VertxDataFetcher
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-6&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.service.UserLoginService
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-6&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.service.UserRegistrationService
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-6&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; javax.inject.Singleton
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;@Module&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;GraphQLModule&lt;/span&gt; &lt;/span&gt;{
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-meta&#34;&gt;@Provides&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-meta&#34;&gt;@Singleton&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;provideGraphQL&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; = GraphQLBuilder().build()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-keyword&#34;&gt;inner&lt;/span&gt; &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;GraphQLBuilder&lt;/span&gt; &lt;/span&gt;{
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;build&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt;: GraphQL = GraphQL
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .newGraphQL(buildExecutableSchema())
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .build()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; rawSchema = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;quot;&amp;quot;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            type Query {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                hello: String
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;.trimIndent()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;buildRuntimeWiring&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; = newRuntimeWiring()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .type(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Query&amp;quot;&lt;/span&gt;) {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                it.dataFetcher(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;hello&amp;quot;&lt;/span&gt;) { &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;world&amp;quot;&lt;/span&gt; }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .build()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;buildExecutableSchema&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; =
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            SchemaGenerator().makeExecutableSchema(parseSchema(), buildRuntimeWiring())
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;parseSchema&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; =
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            SchemaParser().parse(rawSchema)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When the dependencies are coming from our own project we will typically use &lt;code&gt;@Inject&lt;/code&gt; annotation in the classes to be injected. &lt;/p&gt;
+&lt;p&gt;However, when we are instantiating or configuring third party classes that we don&amp;#39;t have control over we&amp;#39;ll typically use &lt;code&gt;@Provides&lt;/code&gt; annotation (as in the example above). These methods are conventionally named as &lt;code&gt;provide*&lt;/code&gt; and are organized as what Dagger calls Modules (entirely unrelated to Java 9 modules developed as part of project Jigsaw). The &lt;code&gt;@Module&lt;/code&gt; annotation marks our class as a Dagger Module.&lt;/p&gt;
+&lt;p&gt;The utility of the inner class may not be obvious at this point, but it just makes it easier to better organize the runtime wiring where we need access to our other services. This will likely be more evident once we start integrating more features in our API.&lt;/p&gt;
+&lt;p&gt;Our router integration can be moved to a Dagger module too: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.module
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-7&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-7&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+        &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
+            &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
+            &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
+            &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
+        &lt;/g&gt;
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;7 lines collapsed (Imports)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-7&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Module
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-7&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Provides
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-7&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.GraphQL
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-7&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.core.Vertx
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-7&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.ext.web.Router
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-7&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.ext.web.handler.BodyHandler
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-7&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.ext.web.handler.graphql.GraphQLHandler
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-7&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; javax.inject.Singleton
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;@Module&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;RouterModule&lt;/span&gt;&lt;/span&gt;(&lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; vertx: Vertx) {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-meta&#34;&gt;@Provides&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-meta&#34;&gt;@Singleton&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;provideRouter&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(graphQL: &lt;span class=&#34;hljs-type&#34;&gt;GraphQL&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;: Router =
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        Router.router(vertx).also { r -&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            r.route().handler(BodyHandler.create())
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            r.post(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;/graphql&amp;quot;&lt;/span&gt;).handler(
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                GraphQLHandler.create(graphQL)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            )
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note that both our Router and GraphQL instances are marked as &lt;code&gt;@Singleton&lt;/code&gt; so dagger will only ever create a single instance of them and inject the same instance wherever needed.&lt;/p&gt;
+&lt;p&gt;The last dagger specific boilerplate class that we need to write is a dagger &lt;code&gt;Component&lt;/code&gt; that acts as a facade for the code that isn&amp;#39;t wired up using dagger. This can be used to bootstrap our injector and  also makes dagger instantiated instances available to non dagger managed code.&lt;/p&gt;
+&lt;p&gt;A dagger &lt;code&gt;Component&lt;/code&gt; is typically written as an interface that will be implemented by Dagger at compile time: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-8&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-8&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+        &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
+            &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
+            &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
+            &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
+        &lt;/g&gt;
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;6 lines collapsed (Imports)&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-8&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; dagger.Component
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-8&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.GraphQL
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-8&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.ext.web.Router
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-8&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.sqlclient.SqlClient
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-8&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; javax.inject.Singleton
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-8&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-8&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.module.*
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;@Component(modules = [
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    GraphQLModule::class,
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    RouterModule::class,
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;])&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;@Singleton&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;MainVerticleComponent&lt;/span&gt; &lt;/span&gt;{
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;getRouter&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt;: Router
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;While we may have many services instantiated through dagger, we will not need to add accessors for all of them to the Component above. The only one we will need in our tutorial, is a the router accessor, which makes the router instance (which is created through dagger) available to our MainVerticle class (which is not created dagger).&lt;/p&gt;
+&lt;p&gt;If we run &lt;code&gt;mvn compile&lt;/code&gt;, dagger will generate a &lt;code&gt;DaggerMainVerticleComponent&lt;/code&gt; that implements our &lt;code&gt;MainVerticleComponent&lt;/code&gt; class.&lt;/p&gt;
+&lt;p&gt;We can now use the companion Builder of this class to wire up the dependencies of our verticle: &lt;/p&gt;
+&lt;p&gt;Let us update our &lt;code&gt;MainVerticle&lt;/code&gt; to make use of the Dagger generated &lt;code&gt;MainVerticleComponent&lt;/code&gt; implementation:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.core.AbstractVerticle
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.core.Promise
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; me.lorefnon.sample.module.*
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;MainVerticle&lt;/span&gt; : &lt;span class=&#34;hljs-type&#34;&gt;AbstractVerticle&lt;/span&gt;&lt;/span&gt;() {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; component &lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt; lazy {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        DaggerMainVerticleComponent
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .builder()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .graphQLModule(GraphQLModule())
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .routerModule(RouterModule(vertx))
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .build()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-keyword&#34;&gt;override&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;start&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(startPromise: &lt;span class=&#34;hljs-type&#34;&gt;Promise&lt;/span&gt;&amp;lt;&lt;span class=&#34;hljs-type&#34;&gt;Void&lt;/span&gt;&amp;gt;)&lt;/span&gt;&lt;/span&gt; {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        vertx
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .createHttpServer()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .requestHandler(component.getRouter())
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .listen(&lt;span class=&#34;hljs-number&#34;&gt;8888&lt;/span&gt;) { http -&amp;gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (http.succeeded()) {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    startPromise.complete()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    println(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;HTTP server started on port 8888&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                } &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt; {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                    startPromise.fail(http.cause());
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;                }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(&lt;code&gt;component&lt;/code&gt; needs to be lazy because when class is instantiated vertx instance is not available)&lt;/p&gt;
+&lt;p&gt;If we run &lt;code&gt;mvn compile exec:java&lt;/code&gt; now, we will have the same API as before, but now with DI integrated.&lt;/p&gt;
+&lt;p&gt;In the &lt;a href=&#34;/2021/03/26/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-III/&#34;&gt;next part&lt;/a&gt; of this series, we will look at integrating the Jooq geenrated DAOs into our GraphQL API.&lt;/p&gt;
+</content>
+        <category term="GraphQL" />
+        <category term="Kotlin" />
+        <category term="Vert.X" />
+        <category term="Vert.X-Web" />
+        <category term="Backend-development" />
+        <category term="API-development" />
+        <updated>2021-02-06T00:00:00.000Z</updated>
     </entry>
     <entry>
         <id>https://lorefnon.me/2021/02/01/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-I/</id>
@@ -1031,6 +1285,7 @@ The different verticle instances communicate with each other by sending messages
             &amp;#125;
     &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;Note that all our setup is explicit in the code and there is no hidden magic going on.&lt;/p&gt;
 &lt;p&gt;Our &lt;code&gt;setupRouter&lt;/code&gt; function will be responsible for bootstrapping the endpoints which handle the GraphQL requests: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; io.vertx.core.Vertx
@@ -1047,6 +1302,7 @@ The different verticle instances communicate with each other by sending messages
             )
         )
     &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;code&gt;BodyHandler&lt;/code&gt; is needed to parse POST request body. &lt;/p&gt;
 &lt;p&gt;Our &lt;code&gt;setupGraphQL&lt;/code&gt; function is responsible for wiring up our GraphQL Schema and the resolvers&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; graphql.GraphQL
@@ -1091,9 +1347,10 @@ which the &lt;code&gt;GraphQLHandler&lt;/code&gt; from &lt;code&gt;vertx-graphql
 &lt;code&gt;setupRouter&lt;/code&gt; function.&lt;/p&gt;
 &lt;p&gt;As we saw in the pom.xml we have an exec:java goal defined. So we can use &lt;code&gt;mvn compile exec:java&lt;/code&gt; to run our server. &lt;/p&gt;
 &lt;p&gt;If we see following message in the server logs, that means we are all good and our server is up and running: &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs plain&#34;&gt;Feb 01, 2021 12:25:02 AM io.vertx.core.impl.launcher.commands.VertxIsolatedDeployer
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;Feb 01, 2021 12:25:02 AM io.vertx.core.impl.launcher.commands.VertxIsolatedDeployer
 INFO: Succeeded in deploying verticle
 HTTP server started on port 8888&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;We can try out our API using a GraphQL client. I like using &lt;a href=&#34;https://altair.sirmuel.design/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Altair&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/2020-02-01/graphql-altair-hello-world.png&#34; alt=&#34;Altair&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;So we see that our simple API works and our field (&lt;code&gt;hello&lt;/code&gt;) is resolved through the dataFetcher we have defined.&lt;/p&gt;

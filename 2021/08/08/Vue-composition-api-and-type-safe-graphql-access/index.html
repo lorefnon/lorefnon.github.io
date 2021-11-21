@@ -1,26 +1,27 @@
-<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta property="og:title" content="Gaurab Paul | Blog"><meta property="og:description" content="Ramblings on Web Development and software architecture"><meta name="generator" content="Hexo 5.3.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2021-08-07">Posted &nbsp;a month ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Apollo/"><img src="/images/tag.svg">Apollo</a></li><li class="body-text"><a class="tag-link" href="/tags/GraphQL/"><img src="/images/tag.svg">GraphQL</a></li><li class="body-text"><a class="tag-link" href="/tags/Vue/"><img src="/images/tag.svg">Vue</a></li><li class="body-text"><a class="tag-link" href="/tags/TypeScript/"><img src="/images/tag.svg">TypeScript</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Vue composition API and type-safe GraphQL access</div></div><div class="blog-main"><div class="page-content"><h1 id="About-setup-script"><a href="#About-setup-script" class="headerlink" title="About setup script"></a>About setup script</h1><p>The <a href="https://v3.vuejs.org/guide/composition-api-introduction.html" target="_blank" rel="noopener external nofollow noreferrer">vue composition API</a> is pretty cool, esp. with the recent addition of <a href="https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md" target="_blank" rel="noopener external nofollow noreferrer">setup script support</a> in <a href="https://blog.vuejs.org/posts/vue-3.2.html" target="_blank" rel="noopener external nofollow noreferrer">Vue 3.2</a> which drastically reduces unnecessary boilerplate when most of the logic is present in the setup function of the component. </p>
-<p>From the announcement post: </p>
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta property="og:title" content="Gaurab Paul | Blog"><meta property="og:description" content="Ramblings on Web Development and software architecture"><meta name="generator" content="Hexo 5.4.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2021-08-07">Posted &nbsp;3 months ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Apollo/"><img src="/images/tag.svg">Apollo</a></li><li class="body-text"><a class="tag-link" href="/tags/GraphQL/"><img src="/images/tag.svg">GraphQL</a></li><li class="body-text"><a class="tag-link" href="/tags/Vue/"><img src="/images/tag.svg">Vue</a></li><li class="body-text"><a class="tag-link" href="/tags/TypeScript/"><img src="/images/tag.svg">TypeScript</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">Vue composition API and type-safe GraphQL access</div></div><div class="blog-main"><div class="page-content"><h1 id="About-setup-script"><a href="#About-setup-script" class="headerlink" title="About setup script"></a>About setup script</h1><p>The <a href="https://v3.vuejs.org/guide/composition-api-introduction.html" target="_blank" rel="noopener external nofollow noreferrer">vue composition API</a> is pretty cool, esp. with the recent addition of <a href="https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md" target="_blank" rel="noopener external nofollow noreferrer">setup script support</a> in <a href="https://blog.vuejs.org/posts/vue-3.2.html" target="_blank" rel="noopener external nofollow noreferrer">Vue 3.2</a> which drastically reduces unnecessary boilerplate when most of the logic is present in the setup function of the component.</p>
+<p>From the announcement post:</p>
 <blockquote>
 <p><code>&lt;script setup&gt;</code> is a <strong>compile-time syntactic sugar</strong> that greatly improves the ergonomics when using Composition API inside SFCs.</p>
 </blockquote>
-<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="javascript"></span>
 <span class="javascript"><span class="hljs-keyword">import</span> &#123; ref &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span></span>
-
+<span class="javascript"></span>
 <span class="javascript"><span class="hljs-keyword">const</span> color = ref(<span class="hljs-string">&#x27;red&#x27;</span>)</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;color = color === &#x27;red&#x27; ? &#x27;green&#x27; : &#x27;red&#x27;&quot;</span>&gt;</span>
     Color is: &#123;&#123; color &#125;&#125;
   <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-<h1 id="GraphQL-through-Composition-API"><a href="#GraphQL-through-Composition-API" class="headerlink" title="GraphQL through Composition API"></a>GraphQL through Composition API</h1><p>With <a href="https://v4.apollo.vuejs.org/" target="_blank" rel="noopener external nofollow noreferrer">vue-apollo-composable</a> we can use a composable API to access our GraphQL API which can take advantage of above support. </p>
-<p>Lastly, using <a href="https://www.graphql-code-generator.com/docs/presets/gql-tag-operations" target="_blank" rel="noopener external nofollow noreferrer">gql-tag-operations-preset</a> we can ensure that we get type-safety while accessing resources over GraphQL. </p>
-<p>This combination works seamlessly and unlike previous codegen based approaches doesn&#39;t require us to manually import types or functions generated from graphql files. </p>
+
+<h1 id="GraphQL-through-Composition-API"><a href="#GraphQL-through-Composition-API" class="headerlink" title="GraphQL through Composition API"></a>GraphQL through Composition API</h1><p>With <a href="https://v4.apollo.vuejs.org/" target="_blank" rel="noopener external nofollow noreferrer">vue-apollo-composable</a> we can use a composable API to access our GraphQL API which can take advantage of above support.</p>
+<p>Lastly, using <a href="https://www.graphql-code-generator.com/docs/presets/gql-tag-operations" target="_blank" rel="noopener external nofollow noreferrer">gql-tag-operations-preset</a> we can ensure that we get type-safety while accessing resources over GraphQL.</p>
+<p>This combination works seamlessly and unlike previous codegen based approaches doesn&#39;t require us to manually import types or functions generated from graphql files.</p>
 <p>The rest of this post is primarily an overview of the involved configuration.</p>
-<h1 id="Dependencies"><a href="#Dependencies" class="headerlink" title="Dependencies"></a>Dependencies</h1><p>Currently, my preferred way to get started with Vue project is to scaffold it through vite (<code>yarn create vite</code>) which internally uses the really fast <a href="https://github.com/evanw/esbuild" target="_blank" rel="noopener external nofollow noreferrer">esbuild</a> native transpiler. </p>
+<h1 id="Dependencies"><a href="#Dependencies" class="headerlink" title="Dependencies"></a>Dependencies</h1><p>Currently, my preferred way to get started with Vue project is to scaffold it through vite (<code>yarn create vite</code>) which internally uses the really fast <a href="https://github.com/evanw/esbuild" target="_blank" rel="noopener external nofollow noreferrer">esbuild</a> native transpiler.</p>
 <p>Other build tools may require minor adjustment around import aliasing.</p>
-<p>Here is what our package.json looks like: </p>
+<p>Here is what our package.json looks like:</p>
 <pre><code class="hljs json">&#123;
   <span class="hljs-attr">&quot;scripts&quot;</span>: &#123;
     <span class="hljs-attr">&quot;dev&quot;</span>: <span class="hljs-string">&quot;vite&quot;</span>,
@@ -49,14 +50,15 @@
     <span class="hljs-attr">&quot;vue-tsc&quot;</span>: <span class="hljs-string">&quot;^0.2.2&quot;</span>
   &#125;
 &#125;</code></pre>
+
 <h1 id="Configuration-for-graphql-code-generator"><a href="#Configuration-for-graphql-code-generator" class="headerlink" title="Configuration for graphql-code-generator"></a>Configuration for graphql-code-generator</h1><p>We have a <code>codegen:graphql</code> script configured above, which we can use to generate types for our GraphQL accessors.</p>
-<p>Here is what our <code>graphql-codegen.yaml</code> looks like: </p>
+<p>Here is what our <code>graphql-codegen.yaml</code> looks like:</p>
 <pre><code class="hljs yaml"><span class="hljs-attr">schema:</span> <span class="hljs-string">./schema/schema.graphqls</span>
 <span class="hljs-attr">documents:</span>
   <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;src/**/*.ts&#x27;</span>
   <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;src/**/*.vue&#x27;</span>
   <span class="hljs-bullet">-</span> <span class="hljs-string">&#x27;!src/gql/**/*&#x27;</span>
-<span class="hljs-attr">generates:</span> 
+<span class="hljs-attr">generates:</span>
   <span class="hljs-string">./src/schema/generated/graphql.d.ts:</span>
     <span class="hljs-attr">plugins:</span>
       <span class="hljs-bullet">-</span> <span class="hljs-string">typescript</span>
@@ -64,17 +66,19 @@
       <span class="hljs-bullet">-</span> <span class="hljs-string">typescript-graphql-request</span>
   <span class="hljs-string">./src/gql/:</span>
     <span class="hljs-attr">preset:</span> <span class="hljs-string">gql-tag-operations-preset</span></code></pre>
-<p>From the docs for <a href="https://www.graphql-code-generator.com/docs/presets/gql-tag-operations" target="_blank" rel="noopener external nofollow noreferrer">gql-tag-operations-preset</a>: </p>
+
+<p>From the docs for <a href="https://www.graphql-code-generator.com/docs/presets/gql-tag-operations" target="_blank" rel="noopener external nofollow noreferrer">gql-tag-operations-preset</a>:</p>
 <blockquote>
 <p>This preset generates typings for your inline gql function usages, without having to manually specify import statements for the documents. All you need to do is import your gql function and run codegen in watch mode.</p>
 </blockquote>
-<p>Since <code>yarn run</code> forwards our arguments to the underlying scripts, to run the aforementioned watch mode, we can simply run: </p>
+<p>Since <code>yarn run</code> forwards our arguments to the underlying scripts, to run the aforementioned watch mode, we can simply run:</p>
 <pre><code class="hljs sh">yarn run codegen:graphql --watch</code></pre>
+
 <p>This will keep scanning our code for usage of graphql queries/mutations and generate corresponding types.</p>
 <p>We will look at some examples below.</p>
-<h2 id="Import-aliasing"><a href="#Import-aliasing" class="headerlink" title="Import aliasing:"></a>Import aliasing:</h2><p>The last piece of setup we need to do is configuration for imports. </p>
+<h2 id="Import-aliasing"><a href="#Import-aliasing" class="headerlink" title="Import aliasing:"></a>Import aliasing:</h2><p>The last piece of setup we need to do is configuration for imports.</p>
 <p>This may get simplified in future, but as of this writing this needs to be done in both tsconfig.json (in case you are using typescript,  make typescript compiler &amp; editor tooling happy) and vite config (to make vite happy).</p>
-<p>In <code>tsconfig.json</code>: </p>
+<p>In <code>tsconfig.json</code>:</p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">{
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-attr">&quot;compilerOptions&quot;</span>: {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-attr">&quot;target&quot;</span>: <span class="hljs-string">&quot;esnext&quot;</span>,
@@ -94,7 +98,7 @@
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
 </td></tr></table></code></pre>
 
-<p>In <code>vite.config.ts</code>: </p>
+<p>In <code>vite.config.ts</code>:</p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> { defineConfig } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vite&#x27;</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> vue <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@vitejs/plugin-vue&#x27;</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> { resolve } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;path&quot;</span>;
@@ -112,9 +116,9 @@
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">})
 </td></tr></table></code></pre>
 
-<p>What this enables us to do is to import a helper function from <code>@app/gql</code> which we will use to make graphql queries (or perform mutations). </p>
+<p>What this enables us to do is to import a helper function from <code>@app/gql</code> which we will use to make graphql queries (or perform mutations).</p>
 <p>And the watcher will keep adding overloads to this helper for each of our usage.</p>
-<h1 id="Usage-in-application"><a href="#Usage-in-application" class="headerlink" title="Usage in application"></a>Usage in application</h1><p>Here is what a usage of this helper looks like in our component: </p>
+<h1 id="Usage-in-application"><a href="#Usage-in-application" class="headerlink" title="Usage in application"></a>Usage in application</h1><p>Here is what a usage of this helper looks like in our component:</p>
 <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;pug&quot;</span>&gt;</span>
 div(v-if=&quot;loading&quot;)
   | Loading ...
@@ -125,24 +129,25 @@ div(v-else)
     | Not logged in
 <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;ts&quot;</span> <span class="hljs-attr">setup</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;ts&quot;</span> <span class="hljs-attr">setup</span>&gt;</span><span class="javascript"></span>
 <span class="javascript"><span class="hljs-keyword">import</span> &#123; gql &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@app/gql&quot;</span></span>
 <span class="javascript"><span class="hljs-keyword">import</span> &#123; useQuery &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@vue/apollo-composable&quot;</span></span>
-
+<span class="javascript"></span>
 <span class="javascript"><span class="hljs-keyword">const</span> &#123; result, loading &#125; = useQuery(</span>
 <span class="javascript">    gql(<span class="hljs-comment">/* GraphQL */</span> <span class="hljs-string">`</span></span>
-        query CurrentUserQuery &#123;
-            currentUser &#123;
-                name
-            &#125;
-        &#125;
-    `)
-)
-<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<span class="hljs-string"><span class="javascript">        query CurrentUserQuery &#123;</span></span>
+<span class="hljs-string"><span class="javascript">            currentUser &#123;</span></span>
+<span class="hljs-string"><span class="javascript">                name</span></span>
+<span class="hljs-string"><span class="javascript">            &#125;</span></span>
+<span class="hljs-string"><span class="javascript">        &#125;</span></span>
+<span class="hljs-string"><span class="javascript">    `</span>)</span>
+<span class="javascript">)</span>
+<span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+
 <p>Note that other than <code>gql</code> we didn&#39;t need to import anything else. And we may get a type error initially, it will quickly disappear once our watcher generates the necessary overloads, and our <code>result</code> and <code>loading</code> variables will be correctly typed as vue refs.</p>
 <p>The result&#39;s value type will be derived from our query and if we update the query, the type will auto-update too.</p>
 <p>And because these are reactive refs, we can directly use them in templates without needing any watchers or cleanup code.</p>
-<p>Lastly, if you are curious, here is what the overloads generated look like: </p>
+<p>Lastly, if you are curious, here is what the overloads generated look like:</p>
 <pre><code class="hljs typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> graphql <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./graphql&#x27;</span>;
 
 <span class="hljs-keyword">const</span> documents = &#123;
@@ -155,5 +160,6 @@ div(v-else)
 <span class="hljs-string">export function gql(source: string) &#123;</span>
 <span class="hljs-string">  return (documents as any)[source] ?? &#123;&#125;;</span>
 <span class="hljs-string">&#125;</span></code></pre>
+
 <p>Not quite pretty :), but usually you never have to peek into this file at all.</p>
-</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p>Header Image credit:<a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.6.0/dist/htmx.min.js"></script><script src="/js/blog.js"></script></body></html>

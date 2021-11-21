@@ -69,15 +69,15 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <category>Vue</category>
         <category>TypeScript</category>
-        <category>Liquibase</category>
         <category>Gradle</category>
         <category>Spring</category>
         <category>Spring-Boot</category>
         <category>gRPC</category>
-        <category>tbls</category>
-        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2012/08/15/a-websocket-powered-tic-tac-toe-game-using-ruby-eventmachine--part-1.html</guid>
             <title>A Websocket powered Tic tac toe game using Ruby EventMachine – Part 1</title>
@@ -296,12 +296,12 @@ EventMachine.run &amp;#123;
             &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; victorious?
               initiator.notify (&amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;:msg&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;You win&amp;quot;&lt;/span&gt; &amp;#125;)
               partner.notify(&amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;:msg&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;You lose&amp;quot;&lt;/span&gt; &amp;#125;)
-              &lt;span class=&#34;hljs-variable&#34;&gt;@game_controller&lt;/span&gt;.end_game &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;, @players
+              &lt;span class=&#34;hljs-variable&#34;&gt;@game_controller&lt;/span&gt;.end_game &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;, &lt;span class=&#34;hljs-variable&#34;&gt;@players&lt;/span&gt;
             &lt;span class=&#34;hljs-keyword&#34;&gt;elsif&lt;/span&gt; finished?
               resp = &amp;#123;&lt;span class=&#34;hljs-symbol&#34;&gt;:msg&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Game Over&amp;quot;&lt;/span&gt;&amp;#125;
               initiator.notify resp
               partner.notify resp
-              &lt;span class=&#34;hljs-variable&#34;&gt;@game_controller&lt;/span&gt;.end_game &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;, @players
+              &lt;span class=&#34;hljs-variable&#34;&gt;@game_controller&lt;/span&gt;.end_game &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;, &lt;span class=&#34;hljs-variable&#34;&gt;@players&lt;/span&gt;
             &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
           &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
             update_gamestate initiator
@@ -313,7 +313,7 @@ EventMachine.run &amp;#123;
 
   def validate_move msg
     res = &amp;#123;&lt;span class=&#34;hljs-symbol&#34;&gt;:success&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;&amp;#125;
-    &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; msg[&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;id&amp;#x27;&lt;/span&gt;] != &lt;span class=&#34;hljs-variable&#34;&gt;@next&lt;/span&gt;_player
+    &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; msg[&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;id&amp;#x27;&lt;/span&gt;] != &lt;span class=&#34;hljs-variable&#34;&gt;@next_player&lt;/span&gt;
       res = &amp;#123;&lt;span class=&#34;hljs-symbol&#34;&gt;:success&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-literal&#34;&gt;false&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:error&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Move out of turn&amp;quot;&lt;/span&gt;&amp;#125;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@state&lt;/span&gt;[msg[&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;x&amp;#x27;&lt;/span&gt;]][msg[&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;y&amp;#x27;&lt;/span&gt;]] != &lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt;

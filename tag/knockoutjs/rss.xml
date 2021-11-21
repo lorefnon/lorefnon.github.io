@@ -69,15 +69,15 @@
         <category>Java</category>
         <category>JOOQ</category>
         <category>Ruby on Rails</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
         <category>Vue</category>
         <category>TypeScript</category>
-        <category>Liquibase</category>
         <category>Gradle</category>
         <category>Spring</category>
         <category>Spring-Boot</category>
         <category>gRPC</category>
-        <category>tbls</category>
-        <category>jOOQ</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/08/24/smarter-knockout-applications-with-es-next.html</guid>
             <title>Smarter knockout applications with ES6/7</title>
@@ -95,9 +95,10 @@
 &amp;#125;
 
 ko.components.register(&amp;#123;
-  viewModel: SomeViewModel,
-  template: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;&amp;lt;div data-bind=&amp;quot;text: firstName&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;#x27;&lt;/span&gt;
+  &lt;span class=&#34;hljs-attr&#34;&gt;viewModel&lt;/span&gt;: SomeViewModel,
+  &lt;span class=&#34;hljs-attr&#34;&gt;template&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;&amp;lt;div data-bind=&amp;quot;text: firstName&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;#x27;&lt;/span&gt;
 &amp;#125;)&lt;/code&gt;&lt;/pre&gt;
+
 &lt;h2 id=&#34;Arrow-functions-in-computed-properties&#34;&gt;&lt;a href=&#34;#Arrow-functions-in-computed-properties&#34; class=&#34;headerlink&#34; title=&#34;Arrow functions in computed properties:&#34;&gt;&lt;/a&gt;Arrow functions in computed properties:&lt;/h2&gt;&lt;p&gt;In computed properties it is more often than not desirable that the context of function be the same as that of the outer function. Patterns like &lt;code&gt;var self = this&lt;/code&gt; have been adopted widely for situations like this.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;SomeViewModel&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;
   &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.firstName = ko.observable();
@@ -107,6 +108,7 @@ ko.components.register(&amp;#123;
     &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; self.firstName() + &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27; &amp;#x27;&lt;/span&gt; + self.lastName();
   &amp;#125;);
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;Arrow functions simplify this use case by providing special syntax for functions which, as MDN &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;explains&lt;/a&gt; it, capture the this value of the enclosing context&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;SomeViewModel&lt;/span&gt; &lt;/span&gt;&amp;#123;
   &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-title&#34;&gt;constructor&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt; &amp;#123;
@@ -117,6 +119,7 @@ ko.components.register(&amp;#123;
     &amp;#125;);
   &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;Or for smaller functions we can reduce the verbosity even further:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;SomeViewModel&lt;/span&gt; &lt;/span&gt;&amp;#123;
   &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-title&#34;&gt;constructor&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt; &amp;#123;
@@ -125,41 +128,45 @@ ko.components.register(&amp;#123;
     &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.fullName = ko.computed(&lt;span class=&#34;hljs-function&#34;&gt;() =&amp;gt;&lt;/span&gt; &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.firstName() + &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27; &amp;#x27;&lt;/span&gt; + &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.lastName());
   &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;h2 id=&#34;Imports-for-code-organization&#34;&gt;&lt;a href=&#34;#Imports-for-code-organization&#34; class=&#34;headerlink&#34; title=&#34;Imports for code organization:&#34;&gt;&lt;/a&gt;Imports for code organization:&lt;/h2&gt;&lt;p&gt;JS imports are the new standard approach to deal with modularization in JS code, and I can only anticipate &lt;a href=&#34;https://angular.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;more&lt;/a&gt; and &lt;a href=&#34;http://aurelia.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;more&lt;/a&gt; libraries moving to them from older patterns like &lt;a href=&#34;https://github.com/amdjs/amdjs-api/wiki/AMD&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;AMD&lt;/a&gt; or &lt;a href=&#34;http://wiki.commonjs.org/wiki/CommonJS&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;CommonJS&lt;/a&gt;. Babel can transpile imports to require invocations that follow AMD/CommonJS syntax so you can move to newer syntax progressively and continue using your existing loaders/bundlers. My personal recommendation for bundler is &lt;a href=&#34;http://webpack.github.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;webpack&lt;/a&gt; which offers interesting features like &lt;a href=&#34;http://webpack.github.io/docs/code-splitting.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Code splitting&lt;/a&gt; out of the box.&lt;/p&gt;
 &lt;h2 id=&#34;Template-strings&#34;&gt;&lt;a href=&#34;#Template-strings&#34; class=&#34;headerlink&#34; title=&#34;Template strings&#34;&gt;&lt;/a&gt;Template strings&lt;/h2&gt;&lt;p&gt;Template strings make it easy to define small multi-line templates along side view models.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs plain&#34;&gt;ko.components.register(&amp;#123;
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;ko.components.register(&amp;#123;
   viewModel: SomeViewModel,
   template:
-    &amp;#96;&amp;lt;div&amp;gt;
-      &amp;lt;h1&amp;gt; Hello friend, nice to meet you &amp;lt;&amp;#x2F;h1&amp;gt;
+    `&amp;lt;div&amp;gt;
+      &amp;lt;h1&amp;gt; Hello friend, nice to meet you &amp;lt;/h1&amp;gt;
       &amp;lt;div&amp;gt;
-        Dear &amp;lt;span data-bind&amp;#x3D;&amp;quot;text: firstName()&amp;quot;&amp;gt;&amp;lt;&amp;#x2F;span&amp;gt; It is nice to meet you.
-      &amp;lt;&amp;#x2F;div&amp;gt;
-    &amp;lt;&amp;#x2F;div&amp;gt;&amp;#96;
+        Dear &amp;lt;span data-bind=&amp;quot;text: firstName()&amp;quot;&amp;gt;&amp;lt;/span&amp;gt; It is nice to meet you.
+      &amp;lt;/div&amp;gt;
+    &amp;lt;/div&amp;gt;`
 &amp;#125;);&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;Although for larger templates I recommend using something like &lt;a href=&#34;https://github.com/webpack/raw-loader&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;webpack-raw-loader&lt;/a&gt; so you can write:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;ko.components.register(&amp;#123;
-  viewModel: SomeViewModel,
-  template: &lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./some_view_model.html&amp;#x27;&lt;/span&gt;)
+  &lt;span class=&#34;hljs-attr&#34;&gt;viewModel&lt;/span&gt;: SomeViewModel,
+  &lt;span class=&#34;hljs-attr&#34;&gt;template&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./some_view_model.html&amp;#x27;&lt;/span&gt;)
 &amp;#125;);&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;However larger templates more often than not indicate need for fine-grained modularization, so the above recommendation should be taken with a pinch of salt.&lt;/p&gt;
 &lt;h2 id=&#34;ES7-Decorators-for-Component-registration&#34;&gt;&lt;a href=&#34;#ES7-Decorators-for-Component-registration&#34; class=&#34;headerlink&#34; title=&#34;ES7 Decorators for Component registration:&#34;&gt;&lt;/a&gt;ES7 Decorators for Component registration:&lt;/h2&gt;&lt;p&gt;If you have been keeping up with advancements with Angular 2.0, you may have noticed the use of annotations for component registration. Here is an example from their &lt;a href=&#34;https://angular.io/docs/js/latest/quickstart.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;quick start tutorial&lt;/a&gt; showing how annotations go hand in hand with the new class syntax:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs plain&#34;&gt;&amp;#x2F;&amp;#x2F; Annotation section
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;// Annotation section
 @Component(&amp;#123;
-  selector: &amp;#39;my-app&amp;#39;
+  selector: &amp;#x27;my-app&amp;#x27;
 &amp;#125;)
 @View(&amp;#123;
-  template: &amp;#39;&amp;lt;h1&amp;gt;Hello &amp;#123;&amp;#123; name &amp;#125;&amp;#125;&amp;lt;&amp;#x2F;h1&amp;gt;&amp;#39;
+  template: &amp;#x27;&amp;lt;h1&amp;gt;Hello &amp;#123;&amp;#123; name &amp;#125;&amp;#125;&amp;lt;/h1&amp;gt;&amp;#x27;
 &amp;#125;)
-&amp;#x2F;&amp;#x2F; Component controller
+// Component controller
 class MyAppComponent &amp;#123;
   name: string;
   constructor() &amp;#123;
-    this.name &amp;#x3D; &amp;#39;Alice&amp;#39;;
+    this.name = &amp;#x27;Alice&amp;#x27;;
   &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;While I refer to &lt;a href=&#34;https://github.com/wycats/javascript-decorators&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;this excellent writeup&lt;/a&gt; by &lt;a href=&#34;https://twitter.com/wycats&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Yehuda Katz&lt;/a&gt; on javascript decorators for an indepth overview, the following snippet is a quick overview as to how we can leverage javascript decorators to handle component registration in knockout:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs plain&#34;&gt;function Component(params) &amp;#123;
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;function Component(params) &amp;#123;
   return function(viewModel) &amp;#123;
     ko.components.register(params.name, &amp;#123;
       viewModel: viewModel,
@@ -167,19 +174,21 @@ class MyAppComponent &amp;#123;
     &amp;#125;)
   &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;Once our &lt;code&gt;Component&lt;/code&gt; decorator has been defined we can simply use it like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs plain&#34;&gt;@Component(&amp;#123;
-  name: &amp;#39;my-app-component&amp;#39;,
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;@Component(&amp;#123;
+  name: &amp;#x27;my-app-component&amp;#x27;,
   template:
-    &amp;#96;&amp;lt;div&amp;gt;
+    `&amp;lt;div&amp;gt;
       ...
-    &amp;lt;&amp;#x2F;div&amp;gt;&amp;#96;
+    &amp;lt;/div&amp;gt;`
 &amp;#125;)
 class MyAppViewModel &amp;#123;
   constructor() &amp;#123;
     ...
   &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;You may be tempted to use the &lt;code&gt;target.name&lt;/code&gt; to enforce some module naming conventions, but before you tread that way please be aware of lack of IE support for &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Function#name&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;This concludes this overview for now, though there is a lot to be explored in next generation javascript beyond this basic introduction. As always, I welcome any suggestions or requests for improvement in the comments section below.&lt;/p&gt;
  ]]></description>
@@ -217,7 +226,7 @@ class MyAppViewModel &amp;#123;
 
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;$(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;
     &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; vmodel = &amp;#123;
-        name: ko.observable(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Lorefnon&amp;quot;&lt;/span&gt;)
+        &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: ko.observable(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Lorefnon&amp;quot;&lt;/span&gt;)
     &amp;#125;
     ko.applyBindings(vmodel);
 &amp;#125;);&lt;/code&gt;&lt;/pre&gt;

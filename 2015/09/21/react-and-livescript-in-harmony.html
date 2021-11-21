@@ -1,9 +1,10 @@
-<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta property="og:title" content="Gaurab Paul | Blog"><meta property="og:description" content="Ramblings on Web Development and software architecture"><meta name="generator" content="Hexo 5.3.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2015-09-21">Posted &nbsp;6 years ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Javascript/"><img src="/images/tag.svg">Javascript</a></li><li class="body-text"><a class="tag-link" href="/tags/React/"><img src="/images/tag.svg">React</a></li><li class="body-text"><a class="tag-link" href="/tags/Functional-Programming/"><img src="/images/tag.svg">Functional Programming</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">React and Livescript in harmony</div></div><div class="blog-main"><div class="flex-row post-warning"><img src="/images/primary/alert-triangle.svg" style="margin-right: 1rem">This post has not been updated in quite some time and the content here may be out of date 
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta property="og:title" content="Gaurab Paul | Blog"><meta property="og:description" content="Ramblings on Web Development and software architecture"><meta name="generator" content="Hexo 5.4.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2015-09-21">Posted &nbsp;6 years ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Javascript/"><img src="/images/tag.svg">Javascript</a></li><li class="body-text"><a class="tag-link" href="/tags/React/"><img src="/images/tag.svg">React</a></li><li class="body-text"><a class="tag-link" href="/tags/Functional-Programming/"><img src="/images/tag.svg">Functional Programming</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">React and Livescript in harmony</div></div><div class="blog-main"><div class="flex-row post-warning"><img src="/images/primary/alert-triangle.svg" style="margin-right: 1rem">This post has not been updated in quite some time and the content here may be out of date 
 or not reflect my current my recommedation in the matter.</div><div class="page-content"><h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p><a href="http://livescript.net/" target="_blank" rel="noopener external nofollow noreferrer">Livescript</a> is a programming language that compiles to readable javascript (similar to coffeescript) and provides language level facilities to <a href="http://livescript.net/#inspiration" target="_blank" rel="noopener external nofollow noreferrer">encourage</a> functional programming. <a href="https://facebook.github.io/react/" target="_blank" rel="noopener external nofollow noreferrer">React.js</a> is a user interface library from <a href="https://facebook.com/" target="_blank" rel="noopener external nofollow noreferrer">facebook</a> that uses <a href="http://calendar.perfplanet.com/2013/diff/" target="_blank" rel="noopener external nofollow noreferrer">intelligent heuristics</a> for efficient DOM updates, simplifying the process of building data driven applications. This post outlines how the two can play well together, and tries to demostrate how livescript allows us write much more compact and succinct code. Basic familiarity with both of them is assumed.</p>
 <p>To begin with let us see what a basic component looks like:</p>
 <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&#x27;application-container&#x27;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></code></pre>
+
 <br>
 
 <pre><code class="hljs livescript">ContactList = React.create-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">do</span></span>
@@ -17,6 +18,7 @@ el = React.create-element ContactList, contacts: [
 ]
 
 React.render el, <span class="hljs-built_in">document</span>.get-element-<span class="hljs-keyword">by</span>-id <span class="hljs-string">\application-container</span></code></pre>
+
 <img src="/images/Screen Shot 2015-09-21 at 12.42.18 pm.png">
 
 <p>This is very similar to what we would have written if we were using vanilla javascript. The only primary advantages are indentation based nesting, elimination of a lot of superfluous syntax - braces and parenthesis and implicit returns. However we can do much better than this.</p>
@@ -26,6 +28,7 @@ React.render el, <span class="hljs-built_in">document</span>.get-element-<span c
   render: -&gt;
     React.create-element <span class="hljs-string">\ul,</span> <span class="hljs-literal">null</span>, @props.contacts.<span class="hljs-keyword">map</span> <span class="hljs-function"><span class="hljs-params">(contact)</span>-&gt;</span>
       React.create-element <span class="hljs-string">\li,</span> <span class="hljs-literal">null</span>, contact.name</code></pre>
+
 <p>One thing that we may notice is that the above code does not use <a href="https://facebook.github.io/react/docs/jsx-in-depth.html" target="_blank" rel="noopener external nofollow noreferrer">JSX</a>. While yes, it is <a href="https://github.com/facebook/react/issues/47#issuecomment-18877423" target="_blank" rel="noopener external nofollow noreferrer">possible</a> to use JSX with livescript using backticks to escape xml constructs and then passing the generated js to babel, it is a hack we better forgo. As we will see soon, livescript native constructs allow for much more succinct expressions than the xml boilerplate that comes JSX.</p>
 <p>Livescript&#39;s feature that almost everything is a expression is particularly helpful when we have conditional logic in our dom generation code.</p>
 <pre><code class="hljs livescript">element = React~create-element
@@ -47,6 +50,7 @@ el = element ContactList, contacts: [
 ]
 
 React.render el, <span class="hljs-built_in">document</span>.get-element-<span class="hljs-keyword">by</span>-id <span class="hljs-string">\application-container</span></code></pre>
+
 <img src="/images/Screen Shot 2015-09-21 at 12.42.05 pm.png">
 
 <p>When the render function becomes complex, it is often more readable to use livescript&#39;s pipe operator to chain the operations. This is particularly handy in conjugation with utility libraries geared towards functional programming - the example below uses <a href="http://ramdajs.com/" target="_blank" rel="noopener external nofollow noreferrer">Ramda</a>. Other alternatives include <a href="http://underscorejs.org/" target="_blank" rel="noopener external nofollow noreferrer">underscore</a>, <a href="https://lodash.com/" target="_blank" rel="noopener external nofollow noreferrer">lodash</a>, <a href="http://www.preludels.com/" target="_blank" rel="noopener external nofollow noreferrer">prelude.ls</a> etc.</p>
@@ -82,7 +86,7 @@ ContactList = React.create-<span class="hljs-class"><span class="hljs-keyword">c
     @props.contacts
     |&gt; R.<span class="hljs-keyword">map</span> @~render-contact-row
     |&gt; <span class="hljs-function">~&gt;</span> element <span class="hljs-string">\tbody,</span> <span class="hljs-literal">null</span>, <span class="hljs-literal">it</span>
-    |&gt; ~&gt; element \table, class-name: \contacts , [ @render-head!, it ]
+    |&gt; <span class="hljs-function">~&gt;</span> element <span class="hljs-string">\table,</span> <span class="hljs-class"><span class="hljs-keyword">class</span>-<span class="hljs-title">name</span>: \<span class="hljs-title">contacts</span> , [ @<span class="hljs-title">render-head</span>!, <span class="hljs-title">it</span> ]</span>
 
 el = element ContactList, contacts: [
   * id: <span class="hljs-number">1</span>
@@ -95,6 +99,7 @@ el = element ContactList, contacts: [
 
 
 React.render el, <span class="hljs-built_in">document</span>.get-element-<span class="hljs-keyword">by</span>-id <span class="hljs-string">\application-container</span></code></pre>
+
 <img src="/images/Screen Shot 2015-09-21 at 2.15.15 pm.png">
 
 <p>It may be tempting to further shorten the functions taking advantage of livescript&#39;s default argument <code>it</code>:</p>
@@ -113,10 +118,12 @@ render-contact-row: -&gt;
     element <span class="hljs-string">\td,</span> <span class="hljs-literal">null</span>, @render-avatar <span class="hljs-literal">it</span>
     element <span class="hljs-string">\td,</span> <span class="hljs-literal">null</span>, @render-label <span class="hljs-literal">it</span>
   ]</code></pre>
+
 <p>But I strongly recommend against doing that, because having the arguments specified in the function signature upfront enhances readability.</p>
 <p>Also note that the top down construction flow composition can also be realized in javascript using Ramda&#39;s <code>pipe</code> but livescript just makes it simpler by providing a language level operator.</p>
 <p>For simpler components (which are just responsible for presenting something passed as props, and do not need lifecycle methods etc.) it may be useful to define a micro-component builder:</p>
 <pre><code class="hljs livescript"><span class="hljs-function"><span class="hljs-title">micro-component</span> = <span class="hljs-params">(render)</span>-&gt;</span> React.create-factory React.create-<span class="hljs-class"><span class="hljs-keyword">class</span> &#123; <span class="hljs-title">render</span> &#125;</span></code></pre>
+
 <p>Once we have that, it makes it a lot more easier for us to follow React&#39;s recommendation of having lightweight modular components which can be easily composed:</p>
 <pre><code class="hljs livescript">ContactAvatar = micro-component -&gt;
   &#123; contact &#125; = @props
@@ -137,7 +144,7 @@ ContactListRow = micro-component -&gt;
   ]
 
 ContactList = micro-component -&gt;
-  element \table, class-name: \contacts, [
+  element <span class="hljs-string">\table,</span> <span class="hljs-class"><span class="hljs-keyword">class</span>-<span class="hljs-title">name</span>: \<span class="hljs-title">contacts</span>, [</span>
     element <span class="hljs-string">\thead,</span> <span class="hljs-literal">null</span>, [
       element <span class="hljs-string">\tr,</span> <span class="hljs-literal">null</span>, [
         element <span class="hljs-string">\th,</span> <span class="hljs-literal">null</span>, <span class="hljs-string">&#x27;Avatar&#x27;</span>
@@ -159,6 +166,7 @@ el = ContactList contacts: [
 ]
 React.render el, <span class="hljs-built_in">document</span>.get-element-<span class="hljs-keyword">by</span>-id <span class="hljs-string">\application-container</span>
 </code></pre>
+
 <p>Libraries like <a href="https://github.com/mlmorg/react-hyperscript" target="_blank" rel="noopener external nofollow noreferrer"><code>react-hyperscript</code></a> may be used to further reduce the dom construction boilerplate :</p>
 <pre><code class="hljs livescript">
 <span class="hljs-built_in">require</span>! &#123; react-hyperscript: h, react: React &#125;
@@ -204,5 +212,6 @@ el = ContactList contacts: [
 ]
 React.render el, <span class="hljs-built_in">document</span>.get-element-<span class="hljs-keyword">by</span>-id <span class="hljs-string">\application-container</span>
 </code></pre>
+
 <p>Apart from getting rid of null for attribute hashes, hyperscript is particularly useful for shorter syntax for class names and ids. Also it insulates our codebase against changes in the DOM builder API, which have happened in past.</p>
-</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p> Header Image credit: <a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.0.2"></script><script src="/js/blog.js"></script></body></html>
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p>Header Image credit:<a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.6.0/dist/htmx.min.js"></script><script src="/js/blog.js"></script></body></html>
