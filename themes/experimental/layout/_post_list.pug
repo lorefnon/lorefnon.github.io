@@ -9,9 +9,9 @@
         each post in page.posts.data
             li.post-list-item
                 h2: a.post-header.header-text(href=url_for(post.path))= post.title
+                .post-date= formatDate(post.date)
                 p
-                    = post.excerpt
-                    | ...
+                    != post.excerpt
                 .flex-row
                     a.ghost-button(href=url_for(post.path))
                         | Continue Reading
