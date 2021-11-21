@@ -6,6 +6,8 @@ tags: [Kotlin, GraphQL, Vert.X, Vert.X-Web, Backend-development, API-development
 
 This is the third post in our series of articles where we explore a JVM based stack comprising of Kotlin, Vert.X and jOOQ for development of GraphQL APIs.
 
+<!-- more -->
+
 In the [previous post](/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/) we integrated a dagger based DI system to simplify wiring up of components. In this post we will add some more GraphQL resolvers which connect to the database using the jooq based DAO layer.
 
 Before we do that, let's add an AppConfig component to read configuration from a properties file in a type safe manner so that our application becomes runtime configurable: 

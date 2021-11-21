@@ -2,7 +2,7 @@
 title: 'Building GraphQL APIs powered by Vert.x, Dagger, jOOQ & Kotlin - II'
 date: 2021-02-06
 tags: [Kotlin, GraphQL, Vert.X, Vert.X-Web, Backend-development, API-development]
-draft: true
+excerpt: Second part of a series of articles outlining a lean approach for building GraphQL APIs on JVM
 ---
 
 This continues from our [previous post](/2021/02/01/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-I) in a series of articles where we explore a JVM based stack comprising of Kotlin, Vert.X and jOOQ for development of GraphQL APIs.

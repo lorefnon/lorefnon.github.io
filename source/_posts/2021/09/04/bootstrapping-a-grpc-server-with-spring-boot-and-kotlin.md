@@ -6,11 +6,13 @@ tags: [Kotlin, Spring, Spring-Boot, gRPC]
 
 It has always been possible to build gRPC services in kotlin through java interop, but with the recently improved first class support for kotlin in the official gRPC/protobuf libraries it is quite straightforward to build gRPC services in Kotlin which take advantage of kotlin native features like coroutines. In addition, the grpc-spring-boot-starter makes it really convenient for spring boot users to integrate gRPC.
 
+<!-- more -->
+
 Note that while our services are using coroutines, we will not need webflux (although it is perfectly fine to use both of them together)
 
-This post is primarily a recipe for integrating these components to quickly get started with gRPC on spring boot. 
+This post is primarily a recipe for integrating these components to quickly get started with gRPC on spring boot.
 
-# Gradle configuration: 
+# Gradle configuration:
 
 First part is to configure our gradle configuration (`build.gradle.kts`) to use the protobuf and grpc codegen utilities.
 
@@ -104,7 +106,7 @@ Note the use of the additional grpckt plugin for protoc along with the grpc plug
 
 Given, the above configuration, we can start defining our API schema in protobuf format.
 
-Let us start with a minimal example of `src/main/proto/demo.proto`: 
+Let us start with a minimal example of `src/main/proto/demo.proto`:
 
 {% hlcode lang:protobuf %}
 syntax = "proto3";
@@ -125,7 +127,7 @@ message User {
 
 {% endhlcode %}
 
-We will look at the code generated for the above in a bit. But let us first look at how to implement this service in our kotlin backend. Our UserService has just one method for now which returns a user given it's id. 
+We will look at the code generated for the above in a bit. But let us first look at how to implement this service in our kotlin backend. Our UserService has just one method for now which returns a user given it's id.
 
 Our `UserService.kt` implementing this RPC service looks something like this:
 
@@ -168,7 +170,7 @@ If we peek into the build directory, we can find all the code our code-generator
           DemoGrpcKt.kt
 ```
 
-The first thing we want to look at is the `UserServiceKt` where our base class we derived from resides: 
+The first thing we want to look at is the `UserServiceKt` where our base class we derived from resides:
 
 {% hlcode lang:kotlin fold:3-28 highlight:79-81,93-94 %}
 package com.example.grpcdemo.service
@@ -281,11 +283,11 @@ object UserServiceGrpcKt {
 }
 {% endhlcode %}
 
-There isn't much rocket science here. The code looks much similar to what we would have written if we were implementing this boilerplate ourselves. 
+There isn't much rocket science here. The code looks much similar to what we would have written if we were implementing this boilerplate ourselves.
 
-In our previous example, we have used a unary call. gRPC also has good support for streaming. 
+In our previous example, we have used a unary call. gRPC also has good support for streaming.
 
-Before we conclude our post, let's quickly look at what implementing a stream returning endpoint looks like. We add a `listUsers` method to our `UserService` which returns a stream of `User`. 
+Before we conclude our post, let's quickly look at what implementing a stream returning endpoint looks like. We add a `listUsers` method to our `UserService` which returns a stream of `User`.
 
 {% hlcode lang:protobuf highlight:10 %}
 syntax = "proto3";
@@ -309,11 +311,11 @@ message User {
 
 {% endhlcode %}
 
-One weird gRPC oddity is that even though our function does not need an argument, it is required to accept an argument, and hence we have defined an empty message type. 
+One weird gRPC oddity is that even though our function does not need an argument, it is required to accept an argument, and hence we have defined an empty message type.
 
-As you may expect, on the kotlin side our return value is a [Flow](https://kotlinlang.org/docs/flow.html#sequences) - enabling us to return a collection of values over time. 
+As you may expect, on the kotlin side our return value is a [Flow](https://kotlinlang.org/docs/flow.html#sequences) - enabling us to return a collection of values over time.
 
-In our simple example below, we simply return a list, converted to a flow through a convenient extension function from kotlinx.coroutines. 
+In our simple example below, we simply return a list, converted to a flow through a convenient extension function from kotlinx.coroutines.
 
 {% hlcode lang:kotlin highlight:11,25 fold:4-9 %}
 @GrpcService
@@ -345,4 +347,4 @@ class UserService: UserServiceGrpcKt.UserServiceCoroutineImplBase() {
 }
 {% endhlcode %}
 
-This brings us to the end of this short post. We explored how we can bootstrap a simple gRPC service using kotlin and spring boot, and handle unary calls and streaming. As next steps you are encouraged to explore the [grpc-spring-boot-starter's introduction](https://yidongnan.github.io/grpc-spring-boot-starter/en/server/getting-started.html) and the [gRPC official site](https://grpc.io/) which provide detailed documentation on gRPC integrations. 
+This brings us to the end of this short post. We explored how we can bootstrap a simple gRPC service using kotlin and spring boot, and handle unary calls and streaming. As next steps you are encouraged to explore the [grpc-spring-boot-starter's introduction](https://yidongnan.github.io/grpc-spring-boot-starter/en/server/getting-started.html) and the [gRPC official site](https://grpc.io/) which provide detailed documentation on gRPC integrations.

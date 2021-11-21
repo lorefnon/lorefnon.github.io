@@ -2,9 +2,10 @@
 title: 'Configuring Liquibase through Gradle Kotlin DSL'
 date: 2021-09-01
 tags: [Kotlin, Liquibase, Gradle]
+excerpt: This post is a minimal recipe for configuring Liquibase runner through the Gradle kotlin DSL.
 ---
 
-This post is a minimal recipe for configuring Liquibase runner through the Gradle kotlin DSL. This is mostly ported from the offical examples [here](https://github.com/liquibase/liquibase-gradle-plugin#usage) written using the Gradle's Groovy DSL: 
+This post is a minimal recipe for configuring Liquibase runner through the Gradle kotlin DSL. This is mostly ported from the offical examples [here](https://github.com/liquibase/liquibase-gradle-plugin#usage) written using the Gradle's Groovy DSL:
 
 We can specify our database properties in gradle.properties:
 

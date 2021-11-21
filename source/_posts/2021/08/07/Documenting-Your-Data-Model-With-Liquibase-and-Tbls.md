@@ -4,9 +4,11 @@ date: 2021-08-07
 tags: [Liquibase, tbls, jOOQ]
 ---
 
-Documenting a database schema is often an afterthought, even though it is really important esp. for onboarding new developers into the project. 
+Documenting a database schema is often an afterthought, even though it is really important esp. for onboarding new developers into the project.
 
 This post outlines a really straightforward approach I recently adopted for my projects using [Liquibase](https://www.liquibase.org/), [tbls](https://github.com/k1LoW/tbls) & [jOOQ](https://jooq.org/).
+
+<!-- more -->
 
 # About Liquibase
 
