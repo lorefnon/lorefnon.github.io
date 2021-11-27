@@ -75,6 +75,7 @@
     <category term="Spring" />
     <category term="Spring-Boot" />
     <category term="gRPC" />
+    <category term="Redis" />
     <entry>
         <id>https://lorefnon.me/2020/12/31/pairing-lit-html-with-stimulus/</id>
         <title>Pairing lit-html with stimulus</title>

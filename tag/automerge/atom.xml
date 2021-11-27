@@ -75,6 +75,7 @@
     <category term="Spring" />
     <category term="Spring-Boot" />
     <category term="gRPC" />
+    <category term="Redis" />
     <entry>
         <id>https://lorefnon.me/2018/09/23/using-google-diff-match-patch-with-automerge-text/</id>
         <title>Integrating Google diff-match-patch with AutoMerge.Text</title>

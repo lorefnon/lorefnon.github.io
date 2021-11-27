@@ -75,6 +75,7 @@
     <category term="Spring" />
     <category term="Spring-Boot" />
     <category term="gRPC" />
+    <category term="Redis" />
     <entry>
         <id>https://lorefnon.me/2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</id>
         <title>Gathering and Visualizing metrics from Rails application using InfluxDB</title>

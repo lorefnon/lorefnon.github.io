@@ -75,6 +75,7 @@
     <category term="Spring" />
     <category term="Spring-Boot" />
     <category term="gRPC" />
+    <category term="Redis" />
     <entry>
         <id>https://lorefnon.me/2015/03/02/dealing-with-json-fields-in-active-admin.html</id>
         <title>Dealing with JSON data in Active Admin</title>

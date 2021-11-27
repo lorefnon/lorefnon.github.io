@@ -78,6 +78,7 @@
         <category>Spring</category>
         <category>Spring-Boot</category>
         <category>gRPC</category>
+        <category>Redis</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2021/11/21/composable-and-refactorable-annotaiton-args-in-kotlin-with-const-val/</guid>
             <title>Composable and Refactorable annotation arguments in Kotlin with const val</title>

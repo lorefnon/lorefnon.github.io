@@ -75,6 +75,7 @@
     <category term="Spring" />
     <category term="Spring-Boot" />
     <category term="gRPC" />
+    <category term="Redis" />
     <entry>
         <id>https://lorefnon.me/2021/09/04/bootstrapping-a-grpc-server-with-spring-boot-and-kotlin/</id>
         <title>Bootstrapping a Kotlin gRPC service with Spring Boot</title>

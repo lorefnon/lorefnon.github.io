@@ -75,6 +75,7 @@
     <category term="Spring" />
     <category term="Spring-Boot" />
     <category term="gRPC" />
+    <category term="Redis" />
     <entry>
         <id>https://lorefnon.me/2015/01/03/leveraging-strategy-pattern-in-rails.html</id>
         <title>Leveraging the strategy pattern in Rails - I</title>

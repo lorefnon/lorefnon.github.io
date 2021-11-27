@@ -75,6 +75,7 @@
     <category term="Spring" />
     <category term="Spring-Boot" />
     <category term="gRPC" />
+    <category term="Redis" />
     <entry>
         <id>https://lorefnon.me/2016/03/31/database-driven-scheduling-with-clockwork-and-activejob.html</id>
         <title>Database driven scheduling with Clockwork and ActiveJob</title>
