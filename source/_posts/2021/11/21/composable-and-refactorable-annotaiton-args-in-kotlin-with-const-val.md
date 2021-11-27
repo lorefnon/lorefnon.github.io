@@ -2,6 +2,7 @@
 title: Composable and Refactorable annotation arguments in Kotlin with const val
 date: 2021-11-21
 tags: [Kotlin]
+excerpt: An overview of how using const val in kotlin enables interpolation & refactoring in strings passed to annotations
 ---
 
 There are many libraries in JVM ecosystem that lean heavily on use of annotations. A pain point when dealing with string args passed to annotations is that they are hard to compose/reuse.
