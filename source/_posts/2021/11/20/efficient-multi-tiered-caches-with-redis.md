@@ -35,3 +35,5 @@ end
 The second arg is number of arguments to be passed to the script, and in this case the only arg is the secondary index key, which we access in the above script as `KEYS[1]`. Quick reminder that lua array indices start from 1 :)
 
 The redis guide has [more pointers](https://redis.io/commands/eval#conversion-between-lua-and-redis-data-types) on the redis <-> Lua type conversions, which you might want to glance through before venturing deeper into lua scripting with redis.
+
+We can of-course extend this pattern to include multiple tiers, or more complex dependencies. At that point, it is worthwhile to also explore modules like [RedisGraph](https://oss.redis.com/redisgraph/) which provides a datamodel for PropertyGraphs and enables querying them through Cypher query language.
