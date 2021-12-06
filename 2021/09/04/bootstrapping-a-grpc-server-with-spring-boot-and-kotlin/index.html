@@ -12,11 +12,11 @@
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">val</span> grpcVersion <span class="hljs-keyword">by</span> extra(<span class="hljs-string">&quot;1.40.1&quot;</span>)
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">plugins {
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	id(<span class="hljs-string">&quot;org.springframework.boot&quot;</span>) version <span class="hljs-string">&quot;2.5.4&quot;</span>
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	id(<span class="hljs-string">&quot;io.spring.dependency-management&quot;</span>) version <span class="hljs-string">&quot;1.0.11.RELEASE&quot;</span>
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	kotlin(<span class="hljs-string">&quot;jvm&quot;</span>) version <span class="hljs-string">&quot;1.5.21&quot;</span>
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	kotlin(<span class="hljs-string">&quot;plugin.spring&quot;</span>) version <span class="hljs-string">&quot;1.5.21&quot;</span>
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">	id(<span class="hljs-string">&quot;com.google.protobuf&quot;</span>) version <span class="hljs-string">&quot;0.8.17&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    id(<span class="hljs-string">&quot;org.springframework.boot&quot;</span>) version <span class="hljs-string">&quot;2.5.4&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    id(<span class="hljs-string">&quot;io.spring.dependency-management&quot;</span>) version <span class="hljs-string">&quot;1.0.11.RELEASE&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    kotlin(<span class="hljs-string">&quot;jvm&quot;</span>) version <span class="hljs-string">&quot;1.5.21&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    kotlin(<span class="hljs-string">&quot;plugin.spring&quot;</span>) version <span class="hljs-string">&quot;1.5.21&quot;</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    id(<span class="hljs-string">&quot;com.google.protobuf&quot;</span>) version <span class="hljs-string">&quot;0.8.17&quot;</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">group = <span class="hljs-string">&quot;com.example&quot;</span>
@@ -24,68 +24,73 @@
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">java.sourceCompatibility = JavaVersion.VERSION_11
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">repositories {
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	mavenCentral()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    mavenCentral()
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">dependencies {
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;org.springframework.boot:spring-boot-starter&quot;</span>)
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;org.jetbrains.kotlin:kotlin-reflect&quot;</span>)
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;org.jetbrains.kotlin:kotlin-stdlib-jdk8&quot;</span>)
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	testImplementation(<span class="hljs-string">&quot;org.springframework.boot:spring-boot-starter-test&quot;</span>)
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;net.devh:grpc-server-spring-boot-starter:2.12.0.RELEASE&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;org.springframework.boot:spring-boot-starter&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;org.jetbrains.kotlin:kotlin-reflect&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;org.jetbrains.kotlin:kotlin-stdlib-jdk8&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    testImplementation(<span class="hljs-string">&quot;org.springframework.boot:spring-boot-starter-test&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;net.devh:grpc-server-spring-boot-starter:2.12.0.RELEASE&quot;</span>)
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;io.grpc:grpc-protobuf:<span class="hljs-subst">${grpcVersion}</span>&quot;</span>)
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;io.grpc:grpc-stub:1.40.1&quot;</span>)
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;io.grpc:grpc-kotlin-stub:1.1.0&quot;</span>)
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	compileOnly(<span class="hljs-string">&quot;jakarta.annotation:jakarta.annotation-api:1.3.5&quot;</span>) <span class="hljs-comment">// Java 9+ compatibility - Do NOT update to 2.0.0</span>
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;com.google.protobuf:protobuf-java:<span class="hljs-variable">$protobufVersion</span>&quot;</span>)
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;net.devh:grpc-client-spring-boot-starter:2.12.0.RELEASE&quot;</span>)
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;io.grpc:grpc-protobuf:<span class="hljs-subst">${grpcVersion}</span>&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;io.grpc:grpc-stub:1.40.1&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;io.grpc:grpc-kotlin-stub:1.1.0&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    compileOnly(<span class="hljs-string">&quot;jakarta.annotation:jakarta.annotation-api:1.3.5&quot;</span>) <span class="hljs-comment">// Java 9+ compatibility - Do NOT update to 2.0.0</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;com.google.protobuf:protobuf-java:<span class="hljs-variable">$protobufVersion</span>&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;net.devh:grpc-client-spring-boot-starter:2.12.0.RELEASE&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1&quot;</span>)
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	<span class="hljs-keyword">if</span> (JavaVersion.current().isJava9Compatible) {
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">		implementation(<span class="hljs-string">&quot;javax.annotation:javax.annotation-api:+&quot;</span>)
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">if</span> (JavaVersion.current().isJava9Compatible) {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        implementation(<span class="hljs-string">&quot;javax.annotation:javax.annotation-api:+&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">tasks.withType&lt;KotlinCompile&gt; {
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	kotlinOptions {
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">		freeCompilerArgs = listOf(<span class="hljs-string">&quot;-Xjsr305=strict&quot;</span>)
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">		jvmTarget = <span class="hljs-string">&quot;11&quot;</span>
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    kotlinOptions {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        freeCompilerArgs = listOf(<span class="hljs-string">&quot;-Xjsr305=strict&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        jvmTarget = <span class="hljs-string">&quot;11&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">tasks.withType&lt;Test&gt; {
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	useJUnitPlatform()
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	testLogging.showStandardStreams = <span class="hljs-literal">true</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    useJUnitPlatform()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    testLogging.showStandardStreams = <span class="hljs-literal">true</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">sourceSets {
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	test {
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">		java.srcDirs.add(File(<span class="hljs-string">&quot;src/test/kotlin&quot;</span>))
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    test {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        java.srcDirs.add(File(<span class="hljs-string">&quot;src/test/kotlin&quot;</span>))
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">protobuf {
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">	protoc {
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">		artifact = <span class="hljs-string">&quot;com.google.protobuf:protoc:<span class="hljs-subst">${protobufVersion}</span>&quot;</span>
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">	}
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">	plugins {
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">		id(<span class="hljs-string">&quot;grpc&quot;</span>) {
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">			artifact = <span class="hljs-string">&quot;io.grpc:protoc-gen-grpc-java:<span class="hljs-subst">${grpcVersion}</span>&quot;</span>
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">		}
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">		id(<span class="hljs-string">&quot;grpckt&quot;</span>) {
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">			artifact = <span class="hljs-string">&quot;io.grpc:protoc-gen-grpc-kotlin:1.1.0:jdk7@jar&quot;</span>
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">		}
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">	}
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    protoc {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        artifact = <span class="hljs-string">&quot;com.google.protobuf:protoc:<span class="hljs-subst">${protobufVersion}</span>&quot;</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    plugins {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        id(<span class="hljs-string">&quot;grpc&quot;</span>) {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            artifact = <span class="hljs-string">&quot;io.grpc:protoc-gen-grpc-java:<span class="hljs-subst">${grpcVersion}</span>&quot;</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        id(<span class="hljs-string">&quot;grpckt&quot;</span>) {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            artifact = <span class="hljs-string">&quot;io.grpc:protoc-gen-grpc-kotlin:1.1.0:jdk7@jar&quot;</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    }
 </td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">	generateProtoTasks {
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">		ofSourceSet(<span class="hljs-string">&quot;main&quot;</span>).forEach {
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">			it.plugins {
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">				id(<span class="hljs-string">&quot;grpc&quot;</span>)
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">				id(<span class="hljs-string">&quot;grpckt&quot;</span>)
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">			}
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">		}
-</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">	}
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    generateProtoTasks {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        ofSourceSet(<span class="hljs-string">&quot;main&quot;</span>).forEach {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            task.builtins {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                java {}
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                kotlin {}
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            it.plugins {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                id(<span class="hljs-string">&quot;kotlin&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                id(<span class="hljs-string">&quot;grpc&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                id(<span class="hljs-string">&quot;grpckt&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    }
 </td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">}
 </td></tr></table></code></pre>
 
@@ -124,10 +129,17 @@
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">return</span> Demo.User
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .newBuilder()
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .setId(<span class="hljs-number">1</span>)
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .setName(<span class="hljs-string">&quot;Gaurab&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .setName(<span class="hljs-string">&quot;Lorefnon&quot;</span>)
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .build()
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>We have also configured the kotlin plugin for protobuf, which adds a couple of convenient extensions to the builders generated by the protobuf java plugin. So if we want, instead of using <code>Demo.User.newBuilder()</code> as in the above snippet, we could use a more kotlin-esque builder DSL:</p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">return</span> user {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  id = <span class="hljs-number">1</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  name = <span class="hljs-string">&quot;Lorefnon&quot;</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
 </td></tr></table></code></pre>
 
@@ -301,7 +313,7 @@
     </svg><span class="hlcode-fold-text">5 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">override</span> <span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getUserById</span><span class="hljs-params">(userId: <span class="hljs-type">Int64Value</span>)</span></span>: Demo.User {
 </td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">return</span> Demo.User.newBuilder().apply {
 </td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell">            id = userId.value
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell">            name = <span class="hljs-string">&quot;Gaurab&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell">            name = <span class="hljs-string">&quot;Lorefnon&quot;</span>
 </td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell">        }.build()
 </td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell">    }
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
@@ -324,5 +336,50 @@
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
 </td></tr></table></code></pre>
 
+<p>Lastly, if you don&#39;t want to deal with coroutines, you don&#39;t need to. It is perfectly fine to still use the base classes generated for Java, in your kotlin code.</p>
+<p>In fact, it is also perfectly fine to use just the kotlin extensions for Protobuf DSL, while not using the <code>*CoroutineImplBase</code> classes for gRPC. The two have no dependency on each other.</p>
+<p>To illustrate this in our last example, we could have written:</p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@GrpcService</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserService</span>: <span class="hljs-type">UserServiceGrpc.UserServiceImplBase</span></span>() {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getUserById</span><span class="hljs-params">(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      userId: <span class="hljs-type">Int64Value</span>,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver: <span class="hljs-type">StreamObserver</span>&lt;<span class="hljs-type">User</span>&gt;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    )</span></span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver.onNext(user {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        id = userId.value
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        name = <span class="hljs-string">&quot;Lorefnon&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      })
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver.onCompleted()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">listUsers</span><span class="hljs-params">(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      request: <span class="hljs-type">Demo</span>.<span class="hljs-type">ListUsersInput</span>,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver: <span class="hljs-type">StreamObserver</span>&lt;<span class="hljs-type">User</span>&gt;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    )</span></span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver.onNext(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        user {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">          id = <span class="hljs-number">10</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">          name = <span class="hljs-string">&quot;Harry&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      )
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver.onNext(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        user {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">          id = <span class="hljs-number">20</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">          name = <span class="hljs-string">&quot;Hermione&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      )
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver.onNext(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        user {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">          id = <span class="hljs-number">20</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">          name = <span class="hljs-string">&quot;Ron&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      )
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver.onFinish()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>As we are using <code>UserServiceGrpc.UserServiceImplBase</code> instead of <code>UserServiceGrpcKt.UserServiceCoroutineImplBase</code>, our functions are no longer suspending functions. Also instead of returning values, they accept a <code>responseObserver</code> which can be used to return one or more values.</p>
 <p>This brings us to the end of this short post. We explored how we can bootstrap a simple gRPC service using kotlin and spring boot, and handle unary calls and streaming. As next steps you are encouraged to explore the <a href="https://yidongnan.github.io/grpc-spring-boot-starter/en/server/getting-started.html" target="_blank" rel="noopener external nofollow noreferrer">grpc-spring-boot-starter&#39;s introduction</a> and the <a href="https://grpc.io/" target="_blank" rel="noopener external nofollow noreferrer">gRPC official site</a> which provide detailed documentation on gRPC integrations.</p>
 </div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p>Header Image credit:<a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.6.0/dist/htmx.min.js"></script><script src="/js/blog.js"></script></body></html>
