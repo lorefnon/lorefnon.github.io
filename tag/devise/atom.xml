@@ -76,6 +76,8 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
+    <category term="Database" />
+    <category term="Exposed" />
     <entry>
         <id>https://lorefnon.me/2014/09/07/devise-multiple-emails.html</id>
         <title>Allowing multiple emails for a user in Devise</title>

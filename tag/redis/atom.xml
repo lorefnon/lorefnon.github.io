@@ -76,6 +76,8 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
+    <category term="Database" />
+    <category term="Exposed" />
     <entry>
         <id>https://lorefnon.me/2021/11/20/efficient-multi-tiered-caches-with-redis/</id>
         <title>Simple and efficient multi-tiered caches with Redis &amp; lua</title>
@@ -99,6 +101,7 @@
 
 &lt;p&gt;The second arg is number of arguments to be passed to the script, and in this case the only arg is the secondary index key, which we access in the above script as &lt;code&gt;KEYS[1]&lt;/code&gt;. Quick reminder that lua array indices start from 1 :)&lt;/p&gt;
 &lt;p&gt;The redis guide has &lt;a href=&#34;https://redis.io/commands/eval#conversion-between-lua-and-redis-data-types&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;more pointers&lt;/a&gt; on the redis &amp;lt;-&amp;gt; Lua type conversions, which you might want to glance through before venturing deeper into lua scripting with redis.&lt;/p&gt;
+&lt;p&gt;We can of-course extend this pattern to include multiple tiers, or more complex dependencies. At that point, it is worthwhile to also explore modules like &lt;a href=&#34;https://oss.redis.com/redisgraph/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;RedisGraph&lt;/a&gt; which provides a datamodel for PropertyGraphs and enables querying them through Cypher query language.&lt;/p&gt;
 </content>
         <category term="Redis" />
         <updated>2021-11-20T00:00:00.000Z</updated>

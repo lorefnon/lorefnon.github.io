@@ -76,6 +76,8 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
+    <category term="Database" />
+    <category term="Exposed" />
     <entry>
         <id>https://lorefnon.me/2014/03/10/decoupling-frontend-with-gulp-and-node-http-proxy.html</id>
         <title>Decoupling your frontend development with gulp and http-proxy</title>

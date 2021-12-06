@@ -76,6 +76,8 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
+    <category term="Database" />
+    <category term="Exposed" />
     <entry>
         <id>https://lorefnon.me/2018/05/13/reasonml-vs-typescript-first-impressions/</id>
         <title>ReasonML vs TypeScript – First impressions</title>

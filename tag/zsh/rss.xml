@@ -79,6 +79,8 @@
         <category>Spring-Boot</category>
         <category>gRPC</category>
         <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2014/09/13/commit-messages-from-generator-outputs.html</guid>
             <title>Commit messages from generator outputs</title>

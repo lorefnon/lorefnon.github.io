@@ -76,6 +76,8 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
+    <category term="Database" />
+    <category term="Exposed" />
     <entry>
         <id>https://lorefnon.me/2014/07/27/optimizing-sti-columns.html</id>
         <title>Optimizing space taken by type column in Rails STI</title>

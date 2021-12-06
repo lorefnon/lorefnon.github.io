@@ -79,6 +79,8 @@
         <category>Spring-Boot</category>
         <category>gRPC</category>
         <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/08/18/integrating-next-js-apollo-server-and-koa/</guid>
             <title>Integrating Next.js, Apollo Server and Koa</title>

@@ -79,6 +79,8 @@
         <category>Spring-Boot</category>
         <category>gRPC</category>
         <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/08/24/smarter-knockout-applications-with-es-next.html</guid>
             <title>Smarter knockout applications with ES6/7</title>

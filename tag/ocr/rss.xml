@@ -79,6 +79,8 @@
         <category>Spring-Boot</category>
         <category>gRPC</category>
         <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2014/10/12/decrypting-an-obfuscated-font-with-ocr.html</guid>
             <title>Decrypting an obfuscated font with OCR</title>

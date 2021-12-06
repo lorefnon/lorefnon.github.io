@@ -76,6 +76,8 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
+    <category term="Database" />
+    <category term="Exposed" />
     <entry>
         <id>https://lorefnon.me/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</id>
         <title>A minimal setup for using ES6 modules in Rails</title>

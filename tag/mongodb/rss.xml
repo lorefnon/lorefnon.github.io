@@ -79,6 +79,8 @@
         <category>Spring-Boot</category>
         <category>gRPC</category>
         <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/08/20/uploading-files-to-mongodb-gridfs-via-apollo-powered-graphql-api/</guid>
             <title>Uploading files to MongoDB GridFS via Apollo powered GraphQL API</title>

@@ -79,6 +79,8 @@
         <category>Spring-Boot</category>
         <category>gRPC</category>
         <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2020/11/27/exploring-har-http-archive-logs-with-jq/</guid>
             <title>Exporing HAR (HTTP Archive) logs with Jq</title>

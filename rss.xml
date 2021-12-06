@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Sun, 21 Nov 2021 00:00:00 +0000</pubDate>
-        <lastBuildDate>Sun, 21 Nov 2021 00:00:00 +0000</lastBuildDate>
+        <pubDate>Sun, 05 Dec 2021 00:00:00 +0000</pubDate>
+        <lastBuildDate>Sun, 05 Dec 2021 00:00:00 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -79,6 +79,71 @@
         <category>Spring-Boot</category>
         <category>gRPC</category>
         <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
+        <item>
+            <guid isPermalink="true">https://lorefnon.me/2021/12/05/extending-exposed-with-custom-operators/</guid>
+            <title>Extending Exposed with new function expressions</title>
+            <link>https://lorefnon.me/2021/12/05/extending-exposed-with-custom-operators/</link>
+            <category>Database</category>
+            <category>Exposed</category>
+            <pubDate>Sun, 05 Dec 2021 00:00:00 +0000</pubDate>
+            <description><![CDATA[ &lt;p&gt;&lt;a href=&#34;https://github.com/JetBrains/Exposed&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Exposed&lt;/a&gt; is a nice ORM for Kotlin by &lt;a href=&#34;https://github.com/Tapac&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Andrey Tarashevskiy&lt;/a&gt; from &lt;a href=&#34;https://www.jetbrains.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Jetbrains&lt;/a&gt;. Though, not an offically supported product by Jetbrains it has a good following in the Kotlin community. &lt;/p&gt;
+&lt;p&gt;I recently got involved in a project using Exposed and discovered that the set of database level functions that are mapped by Exposed is quite small. However, the library makes it easy to add support for the missing functions, which is what this post outlines. &lt;/p&gt;
+&lt;p&gt;Let&amp;#39;s say we want to support product of two columns. We can support this by extending the &lt;code&gt;ExpressionWithColumnType&lt;/code&gt; class.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Product&lt;/span&gt;&amp;lt;&lt;span class=&#34;hljs-type&#34;&gt;T&lt;/span&gt;&amp;gt;&lt;/span&gt;(
+    &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; expr1: ExpressionWithColumnType&amp;lt;T&amp;gt;,
+    &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; expr2: ExpressionWithColumnType&amp;lt;T&amp;gt;
+): ExpressionWithColumnType&amp;lt;T&amp;gt;() &amp;#123;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;override&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; columnType: IColumnType
+        &lt;span class=&#34;hljs-keyword&#34;&gt;get&lt;/span&gt;() = expr1.columnType
+
+    &lt;span class=&#34;hljs-keyword&#34;&gt;override&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;toQueryBuilder&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(queryBuilder: &lt;span class=&#34;hljs-type&#34;&gt;QueryBuilder&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt; &amp;#123;
+        queryBuilder.append(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;(&amp;quot;&lt;/span&gt;, expr1, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;*&amp;quot;&lt;/span&gt;, expr2, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;)&amp;quot;&lt;/span&gt;)
+    &amp;#125;
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This accepts two columns (Column class extends ExpressionWithColumnType too) of same type, and constructs the expression for multiplying these column values. &lt;/p&gt;
+&lt;p&gt;While this class can be used directly, it is often convenient to also write an extension method that enables us to chain the operations similar to other exposed functions. &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-type&#34;&gt;&amp;lt;T&amp;gt;&lt;/span&gt; ExpressionWithColumnType&lt;span class=&#34;hljs-type&#34;&gt;&amp;lt;T&amp;gt;&lt;/span&gt;.&lt;span class=&#34;hljs-title&#34;&gt;product&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(expr: &lt;span class=&#34;hljs-type&#34;&gt;ExpressionWithColumnType&lt;/span&gt;&amp;lt;&lt;span class=&#34;hljs-type&#34;&gt;T&lt;/span&gt;&amp;gt;)&lt;/span&gt;&lt;/span&gt; =
+    Product(&lt;span class=&#34;hljs-keyword&#34;&gt;this&lt;/span&gt;, expr)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So now, we can easily use this in our code as: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;DesginationTable
+    .slice(
+        DesignationTable.name,
+        DesginationTable.employeeCount.product(DesginationTable.salary)
+    )
+    .groupBy(DesignationTable.name)
+    .toList()&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It is usually also convenient to use an alias to retrieve aggregated values: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;DesignationSalaryDTO&lt;/span&gt;&lt;/span&gt;(
+    &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; name: String,
+    &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; totalSalary: &lt;span class=&#34;hljs-built_in&#34;&gt;Double&lt;/span&gt;
+)
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; totalSalary = DesginationTable.employeeCount.product(DesginationTable.salary).alias(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;total_salary&amp;quot;&lt;/span&gt;)
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; salaryRow DesginationTable
+    .slice(
+        DesignationTable.name, 
+        &lt;span class=&#34;hljs-comment&#34;&gt;// We can use the alias in our slice&lt;/span&gt;
+        totalSalary
+    )
+    .groupBy(DesignationTable.name)
+    .map &amp;#123; resultRow -&amp;gt;
+        &lt;span class=&#34;hljs-comment&#34;&gt;// Map results to a DTO&lt;/span&gt;
+        DesignationSalaryDTO(
+            name = DesignationTable.name,
+            &lt;span class=&#34;hljs-comment&#34;&gt;// We can use the same alias when retrieving the column value&lt;/span&gt;
+            totalSalary = resultRow[totalSalary]
+        )
+    &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This illustrates how we can nicely add our extension functions for operations that the library does not support, and use them in pretty much the same way as built in expression composition functions. &lt;/p&gt;
+ ]]></description>
+        </item>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2021/11/21/composable-and-refactorable-annotaiton-args-in-kotlin-with-const-val/</guid>
             <title>Composable and Refactorable annotation arguments in Kotlin with const val</title>
@@ -187,6 +252,7 @@
 
 &lt;p&gt;The second arg is number of arguments to be passed to the script, and in this case the only arg is the secondary index key, which we access in the above script as &lt;code&gt;KEYS[1]&lt;/code&gt;. Quick reminder that lua array indices start from 1 :)&lt;/p&gt;
 &lt;p&gt;The redis guide has &lt;a href=&#34;https://redis.io/commands/eval#conversion-between-lua-and-redis-data-types&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;more pointers&lt;/a&gt; on the redis &amp;lt;-&amp;gt; Lua type conversions, which you might want to glance through before venturing deeper into lua scripting with redis.&lt;/p&gt;
+&lt;p&gt;We can of-course extend this pattern to include multiple tiers, or more complex dependencies. At that point, it is worthwhile to also explore modules like &lt;a href=&#34;https://oss.redis.com/redisgraph/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;RedisGraph&lt;/a&gt; which provides a datamodel for PropertyGraphs and enables querying them through Cypher query language.&lt;/p&gt;
  ]]></description>
         </item>
         <item>

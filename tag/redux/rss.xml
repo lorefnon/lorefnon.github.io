@@ -79,6 +79,8 @@
         <category>Spring-Boot</category>
         <category>gRPC</category>
         <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/02/04/redux-loop-a-better-solution-for-managing-asynchronous-operations-in-redux/</guid>
             <title>Redux-loop: A better solution for managing asynchronous operations in redux</title>

@@ -76,6 +76,8 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
+    <category term="Database" />
+    <category term="Exposed" />
     <entry>
         <id>https://lorefnon.me/2019/01/12/using-an-svg-grid-background-for-aligning-elements-in-web-page/</id>
         <title>Using an SVG grid background for aligning elements in web page</title>

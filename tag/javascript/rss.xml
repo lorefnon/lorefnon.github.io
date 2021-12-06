@@ -79,6 +79,8 @@
         <category>Spring-Boot</category>
         <category>gRPC</category>
         <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/06/09/javascript-async-await-with-arbitrary-thenables/</guid>
             <title>Javascript Async/Await with arbitrary Thenables</title>

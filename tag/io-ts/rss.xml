@@ -79,6 +79,8 @@
         <category>Spring-Boot</category>
         <category>gRPC</category>
         <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/08/11/enforcing-runtime-validations-at-compile-time-in-typescript/</guid>
             <title>Enforcing runtime validations at compile time in TypeScript</title>

@@ -76,6 +76,8 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
+    <category term="Database" />
+    <category term="Exposed" />
     <entry>
         <id>https://lorefnon.me/2020/04/17/hash-based-routing-with-react-navi/</id>
         <title>Hash based routing with react-navi</title>

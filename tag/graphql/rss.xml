@@ -79,6 +79,8 @@
         <category>Spring-Boot</category>
         <category>gRPC</category>
         <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2021/08/08/Vue-composition-api-and-type-safe-graphql-access/</guid>
             <title>Vue composition API and type-safe GraphQL access</title>

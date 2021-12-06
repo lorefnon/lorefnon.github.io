@@ -79,6 +79,8 @@
         <category>Spring-Boot</category>
         <category>gRPC</category>
         <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2016/04/04/embracing-bem-methodology-in-react-applications.html</guid>
             <title>Embracing BEM methodology in React applications</title>

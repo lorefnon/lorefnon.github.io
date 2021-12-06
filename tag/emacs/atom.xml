@@ -76,6 +76,8 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
+    <category term="Database" />
+    <category term="Exposed" />
     <entry>
         <id>https://lorefnon.me/2018/07/14/getting-productive-with-selection-and-navigation-in-emacs/</id>
         <title>Getting productive with selection and navigation in Emacs</title>

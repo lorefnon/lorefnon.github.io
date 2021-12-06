@@ -76,6 +76,8 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
+    <category term="Database" />
+    <category term="Exposed" />
     <entry>
         <id>https://lorefnon.me/2015/09/21/react-and-livescript-in-harmony.html</id>
         <title>React and Livescript in harmony</title>

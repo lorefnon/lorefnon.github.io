@@ -76,6 +76,8 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
+    <category term="Database" />
+    <category term="Exposed" />
     <entry>
         <id>https://lorefnon.me/2021/11/21/composable-and-refactorable-annotaiton-args-in-kotlin-with-const-val/</id>
         <title>Composable and Refactorable annotation arguments in Kotlin with const val</title>

@@ -76,6 +76,8 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
+    <category term="Database" />
+    <category term="Exposed" />
     <entry>
         <id>https://lorefnon.me/2012/09/08/creating-a-basic-command-line-based-todo-app-using-ruby-and-sqlite.html</id>
         <title>Creating a basic command line based todo app using ruby and sqlite.</title>
