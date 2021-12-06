@@ -2,6 +2,7 @@
 title: Exporing HAR (HTTP Archive) logs with Jq
 date: 2020-11-27
 tags: ["HAR", "Jq"]
+popular: true
 ---
 
 [Jq](https://stedolan.github.io/jq/) is a versatile utility for quickly exploring/filtering/transforming JSON on the command line. It is similar to grep/sed/awk utilities in that it is standalone, portable and composable. If you are not familiar with basics of jq yet, I recommend skimming through the well written [official manual](https://stedolan.github.io/jq/manual).

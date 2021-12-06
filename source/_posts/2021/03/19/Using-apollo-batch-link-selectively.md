@@ -3,6 +3,7 @@ title: 'Using Apollo Batch Link selectively'
 date: 2021-03-19
 tags: [GraphQL, Apollo]
 excerpt: An overview of how to exclude certain requests from being batched when using Apollo batch link
+popular: true
 ---
 
 In a [previous post](/2021/03/18/Using-apollo-file-link-and-batch-link-simultaneously/) we have explored the concept of [Links](https://www.apollographql.com/docs/react/api/link/introduction/) in Apollo and usage of `ApolloLink.split` for routing requests selectively towards one of multiple terminating links.

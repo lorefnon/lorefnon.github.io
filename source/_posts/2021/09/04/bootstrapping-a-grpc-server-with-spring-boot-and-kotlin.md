@@ -2,6 +2,7 @@
 title: 'Bootstrapping a Kotlin gRPC service with Spring Boot'
 date: 2021-09-04
 tags: [Kotlin, Spring, Spring-Boot, gRPC]
+popular: true
 ---
 
 It has always been possible to build gRPC services in kotlin through java interop, but with the recently improved first class support for kotlin in the official gRPC/protobuf libraries it is quite straightforward to build gRPC services in Kotlin which take advantage of kotlin native features like coroutines. In addition, the grpc-spring-boot-starter makes it really convenient for spring boot users to integrate gRPC.
@@ -16,7 +17,7 @@ This post is primarily a recipe for integrating these components to quickly get 
 
 First part is to configure our gradle configuration (`build.gradle.kts`) to use the protobuf and grpc codegen utilities.
 
-{% hlcode lang:kotlin highlight:13,31-33,35-36,62-83 %}
+{% hlcode lang:kotlin highlight:13,31-33,35-36,62-88 %}
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.google.protobuf.gradle.*
 
@@ -25,11 +26,11 @@ val protobufPluginVersion by extra("0.8.14")
 val grpcVersion by extra("1.40.1")
 
 plugins {
-	id("org.springframework.boot") version "2.5.4"
-	id("io.spring.dependency-management") version "1.0.11.RELEASE"
-	kotlin("jvm") version "1.5.21"
-	kotlin("plugin.spring") version "1.5.21"
-	id("com.google.protobuf") version "0.8.17"
+    id("org.springframework.boot") version "2.5.4"
+    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    kotlin("jvm") version "1.5.21"
+    kotlin("plugin.spring") version "1.5.21"
+    id("com.google.protobuf") version "0.8.17"
 }
 
 group = "com.example"
@@ -37,68 +38,73 @@ version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter")
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	implementation("net.devh:grpc-server-spring-boot-starter:2.12.0.RELEASE")
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("net.devh:grpc-server-spring-boot-starter:2.12.0.RELEASE")
 
-	implementation("io.grpc:grpc-protobuf:${grpcVersion}")
-	implementation("io.grpc:grpc-stub:1.40.1")
-	implementation("io.grpc:grpc-kotlin-stub:1.1.0")
-	compileOnly("jakarta.annotation:jakarta.annotation-api:1.3.5") // Java 9+ compatibility - Do NOT update to 2.0.0
-	implementation("com.google.protobuf:protobuf-java:$protobufVersion")
-	implementation("net.devh:grpc-client-spring-boot-starter:2.12.0.RELEASE")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
+    implementation("io.grpc:grpc-protobuf:${grpcVersion}")
+    implementation("io.grpc:grpc-stub:1.40.1")
+    implementation("io.grpc:grpc-kotlin-stub:1.1.0")
+    compileOnly("jakarta.annotation:jakarta.annotation-api:1.3.5") // Java 9+ compatibility - Do NOT update to 2.0.0
+    implementation("com.google.protobuf:protobuf-java:$protobufVersion")
+    implementation("net.devh:grpc-client-spring-boot-starter:2.12.0.RELEASE")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
 
-	if (JavaVersion.current().isJava9Compatible) {
-		implementation("javax.annotation:javax.annotation-api:+")
-	}
+    if (JavaVersion.current().isJava9Compatible) {
+        implementation("javax.annotation:javax.annotation-api:+")
+    }
 }
 
 tasks.withType<KotlinCompile> {
-	kotlinOptions {
-		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "11"
-	}
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xjsr305=strict")
+        jvmTarget = "11"
+    }
 }
 
 tasks.withType<Test> {
-	useJUnitPlatform()
-	testLogging.showStandardStreams = true
+    useJUnitPlatform()
+    testLogging.showStandardStreams = true
 }
 
 sourceSets {
-	test {
-		java.srcDirs.add(File("src/test/kotlin"))
-	}
+    test {
+        java.srcDirs.add(File("src/test/kotlin"))
+    }
 }
 
 protobuf {
-	protoc {
-		artifact = "com.google.protobuf:protoc:${protobufVersion}"
-	}
-	plugins {
-		id("grpc") {
-			artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
-		}
-		id("grpckt") {
-			artifact = "io.grpc:protoc-gen-grpc-kotlin:1.1.0:jdk7@jar"
-		}
-	}
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protobufVersion}"
+    }
+    plugins {
+        id("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+        }
+        id("grpckt") {
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:1.1.0:jdk7@jar"
+        }
+    }
 
-	generateProtoTasks {
-		ofSourceSet("main").forEach {
-			it.plugins {
-				id("grpc")
-				id("grpckt")
-			}
-		}
-	}
+    generateProtoTasks {
+        ofSourceSet("main").forEach {
+            task.builtins {
+                java {}
+                kotlin {}
+            }
+            it.plugins {
+                id("kotlin")
+                id("grpc")
+                id("grpckt")
+            }
+        }
+    }
 }
 {% endhlcode %}
 
@@ -144,10 +150,19 @@ class UserService: UserServiceGrpcKt.UserServiceCoroutineImplBase() {
         return Demo.User
             .newBuilder()
             .setId(1)
-            .setName("Gaurab")
+            .setName("Lorefnon")
             .build()
     }
 
+}
+{% endhlcode %}
+
+We have also configured the kotlin plugin for protobuf, which adds a couple of convenient extensions to the builders generated by the protobuf java plugin. So if we want, instead of using `Demo.User.newBuilder()` as in the above snippet, we could use a more kotlin-esque builder DSL:
+
+{% hlcode lang:kotlin %}
+return user {
+  id = 1
+  name = "Lorefnon"
 }
 {% endhlcode %}
 
@@ -324,7 +339,7 @@ class UserService: UserServiceGrpcKt.UserServiceCoroutineImplBase() {
     override suspend fun getUserById(userId: Int64Value): Demo.User {
         return Demo.User.newBuilder().apply {
             id = userId.value
-            name = "Gaurab"
+            name = "Lorefnon"
         }.build()
     }
 
@@ -346,5 +361,55 @@ class UserService: UserServiceGrpcKt.UserServiceCoroutineImplBase() {
     }
 }
 {% endhlcode %}
+
+Lastly, if you don't want to deal with coroutines, you don't need to. It is perfectly fine to still use the base classes generated for Java, in your kotlin code.
+
+In fact, it is also perfectly fine to use just the kotlin extensions for Protobuf DSL, while not using the `*CoroutineImplBase` classes for gRPC. The two have no dependency on each other.
+
+To illustrate this in our last example, we could have written:
+
+{% hlcode lang:kotlin %}
+@GrpcService
+class UserService: UserServiceGrpc.UserServiceImplBase() {
+
+    override fun getUserById(
+      userId: Int64Value,
+      responseObserver: StreamObserver<User>
+    ) {
+      responseObserver.onNext(user {
+        id = userId.value
+        name = "Lorefnon"
+      })
+      responseObserver.onCompleted()
+    }
+
+    override fun listUsers(
+      request: Demo.ListUsersInput,
+      responseObserver: StreamObserver<User>
+    ) {
+      responseObserver.onNext(
+        user {
+          id = 10
+          name = "Harry"
+        }
+      )
+      responseObserver.onNext(
+        user {
+          id = 20
+          name = "Hermione"
+        }
+      )
+      responseObserver.onNext(
+        user {
+          id = 20
+          name = "Ron"
+        }
+      )
+      responseObserver.onFinish()
+    }
+}
+{% endhlcode %}
+
+As we are using `UserServiceGrpc.UserServiceImplBase` instead of `UserServiceGrpcKt.UserServiceCoroutineImplBase`, our functions are no longer suspending functions. Also instead of returning values, they accept a `responseObserver` which can be used to return one or more values.
 
 This brings us to the end of this short post. We explored how we can bootstrap a simple gRPC service using kotlin and spring boot, and handle unary calls and streaming. As next steps you are encouraged to explore the [grpc-spring-boot-starter's introduction](https://yidongnan.github.io/grpc-spring-boot-starter/en/server/getting-started.html) and the [gRPC official site](https://grpc.io/) which provide detailed documentation on gRPC integrations.

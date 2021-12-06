@@ -1,6 +1,7 @@
 ---
 title: 'Documenting your data model with liquibase, tbls & jOOQ'
 date: 2021-08-07
+popular: true
 tags: [Liquibase, tbls, jOOQ]
 ---
 
