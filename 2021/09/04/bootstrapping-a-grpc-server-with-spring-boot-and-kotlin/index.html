@@ -146,16 +146,16 @@
 <p>Our implementation derives from the <code>UserServiceGrpcKt.UserServiceCoroutineImplBase</code> which was generated for us. The generated functions use some protobuf specific types and we return a <code>User</code> instance constructed through the builder that was also generated for us.</p>
 <p>Overall our code loooks pretty readable, and we didn&#39;t have to write any mapping boilerplate.</p>
 <p>If we peek into the build directory, we can find all the code our code-generator generated for us:</p>
-<pre><code class="hljs plaintext">▾ build/
-  ▸ classes/
-  ▸ extracted-include-protos/
-  ▸ extracted-protos/
-  ▾ generated/
-    ▾ source/proto/main/
-      ▾ grpc/com/example/grpcdemo/service/
-          UserServiceGrpc.java
-      ▾ grpckt/com/example/grpcdemo/service/
-          DemoGrpcKt.kt</code></pre>
+<pre><code class="hljs plaintext">▾ build/
+  ▸ classes/
+  ▸ extracted-include-protos/
+  ▸ extracted-protos/
+  ▾ generated/
+    ▾ source/proto/main/
+      ▾ grpc/com/example/grpcdemo/service/
+          UserServiceGrpc.java
+      ▾ grpckt/com/example/grpcdemo/service/
+          DemoGrpcKt.kt</code></pre>
 
 <p>The first thing we want to look at is the <code>UserServiceKt</code> where our base class we derived from resides:</p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> com.example.grpcdemo.service
@@ -382,4 +382,4 @@
 
 <p>As we are using <code>UserServiceGrpc.UserServiceImplBase</code> instead of <code>UserServiceGrpcKt.UserServiceCoroutineImplBase</code>, our functions are no longer suspending functions. Also instead of returning values, they accept a <code>responseObserver</code> which can be used to return one or more values.</p>
 <p>This brings us to the end of this short post. We explored how we can bootstrap a simple gRPC service using kotlin and spring boot, and handle unary calls and streaming. As next steps you are encouraged to explore the <a href="https://yidongnan.github.io/grpc-spring-boot-starter/en/server/getting-started.html" target="_blank" rel="noopener external nofollow noreferrer">grpc-spring-boot-starter&#39;s introduction</a> and the <a href="https://grpc.io/" target="_blank" rel="noopener external nofollow noreferrer">gRPC official site</a> which provide detailed documentation on gRPC integrations.</p>
-</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p>Header Image credit:<a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener">Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.6.0/dist/htmx.min.js"></script><script src="/js/blog.js"></script></body></html>
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p>Header Image credit:<a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener"> Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.6.0/dist/htmx.min.js"></script><script src="/js/blog.js"></script></body></html>

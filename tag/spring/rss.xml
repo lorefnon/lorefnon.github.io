@@ -28,9 +28,9 @@
         <category>Design Patterns</category>
         <category>InfluxDB</category>
         <category>Grafana</category>
-        <category>ES6</category>
         <category>React</category>
         <category>Functional Programming</category>
+        <category>ES6</category>
         <category>Helm</category>
         <category>SPF</category>
         <category>CSS</category>
@@ -79,6 +79,8 @@
         <category>Spring-Boot</category>
         <category>gRPC</category>
         <category>Redis</category>
+        <category>CLI</category>
+        <category>REST</category>
         <category>Database</category>
         <category>Exposed</category>
         <item>
@@ -238,16 +240,16 @@
 &lt;p&gt;Our implementation derives from the &lt;code&gt;UserServiceGrpcKt.UserServiceCoroutineImplBase&lt;/code&gt; which was generated for us. The generated functions use some protobuf specific types and we return a &lt;code&gt;User&lt;/code&gt; instance constructed through the builder that was also generated for us.&lt;/p&gt;
 &lt;p&gt;Overall our code loooks pretty readable, and we didn&amp;#39;t have to write any mapping boilerplate.&lt;/p&gt;
 &lt;p&gt;If we peek into the build directory, we can find all the code our code-generator generated for us:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;▾ build/
-  ▸ classes/
-  ▸ extracted-include-protos/
-  ▸ extracted-protos/
-  ▾ generated/
-    ▾ source/proto/main/
-      ▾ grpc/com/example/grpcdemo/service/
-          UserServiceGrpc.java
-      ▾ grpckt/com/example/grpcdemo/service/
-          DemoGrpcKt.kt&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;▾ build/
+  ▸ classes/
+  ▸ extracted-include-protos/
+  ▸ extracted-protos/
+  ▾ generated/
+    ▾ source/proto/main/
+      ▾ grpc/com/example/grpcdemo/service/
+          UserServiceGrpc.java
+      ▾ grpckt/com/example/grpcdemo/service/
+          DemoGrpcKt.kt&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The first thing we want to look at is the &lt;code&gt;UserServiceKt&lt;/code&gt; where our base class we derived from resides:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; com.example.grpcdemo.service

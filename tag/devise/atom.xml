@@ -25,9 +25,9 @@
     <category term="Design Patterns" />
     <category term="InfluxDB" />
     <category term="Grafana" />
-    <category term="ES6" />
     <category term="React" />
     <category term="Functional Programming" />
+    <category term="ES6" />
     <category term="Helm" />
     <category term="SPF" />
     <category term="CSS" />
@@ -76,6 +76,8 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
+    <category term="CLI" />
+    <category term="REST" />
     <category term="Database" />
     <category term="Exposed" />
     <entry>

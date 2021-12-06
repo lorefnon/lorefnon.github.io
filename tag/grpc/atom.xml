@@ -3,7 +3,7 @@
     <id>https://lorefnon.me</id>
     <title>Icicles of Thought • Posts by &#34;grpc&#34; tag</title>
     <link href="https://lorefnon.me" />
-    <updated>2021-09-04T00:00:00.000Z</updated>
+    <updated>2021-11-21T00:00:00.000Z</updated>
     <category term="Javascript" />
     <category term="KnockoutJS" />
     <category term="Ruby" />
@@ -25,9 +25,9 @@
     <category term="Design Patterns" />
     <category term="InfluxDB" />
     <category term="Grafana" />
-    <category term="ES6" />
     <category term="React" />
     <category term="Functional Programming" />
+    <category term="ES6" />
     <category term="Helm" />
     <category term="SPF" />
     <category term="CSS" />
@@ -76,8 +76,37 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
+    <category term="CLI" />
+    <category term="REST" />
     <category term="Database" />
     <category term="Exposed" />
+    <entry>
+        <id>https://lorefnon.me/2021/11/21/api-exploration-on-command-line/</id>
+        <title>API exploration on the command line</title>
+        <link rel="alternate" href="https://lorefnon.me/2021/11/21/api-exploration-on-command-line/"/>
+        <content type="html">&lt;p&gt;&lt;a href=&#34;https://httpie.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;httpie&lt;/a&gt; is a great utility that provides a user-friendly CLI for making HTTP calls. Since I started using it a year ago, it has become a part of my everyday toolbelt. &lt;/p&gt;
+&lt;p&gt;In the developer community, utilities like postman have become quite popular. Besides providing a solution for quickly testing out HTTP APIs, such tools also facilitate managing of collections. One great thing about postman collections is that they can be templated through variables. While the UI for managing these variables is a bit clunky, it provides a simple way to use the sample collection for multiple environments.&lt;/p&gt;
+&lt;p&gt;This post outlines a simple solution to collection management by composing together a few more open source utilities.&lt;/p&gt;
+&lt;p&gt;The directory structure of our collection will look like following (We are using the shopify API as an example): &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;api-collection
+|_ order-admin-api
+|   |_ variables.yaml
+|   |_ invocations
+|        |_ fetch-order-by-id.sh
+|        |_ fetch-order-by-date-range.sh
+|_ fulfillment-admin-api
+|   |_ variables.yaml
+|   |_ invocations
+|        |_ fetch-fulfillments-by-order-id.sh
+|_ varaibles.yaml&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We have a directory for each endpoint, and invocations directory contains &lt;/p&gt;
+</content>
+        <category term="gRPC" />
+        <category term="CLI" />
+        <category term="REST" />
+        <updated>2021-11-21T00:00:00.000Z</updated>
+    </entry>
     <entry>
         <id>https://lorefnon.me/2021/09/04/bootstrapping-a-grpc-server-with-spring-boot-and-kotlin/</id>
         <title>Bootstrapping a Kotlin gRPC service with Spring Boot</title>
@@ -230,16 +259,16 @@
 &lt;p&gt;Our implementation derives from the &lt;code&gt;UserServiceGrpcKt.UserServiceCoroutineImplBase&lt;/code&gt; which was generated for us. The generated functions use some protobuf specific types and we return a &lt;code&gt;User&lt;/code&gt; instance constructed through the builder that was also generated for us.&lt;/p&gt;
 &lt;p&gt;Overall our code loooks pretty readable, and we didn&amp;#39;t have to write any mapping boilerplate.&lt;/p&gt;
 &lt;p&gt;If we peek into the build directory, we can find all the code our code-generator generated for us:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;▾ build/
-  ▸ classes/
-  ▸ extracted-include-protos/
-  ▸ extracted-protos/
-  ▾ generated/
-    ▾ source/proto/main/
-      ▾ grpc/com/example/grpcdemo/service/
-          UserServiceGrpc.java
-      ▾ grpckt/com/example/grpcdemo/service/
-          DemoGrpcKt.kt&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;▾ build/
+  ▸ classes/
+  ▸ extracted-include-protos/
+  ▸ extracted-protos/
+  ▾ generated/
+    ▾ source/proto/main/
+      ▾ grpc/com/example/grpcdemo/service/
+          UserServiceGrpc.java
+      ▾ grpckt/com/example/grpcdemo/service/
+          DemoGrpcKt.kt&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The first thing we want to look at is the &lt;code&gt;UserServiceKt&lt;/code&gt; where our base class we derived from resides:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; com.example.grpcdemo.service

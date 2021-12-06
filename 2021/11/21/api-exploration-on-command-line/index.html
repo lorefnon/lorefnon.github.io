@@ -1,0 +1,18 @@
+<!DOCTYPE html><html class="no-js"><head> <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><meta property="og:title" content="Gaurab Paul | Blog"><meta property="og:description" content="Ramblings on Web Development and software architecture"><meta name="generator" content="Hexo 5.4.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><span class="posted-date header-text" title="2021-11-21">Posted &nbsp;16 days ago</span><hr><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/gRPC/"><img src="/images/tag.svg">gRPC</a></li><li class="body-text"><a class="tag-link" href="/tags/CLI/"><img src="/images/tag.svg">CLI</a></li><li class="body-text"><a class="tag-link" href="/tags/REST/"><img src="/images/tag.svg">REST</a></li></ul></div><div class="blog-header"><div class="blog-header-inner header-text">API exploration on the command line</div></div><div class="blog-main"><div class="page-content"><p><a href="https://httpie.io/" target="_blank" rel="noopener external nofollow noreferrer">httpie</a> is a great utility that provides a user-friendly CLI for making HTTP calls. Since I started using it a year ago, it has become a part of my everyday toolbelt. </p>
+<p>In the developer community, utilities like postman have become quite popular. Besides providing a solution for quickly testing out HTTP APIs, such tools also facilitate managing of collections. One great thing about postman collections is that they can be templated through variables. While the UI for managing these variables is a bit clunky, it provides a simple way to use the sample collection for multiple environments.</p>
+<p>This post outlines a simple solution to collection management by composing together a few more open source utilities.</p>
+<p>The directory structure of our collection will look like following (We are using the shopify API as an example): </p>
+<pre><code class="hljs plaintext">api-collection
+|_ order-admin-api
+|   |_ variables.yaml
+|   |_ invocations
+|        |_ fetch-order-by-id.sh
+|        |_ fetch-order-by-date-range.sh
+|_ fulfillment-admin-api
+|   |_ variables.yaml
+|   |_ invocations
+|        |_ fetch-fulfillments-by-order-id.sh
+|_ varaibles.yaml</code></pre>
+
+<p>We have a directory for each endpoint, and invocations directory contains </p>
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p><hr><p>Header Image credit:<a href="https://www.pexels.com/photo/stainless-steel-lamp-788855/" target="_blank" rel="noreferrer noopener"> Nikita Khandelwal</a></p></div><script src="https://unpkg.com/htmx.org@1.6.0/dist/htmx.min.js"></script><script src="/js/blog.js"></script></body></html>
