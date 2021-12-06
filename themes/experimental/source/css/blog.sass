@@ -124,9 +124,14 @@ a:hover, a:focus
     .blog-footer
         background: #ddd
         color: #757575
+        border-top: 1px solid rgba(0,0,0,0.1)
 
         p
             margin: 2rem
+        a
+            color: #fc9e4f
+        hr
+            border-color: rgba(0,0,0,0.1)
 
         @media(max-width: 900px)
             grid-row-start: 5
@@ -138,6 +143,9 @@ a:hover, a:focus
     .post-list-item
         border-bottom: 1px dotted #ddd
         clear: both
+
+    .post-list-item:last-child
+        border-bottom: 4px solid #b9b9b9
 
     .post-warning
         padding: 0.8rem

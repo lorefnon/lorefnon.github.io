@@ -173,16 +173,16 @@ Overall our code loooks pretty readable, and we didn't have to write any mapping
 If we peek into the build directory, we can find all the code our code-generator generated for us:
 
 ```
-▾ build/
-  ▸ classes/
-  ▸ extracted-include-protos/
-  ▸ extracted-protos/
-  ▾ generated/
-    ▾ source/proto/main/
-      ▾ grpc/com/example/grpcdemo/service/
-          UserServiceGrpc.java
-      ▾ grpckt/com/example/grpcdemo/service/
-          DemoGrpcKt.kt
+▾ build/
+  ▸ classes/
+  ▸ extracted-include-protos/
+  ▸ extracted-protos/
+  ▾ generated/
+    ▾ source/proto/main/
+      ▾ grpc/com/example/grpcdemo/service/
+          UserServiceGrpc.java
+      ▾ grpckt/com/example/grpcdemo/service/
+          DemoGrpcKt.kt
 ```
 
 The first thing we want to look at is the `UserServiceKt` where our base class we derived from resides:

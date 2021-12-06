@@ -19,6 +19,9 @@
     .flex-row
         if page.prev
             a.ghost-button(href=page.prev_link) Previous Page
-        .flex-spacer
+        else if page.footer_left_link
+            a.ghost-button(href=page.footer_left_link.href)= page.footer_left_link.label
+        .flex-spacer.t-center
+            a.ghost-button(href="/atom.xml", style="font-weight: bold") RSS
         if page.next
             a.ghost-button(href=page.next_link) Next Page

@@ -8,7 +8,8 @@ html.no-js
         - let posts = site.posts.filter(it => it.popular).sort('date', -1)
         - const tagNames = _.uniq(_.map(_.flatten(_.map(posts.toArray(), it => it.tags.toArray())), 'name'))
         - let tags = site.tags.filter(it => _.includes(tagNames, it.name))
-        - let page = { posts, tags }
+        - let footer_left_link = { href: "/blog/", label: "View All Posts" }
+        - let page = { posts, tags, footer_left_link }
 
         include _blog_summary.pug
 
@@ -16,12 +17,7 @@ html.no-js
             include _tag_list.pug
         .blog-header
             .blog-header-inner.header-text
-                div(style="float:right;")
-                    a.ghost-button(href="/blog/", style="font-size: 1.5rem; border-width: 2px;") All Posts
                 | Popular posts
-
         .blog-main
             include _post_list.pug 
-            div(style="padding-top: 1rem")
-                a.ghost-button(href="/blog/", style="font-weight: bold") View All Posts
         include _blog_tail.pug

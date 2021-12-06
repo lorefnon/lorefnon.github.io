@@ -15,6 +15,7 @@ html.no-js
                 | Posts
 
         .blog-main
+            - page.footer_left_link = { href: "/blog/popular", label: "Popular Posts" }
             include _post_list.pug
 
         include _blog_tail.pug
