@@ -51,8 +51,6 @@
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
-    <category term="MobX" />
-    <category term="MobX-State-Tree" />
     <category term="Routing" />
     <category term="HAR" />
     <category term="Jq" />
@@ -76,10 +74,10 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
-    <category term="CLI" />
-    <category term="REST" />
     <category term="Database" />
     <category term="Exposed" />
+    <category term="MobX" />
+    <category term="MobX-State-Tree" />
     <entry>
         <id>https://lorefnon.me/2019/08/11/enforcing-runtime-validations-at-compile-time-in-typescript/</id>
         <title>Enforcing runtime validations at compile time in TypeScript</title>
