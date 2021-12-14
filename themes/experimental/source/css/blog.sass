@@ -57,6 +57,7 @@ a:hover, a:focus
             color: #757575
         a:hover, a:focus
             color: #fc9e4f
+
     .blog-main
         @media(max-width: 900px)
             grid-column-start: 1
@@ -69,36 +70,90 @@ a:hover, a:focus
         @include post_content.post_content
 
     .blog-header
-        @media(max-width: 900px)
-            grid-row-start: 2
-            grid-column-start: 1
-            background-image: url('/images/primary/bulb-bkg-900x579.jpg')
-    
-        @media(min-width: 900px)
-            grid-row-start: 1
-            grid-row-end: 2
-            grid-column-start: 2
-
-        @media(min-width: 900px) and (max-width: 2000px)
-            background-image: url('/images/primary/bulb-bkg-1024x659.jpg')
-
-        @media(min-width: 2000px)
-            background-image: url('/images/primary/bulb-bkg-3689x2374.jpg')
-
-        background-repeat: no-repeat
-        background-size: cover
-        border-bottom: #fc9e4f 4px solid
         display: inline-grid
         justify-content: center
         align-content: center
         grid-template-columns: 1fr
 
+    .blog-post-header
         &-inner
-          color: white
-          font-size: 2rem
-          display: block
-          padding: 2rem
-          background: rgba(0,0,0,0.7)
+            color: rgba(0,0,0,0.7)
+            display: block
+            padding: 6rem 4rem 0rem 
+
+            .header-text
+                font-size: 3rem
+                font-weight: 500
+
+            .posted-date
+                margin: 2rem 0
+                font-size: 1.5rem
+
+            .blog-header-separator
+                border: 1px dotted rgba(0,0,0,0.5)
+                margin: 2rem 0 0 0
+
+    .blog-collection-header
+        position: relative
+        box-shadow: inset -2px 0px 5px 2px rgb(0 0 0 / 50%)
+        
+        @media(max-width: 900px)
+            min-height: 300px
+            background: url('/images/primary/pexels-arvind-shakya-900x600.jpg') 0 / cover fixed
+
+        @media(min-width: 900px) and (max-width: 1024px)
+            background: url('/images/primary/pexels-arvind-shakya-1024x683.jpg') 0 / cover fixed
+
+        @media(min-width: 1024px) and (max-width: 2000px)
+            background: url('/images/primary/pexels-arvind-shakya-2000x1333.jpg') 0 / cover fixed
+
+        @media(min-width: 2000px)
+            background: url('/images/primary/pexels-arvind-shakya-5000x3333.jpg') 0 / cover fixed
+
+        .header-text
+            color: white
+            padding: 0 4rem
+            font-size: 3rem
+
+        .rss-link-container
+            margin-top: 10px
+            margin-right: 2rem
+
+            @media(max-width: 900px)
+                display: none
+        
+        .rss-link
+            color: white
+            img
+                height: 20px
+                margin-right: 0.5rem
+                position: relative
+                bottom: -2px
+
+    .blog-tabs
+        position: absolute
+        bottom: 0
+        left: 0
+        right: 0
+        display: flex
+        flex-direction: row
+        padding-left: 3.5rem
+        background: rgba(0,0,0,0.5)
+        padding-top: 1rem
+
+        .blog-tab
+            border-top-left-radius: 4px
+            border-top-right-radius: 4px
+            padding: 1rem
+            font-size: 1.5rem
+            background: rgba(255, 255, 255, 0.4)
+            margin-left: 0.5rem
+            font-family: 'Oswald'
+            display: block
+            color: #353535
+
+        .blog-tab.active
+            background: white
 
     .tag-link
         text-decoration: none
@@ -124,10 +179,9 @@ a:hover, a:focus
     .blog-footer
         background: #ddd
         color: #757575
+        padding: 2rem 4rem 
         border-top: 1px solid rgba(0,0,0,0.1)
 
-        p
-            margin: 2rem
         a
             color: #fc9e4f
         hr
@@ -143,9 +197,6 @@ a:hover, a:focus
     .post-list-item
         border-bottom: 1px dotted #ddd
         clear: both
-
-    .post-list-item:last-child
-        border-bottom: 4px solid #b9b9b9
 
     .post-warning
         padding: 0.8rem

@@ -7,16 +7,16 @@ html.no-js
         include _blog_summary.pug
 
         .blog-sidebar
-            if page.date
-                span.posted-date.header-text(title=page.date.format("YYYY-MM-DD"))
-                    | Posted &nbsp;
-                    = page.date.fromNow()
-                hr
-            
             include _tag_list.pug
 
-        .blog-header
-            .blog-header-inner.header-text= page.title
+        .blog-header.blog-post-header
+            .blog-post-header-inner
+                .header-text= page.title
+                if page.date
+                    .posted-date.sub-header-text(title=page.date.format("YYYY-MM-DD"))
+                        | Posted &nbsp;
+                        = page.date.fromNow()
+                hr.blog-header-separator
 
         .blog-main
             if page.is_outdated

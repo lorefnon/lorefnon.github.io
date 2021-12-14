@@ -15,9 +15,9 @@ html.no-js
 
         .blog-sidebar
             include _tag_list.pug
-        .blog-header
-            .blog-header-inner.header-text
-                | Popular posts
+        .blog-header.blog-collection-header
+            - const activeTab = "popular"
+            include _blog_tabs.pug
         .blog-main
             include _post_list.pug 
         include _blog_tail.pug

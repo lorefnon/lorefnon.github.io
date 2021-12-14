@@ -10,9 +10,9 @@ html.no-js
         .blog-sidebar
             include _tag_list.pug
 
-        .blog-header
-            .blog-header-inner.header-text
-                | Posts
+        .blog-header.blog-collection-header
+            - const activeTab = "all"
+            include _blog_tabs.pug
 
         .blog-main
             - page.footer_left_link = { href: "/blog/popular", label: "Popular Posts" }

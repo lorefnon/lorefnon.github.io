@@ -1,0 +1,11 @@
+h1.header-text Blog
+.blog-tabs 
+    a.blog-tab.elongated-text(href="/blog/popular", class= activeTab == "popular" ? "active" : "") 
+        | Popular Posts
+    a.blog-tab.elongated-text(href="/blog", class= activeTab == "all" ? "active" : "") 
+        | All Posts
+    .flex-spacer
+    .rss-link-container
+        a.rss-link.ghost-button.elongated-text(href="/atom.xml") 
+            img(src="/images/rss-symbol.svg")
+            | RSS
