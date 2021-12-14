@@ -54,6 +54,8 @@
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
         <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
@@ -79,8 +81,6 @@
         <category>Redis</category>
         <category>Database</category>
         <category>Exposed</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/08/15/dealing-with-circular-type-references-in-mobx-state-tree/</guid>
             <title>Dealing with circular type references in Mobx-state-tree</title>

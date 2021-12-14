@@ -54,6 +54,8 @@
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
         <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
@@ -79,8 +81,6 @@
         <category>Redis</category>
         <category>Database</category>
         <category>Exposed</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/03/02/dealing-with-json-fields-in-active-admin.html</guid>
             <title>Dealing with JSON data in Active Admin</title>

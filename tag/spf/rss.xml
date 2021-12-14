@@ -54,6 +54,8 @@
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
         <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
@@ -79,8 +81,6 @@
         <category>Redis</category>
         <category>Database</category>
         <category>Exposed</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</guid>
             <title>Boost your content focussed site with Structured Page Fragments</title>

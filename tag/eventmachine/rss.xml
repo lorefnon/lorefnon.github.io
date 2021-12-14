@@ -54,6 +54,8 @@
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
         <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
@@ -79,8 +81,6 @@
         <category>Redis</category>
         <category>Database</category>
         <category>Exposed</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2012/08/15/a-websocket-powered-tic-tac-toe-game-using-ruby-eventmachine--part-1.html</guid>
             <title>A Websocket powered Tic tac toe game using Ruby EventMachine – Part 1</title>

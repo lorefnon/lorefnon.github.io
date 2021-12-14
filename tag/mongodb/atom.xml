@@ -51,6 +51,8 @@
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
+    <category term="MobX" />
+    <category term="MobX-State-Tree" />
     <category term="Routing" />
     <category term="HAR" />
     <category term="Jq" />
@@ -76,8 +78,6 @@
     <category term="Redis" />
     <category term="Database" />
     <category term="Exposed" />
-    <category term="MobX" />
-    <category term="MobX-State-Tree" />
     <entry>
         <id>https://lorefnon.me/2018/08/20/uploading-files-to-mongodb-gridfs-via-apollo-powered-graphql-api/</id>
         <title>Uploading files to MongoDB GridFS via Apollo powered GraphQL API</title>
