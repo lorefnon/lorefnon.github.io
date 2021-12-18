@@ -7,7 +7,7 @@ body
 .page-container
     background-repeat: no-repeat
     background-size: cover
-    background-image: radial-gradient(#f9dcba, #96774b, #262127)
+    background-image: radial-gradient(#aca02c, #1e3f22, #262127)
 
 .page-container-inner
     height: calc(100vh - 4px)
@@ -69,11 +69,18 @@ body
         color: gold
         font-size: 3.5rem
         margin-top: 0
+        @media(max-width: 900px)
+            font-size: 2.5rem
+            margin: 0.5rem
 
     h2
         color: white
         font-size: 2rem
         line-height: 3rem
+        @media(max-width: 900px)
+            font-size: 1.5rem
+            line-height: 2rem
+            margin: 0.5rem
 
     .links
         color: white
@@ -103,3 +110,6 @@ body
     font-size: 1.2rem
     &, & > a
         color: wheat !important
+
+    @media(max-width: 900px)
+        font-size: 0.8rem

@@ -1,15 +1,17 @@
 .post-list
-    if page.tag
-        h1.page-title.header-text
-            | Posts for tag:&nbsp;
-            span.current-tag= page.tag
-        hr
-        br
     ul.body-text.post-list
-        each post in page.posts.data
+        each post in page.posts.toArray()
             li.post-list-item
+                .post-date
+                    img(src="/images/calendar.svg")
+                    = formatDate(post.date)
                 h2: a.post-header.header-text(href=url_for(post.path))= post.title
-                .post-date= formatDate(post.date)
+                ul.post-tags
+                    each tag in post.tags.toArray()
+                        li
+                            a.tag-link(href=url_for(tag.path))
+                                img(src="/images/tag.svg")
+                                = tag && tag.name
                 p
                     != post.excerpt
                 .flex-row

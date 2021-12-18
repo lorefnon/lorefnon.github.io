@@ -3,6 +3,7 @@ title: 'Documenting your data model with liquibase, tbls & jOOQ'
 date: 2021-08-07
 popular: true
 tags: [Liquibase, tbls, jOOQ]
+excerpt: Documenting a database schema is often an afterthought, even though it is really important esp. for onboarding new developers into the project. This post outlines a really straightforward approach to tackle this using tbls, liquibase & jOOQ.
 ---
 
 Documenting a database schema is often an afterthought, even though it is really important esp. for onboarding new developers into the project.

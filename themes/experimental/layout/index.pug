@@ -12,7 +12,12 @@ html.no-js
 
         .blog-header.blog-collection-header
             - const activeTab = "all"
-            include _blog_tabs.pug
+            if page.tag
+                h1.header-text 
+                    | Posts for tag:&nbsp;
+                    span.current-tag= page.tag
+            else
+                include _blog_tabs.pug
 
         .blog-main
             - page.footer_left_link = { href: "/blog/popular", label: "Popular Posts" }

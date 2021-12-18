@@ -59,14 +59,17 @@ a:hover, a:focus
             color: #fc9e4f
 
     .blog-main
+        background: white
+        padding: 2rem 4rem
+
         @media(max-width: 900px)
             grid-column-start: 1
             grid-row-start: 3
+            padding: 1rem 2rem
+
         @media(min-width: 900px)
             grid-column-start: 2
             grid-row-start: 2
-        background: white
-        padding: 2rem 4rem
         @include post_content.post_content
 
     .blog-header
@@ -197,6 +200,13 @@ a:hover, a:focus
     .post-list-item
         border-bottom: 1px dotted #ddd
         clear: both
+        padding-top: 1.5rem
+
+    .post-date
+        display: flex
+        align-items: center
+        img
+            margin-right: 0.5rem
 
     .post-warning
         padding: 0.8rem
@@ -213,3 +223,16 @@ a:hover, a:focus
     .hljs 
         border-radius: 0
         padding: 0.4rem
+
+    .post-tags
+        padding-top: 0.5rem !important
+        display: block
+
+        li 
+            display: inline-block
+            a
+                color: #757575
+            img
+                margin-right: 0.25rem
+        li + li 
+            margin-left: 1rem
