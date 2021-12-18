@@ -145,7 +145,7 @@ dependencies &amp;#123;
             <pubDate>Sat, 07 Aug 2021 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;Documenting a database schema is often an afterthought, even though it is really important esp. for onboarding new developers into the project.&lt;/p&gt;
 &lt;p&gt;This post outlines a really straightforward approach I recently adopted for my projects using &lt;a href=&#34;https://www.liquibase.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Liquibase&lt;/a&gt;, &lt;a href=&#34;https://github.com/k1LoW/tbls&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;tbls&lt;/a&gt; &amp;amp; &lt;a href=&#34;https://jooq.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;jOOQ&lt;/a&gt;.&lt;/p&gt;
-&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+&lt;!-- more --&gt;
 
 &lt;h1 id=&#34;About-Liquibase&#34;&gt;&lt;a href=&#34;#About-Liquibase&#34; class=&#34;headerlink&#34; title=&#34;About Liquibase&#34;&gt;&lt;/a&gt;About Liquibase&lt;/h1&gt;&lt;p&gt;Liquibase is a great utility for managing database schema evolution. It has support for a great set of features like a YAML/XML DSL that takes care of automatic rollbacks, support for parameter interpolation, and many more which are quite handy in enterprise contexts.&lt;/p&gt;
 &lt;p&gt;Here is what the DSL looks like in YAML: &lt;/p&gt;
