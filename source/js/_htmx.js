@@ -1,0 +1,1 @@
+htmx.config.refreshOnHistoryMiss = true
