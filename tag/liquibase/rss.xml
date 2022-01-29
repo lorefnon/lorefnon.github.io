@@ -50,12 +50,12 @@
         <category>Automerge</category>
         <category>CRDT</category>
         <category>SVG</category>
+        <category>VSCode</category>
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
         <category>MobX</category>
         <category>MobX-State-Tree</category>
-        <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
         <category>Lit-html</category>
@@ -81,7 +81,7 @@
         <category>Database</category>
         <category>Exposed</category>
         <category>vim</category>
-        <category>VSCode</category>
+        <category>Routing</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2021/09/01/configuring-liquibase-with-gradle-kotlin-dsl/</guid>
             <title>Configuring Liquibase through Gradle Kotlin DSL</title>

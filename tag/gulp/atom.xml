@@ -47,12 +47,12 @@
     <category term="Automerge" />
     <category term="CRDT" />
     <category term="SVG" />
+    <category term="VSCode" />
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
     <category term="MobX" />
     <category term="MobX-State-Tree" />
-    <category term="Routing" />
     <category term="HAR" />
     <category term="Jq" />
     <category term="Lit-html" />
@@ -78,7 +78,7 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
-    <category term="VSCode" />
+    <category term="Routing" />
     <entry>
         <id>https://lorefnon.me/2014/03/10/decoupling-frontend-with-gulp-and-node-http-proxy.html</id>
         <title>Decoupling your frontend development with gulp and http-proxy</title>
