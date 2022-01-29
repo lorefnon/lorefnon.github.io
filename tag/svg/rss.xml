@@ -56,6 +56,7 @@
         <category>io-ts</category>
         <category>MobX</category>
         <category>MobX-State-Tree</category>
+        <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
         <category>Lit-html</category>
@@ -81,7 +82,6 @@
         <category>Database</category>
         <category>Exposed</category>
         <category>vim</category>
-        <category>Routing</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/01/12/using-an-svg-grid-background-for-aligning-elements-in-web-page/</guid>
             <title>Using an SVG grid background for aligning elements in web page</title>

@@ -56,6 +56,7 @@
         <category>io-ts</category>
         <category>MobX</category>
         <category>MobX-State-Tree</category>
+        <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
         <category>Lit-html</category>
@@ -81,7 +82,6 @@
         <category>Database</category>
         <category>Exposed</category>
         <category>vim</category>
-        <category>Routing</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2021/12/05/extending-exposed-with-custom-operators/</guid>
             <title>Extending Exposed with new function expressions</title>

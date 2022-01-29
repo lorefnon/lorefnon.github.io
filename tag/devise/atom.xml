@@ -53,6 +53,7 @@
     <category term="io-ts" />
     <category term="MobX" />
     <category term="MobX-State-Tree" />
+    <category term="Routing" />
     <category term="HAR" />
     <category term="Jq" />
     <category term="Lit-html" />
@@ -78,7 +79,6 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
-    <category term="Routing" />
     <entry>
         <id>https://lorefnon.me/2014/09/07/devise-multiple-emails.html</id>
         <title>Allowing multiple emails for a user in Devise</title>

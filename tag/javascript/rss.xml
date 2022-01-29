@@ -56,6 +56,7 @@
         <category>io-ts</category>
         <category>MobX</category>
         <category>MobX-State-Tree</category>
+        <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
         <category>Lit-html</category>
@@ -81,7 +82,6 @@
         <category>Database</category>
         <category>Exposed</category>
         <category>vim</category>
-        <category>Routing</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/06/09/javascript-async-await-with-arbitrary-thenables/</guid>
             <title>Javascript Async/Await with arbitrary Thenables</title>
