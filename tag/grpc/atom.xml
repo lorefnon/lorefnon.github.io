@@ -47,7 +47,6 @@
     <category term="Automerge" />
     <category term="CRDT" />
     <category term="SVG" />
-    <category term="VSCode" />
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
@@ -78,6 +77,8 @@
     <category term="Redis" />
     <category term="Database" />
     <category term="Exposed" />
+    <category term="vim" />
+    <category term="VSCode" />
     <entry>
         <id>https://lorefnon.me/2021/12/15/mapping-between-domain-and-dtos-for-grpc/</id>
         <title>Mapping between Domain and DTO classes for gRPC APIs</title>

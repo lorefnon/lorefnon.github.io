@@ -50,7 +50,6 @@
         <category>Automerge</category>
         <category>CRDT</category>
         <category>SVG</category>
-        <category>VSCode</category>
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
@@ -81,6 +80,8 @@
         <category>Redis</category>
         <category>Database</category>
         <category>Exposed</category>
+        <category>vim</category>
+        <category>VSCode</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</guid>
             <title>Gathering and Visualizing metrics from Rails application using InfluxDB</title>

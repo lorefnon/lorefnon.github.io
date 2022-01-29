@@ -18,4 +18,7 @@
       foldedLines[i].classList.remove("hidden");
     }
   });
+
+  // source/js/_htmx.js
+  htmx.config.refreshOnHistoryMiss = true;
 })();
