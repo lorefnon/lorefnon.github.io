@@ -1,5 +1,5 @@
 title: Icicles of Thought
-subtitle: 'Notes on Software Craftsmanship, Web Development & Distributed Systems'
+subtitle: Notes on Software Craftsmanship, Web Development & Distributed Systems
 description: ''
 keywords: null
 author: Lorefnon
@@ -53,7 +53,7 @@ category_map: null
 tag_map: null
 meta_generator: true
 date_format: YYYY-MM-DD
-time_format: 'HH:mm:ss'
+time_format: HH:mm:ss
 updated_option: mtime
 per_page: 10
 pagination_dir: page
@@ -97,4 +97,4 @@ marked:
     nofollow: true
   disableNunjucks: false
   descriptionLists: false
-url: 'https://lorefnon.me'
+url: https://lorefnon.me
