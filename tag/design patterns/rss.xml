@@ -126,12 +126,12 @@ are trending in the community.&lt;/p&gt;
   belongs_to &lt;span class=&#34;hljs-symbol&#34;&gt;:book&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;counter_cache:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;In home/index.html.erb&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;recommended-book-list&amp;#x27;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; Book.recommended.each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; book.title &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In home&amp;#x2F;index.html.erb&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;recommended-book-list&amp;#x27;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; Book.recommended.each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; book.title &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;So far so good, however we realize that for users who have been using our service
 for a while, it makes more sense to show recommendations based on their intersts. So we do a
@@ -170,11 +170,11 @@ shotgun surgery and modify our code to the following:&lt;/p&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;And our template becomes something like:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;recommended-book-list&amp;#x27;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; Book.recommended_for(current_user).each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; book.title &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;recommended-book-list&amp;#x27;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; Book.recommended_for(current_user).each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; book.title &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We see that at this point our &lt;code&gt;recommended_for&lt;/code&gt; method is burdened with multiple
 responsibilities - the decision for the approach to be used as well as the logic

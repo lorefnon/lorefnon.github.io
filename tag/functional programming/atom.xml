@@ -91,7 +91,7 @@
 
 &lt;br&gt;
 
-&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;ContactList = React.create-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;do&lt;/span&gt;&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;ContactList = React.create-&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;do&lt;/span&gt;
   render: -&amp;gt;
     React.create-element &lt;span class=&#34;hljs-string&#34;&gt;\ul,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, @props.contacts.&lt;span class=&#34;hljs-keyword&#34;&gt;map&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;(contact)&lt;/span&gt;-&amp;gt;&lt;/span&gt;
       React.create-element &lt;span class=&#34;hljs-string&#34;&gt;\li,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, contact.name
@@ -101,13 +101,13 @@ el = React.create-element ContactList, contacts: [
   * name: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Albus Dumbledore&amp;#x27;&lt;/span&gt;
 ]
 
-React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+React.render el, document.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;img src=&#34;/images/Screen Shot 2015-09-21 at 12.42.18 pm.png&#34;&gt;
 
 &lt;p&gt;This is very similar to what we would have written if we were using vanilla javascript. The only primary advantages are indentation based nesting, elimination of a lot of superfluous syntax - braces and parenthesis and implicit returns. However we can do much better than this.&lt;/p&gt;
 &lt;p&gt;Because Livescript was forked from Coffeescript, it inherits Coffeescript&amp;#39;s class syntax which we can use to extend &lt;code&gt;React.Component&lt;/code&gt;. However the benefits of doing so are pretty-much marginal.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;ContactList&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;React&lt;/span&gt;.&lt;span class=&#34;hljs-title&#34;&gt;Component&lt;/span&gt;&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ContactList&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;React&lt;/span&gt;.Component
 
   render: -&amp;gt;
     React.create-element &lt;span class=&#34;hljs-string&#34;&gt;\ul,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, @props.contacts.&lt;span class=&#34;hljs-keyword&#34;&gt;map&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;(contact)&lt;/span&gt;-&amp;gt;&lt;/span&gt;
@@ -117,7 +117,7 @@ React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;
 &lt;p&gt;Livescript&amp;#39;s feature that almost everything is a expression is particularly helpful when we have conditional logic in our dom generation code.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;element = React~create-element
 
-ContactList = React.create-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;do&lt;/span&gt;&lt;/span&gt;
+ContactList = React.create-&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;do&lt;/span&gt;
 
   render: -&amp;gt;
     element &lt;span class=&#34;hljs-string&#34;&gt;\ul,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, @props.contacts.&lt;span class=&#34;hljs-keyword&#34;&gt;map&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;(contact)&lt;/span&gt;-&amp;gt;&lt;/span&gt;
@@ -133,14 +133,14 @@ el = element ContactList, contacts: [
     email: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;albus@hogwarts.magic&amp;#x27;&lt;/span&gt;
 ]
 
-React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+React.render el, document.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;img src=&#34;/images/Screen Shot 2015-09-21 at 12.42.05 pm.png&#34;&gt;
 
 &lt;p&gt;When the render function becomes complex, it is often more readable to use livescript&amp;#39;s pipe operator to chain the operations. This is particularly handy in conjugation with utility libraries geared towards functional programming - the example below uses &lt;a href=&#34;http://ramdajs.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Ramda&lt;/a&gt;. Other alternatives include &lt;a href=&#34;http://underscorejs.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;underscore&lt;/a&gt;, &lt;a href=&#34;https://lodash.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;lodash&lt;/a&gt;, &lt;a href=&#34;http://www.preludels.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;prelude.ls&lt;/a&gt; etc.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;element = React~create-element
 
-ContactList = React.create-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;do&lt;/span&gt;&lt;/span&gt;
+ContactList = React.create-&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;do&lt;/span&gt;
 
   render-avatar: &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;(contact)&lt;/span&gt;-&amp;gt;&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; contact.avatar
@@ -170,7 +170,7 @@ ContactList = React.create-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class
     @props.contacts
     |&amp;gt; R.&lt;span class=&#34;hljs-keyword&#34;&gt;map&lt;/span&gt; @~render-contact-row
     |&amp;gt; &lt;span class=&#34;hljs-function&#34;&gt;~&amp;gt;&lt;/span&gt; element &lt;span class=&#34;hljs-string&#34;&gt;\tbody,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, &lt;span class=&#34;hljs-literal&#34;&gt;it&lt;/span&gt;
-    |&amp;gt; &lt;span class=&#34;hljs-function&#34;&gt;~&amp;gt;&lt;/span&gt; element &lt;span class=&#34;hljs-string&#34;&gt;\table,&lt;/span&gt; &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;-&lt;span class=&#34;hljs-title&#34;&gt;name&lt;/span&gt;: \&lt;span class=&#34;hljs-title&#34;&gt;contacts&lt;/span&gt; , [ @&lt;span class=&#34;hljs-title&#34;&gt;render-head&lt;/span&gt;!, &lt;span class=&#34;hljs-title&#34;&gt;it&lt;/span&gt; ]&lt;/span&gt;
+    |&amp;gt; &lt;span class=&#34;hljs-function&#34;&gt;~&amp;gt;&lt;/span&gt; element &lt;span class=&#34;hljs-string&#34;&gt;\table,&lt;/span&gt; class-name: &lt;span class=&#34;hljs-string&#34;&gt;\contacts&lt;/span&gt; , [ @render-head!, &lt;span class=&#34;hljs-literal&#34;&gt;it&lt;/span&gt; ]
 
 el = element ContactList, contacts: [
   * id: &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;
@@ -182,7 +182,7 @@ el = element ContactList, contacts: [
 ]
 
 
-React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+React.render el, document.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;img src=&#34;/images/Screen Shot 2015-09-21 at 2.15.15 pm.png&#34;&gt;
 
@@ -206,7 +206,7 @@ render-contact-row: -&amp;gt;
 &lt;p&gt;But I strongly recommend against doing that, because having the arguments specified in the function signature upfront enhances readability.&lt;/p&gt;
 &lt;p&gt;Also note that the top down construction flow composition can also be realized in javascript using Ramda&amp;#39;s &lt;code&gt;pipe&lt;/code&gt; but livescript just makes it simpler by providing a language level operator.&lt;/p&gt;
 &lt;p&gt;For simpler components (which are just responsible for presenting something passed as props, and do not need lifecycle methods etc.) it may be useful to define a micro-component builder:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-title&#34;&gt;micro-component&lt;/span&gt; = &lt;span class=&#34;hljs-params&#34;&gt;(render)&lt;/span&gt;-&amp;gt;&lt;/span&gt; React.create-factory React.create-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-title&#34;&gt;render&lt;/span&gt; &amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-title&#34;&gt;micro-component&lt;/span&gt; = &lt;span class=&#34;hljs-params&#34;&gt;(render)&lt;/span&gt;-&amp;gt;&lt;/span&gt; React.create-factory React.create-&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &amp;#123; render &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Once we have that, it makes it a lot more easier for us to follow React&amp;#39;s recommendation of having lightweight modular components which can be easily composed:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;ContactAvatar = micro-component -&amp;gt;
@@ -228,7 +228,7 @@ ContactListRow = micro-component -&amp;gt;
   ]
 
 ContactList = micro-component -&amp;gt;
-  element &lt;span class=&#34;hljs-string&#34;&gt;\table,&lt;/span&gt; &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;-&lt;span class=&#34;hljs-title&#34;&gt;name&lt;/span&gt;: \&lt;span class=&#34;hljs-title&#34;&gt;contacts&lt;/span&gt;, [&lt;/span&gt;
+  element &lt;span class=&#34;hljs-string&#34;&gt;\table,&lt;/span&gt; class-name: &lt;span class=&#34;hljs-string&#34;&gt;\contacts,&lt;/span&gt; [
     element &lt;span class=&#34;hljs-string&#34;&gt;\thead,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, [
       element &lt;span class=&#34;hljs-string&#34;&gt;\tr,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, [
         element &lt;span class=&#34;hljs-string&#34;&gt;\th,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Avatar&amp;#x27;&lt;/span&gt;
@@ -248,7 +248,7 @@ el = ContactList contacts: [
     name: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Albus Dumbledore&amp;#x27;&lt;/span&gt;
     email: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;albus@hogwarts.magic&amp;#x27;&lt;/span&gt;
 ]
-React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;
+React.render el, document.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Libraries like &lt;a href=&#34;https://github.com/mlmorg/react-hyperscript&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;&lt;code&gt;react-hyperscript&lt;/code&gt;&lt;/a&gt; may be used to further reduce the dom construction boilerplate :&lt;/p&gt;
@@ -294,7 +294,7 @@ el = ContactList contacts: [
     name: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Albus Dumbledore&amp;#x27;&lt;/span&gt;
     email: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;albus@hogwarts.magic&amp;#x27;&lt;/span&gt;
 ]
-React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;
+React.render el, document.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Apart from getting rid of null for attribute hashes, hyperscript is particularly useful for shorter syntax for class names and ids. Also it insulates our codebase against changes in the DOM builder API, which have happened in past.&lt;/p&gt;

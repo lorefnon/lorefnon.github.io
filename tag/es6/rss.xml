@@ -137,11 +137,11 @@ We recommend moving to npm, using &amp;quot;jquery-plugin&amp;quot; as the keywo
 &lt;p&gt;main.js:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; hello &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./hello&amp;#x27;&lt;/span&gt;
 
-hello()&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;hljs-title function_&#34;&gt;hello&lt;/span&gt;()&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;hello.js:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;hello&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;
-    alert(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;hello world&amp;#x27;&lt;/span&gt;);
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;hello&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &amp;#123;
+    &lt;span class=&#34;hljs-title function_&#34;&gt;alert&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;hello world&amp;#x27;&lt;/span&gt;);
 &amp;#125;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;default&lt;/span&gt; hello;&lt;/code&gt;&lt;/pre&gt;

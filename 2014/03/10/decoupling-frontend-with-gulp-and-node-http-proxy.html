@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Decoupling your frontend development with gulp and http-proxy</title><meta property="og:title" content="Lorefnon | Blog | Decoupling your frontend development with gulp and http-proxy"><meta property="og:description" content="Ramblings on Web Development and software architecture"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><meta name="generator" content="Hexo 5.4.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Javascript/"><img src="/images/tag.svg">Javascript</a></li><li class="body-text"><a class="tag-link" href="/tags/Gulp/"><img src="/images/tag.svg">Gulp</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Decoupling your frontend development with gulp and http-proxy</div><div class="posted-date sub-header-text" title="2014-03-10">Posted &nbsp;8 years ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="flex-row post-warning"><img src="/images/primary/alert-triangle.svg" style="margin-right: 1rem">This post has not been updated in quite some time and the content here may be out of date 
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Decoupling your frontend development with gulp and http-proxy</title><meta property="og:title" content="Lorefnon | Blog | Decoupling your frontend development with gulp and http-proxy"><meta property="og:description" content="Ramblings on Web Development and software architecture"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><meta name="generator" content="Hexo 6.0.0"></head><body class="blog-body" hx-boost="true"><a class="blog-summary" href="/" hx-boost="false"><h1 class="header-text">ICICLES OF THOUGHT</h1><h2 class="header-text">Ramblings on Web Development and Software Architecture</h2></a><div class="blog-sidebar"><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Javascript/"><img src="/images/tag.svg">Javascript</a></li><li class="body-text"><a class="tag-link" href="/tags/Gulp/"><img src="/images/tag.svg">Gulp</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Decoupling your frontend development with gulp and http-proxy</div><div class="posted-date sub-header-text" title="2014-03-10">Posted &nbsp;8 years ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="flex-row post-warning"><img src="/images/primary/alert-triangle.svg" style="margin-right: 1rem">This post has not been updated in quite some time and the content here may be out of date 
 or not reflect my current my recommedation in the matter.</div><div class="page-content"><p>In past developers have often relied on backend-specific toolchains for
 web application frontends. Some examples would be <a href="http://edgeguides.rubyonrails.org/asset_pipeline.html" target="_blank" rel="noopener external nofollow noreferrer">Rails asset pipeline</a> or
 the legacy ant based toolchain for YUI. However recently node.js based tooling support
@@ -48,18 +48,18 @@ web-root of our application eg. the public folder of a Rails application.</p>
     connect = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;connect&#x27;</span>),
     livereload = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;connect-livereload&#x27;</span>)
 
-<span class="hljs-keyword">var</span> proxy = httpProxy.createProxyServer()
+<span class="hljs-keyword">var</span> proxy = httpProxy.<span class="hljs-title function_">createProxyServer</span>()
 
-<span class="hljs-keyword">var</span> app = connect()
-    .use(<span class="hljs-string">&#x27;/dashboard&#x27;</span>, connect.static(__dirname+<span class="hljs-string">&#x27;/dashboard&#x27;</span>))
-    .use(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>)</span>&#123;
-        <span class="hljs-keyword">if</span> (req.url.indexOf(<span class="hljs-string">&#x27;dashboard&#x27;</span>) == -<span class="hljs-number">1</span>) &#123;
-            proxy.web(req, res, &#123;
+<span class="hljs-keyword">var</span> app = <span class="hljs-title function_">connect</span>()
+    .<span class="hljs-title function_">use</span>(<span class="hljs-string">&#x27;/dashboard&#x27;</span>, connect.<span class="hljs-title function_">static</span>(__dirname+<span class="hljs-string">&#x27;/dashboard&#x27;</span>))
+    .<span class="hljs-title function_">use</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>)&#123;
+        <span class="hljs-keyword">if</span> (req.<span class="hljs-property">url</span>.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;dashboard&#x27;</span>) == -<span class="hljs-number">1</span>) &#123;
+            proxy.<span class="hljs-title function_">web</span>(req, res, &#123;
                 <span class="hljs-attr">target</span>: <span class="hljs-string">&#x27;http://localhost:3000&#x27;</span>
             &#125;)
         &#125;
     &#125;)
-    .listen(<span class="hljs-number">4000</span>)</code></pre>
+    .<span class="hljs-title function_">listen</span>(<span class="hljs-number">4000</span>)</code></pre>
 
 <p>Before running the server, install the node.js dependencies:</p>
 <pre><code class="hljs bash">npm install --save connect http-proxy connect-livereload</code></pre>
@@ -79,26 +79,26 @@ folders is as simple as:</p>
 <pre><code class="hljs javascript"><span class="hljs-keyword">var</span> gulp = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;gulp&#x27;</span>),
     clean = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;gulp-clean&#x27;</span>)
 
-gulp.task(<span class="hljs-string">&#x27;clean&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;
-    gulp.src([<span class="hljs-string">&#x27;./dashboard/js/*&#x27;</span>, <span class="hljs-string">&#x27;./dashboard/css/*&#x27;</span>])
-        .pipe(clean())
+gulp.<span class="hljs-title function_">task</span>(<span class="hljs-string">&#x27;clean&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;
+    gulp.<span class="hljs-title function_">src</span>([<span class="hljs-string">&#x27;./dashboard/js/*&#x27;</span>, <span class="hljs-string">&#x27;./dashboard/css/*&#x27;</span>])
+        .<span class="hljs-title function_">pipe</span>(<span class="hljs-title function_">clean</span>())
 &#125;)</code></pre>
 
 <p>The stream based based approach really shines when we use pre-processors for
 our js or css files. For example to use stylus for css we can add:</p>
 <pre><code class="hljs javascript"><span class="hljs-keyword">var</span> stylus = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;gulp-stylus&#x27;</span>)
 
-gulp.task(<span class="hljs-string">&#x27;css&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;
-    gulp.src(<span class="hljs-string">&#x27;./src/css/*.styl&#x27;</span>)
-        .pipe(stylus())
-        .pipe(gulp.dest(<span class="hljs-string">&#x27;./dashboard/css&#x27;</span>))
+gulp.<span class="hljs-title function_">task</span>(<span class="hljs-string">&#x27;css&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;
+    gulp.<span class="hljs-title function_">src</span>(<span class="hljs-string">&#x27;./src/css/*.styl&#x27;</span>)
+        .<span class="hljs-title function_">pipe</span>(<span class="hljs-title function_">stylus</span>())
+        .<span class="hljs-title function_">pipe</span>(gulp.<span class="hljs-title function_">dest</span>(<span class="hljs-string">&#x27;./dashboard/css&#x27;</span>))
 &#125;)</code></pre>
 
 <p>To manage dependencies with browserify we can have:</p>
-<pre><code class="hljs javascript">gulp.task(<span class="hljs-string">&#x27;js&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;
-    gulp.src(<span class="hljs-string">&#x27;./src/js/index.js&#x27;</span>)
-        .pipe(browserify())
-        .pipe(gulp.dest(<span class="hljs-string">&#x27;./dashboard/js&#x27;</span>))
+<pre><code class="hljs javascript">gulp.<span class="hljs-title function_">task</span>(<span class="hljs-string">&#x27;js&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;
+    gulp.<span class="hljs-title function_">src</span>(<span class="hljs-string">&#x27;./src/js/index.js&#x27;</span>)
+        .<span class="hljs-title function_">pipe</span>(<span class="hljs-title function_">browserify</span>())
+        .<span class="hljs-title function_">pipe</span>(gulp.<span class="hljs-title function_">dest</span>(<span class="hljs-string">&#x27;./dashboard/js&#x27;</span>))
 &#125;)
 </code></pre>
 
@@ -108,25 +108,25 @@ simple, intuitive and consistent throughout.</p>
 have to be installed through npm before we can use them.</p>
 <p>While we can run <code>gulp js</code>, <code>gulp css</code>, <code>gulp clean</code> etc. from the command line
 we would probably want to have a default task that we run most of the time:</p>
-<pre><code class="hljs javascript">gulp.task(<span class="hljs-string">&#x27;default&#x27;</span>, [<span class="hljs-string">&#x27;clean&#x27;</span>, <span class="hljs-string">&#x27;js&#x27;</span>, <span class="hljs-string">&#x27;css&#x27;</span>])</code></pre>
+<pre><code class="hljs javascript">gulp.<span class="hljs-title function_">task</span>(<span class="hljs-string">&#x27;default&#x27;</span>, [<span class="hljs-string">&#x27;clean&#x27;</span>, <span class="hljs-string">&#x27;js&#x27;</span>, <span class="hljs-string">&#x27;css&#x27;</span>])</code></pre>
 
-<p>Now running <code>gulp</code> will cleanup the dashboard/js and dashboard/css folders and
+<p>Now running <code>gulp</code> will cleanup the dashboard&#x2F;js and dashboard&#x2F;css folders and
 run our js and css tasks.</p>
 <p>To streamline our workflow we configure a watcher which can monitor our files, and
 run the associated tasks automatically. Writing a simple watcher is as simple as:</p>
-<pre><code class="hljs javascript">gulp.task(<span class="hljs-string">&#x27;watch&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;
-    gulp.watch(<span class="hljs-string">&#x27;./src/js/**/*&#x27;</span>, [<span class="hljs-string">&#x27;default&#x27;</span>])
+<pre><code class="hljs javascript">gulp.<span class="hljs-title function_">task</span>(<span class="hljs-string">&#x27;watch&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;
+    gulp.<span class="hljs-title function_">watch</span>(<span class="hljs-string">&#x27;./src/js/**/*&#x27;</span>, [<span class="hljs-string">&#x27;default&#x27;</span>])
 &#125;)</code></pre>
 
 <p>And why stop here, let us automate browser refreshes too. We can use <a href="http://livereload.com/" target="_blank" rel="noopener external nofollow noreferrer">livereload</a> to
 automatically reload our browser whenever the files change.</p>
 <p>We can add a watcher that notifies the livereload server with changes:</p>
-<pre><code class="hljs javascript">gulp.task(<span class="hljs-string">&#x27;watch&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;
-    <span class="hljs-keyword">var</span> server = livereload()
-    gulp.watch(<span class="hljs-string">&#x27;./src/js/**/*&#x27;</span>, [<span class="hljs-string">&#x27;default&#x27;</span>])
-    gulp.watch(<span class="hljs-string">&#x27;./dashboard/**/*&#x27;</span>)
-        .on(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">file</span>)</span>&#123;
-            server.changed(file.path)
+<pre><code class="hljs javascript">gulp.<span class="hljs-title function_">task</span>(<span class="hljs-string">&#x27;watch&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;
+    <span class="hljs-keyword">var</span> server = <span class="hljs-title function_">livereload</span>()
+    gulp.<span class="hljs-title function_">watch</span>(<span class="hljs-string">&#x27;./src/js/**/*&#x27;</span>, [<span class="hljs-string">&#x27;default&#x27;</span>])
+    gulp.<span class="hljs-title function_">watch</span>(<span class="hljs-string">&#x27;./dashboard/**/*&#x27;</span>)
+        .<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">file</span>)&#123;
+            server.<span class="hljs-title function_">changed</span>(file.<span class="hljs-property">path</span>)
         &#125;)
 &#125;)</code></pre>
 
@@ -138,20 +138,20 @@ situations like this.</p>
 extension for livereload. But in case you haven&#39;t you can use a middleware for
 express in the server.js file. This is especially convenient for testing on
 several browsers.</p>
-<pre><code class="hljs javascript"><span class="hljs-keyword">var</span> app = connect()
-    .use(connect.logger(<span class="hljs-string">&#x27;dev&#x27;</span>))
-    .use(livereload(&#123;
+<pre><code class="hljs javascript"><span class="hljs-keyword">var</span> app = <span class="hljs-title function_">connect</span>()
+    .<span class="hljs-title function_">use</span>(connect.<span class="hljs-title function_">logger</span>(<span class="hljs-string">&#x27;dev&#x27;</span>))
+    .<span class="hljs-title function_">use</span>(<span class="hljs-title function_">livereload</span>(&#123;
         <span class="hljs-attr">port</span>: <span class="hljs-number">35729</span>
     &#125;))
-    .use(<span class="hljs-string">&#x27;/dashboard&#x27;</span>, connect.static(__dirname+<span class="hljs-string">&#x27;/dashboard&#x27;</span>))
-    .use(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>)</span>&#123;
-        <span class="hljs-keyword">if</span> (req.url.indexOf(<span class="hljs-string">&#x27;dashboard&#x27;</span>) == -<span class="hljs-number">1</span>) &#123;
-            proxy.web(req, res, &#123;
+    .<span class="hljs-title function_">use</span>(<span class="hljs-string">&#x27;/dashboard&#x27;</span>, connect.<span class="hljs-title function_">static</span>(__dirname+<span class="hljs-string">&#x27;/dashboard&#x27;</span>))
+    .<span class="hljs-title function_">use</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>)&#123;
+        <span class="hljs-keyword">if</span> (req.<span class="hljs-property">url</span>.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;dashboard&#x27;</span>) == -<span class="hljs-number">1</span>) &#123;
+            proxy.<span class="hljs-title function_">web</span>(req, res, &#123;
                 <span class="hljs-attr">target</span>: <span class="hljs-string">&#x27;http://localhost:3000&#x27;</span>
             &#125;)
         &#125;
     &#125;)
-    .listen(<span class="hljs-number">4000</span>)</code></pre>
+    .<span class="hljs-title function_">listen</span>(<span class="hljs-number">4000</span>)</code></pre>
 
 <p>35729 is the default port on which livereload server runs. Note that this
 relieves us from having to add the livereload script in our page manually
@@ -164,13 +164,13 @@ just transparently reload the css files.</p>
 in src directory changes we run both our js and css tasks which cause both
 js and css files to be regerated and thus prompt livereload to refresh the page.</p>
 <p>To remedy this we have to modify the watch handler:</p>
-<pre><code class="hljs javascript">gulp.task(<span class="hljs-string">&#x27;watch&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;
-    <span class="hljs-keyword">var</span> server = livereload()
-    gulp.watch(<span class="hljs-string">&#x27;./src/js/**/*.js&#x27;</span>, [<span class="hljs-string">&#x27;js&#x27;</span>])
-    gulp.watch(<span class="hljs-string">&#x27;./src/css/**/*.styl&#x27;</span>, [<span class="hljs-string">&#x27;css&#x27;</span>])
-    gulp.watch(<span class="hljs-string">&#x27;./dashboard/**/*&#x27;</span>)
-        .on(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">file</span>)</span>&#123;
-            server.changed(file.path)
+<pre><code class="hljs javascript">gulp.<span class="hljs-title function_">task</span>(<span class="hljs-string">&#x27;watch&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;
+    <span class="hljs-keyword">var</span> server = <span class="hljs-title function_">livereload</span>()
+    gulp.<span class="hljs-title function_">watch</span>(<span class="hljs-string">&#x27;./src/js/**/*.js&#x27;</span>, [<span class="hljs-string">&#x27;js&#x27;</span>])
+    gulp.<span class="hljs-title function_">watch</span>(<span class="hljs-string">&#x27;./src/css/**/*.styl&#x27;</span>, [<span class="hljs-string">&#x27;css&#x27;</span>])
+    gulp.<span class="hljs-title function_">watch</span>(<span class="hljs-string">&#x27;./dashboard/**/*&#x27;</span>)
+        .<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">file</span>)&#123;
+            server.<span class="hljs-title function_">changed</span>(file.<span class="hljs-property">path</span>)
         &#125;)
 &#125;)</code></pre>
 
@@ -180,4 +180,4 @@ page as expected.</p>
 I hope that it gave a basic idea about how node.js based tools can be used
 for a streamlined frontend development workflow. As always any comment or criticism is
 welcome.</p>
-</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2021 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div><script src="https://unpkg.com/htmx.org@1.6.1/dist/htmx.min.js"></script><script src="/js/blog.js"></script></body></html>
+</div><div style="padding: 20px; text-align: center;"><a href="https://ko-fi.com/L3L3AI6HJ" target="_blank"><img height="36" style="border:0px;height:36px;" src="https://cdn.ko-fi.com/cdn/kofi2.png?v=3" border="0" alt="Buy Me a Coffee at ko-fi.com"></a></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js"></script><script src="/js/blog.js"></script></body></html>

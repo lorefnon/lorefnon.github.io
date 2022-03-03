@@ -1148,7 +1148,7 @@ gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;influxdb-rails&amp;#x27;&l
 &lt;p&gt;The last three lines signify the names of time series where the corresponding metrics would be stored, and we will use the same when querying the time series database.&lt;/p&gt;
 &lt;p&gt;Before our application can start dispatching metrics to InfluxDB the database &amp;quot;rails&amp;quot; specified in the above configuration file would have to be created. InfluxDB admin provides a means to do that using the GUI. The admin interface may be accessed by visiting: &lt;a href=&#34;http://localhost:8083/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;localhost:8083&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/influxdb_landing_page.png&#34; alt=&#34;InfluxDB landing page&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
-&lt;p&gt;The default username/password combination is root/root, which is not advisable for production use.&lt;/p&gt;
+&lt;p&gt;The default username&amp;#x2F;password combination is root&amp;#x2F;root, which is not advisable for production use.&lt;/p&gt;
 &lt;p&gt;The only option that is particularly relevant is database name: which we would have to change to &amp;quot;rails&amp;quot;.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/influxdb_create_database.png&#34; alt=&#34;InfluxDB creating database&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;This would be a good point to run &lt;code&gt;db:migrate&lt;/code&gt; and visit the CMS dashboard &lt;code&gt;/admin&lt;/code&gt;&lt;/p&gt;
@@ -1193,7 +1193,7 @@ gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;influxdb-rails&amp;#x27;&l
 
 &lt;p&gt;Once this is configured running &lt;code&gt;./grafana web&lt;/code&gt; from grafana source directory, should run the webserver on port 8000:&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/grafana_startup_log.png&#34; alt=&#34;Grafana server log&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
-&lt;p&gt;Now we can browse the Grafana dashboard and provide the default login details admin/admin. Again it is not advisable to use this in production.&lt;/p&gt;
+&lt;p&gt;Now we can browse the Grafana dashboard and provide the default login details admin&amp;#x2F;admin. Again it is not advisable to use this in production.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/grafana_login.png&#34; alt=&#34;Grafana Login&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;The default dashboard is pretty bare:&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/grafana_home.png&#34; alt=&#34;Grafana Home page&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
@@ -1201,7 +1201,7 @@ gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;influxdb-rails&amp;#x27;&l
 &lt;p&gt;&lt;img src=&#34;/images/grafana_add_dashboard.png&#34; alt=&#34;Grafana : Adding a dashboard&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Once we have a dedicated dashboard for our Rails application we can start adding graphs:&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/grafana_add_graph.png&#34; alt=&#34;Grafana : Add Graph&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
-&lt;p&gt;It would be probably surprising to see a great looking graph instantly generated. After all no influxdb/rails specific configuration has been done yet, so what data is being presented ?&lt;/p&gt;
+&lt;p&gt;It would be probably surprising to see a great looking graph instantly generated. After all no influxdb&amp;#x2F;rails specific configuration has been done yet, so what data is being presented ?&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/grafana_test_graph.png&#34; alt=&#34;Grafana : Default Graph&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Once we try to edit the data source, it would become clear that the graph being presented is infact coming from a dummy data source&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/grafana_edit_graph.png&#34; alt=&#34;Grafana : Edit Graph&#34; loading=&#34;lazy&#34;&gt;
@@ -1339,7 +1339,7 @@ grab the files form the repo.&lt;/p&gt;
 
   $(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;.jsoneditor-target&amp;#x27;&lt;/span&gt;).each -&amp;gt;
 
-    target = $ &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;
+    target = $ this
 
     container = $(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;&amp;lt;div class=&amp;quot;jsoneditor-container&amp;quot;&amp;gt;&amp;#x27;&lt;/span&gt;)
       .insertAfter target
@@ -1437,12 +1437,12 @@ are trending in the community.&lt;/p&gt;
   belongs_to &lt;span class=&#34;hljs-symbol&#34;&gt;:book&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;counter_cache:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;In home/index.html.erb&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;recommended-book-list&amp;#x27;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; Book.recommended.each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; book.title &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In home&amp;#x2F;index.html.erb&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;recommended-book-list&amp;#x27;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; Book.recommended.each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; book.title &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;So far so good, however we realize that for users who have been using our service
 for a while, it makes more sense to show recommendations based on their intersts. So we do a
@@ -1481,11 +1481,11 @@ shotgun surgery and modify our code to the following:&lt;/p&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;And our template becomes something like:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;recommended-book-list&amp;#x27;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; Book.recommended_for(current_user).each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; book.title &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;recommended-book-list&amp;#x27;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; Book.recommended_for(current_user).each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; book.title &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We see that at this point our &lt;code&gt;recommended_for&lt;/code&gt; method is burdened with multiple
 responsibilities - the decision for the approach to be used as well as the logic
@@ -2254,7 +2254,7 @@ configure devise to find using the emails table we have created.&lt;/p&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Once we have done that, login flow should as intended.&lt;/p&gt;
-&lt;h2 id=&#34;Interface-for-managing-emails&#34;&gt;&lt;a href=&#34;#Interface-for-managing-emails&#34; class=&#34;headerlink&#34; title=&#34;Interface for managing emails&#34;&gt;&lt;/a&gt;Interface for managing emails&lt;/h2&gt;&lt;p&gt;At this point a user can login and signup but he can not manage the emails which are associated with his/her account. Let us take care of that.&lt;/p&gt;
+&lt;h2 id=&#34;Interface-for-managing-emails&#34;&gt;&lt;a href=&#34;#Interface-for-managing-emails&#34; class=&#34;headerlink&#34; title=&#34;Interface for managing emails&#34;&gt;&lt;/a&gt;Interface for managing emails&lt;/h2&gt;&lt;p&gt;At this point a user can login and signup but he can not manage the emails which are associated with his&amp;#x2F;her account. Let us take care of that.&lt;/p&gt;
 &lt;p&gt;The default edit account view of devise looks something like this:&lt;/p&gt;
 &lt;img src=&#34;/images/devise_default_edit.png&#34;/&gt;
 
@@ -2269,54 +2269,54 @@ configure devise to find using the emails table we have created.&lt;/p&gt;
 
 &lt;p&gt;Nest we need to generate devise views using &lt;code&gt;rails g devise:views&lt;/code&gt; and edit the &lt;code&gt;app/views/devise/registrations/edit.html.erb&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;We edit the template to add nested form for emails:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;Edit &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; resource_name.to_s.humanize &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; form_for(resource, &lt;span class=&#34;hljs-symbol&#34;&gt;as:&lt;/span&gt; resource_name, &lt;span class=&#34;hljs-symbol&#34;&gt;url:&lt;/span&gt; registration_path(resource_name), &lt;span class=&#34;hljs-symbol&#34;&gt;html:&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;method:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:put&lt;/span&gt; &amp;#125;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|f|&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; devise_error_messages! &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:email&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Default Email&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.email_field &lt;span class=&#34;hljs-symbol&#34;&gt;:email&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autofocus:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.fields_for &lt;span class=&#34;hljs-symbol&#34;&gt;:emails&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|email_f|&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;      &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;email_fields&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;f:&lt;/span&gt; email_f &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;links&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;      &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to_add_association &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Add Email&amp;#x27;&lt;/span&gt;, f, &lt;span class=&#34;hljs-symbol&#34;&gt;:emails&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; devise_mapping.confirmable? &amp;amp;&amp;amp; resource.pending_reconfirmation? &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;Currently waiting confirmation for: &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; resource.unconfirmed_email &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:password&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;(leave blank if you don&amp;#x27;t want to change it)&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.password_field &lt;span class=&#34;hljs-symbol&#34;&gt;:password&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autocomplete:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;off&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:password_confirmation&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.password_field &lt;span class=&#34;hljs-symbol&#34;&gt;:password_confirmation&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autocomplete:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;off&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:current_password&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;(we need your current password to confirm your changes)&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.password_field &lt;span class=&#34;hljs-symbol&#34;&gt;:current_password&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autocomplete:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;off&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.submit &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Update&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt;&amp;gt;&lt;/span&gt;Cancel my account&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;Unhappy? &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; button_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Cancel my account&amp;quot;&lt;/span&gt;, registration_path(resource_name), &lt;span class=&#34;hljs-symbol&#34;&gt;data:&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;confirm:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Are you sure?&amp;quot;&lt;/span&gt; &amp;#125;, &lt;span class=&#34;hljs-symbol&#34;&gt;method:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:delete&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Back&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:back&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;Edit &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; resource_name.to_s.humanize &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; form_for(resource, &lt;span class=&#34;hljs-symbol&#34;&gt;as:&lt;/span&gt; resource_name, &lt;span class=&#34;hljs-symbol&#34;&gt;url:&lt;/span&gt; registration_path(resource_name), &lt;span class=&#34;hljs-symbol&#34;&gt;html:&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;method:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:put&lt;/span&gt; &amp;#125;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|f|&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; devise_error_messages! &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:email&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Default Email&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; f.email_field &lt;span class=&#34;hljs-symbol&#34;&gt;:email&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autofocus:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; f.fields_for &lt;span class=&#34;hljs-symbol&#34;&gt;:emails&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|email_f|&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;      &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;email_fields&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;f:&lt;/span&gt; email_f &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;links&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;      &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; link_to_add_association &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Add Email&amp;#x27;&lt;/span&gt;, f, &lt;span class=&#34;hljs-symbol&#34;&gt;:emails&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; devise_mapping.confirmable? &amp;amp;&amp;amp; resource.pending_reconfirmation? &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;Currently waiting confirmation for: &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; resource.unconfirmed_email &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:password&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;(leave blank if you don&amp;#x27;t want to change it)&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; f.password_field &lt;span class=&#34;hljs-symbol&#34;&gt;:password&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autocomplete:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;off&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:password_confirmation&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; f.password_field &lt;span class=&#34;hljs-symbol&#34;&gt;:password_confirmation&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autocomplete:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;off&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:current_password&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;(we need your current password to confirm your changes)&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;i&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;br&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; f.password_field &lt;span class=&#34;hljs-symbol&#34;&gt;:current_password&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;autocomplete:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;off&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; f.submit &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Update&amp;quot;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt;&amp;gt;&lt;/span&gt;Cancel my account&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;Unhappy? &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; button_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Cancel my account&amp;quot;&lt;/span&gt;, registration_path(resource_name), &lt;span class=&#34;hljs-symbol&#34;&gt;data:&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;confirm:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Are you sure?&amp;quot;&lt;/span&gt; &amp;#125;, &lt;span class=&#34;hljs-symbol&#34;&gt;method:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:delete&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Back&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:back&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Cocoon mandates a separate partial for email fields, which in our case is very simple:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;nested-fields&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;      &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:email&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;      &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; f.email_field &lt;span class=&#34;hljs-symbol&#34;&gt;:email&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;      &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to_remove_association &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;remove email&amp;quot;&lt;/span&gt;, f &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;nested-fields&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;      &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; f.label &lt;span class=&#34;hljs-symbol&#34;&gt;:email&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;      &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; f.email_field &lt;span class=&#34;hljs-symbol&#34;&gt;:email&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;      &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; link_to_remove_association &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;remove email&amp;quot;&lt;/span&gt;, f &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;At this point if we try saving the form, we will notice that email fields are not getting saved. The reason is that the strong parameters specified by devise does not include our email fields. Fortunately devise provides a way to configure that :&lt;/p&gt;
 &lt;p&gt;In &lt;code&gt;ApplicationController&lt;/code&gt; :&lt;/p&gt;
@@ -2349,26 +2349,26 @@ configure devise to find using the emails table we have created.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;omniauth&amp;#x27;&lt;/span&gt;
 gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;omniauth-facebook&amp;#x27;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;In config/initializers/devise.rb&lt;/p&gt;
+&lt;p&gt;In config&amp;#x2F;initializers&amp;#x2F;devise.rb&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;Devise.setup &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|config|&lt;/span&gt;
   ...
   config.omniauth &lt;span class=&#34;hljs-symbol&#34;&gt;:twitter&lt;/span&gt;, Rails.application.secrets.fb_app_id, Rails.application.secrets.fb_app_secret
   ...
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;In config/secrets.yml&lt;/p&gt;
+&lt;p&gt;In config&amp;#x2F;secrets.yml&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs yaml&#34;&gt;&lt;span class=&#34;hljs-attr&#34;&gt;development:&lt;/span&gt;
   &lt;span class=&#34;hljs-attr&#34;&gt;fb_app_id:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;lt;add&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;api&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;key&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;here&amp;gt;&lt;/span&gt;
   &lt;span class=&#34;hljs-attr&#34;&gt;fb_app_secret:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;lt;add&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;api&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;secret&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;here&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;In app/models/user.rb&lt;/p&gt;
+&lt;p&gt;In app&amp;#x2F;models&amp;#x2F;user.rb&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;User&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
   ...
   devise &lt;span class=&#34;hljs-symbol&#34;&gt;:omniauthable&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;omniauth_providers:&lt;/span&gt; [&lt;span class=&#34;hljs-symbol&#34;&gt;:facebook&lt;/span&gt;]
   ...
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;In config/routes.rb&lt;/p&gt;
+&lt;p&gt;In config&amp;#x2F;routes.rb&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;devise_for &lt;span class=&#34;hljs-symbol&#34;&gt;:users&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;controllers:&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;omniauth_callbacks:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;users/omniauth_callbacks&amp;quot;&lt;/span&gt; &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;where &lt;code&gt;users/omniauth_callbacks&lt;/code&gt; is a controller we define to which facebook will redirect to after authenticating our application.&lt;/p&gt;
@@ -2382,7 +2382,7 @@ gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;omniauth-facebook&amp;#x27
   validates &lt;span class=&#34;hljs-symbol&#34;&gt;:user&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:email&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:uid&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:provider&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;presence:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Our callback controller is intentially very simple. Depending on your use case you may want to check if the user is newly created and direct him/her to a profile completion page. For the sake of simplicity, we just redirect any user to the profile page.&lt;/p&gt;
+&lt;p&gt;Our callback controller is intentially very simple. Depending on your use case you may want to check if the user is newly created and direct him&amp;#x2F;her to a profile completion page. For the sake of simplicity, we just redirect any user to the profile page.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Users::OmniauthCallbacksController&lt;/span&gt; &amp;lt; Devise::OmniauthCallbacksController&lt;/span&gt;
   &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;facebook&lt;/span&gt;&lt;/span&gt;
     &lt;span class=&#34;hljs-variable&#34;&gt;@user&lt;/span&gt; = User.from_omniauth(request.env[&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;omniauth.auth&amp;quot;&lt;/span&gt;])
@@ -2462,7 +2462,7 @@ We keep the existing email, but associate the user identity with the new email.&
 
 &lt;p&gt;The code above raises an &lt;code&gt;EmailConflict&lt;/code&gt; exception if we end up in a scenario where an existing user is logging in and the email is associated with another account. Gracefully handling the error is left as an exercise for the reader. Also we assume that the social login provider will provide us with an email.
 While this is true for many providers like Github, not all providers provide with emails. A prominent example is twitter. Since this is not intended to be a comprehensive tutorial on omniauth, for the sake of brevity we don&amp;#39;t
-elaborate on those scenarios. A good way to handle such a case would be to direct a user to a profile completion after login where he/she can enter the email and warn them if an account already exists for that email.&lt;/p&gt;
+elaborate on those scenarios. A good way to handle such a case would be to direct a user to a profile completion after login where he&amp;#x2F;she can enter the email and warn them if an account already exists for that email.&lt;/p&gt;
 &lt;p&gt;So we conclude the post with a functional setup that allows a user to have multiple emails associated with a devise account. Feel free to bug me if you face any issues. Any comments and suggestions are also welcome.&lt;/p&gt;
 </content>
         <category term="Ruby" />
@@ -2677,7 +2677,7 @@ NoMethodError: undefined method `index&amp;#39; for nil:NilClass
         <title>Presenting SQL views through ActiveAdmin</title>
         <link rel="alternate" href="https://lorefnon.me/2014/07/13/presenting-sql-views-through-active-admin.html"/>
         <content type="html">&lt;p&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/View_(SQL)&#34;&gt; SQL Views &lt;/a&gt; are a handy feature that allow us to
-save a query whose results are computed/collated dynamically whenever the view is requested.
+save a query whose results are computed&amp;#x2F;collated dynamically whenever the view is requested.
 Because the abstraction provided by a view is semantically close to a table we can leverage
 ActiveRecord to interface with the view through a proxy model and use it to
 present the result set through &lt;a href=&#34;http://activeadmin.info/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;ActiveAdmin&lt;/a&gt; interface.&lt;/p&gt;
@@ -2798,14 +2798,14 @@ The problem is that Rails is blissfully oblivious of our SQL views and the sql s
 in our migrations have not introducted any changes in schema.rb. So when you regenerate the database from
 schema.yml the view will not be created. This has multiple solutions. A simple one
 is to get rid of schema.rb in favor of sql schema format.&lt;/p&gt;
-&lt;p&gt;In config/application.rb:&lt;/p&gt;
+&lt;p&gt;In config&amp;#x2F;application.rb:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;config.active_record.schema_format = :sql
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Next time we run &lt;code&gt;rake db:migrate&lt;/code&gt; a &lt;code&gt;structure.sql&lt;/code&gt; file will be generated that contains the SQL
 for generating our views.&lt;/p&gt;
 &lt;p&gt;An alternative option is the gem &lt;a href=&#34;https://github.com/lomba/schema_plus&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;schema_plus&lt;/a&gt; that augments ActiveRecord
 with support for views among other advanced database features.&lt;/p&gt;
-&lt;h2 id=&#34;Edit-Delete-actions&#34;&gt;&lt;a href=&#34;#Edit-Delete-actions&#34; class=&#34;headerlink&#34; title=&#34;Edit/Delete actions&#34;&gt;&lt;/a&gt;Edit/Delete actions&lt;/h2&gt;&lt;p&gt;Our ActiveAdmin view table has been blessed with &lt;code&gt;Edit&lt;/code&gt; and &lt;code&gt;Delete&lt;/code&gt; actions for every row, which
+&lt;h2 id=&#34;Edit-x2F-Delete-actions&#34;&gt;&lt;a href=&#34;#Edit-x2F-Delete-actions&#34; class=&#34;headerlink&#34; title=&#34;Edit&amp;#x2F;Delete actions&#34;&gt;&lt;/a&gt;Edit&amp;#x2F;Delete actions&lt;/h2&gt;&lt;p&gt;Our ActiveAdmin view table has been blessed with &lt;code&gt;Edit&lt;/code&gt; and &lt;code&gt;Delete&lt;/code&gt; actions for every row, which
 oviously trigger an error. For example, here is what we end up with when clicking on &lt;code&gt;Delete&lt;/code&gt; :&lt;/p&gt;
 &lt;img src=&#34;/images/err2.png&#34;/&gt;
 
@@ -3096,7 +3096,7 @@ mv task-trooper.rb bin/task-trooper
 chmod a+x bin/task-trooper
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Also, we need to add a shebang to direct the shell to run it with ruby.
-    #!/usr/bin/env ruby&lt;/p&gt;
+    #!&amp;#x2F;usr&amp;#x2F;bin&amp;#x2F;env ruby&lt;/p&gt;
 &lt;p&gt;Next, we need to add a gemspec to specify the required metadata for the
 gem.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;Gem::Specification.new &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|s|&lt;/span&gt;
@@ -3137,7 +3137,7 @@ DB = Sequel.sqlite(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&lt;span cl
 &lt;p&gt;We can test our gem in a fresh rvm gemset
     rvm gemset create test
     rvm gemset use test
-    gem install ./task-trooper-1.0.0.gem&lt;/p&gt;
+    gem install .&amp;#x2F;task-trooper-1.0.0.gem&lt;/p&gt;
 &lt;p&gt;Hold your breath while the dependencies are auto-matically fetched and installed. Now you can use task-trooper as you would use any other command line executable.
 Here is an obligatory screenshot :&lt;/p&gt;
 &lt;img src=&#34;/images/task_trooper.png&#34; /&gt;
@@ -3201,9 +3201,9 @@ EventMachine.run &amp;#123;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Using the send  method, the server sends data to the client. The client side socket has an onmessage event that enables you to recieve the data.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;socket = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; WebSocket(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;ws://localhost:8080&amp;quot;&lt;/span&gt;);
-socket.onmessage = &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;msg&lt;/span&gt;)&lt;/span&gt;&amp;#123;
-    &lt;span class=&#34;hljs-built_in&#34;&gt;console&lt;/span&gt;.log(msg.data)
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;socket = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;WebSocket&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;ws://localhost:8080&amp;quot;&lt;/span&gt;);
+socket.&lt;span class=&#34;hljs-property&#34;&gt;onmessage&lt;/span&gt; = &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;msg&lt;/span&gt;)&amp;#123;
+    &lt;span class=&#34;hljs-variable language_&#34;&gt;console&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;log&lt;/span&gt;(msg.&lt;span class=&#34;hljs-property&#34;&gt;data&lt;/span&gt;)
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Remember we said something socket being a two-way communication channel. The send message is available on the client too and the message can be received in the server in very similar way :&lt;/p&gt;
@@ -3213,7 +3213,7 @@ socket.onmessage = &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34
   ws.send msg
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;What it does is, it prints any data that it receives and relays it back to the client. So now if you run in the javascript console :&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;socket.send(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Hello world&amp;quot;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;socket.&lt;span class=&#34;hljs-title function_&#34;&gt;send&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Hello world&amp;quot;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;You should receive the message back.&lt;/p&gt;
 &lt;p&gt;Now that we have a basic familiarity with the usage of web-sockets let’s proceed with our game :&lt;/p&gt;

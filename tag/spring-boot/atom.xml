@@ -85,11 +85,11 @@
         <link rel="alternate" href="https://lorefnon.me/2021/12/15/mapping-between-domain-and-dtos-for-grpc/"/>
         <content type="html">&lt;p&gt;In a &lt;a href=&#34;/2021/09/04/bootstrapping-a-grpc-server-with-spring-boot-and-kotlin&#34;&gt;previous post&lt;/a&gt; we briefly explored how to build a gRPC api backend with Kotlin. &lt;/p&gt;
 &lt;p&gt;In particular, we saw that from the protobuf spec which defines our API, the &lt;a href=&#34;https://grpc.io/docs/protoc-installation/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;protoc compiler&lt;/a&gt; (along with language specific plugins) is able to generate classes for the language(s) in which our server (or client) is implemented. &lt;/p&gt;
-&lt;p&gt;To exemplify for our case (a kotlin/JVM backend), given a proto spec like this: &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs protobuf&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;User&lt;/span&gt; &lt;/span&gt;&amp;#123;
-  &lt;span class=&#34;hljs-built_in&#34;&gt;int64&lt;/span&gt; id = &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
-  &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt; name = &lt;span class=&#34;hljs-number&#34;&gt;2&lt;/span&gt;;
-  &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt; email = &lt;span class=&#34;hljs-number&#34;&gt;3&lt;/span&gt;;
+&lt;p&gt;To exemplify for our case (a kotlin&amp;#x2F;JVM backend), given a proto spec like this: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs protobuf&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message &lt;/span&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;User&lt;/span&gt; &amp;#123;
+  &lt;span class=&#34;hljs-type&#34;&gt;int64&lt;/span&gt; id = &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
+  &lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt; name = &lt;span class=&#34;hljs-number&#34;&gt;2&lt;/span&gt;;
+  &lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt; email = &lt;span class=&#34;hljs-number&#34;&gt;3&lt;/span&gt;;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The code generator generates an immutable User java class, and an associated builder, which we can invoke like this: &lt;/p&gt;
@@ -115,7 +115,7 @@
 &lt;p&gt; This means that we can&amp;#39;t inherit from these classes, can&amp;#39;t extend them with internal fields (not part of the API) and can&amp;#39;t add behaviors (methods) to them. &lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;They are immutable:&lt;/p&gt;
-&lt;p&gt; So whenever we need to get an updated entity, we will need to clone the entity with modifications. &lt;/p&gt;
+&lt;p&gt; So whenever we need to get an updated entity, we will need to clone the entity with modifications.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Thus, using the DTOs as Domain classes as well works well primarily when the business logic is entirely implemented as functional services. &lt;/p&gt;
@@ -172,7 +172,7 @@
 &lt;h2 id=&#34;Option-4-Use-a-mapping-library-like-MapStruct&#34;&gt;&lt;a href=&#34;#Option-4-Use-a-mapping-library-like-MapStruct&#34; class=&#34;headerlink&#34; title=&#34;Option 4: Use a mapping library like MapStruct&#34;&gt;&lt;/a&gt;Option 4: Use a mapping library like MapStruct&lt;/h2&gt;&lt;p&gt;MapStruct is a really nice model mapping library for java that has good support for Kotlin and protobuf style builders. &lt;/p&gt;
 &lt;p&gt;One great feature of the library, as compared to many other similar model mapping libraries is that there is no reflection involved during mapping - which makes this library very performant in practice. &lt;/p&gt;
 &lt;p&gt;Application developers need to define mapper interfaces, and at compile time MapStruct will generate mapper classes which convert between one type to another. &lt;/p&gt;
-&lt;p&gt;With this library, we can define our domain classes as Kotlin (data) classes and have them mapped to/from the API classes at the API service layer. &lt;/p&gt;
+&lt;p&gt;With this library, we can define our domain classes as Kotlin (data) classes and have them mapped to&amp;#x2F;from the API classes at the API service layer. &lt;/p&gt;
 &lt;p&gt;Following are the primary dependencies we need: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.mapstruct:mapstruct:1.4.2.Final&amp;quot;&lt;/span&gt;)
 kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.mapstruct:mapstruct-processor:1.4.2.Final&amp;quot;&lt;/span&gt;)
@@ -208,7 +208,7 @@ kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;no.entur.mapstruct.spi:pr
     &lt;span class=&#34;hljs-comment&#34;&gt;// Custom mapping for field&lt;/span&gt;
     &lt;span class=&#34;hljs-meta&#34;&gt;@Mappings(&lt;/span&gt;
 &lt;span class=&#34;hljs-meta&#34;&gt;        value = [&lt;/span&gt;
-&lt;span class=&#34;hljs-meta&#34;&gt;            Mapping(source = &lt;span class=&#34;hljs-meta-string&#34;&gt;&amp;quot;mailAddress&amp;quot;&lt;/span&gt;, target = &lt;span class=&#34;hljs-meta-string&#34;&gt;&amp;quot;email&amp;quot;&lt;/span&gt;)&lt;/span&gt;
+&lt;span class=&#34;hljs-meta&#34;&gt;            Mapping(source = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;mailAddress&amp;quot;&lt;/span&gt;, target = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;email&amp;quot;&lt;/span&gt;)&lt;/span&gt;
         ]
     )
     &lt;span class=&#34;hljs-keyword&#34;&gt;abstract&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;mapUserFromPB&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(source: &lt;span class=&#34;hljs-type&#34;&gt;User&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;: UserEntity
@@ -251,7 +251,7 @@ kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;no.entur.mapstruct.spi:pr
         <id>https://lorefnon.me/2021/09/04/bootstrapping-a-grpc-server-with-spring-boot-and-kotlin/</id>
         <title>Bootstrapping a Kotlin gRPC service with Spring Boot</title>
         <link rel="alternate" href="https://lorefnon.me/2021/09/04/bootstrapping-a-grpc-server-with-spring-boot-and-kotlin/"/>
-        <content type="html">&lt;p&gt;It has always been possible to build gRPC services in kotlin through java interop, but with the recently improved first class support for kotlin in the official gRPC/protobuf libraries it is quite straightforward to build gRPC services in Kotlin which take advantage of kotlin native features like coroutines. In addition, the grpc-spring-boot-starter makes it really convenient for spring boot users to integrate gRPC.&lt;/p&gt;
+        <content type="html">&lt;p&gt;It has always been possible to build gRPC services in kotlin through java interop, but with the recently improved first class support for kotlin in the official gRPC&amp;#x2F;protobuf libraries it is quite straightforward to build gRPC services in Kotlin which take advantage of kotlin native features like coroutines. In addition, the grpc-spring-boot-starter makes it really convenient for spring boot users to integrate gRPC.&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 
 &lt;p&gt;Note that while our services are using coroutines, we will not need webflux (although it is perfectly fine to use both of them together)&lt;/p&gt;
@@ -357,13 +357,13 @@ kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;no.entur.mapstruct.spi:pr
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;google/protobuf/wrappers.proto&amp;quot;&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;google/protobuf/timestamp.proto&amp;quot;&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;service&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;UserService&lt;/span&gt; &lt;/span&gt;{
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;service &lt;/span&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;UserService&lt;/span&gt; {
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;rpc&lt;/span&gt; getUserById (google.protobuf.Int64Value) &lt;span class=&#34;hljs-keyword&#34;&gt;returns&lt;/span&gt; (User)&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;User&lt;/span&gt; &lt;/span&gt;{
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-built_in&#34;&gt;int64&lt;/span&gt; id = &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt; name = &lt;span class=&#34;hljs-number&#34;&gt;2&lt;/span&gt;;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message &lt;/span&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;User&lt;/span&gt; {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-type&#34;&gt;int64&lt;/span&gt; id = &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt; name = &lt;span class=&#34;hljs-number&#34;&gt;2&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
@@ -537,16 +537,16 @@ kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;no.entur.mapstruct.spi:pr
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;google/protobuf/wrappers.proto&amp;quot;&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;google/protobuf/timestamp.proto&amp;quot;&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;service&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;UserService&lt;/span&gt; &lt;/span&gt;{
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;service &lt;/span&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;UserService&lt;/span&gt; {
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;rpc&lt;/span&gt; getUserById (google.protobuf.Int64Value) &lt;span class=&#34;hljs-keyword&#34;&gt;returns&lt;/span&gt; (User)&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;rpc&lt;/span&gt; listUsers(ListUsersInput) &lt;span class=&#34;hljs-keyword&#34;&gt;returns&lt;/span&gt; (stream User)&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;ListUsersInput&lt;/span&gt; &lt;/span&gt;{}
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message &lt;/span&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;ListUsersInput&lt;/span&gt; {}
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;User&lt;/span&gt; &lt;/span&gt;{
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-built_in&#34;&gt;int64&lt;/span&gt; id = &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt; name = &lt;span class=&#34;hljs-number&#34;&gt;2&lt;/span&gt;;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message &lt;/span&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;User&lt;/span&gt; {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-type&#34;&gt;int64&lt;/span&gt; id = &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt; name = &lt;span class=&#34;hljs-number&#34;&gt;2&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;

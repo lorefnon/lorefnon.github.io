@@ -342,7 +342,7 @@ mv task-trooper.rb bin/task-trooper
 chmod a+x bin/task-trooper
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Also, we need to add a shebang to direct the shell to run it with ruby.
-    #!/usr/bin/env ruby&lt;/p&gt;
+    #!&amp;#x2F;usr&amp;#x2F;bin&amp;#x2F;env ruby&lt;/p&gt;
 &lt;p&gt;Next, we need to add a gemspec to specify the required metadata for the
 gem.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;Gem::Specification.new &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|s|&lt;/span&gt;
@@ -383,7 +383,7 @@ DB = Sequel.sqlite(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&lt;span cl
 &lt;p&gt;We can test our gem in a fresh rvm gemset
     rvm gemset create test
     rvm gemset use test
-    gem install ./task-trooper-1.0.0.gem&lt;/p&gt;
+    gem install .&amp;#x2F;task-trooper-1.0.0.gem&lt;/p&gt;
 &lt;p&gt;Hold your breath while the dependencies are auto-matically fetched and installed. Now you can use task-trooper as you would use any other command line executable.
 Here is an obligatory screenshot :&lt;/p&gt;
 &lt;img src=&#34;/images/task_trooper.png&#34; /&gt;

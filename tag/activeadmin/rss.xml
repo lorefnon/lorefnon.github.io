@@ -190,7 +190,7 @@ grab the files form the repo.&lt;/p&gt;
 
   $(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;.jsoneditor-target&amp;#x27;&lt;/span&gt;).each -&amp;gt;
 
-    target = $ &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;
+    target = $ this
 
     container = $(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;&amp;lt;div class=&amp;quot;jsoneditor-container&amp;quot;&amp;gt;&amp;#x27;&lt;/span&gt;)
       .insertAfter target
@@ -253,7 +253,7 @@ rules which I leave as an exercise for the reader.&lt;/p&gt;
             <category>ActiveAdmin</category>
             <pubDate>Sun, 13 Jul 2014 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/View_(SQL)&#34;&gt; SQL Views &lt;/a&gt; are a handy feature that allow us to
-save a query whose results are computed/collated dynamically whenever the view is requested.
+save a query whose results are computed&amp;#x2F;collated dynamically whenever the view is requested.
 Because the abstraction provided by a view is semantically close to a table we can leverage
 ActiveRecord to interface with the view through a proxy model and use it to
 present the result set through &lt;a href=&#34;http://activeadmin.info/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;ActiveAdmin&lt;/a&gt; interface.&lt;/p&gt;
@@ -374,14 +374,14 @@ The problem is that Rails is blissfully oblivious of our SQL views and the sql s
 in our migrations have not introducted any changes in schema.rb. So when you regenerate the database from
 schema.yml the view will not be created. This has multiple solutions. A simple one
 is to get rid of schema.rb in favor of sql schema format.&lt;/p&gt;
-&lt;p&gt;In config/application.rb:&lt;/p&gt;
+&lt;p&gt;In config&amp;#x2F;application.rb:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;config.active_record.schema_format = :sql
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Next time we run &lt;code&gt;rake db:migrate&lt;/code&gt; a &lt;code&gt;structure.sql&lt;/code&gt; file will be generated that contains the SQL
 for generating our views.&lt;/p&gt;
 &lt;p&gt;An alternative option is the gem &lt;a href=&#34;https://github.com/lomba/schema_plus&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;schema_plus&lt;/a&gt; that augments ActiveRecord
 with support for views among other advanced database features.&lt;/p&gt;
-&lt;h2 id=&#34;Edit-Delete-actions&#34;&gt;&lt;a href=&#34;#Edit-Delete-actions&#34; class=&#34;headerlink&#34; title=&#34;Edit/Delete actions&#34;&gt;&lt;/a&gt;Edit/Delete actions&lt;/h2&gt;&lt;p&gt;Our ActiveAdmin view table has been blessed with &lt;code&gt;Edit&lt;/code&gt; and &lt;code&gt;Delete&lt;/code&gt; actions for every row, which
+&lt;h2 id=&#34;Edit-x2F-Delete-actions&#34;&gt;&lt;a href=&#34;#Edit-x2F-Delete-actions&#34; class=&#34;headerlink&#34; title=&#34;Edit&amp;#x2F;Delete actions&#34;&gt;&lt;/a&gt;Edit&amp;#x2F;Delete actions&lt;/h2&gt;&lt;p&gt;Our ActiveAdmin view table has been blessed with &lt;code&gt;Edit&lt;/code&gt; and &lt;code&gt;Delete&lt;/code&gt; actions for every row, which
 oviously trigger an error. For example, here is what we end up with when clicking on &lt;code&gt;Delete&lt;/code&gt; :&lt;/p&gt;
 &lt;img src=&#34;/images/err2.png&#34;/&gt;
 

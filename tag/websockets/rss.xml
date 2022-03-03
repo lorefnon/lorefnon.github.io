@@ -138,9 +138,9 @@ EventMachine.run &amp;#123;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Using the send  method, the server sends data to the client. The client side socket has an onmessage event that enables you to recieve the data.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;socket = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; WebSocket(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;ws://localhost:8080&amp;quot;&lt;/span&gt;);
-socket.onmessage = &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;msg&lt;/span&gt;)&lt;/span&gt;&amp;#123;
-    &lt;span class=&#34;hljs-built_in&#34;&gt;console&lt;/span&gt;.log(msg.data)
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;socket = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;WebSocket&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;ws://localhost:8080&amp;quot;&lt;/span&gt;);
+socket.&lt;span class=&#34;hljs-property&#34;&gt;onmessage&lt;/span&gt; = &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;msg&lt;/span&gt;)&amp;#123;
+    &lt;span class=&#34;hljs-variable language_&#34;&gt;console&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;log&lt;/span&gt;(msg.&lt;span class=&#34;hljs-property&#34;&gt;data&lt;/span&gt;)
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Remember we said something socket being a two-way communication channel. The send message is available on the client too and the message can be received in the server in very similar way :&lt;/p&gt;
@@ -150,7 +150,7 @@ socket.onmessage = &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34
   ws.send msg
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;What it does is, it prints any data that it receives and relays it back to the client. So now if you run in the javascript console :&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;socket.send(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Hello world&amp;quot;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;socket.&lt;span class=&#34;hljs-title function_&#34;&gt;send&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Hello world&amp;quot;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;You should receive the message back.&lt;/p&gt;
 &lt;p&gt;Now that we have a basic familiarity with the usage of web-sockets let’s proceed with our game :&lt;/p&gt;

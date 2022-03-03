@@ -92,7 +92,7 @@
             <pubDate>Tue, 03 Aug 2021 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;I recently updated an application which was historically built using Ruby on Rails to &lt;a href=&#34;https://spring.io/projects/spring-boot&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Spring boot&lt;/a&gt; &amp;amp; &lt;a href=&#34;https://www.jooq.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;jOOQ&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The Rails convention is to use plural table names (eg. &lt;code&gt;users&lt;/code&gt;) which are auto-mapped to models with singular names (eg. &lt;code&gt;User&lt;/code&gt;).&lt;/p&gt;
-&lt;p&gt;JOOQ doesn&amp;#39;t do any automatic plural-&amp;gt;singular conversion by default, so if we directly use code-generator we end up with pojos named like &lt;code&gt;class Users&lt;/code&gt; and interfaces like &lt;code&gt;interface IUsers&lt;/code&gt; which are not ideal because an instance here represents a single entity/row and so should be named singular.&lt;/p&gt;
+&lt;p&gt;JOOQ doesn&amp;#39;t do any automatic plural-&amp;gt;singular conversion by default, so if we directly use code-generator we end up with pojos named like &lt;code&gt;class Users&lt;/code&gt; and interfaces like &lt;code&gt;interface IUsers&lt;/code&gt; which are not ideal because an instance here represents a single entity&amp;#x2F;row and so should be named singular.&lt;/p&gt;
 &lt;p&gt;Fortunately this is easy to address with a custom &lt;code&gt;NamingStrategy&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs java&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; com.example;
 
@@ -101,13 +101,13 @@
 &lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.jooq.codegen.DefaultGeneratorStrategy;
 &lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.jooq.meta.Definition;
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;NamingStrategy&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;DefaultGeneratorStrategy&lt;/span&gt; &lt;/span&gt;&amp;#123;
+&lt;span class=&#34;hljs-keyword&#34;&gt;public&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;NamingStrategy&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;DefaultGeneratorStrategy&lt;/span&gt; &amp;#123;
 
-    &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;final&lt;/span&gt; NameConverter nameTools = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; DefaultNameConverter();
+    &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;final&lt;/span&gt; &lt;span class=&#34;hljs-type&#34;&gt;NameConverter&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;nameTools&lt;/span&gt; &lt;span class=&#34;hljs-operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;DefaultNameConverter&lt;/span&gt;();
 
     &lt;span class=&#34;hljs-meta&#34;&gt;@Override&lt;/span&gt;
-    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;public&lt;/span&gt; String &lt;span class=&#34;hljs-title&#34;&gt;getJavaClassName&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(&lt;span class=&#34;hljs-keyword&#34;&gt;final&lt;/span&gt; Definition definition, &lt;span class=&#34;hljs-keyword&#34;&gt;final&lt;/span&gt; Mode mode)&lt;/span&gt; &lt;/span&gt;&amp;#123;
-        &lt;span class=&#34;hljs-keyword&#34;&gt;final&lt;/span&gt; String javaClassName = &lt;span class=&#34;hljs-keyword&#34;&gt;super&lt;/span&gt;.getJavaClassName(definition, mode);
+    &lt;span class=&#34;hljs-keyword&#34;&gt;public&lt;/span&gt; String &lt;span class=&#34;hljs-title function_&#34;&gt;getJavaClassName&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(&lt;span class=&#34;hljs-keyword&#34;&gt;final&lt;/span&gt; Definition definition, &lt;span class=&#34;hljs-keyword&#34;&gt;final&lt;/span&gt; Mode mode)&lt;/span&gt; &amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;final&lt;/span&gt; &lt;span class=&#34;hljs-type&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;javaClassName&lt;/span&gt; &lt;span class=&#34;hljs-operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;hljs-built_in&#34;&gt;super&lt;/span&gt;.getJavaClassName(definition, mode);
 
         &lt;span class=&#34;hljs-comment&#34;&gt;// Let&amp;#x27;s retain the plural names for TableImpl clasess&lt;/span&gt;
         &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (mode == Mode.DEFAULT) &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; javaClassName;
@@ -118,7 +118,7 @@
 
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Support for custom &lt;code&gt;GeneratorStrategy&lt;/code&gt; implementations in JooQ offers possibility of very low level customizations of how SQL layer names are translated to java/kotlin layer.&lt;/p&gt;
+&lt;p&gt;Support for custom &lt;code&gt;GeneratorStrategy&lt;/code&gt; implementations in JooQ offers possibility of very low level customizations of how SQL layer names are translated to java&amp;#x2F;kotlin layer.&lt;/p&gt;
 &lt;p&gt;In our case, we simply use the depluralize utility from jibx to singularize our names.&lt;/p&gt;
 &lt;p&gt;We can configure our JooQ configuration to use this naming strategy:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&amp;lt;configuration&amp;gt;
@@ -204,11 +204,11 @@ type UserEdge &amp;#123;
    typeMapping = [&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;User&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.jooq.generated.tables.records.UsersRecord&amp;quot;&lt;/span&gt;]
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Problem solved. Now, wherever User type is needed, DGS generated DTOs will use our &lt;code&gt;UsersRecord&lt;/code&gt; class. Of course, this works equally well if we want to use jOOQ generated POJOs/interfaces or other classes defined in the application.&lt;/p&gt;
+&lt;p&gt;Problem solved. Now, wherever User type is needed, DGS generated DTOs will use our &lt;code&gt;UsersRecord&lt;/code&gt; class. Of course, this works equally well if we want to use jOOQ generated POJOs&amp;#x2F;interfaces or other classes defined in the application.&lt;/p&gt;
 &lt;h1 id=&#34;Caveats&#34;&gt;&lt;a href=&#34;#Caveats&#34; class=&#34;headerlink&#34; title=&#34;Caveats&#34;&gt;&lt;/a&gt;Caveats&lt;/h1&gt;&lt;p&gt;Only caveat here is that if the mapped class is not really structurally compatible with the the type defined in GraphQL schema, we will end up with a runtime error. Currently we don&amp;#39;t have a statically verify this compatibility. However such bugs are easily caught in preliminary testing.&lt;/p&gt;
 &lt;h1 id=&#34;Alternatives&#34;&gt;&lt;a href=&#34;#Alternatives&#34; class=&#34;headerlink&#34; title=&#34;Alternatives&#34;&gt;&lt;/a&gt;Alternatives&lt;/h1&gt;&lt;p&gt;An alternative solution to address this would be to use an annotation driven approach. Annotation-heavy libraries are quite popular in the JVM ecosystem and we can use entity classes in our application which are annotated with both JPA annotations and GraphQL specific annotations (provided by &lt;a href=&#34;https://github.com/leangen/graphql-spqr&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;graphql-spqr&lt;/a&gt;, &lt;a href=&#34;https://github.com/eclipse/microprofile-graphql&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;MP GraphQL&lt;/a&gt; etc.)&lt;/p&gt;
 &lt;p&gt;In this approach both the GraphQL schema and database schema can be derived from the corresponding set of annotations and we also have type safety.&lt;/p&gt;
-&lt;p&gt;However I am currently not a proponent of this approach because I am not a big fan of the JPA spec., esp. the projection &amp;amp; criteria APIs. In contrast, the jOOQ DSL is explicit, maps closely to SQL and enables me to spend more of my time in pure java/kotlin code that I can easily step through in a debugger as opposed to an annotation based DSL.&lt;/p&gt;
+&lt;p&gt;However I am currently not a proponent of this approach because I am not a big fan of the JPA spec., esp. the projection &amp;amp; criteria APIs. In contrast, the jOOQ DSL is explicit, maps closely to SQL and enables me to spend more of my time in pure java&amp;#x2F;kotlin code that I can easily step through in a debugger as opposed to an annotation based DSL.&lt;/p&gt;
 &lt;h1 id=&#34;In-praise-of-schema-first-development&#34;&gt;&lt;a href=&#34;#In-praise-of-schema-first-development&#34; class=&#34;headerlink&#34; title=&#34;In praise of schema-first development&#34;&gt;&lt;/a&gt;In praise of schema-first development&lt;/h1&gt;&lt;p&gt;Lastly, I prefer a schema first approach in larger teams because backend and frontend developers can agree upon the schema ahead of time and development can progress in parallel. Given a schema, it is for instance, straightforward to mock the server (and have the ui be built using that) while the real backend is being developed.&lt;/p&gt;
  ]]></description>
         </item>

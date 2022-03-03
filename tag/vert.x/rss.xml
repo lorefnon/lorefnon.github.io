@@ -99,10 +99,10 @@
 &lt;p&gt;In the &lt;a href=&#34;/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/&#34;&gt;previous post&lt;/a&gt; we integrated a dagger based DI system to simplify wiring up of components. In this post we will add some more GraphQL resolvers which connect to the database using the jooq based DAO layer.&lt;/p&gt;
 &lt;p&gt;Before we do that, let&amp;#39;s add an AppConfig component to read configuration from a properties file in a type safe manner so that our application becomes runtime configurable: &lt;/p&gt;
 &lt;p&gt;Our configuration file (&lt;code&gt;src/resources/app-config.properties&lt;/code&gt;) looks like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs properties&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;db.port&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;5432&lt;/span&gt;
-&lt;span class=&#34;hljs-meta&#34;&gt;db.host&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;localhost&lt;/span&gt;
-&lt;span class=&#34;hljs-meta&#34;&gt;db.database&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;jooq_graphql_sample&lt;/span&gt;
-&lt;span class=&#34;hljs-meta&#34;&gt;db.user&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;lorefnon&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs properties&#34;&gt;&lt;span class=&#34;hljs-attr&#34;&gt;db.port&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;5432&lt;/span&gt;
+&lt;span class=&#34;hljs-attr&#34;&gt;db.host&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;localhost&lt;/span&gt;
+&lt;span class=&#34;hljs-attr&#34;&gt;db.database&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;jooq_graphql_sample&lt;/span&gt;
+&lt;span class=&#34;hljs-attr&#34;&gt;db.user&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;lorefnon&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We will write an &lt;code&gt;AppConfigModule&lt;/code&gt; which will make the parsed configuration available to other services through dagger.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.module
@@ -470,27 +470,27 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;If it&amp;#39;s all wired up correctly, we should get a successful response:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&amp;#123;
-  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;: &amp;#123;
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;registerUser&amp;quot;&lt;/span&gt;: &amp;#123;
-      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;success&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;,
-      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;comments&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;
-    &amp;#125;
-  &amp;#125;
-&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;registerUser&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;success&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;comments&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;null&lt;/span&gt;
+    &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+  &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;If we try to create another user with the same login, we should receive a clear error:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&amp;#123;
-  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;: &amp;#123;
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;registerUser&amp;quot;&lt;/span&gt;: &amp;#123;
-      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;success&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-literal&#34;&gt;false&lt;/span&gt;,
-      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;comments&amp;quot;&lt;/span&gt;: [
-        &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;A user is already registered for this email/username&amp;quot;&lt;/span&gt;,
+&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;registerUser&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;success&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;comments&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;[&lt;/span&gt;
+        &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;A user is already registered for this email/username&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
         &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Do you want to sign in instead ?&amp;quot;&lt;/span&gt;
-      ]
-    &amp;#125;
-  &amp;#125;
-&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+      &lt;span class=&#34;hljs-punctuation&#34;&gt;]&lt;/span&gt;
+    &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+  &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We also need a mechanism to allow users to login. So let us add another mutation where we can pass in the credentials are retrieve a JWT token:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.service
@@ -631,11 +631,11 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
   login(username: &amp;quot;lorefnon&amp;quot;, password: &amp;quot;password&amp;quot;)
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&amp;#123;
-  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;: &amp;#123;
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;login&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtZS5sb3JlZm5vbi5zYW1wbGUiLCJ1c2VyIjoibG9yZWZub24ifQ.vJNjffx0dMAqoORfXlf-dUF6cAhwMfTPLeZzxB632_k&amp;quot;&lt;/span&gt;
-  &amp;#125;
-&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;login&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtZS5sb3JlZm5vbi5zYW1wbGUiLCJ1c2VyIjoibG9yZWZub24ifQ.vJNjffx0dMAqoORfXlf-dUF6cAhwMfTPLeZzxB632_k&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;In the next post we will utilize this API to secure other fields in our GraphQL API.&lt;/p&gt;
  ]]></description>
@@ -653,7 +653,7 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
             <pubDate>Sat, 06 Feb 2021 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;This continues from our &lt;a href=&#34;/2021/02/01/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-I&#34;&gt;previous post&lt;/a&gt; in a series of articles where we explore a JVM based stack comprising of Kotlin, Vert.X and jOOQ for development of GraphQL APIs.&lt;/p&gt;
 &lt;p&gt;When we last left off, we had a simple GraphQL API with a single field in our &lt;code&gt;Query&lt;/code&gt; type which was statically resolved. &lt;/p&gt;
-&lt;p&gt;Before we go further, let&amp;#39;s integrate a dependency injection system that simplies the task of wiring up our application components. In this post we&amp;#39;ll use &lt;a href=&#34;https://dagger.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Dagger&lt;/a&gt;. In contrast to many other popular DI/IoC solutions, dagger operates through compile time code generation, reducing the reflection overhead causing startup delay.&lt;/p&gt;
+&lt;p&gt;Before we go further, let&amp;#39;s integrate a dependency injection system that simplies the task of wiring up our application components. In this post we&amp;#39;ll use &lt;a href=&#34;https://dagger.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Dagger&lt;/a&gt;. In contrast to many other popular DI&amp;#x2F;IoC solutions, dagger operates through compile time code generation, reducing the reflection overhead causing startup delay.&lt;/p&gt;
 &lt;p&gt;Feel free to skip this post, and checkout the &lt;a href=&#34;/2021/03/26/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-III/&#34;&gt;next one in series&lt;/a&gt; if you don&amp;#39;t want to use Dagger.&lt;/p&gt;
 &lt;p&gt;We will need to add dagger as a dependency as well as configure Kotlin&amp;#39;s annotation processor &lt;a href=&#34;https://kotlinlang.org/docs/kapt.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Kapt&lt;/a&gt; to use dagger. &lt;/p&gt;
 &lt;p&gt;In pom.xml: project &amp;gt; dependencies&lt;/p&gt;
@@ -936,7 +936,7 @@ to interface with the database from application code is generated by introspecti
 &lt;p&gt;The generators which come with jOOQ don&amp;#39;t support Vert.X out of the box, but the Vert.X core is very flexible and the 
 &lt;a href=&#34;https://github.com/jklingsporn/vertx-jooq&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;vertx-jooq project&lt;/a&gt; provides code-generation support that bridges the two. &lt;/p&gt;
 &lt;h1 id=&#34;Dagger-for-dependency-injection&#34;&gt;&lt;a href=&#34;#Dagger-for-dependency-injection&#34; class=&#34;headerlink&#34; title=&#34;Dagger for dependency injection&#34;&gt;&lt;/a&gt;Dagger for dependency injection&lt;/h1&gt;&lt;p&gt;Vert.X itself is quite unopinionated regarding the organization of code and how services are integrated. It does not prescribe any specific dependency injection solution. However, from my experience of building backend applications, having a DI solution significantly helps towards testability of the application and reducing coupling among components.&lt;/p&gt;
-&lt;p&gt;Our choice of DI framework is &lt;a href=&#34;https://dagger.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Dagger&lt;/a&gt;. In contrast to many other popular DI/IoC solutions, dagger operates through compile time code generation, reducing the reflection overhead causing startup delay. We will cover dagger specific aspects in &lt;a href=&#34;/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/&#34;&gt;second part&lt;/a&gt; of this series, however for users unfamiliar with the concepts of DI, the official &lt;a href=&#34;https://dagger.dev/users-guide&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;user documentation&lt;/a&gt; and &lt;a href=&#34;https://medium.com/@yostane/dependency-injection-with-dagger-2-inject-and-provides-ce21f7449ec5&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;this post&lt;/a&gt; by Yassine Benabbas may be better starting points.&lt;/p&gt;
+&lt;p&gt;Our choice of DI framework is &lt;a href=&#34;https://dagger.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Dagger&lt;/a&gt;. In contrast to many other popular DI&amp;#x2F;IoC solutions, dagger operates through compile time code generation, reducing the reflection overhead causing startup delay. We will cover dagger specific aspects in &lt;a href=&#34;/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/&#34;&gt;second part&lt;/a&gt; of this series, however for users unfamiliar with the concepts of DI, the official &lt;a href=&#34;https://dagger.dev/users-guide&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;user documentation&lt;/a&gt; and &lt;a href=&#34;https://medium.com/@yostane/dependency-injection-with-dagger-2-inject-and-provides-ce21f7449ec5&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;this post&lt;/a&gt; by Yassine Benabbas may be better starting points.&lt;/p&gt;
 &lt;h1 id=&#34;Why-this-particular-combination&#34;&gt;&lt;a href=&#34;#Why-this-particular-combination&#34; class=&#34;headerlink&#34; title=&#34;Why this particular combination ?&#34;&gt;&lt;/a&gt;Why this particular combination ?&lt;/h1&gt;&lt;p&gt;All four of these libraries, provide low-level control to the developer and don&amp;#39;t impose superfluous 
 high level abstractions or indirections that get in the way of performance or debuggability.&lt;/p&gt;
 &lt;p&gt;So we end up with code that is easy to reason through, does not require us to jump through unnecessary indirections 

@@ -103,8 +103,8 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Then the compiled template can be used just like you would use any other amd module :&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;([ &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;templates/person&amp;#x27;&lt;/span&gt; ],            &lt;span class=&#34;hljs-comment&#34;&gt;// Compiled template AMD modules&lt;/span&gt;
-    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;personTemplate&lt;/span&gt;) &lt;/span&gt;&amp;#123;
-        &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; rendered_content = personTemplate(&amp;#123;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;personTemplate&lt;/span&gt;) &amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; rendered_content = &lt;span class=&#34;hljs-title function_&#34;&gt;personTemplate&lt;/span&gt;(&amp;#123;
               &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Joe Bloggs&amp;#x27;&lt;/span&gt;                &lt;span class=&#34;hljs-comment&#34;&gt;// Data to be used in the template&lt;/span&gt;
          &amp;#125;);
     &amp;#125;

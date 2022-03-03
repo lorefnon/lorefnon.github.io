@@ -96,11 +96,11 @@
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;&amp;lt;script setup&amp;gt;&lt;/code&gt; is a &lt;strong&gt;compile-time syntactic sugar&lt;/strong&gt; that greatly improves the ergonomics when using Composition API inside SFCs.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs html&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;script&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;setup&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;javascript&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &amp;#123; ref &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;vue&amp;#x27;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;javascript&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; color = ref(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;red&amp;#x27;&lt;/span&gt;)&lt;/span&gt;
-&lt;span class=&#34;javascript&#34;&gt;&lt;/span&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs html&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;script&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;setup&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;language-javascript&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &amp;#123; ref &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;vue&amp;#x27;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-javascript&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; color = &lt;span class=&#34;hljs-title function_&#34;&gt;ref&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;red&amp;#x27;&lt;/span&gt;)&lt;/span&gt;
+&lt;span class=&#34;language-javascript&#34;&gt;&lt;/span&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;
 
 &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;template&lt;/span&gt;&amp;gt;&lt;/span&gt;
   &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;button&lt;/span&gt; @&lt;span class=&#34;hljs-attr&#34;&gt;click&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;color = color === &amp;#x27;red&amp;#x27; ? &amp;#x27;green&amp;#x27; : &amp;#x27;red&amp;#x27;&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
@@ -115,34 +115,34 @@
 &lt;h1 id=&#34;Dependencies&#34;&gt;&lt;a href=&#34;#Dependencies&#34; class=&#34;headerlink&#34; title=&#34;Dependencies&#34;&gt;&lt;/a&gt;Dependencies&lt;/h1&gt;&lt;p&gt;Currently, my preferred way to get started with Vue project is to scaffold it through vite (&lt;code&gt;yarn create vite&lt;/code&gt;) which internally uses the really fast &lt;a href=&#34;https://github.com/evanw/esbuild&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;esbuild&lt;/a&gt; native transpiler.&lt;/p&gt;
 &lt;p&gt;Other build tools may require minor adjustment around import aliasing.&lt;/p&gt;
 &lt;p&gt;Here is what our package.json looks like:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&amp;#123;
-  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;scripts&amp;quot;&lt;/span&gt;: &amp;#123;
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;dev&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;vite&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;build&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;vue-tsc --noEmit &amp;amp;&amp;amp; vite build&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;serve&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;vite preview&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;codegen:graphql&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;yarn run graphql-codegen -c graphql-codegen.yaml&amp;quot;&lt;/span&gt;
-  &amp;#125;,
-  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;dependencies&amp;quot;&lt;/span&gt;: &amp;#123;
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@apollo/client&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^3.4.5&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@graphql-typed-document-node/core&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^3.1.0&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@vue/apollo-composable&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^4.0.0-alpha.14&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;graphql&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^15.5.1&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;graphql-tag&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^2.12.5&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;vue&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^3.0.5&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;vue-router&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;4&amp;quot;&lt;/span&gt;
-  &amp;#125;,
-  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;devDependencies&amp;quot;&lt;/span&gt;: &amp;#123;
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@app/gql&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;link:./src/gql&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@graphql-codegen/cli&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^2.0.1&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@graphql-codegen/gql-tag-operations-preset&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^1.0.1&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@graphql-codegen/typescript-graphql-request&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^4.0.0&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@vitejs/plugin-vue&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^1.4.0&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@vue/compiler-sfc&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^3.1.5&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;typescript&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^4.3.5&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;vite&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^2.5.0-beta.1&amp;quot;&lt;/span&gt;,
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;vue-tsc&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^0.2.2&amp;quot;&lt;/span&gt;
-  &amp;#125;
-&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;scripts&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;dev&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;vite&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;build&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;vue-tsc --noEmit &amp;amp;&amp;amp; vite build&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;serve&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;vite preview&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;codegen:graphql&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;yarn run graphql-codegen -c graphql-codegen.yaml&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;dependencies&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@apollo/client&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^3.4.5&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@graphql-typed-document-node/core&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^3.1.0&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@vue/apollo-composable&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^4.0.0-alpha.14&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;graphql&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^15.5.1&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;graphql-tag&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^2.12.5&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;vue&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^3.0.5&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;vue-router&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;4&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;devDependencies&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@app/gql&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;link:./src/gql&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@graphql-codegen/cli&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^2.0.1&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@graphql-codegen/gql-tag-operations-preset&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^1.0.1&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@graphql-codegen/typescript-graphql-request&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^4.0.0&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@vitejs/plugin-vue&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^1.4.0&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@vue/compiler-sfc&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^3.1.5&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;typescript&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^4.3.5&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;vite&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^2.5.0-beta.1&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;vue-tsc&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;^0.2.2&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h1 id=&#34;Configuration-for-graphql-code-generator&#34;&gt;&lt;a href=&#34;#Configuration-for-graphql-code-generator&#34; class=&#34;headerlink&#34; title=&#34;Configuration for graphql-code-generator&#34;&gt;&lt;/a&gt;Configuration for graphql-code-generator&lt;/h1&gt;&lt;p&gt;We have a &lt;code&gt;codegen:graphql&lt;/code&gt; script configured above, which we can use to generate types for our GraphQL accessors.&lt;/p&gt;
 &lt;p&gt;Here is what our &lt;code&gt;graphql-codegen.yaml&lt;/code&gt; looks like:&lt;/p&gt;
@@ -167,28 +167,28 @@
 &lt;p&gt;Since &lt;code&gt;yarn run&lt;/code&gt; forwards our arguments to the underlying scripts, to run the aforementioned watch mode, we can simply run:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs sh&#34;&gt;yarn run codegen:graphql --watch&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;This will keep scanning our code for usage of graphql queries/mutations and generate corresponding types.&lt;/p&gt;
+&lt;p&gt;This will keep scanning our code for usage of graphql queries&amp;#x2F;mutations and generate corresponding types.&lt;/p&gt;
 &lt;p&gt;We will look at some examples below.&lt;/p&gt;
 &lt;h2 id=&#34;Import-aliasing&#34;&gt;&lt;a href=&#34;#Import-aliasing&#34; class=&#34;headerlink&#34; title=&#34;Import aliasing:&#34;&gt;&lt;/a&gt;Import aliasing:&lt;/h2&gt;&lt;p&gt;The last piece of setup we need to do is configuration for imports.&lt;/p&gt;
 &lt;p&gt;This may get simplified in future, but as of this writing this needs to be done in both tsconfig.json (in case you are using typescript,  make typescript compiler &amp;amp; editor tooling happy) and vite config (to make vite happy).&lt;/p&gt;
 &lt;p&gt;In &lt;code&gt;tsconfig.json&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;{
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;compilerOptions&amp;quot;&lt;/span&gt;: {
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;target&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;esnext&amp;quot;&lt;/span&gt;,
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;module&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;esnext&amp;quot;&lt;/span&gt;,
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;moduleResolution&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;node&amp;quot;&lt;/span&gt;,
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;strict&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;,
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;jsx&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;preserve&amp;quot;&lt;/span&gt;,
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;sourceMap&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;,
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;resolveJsonModule&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;,
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;esModuleInterop&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;,
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;lib&amp;quot;&lt;/span&gt;: [&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;esnext&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;dom&amp;quot;&lt;/span&gt;],
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;paths&amp;quot;&lt;/span&gt;: {
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@app/gql&amp;quot;&lt;/span&gt;: [&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;./src/gql&amp;quot;&lt;/span&gt;]
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    }
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  },
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;include&amp;quot;&lt;/span&gt;: [&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;src/**/*.ts&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;src/**/*.d.ts&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;src/**/*.tsx&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;src/**/*.vue&amp;quot;&lt;/span&gt;]
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;{&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;compilerOptions&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;{&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;target&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;esnext&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;module&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;esnext&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;moduleResolution&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;node&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;strict&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;jsx&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;preserve&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;sourceMap&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;resolveJsonModule&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;esModuleInterop&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;lib&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;esnext&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;dom&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;paths&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;{&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;@app/gql&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;./src/gql&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;]&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-punctuation&#34;&gt;}&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-punctuation&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;include&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;src/**/*.ts&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;src/**/*.d.ts&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;src/**/*.tsx&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;src/**/*.vue&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;]&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;}&lt;/span&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;In &lt;code&gt;vite.config.ts&lt;/code&gt;:&lt;/p&gt;
@@ -197,13 +197,13 @@
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; { resolve } &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;path&amp;quot;&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// https://vitejs.dev/config/&lt;/span&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;default&lt;/span&gt; defineConfig({
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;default&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;defineConfig&lt;/span&gt;({
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-attr&#34;&gt;plugins&lt;/span&gt;: [
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    vue()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-title function_&#34;&gt;vue&lt;/span&gt;()
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  ],
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-attr&#34;&gt;resolve&lt;/span&gt;: {
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;alias&lt;/span&gt;: {
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;      &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;@app/gql&amp;quot;&lt;/span&gt;: resolve(__dirname, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;./src/gql&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;      &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;@app/gql&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-title function_&#34;&gt;resolve&lt;/span&gt;(__dirname, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;./src/gql&amp;quot;&lt;/span&gt;)
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    }
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  }
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;})
@@ -222,20 +222,20 @@ div(v-else)
     | Not logged in
 &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;template&lt;/span&gt;&amp;gt;&lt;/span&gt;
 
-&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;script&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;lang&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;ts&amp;quot;&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;setup&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;javascript&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &amp;#123; gql &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;@app/gql&amp;quot;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &amp;#123; useQuery &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;@vue/apollo-composable&amp;quot;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;javascript&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &amp;#123; result, loading &amp;#125; = useQuery(&lt;/span&gt;
-&lt;span class=&#34;javascript&#34;&gt;    gql(&lt;span class=&#34;hljs-comment&#34;&gt;/* GraphQL */&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;`&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;hljs-string&#34;&gt;&lt;span class=&#34;javascript&#34;&gt;        query CurrentUserQuery &amp;#123;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;hljs-string&#34;&gt;&lt;span class=&#34;javascript&#34;&gt;            currentUser &amp;#123;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;hljs-string&#34;&gt;&lt;span class=&#34;javascript&#34;&gt;                name&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;hljs-string&#34;&gt;&lt;span class=&#34;javascript&#34;&gt;            &amp;#125;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;hljs-string&#34;&gt;&lt;span class=&#34;javascript&#34;&gt;        &amp;#125;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;hljs-string&#34;&gt;&lt;span class=&#34;javascript&#34;&gt;    `&lt;/span&gt;)&lt;/span&gt;
-&lt;span class=&#34;javascript&#34;&gt;)&lt;/span&gt;
-&lt;span class=&#34;javascript&#34;&gt;&lt;/span&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;script&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;lang&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;ts&amp;quot;&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;setup&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;language-javascript&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &amp;#123; gql &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;@app/gql&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &amp;#123; useQuery &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;@vue/apollo-composable&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-javascript&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &amp;#123; result, loading &amp;#125; = &lt;span class=&#34;hljs-title function_&#34;&gt;useQuery&lt;/span&gt;(&lt;/span&gt;
+&lt;span class=&#34;language-javascript&#34;&gt;    &lt;span class=&#34;hljs-title function_&#34;&gt;gql&lt;/span&gt;(&lt;span class=&#34;hljs-comment&#34;&gt;/* GraphQL */&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;`&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&lt;span class=&#34;language-javascript&#34;&gt;        query CurrentUserQuery &amp;#123;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&lt;span class=&#34;language-javascript&#34;&gt;            currentUser &amp;#123;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&lt;span class=&#34;language-javascript&#34;&gt;                name&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&lt;span class=&#34;language-javascript&#34;&gt;            &amp;#125;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&lt;span class=&#34;language-javascript&#34;&gt;        &amp;#125;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&lt;span class=&#34;language-javascript&#34;&gt;    `&lt;/span&gt;)&lt;/span&gt;
+&lt;span class=&#34;language-javascript&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;language-javascript&#34;&gt;&lt;/span&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Note that other than &lt;code&gt;gql&lt;/code&gt; we didn&amp;#39;t need to import anything else. And we may get a type error initially, it will quickly disappear once our watcher generates the necessary overloads, and our &lt;code&gt;result&lt;/code&gt; and &lt;code&gt;loading&lt;/code&gt; variables will be correctly typed as vue refs.&lt;/p&gt;
 &lt;p&gt;The result&amp;#39;s value type will be derived from our query and if we update the query, the type will auto-update too.&lt;/p&gt;
@@ -244,15 +244,15 @@ div(v-else)
 &lt;pre&gt;&lt;code class=&#34;hljs typescript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; * &lt;span class=&#34;hljs-keyword&#34;&gt;as&lt;/span&gt; graphql &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./graphql&amp;#x27;&lt;/span&gt;;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; documents = &amp;#123;
-    &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;query CurrentUserQuery &amp;#123;...&amp;#125;&amp;quot;&lt;/span&gt;: graphql.CurrentUserQueryDocument,
+    &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;query CurrentUserQuery &amp;#123;...&amp;#125;&amp;quot;&lt;/span&gt;: graphql.&lt;span class=&#34;hljs-property&#34;&gt;CurrentUserQueryDocument&lt;/span&gt;,
 &amp;#125;;
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;gql&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;source: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;query CurrentUserQuery &amp;#123;...&amp;#125;&amp;quot;&lt;/span&gt;&lt;/span&gt;): (&lt;span class=&#34;hljs-params&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;typeof&lt;/span&gt; documents&lt;/span&gt;)[&amp;quot;&lt;span class=&#34;hljs-title&#34;&gt;query&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;CurrentUserQuery&lt;/span&gt; &lt;/span&gt;&amp;#123;...&amp;#125;&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;];&lt;/span&gt;
-&lt;span class=&#34;hljs-string&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;hljs-string&#34;&gt;export function gql(source: string): unknown;&lt;/span&gt;
-&lt;span class=&#34;hljs-string&#34;&gt;export function gql(source: string) &amp;#123;&lt;/span&gt;
-&lt;span class=&#34;hljs-string&#34;&gt;  return (documents as any)[source] ?? &amp;#123;&amp;#125;;&lt;/span&gt;
-&lt;span class=&#34;hljs-string&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;gql&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;source: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;query CurrentUserQuery &amp;#123;...&amp;#125;&amp;quot;&lt;/span&gt;&lt;/span&gt;): (&lt;span class=&#34;hljs-keyword&#34;&gt;typeof&lt;/span&gt; documents)[&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;query CurrentUserQuery &amp;#123;...&amp;#125;&amp;quot;&lt;/span&gt;];
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;gql&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;source: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt;&lt;/span&gt;): unknown;
+&lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;gql&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;source: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt;&lt;/span&gt;) &amp;#123;
+  &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; (documents &lt;span class=&#34;hljs-keyword&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;)[source] ?? &amp;#123;&amp;#125;;
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Not quite pretty :), but usually you never have to peek into this file at all.&lt;/p&gt;
  ]]></description>
@@ -274,10 +274,10 @@ div(v-else)
 &lt;p&gt;In the &lt;a href=&#34;/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/&#34;&gt;previous post&lt;/a&gt; we integrated a dagger based DI system to simplify wiring up of components. In this post we will add some more GraphQL resolvers which connect to the database using the jooq based DAO layer.&lt;/p&gt;
 &lt;p&gt;Before we do that, let&amp;#39;s add an AppConfig component to read configuration from a properties file in a type safe manner so that our application becomes runtime configurable: &lt;/p&gt;
 &lt;p&gt;Our configuration file (&lt;code&gt;src/resources/app-config.properties&lt;/code&gt;) looks like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs properties&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;db.port&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;5432&lt;/span&gt;
-&lt;span class=&#34;hljs-meta&#34;&gt;db.host&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;localhost&lt;/span&gt;
-&lt;span class=&#34;hljs-meta&#34;&gt;db.database&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;jooq_graphql_sample&lt;/span&gt;
-&lt;span class=&#34;hljs-meta&#34;&gt;db.user&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;lorefnon&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs properties&#34;&gt;&lt;span class=&#34;hljs-attr&#34;&gt;db.port&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;5432&lt;/span&gt;
+&lt;span class=&#34;hljs-attr&#34;&gt;db.host&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;localhost&lt;/span&gt;
+&lt;span class=&#34;hljs-attr&#34;&gt;db.database&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;jooq_graphql_sample&lt;/span&gt;
+&lt;span class=&#34;hljs-attr&#34;&gt;db.user&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;lorefnon&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We will write an &lt;code&gt;AppConfigModule&lt;/code&gt; which will make the parsed configuration available to other services through dagger.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.module
@@ -645,27 +645,27 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;If it&amp;#39;s all wired up correctly, we should get a successful response:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&amp;#123;
-  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;: &amp;#123;
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;registerUser&amp;quot;&lt;/span&gt;: &amp;#123;
-      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;success&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;,
-      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;comments&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;
-    &amp;#125;
-  &amp;#125;
-&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;registerUser&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;success&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;comments&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;null&lt;/span&gt;
+    &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+  &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;If we try to create another user with the same login, we should receive a clear error:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&amp;#123;
-  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;: &amp;#123;
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;registerUser&amp;quot;&lt;/span&gt;: &amp;#123;
-      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;success&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-literal&#34;&gt;false&lt;/span&gt;,
-      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;comments&amp;quot;&lt;/span&gt;: [
-        &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;A user is already registered for this email/username&amp;quot;&lt;/span&gt;,
+&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;registerUser&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;success&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;comments&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;[&lt;/span&gt;
+        &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;A user is already registered for this email/username&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
         &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Do you want to sign in instead ?&amp;quot;&lt;/span&gt;
-      ]
-    &amp;#125;
-  &amp;#125;
-&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+      &lt;span class=&#34;hljs-punctuation&#34;&gt;]&lt;/span&gt;
+    &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+  &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We also need a mechanism to allow users to login. So let us add another mutation where we can pass in the credentials are retrieve a JWT token:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.service
@@ -806,11 +806,11 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
   login(username: &amp;quot;lorefnon&amp;quot;, password: &amp;quot;password&amp;quot;)
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&amp;#123;
-  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;: &amp;#123;
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;login&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtZS5sb3JlZm5vbi5zYW1wbGUiLCJ1c2VyIjoibG9yZWZub24ifQ.vJNjffx0dMAqoORfXlf-dUF6cAhwMfTPLeZzxB632_k&amp;quot;&lt;/span&gt;
-  &amp;#125;
-&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;login&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtZS5sb3JlZm5vbi5zYW1wbGUiLCJ1c2VyIjoibG9yZWZub24ifQ.vJNjffx0dMAqoORfXlf-dUF6cAhwMfTPLeZzxB632_k&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;In the next post we will utilize this API to secure other fields in our GraphQL API.&lt;/p&gt;
  ]]></description>
@@ -828,34 +828,34 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
 &lt;p&gt;If we know ahead of time that some of our operations are expected to take longer time (We may at times be ok with that because they don&amp;#39;t impact the user experience) then we can exclude them from batching.&lt;/p&gt;
 &lt;p&gt;The link selector predicate we pass to ApolloLink.split can look at the operation name and decide whether to route the request to BatchLink or normal HttpLink.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &amp;#123;
-  ApolloClient,
-  InMemoryCache,
-  ApolloLink,
-  Operation,
-  HttpLink,
+  &lt;span class=&#34;hljs-title class_&#34;&gt;ApolloClient&lt;/span&gt;,
+  &lt;span class=&#34;hljs-title class_&#34;&gt;InMemoryCache&lt;/span&gt;,
+  &lt;span class=&#34;hljs-title class_&#34;&gt;ApolloLink&lt;/span&gt;,
+  &lt;span class=&#34;hljs-title class_&#34;&gt;Operation&lt;/span&gt;,
+  &lt;span class=&#34;hljs-title class_&#34;&gt;HttpLink&lt;/span&gt;,
 &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;@apollo/client&amp;#x27;&lt;/span&gt;;
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; httpLink = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; HttpLink(&amp;#123;
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; httpLink = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;HttpLink&lt;/span&gt;(&amp;#123;
   &lt;span class=&#34;hljs-attr&#34;&gt;uri&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;/graphql&amp;quot;&lt;/span&gt;
   &lt;span class=&#34;hljs-comment&#34;&gt;// ...Additional options&lt;/span&gt;
 &amp;#125;);
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; batchLink = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; BatchHttpLink(&amp;#123;
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; batchLink = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;BatchHttpLink&lt;/span&gt;(&amp;#123;
     &lt;span class=&#34;hljs-attr&#34;&gt;batchInterval&lt;/span&gt;: &lt;span class=&#34;hljs-number&#34;&gt;250&lt;/span&gt;
 &amp;#125;);
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; operationBatchingBlacklist = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-built_in&#34;&gt;Set&lt;/span&gt;&amp;lt;string&amp;gt;();
-operationBatchingBlacklist.add(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;someExpensiveOperation&amp;quot;&lt;/span&gt;);
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; operationBatchingBlacklist = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Set&lt;/span&gt;&amp;lt;string&amp;gt;();
+operationBatchingBlacklist.&lt;span class=&#34;hljs-title function_&#34;&gt;add&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;someExpensiveOperation&amp;quot;&lt;/span&gt;);
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; mediatorLink = ApolloLink.split(
-  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;shouldBatchRequests&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&amp;#123; operationName &amp;#125;: Operation&lt;/span&gt;) &lt;/span&gt;&amp;#123;
-    &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; !operationBatchingBlacklist.has(operationName);
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; mediatorLink = &lt;span class=&#34;hljs-title class_&#34;&gt;ApolloLink&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;split&lt;/span&gt;(
+  &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;shouldBatchRequests&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&amp;#123; operationName &amp;#125;: Operation&lt;/span&gt;) &amp;#123;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; !operationBatchingBlacklist.&lt;span class=&#34;hljs-title function_&#34;&gt;has&lt;/span&gt;(operationName);
   &amp;#125;,
   batchLink,
   httpLink
 );
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; client = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; ApolloClient(&amp;#123;
+&lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; client = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ApolloClient&lt;/span&gt;(&amp;#123;
   &lt;span class=&#34;hljs-attr&#34;&gt;uri&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/graphql&amp;#x27;&lt;/span&gt;,
   &lt;span class=&#34;hljs-attr&#34;&gt;link&lt;/span&gt;: mediatorLink
 &amp;#125;);&lt;/code&gt;&lt;/pre&gt;
@@ -881,31 +881,31 @@ operationBatchingBlacklist.add(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot
 &lt;p&gt;However, batch link is particularly useful primarily for queries, and upload link is useful for mutations. So we simply needs a mediator that reroutes the request to one of the two after looking at the incoming request. &lt;/p&gt;
 &lt;p&gt;This is made very easy by &lt;code&gt;ApolloLink.split&lt;/code&gt; function: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &amp;#123;
-  ApolloClient,
-  InMemoryCache,
-  ApolloLink,
-  Operation,
-  NextLink,
+  &lt;span class=&#34;hljs-title class_&#34;&gt;ApolloClient&lt;/span&gt;,
+  &lt;span class=&#34;hljs-title class_&#34;&gt;InMemoryCache&lt;/span&gt;,
+  &lt;span class=&#34;hljs-title class_&#34;&gt;ApolloLink&lt;/span&gt;,
+  &lt;span class=&#34;hljs-title class_&#34;&gt;Operation&lt;/span&gt;,
+  &lt;span class=&#34;hljs-title class_&#34;&gt;NextLink&lt;/span&gt;,
 &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;@apollo/client&amp;#x27;&lt;/span&gt;;
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; batchLink = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; BatchHttpLink(batchLinkOptions);
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; batchLink = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;BatchHttpLink&lt;/span&gt;(batchLinkOptions);
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; uploadLink = createUploadLink(uploadLinkOptions);
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; uploadLink = &lt;span class=&#34;hljs-title function_&#34;&gt;createUploadLink&lt;/span&gt;(uploadLinkOptions);
 
 &lt;span class=&#34;hljs-comment&#34;&gt;// This split is needed because both batchLink and uploadLink are&lt;/span&gt;
 &lt;span class=&#34;hljs-comment&#34;&gt;// terminating links&lt;/span&gt;
 &lt;span class=&#34;hljs-comment&#34;&gt;//&lt;/span&gt;
-&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; mediatorLink = ApolloLink.split(
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; mediatorLink = &lt;span class=&#34;hljs-title class_&#34;&gt;ApolloLink&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;split&lt;/span&gt;(
   hasFile,
   batchLink,
   uploadLink
 );&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Here &lt;code&gt;hasFile&lt;/code&gt; is a function that can return true/false depending on which of the subsequent links is to be selected. &lt;/p&gt;
+&lt;p&gt;Here &lt;code&gt;hasFile&lt;/code&gt; is a function that can return true&amp;#x2F;false depending on which of the subsequent links is to be selected. &lt;/p&gt;
 &lt;p&gt;A simple implementation of &lt;code&gt;hasFile&lt;/code&gt; can look like: &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;hasFile&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;operation&lt;/span&gt;) &lt;/span&gt;&amp;#123;
+&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;hasFile&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;operation&lt;/span&gt;) &amp;#123;
     &lt;span class=&#34;hljs-comment&#34;&gt;// A single GraphQL operation can comprise of a combination of multiple queries and mutation&lt;/span&gt;
-    &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (operation.query.definitions.find(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;it&lt;/span&gt; =&amp;gt;&lt;/span&gt; it.operation === &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;mutation&amp;#x27;&lt;/span&gt;)) &amp;#123;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (operation.&lt;span class=&#34;hljs-property&#34;&gt;query&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;definitions&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;find&lt;/span&gt;(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;it&lt;/span&gt; =&amp;gt;&lt;/span&gt; it.&lt;span class=&#34;hljs-property&#34;&gt;operation&lt;/span&gt; === &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;mutation&amp;#x27;&lt;/span&gt;)) &amp;#123;
         &lt;span class=&#34;hljs-comment&#34;&gt;// Check if there is atleast one mutation present&lt;/span&gt;
         &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;false&lt;/span&gt;;
     &amp;#125;
@@ -914,7 +914,7 @@ operationBatchingBlacklist.add(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot
 
 &lt;p&gt;We have access to the complete operation object here, so we can also take a decision based on the name of the operation, variables we receive etc.&lt;/p&gt;
 &lt;p&gt;Now, instead of passing either of these links to the ApolloClient options, we can pass the mediator link instead:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; client = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; ApolloClient(&amp;#123;
+&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; client = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ApolloClient&lt;/span&gt;(&amp;#123;
   &lt;span class=&#34;hljs-attr&#34;&gt;uri&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/graphql&amp;#x27;&lt;/span&gt;,
   &lt;span class=&#34;hljs-attr&#34;&gt;link&lt;/span&gt;: mediatorLink,
   &lt;span class=&#34;hljs-comment&#34;&gt;// ... other options&lt;/span&gt;
@@ -934,7 +934,7 @@ operationBatchingBlacklist.add(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot
             <pubDate>Sat, 06 Feb 2021 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;This continues from our &lt;a href=&#34;/2021/02/01/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-I&#34;&gt;previous post&lt;/a&gt; in a series of articles where we explore a JVM based stack comprising of Kotlin, Vert.X and jOOQ for development of GraphQL APIs.&lt;/p&gt;
 &lt;p&gt;When we last left off, we had a simple GraphQL API with a single field in our &lt;code&gt;Query&lt;/code&gt; type which was statically resolved. &lt;/p&gt;
-&lt;p&gt;Before we go further, let&amp;#39;s integrate a dependency injection system that simplies the task of wiring up our application components. In this post we&amp;#39;ll use &lt;a href=&#34;https://dagger.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Dagger&lt;/a&gt;. In contrast to many other popular DI/IoC solutions, dagger operates through compile time code generation, reducing the reflection overhead causing startup delay.&lt;/p&gt;
+&lt;p&gt;Before we go further, let&amp;#39;s integrate a dependency injection system that simplies the task of wiring up our application components. In this post we&amp;#39;ll use &lt;a href=&#34;https://dagger.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Dagger&lt;/a&gt;. In contrast to many other popular DI&amp;#x2F;IoC solutions, dagger operates through compile time code generation, reducing the reflection overhead causing startup delay.&lt;/p&gt;
 &lt;p&gt;Feel free to skip this post, and checkout the &lt;a href=&#34;/2021/03/26/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-III/&#34;&gt;next one in series&lt;/a&gt; if you don&amp;#39;t want to use Dagger.&lt;/p&gt;
 &lt;p&gt;We will need to add dagger as a dependency as well as configure Kotlin&amp;#39;s annotation processor &lt;a href=&#34;https://kotlinlang.org/docs/kapt.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Kapt&lt;/a&gt; to use dagger. &lt;/p&gt;
 &lt;p&gt;In pom.xml: project &amp;gt; dependencies&lt;/p&gt;
@@ -1217,7 +1217,7 @@ to interface with the database from application code is generated by introspecti
 &lt;p&gt;The generators which come with jOOQ don&amp;#39;t support Vert.X out of the box, but the Vert.X core is very flexible and the 
 &lt;a href=&#34;https://github.com/jklingsporn/vertx-jooq&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;vertx-jooq project&lt;/a&gt; provides code-generation support that bridges the two. &lt;/p&gt;
 &lt;h1 id=&#34;Dagger-for-dependency-injection&#34;&gt;&lt;a href=&#34;#Dagger-for-dependency-injection&#34; class=&#34;headerlink&#34; title=&#34;Dagger for dependency injection&#34;&gt;&lt;/a&gt;Dagger for dependency injection&lt;/h1&gt;&lt;p&gt;Vert.X itself is quite unopinionated regarding the organization of code and how services are integrated. It does not prescribe any specific dependency injection solution. However, from my experience of building backend applications, having a DI solution significantly helps towards testability of the application and reducing coupling among components.&lt;/p&gt;
-&lt;p&gt;Our choice of DI framework is &lt;a href=&#34;https://dagger.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Dagger&lt;/a&gt;. In contrast to many other popular DI/IoC solutions, dagger operates through compile time code generation, reducing the reflection overhead causing startup delay. We will cover dagger specific aspects in &lt;a href=&#34;/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/&#34;&gt;second part&lt;/a&gt; of this series, however for users unfamiliar with the concepts of DI, the official &lt;a href=&#34;https://dagger.dev/users-guide&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;user documentation&lt;/a&gt; and &lt;a href=&#34;https://medium.com/@yostane/dependency-injection-with-dagger-2-inject-and-provides-ce21f7449ec5&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;this post&lt;/a&gt; by Yassine Benabbas may be better starting points.&lt;/p&gt;
+&lt;p&gt;Our choice of DI framework is &lt;a href=&#34;https://dagger.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Dagger&lt;/a&gt;. In contrast to many other popular DI&amp;#x2F;IoC solutions, dagger operates through compile time code generation, reducing the reflection overhead causing startup delay. We will cover dagger specific aspects in &lt;a href=&#34;/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/&#34;&gt;second part&lt;/a&gt; of this series, however for users unfamiliar with the concepts of DI, the official &lt;a href=&#34;https://dagger.dev/users-guide&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;user documentation&lt;/a&gt; and &lt;a href=&#34;https://medium.com/@yostane/dependency-injection-with-dagger-2-inject-and-provides-ce21f7449ec5&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;this post&lt;/a&gt; by Yassine Benabbas may be better starting points.&lt;/p&gt;
 &lt;h1 id=&#34;Why-this-particular-combination&#34;&gt;&lt;a href=&#34;#Why-this-particular-combination&#34; class=&#34;headerlink&#34; title=&#34;Why this particular combination ?&#34;&gt;&lt;/a&gt;Why this particular combination ?&lt;/h1&gt;&lt;p&gt;All four of these libraries, provide low-level control to the developer and don&amp;#39;t impose superfluous 
 high level abstractions or indirections that get in the way of performance or debuggability.&lt;/p&gt;
 &lt;p&gt;So we end up with code that is easy to reason through, does not require us to jump through unnecessary indirections 

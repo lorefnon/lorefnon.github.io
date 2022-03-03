@@ -681,60 +681,60 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;So now that we have our dummy posts in place, we just need to show them:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;&amp;lt;!-- posts/index.html.erb --&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;blog-container&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h1&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;blog-title title&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; Lorefnon&amp;#x27;s Awesome blog &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h1&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;page-title title&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; Posts &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;posts-container&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;posts/posts&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;&amp;lt;!-- posts/index.html.erb --&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;blog-container&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h1&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;blog-title title&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; Lorefnon&amp;#x27;s Awesome blog &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h1&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;page-title title&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; Posts &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;posts-container&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;posts/posts&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;br/&gt;
 
-&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;&amp;lt;!-- posts/_posts.html.erb --&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;posts-list&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;posts&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@posts&lt;/span&gt;.each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|post|&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;posts/summary&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;post:&lt;/span&gt; post &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;navigation-links&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;posts/navigation_links&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;&amp;lt;!-- posts/_posts.html.erb --&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;posts-list&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;posts&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@posts&lt;/span&gt;.each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|post|&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;posts/summary&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;post:&lt;/span&gt; post &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;navigation-links&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;posts/navigation_links&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;br/&gt;
 
-&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;&amp;lt;!-- posts/_summary.html.erb --&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;data-post-id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;lt;%=&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; post.id &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;hljs-string&#34;&gt;%&amp;gt;&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;title post-title&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to post.title, post_path(&lt;span class=&#34;hljs-symbol&#34;&gt;id:&lt;/span&gt; post.id) &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; post.summary &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;&amp;lt;!-- posts/_summary.html.erb --&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;data-post-id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;lt;%=&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; post.id &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;hljs-string&#34;&gt;%&amp;gt;&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;title post-title&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; link_to post.title, post_path(&lt;span class=&#34;hljs-symbol&#34;&gt;id:&lt;/span&gt; post.id) &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; post.summary &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;br/&gt;
 
-&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;&amp;lt;!-- posts/_navigation_links.html.erb --&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; &amp;gt; &lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;   &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Previous Page&amp;#x27;&lt;/span&gt;, posts_path(&lt;span class=&#34;hljs-symbol&#34;&gt;page:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt;-&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;) &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-variable&#34;&gt;@num_pages&lt;/span&gt; -&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;   &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Next Page&amp;#x27;&lt;/span&gt;, posts_path(&lt;span class=&#34;hljs-symbol&#34;&gt;page:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt;+&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;) &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;&amp;lt;!-- posts/_navigation_links.html.erb --&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; &amp;gt; &lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;   &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Previous Page&amp;#x27;&lt;/span&gt;, posts_path(&lt;span class=&#34;hljs-symbol&#34;&gt;page:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt;-&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;) &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-variable&#34;&gt;@num_pages&lt;/span&gt; -&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;   &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Next Page&amp;#x27;&lt;/span&gt;, posts_path(&lt;span class=&#34;hljs-symbol&#34;&gt;page:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt;+&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;) &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;br/&gt;
 
-&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;&amp;lt;!-- posts/show.html.erb --&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;blog-container&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;post-title title&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to &lt;span class=&#34;hljs-variable&#34;&gt;@post&lt;/span&gt;.title, post_path(&lt;span class=&#34;hljs-symbol&#34;&gt;id:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@post&lt;/span&gt;.id) &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;post-body&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@post&lt;/span&gt;.body &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;&amp;lt;!-- posts/show.html.erb --&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;blog-container&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;post-title title&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; link_to &lt;span class=&#34;hljs-variable&#34;&gt;@post&lt;/span&gt;.title, post_path(&lt;span class=&#34;hljs-symbol&#34;&gt;id:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@post&lt;/span&gt;.id) &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;post-body&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@post&lt;/span&gt;.body &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The above templates have nothing particularly characteristic. If you would have written them yourself, I guess you would have implemented something very similar. I have presented above to particularly highlight that the way you structure your views does not need to be drastically altered to use SPF.js. Hence it is easy to take your existing sites and start using SPF.js.&lt;/p&gt;
 &lt;p&gt;Our dummy blog looks something like this now:&lt;/p&gt;
@@ -742,40 +742,40 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 
 &lt;h2 id=&#34;Including-SPF&#34;&gt;&lt;a href=&#34;#Including-SPF&#34; class=&#34;headerlink&#34; title=&#34;Including SPF&#34;&gt;&lt;/a&gt;Including SPF&lt;/h2&gt;&lt;p&gt;Next step for us is to include SPF.js in the page. For that we will just add the cdn link to our layout. Other methods of including are available &lt;a href=&#34;https://github.com/youtube/spfjs#download&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;After this inclusion our template might look something like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;&amp;lt;!DOCTYPE &lt;span class=&#34;hljs-meta-keyword&#34;&gt;html&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;html&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;head&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;title&lt;/span&gt;&amp;gt;&lt;/span&gt;Rails Spfjs Demo&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;title&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; javascript_include_tag &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;//ajax.googleapis.com/ajax/libs/spf/2.3.0/spf.js&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; stylesheet_link_tag    &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;application&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;media:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;all&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; javascript_include_tag &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;application&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; csrf_meta_tags &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;head&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;yield&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    spf.init();&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;html&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;&amp;lt;!DOCTYPE &lt;span class=&#34;hljs-keyword&#34;&gt;html&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;html&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;head&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;title&lt;/span&gt;&amp;gt;&lt;/span&gt;Rails Spfjs Demo&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;title&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; javascript_include_tag &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;//ajax.googleapis.com/ajax/libs/spf/2.3.0/spf.js&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; stylesheet_link_tag    &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;application&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;media:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;all&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; javascript_include_tag &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;application&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; csrf_meta_tags &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;head&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;yield&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    spf.init();&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;html&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&#34;Making-navigation-links-SPF-aware&#34;&gt;&lt;a href=&#34;#Making-navigation-links-SPF-aware&#34; class=&#34;headerlink&#34; title=&#34;Making navigation links SPF aware&#34;&gt;&lt;/a&gt;Making navigation links SPF aware&lt;/h2&gt;&lt;p&gt;However just initializing SPF.js does not magically ajaxify all navigation links. In fact by so far SPF.js does not alter the navigation in any way. We need to explicitly enable SPFjs for links for which our server knows how to server partial content. For SPF to process a link, it should have the class &amp;#39;spf-link&amp;#39;. Let us start with our navigation links:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; &amp;gt; &lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;   &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Previous Page&amp;#x27;&lt;/span&gt;, posts_path(&lt;span class=&#34;hljs-symbol&#34;&gt;page:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt;-&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;), &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;: &amp;#x27;&lt;span class=&#34;hljs-title&#34;&gt;spf&lt;/span&gt;-&lt;span class=&#34;hljs-title&#34;&gt;link&lt;/span&gt;&amp;#x27; &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-variable&#34;&gt;@num_pages&lt;/span&gt; -&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;   &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Next Page&amp;#x27;&lt;/span&gt;, posts_path(&lt;span class=&#34;hljs-symbol&#34;&gt;page:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt;+&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;), &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;: &amp;#x27;&lt;span class=&#34;hljs-title&#34;&gt;spf&lt;/span&gt;-&lt;span class=&#34;hljs-title&#34;&gt;link&lt;/span&gt;&amp;#x27; &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; &amp;gt; &lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;   &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Previous Page&amp;#x27;&lt;/span&gt;, posts_path(&lt;span class=&#34;hljs-symbol&#34;&gt;page:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt;-&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;), &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;: &amp;#x27;&lt;span class=&#34;hljs-title&#34;&gt;spf&lt;/span&gt;-&lt;span class=&#34;hljs-title&#34;&gt;link&lt;/span&gt;&amp;#x27; &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-variable&#34;&gt;@num_pages&lt;/span&gt; -&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;   &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Next Page&amp;#x27;&lt;/span&gt;, posts_path(&lt;span class=&#34;hljs-symbol&#34;&gt;page:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt;+&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;), &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;: &amp;#x27;&lt;span class=&#34;hljs-title&#34;&gt;spf&lt;/span&gt;-&lt;span class=&#34;hljs-title&#34;&gt;link&lt;/span&gt;&amp;#x27; &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;One great feature of SPF.js is that it handles graceful degradation. So, since we haven&amp;#39;t done anything on the server side to generate partial contents, SPF will try to make an ajax request to server (with the special query parameter spf=navigate) and once that response format does not match what SPF expects, it will allow a full page reload.&lt;/p&gt;
+&lt;p&gt;One great feature of SPF.js is that it handles graceful degradation. So, since we haven&amp;#39;t done anything on the server side to generate partial contents, SPF will try to make an ajax request to server (with the special query parameter spf&amp;#x3D;navigate) and once that response format does not match what SPF expects, it will allow a full page reload.&lt;/p&gt;
 &lt;h2 id=&#34;Server-side-handling-for-SPF&#34;&gt;&lt;a href=&#34;#Server-side-handling-for-SPF&#34; class=&#34;headerlink&#34; title=&#34;Server side handling for SPF&#34;&gt;&lt;/a&gt;Server side handling for SPF&lt;/h2&gt;&lt;p&gt;Let us move on to server side handling:&lt;/p&gt;
-&lt;p&gt;As we have previously mentioned that SPF sends an ajax request using spf=navigate query parameter. We can detect that in our controller and send out a special response that only includes the parts of the page we need to update:&lt;/p&gt;
+&lt;p&gt;As we have previously mentioned that SPF sends an ajax request using spf&amp;#x3D;navigate query parameter. We can detect that in our controller and send out a special response that only includes the parts of the page we need to update:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;PostsController&lt;/span&gt; &amp;lt; ApplicationController&lt;/span&gt;
 
   &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;index&lt;/span&gt;&lt;/span&gt;
@@ -791,20 +791,20 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 ...&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Next we will have to designate the parts that can be dynamically replace using an id. In our modified &lt;code&gt;posts/_summary.html.erb&lt;/code&gt; below, &lt;code&gt;spf-posts-container&lt;/code&gt; serves that purpose:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;data-post-id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;lt;%=&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; post.id &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;hljs-string&#34;&gt;%&amp;gt;&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;title post-title&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; link_to post.title, post_path(&lt;span class=&#34;hljs-symbol&#34;&gt;id:&lt;/span&gt; post.id) &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; post.summary &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;data-post-id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;lt;%=&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; post.id &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&lt;span class=&#34;hljs-string&#34;&gt;%&amp;gt;&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;title post-title&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; link_to post.title, post_path(&lt;span class=&#34;hljs-symbol&#34;&gt;id:&lt;/span&gt; post.id) &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;h3&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; post.summary &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 
 &lt;p&gt;While SPF does not require DOM node IDs to begin with &lt;code&gt;spf-&lt;/code&gt; prefix I think this is a good convention and makes the intent explict.&lt;/p&gt;
 &lt;p&gt;Finally here is our json template that contains the partial page update, in the format that SPF.js &lt;a href=&#34;https://youtube.github.io/spfjs/documentation/responses/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;can process&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;index.json.erb:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;xml&#34;&gt;&amp;#123;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;quot;body&amp;quot;: &amp;#123;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;    &amp;quot;spf-posts-container&amp;quot;: &amp;quot;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;ruby&#34;&gt; j render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;posts/posts&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;xml&#34;&gt;%&amp;gt;&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;  &amp;#125;&lt;/span&gt;
-&lt;span class=&#34;xml&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&amp;#123;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;quot;body&amp;quot;: &amp;#123;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &amp;quot;spf-posts-container&amp;quot;: &amp;quot;&amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; j render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;posts/posts&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;#125;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;While we are using a simple &lt;code&gt;json.erb&lt;/code&gt; template, it should be noted that any generic approach that can generate json response in rails, works well. So if you are already using &lt;code&gt;rabl&lt;/code&gt; or &lt;code&gt;jbuilder&lt;/code&gt; in your APIs, you can continue using that.&lt;/p&gt;
 &lt;p&gt;Now when a navigation link is clicked, the json response is fetched via ajax and the page is dynamically updated - resulting in a much smoother user experience. Also note that browser url has been automatically updated and the page scrolls to the top. SPF tries to emulate the experience the experience of page change as much as possible to prevent uncanny surprises.&lt;/p&gt;
@@ -858,13 +858,13 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;img src=&#34;/images/2015-11-26/spfdone.png&#34;&gt;
 
 &lt;p&gt;Let us highlight the listing of our posts using CSS 3 animations when loaded asynchronously:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;$(&lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;).on(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;spfdone&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;event&lt;/span&gt;) &lt;/span&gt;&amp;#123;
+&lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;$(&lt;span class=&#34;hljs-variable language_&#34;&gt;document&lt;/span&gt;).&lt;span class=&#34;hljs-title function_&#34;&gt;on&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;spfdone&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;event&lt;/span&gt;) &amp;#123;
 
-  &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (event.originalEvent.detail.response.body[&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;spf-posts-container&amp;#x27;&lt;/span&gt;]) &amp;#123;
-    $(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;#spf-posts-container&amp;#x27;&lt;/span&gt;).addClass(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;flash&amp;#x27;&lt;/span&gt;)
+  &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (event.&lt;span class=&#34;hljs-property&#34;&gt;originalEvent&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;detail&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;response&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;body&lt;/span&gt;[&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;spf-posts-container&amp;#x27;&lt;/span&gt;]) &amp;#123;
+    $(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;#spf-posts-container&amp;#x27;&lt;/span&gt;).&lt;span class=&#34;hljs-title function_&#34;&gt;addClass&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;flash&amp;#x27;&lt;/span&gt;)
 
-    &lt;span class=&#34;hljs-built_in&#34;&gt;setTimeout&lt;/span&gt;(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;
-      $(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;#spf-posts-container&amp;#x27;&lt;/span&gt;).removeClass(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;flash&amp;#x27;&lt;/span&gt;)
+    &lt;span class=&#34;hljs-built_in&#34;&gt;setTimeout&lt;/span&gt;(&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &amp;#123;
+      $(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;#spf-posts-container&amp;#x27;&lt;/span&gt;).&lt;span class=&#34;hljs-title function_&#34;&gt;removeClass&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;flash&amp;#x27;&lt;/span&gt;)
     &amp;#125;, &lt;span class=&#34;hljs-number&#34;&gt;3000&lt;/span&gt;)
 
   &amp;#125;
@@ -938,7 +938,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;p&gt;Also there is a &lt;a href=&#34;https://facebook.github.io/jsx/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;draft specification&lt;/a&gt; for JSX in place and some other frameworks have already &lt;a href=&#34;https://github.com/insin/msx&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;started&lt;/a&gt; adopting it.&lt;/p&gt;
 &lt;h2 id=&#34;About-open-standards&#34;&gt;&lt;a href=&#34;#About-open-standards&#34; class=&#34;headerlink&#34; title=&#34;About open standards&#34;&gt;&lt;/a&gt;About open standards&lt;/h2&gt;&lt;h3 id=&#34;Web-Components&#34;&gt;&lt;a href=&#34;#Web-Components&#34; class=&#34;headerlink&#34; title=&#34;Web Components&#34;&gt;&lt;/a&gt;Web Components&lt;/h3&gt;&lt;p&gt;The reasons for not using an open standard like web components have been &lt;a href=&#34;https://github.com/facebook/react/issues/5052#issuecomment-145594782&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;explained&lt;/a&gt; by the React team:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;It has turned out that the spec is incomplete with regard to things like event delegation and there are still major changes being pushed from various sides, such as Mozilla. What was in Polymer/Chrome is not the final incarnation so we&amp;#39;ve had to revert some of the support that we already added (e.g. support for event handling in shadow trees).&lt;/p&gt;
+&lt;p&gt;It has turned out that the spec is incomplete with regard to things like event delegation and there are still major changes being pushed from various sides, such as Mozilla. What was in Polymer&amp;#x2F;Chrome is not the final incarnation so we&amp;#39;ve had to revert some of the support that we already added (e.g. support for event handling in shadow trees).&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;blockquote&gt;
 &lt;p&gt;In terms of strategy, we&amp;#39;ll go forward with as if it didn&amp;#39;t exist and try to improve interop at the React or React-like component layer instead. I&amp;#39;ve talked with members of other popular UI frameworks and they seem to feel the same. In fact, we probably have a better chance at implementing solid interop in user land.&lt;/p&gt;
@@ -959,10 +959,10 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;p&gt;And how many app teams have 100 or more active developers? Probably fewer than a dozen, and I submit that none of them probably should. Certainly not the Facebook app: It has a lot of features, but not that many features, and yet it has a 150Mb footprint.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;blockquote&gt;
-&lt;p&gt;When I hear things like that, I can&amp;#39;t help but fill in &amp;quot;junior&amp;quot; or &amp;quot;mediocre&amp;quot; in front of &amp;quot;developers.&amp;quot; React helps to prevent people from breaking each others&amp;#39; code when you have bloated development teams filled with junior developers. React has some cool ideas, but all told I think it&amp;#39;s a step backward for software engineering, and certainly isn&amp;#39;t as much of a help for small teams, especially if you want to have a CSS/SCSS/LESS expert styling your product without having to dig through JSX files, for instance.&lt;/p&gt;
+&lt;p&gt;When I hear things like that, I can&amp;#39;t help but fill in &amp;quot;junior&amp;quot; or &amp;quot;mediocre&amp;quot; in front of &amp;quot;developers.&amp;quot; React helps to prevent people from breaking each others&amp;#39; code when you have bloated development teams filled with junior developers. React has some cool ideas, but all told I think it&amp;#39;s a step backward for software engineering, and certainly isn&amp;#39;t as much of a help for small teams, especially if you want to have a CSS&amp;#x2F;SCSS&amp;#x2F;LESS expert styling your product without having to dig through JSX files, for instance.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;In a small app with a small team, there is little use for any framework at all, but software applications have this uncanny tendency to unexpectedly grow large depending on changing requirements, expanding scope. Given the above, I would certainly feel more comfortable working on a system where I can change the appearance of a component with confidence that will not introduce subtle changes in totally unrelated parts of my application, probably parts that I know nothing about.&lt;/p&gt;
-&lt;p&gt;While yes, there are fewer teams that have 100 or more active developers, but high churn rates are an unavoidable problem especially in the startup ecosystems. While a competent developer will certainly be able to jump into an unknown codebase and in due time figure out his/her way - but if the codebase is structured around best practices distilled by the community the time required in the same is drastically reduced. Optimizing the process around that seems like a very good idea.&lt;/p&gt;
+&lt;p&gt;While yes, there are fewer teams that have 100 or more active developers, but high churn rates are an unavoidable problem especially in the startup ecosystems. While a competent developer will certainly be able to jump into an unknown codebase and in due time figure out his&amp;#x2F;her way - but if the codebase is structured around best practices distilled by the community the time required in the same is drastically reduced. Optimizing the process around that seems like a very good idea.&lt;/p&gt;
 &lt;h2 id=&#34;On-stylesheets-a-system-of-cascading-problems&#34;&gt;&lt;a href=&#34;#On-stylesheets-a-system-of-cascading-problems&#34; class=&#34;headerlink&#34; title=&#34;On stylesheets - a system of cascading problems&#34;&gt;&lt;/a&gt;On stylesheets - a system of cascading problems&lt;/h2&gt;&lt;p&gt;Adding to the problem is that automated regression testing of CSS is time consuming and error prone. While there are &lt;a href=&#34;https://css-tricks.com/automating-css-regression-testing/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;solutions&lt;/a&gt; I think the crux of the problem is that our current styling system is a broken technology - globally shared stylesheets are evil and technologies like &lt;a href=&#34;https://github.com/FormidableLabs/radium&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Radium&lt;/a&gt; are steps in the right direction.&lt;/p&gt;
 &lt;p&gt;While it isn&amp;#39;t like we have not tried to solve this problem &lt;a href=&#34;https://gridstylesheets.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;before&lt;/a&gt;, I am really glad to see practical alternatives to stylesheets gathering traction.&lt;/p&gt;
 &lt;h2 id=&#34;The-good-parts&#34;&gt;&lt;a href=&#34;#The-good-parts&#34; class=&#34;headerlink&#34; title=&#34;The good parts&#34;&gt;&lt;/a&gt;The good parts&lt;/h2&gt;&lt;blockquote&gt;
@@ -1029,11 +1029,11 @@ We recommend moving to npm, using &amp;quot;jquery-plugin&amp;quot; as the keywo
 &lt;p&gt;main.js:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; hello &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./hello&amp;#x27;&lt;/span&gt;
 
-hello()&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;hljs-title function_&#34;&gt;hello&lt;/span&gt;()&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;hello.js:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;hello&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;
-    alert(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;hello world&amp;#x27;&lt;/span&gt;);
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;hello&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &amp;#123;
+    &lt;span class=&#34;hljs-title function_&#34;&gt;alert&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;hello world&amp;#x27;&lt;/span&gt;);
 &amp;#125;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;default&lt;/span&gt; hello;&lt;/code&gt;&lt;/pre&gt;
@@ -1057,7 +1057,7 @@ hello()&lt;/code&gt;&lt;/pre&gt;
 
 &lt;br&gt;
 
-&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;ContactList = React.create-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;do&lt;/span&gt;&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;ContactList = React.create-&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;do&lt;/span&gt;
   render: -&amp;gt;
     React.create-element &lt;span class=&#34;hljs-string&#34;&gt;\ul,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, @props.contacts.&lt;span class=&#34;hljs-keyword&#34;&gt;map&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;(contact)&lt;/span&gt;-&amp;gt;&lt;/span&gt;
       React.create-element &lt;span class=&#34;hljs-string&#34;&gt;\li,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, contact.name
@@ -1067,13 +1067,13 @@ el = React.create-element ContactList, contacts: [
   * name: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Albus Dumbledore&amp;#x27;&lt;/span&gt;
 ]
 
-React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+React.render el, document.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;img src=&#34;/images/Screen Shot 2015-09-21 at 12.42.18 pm.png&#34;&gt;
 
 &lt;p&gt;This is very similar to what we would have written if we were using vanilla javascript. The only primary advantages are indentation based nesting, elimination of a lot of superfluous syntax - braces and parenthesis and implicit returns. However we can do much better than this.&lt;/p&gt;
 &lt;p&gt;Because Livescript was forked from Coffeescript, it inherits Coffeescript&amp;#39;s class syntax which we can use to extend &lt;code&gt;React.Component&lt;/code&gt;. However the benefits of doing so are pretty-much marginal.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;ContactList&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;React&lt;/span&gt;.&lt;span class=&#34;hljs-title&#34;&gt;Component&lt;/span&gt;&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ContactList&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;React&lt;/span&gt;.Component
 
   render: -&amp;gt;
     React.create-element &lt;span class=&#34;hljs-string&#34;&gt;\ul,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, @props.contacts.&lt;span class=&#34;hljs-keyword&#34;&gt;map&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;(contact)&lt;/span&gt;-&amp;gt;&lt;/span&gt;
@@ -1083,7 +1083,7 @@ React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;
 &lt;p&gt;Livescript&amp;#39;s feature that almost everything is a expression is particularly helpful when we have conditional logic in our dom generation code.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;element = React~create-element
 
-ContactList = React.create-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;do&lt;/span&gt;&lt;/span&gt;
+ContactList = React.create-&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;do&lt;/span&gt;
 
   render: -&amp;gt;
     element &lt;span class=&#34;hljs-string&#34;&gt;\ul,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, @props.contacts.&lt;span class=&#34;hljs-keyword&#34;&gt;map&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;(contact)&lt;/span&gt;-&amp;gt;&lt;/span&gt;
@@ -1099,14 +1099,14 @@ el = element ContactList, contacts: [
     email: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;albus@hogwarts.magic&amp;#x27;&lt;/span&gt;
 ]
 
-React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+React.render el, document.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;img src=&#34;/images/Screen Shot 2015-09-21 at 12.42.05 pm.png&#34;&gt;
 
 &lt;p&gt;When the render function becomes complex, it is often more readable to use livescript&amp;#39;s pipe operator to chain the operations. This is particularly handy in conjugation with utility libraries geared towards functional programming - the example below uses &lt;a href=&#34;http://ramdajs.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Ramda&lt;/a&gt;. Other alternatives include &lt;a href=&#34;http://underscorejs.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;underscore&lt;/a&gt;, &lt;a href=&#34;https://lodash.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;lodash&lt;/a&gt;, &lt;a href=&#34;http://www.preludels.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;prelude.ls&lt;/a&gt; etc.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;element = React~create-element
 
-ContactList = React.create-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;do&lt;/span&gt;&lt;/span&gt;
+ContactList = React.create-&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;do&lt;/span&gt;
 
   render-avatar: &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;(contact)&lt;/span&gt;-&amp;gt;&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; contact.avatar
@@ -1136,7 +1136,7 @@ ContactList = React.create-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class
     @props.contacts
     |&amp;gt; R.&lt;span class=&#34;hljs-keyword&#34;&gt;map&lt;/span&gt; @~render-contact-row
     |&amp;gt; &lt;span class=&#34;hljs-function&#34;&gt;~&amp;gt;&lt;/span&gt; element &lt;span class=&#34;hljs-string&#34;&gt;\tbody,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, &lt;span class=&#34;hljs-literal&#34;&gt;it&lt;/span&gt;
-    |&amp;gt; &lt;span class=&#34;hljs-function&#34;&gt;~&amp;gt;&lt;/span&gt; element &lt;span class=&#34;hljs-string&#34;&gt;\table,&lt;/span&gt; &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;-&lt;span class=&#34;hljs-title&#34;&gt;name&lt;/span&gt;: \&lt;span class=&#34;hljs-title&#34;&gt;contacts&lt;/span&gt; , [ @&lt;span class=&#34;hljs-title&#34;&gt;render-head&lt;/span&gt;!, &lt;span class=&#34;hljs-title&#34;&gt;it&lt;/span&gt; ]&lt;/span&gt;
+    |&amp;gt; &lt;span class=&#34;hljs-function&#34;&gt;~&amp;gt;&lt;/span&gt; element &lt;span class=&#34;hljs-string&#34;&gt;\table,&lt;/span&gt; class-name: &lt;span class=&#34;hljs-string&#34;&gt;\contacts&lt;/span&gt; , [ @render-head!, &lt;span class=&#34;hljs-literal&#34;&gt;it&lt;/span&gt; ]
 
 el = element ContactList, contacts: [
   * id: &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;
@@ -1148,7 +1148,7 @@ el = element ContactList, contacts: [
 ]
 
 
-React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+React.render el, document.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;img src=&#34;/images/Screen Shot 2015-09-21 at 2.15.15 pm.png&#34;&gt;
 
@@ -1172,7 +1172,7 @@ render-contact-row: -&amp;gt;
 &lt;p&gt;But I strongly recommend against doing that, because having the arguments specified in the function signature upfront enhances readability.&lt;/p&gt;
 &lt;p&gt;Also note that the top down construction flow composition can also be realized in javascript using Ramda&amp;#39;s &lt;code&gt;pipe&lt;/code&gt; but livescript just makes it simpler by providing a language level operator.&lt;/p&gt;
 &lt;p&gt;For simpler components (which are just responsible for presenting something passed as props, and do not need lifecycle methods etc.) it may be useful to define a micro-component builder:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-title&#34;&gt;micro-component&lt;/span&gt; = &lt;span class=&#34;hljs-params&#34;&gt;(render)&lt;/span&gt;-&amp;gt;&lt;/span&gt; React.create-factory React.create-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-title&#34;&gt;render&lt;/span&gt; &amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-title&#34;&gt;micro-component&lt;/span&gt; = &lt;span class=&#34;hljs-params&#34;&gt;(render)&lt;/span&gt;-&amp;gt;&lt;/span&gt; React.create-factory React.create-&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &amp;#123; render &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Once we have that, it makes it a lot more easier for us to follow React&amp;#39;s recommendation of having lightweight modular components which can be easily composed:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;ContactAvatar = micro-component -&amp;gt;
@@ -1194,7 +1194,7 @@ ContactListRow = micro-component -&amp;gt;
   ]
 
 ContactList = micro-component -&amp;gt;
-  element &lt;span class=&#34;hljs-string&#34;&gt;\table,&lt;/span&gt; &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;-&lt;span class=&#34;hljs-title&#34;&gt;name&lt;/span&gt;: \&lt;span class=&#34;hljs-title&#34;&gt;contacts&lt;/span&gt;, [&lt;/span&gt;
+  element &lt;span class=&#34;hljs-string&#34;&gt;\table,&lt;/span&gt; class-name: &lt;span class=&#34;hljs-string&#34;&gt;\contacts,&lt;/span&gt; [
     element &lt;span class=&#34;hljs-string&#34;&gt;\thead,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, [
       element &lt;span class=&#34;hljs-string&#34;&gt;\tr,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, [
         element &lt;span class=&#34;hljs-string&#34;&gt;\th,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Avatar&amp;#x27;&lt;/span&gt;
@@ -1214,7 +1214,7 @@ el = ContactList contacts: [
     name: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Albus Dumbledore&amp;#x27;&lt;/span&gt;
     email: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;albus@hogwarts.magic&amp;#x27;&lt;/span&gt;
 ]
-React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;
+React.render el, document.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Libraries like &lt;a href=&#34;https://github.com/mlmorg/react-hyperscript&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;&lt;code&gt;react-hyperscript&lt;/code&gt;&lt;/a&gt; may be used to further reduce the dom construction boilerplate :&lt;/p&gt;
@@ -1260,7 +1260,7 @@ el = ContactList contacts: [
     name: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Albus Dumbledore&amp;#x27;&lt;/span&gt;
     email: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;albus@hogwarts.magic&amp;#x27;&lt;/span&gt;
 ]
-React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;
+React.render el, document.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Apart from getting rid of null for attribute hashes, hyperscript is particularly useful for shorter syntax for class names and ids. Also it insulates our codebase against changes in the DOM builder API, which have happened in past.&lt;/p&gt;
@@ -1274,51 +1274,51 @@ React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;
         <id>https://lorefnon.me/2015/08/24/smarter-knockout-applications-with-es-next.html</id>
         <title>Smarter knockout applications with ES6/7</title>
         <link rel="alternate" href="https://lorefnon.me/2015/08/24/smarter-knockout-applications-with-es-next.html"/>
-        <content type="html">&lt;h1 id=&#34;Overview&#34;&gt;&lt;a href=&#34;#Overview&#34; class=&#34;headerlink&#34; title=&#34;Overview&#34;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;This post is an outline of ES6/7 features that we can leverage today in our &lt;a href=&#34;http://knockoutjs.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Knockout&lt;/a&gt; based applications to make them more maintainable.&lt;/p&gt;
+        <content type="html">&lt;h1 id=&#34;Overview&#34;&gt;&lt;a href=&#34;#Overview&#34; class=&#34;headerlink&#34; title=&#34;Overview&#34;&gt;&lt;/a&gt;Overview&lt;/h1&gt;&lt;p&gt;This post is an outline of ES6&amp;#x2F;7 features that we can leverage today in our &lt;a href=&#34;http://knockoutjs.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Knockout&lt;/a&gt; based applications to make them more maintainable.&lt;/p&gt;
 &lt;p&gt;Thanks to powerful and reliable transpilers like &lt;a href=&#34;http://babeljs.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Babel&lt;/a&gt; we don&amp;#39;t have to wait for mass adoption across browser vendors, to try out features from next generation javascript. While this post is essentially an overview written in a specific context, ie. Knockout applications, I encourage readers to refer to excellent online resources like &lt;a href=&#34;https://leanpub.com/javascriptallongesix&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Javascript Allonge&lt;/a&gt; for a broader coverage.&lt;/p&gt;
 &lt;h2 id=&#34;View-Models-as-ES-6-classes&#34;&gt;&lt;a href=&#34;#View-Models-as-ES-6-classes&#34; class=&#34;headerlink&#34; title=&#34;View Models as ES 6 classes:&#34;&gt;&lt;/a&gt;View Models as ES 6 classes:&lt;/h2&gt;&lt;p&gt;View models are typically defined as javascript constructor functions. ES6 classes offer a bit of syntax sugar over prototypal inheritance and the outcome might appeal to people coming other object oriented languages.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;SomeViewModel&lt;/span&gt; &lt;/span&gt;&amp;#123;
-  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-title&#34;&gt;constructor&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt; &amp;#123;
-    &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.firstName = ko.observable();
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;SomeViewModel&lt;/span&gt; &amp;#123;
+  &lt;span class=&#34;hljs-title function_&#34;&gt;constructor&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &amp;#123;
+    &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;firstName&lt;/span&gt; = ko.&lt;span class=&#34;hljs-title function_&#34;&gt;observable&lt;/span&gt;();
   &amp;#125;
 &amp;#125;
 
-ko.components.register(&amp;#123;
-  &lt;span class=&#34;hljs-attr&#34;&gt;viewModel&lt;/span&gt;: SomeViewModel,
+ko.&lt;span class=&#34;hljs-property&#34;&gt;components&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;register&lt;/span&gt;(&amp;#123;
+  &lt;span class=&#34;hljs-attr&#34;&gt;viewModel&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;SomeViewModel&lt;/span&gt;,
   &lt;span class=&#34;hljs-attr&#34;&gt;template&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;&amp;lt;div data-bind=&amp;quot;text: firstName&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&amp;#x27;&lt;/span&gt;
 &amp;#125;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&#34;Arrow-functions-in-computed-properties&#34;&gt;&lt;a href=&#34;#Arrow-functions-in-computed-properties&#34; class=&#34;headerlink&#34; title=&#34;Arrow functions in computed properties:&#34;&gt;&lt;/a&gt;Arrow functions in computed properties:&lt;/h2&gt;&lt;p&gt;In computed properties it is more often than not desirable that the context of function be the same as that of the outer function. Patterns like &lt;code&gt;var self = this&lt;/code&gt; have been adopted widely for situations like this.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;SomeViewModel&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;
-  &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.firstName = ko.observable();
-  &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.lastName = ko.observable();
-  &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; self = &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;;
-  &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.fullName = ko.computed(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;
-    &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; self.firstName() + &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27; &amp;#x27;&lt;/span&gt; + self.lastName();
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;SomeViewModel&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &amp;#123;
+  &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;firstName&lt;/span&gt; = ko.&lt;span class=&#34;hljs-title function_&#34;&gt;observable&lt;/span&gt;();
+  &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;lastName&lt;/span&gt; = ko.&lt;span class=&#34;hljs-title function_&#34;&gt;observable&lt;/span&gt;();
+  &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; self = &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;;
+  &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;fullName&lt;/span&gt; = ko.&lt;span class=&#34;hljs-title function_&#34;&gt;computed&lt;/span&gt;(&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &amp;#123;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; self.&lt;span class=&#34;hljs-title function_&#34;&gt;firstName&lt;/span&gt;() + &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27; &amp;#x27;&lt;/span&gt; + self.&lt;span class=&#34;hljs-title function_&#34;&gt;lastName&lt;/span&gt;();
   &amp;#125;);
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Arrow functions simplify this use case by providing special syntax for functions which, as MDN &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;explains&lt;/a&gt; it, capture the this value of the enclosing context&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;SomeViewModel&lt;/span&gt; &lt;/span&gt;&amp;#123;
-  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-title&#34;&gt;constructor&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt; &amp;#123;
-    &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.firstName = ko.observable();
-    &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.lastName = ko.observable();
-    &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.fullName = ko.computed(&lt;span class=&#34;hljs-function&#34;&gt;() =&amp;gt;&lt;/span&gt; &amp;#123;
-      &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.firstName() + &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27; &amp;#x27;&lt;/span&gt; + &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.lastName();
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;SomeViewModel&lt;/span&gt; &amp;#123;
+  &lt;span class=&#34;hljs-title function_&#34;&gt;constructor&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &amp;#123;
+    &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;firstName&lt;/span&gt; = ko.&lt;span class=&#34;hljs-title function_&#34;&gt;observable&lt;/span&gt;();
+    &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;lastName&lt;/span&gt; = ko.&lt;span class=&#34;hljs-title function_&#34;&gt;observable&lt;/span&gt;();
+    &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;fullName&lt;/span&gt; = ko.&lt;span class=&#34;hljs-title function_&#34;&gt;computed&lt;/span&gt;(&lt;span class=&#34;hljs-function&#34;&gt;() =&amp;gt;&lt;/span&gt; &amp;#123;
+      &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;firstName&lt;/span&gt;() + &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27; &amp;#x27;&lt;/span&gt; + &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;lastName&lt;/span&gt;();
     &amp;#125;);
   &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Or for smaller functions we can reduce the verbosity even further:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;SomeViewModel&lt;/span&gt; &lt;/span&gt;&amp;#123;
-  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-title&#34;&gt;constructor&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt; &amp;#123;
-    &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.firstName = ko.observable();
-    &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.lastName = ko.observable();
-    &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.fullName = ko.computed(&lt;span class=&#34;hljs-function&#34;&gt;() =&amp;gt;&lt;/span&gt; &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.firstName() + &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27; &amp;#x27;&lt;/span&gt; + &lt;span class=&#34;hljs-built_in&#34;&gt;this&lt;/span&gt;.lastName());
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;SomeViewModel&lt;/span&gt; &amp;#123;
+  &lt;span class=&#34;hljs-title function_&#34;&gt;constructor&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &amp;#123;
+    &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;firstName&lt;/span&gt; = ko.&lt;span class=&#34;hljs-title function_&#34;&gt;observable&lt;/span&gt;();
+    &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;lastName&lt;/span&gt; = ko.&lt;span class=&#34;hljs-title function_&#34;&gt;observable&lt;/span&gt;();
+    &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;fullName&lt;/span&gt; = ko.&lt;span class=&#34;hljs-title function_&#34;&gt;computed&lt;/span&gt;(&lt;span class=&#34;hljs-function&#34;&gt;() =&amp;gt;&lt;/span&gt; &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;firstName&lt;/span&gt;() + &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27; &amp;#x27;&lt;/span&gt; + &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;lastName&lt;/span&gt;());
   &amp;#125;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;Imports-for-code-organization&#34;&gt;&lt;a href=&#34;#Imports-for-code-organization&#34; class=&#34;headerlink&#34; title=&#34;Imports for code organization:&#34;&gt;&lt;/a&gt;Imports for code organization:&lt;/h2&gt;&lt;p&gt;JS imports are the new standard approach to deal with modularization in JS code, and I can only anticipate &lt;a href=&#34;https://angular.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;more&lt;/a&gt; and &lt;a href=&#34;http://aurelia.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;more&lt;/a&gt; libraries moving to them from older patterns like &lt;a href=&#34;https://github.com/amdjs/amdjs-api/wiki/AMD&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;AMD&lt;/a&gt; or &lt;a href=&#34;http://wiki.commonjs.org/wiki/CommonJS&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;CommonJS&lt;/a&gt;. Babel can transpile imports to require invocations that follow AMD/CommonJS syntax so you can move to newer syntax progressively and continue using your existing loaders/bundlers. My personal recommendation for bundler is &lt;a href=&#34;http://webpack.github.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;webpack&lt;/a&gt; which offers interesting features like &lt;a href=&#34;http://webpack.github.io/docs/code-splitting.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Code splitting&lt;/a&gt; out of the box.&lt;/p&gt;
+&lt;h2 id=&#34;Imports-for-code-organization&#34;&gt;&lt;a href=&#34;#Imports-for-code-organization&#34; class=&#34;headerlink&#34; title=&#34;Imports for code organization:&#34;&gt;&lt;/a&gt;Imports for code organization:&lt;/h2&gt;&lt;p&gt;JS imports are the new standard approach to deal with modularization in JS code, and I can only anticipate &lt;a href=&#34;https://angular.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;more&lt;/a&gt; and &lt;a href=&#34;http://aurelia.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;more&lt;/a&gt; libraries moving to them from older patterns like &lt;a href=&#34;https://github.com/amdjs/amdjs-api/wiki/AMD&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;AMD&lt;/a&gt; or &lt;a href=&#34;http://wiki.commonjs.org/wiki/CommonJS&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;CommonJS&lt;/a&gt;. Babel can transpile imports to require invocations that follow AMD&amp;#x2F;CommonJS syntax so you can move to newer syntax progressively and continue using your existing loaders&amp;#x2F;bundlers. My personal recommendation for bundler is &lt;a href=&#34;http://webpack.github.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;webpack&lt;/a&gt; which offers interesting features like &lt;a href=&#34;http://webpack.github.io/docs/code-splitting.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Code splitting&lt;/a&gt; out of the box.&lt;/p&gt;
 &lt;h2 id=&#34;Template-strings&#34;&gt;&lt;a href=&#34;#Template-strings&#34; class=&#34;headerlink&#34; title=&#34;Template strings&#34;&gt;&lt;/a&gt;Template strings&lt;/h2&gt;&lt;p&gt;Template strings make it easy to define small multi-line templates along side view models.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;ko.components.register(&amp;#123;
   viewModel: SomeViewModel,
@@ -1332,8 +1332,8 @@ ko.components.register(&amp;#123;
 &amp;#125;);&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Although for larger templates I recommend using something like &lt;a href=&#34;https://github.com/webpack/raw-loader&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;webpack-raw-loader&lt;/a&gt; so you can write:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;ko.components.register(&amp;#123;
-  &lt;span class=&#34;hljs-attr&#34;&gt;viewModel&lt;/span&gt;: SomeViewModel,
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;ko.&lt;span class=&#34;hljs-property&#34;&gt;components&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;register&lt;/span&gt;(&amp;#123;
+  &lt;span class=&#34;hljs-attr&#34;&gt;viewModel&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;SomeViewModel&lt;/span&gt;,
   &lt;span class=&#34;hljs-attr&#34;&gt;template&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./some_view_model.html&amp;#x27;&lt;/span&gt;)
 &amp;#125;);&lt;/code&gt;&lt;/pre&gt;
 
@@ -1438,18 +1438,18 @@ web-root of our application eg. the public folder of a Rails application.&lt;/p&
     connect = &lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;connect&amp;#x27;&lt;/span&gt;),
     livereload = &lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;connect-livereload&amp;#x27;&lt;/span&gt;)
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; proxy = httpProxy.createProxyServer()
+&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; proxy = httpProxy.&lt;span class=&#34;hljs-title function_&#34;&gt;createProxyServer&lt;/span&gt;()
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; app = connect()
-    .use(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/dashboard&amp;#x27;&lt;/span&gt;, connect.static(__dirname+&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/dashboard&amp;#x27;&lt;/span&gt;))
-    .use(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;req, res&lt;/span&gt;)&lt;/span&gt;&amp;#123;
-        &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (req.url.indexOf(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;dashboard&amp;#x27;&lt;/span&gt;) == -&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;) &amp;#123;
-            proxy.web(req, res, &amp;#123;
+&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; app = &lt;span class=&#34;hljs-title function_&#34;&gt;connect&lt;/span&gt;()
+    .&lt;span class=&#34;hljs-title function_&#34;&gt;use&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/dashboard&amp;#x27;&lt;/span&gt;, connect.&lt;span class=&#34;hljs-title function_&#34;&gt;static&lt;/span&gt;(__dirname+&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/dashboard&amp;#x27;&lt;/span&gt;))
+    .&lt;span class=&#34;hljs-title function_&#34;&gt;use&lt;/span&gt;(&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;req, res&lt;/span&gt;)&amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (req.&lt;span class=&#34;hljs-property&#34;&gt;url&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;indexOf&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;dashboard&amp;#x27;&lt;/span&gt;) == -&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;) &amp;#123;
+            proxy.&lt;span class=&#34;hljs-title function_&#34;&gt;web&lt;/span&gt;(req, res, &amp;#123;
                 &lt;span class=&#34;hljs-attr&#34;&gt;target&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;http://localhost:3000&amp;#x27;&lt;/span&gt;
             &amp;#125;)
         &amp;#125;
     &amp;#125;)
-    .listen(&lt;span class=&#34;hljs-number&#34;&gt;4000&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+    .&lt;span class=&#34;hljs-title function_&#34;&gt;listen&lt;/span&gt;(&lt;span class=&#34;hljs-number&#34;&gt;4000&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Before running the server, install the node.js dependencies:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;npm install --save connect http-proxy connect-livereload&lt;/code&gt;&lt;/pre&gt;
@@ -1469,26 +1469,26 @@ folders is as simple as:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; gulp = &lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;gulp&amp;#x27;&lt;/span&gt;),
     clean = &lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;gulp-clean&amp;#x27;&lt;/span&gt;)
 
-gulp.task(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;clean&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;
-    gulp.src([&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/js/*&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/css/*&amp;#x27;&lt;/span&gt;])
-        .pipe(clean())
+gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;task&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;clean&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&amp;#123;
+    gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;src&lt;/span&gt;([&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/js/*&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/css/*&amp;#x27;&lt;/span&gt;])
+        .&lt;span class=&#34;hljs-title function_&#34;&gt;pipe&lt;/span&gt;(&lt;span class=&#34;hljs-title function_&#34;&gt;clean&lt;/span&gt;())
 &amp;#125;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The stream based based approach really shines when we use pre-processors for
 our js or css files. For example to use stylus for css we can add:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; stylus = &lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;gulp-stylus&amp;#x27;&lt;/span&gt;)
 
-gulp.task(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;css&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;
-    gulp.src(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/css/*.styl&amp;#x27;&lt;/span&gt;)
-        .pipe(stylus())
-        .pipe(gulp.dest(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/css&amp;#x27;&lt;/span&gt;))
+gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;task&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;css&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&amp;#123;
+    gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;src&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/css/*.styl&amp;#x27;&lt;/span&gt;)
+        .&lt;span class=&#34;hljs-title function_&#34;&gt;pipe&lt;/span&gt;(&lt;span class=&#34;hljs-title function_&#34;&gt;stylus&lt;/span&gt;())
+        .&lt;span class=&#34;hljs-title function_&#34;&gt;pipe&lt;/span&gt;(gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;dest&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/css&amp;#x27;&lt;/span&gt;))
 &amp;#125;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;To manage dependencies with browserify we can have:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;gulp.task(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;js&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;
-    gulp.src(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/js/index.js&amp;#x27;&lt;/span&gt;)
-        .pipe(browserify())
-        .pipe(gulp.dest(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/js&amp;#x27;&lt;/span&gt;))
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;task&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;js&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&amp;#123;
+    gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;src&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/js/index.js&amp;#x27;&lt;/span&gt;)
+        .&lt;span class=&#34;hljs-title function_&#34;&gt;pipe&lt;/span&gt;(&lt;span class=&#34;hljs-title function_&#34;&gt;browserify&lt;/span&gt;())
+        .&lt;span class=&#34;hljs-title function_&#34;&gt;pipe&lt;/span&gt;(gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;dest&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/js&amp;#x27;&lt;/span&gt;))
 &amp;#125;)
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -1498,25 +1498,25 @@ simple, intuitive and consistent throughout.&lt;/p&gt;
 have to be installed through npm before we can use them.&lt;/p&gt;
 &lt;p&gt;While we can run &lt;code&gt;gulp js&lt;/code&gt;, &lt;code&gt;gulp css&lt;/code&gt;, &lt;code&gt;gulp clean&lt;/code&gt; etc. from the command line
 we would probably want to have a default task that we run most of the time:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;gulp.task(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;default&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;clean&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;js&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;css&amp;#x27;&lt;/span&gt;])&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;task&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;default&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;clean&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;js&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;css&amp;#x27;&lt;/span&gt;])&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Now running &lt;code&gt;gulp&lt;/code&gt; will cleanup the dashboard/js and dashboard/css folders and
+&lt;p&gt;Now running &lt;code&gt;gulp&lt;/code&gt; will cleanup the dashboard&amp;#x2F;js and dashboard&amp;#x2F;css folders and
 run our js and css tasks.&lt;/p&gt;
 &lt;p&gt;To streamline our workflow we configure a watcher which can monitor our files, and
 run the associated tasks automatically. Writing a simple watcher is as simple as:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;gulp.task(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;watch&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;
-    gulp.watch(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/js/**/*&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;default&amp;#x27;&lt;/span&gt;])
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;task&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;watch&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&amp;#123;
+    gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;watch&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/js/**/*&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;default&amp;#x27;&lt;/span&gt;])
 &amp;#125;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;And why stop here, let us automate browser refreshes too. We can use &lt;a href=&#34;http://livereload.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;livereload&lt;/a&gt; to
 automatically reload our browser whenever the files change.&lt;/p&gt;
 &lt;p&gt;We can add a watcher that notifies the livereload server with changes:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;gulp.task(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;watch&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;
-    &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; server = livereload()
-    gulp.watch(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/js/**/*&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;default&amp;#x27;&lt;/span&gt;])
-    gulp.watch(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/**/*&amp;#x27;&lt;/span&gt;)
-        .on(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;change&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;file&lt;/span&gt;)&lt;/span&gt;&amp;#123;
-            server.changed(file.path)
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;task&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;watch&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&amp;#123;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; server = &lt;span class=&#34;hljs-title function_&#34;&gt;livereload&lt;/span&gt;()
+    gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;watch&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/js/**/*&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;default&amp;#x27;&lt;/span&gt;])
+    gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;watch&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/**/*&amp;#x27;&lt;/span&gt;)
+        .&lt;span class=&#34;hljs-title function_&#34;&gt;on&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;change&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;file&lt;/span&gt;)&amp;#123;
+            server.&lt;span class=&#34;hljs-title function_&#34;&gt;changed&lt;/span&gt;(file.&lt;span class=&#34;hljs-property&#34;&gt;path&lt;/span&gt;)
         &amp;#125;)
 &amp;#125;)&lt;/code&gt;&lt;/pre&gt;
 
@@ -1528,20 +1528,20 @@ situations like this.&lt;/p&gt;
 extension for livereload. But in case you haven&amp;#39;t you can use a middleware for
 express in the server.js file. This is especially convenient for testing on
 several browsers.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; app = connect()
-    .use(connect.logger(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;dev&amp;#x27;&lt;/span&gt;))
-    .use(livereload(&amp;#123;
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; app = &lt;span class=&#34;hljs-title function_&#34;&gt;connect&lt;/span&gt;()
+    .&lt;span class=&#34;hljs-title function_&#34;&gt;use&lt;/span&gt;(connect.&lt;span class=&#34;hljs-title function_&#34;&gt;logger&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;dev&amp;#x27;&lt;/span&gt;))
+    .&lt;span class=&#34;hljs-title function_&#34;&gt;use&lt;/span&gt;(&lt;span class=&#34;hljs-title function_&#34;&gt;livereload&lt;/span&gt;(&amp;#123;
         &lt;span class=&#34;hljs-attr&#34;&gt;port&lt;/span&gt;: &lt;span class=&#34;hljs-number&#34;&gt;35729&lt;/span&gt;
     &amp;#125;))
-    .use(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/dashboard&amp;#x27;&lt;/span&gt;, connect.static(__dirname+&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/dashboard&amp;#x27;&lt;/span&gt;))
-    .use(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;req, res&lt;/span&gt;)&lt;/span&gt;&amp;#123;
-        &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (req.url.indexOf(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;dashboard&amp;#x27;&lt;/span&gt;) == -&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;) &amp;#123;
-            proxy.web(req, res, &amp;#123;
+    .&lt;span class=&#34;hljs-title function_&#34;&gt;use&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/dashboard&amp;#x27;&lt;/span&gt;, connect.&lt;span class=&#34;hljs-title function_&#34;&gt;static&lt;/span&gt;(__dirname+&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/dashboard&amp;#x27;&lt;/span&gt;))
+    .&lt;span class=&#34;hljs-title function_&#34;&gt;use&lt;/span&gt;(&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;req, res&lt;/span&gt;)&amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (req.&lt;span class=&#34;hljs-property&#34;&gt;url&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;indexOf&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;dashboard&amp;#x27;&lt;/span&gt;) == -&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;) &amp;#123;
+            proxy.&lt;span class=&#34;hljs-title function_&#34;&gt;web&lt;/span&gt;(req, res, &amp;#123;
                 &lt;span class=&#34;hljs-attr&#34;&gt;target&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;http://localhost:3000&amp;#x27;&lt;/span&gt;
             &amp;#125;)
         &amp;#125;
     &amp;#125;)
-    .listen(&lt;span class=&#34;hljs-number&#34;&gt;4000&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+    .&lt;span class=&#34;hljs-title function_&#34;&gt;listen&lt;/span&gt;(&lt;span class=&#34;hljs-number&#34;&gt;4000&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;35729 is the default port on which livereload server runs. Note that this
 relieves us from having to add the livereload script in our page manually
@@ -1554,13 +1554,13 @@ just transparently reload the css files.&lt;/p&gt;
 in src directory changes we run both our js and css tasks which cause both
 js and css files to be regerated and thus prompt livereload to refresh the page.&lt;/p&gt;
 &lt;p&gt;To remedy this we have to modify the watch handler:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;gulp.task(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;watch&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;
-    &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; server = livereload()
-    gulp.watch(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/js/**/*.js&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;js&amp;#x27;&lt;/span&gt;])
-    gulp.watch(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/css/**/*.styl&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;css&amp;#x27;&lt;/span&gt;])
-    gulp.watch(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/**/*&amp;#x27;&lt;/span&gt;)
-        .on(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;change&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;file&lt;/span&gt;)&lt;/span&gt;&amp;#123;
-            server.changed(file.path)
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;task&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;watch&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&amp;#123;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; server = &lt;span class=&#34;hljs-title function_&#34;&gt;livereload&lt;/span&gt;()
+    gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;watch&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/js/**/*.js&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;js&amp;#x27;&lt;/span&gt;])
+    gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;watch&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./src/css/**/*.styl&amp;#x27;&lt;/span&gt;, [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;css&amp;#x27;&lt;/span&gt;])
+    gulp.&lt;span class=&#34;hljs-title function_&#34;&gt;watch&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./dashboard/**/*&amp;#x27;&lt;/span&gt;)
+        .&lt;span class=&#34;hljs-title function_&#34;&gt;on&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;change&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;file&lt;/span&gt;)&amp;#123;
+            server.&lt;span class=&#34;hljs-title function_&#34;&gt;changed&lt;/span&gt;(file.&lt;span class=&#34;hljs-property&#34;&gt;path&lt;/span&gt;)
         &amp;#125;)
 &amp;#125;)&lt;/code&gt;&lt;/pre&gt;
 
@@ -1599,8 +1599,8 @@ welcome.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Then the compiled template can be used just like you would use any other amd module :&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-built_in&#34;&gt;require&lt;/span&gt;([ &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;templates/person&amp;#x27;&lt;/span&gt; ],            &lt;span class=&#34;hljs-comment&#34;&gt;// Compiled template AMD modules&lt;/span&gt;
-    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;personTemplate&lt;/span&gt;) &lt;/span&gt;&amp;#123;
-        &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; rendered_content = personTemplate(&amp;#123;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;personTemplate&lt;/span&gt;) &amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; rendered_content = &lt;span class=&#34;hljs-title function_&#34;&gt;personTemplate&lt;/span&gt;(&amp;#123;
               &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Joe Bloggs&amp;#x27;&lt;/span&gt;                &lt;span class=&#34;hljs-comment&#34;&gt;// Data to be used in the template&lt;/span&gt;
          &amp;#125;);
     &amp;#125;
@@ -1642,29 +1642,29 @@ welcome.&lt;/p&gt;
   &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;body&lt;/span&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;html&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;$(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&lt;/span&gt;&amp;#123;
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;$(&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;)&amp;#123;
     &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; vmodel = &amp;#123;
-        &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: ko.observable(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Lorefnon&amp;quot;&lt;/span&gt;)
+        &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: ko.&lt;span class=&#34;hljs-title function_&#34;&gt;observable&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Lorefnon&amp;quot;&lt;/span&gt;)
     &amp;#125;
-    ko.applyBindings(vmodel);
+    ko.&lt;span class=&#34;hljs-title function_&#34;&gt;applyBindings&lt;/span&gt;(vmodel);
 &amp;#125;);&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;There are two binders involved : text-binder and value-binder. Let us inspect the &lt;strong&gt;ko.bindingHandlers.text&lt;/strong&gt;in javascript.   It has a single member : update function. Yes, you guessed it right – this is the function that is called when the span is to be updated. Let us checkout what it does :&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;ko.bindingHandlers[&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;text&amp;#x27;&lt;/span&gt;] = &amp;#123;
-    &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;update&amp;#x27;&lt;/span&gt;: &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; (&lt;span class=&#34;hljs-params&#34;&gt;element, valueAccessor&lt;/span&gt;) &lt;/span&gt;&amp;#123;
-        ko.utils.setTextContent(element, valueAccessor());
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;ko.&lt;span class=&#34;hljs-property&#34;&gt;bindingHandlers&lt;/span&gt;[&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;text&amp;#x27;&lt;/span&gt;] = &amp;#123;
+    &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;update&amp;#x27;&lt;/span&gt;: &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; (&lt;span class=&#34;hljs-params&#34;&gt;element, valueAccessor&lt;/span&gt;) &amp;#123;
+        ko.&lt;span class=&#34;hljs-property&#34;&gt;utils&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;setTextContent&lt;/span&gt;(element, &lt;span class=&#34;hljs-title function_&#34;&gt;valueAccessor&lt;/span&gt;());
     &amp;#125;
 &amp;#125;;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The code is straightforward and self explanatory. You can just add a breakpoint to the update function and it will be triggered every time that particular DOM node is updated. As expected the actual DOM manipulation takes place in the &lt;strong&gt;ko.utils.setTextContent&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;setTextContent: &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; (&lt;span class=&#34;hljs-params&#34;&gt;element, textContent&lt;/span&gt;) &lt;/span&gt;&amp;#123;
-     &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; value = ko.utils.unwrapObservable(textContent);
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-attr&#34;&gt;setTextContent&lt;/span&gt;: &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; (&lt;span class=&#34;hljs-params&#34;&gt;element, textContent&lt;/span&gt;) &amp;#123;
+     &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; value = ko.&lt;span class=&#34;hljs-property&#34;&gt;utils&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;unwrapObservable&lt;/span&gt;(textContent);
      &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; ((value === &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;) || (value === &lt;span class=&#34;hljs-literal&#34;&gt;undefined&lt;/span&gt;)) value = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;;
-     &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;innerText&amp;#x27;&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;in&lt;/span&gt; element ? element.innerText = value : element.textContent = value;
+     &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;innerText&amp;#x27;&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;in&lt;/span&gt; element ? element.&lt;span class=&#34;hljs-property&#34;&gt;innerText&lt;/span&gt; = value : element.&lt;span class=&#34;hljs-property&#34;&gt;textContent&lt;/span&gt; = value;
      &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (ieVersion &amp;gt;= &lt;span class=&#34;hljs-number&#34;&gt;9&lt;/span&gt;) &amp;#123;
          &lt;span class=&#34;hljs-comment&#34;&gt;// Believe it or not, this actually fixes an IE9 rendering bug&lt;/span&gt;
          &lt;span class=&#34;hljs-comment&#34;&gt;// (See https://github.com/SteveSanderson/knockout/issues/209)&lt;/span&gt;
-         element.style.display = element.style.display;
+         element.&lt;span class=&#34;hljs-property&#34;&gt;style&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;display&lt;/span&gt; = element.&lt;span class=&#34;hljs-property&#34;&gt;style&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;display&lt;/span&gt;;
      &amp;#125;
 &amp;#125;,
 &lt;/code&gt;&lt;/pre&gt;
@@ -1673,10 +1673,10 @@ welcome.&lt;/p&gt;
 &lt;img src=&#34;/images/ko.png&#34; /&gt;
 
 &lt;p&gt;As you probably have already guessed, the init function creates the bindings to intercept any change in the form element. The actual handler that is called each time when the input element changes its value is the valueUpdateHandler function defined inside init :&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; valueUpdateHandler = &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; (&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;
-     &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; modelValue = valueAccessor();
-     &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; elementValue = ko.selectExtensions.readValue(element);
-     ko.jsonExpressionRewriting.writeValueToProperty(modelValue, allBindingsAccessor, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;value&amp;#x27;&lt;/span&gt;, elementValue, &lt;span class=&#34;hljs-comment&#34;&gt;/* checkIfDifferent: */&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;);
+&lt;pre&gt;&lt;code class=&#34;hljs javascript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; valueUpdateHandler = &lt;span class=&#34;hljs-keyword&#34;&gt;function&lt;/span&gt; (&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &amp;#123;
+     &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; modelValue = &lt;span class=&#34;hljs-title function_&#34;&gt;valueAccessor&lt;/span&gt;();
+     &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; elementValue = ko.&lt;span class=&#34;hljs-property&#34;&gt;selectExtensions&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;readValue&lt;/span&gt;(element);
+     ko.&lt;span class=&#34;hljs-property&#34;&gt;jsonExpressionRewriting&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;writeValueToProperty&lt;/span&gt;(modelValue, allBindingsAccessor, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;value&amp;#x27;&lt;/span&gt;, elementValue, &lt;span class=&#34;hljs-comment&#34;&gt;/* checkIfDifferent: */&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;);
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;elementValue holds the changed value which is in the next line synced back.&lt;/p&gt;

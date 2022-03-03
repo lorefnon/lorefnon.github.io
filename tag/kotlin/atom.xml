@@ -85,11 +85,11 @@
         <link rel="alternate" href="https://lorefnon.me/2021/12/15/mapping-between-domain-and-dtos-for-grpc/"/>
         <content type="html">&lt;p&gt;In a &lt;a href=&#34;/2021/09/04/bootstrapping-a-grpc-server-with-spring-boot-and-kotlin&#34;&gt;previous post&lt;/a&gt; we briefly explored how to build a gRPC api backend with Kotlin. &lt;/p&gt;
 &lt;p&gt;In particular, we saw that from the protobuf spec which defines our API, the &lt;a href=&#34;https://grpc.io/docs/protoc-installation/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;protoc compiler&lt;/a&gt; (along with language specific plugins) is able to generate classes for the language(s) in which our server (or client) is implemented. &lt;/p&gt;
-&lt;p&gt;To exemplify for our case (a kotlin/JVM backend), given a proto spec like this: &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs protobuf&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;User&lt;/span&gt; &lt;/span&gt;&amp;#123;
-  &lt;span class=&#34;hljs-built_in&#34;&gt;int64&lt;/span&gt; id = &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
-  &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt; name = &lt;span class=&#34;hljs-number&#34;&gt;2&lt;/span&gt;;
-  &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt; email = &lt;span class=&#34;hljs-number&#34;&gt;3&lt;/span&gt;;
+&lt;p&gt;To exemplify for our case (a kotlin&amp;#x2F;JVM backend), given a proto spec like this: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs protobuf&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message &lt;/span&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;User&lt;/span&gt; &amp;#123;
+  &lt;span class=&#34;hljs-type&#34;&gt;int64&lt;/span&gt; id = &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
+  &lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt; name = &lt;span class=&#34;hljs-number&#34;&gt;2&lt;/span&gt;;
+  &lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt; email = &lt;span class=&#34;hljs-number&#34;&gt;3&lt;/span&gt;;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The code generator generates an immutable User java class, and an associated builder, which we can invoke like this: &lt;/p&gt;
@@ -115,7 +115,7 @@
 &lt;p&gt; This means that we can&amp;#39;t inherit from these classes, can&amp;#39;t extend them with internal fields (not part of the API) and can&amp;#39;t add behaviors (methods) to them. &lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;They are immutable:&lt;/p&gt;
-&lt;p&gt; So whenever we need to get an updated entity, we will need to clone the entity with modifications. &lt;/p&gt;
+&lt;p&gt; So whenever we need to get an updated entity, we will need to clone the entity with modifications.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Thus, using the DTOs as Domain classes as well works well primarily when the business logic is entirely implemented as functional services. &lt;/p&gt;
@@ -172,7 +172,7 @@
 &lt;h2 id=&#34;Option-4-Use-a-mapping-library-like-MapStruct&#34;&gt;&lt;a href=&#34;#Option-4-Use-a-mapping-library-like-MapStruct&#34; class=&#34;headerlink&#34; title=&#34;Option 4: Use a mapping library like MapStruct&#34;&gt;&lt;/a&gt;Option 4: Use a mapping library like MapStruct&lt;/h2&gt;&lt;p&gt;MapStruct is a really nice model mapping library for java that has good support for Kotlin and protobuf style builders. &lt;/p&gt;
 &lt;p&gt;One great feature of the library, as compared to many other similar model mapping libraries is that there is no reflection involved during mapping - which makes this library very performant in practice. &lt;/p&gt;
 &lt;p&gt;Application developers need to define mapper interfaces, and at compile time MapStruct will generate mapper classes which convert between one type to another. &lt;/p&gt;
-&lt;p&gt;With this library, we can define our domain classes as Kotlin (data) classes and have them mapped to/from the API classes at the API service layer. &lt;/p&gt;
+&lt;p&gt;With this library, we can define our domain classes as Kotlin (data) classes and have them mapped to&amp;#x2F;from the API classes at the API service layer. &lt;/p&gt;
 &lt;p&gt;Following are the primary dependencies we need: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.mapstruct:mapstruct:1.4.2.Final&amp;quot;&lt;/span&gt;)
 kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.mapstruct:mapstruct-processor:1.4.2.Final&amp;quot;&lt;/span&gt;)
@@ -208,7 +208,7 @@ kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;no.entur.mapstruct.spi:pr
     &lt;span class=&#34;hljs-comment&#34;&gt;// Custom mapping for field&lt;/span&gt;
     &lt;span class=&#34;hljs-meta&#34;&gt;@Mappings(&lt;/span&gt;
 &lt;span class=&#34;hljs-meta&#34;&gt;        value = [&lt;/span&gt;
-&lt;span class=&#34;hljs-meta&#34;&gt;            Mapping(source = &lt;span class=&#34;hljs-meta-string&#34;&gt;&amp;quot;mailAddress&amp;quot;&lt;/span&gt;, target = &lt;span class=&#34;hljs-meta-string&#34;&gt;&amp;quot;email&amp;quot;&lt;/span&gt;)&lt;/span&gt;
+&lt;span class=&#34;hljs-meta&#34;&gt;            Mapping(source = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;mailAddress&amp;quot;&lt;/span&gt;, target = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;email&amp;quot;&lt;/span&gt;)&lt;/span&gt;
         ]
     )
     &lt;span class=&#34;hljs-keyword&#34;&gt;abstract&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;mapUserFromPB&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(source: &lt;span class=&#34;hljs-type&#34;&gt;User&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;: UserEntity
@@ -251,14 +251,14 @@ kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;no.entur.mapstruct.spi:pr
         <id>https://lorefnon.me/2021/11/21/composable-and-refactorable-annotaiton-args-in-kotlin-with-const-val/</id>
         <title>Composable and Refactorable annotation arguments in Kotlin with const val</title>
         <link rel="alternate" href="https://lorefnon.me/2021/11/21/composable-and-refactorable-annotaiton-args-in-kotlin-with-const-val/"/>
-        <content type="html">&lt;p&gt;There are many libraries in JVM ecosystem that lean heavily on use of annotations. A pain point when dealing with string args passed to annotations is that they are hard to compose/reuse.&lt;/p&gt;
+        <content type="html">&lt;p&gt;There are many libraries in JVM ecosystem that lean heavily on use of annotations. A pain point when dealing with string args passed to annotations is that they are hard to compose&amp;#x2F;reuse.&lt;/p&gt;
 &lt;p&gt;For example, here is a sample mybatis mapper:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.apache.ibatis.annotations.Select
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;PersonMapper&lt;/span&gt; &lt;/span&gt;{
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-meta&#34;&gt;@Select(
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-meta-string&#34;&gt;&amp;quot;&amp;quot;&amp;quot;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;quot;&amp;quot;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        select *
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        from person where id = #{value}
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
@@ -266,7 +266,7 @@ kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;no.entur.mapstruct.spi:pr
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;selectPersonById&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(id: &lt;span class=&#34;hljs-type&#34;&gt;Int&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;: Person
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-meta&#34;&gt;@Select(
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-meta-string&#34;&gt;&amp;quot;&amp;quot;&amp;quot;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;quot;&amp;quot;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        select *
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        from person where email = #{value}
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
@@ -276,7 +276,7 @@ kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;no.entur.mapstruct.spi:pr
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;As written above, if we want to change the name of person table in future, we&amp;#39;d have to resort to find/replace across the project, which isn&amp;#39;t great.&lt;/p&gt;
+&lt;p&gt;As written above, if we want to change the name of person table in future, we&amp;#39;d have to resort to find&amp;#x2F;replace across the project, which isn&amp;#39;t great.&lt;/p&gt;
 &lt;p&gt;In addition, a typo in the table name would be a runtime error as opposed to a compile time.&lt;/p&gt;
 &lt;p&gt;Both of the above issues are easily solvable by using &lt;code&gt;const val&lt;/code&gt; feature of Kotlin, for defining compile time constants.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; PERSON_TABLE = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;person&amp;quot;&lt;/span&gt;
@@ -284,7 +284,7 @@ kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;no.entur.mapstruct.spi:pr
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;PersonMapper&lt;/span&gt; &lt;/span&gt;{
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-meta&#34;&gt;@Select(
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-meta-string&#34;&gt;&amp;quot;&amp;quot;&amp;quot;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;quot;&amp;quot;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        select *
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        from &lt;span class=&#34;hljs-subst&#34;&gt;${PERSON_TABLE}&lt;/span&gt; where id = #{value}
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
@@ -292,7 +292,7 @@ kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;no.entur.mapstruct.spi:pr
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;selectPersonById&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(id: &lt;span class=&#34;hljs-type&#34;&gt;Int&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;: Person
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-meta&#34;&gt;@Select(
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-meta-string&#34;&gt;&amp;quot;&amp;quot;&amp;quot;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;quot;&amp;quot;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        select *
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        from &lt;span class=&#34;hljs-subst&#34;&gt;${PERSON_TABLE}&lt;/span&gt; where email = #{value}
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
@@ -314,12 +314,12 @@ kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;no.entur.mapstruct.spi:pr
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-meta&#34;&gt;@GET(USER_ENDPOINT)&lt;/span&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;getUserByEmail&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-meta&#34;&gt;@Query(&lt;span class=&#34;hljs-meta-string&#34;&gt;&amp;quot;email&amp;quot;&lt;/span&gt;)&lt;/span&gt; email: &lt;span class=&#34;hljs-type&#34;&gt;String&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-meta&#34;&gt;@Query(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;email&amp;quot;&lt;/span&gt;)&lt;/span&gt; email: &lt;span class=&#34;hljs-type&#34;&gt;String&lt;/span&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    )&lt;/span&gt;&lt;/span&gt;: Call&amp;lt;User&amp;gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-meta&#34;&gt;@GET(USER_ENDPOINT)&lt;/span&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;getUserById&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-meta&#34;&gt;@Query(&lt;span class=&#34;hljs-meta-string&#34;&gt;&amp;quot;id&amp;quot;&lt;/span&gt;)&lt;/span&gt; id: &lt;span class=&#34;hljs-type&#34;&gt;String&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-meta&#34;&gt;@Query(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;id&amp;quot;&lt;/span&gt;)&lt;/span&gt; id: &lt;span class=&#34;hljs-type&#34;&gt;String&lt;/span&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    )&lt;/span&gt;&lt;/span&gt;: Call&amp;lt;User&amp;gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
@@ -334,7 +334,7 @@ kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;no.entur.mapstruct.spi:pr
         <id>https://lorefnon.me/2021/09/04/bootstrapping-a-grpc-server-with-spring-boot-and-kotlin/</id>
         <title>Bootstrapping a Kotlin gRPC service with Spring Boot</title>
         <link rel="alternate" href="https://lorefnon.me/2021/09/04/bootstrapping-a-grpc-server-with-spring-boot-and-kotlin/"/>
-        <content type="html">&lt;p&gt;It has always been possible to build gRPC services in kotlin through java interop, but with the recently improved first class support for kotlin in the official gRPC/protobuf libraries it is quite straightforward to build gRPC services in Kotlin which take advantage of kotlin native features like coroutines. In addition, the grpc-spring-boot-starter makes it really convenient for spring boot users to integrate gRPC.&lt;/p&gt;
+        <content type="html">&lt;p&gt;It has always been possible to build gRPC services in kotlin through java interop, but with the recently improved first class support for kotlin in the official gRPC&amp;#x2F;protobuf libraries it is quite straightforward to build gRPC services in Kotlin which take advantage of kotlin native features like coroutines. In addition, the grpc-spring-boot-starter makes it really convenient for spring boot users to integrate gRPC.&lt;/p&gt;
 &lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
 
 &lt;p&gt;Note that while our services are using coroutines, we will not need webflux (although it is perfectly fine to use both of them together)&lt;/p&gt;
@@ -440,13 +440,13 @@ kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;no.entur.mapstruct.spi:pr
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;google/protobuf/wrappers.proto&amp;quot;&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;google/protobuf/timestamp.proto&amp;quot;&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;service&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;UserService&lt;/span&gt; &lt;/span&gt;{
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;service &lt;/span&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;UserService&lt;/span&gt; {
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;rpc&lt;/span&gt; getUserById (google.protobuf.Int64Value) &lt;span class=&#34;hljs-keyword&#34;&gt;returns&lt;/span&gt; (User)&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;User&lt;/span&gt; &lt;/span&gt;{
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-built_in&#34;&gt;int64&lt;/span&gt; id = &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt; name = &lt;span class=&#34;hljs-number&#34;&gt;2&lt;/span&gt;;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message &lt;/span&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;User&lt;/span&gt; {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-type&#34;&gt;int64&lt;/span&gt; id = &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt; name = &lt;span class=&#34;hljs-number&#34;&gt;2&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
@@ -620,16 +620,16 @@ kapt(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;no.entur.mapstruct.spi:pr
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;google/protobuf/wrappers.proto&amp;quot;&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;google/protobuf/timestamp.proto&amp;quot;&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;service&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;UserService&lt;/span&gt; &lt;/span&gt;{
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;service &lt;/span&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;UserService&lt;/span&gt; {
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;rpc&lt;/span&gt; getUserById (google.protobuf.Int64Value) &lt;span class=&#34;hljs-keyword&#34;&gt;returns&lt;/span&gt; (User)&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;rpc&lt;/span&gt; listUsers(ListUsersInput) &lt;span class=&#34;hljs-keyword&#34;&gt;returns&lt;/span&gt; (stream User)&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;ListUsersInput&lt;/span&gt; &lt;/span&gt;{}
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message &lt;/span&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;ListUsersInput&lt;/span&gt; {}
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;User&lt;/span&gt; &lt;/span&gt;{
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-built_in&#34;&gt;int64&lt;/span&gt; id = &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
-&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt; name = &lt;span class=&#34;hljs-number&#34;&gt;2&lt;/span&gt;;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;message &lt;/span&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;User&lt;/span&gt; {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-type&#34;&gt;int64&lt;/span&gt; id = &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;  &lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt; name = &lt;span class=&#34;hljs-number&#34;&gt;2&lt;/span&gt;;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
@@ -789,10 +789,10 @@ dependencies &amp;#123;
 &lt;p&gt;In the &lt;a href=&#34;/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/&#34;&gt;previous post&lt;/a&gt; we integrated a dagger based DI system to simplify wiring up of components. In this post we will add some more GraphQL resolvers which connect to the database using the jooq based DAO layer.&lt;/p&gt;
 &lt;p&gt;Before we do that, let&amp;#39;s add an AppConfig component to read configuration from a properties file in a type safe manner so that our application becomes runtime configurable: &lt;/p&gt;
 &lt;p&gt;Our configuration file (&lt;code&gt;src/resources/app-config.properties&lt;/code&gt;) looks like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs properties&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;db.port&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;5432&lt;/span&gt;
-&lt;span class=&#34;hljs-meta&#34;&gt;db.host&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;localhost&lt;/span&gt;
-&lt;span class=&#34;hljs-meta&#34;&gt;db.database&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;jooq_graphql_sample&lt;/span&gt;
-&lt;span class=&#34;hljs-meta&#34;&gt;db.user&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;lorefnon&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs properties&#34;&gt;&lt;span class=&#34;hljs-attr&#34;&gt;db.port&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;5432&lt;/span&gt;
+&lt;span class=&#34;hljs-attr&#34;&gt;db.host&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;localhost&lt;/span&gt;
+&lt;span class=&#34;hljs-attr&#34;&gt;db.database&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;jooq_graphql_sample&lt;/span&gt;
+&lt;span class=&#34;hljs-attr&#34;&gt;db.user&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;lorefnon&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We will write an &lt;code&gt;AppConfigModule&lt;/code&gt; which will make the parsed configuration available to other services through dagger.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.module
@@ -1160,27 +1160,27 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;If it&amp;#39;s all wired up correctly, we should get a successful response:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&amp;#123;
-  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;: &amp;#123;
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;registerUser&amp;quot;&lt;/span&gt;: &amp;#123;
-      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;success&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;,
-      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;comments&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;
-    &amp;#125;
-  &amp;#125;
-&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;registerUser&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;success&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;comments&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;null&lt;/span&gt;
+    &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+  &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;If we try to create another user with the same login, we should receive a clear error:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&amp;#123;
-  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;: &amp;#123;
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;registerUser&amp;quot;&lt;/span&gt;: &amp;#123;
-      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;success&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-literal&#34;&gt;false&lt;/span&gt;,
-      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;comments&amp;quot;&lt;/span&gt;: [
-        &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;A user is already registered for this email/username&amp;quot;&lt;/span&gt;,
+&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;registerUser&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;success&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;comments&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;[&lt;/span&gt;
+        &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;A user is already registered for this email/username&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;,&lt;/span&gt;
         &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Do you want to sign in instead ?&amp;quot;&lt;/span&gt;
-      ]
-    &amp;#125;
-  &amp;#125;
-&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+      &lt;span class=&#34;hljs-punctuation&#34;&gt;]&lt;/span&gt;
+    &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+  &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We also need a mechanism to allow users to login. So let us add another mutation where we can pass in the credentials are retrieve a JWT token:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; me.lorefnon.sample.service
@@ -1321,11 +1321,11 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
   login(username: &amp;quot;lorefnon&amp;quot;, password: &amp;quot;password&amp;quot;)
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&amp;#123;
-  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;: &amp;#123;
-    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;login&amp;quot;&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtZS5sb3JlZm5vbi5zYW1wbGUiLCJ1c2VyIjoibG9yZWZub24ifQ.vJNjffx0dMAqoORfXlf-dUF6cAhwMfTPLeZzxB632_k&amp;quot;&lt;/span&gt;
-  &amp;#125;
-&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs json&#34;&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+  &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;data&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#123;&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;&amp;quot;login&amp;quot;&lt;/span&gt;&lt;span class=&#34;hljs-punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtZS5sb3JlZm5vbi5zYW1wbGUiLCJ1c2VyIjoibG9yZWZub24ifQ.vJNjffx0dMAqoORfXlf-dUF6cAhwMfTPLeZzxB632_k&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;
+&lt;span class=&#34;hljs-punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;In the next post we will utilize this API to secure other fields in our GraphQL API.&lt;/p&gt;
 </content>
@@ -1343,7 +1343,7 @@ But what it actually returns is a Vert.X &lt;code&gt;Future&lt;/code&gt; instanc
         <link rel="alternate" href="https://lorefnon.me/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/"/>
         <content type="html">&lt;p&gt;This continues from our &lt;a href=&#34;/2021/02/01/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-I&#34;&gt;previous post&lt;/a&gt; in a series of articles where we explore a JVM based stack comprising of Kotlin, Vert.X and jOOQ for development of GraphQL APIs.&lt;/p&gt;
 &lt;p&gt;When we last left off, we had a simple GraphQL API with a single field in our &lt;code&gt;Query&lt;/code&gt; type which was statically resolved. &lt;/p&gt;
-&lt;p&gt;Before we go further, let&amp;#39;s integrate a dependency injection system that simplies the task of wiring up our application components. In this post we&amp;#39;ll use &lt;a href=&#34;https://dagger.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Dagger&lt;/a&gt;. In contrast to many other popular DI/IoC solutions, dagger operates through compile time code generation, reducing the reflection overhead causing startup delay.&lt;/p&gt;
+&lt;p&gt;Before we go further, let&amp;#39;s integrate a dependency injection system that simplies the task of wiring up our application components. In this post we&amp;#39;ll use &lt;a href=&#34;https://dagger.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Dagger&lt;/a&gt;. In contrast to many other popular DI&amp;#x2F;IoC solutions, dagger operates through compile time code generation, reducing the reflection overhead causing startup delay.&lt;/p&gt;
 &lt;p&gt;Feel free to skip this post, and checkout the &lt;a href=&#34;/2021/03/26/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-III/&#34;&gt;next one in series&lt;/a&gt; if you don&amp;#39;t want to use Dagger.&lt;/p&gt;
 &lt;p&gt;We will need to add dagger as a dependency as well as configure Kotlin&amp;#39;s annotation processor &lt;a href=&#34;https://kotlinlang.org/docs/kapt.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Kapt&lt;/a&gt; to use dagger. &lt;/p&gt;
 &lt;p&gt;In pom.xml: project &amp;gt; dependencies&lt;/p&gt;
@@ -1626,7 +1626,7 @@ to interface with the database from application code is generated by introspecti
 &lt;p&gt;The generators which come with jOOQ don&amp;#39;t support Vert.X out of the box, but the Vert.X core is very flexible and the 
 &lt;a href=&#34;https://github.com/jklingsporn/vertx-jooq&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;vertx-jooq project&lt;/a&gt; provides code-generation support that bridges the two. &lt;/p&gt;
 &lt;h1 id=&#34;Dagger-for-dependency-injection&#34;&gt;&lt;a href=&#34;#Dagger-for-dependency-injection&#34; class=&#34;headerlink&#34; title=&#34;Dagger for dependency injection&#34;&gt;&lt;/a&gt;Dagger for dependency injection&lt;/h1&gt;&lt;p&gt;Vert.X itself is quite unopinionated regarding the organization of code and how services are integrated. It does not prescribe any specific dependency injection solution. However, from my experience of building backend applications, having a DI solution significantly helps towards testability of the application and reducing coupling among components.&lt;/p&gt;
-&lt;p&gt;Our choice of DI framework is &lt;a href=&#34;https://dagger.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Dagger&lt;/a&gt;. In contrast to many other popular DI/IoC solutions, dagger operates through compile time code generation, reducing the reflection overhead causing startup delay. We will cover dagger specific aspects in &lt;a href=&#34;/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/&#34;&gt;second part&lt;/a&gt; of this series, however for users unfamiliar with the concepts of DI, the official &lt;a href=&#34;https://dagger.dev/users-guide&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;user documentation&lt;/a&gt; and &lt;a href=&#34;https://medium.com/@yostane/dependency-injection-with-dagger-2-inject-and-provides-ce21f7449ec5&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;this post&lt;/a&gt; by Yassine Benabbas may be better starting points.&lt;/p&gt;
+&lt;p&gt;Our choice of DI framework is &lt;a href=&#34;https://dagger.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Dagger&lt;/a&gt;. In contrast to many other popular DI&amp;#x2F;IoC solutions, dagger operates through compile time code generation, reducing the reflection overhead causing startup delay. We will cover dagger specific aspects in &lt;a href=&#34;/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/&#34;&gt;second part&lt;/a&gt; of this series, however for users unfamiliar with the concepts of DI, the official &lt;a href=&#34;https://dagger.dev/users-guide&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;user documentation&lt;/a&gt; and &lt;a href=&#34;https://medium.com/@yostane/dependency-injection-with-dagger-2-inject-and-provides-ce21f7449ec5&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;this post&lt;/a&gt; by Yassine Benabbas may be better starting points.&lt;/p&gt;
 &lt;h1 id=&#34;Why-this-particular-combination&#34;&gt;&lt;a href=&#34;#Why-this-particular-combination&#34; class=&#34;headerlink&#34; title=&#34;Why this particular combination ?&#34;&gt;&lt;/a&gt;Why this particular combination ?&lt;/h1&gt;&lt;p&gt;All four of these libraries, provide low-level control to the developer and don&amp;#39;t impose superfluous 
 high level abstractions or indirections that get in the way of performance or debuggability.&lt;/p&gt;
 &lt;p&gt;So we end up with code that is easy to reason through, does not require us to jump through unnecessary indirections 

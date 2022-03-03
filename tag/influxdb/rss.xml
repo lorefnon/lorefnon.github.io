@@ -123,7 +123,7 @@ gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;influxdb-rails&amp;#x27;&l
 &lt;p&gt;The last three lines signify the names of time series where the corresponding metrics would be stored, and we will use the same when querying the time series database.&lt;/p&gt;
 &lt;p&gt;Before our application can start dispatching metrics to InfluxDB the database &amp;quot;rails&amp;quot; specified in the above configuration file would have to be created. InfluxDB admin provides a means to do that using the GUI. The admin interface may be accessed by visiting: &lt;a href=&#34;http://localhost:8083/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;localhost:8083&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/influxdb_landing_page.png&#34; alt=&#34;InfluxDB landing page&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
-&lt;p&gt;The default username/password combination is root/root, which is not advisable for production use.&lt;/p&gt;
+&lt;p&gt;The default username&amp;#x2F;password combination is root&amp;#x2F;root, which is not advisable for production use.&lt;/p&gt;
 &lt;p&gt;The only option that is particularly relevant is database name: which we would have to change to &amp;quot;rails&amp;quot;.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/influxdb_create_database.png&#34; alt=&#34;InfluxDB creating database&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;This would be a good point to run &lt;code&gt;db:migrate&lt;/code&gt; and visit the CMS dashboard &lt;code&gt;/admin&lt;/code&gt;&lt;/p&gt;
@@ -168,7 +168,7 @@ gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;influxdb-rails&amp;#x27;&l
 
 &lt;p&gt;Once this is configured running &lt;code&gt;./grafana web&lt;/code&gt; from grafana source directory, should run the webserver on port 8000:&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/grafana_startup_log.png&#34; alt=&#34;Grafana server log&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
-&lt;p&gt;Now we can browse the Grafana dashboard and provide the default login details admin/admin. Again it is not advisable to use this in production.&lt;/p&gt;
+&lt;p&gt;Now we can browse the Grafana dashboard and provide the default login details admin&amp;#x2F;admin. Again it is not advisable to use this in production.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/grafana_login.png&#34; alt=&#34;Grafana Login&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;The default dashboard is pretty bare:&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/grafana_home.png&#34; alt=&#34;Grafana Home page&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
@@ -176,7 +176,7 @@ gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;influxdb-rails&amp;#x27;&l
 &lt;p&gt;&lt;img src=&#34;/images/grafana_add_dashboard.png&#34; alt=&#34;Grafana : Adding a dashboard&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Once we have a dedicated dashboard for our Rails application we can start adding graphs:&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/grafana_add_graph.png&#34; alt=&#34;Grafana : Add Graph&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
-&lt;p&gt;It would be probably surprising to see a great looking graph instantly generated. After all no influxdb/rails specific configuration has been done yet, so what data is being presented ?&lt;/p&gt;
+&lt;p&gt;It would be probably surprising to see a great looking graph instantly generated. After all no influxdb&amp;#x2F;rails specific configuration has been done yet, so what data is being presented ?&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/grafana_test_graph.png&#34; alt=&#34;Grafana : Default Graph&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Once we try to edit the data source, it would become clear that the graph being presented is infact coming from a dummy data source&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/grafana_edit_graph.png&#34; alt=&#34;Grafana : Edit Graph&#34; loading=&#34;lazy&#34;&gt;

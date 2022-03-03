@@ -326,7 +326,7 @@
 &lt;p&gt;Also there is a &lt;a href=&#34;https://facebook.github.io/jsx/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;draft specification&lt;/a&gt; for JSX in place and some other frameworks have already &lt;a href=&#34;https://github.com/insin/msx&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;started&lt;/a&gt; adopting it.&lt;/p&gt;
 &lt;h2 id=&#34;About-open-standards&#34;&gt;&lt;a href=&#34;#About-open-standards&#34; class=&#34;headerlink&#34; title=&#34;About open standards&#34;&gt;&lt;/a&gt;About open standards&lt;/h2&gt;&lt;h3 id=&#34;Web-Components&#34;&gt;&lt;a href=&#34;#Web-Components&#34; class=&#34;headerlink&#34; title=&#34;Web Components&#34;&gt;&lt;/a&gt;Web Components&lt;/h3&gt;&lt;p&gt;The reasons for not using an open standard like web components have been &lt;a href=&#34;https://github.com/facebook/react/issues/5052#issuecomment-145594782&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;explained&lt;/a&gt; by the React team:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;It has turned out that the spec is incomplete with regard to things like event delegation and there are still major changes being pushed from various sides, such as Mozilla. What was in Polymer/Chrome is not the final incarnation so we&amp;#39;ve had to revert some of the support that we already added (e.g. support for event handling in shadow trees).&lt;/p&gt;
+&lt;p&gt;It has turned out that the spec is incomplete with regard to things like event delegation and there are still major changes being pushed from various sides, such as Mozilla. What was in Polymer&amp;#x2F;Chrome is not the final incarnation so we&amp;#39;ve had to revert some of the support that we already added (e.g. support for event handling in shadow trees).&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;blockquote&gt;
 &lt;p&gt;In terms of strategy, we&amp;#39;ll go forward with as if it didn&amp;#39;t exist and try to improve interop at the React or React-like component layer instead. I&amp;#39;ve talked with members of other popular UI frameworks and they seem to feel the same. In fact, we probably have a better chance at implementing solid interop in user land.&lt;/p&gt;
@@ -347,10 +347,10 @@
 &lt;p&gt;And how many app teams have 100 or more active developers? Probably fewer than a dozen, and I submit that none of them probably should. Certainly not the Facebook app: It has a lot of features, but not that many features, and yet it has a 150Mb footprint.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;blockquote&gt;
-&lt;p&gt;When I hear things like that, I can&amp;#39;t help but fill in &amp;quot;junior&amp;quot; or &amp;quot;mediocre&amp;quot; in front of &amp;quot;developers.&amp;quot; React helps to prevent people from breaking each others&amp;#39; code when you have bloated development teams filled with junior developers. React has some cool ideas, but all told I think it&amp;#39;s a step backward for software engineering, and certainly isn&amp;#39;t as much of a help for small teams, especially if you want to have a CSS/SCSS/LESS expert styling your product without having to dig through JSX files, for instance.&lt;/p&gt;
+&lt;p&gt;When I hear things like that, I can&amp;#39;t help but fill in &amp;quot;junior&amp;quot; or &amp;quot;mediocre&amp;quot; in front of &amp;quot;developers.&amp;quot; React helps to prevent people from breaking each others&amp;#39; code when you have bloated development teams filled with junior developers. React has some cool ideas, but all told I think it&amp;#39;s a step backward for software engineering, and certainly isn&amp;#39;t as much of a help for small teams, especially if you want to have a CSS&amp;#x2F;SCSS&amp;#x2F;LESS expert styling your product without having to dig through JSX files, for instance.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;In a small app with a small team, there is little use for any framework at all, but software applications have this uncanny tendency to unexpectedly grow large depending on changing requirements, expanding scope. Given the above, I would certainly feel more comfortable working on a system where I can change the appearance of a component with confidence that will not introduce subtle changes in totally unrelated parts of my application, probably parts that I know nothing about.&lt;/p&gt;
-&lt;p&gt;While yes, there are fewer teams that have 100 or more active developers, but high churn rates are an unavoidable problem especially in the startup ecosystems. While a competent developer will certainly be able to jump into an unknown codebase and in due time figure out his/her way - but if the codebase is structured around best practices distilled by the community the time required in the same is drastically reduced. Optimizing the process around that seems like a very good idea.&lt;/p&gt;
+&lt;p&gt;While yes, there are fewer teams that have 100 or more active developers, but high churn rates are an unavoidable problem especially in the startup ecosystems. While a competent developer will certainly be able to jump into an unknown codebase and in due time figure out his&amp;#x2F;her way - but if the codebase is structured around best practices distilled by the community the time required in the same is drastically reduced. Optimizing the process around that seems like a very good idea.&lt;/p&gt;
 &lt;h2 id=&#34;On-stylesheets-a-system-of-cascading-problems&#34;&gt;&lt;a href=&#34;#On-stylesheets-a-system-of-cascading-problems&#34; class=&#34;headerlink&#34; title=&#34;On stylesheets - a system of cascading problems&#34;&gt;&lt;/a&gt;On stylesheets - a system of cascading problems&lt;/h2&gt;&lt;p&gt;Adding to the problem is that automated regression testing of CSS is time consuming and error prone. While there are &lt;a href=&#34;https://css-tricks.com/automating-css-regression-testing/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;solutions&lt;/a&gt; I think the crux of the problem is that our current styling system is a broken technology - globally shared stylesheets are evil and technologies like &lt;a href=&#34;https://github.com/FormidableLabs/radium&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Radium&lt;/a&gt; are steps in the right direction.&lt;/p&gt;
 &lt;p&gt;While it isn&amp;#39;t like we have not tried to solve this problem &lt;a href=&#34;https://gridstylesheets.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;before&lt;/a&gt;, I am really glad to see practical alternatives to stylesheets gathering traction.&lt;/p&gt;
 &lt;h2 id=&#34;The-good-parts&#34;&gt;&lt;a href=&#34;#The-good-parts&#34; class=&#34;headerlink&#34; title=&#34;The good parts&#34;&gt;&lt;/a&gt;The good parts&lt;/h2&gt;&lt;blockquote&gt;
@@ -378,7 +378,7 @@
 
 &lt;br&gt;
 
-&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;ContactList = React.create-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;do&lt;/span&gt;&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;ContactList = React.create-&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;do&lt;/span&gt;
   render: -&amp;gt;
     React.create-element &lt;span class=&#34;hljs-string&#34;&gt;\ul,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, @props.contacts.&lt;span class=&#34;hljs-keyword&#34;&gt;map&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;(contact)&lt;/span&gt;-&amp;gt;&lt;/span&gt;
       React.create-element &lt;span class=&#34;hljs-string&#34;&gt;\li,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, contact.name
@@ -388,13 +388,13 @@ el = React.create-element ContactList, contacts: [
   * name: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Albus Dumbledore&amp;#x27;&lt;/span&gt;
 ]
 
-React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+React.render el, document.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;img src=&#34;/images/Screen Shot 2015-09-21 at 12.42.18 pm.png&#34;&gt;
 
 &lt;p&gt;This is very similar to what we would have written if we were using vanilla javascript. The only primary advantages are indentation based nesting, elimination of a lot of superfluous syntax - braces and parenthesis and implicit returns. However we can do much better than this.&lt;/p&gt;
 &lt;p&gt;Because Livescript was forked from Coffeescript, it inherits Coffeescript&amp;#39;s class syntax which we can use to extend &lt;code&gt;React.Component&lt;/code&gt;. However the benefits of doing so are pretty-much marginal.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;ContactList&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;React&lt;/span&gt;.&lt;span class=&#34;hljs-title&#34;&gt;Component&lt;/span&gt;&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ContactList&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;React&lt;/span&gt;.Component
 
   render: -&amp;gt;
     React.create-element &lt;span class=&#34;hljs-string&#34;&gt;\ul,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, @props.contacts.&lt;span class=&#34;hljs-keyword&#34;&gt;map&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;(contact)&lt;/span&gt;-&amp;gt;&lt;/span&gt;
@@ -404,7 +404,7 @@ React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;
 &lt;p&gt;Livescript&amp;#39;s feature that almost everything is a expression is particularly helpful when we have conditional logic in our dom generation code.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;element = React~create-element
 
-ContactList = React.create-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;do&lt;/span&gt;&lt;/span&gt;
+ContactList = React.create-&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;do&lt;/span&gt;
 
   render: -&amp;gt;
     element &lt;span class=&#34;hljs-string&#34;&gt;\ul,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, @props.contacts.&lt;span class=&#34;hljs-keyword&#34;&gt;map&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;(contact)&lt;/span&gt;-&amp;gt;&lt;/span&gt;
@@ -420,14 +420,14 @@ el = element ContactList, contacts: [
     email: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;albus@hogwarts.magic&amp;#x27;&lt;/span&gt;
 ]
 
-React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+React.render el, document.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;img src=&#34;/images/Screen Shot 2015-09-21 at 12.42.05 pm.png&#34;&gt;
 
 &lt;p&gt;When the render function becomes complex, it is often more readable to use livescript&amp;#39;s pipe operator to chain the operations. This is particularly handy in conjugation with utility libraries geared towards functional programming - the example below uses &lt;a href=&#34;http://ramdajs.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Ramda&lt;/a&gt;. Other alternatives include &lt;a href=&#34;http://underscorejs.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;underscore&lt;/a&gt;, &lt;a href=&#34;https://lodash.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;lodash&lt;/a&gt;, &lt;a href=&#34;http://www.preludels.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;prelude.ls&lt;/a&gt; etc.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;element = React~create-element
 
-ContactList = React.create-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;do&lt;/span&gt;&lt;/span&gt;
+ContactList = React.create-&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;do&lt;/span&gt;
 
   render-avatar: &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;(contact)&lt;/span&gt;-&amp;gt;&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; contact.avatar
@@ -457,7 +457,7 @@ ContactList = React.create-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class
     @props.contacts
     |&amp;gt; R.&lt;span class=&#34;hljs-keyword&#34;&gt;map&lt;/span&gt; @~render-contact-row
     |&amp;gt; &lt;span class=&#34;hljs-function&#34;&gt;~&amp;gt;&lt;/span&gt; element &lt;span class=&#34;hljs-string&#34;&gt;\tbody,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, &lt;span class=&#34;hljs-literal&#34;&gt;it&lt;/span&gt;
-    |&amp;gt; &lt;span class=&#34;hljs-function&#34;&gt;~&amp;gt;&lt;/span&gt; element &lt;span class=&#34;hljs-string&#34;&gt;\table,&lt;/span&gt; &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;-&lt;span class=&#34;hljs-title&#34;&gt;name&lt;/span&gt;: \&lt;span class=&#34;hljs-title&#34;&gt;contacts&lt;/span&gt; , [ @&lt;span class=&#34;hljs-title&#34;&gt;render-head&lt;/span&gt;!, &lt;span class=&#34;hljs-title&#34;&gt;it&lt;/span&gt; ]&lt;/span&gt;
+    |&amp;gt; &lt;span class=&#34;hljs-function&#34;&gt;~&amp;gt;&lt;/span&gt; element &lt;span class=&#34;hljs-string&#34;&gt;\table,&lt;/span&gt; class-name: &lt;span class=&#34;hljs-string&#34;&gt;\contacts&lt;/span&gt; , [ @render-head!, &lt;span class=&#34;hljs-literal&#34;&gt;it&lt;/span&gt; ]
 
 el = element ContactList, contacts: [
   * id: &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;
@@ -469,7 +469,7 @@ el = element ContactList, contacts: [
 ]
 
 
-React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+React.render el, document.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;img src=&#34;/images/Screen Shot 2015-09-21 at 2.15.15 pm.png&#34;&gt;
 
@@ -493,7 +493,7 @@ render-contact-row: -&amp;gt;
 &lt;p&gt;But I strongly recommend against doing that, because having the arguments specified in the function signature upfront enhances readability.&lt;/p&gt;
 &lt;p&gt;Also note that the top down construction flow composition can also be realized in javascript using Ramda&amp;#39;s &lt;code&gt;pipe&lt;/code&gt; but livescript just makes it simpler by providing a language level operator.&lt;/p&gt;
 &lt;p&gt;For simpler components (which are just responsible for presenting something passed as props, and do not need lifecycle methods etc.) it may be useful to define a micro-component builder:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-title&#34;&gt;micro-component&lt;/span&gt; = &lt;span class=&#34;hljs-params&#34;&gt;(render)&lt;/span&gt;-&amp;gt;&lt;/span&gt; React.create-factory React.create-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-title&#34;&gt;render&lt;/span&gt; &amp;#125;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-title&#34;&gt;micro-component&lt;/span&gt; = &lt;span class=&#34;hljs-params&#34;&gt;(render)&lt;/span&gt;-&amp;gt;&lt;/span&gt; React.create-factory React.create-&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &amp;#123; render &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Once we have that, it makes it a lot more easier for us to follow React&amp;#39;s recommendation of having lightweight modular components which can be easily composed:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs livescript&#34;&gt;ContactAvatar = micro-component -&amp;gt;
@@ -515,7 +515,7 @@ ContactListRow = micro-component -&amp;gt;
   ]
 
 ContactList = micro-component -&amp;gt;
-  element &lt;span class=&#34;hljs-string&#34;&gt;\table,&lt;/span&gt; &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;-&lt;span class=&#34;hljs-title&#34;&gt;name&lt;/span&gt;: \&lt;span class=&#34;hljs-title&#34;&gt;contacts&lt;/span&gt;, [&lt;/span&gt;
+  element &lt;span class=&#34;hljs-string&#34;&gt;\table,&lt;/span&gt; class-name: &lt;span class=&#34;hljs-string&#34;&gt;\contacts,&lt;/span&gt; [
     element &lt;span class=&#34;hljs-string&#34;&gt;\thead,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, [
       element &lt;span class=&#34;hljs-string&#34;&gt;\tr,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, [
         element &lt;span class=&#34;hljs-string&#34;&gt;\th,&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Avatar&amp;#x27;&lt;/span&gt;
@@ -535,7 +535,7 @@ el = ContactList contacts: [
     name: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Albus Dumbledore&amp;#x27;&lt;/span&gt;
     email: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;albus@hogwarts.magic&amp;#x27;&lt;/span&gt;
 ]
-React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;
+React.render el, document.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Libraries like &lt;a href=&#34;https://github.com/mlmorg/react-hyperscript&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;&lt;code&gt;react-hyperscript&lt;/code&gt;&lt;/a&gt; may be used to further reduce the dom construction boilerplate :&lt;/p&gt;
@@ -581,7 +581,7 @@ el = ContactList contacts: [
     name: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Albus Dumbledore&amp;#x27;&lt;/span&gt;
     email: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;albus@hogwarts.magic&amp;#x27;&lt;/span&gt;
 ]
-React.render el, &lt;span class=&#34;hljs-built_in&#34;&gt;document&lt;/span&gt;.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;
+React.render el, document.get-element-&lt;span class=&#34;hljs-keyword&#34;&gt;by&lt;/span&gt;-id &lt;span class=&#34;hljs-string&#34;&gt;\application-container&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Apart from getting rid of null for attribute hashes, hyperscript is particularly useful for shorter syntax for class names and ids. Also it insulates our codebase against changes in the DOM builder API, which have happened in past.&lt;/p&gt;
