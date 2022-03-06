@@ -29,19 +29,75 @@ a:hover, a:focus
             grid-row-start: 1
             grid-column-start: vl-1
             grid-column-end: vl-2
-        background: #ddd
-        text-decoration: none
-        color: #757575
-        padding: 1.5rem
+        a.primary-link
+            display: block
+            background: #ddd
+            text-decoration: none
+            color: #757575
+            padding: 1.5rem
+            padding-bottom: 3rem
 
         h1, h2
             font-weight: 100
             line-height: 2rem
 
+        .blog-support
+            display: none
+            @media(max-width: 900px)
+                height: 0
+                display: block
+
+                .blog-support-btn
+                    top: -45px
+
     .blog-sidebar, .blog-main
         ul
             list-style-type: none
             padding: 0
+
+    .blog-support
+        .blog-support-cta-container
+            text-align: center
+
+        .blog-support-btn
+            background: #c1df2e
+            border: none
+            box-shadow: none
+            border-radius: 40px
+            height: 80px
+            width: 80px
+            text-align: center
+            display: inline-block
+            background-image: url('/images/primary/coffee-cup.svg')
+            background-repeat: no-repeat
+            background-position: center center
+            position: relative
+            top: -55px
+            box-shadow: 0 3px 4px 1px rgba(0,0,0,0.3)
+            z-index: 100
+
+            @media(max-width: 900px)
+                top: 0
+
+
+        .blog-support-arrow
+            text-align: center
+            opacity: 0.5
+            background-image: url('/images/primary/curved-arrow.png')
+            background-repeat: no-repeat
+            background-position: center center
+            position: relative
+            top: -40px
+            margin-bottom: -40px
+            height: 60px
+            @media(max-width: 900px)
+                top: 0
+                margin-bottom: 1rem
+
+        .support-text
+            color: gray
+            border-bottom: 1px solid silver
+            padding-bottom: 1rem
 
     .blog-sidebar
         @media(max-width: 900px)
@@ -82,7 +138,7 @@ a:hover, a:focus
         &-inner
             color: rgba(0,0,0,0.7)
             display: block
-            padding: 6rem 4rem 0rem 
+            padding: 6rem 4rem 0rem
 
             .header-text
                 font-size: 3rem
@@ -99,7 +155,7 @@ a:hover, a:focus
     .blog-collection-header
         position: relative
         box-shadow: inset -2px 0px 5px 2px rgb(0 0 0 / 50%)
-        
+
         @media(max-width: 900px)
             min-height: 300px
             background: url('/images/primary/pexels-arvind-shakya-900x600.jpg') 0 / cover fixed
@@ -124,7 +180,7 @@ a:hover, a:focus
 
             @media(max-width: 900px)
                 display: none
-        
+
         .rss-link
             color: white
             img
@@ -182,7 +238,7 @@ a:hover, a:focus
     .blog-footer
         background: #ddd
         color: #757575
-        padding: 2rem 4rem 
+        padding: 2rem 4rem
         border-top: 1px solid rgba(0,0,0,0.1)
 
         a
@@ -213,14 +269,14 @@ a:hover, a:focus
         line-height: 1.5rem
         background: lemonchiffon
         border-bottom: 1px solid orange
-        
+
     code
         background: #f9f9f9
         border: 1px solid #ddd
         border-radius: 4px
         padding: 0 0.4rem
 
-    .hljs 
+    .hljs
         border-radius: 0
         padding: 0.4rem
 
@@ -228,11 +284,11 @@ a:hover, a:focus
         padding-top: 0.5rem !important
         display: block
 
-        li 
+        li
             display: inline-block
             a
                 color: #757575
             img
                 margin-right: 0.25rem
-        li + li 
+        li + li
             margin-left: 1rem

@@ -7,6 +7,7 @@ html.no-js
         include _blog_summary.pug
 
         .blog-sidebar
+            include _blog_support.pug
             include _tag_list.pug
 
         .blog-header.blog-post-header
@@ -32,7 +33,5 @@ html.no-js
                         = warning
 
             .page-content !{page.content}
-
-            include _kofi_section.pug
 
         include _blog_tail.pug
