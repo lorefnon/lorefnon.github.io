@@ -2,6 +2,9 @@
 title: Configuring spring security to use komapper
 date: 2022-03-13
 tags: [kotlin,spring,spring-security,komapper]
+discussions:
+    mastodon:
+        id: '107948317104285444'
 ---
 
 # About
@@ -217,4 +220,5 @@ insert into users (name, email, password)
 values ('test', 'test@example.com', '$2a$10$drlJ6SdzEBso.CLHkO9W0e/lMtySOyArGmixOiSvOESMYBHvEEBoO')
 ```
 
-Now, we should be able to login through username/sillypassword as credentials.
+Now, we should be able to login through test/sillypassword as credentials.
+

@@ -126,6 +126,8 @@ a:hover, a:focus
         @media(min-width: 900px)
             grid-column-start: 2
             grid-row-start: 2
+
+    .blog-main, .blog-comments
         @include post_content.post_content
 
     .blog-header
@@ -292,3 +294,45 @@ a:hover, a:focus
                 margin-right: 0.25rem
         li + li
             margin-left: 1rem
+
+    .post-comments
+        border: 1px solid #ddd
+
+        .load-comments-btn
+            display: inline-block
+            background: #c1df2e
+            border-radius: 4px
+            float: right
+            padding: 0.5rem
+            color: gray
+            cursor: pointer
+            border: 1px solid gray
+
+        .comments-header
+            padding: 1rem
+            background: #ddd
+            display: flex
+            flex-direction: row
+            align-items: center
+
+            .comments-header-content
+               flex-grow: 1
+
+        .comments-target.populated
+            padding: 1rem
+            background: white
+            border-top: 1px solid gray
+
+        .mastodon-comment
+            .avatar
+                float: left
+                margin-right: 1rem
+            clear: both
+            border-bottom: 1px dashed #ddd
+            padding-bottom: 1rem
+            margin-bottom: 1rem
+
+            p
+                margin: 1rem 0 !important
+
+
