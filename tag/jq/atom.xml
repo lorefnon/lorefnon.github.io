@@ -79,6 +79,10 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
+    <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
     <entry>
         <id>https://lorefnon.me/2020/11/27/exploring-har-http-archive-logs-with-jq/</id>
         <title>Exporing HAR (HTTP Archive) logs with Jq</title>

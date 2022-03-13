@@ -79,6 +79,10 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
+    <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
     <entry>
         <id>https://lorefnon.me/2022/01/29/hiding-jsx-closing-tag-noise-in-vim/</id>
         <title>Hiding JSX closing tag noise in vim through conceal</title>

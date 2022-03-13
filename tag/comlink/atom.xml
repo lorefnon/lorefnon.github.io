@@ -79,6 +79,10 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
+    <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
     <entry>
         <id>https://lorefnon.me/2019/03/24/using-comlink-with-typescript-and-worker-loader/</id>
         <title>Using comlink with typescript and worker-loader</title>

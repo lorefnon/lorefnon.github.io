@@ -79,6 +79,10 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
+    <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
     <entry>
         <id>https://lorefnon.me/2012/09/08/creating-a-basic-command-line-based-todo-app-using-ruby-and-sqlite.html</id>
         <title>Creating a basic command line based todo app using ruby and sqlite.</title>

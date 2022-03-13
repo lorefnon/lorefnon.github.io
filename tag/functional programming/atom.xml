@@ -79,6 +79,10 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
+    <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
     <entry>
         <id>https://lorefnon.me/2015/09/21/react-and-livescript-in-harmony.html</id>
         <title>React and Livescript in harmony</title>

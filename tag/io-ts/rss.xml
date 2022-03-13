@@ -82,6 +82,10 @@
         <category>Database</category>
         <category>Exposed</category>
         <category>vim</category>
+        <category>kotlin</category>
+        <category>spring</category>
+        <category>spring-security</category>
+        <category>komapper</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/08/11/enforcing-runtime-validations-at-compile-time-in-typescript/</guid>
             <title>Enforcing runtime validations at compile time in TypeScript</title>

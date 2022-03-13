@@ -82,6 +82,10 @@
         <category>Database</category>
         <category>Exposed</category>
         <category>vim</category>
+        <category>kotlin</category>
+        <category>spring</category>
+        <category>spring-security</category>
+        <category>komapper</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2020/04/17/hash-based-routing-with-react-navi/</guid>
             <title>Hash based routing with react-navi</title>

@@ -79,6 +79,10 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
+    <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
     <entry>
         <id>https://lorefnon.me/2021/11/20/efficient-multi-tiered-caches-with-redis/</id>
         <title>Simple and efficient multi-tiered caches with Redis &amp; lua</title>

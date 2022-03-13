@@ -79,6 +79,10 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
+    <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
     <entry>
         <id>https://lorefnon.me/2016/04/04/embracing-bem-methodology-in-react-applications.html</id>
         <title>Embracing BEM methodology in React applications</title>

@@ -79,6 +79,10 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
+    <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
     <entry>
         <id>https://lorefnon.me/2015/01/03/leveraging-strategy-pattern-in-rails.html</id>
         <title>Leveraging the strategy pattern in Rails - I</title>

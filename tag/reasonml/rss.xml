@@ -82,6 +82,10 @@
         <category>Database</category>
         <category>Exposed</category>
         <category>vim</category>
+        <category>kotlin</category>
+        <category>spring</category>
+        <category>spring-security</category>
+        <category>komapper</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/05/13/reasonml-vs-typescript-first-impressions/</guid>
             <title>ReasonML vs TypeScript – First impressions</title>

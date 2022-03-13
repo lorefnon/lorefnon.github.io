@@ -79,6 +79,10 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
+    <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
     <entry>
         <id>https://lorefnon.me/2018/08/18/integrating-next-js-apollo-server-and-koa/</id>
         <title>Integrating Next.js, Apollo Server and Koa</title>

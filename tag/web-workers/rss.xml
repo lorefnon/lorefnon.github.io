@@ -82,6 +82,10 @@
         <category>Database</category>
         <category>Exposed</category>
         <category>vim</category>
+        <category>kotlin</category>
+        <category>spring</category>
+        <category>spring-security</category>
+        <category>komapper</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/03/24/using-comlink-with-typescript-and-worker-loader/</guid>
             <title>Using comlink with typescript and worker-loader</title>

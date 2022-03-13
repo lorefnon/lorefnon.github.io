@@ -79,6 +79,10 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
+    <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
     <entry>
         <id>https://lorefnon.me/2018/03/16/a-vagrantdocker-based-workflow-for-clojure-web-development/</id>
         <title>A Vagrant+Docker based workflow for clojure web development</title>

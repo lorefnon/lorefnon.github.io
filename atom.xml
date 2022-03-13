@@ -3,7 +3,7 @@
     <id>https://lorefnon.me</id>
     <title>Icicles of Thought</title>
     <link href="https://lorefnon.me" />
-    <updated>2022-01-29T00:00:00.000Z</updated>
+    <updated>2022-03-13T00:00:00.000Z</updated>
     <category term="Javascript" />
     <category term="KnockoutJS" />
     <category term="Ruby" />
@@ -79,6 +79,215 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
+    <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
+    <entry>
+        <id>https://lorefnon.me/2022/03/13/configuring-spring-security-to-use-komapper/</id>
+        <title>Configuring spring security to use komapper</title>
+        <link rel="alternate" href="https://lorefnon.me/2022/03/13/configuring-spring-security-to-use-komapper/"/>
+        <content type="html">&lt;h1 id=&#34;About&#34;&gt;&lt;a href=&#34;#About&#34; class=&#34;headerlink&#34; title=&#34;About&#34;&gt;&lt;/a&gt;About&lt;/h1&gt;&lt;p&gt;&lt;a href=&#34;https://spring.io/projects/spring-security&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Spring security&lt;/a&gt; is a versatile and popular authentication solution for the JVM ecosystem. It is an officially supported component of spring ecosystem and widely deployed in many production solutions.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.komapper.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;KOMapper&lt;/a&gt; is a new ORM for Kotlin that embraces KSP.&lt;/p&gt;
+&lt;p&gt;Because spring-security is, at its core, agnostic of any specific persistence solution (even spring-data is not mandatory), we can easily configure it to use komapper for authenticating users.&lt;/p&gt;
+&lt;h1 id=&#34;Bootstrapping-the-application&#34;&gt;&lt;a href=&#34;#Bootstrapping-the-application&#34; class=&#34;headerlink&#34; title=&#34;Bootstrapping the application&#34;&gt;&lt;/a&gt;Bootstrapping the application&lt;/h1&gt;&lt;p&gt;We can download a scaffolded project from the &lt;a href=&#34;https://start.spring.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;https://start.spring.io&lt;/a&gt; after selecting spring-boot-starter-jdbc, spring-boot-starter-web and spring-boot-starter-security.&lt;/p&gt;
+&lt;p&gt;While in this post we use JDBC and spring-web, both komapper and spring-security also work with r2dbc &amp;amp; spring webflux.&lt;/p&gt;
+&lt;p&gt;Our final build.gradle.kts file will look something like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;plugins {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	id(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.springframework.boot&amp;quot;&lt;/span&gt;) version &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;2.6.4&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	id(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;io.spring.dependency-management&amp;quot;&lt;/span&gt;) version &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;1.0.11.RELEASE&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	kotlin(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;jvm&amp;quot;&lt;/span&gt;) version &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;1.6.10&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	kotlin(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;plugin.spring&amp;quot;&lt;/span&gt;) version &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;1.6.10&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	id(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;com.google.devtools.ksp&amp;quot;&lt;/span&gt;) version &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;1.6.10-1.0.4&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;kotlin {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	sourceSets.main {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-comment&#34;&gt;// This directory contains the source files generated by&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-comment&#34;&gt;// Komapper&amp;#x27;s KSP processor&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;		kotlin.srcDir(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;build/generated/ksp/main/kotlin&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	}
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+        &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
+            &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
+            &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
+            &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
+        &lt;/g&gt;
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;7 lines collapsed&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;group = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;com.test&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;version = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;0.0.1-SNAPSHOT&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;java.sourceCompatibility = JavaVersion.VERSION_16
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;repositories {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	maven { url = uri(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;https://repo.spring.io/release&amp;quot;&lt;/span&gt;) }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	mavenCentral()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;dependencies {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; komapperVersion = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;0.30.0&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.springframework.boot:spring-boot-starter-actuator&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.springframework.boot:spring-boot-starter-jdbc&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.springframework.boot:spring-boot-starter-jersey&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.springframework.boot:spring-boot-starter-web&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.springframework.boot:spring-boot-starter-security&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.komapper:komapper-spring-boot-starter-jdbc:&lt;span class=&#34;hljs-variable&#34;&gt;$komapperVersion&lt;/span&gt;&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.komapper:komapper-dialect-h2-jdbc:&lt;span class=&#34;hljs-variable&#34;&gt;$komapperVersion&lt;/span&gt;&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;// We need to explicitly enable komapper&amp;#x27;s KSP processor&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;background:#fffacd;&#34; class=&#34;hlcode-line  hlcode-line-highlight&#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	ksp(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.komapper:komapper-processor:&lt;span class=&#34;hljs-variable&#34;&gt;$komapperVersion&lt;/span&gt;&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;com.fasterxml.jackson.module:jackson-module-kotlin&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.jetbrains.kotlin:kotlin-reflect&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.jetbrains.kotlin:kotlin-stdlib-jdk8&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.liquibase:liquibase-core&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	developmentOnly(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.springframework.boot:spring-boot-devtools&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;com.h2database:h2&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	testImplementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;org.springframework.boot:spring-boot-starter-test&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+        &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
+            &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
+            &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
+            &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
+        &lt;/g&gt;
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;9 lines collapsed&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;tasks.withType&amp;lt;KotlinCompile&amp;gt; {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	kotlinOptions {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;		freeCompilerArgs = listOf(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;-Xjsr305=strict&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;		jvmTarget = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;16&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	}
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;tasks.withType&amp;lt;Test&amp;gt; {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	useJUnitPlatform()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-20&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Spring-security autoconfigures the application to use a form based login screen, that looks like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2020-03-13/spring-security-login-page.png&#34; alt=&#34;Spring security login page&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Before we can access any of the protected routes (all by default) we will need to authenticate.&lt;/p&gt;
+&lt;p&gt;To keep this post simple, we will use &lt;a href=&#34;https://h2database.com/html/main.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;h2 database&lt;/a&gt; here - we can configure the location where our db will store data in application.properties.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;spring.datasource.url=jdbc:h2:/tmp/db
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Please ensure that any location chosen here is writable by the running user.&lt;/p&gt;
+&lt;p&gt;We will need a user table which will store our user details. In production we should use a migration system like dbmate or liquibase. To simplify things here, we can create this table through h2-console
+available in localhost:8080&amp;#x2F;h2-console&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sql&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;create&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;table&lt;/span&gt; users (
+    id &lt;span class=&#34;hljs-keyword&#34;&gt;identity&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;null&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;primary&lt;/span&gt; key,
+    name &lt;span class=&#34;hljs-type&#34;&gt;varchar&lt;/span&gt;(&lt;span class=&#34;hljs-number&#34;&gt;255&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;null&lt;/span&gt;,
+    email &lt;span class=&#34;hljs-type&#34;&gt;varchar&lt;/span&gt;(&lt;span class=&#34;hljs-number&#34;&gt;255&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;null&lt;/span&gt;,
+    password &lt;span class=&#34;hljs-type&#34;&gt;varchar&lt;/span&gt;(&lt;span class=&#34;hljs-number&#34;&gt;255&lt;/span&gt;)
+)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can map this table to a Kotlin data class through the komapper provided annotations:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; com.test.server.entity
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.komapper.&lt;span class=&#34;hljs-keyword&#34;&gt;annotation&lt;/span&gt;.*
+&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; java.time.LocalDateTime
+
+&lt;span class=&#34;hljs-meta&#34;&gt;@KomapperEntity&lt;/span&gt;
+&lt;span class=&#34;hljs-meta&#34;&gt;@KomapperTable(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;users&amp;quot;&lt;/span&gt;)&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;User&lt;/span&gt; &lt;/span&gt;(
+    &lt;span class=&#34;hljs-meta&#34;&gt;@KomapperId&lt;/span&gt;
+    &lt;span class=&#34;hljs-meta&#34;&gt;@KomapperAutoIncrement&lt;/span&gt;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; id: &lt;span class=&#34;hljs-built_in&#34;&gt;Int&lt;/span&gt;,
+
+    &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; name: String,
+
+    &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; email: String,
+
+    &lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; password: String,
+)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In ideal setup, we will also keep track of whether the email has been validated, how many times auth attempts have been successful, whether password meets expected strength etc. But in this article we will focus on just validating the user provided password against the value stored in database.&lt;/p&gt;
+&lt;p&gt;spring-security will, by default, find and delegate to a UserDetailsService implementation in the application context. So we will need to provide an UserDetailsService implementation that uses komapper.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; com.test.server.service
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none&#34; class=&#34;hlcode-fold-collapsed&#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; colspan=&#34;1&#34;&gt;&lt;div class=&#34;hlcode-fold-handle&#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;svg height=&#34;21&#34; viewBox=&#34;0 0 21 21&#34; width=&#34;21&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+        &lt;g fill=&#34;none&#34; fill-rule=&#34;evenodd&#34; stroke=&#34;currentColor&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34; transform=&#34;translate(4 4)&#34;&gt;
+            &lt;path d=&#34;m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
+            &lt;path d=&#34;m6.5 3.5v6.056&#34;/&gt;
+            &lt;path d=&#34;m6.5 3.5v6&#34; transform=&#34;matrix(0 1 -1 0 13 0)&#34;/&gt;
+        &lt;/g&gt;
+    &lt;/svg&gt;&lt;span class=&#34;hlcode-fold-text&#34;&gt;9 lines collapsed&lt;/span&gt;&lt;/div&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; com.test.server.entity.User
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; com.test.server.entity.user
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.komapper.core.dsl.Meta
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.komapper.core.dsl.QueryDsl
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.komapper.core.dsl.query.first
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.komapper.jdbc.JdbcDatabase
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.springframework.security.core.GrantedAuthority
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.springframework.security.core.userdetails.UserDetails
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.springframework.security.core.userdetails.UserDetailsService
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line hlcode-line-fold hidden &#34; data-fold-id=&#34;hlcode-fold-21&#34;&gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.springframework.stereotype.Service
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;@Service&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;UserDetailsServiceImpl&lt;/span&gt;&lt;/span&gt;(
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;// The komapper spring-boot starter is aware of spring managed&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;// datasources configured through application.properties&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;//&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;// so we will not need to define this bean separately&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; db: JdbcDatabase
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;): UserDetailsService {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-keyword&#34;&gt;override&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;loadUserByUsername&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(username: &lt;span class=&#34;hljs-type&#34;&gt;String&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;: UserDetails {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-comment&#34;&gt;// Fetch a user from database using the username coming from the form&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; userQuery = QueryDsl.from(Meta.user)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .&lt;span class=&#34;hljs-keyword&#34;&gt;where&lt;/span&gt; { user.name eq username }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;            .first() &lt;span class=&#34;hljs-comment&#34;&gt;// Throws if user is not found&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;        &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; UserDetailsImpl(db.runQuery(userQuery))
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; user = Meta.user
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The Meta.user is an extension method generated by komapper&amp;#39;s ksp processor that returns the meta-model instance for the User entity defined above.
+Mode details about komapper&amp;#39;s meta-model approach is available &lt;a href=&#34;https://v0-24.komapper.org/docs/overview/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We will need a wrapper over our User class that complies with the UserDetails interface that spring-security expects:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;UserDetailsImpl&lt;/span&gt;&lt;/span&gt;(&lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;val&lt;/span&gt; user: User): UserDetails &amp;#123;
+
+    &lt;span class=&#34;hljs-comment&#34;&gt;// We prefix the password stored in database with &amp;#123;bcrypt&amp;#125; to indicate&lt;/span&gt;
+    &lt;span class=&#34;hljs-comment&#34;&gt;// to spring-security that this password is bcrypt encrypted.&lt;/span&gt;
+    &lt;span class=&#34;hljs-comment&#34;&gt;//&lt;/span&gt;
+    &lt;span class=&#34;hljs-comment&#34;&gt;// This prefix will be used to identify the password encoder to be used&lt;/span&gt;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;override&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;getPassword&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;#123;bcrypt&amp;#125;&lt;span class=&#34;hljs-subst&#34;&gt;$&amp;#123;user.password&amp;#125;&lt;/span&gt;&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;override&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;getUsername&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; = user.name
+
+    &lt;span class=&#34;hljs-comment&#34;&gt;// In a more full-featured integration, we can use below&lt;/span&gt;
+    &lt;span class=&#34;hljs-comment&#34;&gt;// overrides to ensure that current user is not locked/expired/disabled etc.&lt;/span&gt;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;override&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;isAccountNonExpired&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; = &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;override&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;isAccountNonLocked&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; = &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;override&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;isCredentialsNonExpired&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; = &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;override&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;isEnabled&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; = &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;override&lt;/span&gt; &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;getAuthorities&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; = &lt;span class=&#34;hljs-literal&#34;&gt;null&lt;/span&gt;
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, if we try to access localhost:8080 we will be prompted for username, password and our &amp;#96;UserDetailsServiceImpl will be automatically used to find the corresponding user before password is validated.&lt;/p&gt;
+&lt;p&gt;However, we don&amp;#39;t have a built-in way to manage&amp;#x2F;insert users. To test out things we can insert a user directly in the db. One simple way to generate an encrypted password is to use the &lt;a href=&#34;https://www.npmjs.com/package/bcrypt-cli&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;bcrypt-cli&lt;/a&gt; utility available through npm.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;❯ npx bcrypt-cli &amp;quot;sillypassword&amp;quot; 10
+Need to install the following packages:
+  bcrypt-cli
+Ok to proceed? (y) y
+$2a$10$drlJ6SdzEBso.CLHkO9W0e/lMtySOyArGmixOiSvOESMYBHvEEBoO&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can insert this as user password into the h2 db:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sql&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;insert&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;into&lt;/span&gt; users (name, email, password)
+&lt;span class=&#34;hljs-keyword&#34;&gt;values&lt;/span&gt; (&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;test&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;test@example.com&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;$2a$10$drlJ6SdzEBso.CLHkO9W0e/lMtySOyArGmixOiSvOESMYBHvEEBoO&amp;#x27;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, we should be able to login through username&amp;#x2F;sillypassword as credentials.&lt;/p&gt;
+</content>
+        <category term="kotlin" />
+        <category term="spring" />
+        <category term="spring-security" />
+        <category term="komapper" />
+        <updated>2022-03-13T00:00:00.000Z</updated>
+    </entry>
     <entry>
         <id>https://lorefnon.me/2022/01/29/hiding-jsx-closing-tag-noise-in-vim/</id>
         <title>Hiding JSX closing tag noise in vim through conceal</title>

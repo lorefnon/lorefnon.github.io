@@ -79,6 +79,10 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
+    <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
     <entry>
         <id>https://lorefnon.me/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</id>
         <title>Boost your content focussed site with Structured Page Fragments</title>

@@ -79,6 +79,10 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
+    <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
     <entry>
         <id>https://lorefnon.me/2018/07/14/getting-productive-with-selection-and-navigation-in-emacs/</id>
         <title>Getting productive with selection and navigation in Emacs</title>

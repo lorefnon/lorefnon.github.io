@@ -79,6 +79,10 @@
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
+    <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
     <entry>
         <id>https://lorefnon.me/2014/10/12/decrypting-an-obfuscated-font-with-ocr.html</id>
         <title>Decrypting an obfuscated font with OCR</title>
