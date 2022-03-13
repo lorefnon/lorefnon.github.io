@@ -34,14 +34,12 @@
         <category>Helm</category>
         <category>SPF</category>
         <category>CSS</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
-        <category>Frontend</category>
         <category>Vagrant</category>
         <category>Clojure</category>
         <category>Hashicorp</category>
         <category>Typescript</category>
         <category>ReasonML</category>
+        <category>Frontend</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
@@ -50,10 +48,12 @@
         <category>Automerge</category>
         <category>CRDT</category>
         <category>SVG</category>
-        <category>VSCode</category>
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>VSCode</category>
         <category>MobX</category>
         <category>MobX-State-Tree</category>
         <category>Routing</category>
@@ -288,7 +288,7 @@ $2a$10$drlJ6SdzEBso.CLHkO9W0e/lMtySOyArGmixOiSvOESMYBHvEEBoO&lt;/code&gt;&lt;/pr
 &lt;pre&gt;&lt;code class=&#34;hljs sql&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;insert&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;into&lt;/span&gt; users (name, email, password)
 &lt;span class=&#34;hljs-keyword&#34;&gt;values&lt;/span&gt; (&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;test&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;test@example.com&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;$2a$10$drlJ6SdzEBso.CLHkO9W0e/lMtySOyArGmixOiSvOESMYBHvEEBoO&amp;#x27;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Now, we should be able to login through username&amp;#x2F;sillypassword as credentials.&lt;/p&gt;
+&lt;p&gt;Now, we should be able to login through test&amp;#x2F;sillypassword as credentials.&lt;/p&gt;
  ]]></description>
         </item>
         <item>

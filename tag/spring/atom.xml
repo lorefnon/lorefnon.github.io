@@ -31,14 +31,12 @@
     <category term="Helm" />
     <category term="SPF" />
     <category term="CSS" />
-    <category term="Redux" />
-    <category term="Redux-loop" />
-    <category term="Frontend" />
     <category term="Vagrant" />
     <category term="Clojure" />
     <category term="Hashicorp" />
     <category term="Typescript" />
     <category term="ReasonML" />
+    <category term="Frontend" />
     <category term="Next.js" />
     <category term="Koa" />
     <category term="Apollo" />
@@ -47,10 +45,12 @@
     <category term="Automerge" />
     <category term="CRDT" />
     <category term="SVG" />
-    <category term="VSCode" />
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
+    <category term="Redux" />
+    <category term="Redux-loop" />
+    <category term="VSCode" />
     <category term="MobX" />
     <category term="MobX-State-Tree" />
     <category term="Routing" />
@@ -280,7 +280,7 @@ $2a$10$drlJ6SdzEBso.CLHkO9W0e/lMtySOyArGmixOiSvOESMYBHvEEBoO&lt;/code&gt;&lt;/pr
 &lt;pre&gt;&lt;code class=&#34;hljs sql&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;insert&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;into&lt;/span&gt; users (name, email, password)
 &lt;span class=&#34;hljs-keyword&#34;&gt;values&lt;/span&gt; (&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;test&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;test@example.com&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;$2a$10$drlJ6SdzEBso.CLHkO9W0e/lMtySOyArGmixOiSvOESMYBHvEEBoO&amp;#x27;&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Now, we should be able to login through username&amp;#x2F;sillypassword as credentials.&lt;/p&gt;
+&lt;p&gt;Now, we should be able to login through test&amp;#x2F;sillypassword as credentials.&lt;/p&gt;
 </content>
         <category term="kotlin" />
         <category term="spring" />

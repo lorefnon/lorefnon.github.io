@@ -34,14 +34,12 @@
         <category>Helm</category>
         <category>SPF</category>
         <category>CSS</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
-        <category>Frontend</category>
         <category>Vagrant</category>
         <category>Clojure</category>
         <category>Hashicorp</category>
         <category>Typescript</category>
         <category>ReasonML</category>
+        <category>Frontend</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
@@ -50,10 +48,12 @@
         <category>Automerge</category>
         <category>CRDT</category>
         <category>SVG</category>
-        <category>VSCode</category>
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>VSCode</category>
         <category>MobX</category>
         <category>MobX-State-Tree</category>
         <category>Routing</category>
@@ -387,9 +387,9 @@
             <title>Redux-loop: A better solution for managing asynchronous operations in redux</title>
             <link>https://lorefnon.me/2018/02/04/redux-loop-a-better-solution-for-managing-asynchronous-operations-in-redux/</link>
             <category>Javascript</category>
+            <category>Frontend</category>
             <category>Redux</category>
             <category>Redux-loop</category>
-            <category>Frontend</category>
             <pubDate>Sun, 04 Feb 2018 00:00:00 +0000</pubDate>
             <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; href=&#34;/css/crayon.min.css&#34; &gt;
 &lt;link rel=&#34;stylesheet&#34; href=&#34;/css/crayon-flatui-light.css&#34; &gt;
