@@ -156,7 +156,7 @@ div(v-else)
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">gql</span>(<span class="hljs-params">source: <span class="hljs-string">&quot;query CurrentUserQuery &#123;...&#125;&quot;</span></span>): (<span class="hljs-keyword">typeof</span> documents)[<span class="hljs-string">&quot;query CurrentUserQuery &#123;...&#125;&quot;</span>];
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">gql</span>(<span class="hljs-params">source: <span class="hljs-built_in">string</span></span>): unknown;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">gql</span>(<span class="hljs-params">source: <span class="hljs-built_in">string</span></span>): <span class="hljs-built_in">unknown</span>;
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">gql</span>(<span class="hljs-params">source: <span class="hljs-built_in">string</span></span>) &#123;
   <span class="hljs-keyword">return</span> (documents <span class="hljs-keyword">as</span> <span class="hljs-built_in">any</span>)[source] ?? &#123;&#125;;
 &#125;</code></pre>

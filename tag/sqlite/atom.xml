@@ -177,10 +177,10 @@ program &lt;span class=&#34;hljs-symbol&#34;&gt;:name&lt;/span&gt;, &lt;span cla
 program &lt;span class=&#34;hljs-symbol&#34;&gt;:version&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;1.0.0&amp;#x27;&lt;/span&gt;
 program &lt;span class=&#34;hljs-symbol&#34;&gt;:description&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;A simple command line based task manager&amp;#x27;&lt;/span&gt;
 
-DB = Sequel.sqlite(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;tasks_db.db&amp;#x27;&lt;/span&gt;)
+&lt;span class=&#34;hljs-variable constant_&#34;&gt;DB&lt;/span&gt; = Sequel.sqlite(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;tasks_db.db&amp;#x27;&lt;/span&gt;)
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;unless&lt;/span&gt; DB.table_exists? &lt;span class=&#34;hljs-symbol&#34;&gt;:tasks&lt;/span&gt;
-  DB.create_table(&lt;span class=&#34;hljs-symbol&#34;&gt;:tasks&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;unless&lt;/span&gt; &lt;span class=&#34;hljs-variable constant_&#34;&gt;DB&lt;/span&gt;.table_exists? &lt;span class=&#34;hljs-symbol&#34;&gt;:tasks&lt;/span&gt;
+  &lt;span class=&#34;hljs-variable constant_&#34;&gt;DB&lt;/span&gt;.create_table(&lt;span class=&#34;hljs-symbol&#34;&gt;:tasks&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
       primary_key &lt;span class=&#34;hljs-symbol&#34;&gt;:id&lt;/span&gt;
   String &lt;span class=&#34;hljs-symbol&#34;&gt;:title&lt;/span&gt;
   String &lt;span class=&#34;hljs-symbol&#34;&gt;:description&lt;/span&gt;
@@ -188,13 +188,13 @@ DB = Sequel.sqlite(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;tasks_db.db
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
-ds = DB[&lt;span class=&#34;hljs-symbol&#34;&gt;:tasks&lt;/span&gt;]&lt;/code&gt;&lt;/pre&gt;
+ds = &lt;span class=&#34;hljs-variable constant_&#34;&gt;DB&lt;/span&gt;[&lt;span class=&#34;hljs-symbol&#34;&gt;:tasks&lt;/span&gt;]&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The above piece of code shows how easy it is to use the Sequel library to manage database. The above code simply checks for the existence of a database table. In case the table does not exist, it is created. For now we keep the schema simple. Please note that thanks to database-agonistic api of Sequel you can use any other database here instead of Sqlite and all that would require is the alteration of one single line of configuration. Its time now to implement our first command :&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;command &lt;span class=&#34;hljs-symbol&#34;&gt;:new&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|c|&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;command &lt;span class=&#34;hljs-symbol&#34;&gt;:new&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;c&lt;/span&gt;|
   c.syntax = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;task-trooper new&amp;#x27;&lt;/span&gt;
   c.description = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Creates a new task&amp;#x27;&lt;/span&gt;
-  c.action &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|args, options|&lt;/span&gt;
+  c.action &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;args, options&lt;/span&gt;|
     puts &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Task created!&amp;#x27;&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
@@ -221,12 +221,12 @@ $ ruby task-trooper.rb new --help
     Creates a new task
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Great ! That works. Of course, at this point our task does not do anything. So let us add some functionality.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;command &lt;span class=&#34;hljs-symbol&#34;&gt;:new&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|c|&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;command &lt;span class=&#34;hljs-symbol&#34;&gt;:new&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;c&lt;/span&gt;|
   c.syntax = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;task-trooper new&amp;#x27;&lt;/span&gt;
   c.description = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Creates a new task&amp;#x27;&lt;/span&gt;
   c.option &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;--title STRING&amp;#x27;&lt;/span&gt;, String, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Title of the task&amp;#x27;&lt;/span&gt;
   c.option &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;--description STRING&amp;#x27;&lt;/span&gt;, String, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Task Description&amp;#x27;&lt;/span&gt;
-  c.action &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|args, options|&lt;/span&gt;
+  c.action &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;args, options&lt;/span&gt;|
     &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; options.title.&lt;span class=&#34;hljs-literal&#34;&gt;nil&lt;/span&gt;?
       options.title = ask(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Provide a title for the task :&amp;#x27;&lt;/span&gt;)
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
@@ -243,11 +243,11 @@ if the title and description are not provided, the user will be prompted for
 these options. Once both title and description are available, a record will be
 inserted in the database.&lt;/p&gt;
 &lt;p&gt;Next, we need some way to show to the list of tasks. That’s not difficult either.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;command &lt;span class=&#34;hljs-symbol&#34;&gt;:list&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|c|&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;command &lt;span class=&#34;hljs-symbol&#34;&gt;:list&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;c&lt;/span&gt;|
   c.syntax = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;task-trooper list&amp;#x27;&lt;/span&gt;
   c.description = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Lists the tasks.&amp;#x27;&lt;/span&gt;
-  c.action &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|args, options|&lt;/span&gt;
-    ds.each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|task|&lt;/span&gt;
+  c.action &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;args, options&lt;/span&gt;|
+    ds.each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;task&lt;/span&gt;|
       status = &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; task[&lt;span class=&#34;hljs-symbol&#34;&gt;:completed&lt;/span&gt;] &lt;span class=&#34;hljs-keyword&#34;&gt;then&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;completed&amp;quot;&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;pending&amp;quot;&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
       puts &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Task [&lt;span class=&#34;hljs-subst&#34;&gt;#&amp;#123;task[&lt;span class=&#34;hljs-symbol&#34;&gt;:id&lt;/span&gt;]&amp;#125;&lt;/span&gt;] - &amp;lt;&lt;span class=&#34;hljs-subst&#34;&gt;#&amp;#123;status&amp;#125;&lt;/span&gt;&amp;gt; : &lt;span class=&#34;hljs-subst&#34;&gt;#&amp;#123;task[&lt;span class=&#34;hljs-symbol&#34;&gt;:title&lt;/span&gt;]&amp;#125;&lt;/span&gt;&amp;quot;&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
@@ -277,10 +277,10 @@ Task [2] - &amp;lt;pending&amp;gt; : Add fertilizer
 Out of 2 Total Tasks : 2 pending, 0 completed.
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Next, we need a way to mark a task as completed :&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;command &lt;span class=&#34;hljs-symbol&#34;&gt;:done&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|c|&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;command &lt;span class=&#34;hljs-symbol&#34;&gt;:done&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;c&lt;/span&gt;|
   c.syntax = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;task-trooper done &amp;lt;id&amp;gt;&amp;#x27;&lt;/span&gt;
   c.description = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Mark a task as done&amp;#x27;&lt;/span&gt;
-  c.action &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|args, options|&lt;/span&gt;
+  c.action &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;args, options&lt;/span&gt;|
     &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; args.first.&lt;span class=&#34;hljs-literal&#34;&gt;nil&lt;/span&gt;?
       puts &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Please specify the task to be marked as complete&amp;#x27;&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
@@ -298,14 +298,14 @@ Out of 2 Total Tasks : 2 pending, 0 completed.
 &lt;p&gt;Try running &lt;strong&gt;ruby task-trooper.rb done 1&lt;/strong&gt; follwed by &lt;strong&gt;ruby task-trooper.rb list&lt;/strong&gt;
 to make sure that the task has indeed been marked as done.&lt;/p&gt;
 &lt;p&gt;After this, we add facility to show details for a task and delete a task :&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;command &lt;span class=&#34;hljs-symbol&#34;&gt;:show&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|c|&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;command &lt;span class=&#34;hljs-symbol&#34;&gt;:show&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;c&lt;/span&gt;|
   c.syntax = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;task-trooper show &amp;lt;id&amp;gt;&amp;#x27;&lt;/span&gt;
   c.description = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Shows the description of a task&amp;#x27;&lt;/span&gt;
-  c.action &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|args, options|&lt;/span&gt;
+  c.action &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;args, options&lt;/span&gt;|
     &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; args.first.&lt;span class=&#34;hljs-literal&#34;&gt;nil&lt;/span&gt;?
       puts &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Please specify the task to be shown.&amp;quot;&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
-      ds.where(&lt;span class=&#34;hljs-symbol&#34;&gt;:id&lt;/span&gt; =&amp;gt; args.first).each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|task|&lt;/span&gt;
+      ds.where(&lt;span class=&#34;hljs-symbol&#34;&gt;:id&lt;/span&gt; =&amp;gt; args.first).each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;task&lt;/span&gt;|
         puts &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Title : &lt;span class=&#34;hljs-subst&#34;&gt;#&amp;#123;task[&lt;span class=&#34;hljs-symbol&#34;&gt;:title&lt;/span&gt;]&amp;#125;&lt;/span&gt;&amp;quot;&lt;/span&gt;
         puts &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Description : &amp;quot;&lt;/span&gt;
         puts task[&lt;span class=&#34;hljs-symbol&#34;&gt;:description&lt;/span&gt;]
@@ -315,10 +315,10 @@ to make sure that the task has indeed been marked as done.&lt;/p&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
-command &lt;span class=&#34;hljs-symbol&#34;&gt;:delete&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|c|&lt;/span&gt;
+command &lt;span class=&#34;hljs-symbol&#34;&gt;:delete&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;c&lt;/span&gt;|
   c.syntax = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;task-trooper delete &amp;lt;id&amp;gt;&amp;#x27;&lt;/span&gt;
   c.description = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Delete a task&amp;#x27;&lt;/span&gt;
-  c.action &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|args, options|&lt;/span&gt;
+  c.action &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;args, options&lt;/span&gt;|
     &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; args.first.&lt;span class=&#34;hljs-literal&#34;&gt;nil&lt;/span&gt;?
       puts &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Please specify the task to be deleted&amp;quot;&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
@@ -344,7 +344,7 @@ chmod a+x bin/task-trooper
     #!&amp;#x2F;usr&amp;#x2F;bin&amp;#x2F;env ruby&lt;/p&gt;
 &lt;p&gt;Next, we need to add a gemspec to specify the required metadata for the
 gem.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;Gem::Specification.new &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|s|&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;Gem::Specification&lt;/span&gt;.new &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;s&lt;/span&gt;|
   s.name = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;task-trooper&amp;#x27;&lt;/span&gt;
   s.version = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;1.0.0&amp;#x27;&lt;/span&gt;
   s.date = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;2012-09-09&amp;#x27;&lt;/span&gt;
@@ -354,7 +354,7 @@ gem.&lt;/p&gt;
   s.email = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;lorefnon@gmail.com&amp;#x27;&lt;/span&gt;
   s.executables &amp;lt;&amp;lt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;task-trooper&amp;#x27;&lt;/span&gt;
 
-  [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;commander&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;sqlite3&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;sequel&amp;#x27;&lt;/span&gt;].each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|dep|&lt;/span&gt;
+  [&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;commander&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;sqlite3&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;sequel&amp;#x27;&lt;/span&gt;].each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;dep&lt;/span&gt;|
     s.add_dependency dep
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
@@ -366,10 +366,10 @@ home directory. This is easily accomplished :&lt;/p&gt;
   Dir::mkdir(config_dir)
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
-DB = Sequel.sqlite(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&lt;span class=&#34;hljs-subst&#34;&gt;#&amp;#123;config_dir&amp;#125;&lt;/span&gt;/tasks.db&amp;quot;&lt;/span&gt;)
+&lt;span class=&#34;hljs-variable constant_&#34;&gt;DB&lt;/span&gt; = Sequel.sqlite(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&lt;span class=&#34;hljs-subst&#34;&gt;#&amp;#123;config_dir&amp;#125;&lt;/span&gt;/tasks.db&amp;quot;&lt;/span&gt;)
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;unless&lt;/span&gt; DB.table_exists? &lt;span class=&#34;hljs-symbol&#34;&gt;:tasks&lt;/span&gt;
-  DB.create_table(&lt;span class=&#34;hljs-symbol&#34;&gt;:tasks&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;unless&lt;/span&gt; &lt;span class=&#34;hljs-variable constant_&#34;&gt;DB&lt;/span&gt;.table_exists? &lt;span class=&#34;hljs-symbol&#34;&gt;:tasks&lt;/span&gt;
+  &lt;span class=&#34;hljs-variable constant_&#34;&gt;DB&lt;/span&gt;.create_table(&lt;span class=&#34;hljs-symbol&#34;&gt;:tasks&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
     primary_key &lt;span class=&#34;hljs-symbol&#34;&gt;:id&lt;/span&gt;
     String &lt;span class=&#34;hljs-symbol&#34;&gt;:title&lt;/span&gt;
     String &lt;span class=&#34;hljs-symbol&#34;&gt;:description&lt;/span&gt;

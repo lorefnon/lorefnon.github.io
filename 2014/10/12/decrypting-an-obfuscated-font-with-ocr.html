@@ -35,7 +35,7 @@ MagickTitle.options[<span class="hljs-symbol">:destination</span>] =  Proc.new&#
 </code></pre>
 <p><code>MagickTitle.say(str)</code> will give us an image containing the text in exactly the same form as is visible to end user.</p>
 <p>Now we pass the image to Tesseract engine:</p>
-<pre><code class="hljs ruby">e = Tesseract::Engine.new &#123;<span class="hljs-params">|e|</span>
+<pre><code class="hljs ruby">e = <span class="hljs-title class_">Tesseract::Engine</span>.new &#123;|<span class="hljs-params">e</span>|
     e.language  = <span class="hljs-symbol">:eng</span>
     e.blacklist = <span class="hljs-string">&#x27;|&#x27;</span>
 &#125;</code></pre>

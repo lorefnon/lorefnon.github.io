@@ -5,13 +5,13 @@ or not reflect my current my recommedation in the matter.</div><div class="page-
 <pre><code>rails g model email email:string user_id:integer
 </code></pre>
 <p>Next we setup the relationships between user and email:</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Email</span> &lt; ActiveRecord::Base</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Email</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
   belongs_to <span class="hljs-symbol">:user</span>
   validates <span class="hljs-symbol">:email</span>, <span class="hljs-symbol">email:</span> <span class="hljs-literal">true</span>, <span class="hljs-symbol">presence:</span> <span class="hljs-literal">true</span>, <span class="hljs-symbol">uniqueness:</span> <span class="hljs-literal">true</span>
 <span class="hljs-keyword">end</span></code></pre>
 
 <p>The email format validation comes from <a href="https://github.com/balexand/email_validator" target="_blank" rel="noopener external nofollow noreferrer">email_validator</a> gem.</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> &lt; ActiveRecord::Base</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
   <span class="hljs-comment"># Include default devise modules. Others available are:</span>
   <span class="hljs-comment"># :confirmable, :lockable, :timeoutable and :omniauthable</span>
   devise <span class="hljs-symbol">:database_authenticatable</span>, <span class="hljs-symbol">:registerable</span>,
@@ -25,8 +25,8 @@ newsletters, fetching gravatars etc. So here we go:</p>
 <pre><code>rails g migration add_default_email_to_users default_email_id:integer
 </code></pre>
 <p>In <code>db/migrate/20140907091858_add_default_email_to_users.rb</code></p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AddDefaultEmailToUsers</span> &lt; ActiveRecord::Migration</span>
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">change</span></span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">AddDefaultEmailToUsers</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Migration</span>
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">change</span>
     remove_column <span class="hljs-symbol">:users</span>, <span class="hljs-symbol">:email</span>
     add_column <span class="hljs-symbol">:users</span>, <span class="hljs-symbol">:default_email_id</span>, <span class="hljs-symbol">:integer</span>
   <span class="hljs-keyword">end</span>
@@ -41,7 +41,7 @@ model.</p>
 <image src="/images/devise_email_not_found.png" />
 
 <p>We resort to a simple hack rather than put in a lot of effort in rewiring Devise. We add email accessors which (as far as devise is concerned) behave just like the email field devise had generated, but internally act as proxy to default email. Duck typing FTW.</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> &lt; ActiveRecord::Base</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
 
   devise <span class="hljs-symbol">:database_authenticatable</span>, <span class="hljs-symbol">:registerable</span>,
          <span class="hljs-symbol">:recoverable</span>, <span class="hljs-symbol">:rememberable</span>, <span class="hljs-symbol">:trackable</span>
@@ -53,20 +53,20 @@ model.</p>
   validates <span class="hljs-symbol">:default_email</span>, <span class="hljs-symbol">presence:</span> <span class="hljs-literal">true</span>
   default_scope &#123; includes <span class="hljs-symbol">:default_email</span> &#125;
 
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">email</span></span>
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">email</span>
     default_email.email <span class="hljs-keyword">rescue</span> <span class="hljs-literal">nil</span>
   <span class="hljs-keyword">end</span>
 
-  def email= email
-    <span class="hljs-keyword">self</span>.default_email = emails.where(<span class="hljs-symbol">email:</span> email).first_or_initialize
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">email=</span> email
+    <span class="hljs-variable language_">self</span>.default_email = emails.where(<span class="hljs-symbol">email:</span> email).first_or_initialize
   <span class="hljs-keyword">end</span>
 
   private
 
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">save_default_email</span></span>
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">save_default_email</span>
     <span class="hljs-keyword">if</span> default_email.user.blank?
-      default_email.user = <span class="hljs-keyword">self</span>
-    <span class="hljs-keyword">elsif</span> default_email.user != <span class="hljs-keyword">self</span>
+      default_email.user = <span class="hljs-variable language_">self</span>
+    <span class="hljs-keyword">elsif</span> default_email.user != <span class="hljs-variable language_">self</span>
       raise Exceptions::EmailConflict
     <span class="hljs-keyword">end</span>
     default_email.save!
@@ -84,10 +84,10 @@ is already associated with another account. Handling that error gracefully is le
 <p>The problem is obvious. Devise tries to search using email field which does not exist. So we need to
 configure devise to find using the emails table we have created.</p>
 <p>This can be done by overriding the class method <code>find_first_by_auth_conditions</code> :</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> &lt; ActiveRecord::Base</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
   ...
 
-  def <span class="hljs-keyword">self</span>.having_email email
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">self</span>.having_email email
     User
       .includes(<span class="hljs-symbol">:emails</span>)
       .joins(<span class="hljs-symbol">emails:</span> &#123;
@@ -96,12 +96,12 @@ configure devise to find using the emails table we have created.</p>
       .first
   <span class="hljs-keyword">end</span>
 
-  def <span class="hljs-keyword">self</span>.find_first_by_auth_conditions warden_conditions
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">self</span>.find_first_by_auth_conditions warden_conditions
     conditions = warden_conditions.dup
     <span class="hljs-keyword">if</span> email = conditions.delete(<span class="hljs-symbol">:email</span>)
       having_email email
     <span class="hljs-keyword">else</span>
-      <span class="hljs-keyword">super</span>(warden_conditions)
+      <span class="hljs-variable language_">super</span>(warden_conditions)
     <span class="hljs-keyword">end</span>
   <span class="hljs-keyword">end</span>
 
@@ -118,7 +118,7 @@ configure devise to find using the emails table we have created.</p>
 <p>Note that this form works perfectly well - thanks to our email accessor hack. But users don&#39;t have the ability to add new emails or delete existing emails.</p>
 <p>We will to augment this form to accept nested attributes for emails. For nested forms probably the most popular solution is <a href="https://github.com/ryanb/nested_form" target="_blank" rel="noopener external nofollow noreferrer">nested_form</a> but it has been unmaintained for a while. So I resorted to <a href="https://github.com/nathanvda/cocoon" target="_blank" rel="noopener external nofollow noreferrer">cocoon</a> which is more actively maintained. Both of them work in a similar fashion - through unobstructive javascript.</p>
 <p>First we have to configure our model to accept nested attributes for emails - this part is easy:</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> &lt; ActiveRecord::Base</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
   ...
   accepts_nested_attributes_for <span class="hljs-symbol">:emails</span>, <span class="hljs-symbol">reject_if:</span> <span class="hljs-symbol">:all_blank</span>, <span class="hljs-symbol">allow_destroy:</span> <span class="hljs-literal">true</span>
   ...
@@ -128,14 +128,14 @@ configure devise to find using the emails table we have created.</p>
 <p>We edit the template to add nested form for emails:</p>
 <pre><code class="hljs erb"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Edit &lt;%=</span><span class="language-ruby"> resource_name.to_s.humanize </span><span class="language-xml">%&gt;<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span></span>
 <span class="language-xml"></span>
-<span class="language-xml">&lt;%=</span><span class="language-ruby"> form_for(resource, <span class="hljs-symbol">as:</span> resource_name, <span class="hljs-symbol">url:</span> registration_path(resource_name), <span class="hljs-symbol">html:</span> &#123; <span class="hljs-symbol">method:</span> <span class="hljs-symbol">:put</span> &#125;) <span class="hljs-keyword">do</span> <span class="hljs-params">|f|</span> </span><span class="language-xml">%&gt;</span>
+<span class="language-xml">&lt;%=</span><span class="language-ruby"> form_for(resource, <span class="hljs-symbol">as:</span> resource_name, <span class="hljs-symbol">url:</span> registration_path(resource_name), <span class="hljs-symbol">html:</span> &#123; <span class="hljs-symbol">method:</span> <span class="hljs-symbol">:put</span> &#125;) <span class="hljs-keyword">do</span> |<span class="hljs-params">f</span>| </span><span class="language-xml">%&gt;</span>
 <span class="language-xml">  &lt;%=</span><span class="language-ruby"> devise_error_messages! </span><span class="language-xml">%&gt;</span>
 <span class="language-xml"></span>
 <span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>&lt;%=</span><span class="language-ruby"> f.label <span class="hljs-symbol">:email</span>, <span class="hljs-string">&quot;Default Email&quot;</span> </span><span class="language-xml">%&gt;<span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span></span>
 <span class="language-xml">  &lt;%=</span><span class="language-ruby"> f.email_field <span class="hljs-symbol">:email</span>, <span class="hljs-symbol">autofocus:</span> <span class="hljs-literal">true</span> </span><span class="language-xml">%&gt;<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
 <span class="language-xml"></span>
 <span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span>
-<span class="language-xml">    &lt;%=</span><span class="language-ruby"> f.fields_for <span class="hljs-symbol">:emails</span> <span class="hljs-keyword">do</span> <span class="hljs-params">|email_f|</span> </span><span class="language-xml">%&gt;</span>
+<span class="language-xml">    &lt;%=</span><span class="language-ruby"> f.fields_for <span class="hljs-symbol">:emails</span> <span class="hljs-keyword">do</span> |<span class="hljs-params">email_f</span>| </span><span class="language-xml">%&gt;</span>
 <span class="language-xml">      &lt;%=</span><span class="language-ruby"> render <span class="hljs-string">&#x27;email_fields&#x27;</span>, <span class="hljs-symbol">f:</span> email_f </span><span class="language-xml">%&gt;</span>
 <span class="language-xml">    &lt;%</span><span class="language-ruby"> <span class="hljs-keyword">end</span> </span><span class="language-xml">%&gt;</span>
 <span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;links&quot;</span>&gt;</span></span>
@@ -177,7 +177,7 @@ configure devise to find using the emails table we have created.</p>
 
 <p>At this point if we try saving the form, we will notice that email fields are not getting saved. The reason is that the strong parameters specified by devise does not include our email fields. Fortunately devise provides a way to configure that :</p>
 <p>In <code>ApplicationController</code> :</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ApplicationController</span> &lt; ActionController::Base</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ApplicationController</span> &lt; <span class="hljs-title class_ inherited__">ActionController::Base</span>
   <span class="hljs-comment"># Prevent CSRF attacks by raising an exception.</span>
   <span class="hljs-comment"># For APIs, you may want to use :null_session instead.</span>
 
@@ -186,8 +186,8 @@ configure devise to find using the emails table we have created.</p>
 
   protected
 
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">configure_permitted_parameters</span></span>
-    devise_parameter_sanitizer.<span class="hljs-keyword">for</span>(<span class="hljs-symbol">:account_update</span>) <span class="hljs-keyword">do</span> <span class="hljs-params">|u|</span>
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">configure_permitted_parameters</span>
+    devise_parameter_sanitizer.<span class="hljs-keyword">for</span>(<span class="hljs-symbol">:account_update</span>) <span class="hljs-keyword">do</span> |<span class="hljs-params">u</span>|
       u.permit <span class="hljs-symbol">:email</span>, <span class="hljs-symbol">:password</span>, <span class="hljs-symbol">:password_confirmation</span>, <span class="hljs-symbol">:current_password</span>, <span class="hljs-symbol">emails_attributes:</span> [<span class="hljs-symbol">:email</span>, <span class="hljs-symbol">:id</span>, <span class="hljs-symbol">:_destroy</span>]
     <span class="hljs-keyword">end</span>
   <span class="hljs-keyword">end</span>
@@ -207,7 +207,7 @@ configure devise to find using the emails table we have created.</p>
 gem <span class="hljs-string">&#x27;omniauth-facebook&#x27;</span></code></pre>
 
 <p>In config&#x2F;initializers&#x2F;devise.rb</p>
-<pre><code class="hljs ruby">Devise.setup <span class="hljs-keyword">do</span> <span class="hljs-params">|config|</span>
+<pre><code class="hljs ruby">Devise.setup <span class="hljs-keyword">do</span> |<span class="hljs-params">config</span>|
   ...
   config.omniauth <span class="hljs-symbol">:twitter</span>, Rails.application.secrets.fb_app_id, Rails.application.secrets.fb_app_secret
   ...
@@ -219,7 +219,7 @@ gem <span class="hljs-string">&#x27;omniauth-facebook&#x27;</span></code></pre>
   <span class="hljs-attr">fb_app_secret:</span> <span class="hljs-string">&lt;add</span> <span class="hljs-string">api</span> <span class="hljs-string">secret</span> <span class="hljs-string">here&gt;</span></code></pre>
 
 <p>In app&#x2F;models&#x2F;user.rb</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> &lt; ActiveRecord::Base</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
   ...
   devise <span class="hljs-symbol">:omniauthable</span>, <span class="hljs-symbol">omniauth_providers:</span> [<span class="hljs-symbol">:facebook</span>]
   ...
@@ -233,15 +233,15 @@ gem <span class="hljs-string">&#x27;omniauth-facebook&#x27;</span></code></pre>
 <p>Just like we wish to allow the user to sign up through multiple emails, we also wish to allow a user to sign up through multiple social networks. (s)he may be registered in different social networks with different emails. A simple and elegant way to represent a user&#39;s presence in multiple third party sites is through a separate <code>UserIdentity</code> model.</p>
 <pre><code>rails g model UserIdentity user_id:integer email_id:integer uid:string provider:string
 </code></pre>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserIdentity</span> &lt; ActiveRecord::Base</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">UserIdentity</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
   belongs_to <span class="hljs-symbol">:user</span>
   belongs_to <span class="hljs-symbol">:email</span>
   validates <span class="hljs-symbol">:user</span>, <span class="hljs-symbol">:email</span>, <span class="hljs-symbol">:uid</span>, <span class="hljs-symbol">:provider</span>, <span class="hljs-symbol">presence:</span> <span class="hljs-literal">true</span>
 <span class="hljs-keyword">end</span></code></pre>
 
 <p>Our callback controller is intentially very simple. Depending on your use case you may want to check if the user is newly created and direct him&#x2F;her to a profile completion page. For the sake of simplicity, we just redirect any user to the profile page.</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Users::OmniauthCallbacksController</span> &lt; Devise::OmniauthCallbacksController</span>
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">facebook</span></span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Users::OmniauthCallbacksController</span> &lt; <span class="hljs-title class_ inherited__">Devise::OmniauthCallbacksController</span>
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">facebook</span>
     <span class="hljs-variable">@user</span> = User.from_omniauth(request.env[<span class="hljs-string">&quot;omniauth.auth&quot;</span>])
     sign_in_and_redirect <span class="hljs-variable">@user</span>, <span class="hljs-symbol">:event</span> =&gt; <span class="hljs-symbol">:authentication</span> <span class="hljs-comment">#this will throw if <span class="hljs-doctag">@user</span> is not activated</span>
   <span class="hljs-keyword">end</span>
@@ -265,11 +265,11 @@ We keep the existing email, but associate the user identity with the new email.<
 </li>
 </ul>
 <p>Here is our implementation</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> &lt; ActiveRecord::Base</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
 
   ...
 
-  def <span class="hljs-keyword">self</span>.from_omniauth auth
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">self</span>.from_omniauth auth
 
     email = Email
       .includes(<span class="hljs-symbol">:user</span>)
@@ -300,7 +300,7 @@ We keep the existing email, but associate the user identity with the new email.<
     <span class="hljs-keyword">else</span>
       <span class="hljs-comment"># New user new identity</span>
       email.save!
-      user = User.new(
+      user = <span class="hljs-title class_">User</span>.new(
         <span class="hljs-symbol">password:</span> Devise.friendly_token[<span class="hljs-number">0</span>,<span class="hljs-number">20</span>],
         <span class="hljs-symbol">default_email:</span> email
       )

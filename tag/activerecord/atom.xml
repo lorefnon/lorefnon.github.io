@@ -95,26 +95,26 @@ This becomes especially unweildy if you scope your models inside a module.&lt;/p
 &lt;p&gt;Let us illustrate this with an example:&lt;/p&gt;
 &lt;p&gt;Let us say, we have a database of institutions. For non profit and commercial institutions we have two subclasses of &lt;code&gt;Institution::Base&lt;/code&gt; namely, &lt;code&gt;Institution::NonProfit&lt;/code&gt;, &lt;code&gt;Institution::Commercial&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;#app/models/institution.rb&lt;/span&gt;
-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Institution&lt;/span&gt;&lt;/span&gt;
-  def &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.table_name_prefix
+&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; Institution
+  &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;self&lt;/span&gt;.table_name_prefix
     &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;institution_&amp;#x27;&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
 &lt;span class=&#34;hljs-comment&#34;&gt;# app/models/institution/base.rb&lt;/span&gt;
-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Institution::Base&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Institution::Base&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ActiveRecord::Base&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
 &lt;span class=&#34;hljs-comment&#34;&gt;#app/models/institution/non_profit.rb&lt;/span&gt;
-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Institution::NonProfit&lt;/span&gt; &amp;lt; Institution::Base&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Institution::NonProfit&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;Institution::Base&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
 &lt;span class=&#34;hljs-comment&#34;&gt;#app/models/institution/commercial.rb&lt;/span&gt;
-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Institution::Commercial&lt;/span&gt; &amp;lt; Institution::Base&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Institution::Commercial&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;Institution::Base&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We deliberately keep the schema simple:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;create_table &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;institution_bases&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;force:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|t|&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;create_table &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;institution_bases&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;force:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;t&lt;/span&gt;|
     t.string   &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;
     t.string   &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;
     t.datetime &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;created_at&amp;quot;&lt;/span&gt;
@@ -126,24 +126,24 @@ This becomes especially unweildy if you scope your models inside a module.&lt;/p
 &lt;p&gt;It turns out we can override the methods Rails uses to convert the table name to class name and vice versa:&lt;/p&gt;
 &lt;p&gt;The relevant methods are &lt;code&gt;find_sti_class&lt;/code&gt; which is responsible for the translating the value stored in the type column to the respective ActiveRecord model and &lt;code&gt;sti_name&lt;/code&gt; which is responsible for retriving the value stored in type column given an ActiveRecord subclass.&lt;/p&gt;
 &lt;p&gt;So we override the default implementations to the following:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Institution::Base&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Institution::Base&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ActiveRecord::Base&lt;/span&gt;
 
-  ALLOWED_CLASSES = &lt;span class=&#34;hljs-string&#34;&gt;%w[Institution::NonProfit Institution::Commercial]&lt;/span&gt;
+  &lt;span class=&#34;hljs-variable constant_&#34;&gt;ALLOWED_CLASSES&lt;/span&gt; = &lt;span class=&#34;hljs-string&#34;&gt;%w[Institution::NonProfit Institution::Commercial]&lt;/span&gt;
 
-  &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &amp;lt;&amp;lt; self&lt;/span&gt;
+  &lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &amp;lt;&amp;lt; &lt;span class=&#34;hljs-variable language_&#34;&gt;self&lt;/span&gt;
 
-    def find_sti_class type_name
+    &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;find_sti_class&lt;/span&gt; type_name
       idx = type_name.to_i
-      &lt;span class=&#34;hljs-keyword&#34;&gt;super&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; idx == &lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt;
-      ALLOWED_CLASSES[idx-&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;].constantize
+      &lt;span class=&#34;hljs-variable language_&#34;&gt;super&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; idx == &lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt;
+      &lt;span class=&#34;hljs-variable constant_&#34;&gt;ALLOWED_CLASSES&lt;/span&gt;[idx-&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;].constantize
     &lt;span class=&#34;hljs-keyword&#34;&gt;rescue&lt;/span&gt; NameError, TypeError
-      &lt;span class=&#34;hljs-keyword&#34;&gt;super&lt;/span&gt;
+      &lt;span class=&#34;hljs-variable language_&#34;&gt;super&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
-    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;sti_name&lt;/span&gt;&lt;/span&gt;
-      idx = ALLOWED_CLASSES.index(&lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.name)
+    &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;sti_name&lt;/span&gt;
+      idx = &lt;span class=&#34;hljs-variable constant_&#34;&gt;ALLOWED_CLASSES&lt;/span&gt;.index(&lt;span class=&#34;hljs-variable language_&#34;&gt;self&lt;/span&gt;.name)
       &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; idx.&lt;span class=&#34;hljs-literal&#34;&gt;nil&lt;/span&gt;?
-        &lt;span class=&#34;hljs-keyword&#34;&gt;super&lt;/span&gt;
+        &lt;span class=&#34;hljs-variable language_&#34;&gt;super&lt;/span&gt;
       &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
         idx + &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;
       &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
@@ -160,31 +160,31 @@ any errors when trying to save or retrieve them since we delegate to default imp
 &lt;p&gt;You might want to ask why the array ALLOWED_CLASS_NAMES is a string array rather than an actual array of classes. Having an array of classes leads to RecursiveDependency errors while autoloading when fetching the entries from databases.&lt;/p&gt;
 &lt;p&gt;While this is nice and good, this functionality is generic and doesn&amp;#39;t really belong to the &lt;code&gt;Institution::Base&lt;/code&gt; class. What if we need another module tomorrow which is unreleated but needs the same functionality?&lt;/p&gt;
 &lt;p&gt;So in the spirit of reusability and separation of concerns we create a &lt;code&gt;concern&lt;/code&gt; for this:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;OptimallyInheritable&lt;/span&gt;&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; OptimallyInheritable
   extend ActiveSupport::Concern
 
-  &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;ClassMethods&lt;/span&gt;&lt;/span&gt;
-    def support_sti_for cls_list
+  &lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; ClassMethods
+    &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;support_sti_for&lt;/span&gt; cls_list
       &lt;span class=&#34;hljs-variable&#34;&gt;@sti_cls_list&lt;/span&gt; = []
       &lt;span class=&#34;hljs-variable&#34;&gt;@sti_cls_list&lt;/span&gt; += cls_list
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
-    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;sti_cls_list&lt;/span&gt;&lt;/span&gt;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;sti_cls_list&lt;/span&gt;
       &lt;span class=&#34;hljs-variable&#34;&gt;@sti_cls_list&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
-    def find_sti_class type_name
+    &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;find_sti_class&lt;/span&gt; type_name
       idx = type_name.to_i
-      &lt;span class=&#34;hljs-keyword&#34;&gt;super&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; idx == &lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt;
+      &lt;span class=&#34;hljs-variable language_&#34;&gt;super&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; idx == &lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt;
       sti_cls_list[type_name.to_i-&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;].constantize
     &lt;span class=&#34;hljs-keyword&#34;&gt;rescue&lt;/span&gt; NameError, TypeError
-      &lt;span class=&#34;hljs-keyword&#34;&gt;super&lt;/span&gt;
+      &lt;span class=&#34;hljs-variable language_&#34;&gt;super&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
-    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;sti_name&lt;/span&gt;&lt;/span&gt;
-      idx = sti_cls_list.index(&lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.name)
+    &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;sti_name&lt;/span&gt;
+      idx = sti_cls_list.index(&lt;span class=&#34;hljs-variable language_&#34;&gt;self&lt;/span&gt;.name)
       &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; idx.&lt;span class=&#34;hljs-literal&#34;&gt;nil&lt;/span&gt;?
-        &lt;span class=&#34;hljs-keyword&#34;&gt;super&lt;/span&gt;
+        &lt;span class=&#34;hljs-variable language_&#34;&gt;super&lt;/span&gt;
       &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
         idx + &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;
       &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
@@ -194,7 +194,7 @@ any errors when trying to save or retrieve them since we delegate to default imp
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;And our &lt;code&gt;Institution::Base&lt;/code&gt; class just reduces to:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;Institution::Base&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Institution::Base&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ActiveRecord::Base&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;include&lt;/span&gt; OptimallyInheritable
   support_sti_for &lt;span class=&#34;hljs-string&#34;&gt;%w[Institution::NonProfit Institution::Commercial]&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
@@ -216,7 +216,7 @@ NoMethodError: undefined method `index&amp;#39; for nil:NilClass
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The problem is obvious : the variable &lt;code&gt;sti_class_list&lt;/code&gt; is not available in subclasses.&lt;/p&gt;
 &lt;p&gt;So we rectify our solution:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;sti_cls_list&lt;/span&gt;&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;sti_cls_list&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; superclass.respond_to? &lt;span class=&#34;hljs-symbol&#34;&gt;:sti_cls_list&lt;/span&gt;
     superclass.sti_cls_list
   &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;

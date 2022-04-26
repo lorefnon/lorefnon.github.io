@@ -123,33 +123,33 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;p&gt;While I appreciate the freedom associated with open source licenses, I would rather bet on a well supported library that caters to the exact same use case and which is already being used in production in a wildly popular site - Youtube.&lt;/p&gt;
 &lt;h2 id=&#34;Integrating-SPF-js-with-Rails&#34;&gt;&lt;a href=&#34;#Integrating-SPF-js-with-Rails&#34; class=&#34;headerlink&#34; title=&#34;Integrating SPF.js with Rails&#34;&gt;&lt;/a&gt;Integrating SPF.js with Rails&lt;/h2&gt;&lt;p&gt;The rest of the post outlines the steps required to integrate SPF.js with a rails application. The code for this tutorial is available in &lt;a href=&#34;https://github.com/lorefnon/rails-spfjs-demo&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Github&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;We will create a dummy blog application. But hey, since this is just a demo application, we can get away with a little &lt;a href=&#34;https://github.com/sevenwire/forgery&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Forgery&lt;/a&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;PostsController&lt;/span&gt; &amp;lt; ApplicationController&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;PostsController&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ApplicationController&lt;/span&gt;
 
-  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;index&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;index&lt;/span&gt;
     &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; = params[&lt;span class=&#34;hljs-symbol&#34;&gt;:page&lt;/span&gt;].to_i
     &lt;span class=&#34;hljs-variable&#34;&gt;@num_pages&lt;/span&gt; = &lt;span class=&#34;hljs-number&#34;&gt;1000&lt;/span&gt;
     &lt;span class=&#34;hljs-variable&#34;&gt;@posts&lt;/span&gt; = &lt;span class=&#34;hljs-number&#34;&gt;10&lt;/span&gt;.times.map &amp;#123; fake_post_summary &amp;#125;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
-  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;show&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;show&lt;/span&gt;
     &lt;span class=&#34;hljs-variable&#34;&gt;@post&lt;/span&gt; = fake_post
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
   private
 
-  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;fake_post&lt;/span&gt;&lt;/span&gt;
-    OpenStruct.new fake_post_summary.to_h.merge!(
+  &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;fake_post&lt;/span&gt;
+    &lt;span class=&#34;hljs-title class_&#34;&gt;OpenStruct&lt;/span&gt;.new fake_post_summary.to_h.merge!(
       &lt;span class=&#34;hljs-symbol&#34;&gt;id:&lt;/span&gt; params[&lt;span class=&#34;hljs-symbol&#34;&gt;:id&lt;/span&gt;],
       &lt;span class=&#34;hljs-symbol&#34;&gt;body:&lt;/span&gt; LoremIpsum.random(&lt;span class=&#34;hljs-symbol&#34;&gt;paragraphs:&lt;/span&gt; rand(&lt;span class=&#34;hljs-number&#34;&gt;20&lt;/span&gt;))
     )
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
-  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;fake_post_summary&lt;/span&gt;&lt;/span&gt;
-    OpenStruct.new(
+  &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;fake_post_summary&lt;/span&gt;
+    &lt;span class=&#34;hljs-title class_&#34;&gt;OpenStruct&lt;/span&gt;.new(
       &lt;span class=&#34;hljs-symbol&#34;&gt;id:&lt;/span&gt; rand(&lt;span class=&#34;hljs-number&#34;&gt;1000&lt;/span&gt;),
       &lt;span class=&#34;hljs-symbol&#34;&gt;title:&lt;/span&gt; LoremIpsum.lorem_ipsum(&lt;span class=&#34;hljs-symbol&#34;&gt;words:&lt;/span&gt; rand(&lt;span class=&#34;hljs-number&#34;&gt;20&lt;/span&gt;)),
       &lt;span class=&#34;hljs-symbol&#34;&gt;summary:&lt;/span&gt; LoremIpsum.random(&lt;span class=&#34;hljs-symbol&#34;&gt;paragraphs:&lt;/span&gt; &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;),
-      &lt;span class=&#34;hljs-symbol&#34;&gt;author:&lt;/span&gt; OpenStruct.new(
+      &lt;span class=&#34;hljs-symbol&#34;&gt;author:&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;OpenStruct&lt;/span&gt;.new(
         &lt;span class=&#34;hljs-symbol&#34;&gt;user_name:&lt;/span&gt; Forgery(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;internet&amp;#x27;&lt;/span&gt;).user_name,
         &lt;span class=&#34;hljs-symbol&#34;&gt;email:&lt;/span&gt; Forgery(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;internet&amp;#x27;&lt;/span&gt;).email_address
       )
@@ -178,7 +178,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;posts-list&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;language-xml&#34;&gt;&lt;/span&gt;
 &lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;class&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;posts&amp;quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@posts&lt;/span&gt;.each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|post|&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@posts&lt;/span&gt;.each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;post&lt;/span&gt;| &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; render &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;posts/summary&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;post:&lt;/span&gt; post &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;language-xml&#34;&gt;    &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;language-xml&#34;&gt;  &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
@@ -246,18 +246,18 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 
 &lt;h2 id=&#34;Making-navigation-links-SPF-aware&#34;&gt;&lt;a href=&#34;#Making-navigation-links-SPF-aware&#34; class=&#34;headerlink&#34; title=&#34;Making navigation links SPF aware&#34;&gt;&lt;/a&gt;Making navigation links SPF aware&lt;/h2&gt;&lt;p&gt;However just initializing SPF.js does not magically ajaxify all navigation links. In fact by so far SPF.js does not alter the navigation in any way. We need to explicitly enable SPFjs for links for which our server knows how to server partial content. For SPF to process a link, it should have the class &amp;#39;spf-link&amp;#39;. Let us start with our navigation links:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; &amp;gt; &lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;language-xml&#34;&gt;   &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Previous Page&amp;#x27;&lt;/span&gt;, posts_path(&lt;span class=&#34;hljs-symbol&#34;&gt;page:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt;-&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;), &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;: &amp;#x27;&lt;span class=&#34;hljs-title&#34;&gt;spf&lt;/span&gt;-&lt;span class=&#34;hljs-title&#34;&gt;link&lt;/span&gt;&amp;#x27; &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;   &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Previous Page&amp;#x27;&lt;/span&gt;, posts_path(&lt;span class=&#34;hljs-symbol&#34;&gt;page:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt;-&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;), &lt;span class=&#34;hljs-symbol&#34;&gt;class:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;spf-link&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;language-xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;language-xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-variable&#34;&gt;@num_pages&lt;/span&gt; -&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;language-xml&#34;&gt;   &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Next Page&amp;#x27;&lt;/span&gt;, posts_path(&lt;span class=&#34;hljs-symbol&#34;&gt;page:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt;+&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;), &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;: &amp;#x27;&lt;span class=&#34;hljs-title&#34;&gt;spf&lt;/span&gt;-&lt;span class=&#34;hljs-title&#34;&gt;link&lt;/span&gt;&amp;#x27; &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;   &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; link_to &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Next Page&amp;#x27;&lt;/span&gt;, posts_path(&lt;span class=&#34;hljs-symbol&#34;&gt;page:&lt;/span&gt; &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt;+&lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;), &lt;span class=&#34;hljs-symbol&#34;&gt;class:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;spf-link&amp;#x27;&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;language-xml&#34;&gt;&amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;One great feature of SPF.js is that it handles graceful degradation. So, since we haven&amp;#39;t done anything on the server side to generate partial contents, SPF will try to make an ajax request to server (with the special query parameter spf&amp;#x3D;navigate) and once that response format does not match what SPF expects, it will allow a full page reload.&lt;/p&gt;
 &lt;h2 id=&#34;Server-side-handling-for-SPF&#34;&gt;&lt;a href=&#34;#Server-side-handling-for-SPF&#34; class=&#34;headerlink&#34; title=&#34;Server side handling for SPF&#34;&gt;&lt;/a&gt;Server side handling for SPF&lt;/h2&gt;&lt;p&gt;Let us move on to server side handling:&lt;/p&gt;
 &lt;p&gt;As we have previously mentioned that SPF sends an ajax request using spf&amp;#x3D;navigate query parameter. We can detect that in our controller and send out a special response that only includes the parts of the page we need to update:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;PostsController&lt;/span&gt; &amp;lt; ApplicationController&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;PostsController&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ApplicationController&lt;/span&gt;
 
-  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;index&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;index&lt;/span&gt;
     &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; = params[&lt;span class=&#34;hljs-symbol&#34;&gt;:page&lt;/span&gt;].to_i
     &lt;span class=&#34;hljs-variable&#34;&gt;@num_pages&lt;/span&gt; = &lt;span class=&#34;hljs-number&#34;&gt;1000&lt;/span&gt;
     &lt;span class=&#34;hljs-variable&#34;&gt;@posts&lt;/span&gt; = &lt;span class=&#34;hljs-number&#34;&gt;10&lt;/span&gt;.times.map &amp;#123; fake_post_summary &amp;#125;
@@ -290,31 +290,31 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 &lt;img src=&#34;/images/2015-11-26/spf_response.png&#34;&gt;
 
 &lt;h2 id=&#34;Optional-Leveraging-rails-magic-for-leaner-controllers&#34;&gt;&lt;a href=&#34;#Optional-Leveraging-rails-magic-for-leaner-controllers&#34; class=&#34;headerlink&#34; title=&#34;(Optional) Leveraging rails magic for leaner controllers&#34;&gt;&lt;/a&gt;(Optional) Leveraging rails magic for leaner controllers&lt;/h2&gt;&lt;p&gt;While the above works, it is unweildy to handle the navigation link in each controller. We can alternatively make the &lt;code&gt;default_render&lt;/code&gt; method that is used by rails to be SPF aware. The &lt;a href=&#34;https://github.com/rails/rails/blob/7f18ea14c893cb5c9f04d4fda9661126758332b5/actionpack/lib/action_controller/metal/implicit_render.rb&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;default implementation&lt;/a&gt; looks like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;default_render&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(*args)&lt;/span&gt;&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;default_render&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;*args&lt;/span&gt;)
   &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; template_exists?(action_name.to_s, _prefixes, &lt;span class=&#34;hljs-symbol&#34;&gt;variants:&lt;/span&gt; request.variant)
     render(*args)
   &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; block_given?
       &lt;span class=&#34;hljs-keyword&#34;&gt;yield&lt;/span&gt;(*args)
     &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
-      logger.info &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;No template found for &lt;span class=&#34;hljs-subst&#34;&gt;#&amp;#123;&lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;.name&amp;#125;&lt;/span&gt;\#&lt;span class=&#34;hljs-subst&#34;&gt;#&amp;#123;action_name&amp;#125;&lt;/span&gt;, rendering head :no_content&amp;quot;&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; logger
-      &lt;span class=&#34;hljs-keyword&#34;&gt;super&lt;/span&gt;
+      logger.info &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;No template found for &lt;span class=&#34;hljs-subst&#34;&gt;#&amp;#123;&lt;span class=&#34;hljs-variable language_&#34;&gt;self&lt;/span&gt;.&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;.name&amp;#125;&lt;/span&gt;\#&lt;span class=&#34;hljs-subst&#34;&gt;#&amp;#123;action_name&amp;#125;&lt;/span&gt;, rendering head :no_content&amp;quot;&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; logger
+      &lt;span class=&#34;hljs-variable language_&#34;&gt;super&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We can override this in our ApplicationController&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;ApplicationController&lt;/span&gt; &amp;lt; ActionController::Base&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ApplicationController&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ActionController::Base&lt;/span&gt;
 
   &lt;span class=&#34;hljs-comment&#34;&gt;# Prevent CSRF attacks by raising an exception.&lt;/span&gt;
   &lt;span class=&#34;hljs-comment&#34;&gt;# For APIs, you may want to use :null_session instead.&lt;/span&gt;
   protect_from_forgery &lt;span class=&#34;hljs-symbol&#34;&gt;with:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:exception&lt;/span&gt;
 
-  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;default_render&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(*args)&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;default_render&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;*args&lt;/span&gt;)
     &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; params[&lt;span class=&#34;hljs-symbol&#34;&gt;:spf&lt;/span&gt;] == &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;navigate&amp;#x27;&lt;/span&gt;
       render &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&lt;span class=&#34;hljs-subst&#34;&gt;#&amp;#123;controller_name&amp;#125;&lt;/span&gt;/spf_&lt;span class=&#34;hljs-subst&#34;&gt;#&amp;#123;action_name&amp;#125;&lt;/span&gt;.json&amp;quot;&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
-      &lt;span class=&#34;hljs-keyword&#34;&gt;super&lt;/span&gt;
+      &lt;span class=&#34;hljs-variable language_&#34;&gt;super&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
@@ -322,9 +322,9 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
 
 &lt;p&gt;Now all we have to do is prefix the names of our SPF specific templates with &lt;code&gt;spf_&lt;/code&gt; and we are done. Our &lt;code&gt;spf_index.json.erb&lt;/code&gt; remains unchanged.&lt;/p&gt;
 &lt;p&gt;We can clean up the action and remove SPF specific code:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;PostsController&lt;/span&gt; &amp;lt; ApplicationController&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;PostsController&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ApplicationController&lt;/span&gt;
 
-  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;index&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;index&lt;/span&gt;
     &lt;span class=&#34;hljs-variable&#34;&gt;@page&lt;/span&gt; = params[&lt;span class=&#34;hljs-symbol&#34;&gt;:page&lt;/span&gt;].to_i
     &lt;span class=&#34;hljs-variable&#34;&gt;@num_pages&lt;/span&gt; = &lt;span class=&#34;hljs-number&#34;&gt;1000&lt;/span&gt;
     &lt;span class=&#34;hljs-variable&#34;&gt;@posts&lt;/span&gt; = &lt;span class=&#34;hljs-number&#34;&gt;10&lt;/span&gt;.times.map &amp;#123; fake_post_summary &amp;#125;

@@ -100,11 +100,11 @@ $ jq <span class="hljs-string">&#x27;.log.entries[] | select(.response.content.m
 <p>In case of twitter, the response from the server is base64 encoded. So we had to use <code>@base64d</code> to decode it. Also we had to pass the <code>-r</code> flag to jq to remove the quotes around the output so that the output is proper HTML.</p>
 <p>We can&#39;t however use the <code>@base64d</code> when the input is not utf8. But fortunately we have a base64 cli utility available for OS X (pre-installed) and most major linux variants which works well with arbitrary content including binary data.</p>
 <p>So we can save some images fetched during the HTTP session to a image files which can then be viewed through any image viewer:</p>
-<pre><code class="hljs sh">$ jq -r <span class="hljs-string">&#x27;[ .log.entries[] | select(.response.content.mimeType == &quot;image/png&quot;) ] | first | .response.content.text&#x27;</span> twitter.com.har | base64 --decode &gt; file.png</code></pre>
+<pre><code class="hljs sh">$ jq -r <span class="hljs-string">&#x27;[ .log.entries[] | select(.response.content.mimeType == &quot;image/png&quot;) ] | first | .response.content.text&#x27;</span> twitter.com.har | <span class="hljs-built_in">base64</span> --decode &gt; file.png</code></pre>
 
 <p>You can now, for instance, use something like <a href="https://github.com/dmtrKovalenko/odiff" target="_blank" rel="noopener external nofollow noreferrer">odiff</a> to compare images from multiple HAR archives and see if they have changed.</p>
 <p>Also, if you are using <a href="https://iterm2.com/" target="_blank" rel="noopener external nofollow noreferrer">iterm2</a> and have <a href="https://iterm2.com/documentation-images.html" target="_blank" rel="noopener external nofollow noreferrer">imgcat</a> installed, we can display the images right in the terminal:</p>
-<pre><code class="hljs sh">$ jq -r <span class="hljs-string">&#x27;[ .log.entries[] | select(.response.content.mimeType == &quot;image/png&quot;) ] | first | .response.content.text&#x27;</span> twitter.com.har | base64 --decode | imgcat</code></pre>
+<pre><code class="hljs sh">$ jq -r <span class="hljs-string">&#x27;[ .log.entries[] | select(.response.content.mimeType == &quot;image/png&quot;) ] | first | .response.content.text&#x27;</span> twitter.com.har | <span class="hljs-built_in">base64</span> --decode | imgcat</code></pre>
 
 
 <p><img src="/images/Uw4uhn_mK.png" alt="image.png" loading="lazy"></p>

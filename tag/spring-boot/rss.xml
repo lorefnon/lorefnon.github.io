@@ -105,9 +105,10 @@ dependencies &amp;#123;
 	&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; jteVersion = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;2.0.2&amp;quot;&lt;/span&gt;
 
 	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;gg.jte:jte-spring-boot-starter:&lt;span class=&#34;hljs-variable&#34;&gt;$jteVersion&lt;/span&gt;&amp;quot;&lt;/span&gt;)
-    &lt;span class=&#34;hljs-comment&#34;&gt;// jte-kotlin is needed to compile kte templates&lt;/span&gt;
+        &lt;span class=&#34;hljs-comment&#34;&gt;// jte-kotlin is needed to compile kte templates&lt;/span&gt;
 	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;gg.jte:jte-kotlin:&lt;span class=&#34;hljs-variable&#34;&gt;$jteVersion&lt;/span&gt;&amp;quot;&lt;/span&gt;)
-    &lt;span class=&#34;hljs-comment&#34;&gt;// ... other dependencies&lt;/span&gt;
+
+        &lt;span class=&#34;hljs-comment&#34;&gt;// ... other dependencies&lt;/span&gt;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;As an additional convenience we configure the view resolver below to automatically pick kte templates (with embedded kotlin expressions)

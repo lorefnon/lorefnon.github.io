@@ -113,7 +113,7 @@ gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;influxdb-rails&amp;#x27;&l
 &lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;rails g influxdb&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The default configuration options are available in the generated &lt;code&gt;influxdb-rails.rb&lt;/code&gt; and they correspond to the default settings of influxdb.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;InfluxDB::Rails.configure &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|config|&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;InfluxDB::Rails.configure &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;config&lt;/span&gt;|
   config.influxdb_database = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;rails&amp;quot;&lt;/span&gt;
   config.influxdb_username = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;root&amp;quot;&lt;/span&gt;
   config.influxdb_password = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;root&amp;quot;&lt;/span&gt;
@@ -147,7 +147,7 @@ gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;influxdb-rails&amp;#x27;&l
 &lt;h2 id=&#34;Configuring-additional-lifecycle-events&#34;&gt;&lt;a href=&#34;#Configuring-additional-lifecycle-events&#34; class=&#34;headerlink&#34; title=&#34;Configuring additional lifecycle events&#34;&gt;&lt;/a&gt;Configuring additional lifecycle events&lt;/h2&gt;&lt;p&gt;In a real applications we would want to aggregate additional metrics of our choosing. A popular solution for dispatching and subscribing to various lifecycle events that ruby community has developed is &lt;code&gt;ActiveSupport::Notifications&lt;/code&gt; which Rails internally uses.&lt;/p&gt;
 &lt;p&gt;Using &lt;code&gt;ActiveSupport::Notifications&lt;/code&gt; we can subscribe to lifecycle events of a rails application and add callbacks to dispatch these metrics to InfluxDB.&lt;/p&gt;
 &lt;p&gt;For example if we would like to track the execution times of queries in InfluxDB we can write an initializer:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;ActiveSupport::Notifications.subscribe(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;sql.active_record&amp;#x27;&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|name, start, finish, id, payload|&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;ActiveSupport::Notifications.subscribe(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;sql.active_record&amp;#x27;&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;name, start, finish, id, payload&lt;/span&gt;|
   InfluxDB::Rails.client.write_point(name, &amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;value:&lt;/span&gt; (finish-start), &lt;span class=&#34;hljs-symbol&#34;&gt;start:&lt;/span&gt; start, &lt;span class=&#34;hljs-symbol&#34;&gt;finish:&lt;/span&gt; finish &amp;#125;)
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 

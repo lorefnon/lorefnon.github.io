@@ -6,26 +6,26 @@ This becomes especially unweildy if you scope your models inside a module.</p>
 <p>Let us illustrate this with an example:</p>
 <p>Let us say, we have a database of institutions. For non profit and commercial institutions we have two subclasses of <code>Institution::Base</code> namely, <code>Institution::NonProfit</code>, <code>Institution::Commercial</code>.</p>
 <pre><code class="hljs ruby"><span class="hljs-comment">#app/models/institution.rb</span>
-<span class="hljs-class"><span class="hljs-keyword">module</span> <span class="hljs-title">Institution</span></span>
-  def <span class="hljs-keyword">self</span>.table_name_prefix
+<span class="hljs-keyword">module</span> Institution
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">self</span>.table_name_prefix
     <span class="hljs-string">&#x27;institution_&#x27;</span>
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 
 <span class="hljs-comment"># app/models/institution/base.rb</span>
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Institution::Base</span> &lt; ActiveRecord::Base</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Institution::Base</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
 <span class="hljs-keyword">end</span>
 
 <span class="hljs-comment">#app/models/institution/non_profit.rb</span>
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Institution::NonProfit</span> &lt; Institution::Base</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Institution::NonProfit</span> &lt; <span class="hljs-title class_ inherited__">Institution::Base</span>
 <span class="hljs-keyword">end</span>
 
 <span class="hljs-comment">#app/models/institution/commercial.rb</span>
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Institution::Commercial</span> &lt; Institution::Base</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Institution::Commercial</span> &lt; <span class="hljs-title class_ inherited__">Institution::Base</span>
 <span class="hljs-keyword">end</span></code></pre>
 
 <p>We deliberately keep the schema simple:</p>
-<pre><code class="hljs ruby">create_table <span class="hljs-string">&quot;institution_bases&quot;</span>, <span class="hljs-symbol">force:</span> <span class="hljs-literal">true</span> <span class="hljs-keyword">do</span> <span class="hljs-params">|t|</span>
+<pre><code class="hljs ruby">create_table <span class="hljs-string">&quot;institution_bases&quot;</span>, <span class="hljs-symbol">force:</span> <span class="hljs-literal">true</span> <span class="hljs-keyword">do</span> |<span class="hljs-params">t</span>|
     t.string   <span class="hljs-string">&quot;name&quot;</span>
     t.string   <span class="hljs-string">&quot;type&quot;</span>
     t.datetime <span class="hljs-string">&quot;created_at&quot;</span>
@@ -37,24 +37,24 @@ This becomes especially unweildy if you scope your models inside a module.</p>
 <p>It turns out we can override the methods Rails uses to convert the table name to class name and vice versa:</p>
 <p>The relevant methods are <code>find_sti_class</code> which is responsible for the translating the value stored in the type column to the respective ActiveRecord model and <code>sti_name</code> which is responsible for retriving the value stored in type column given an ActiveRecord subclass.</p>
 <p>So we override the default implementations to the following:</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Institution::Base</span> &lt; ActiveRecord::Base</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Institution::Base</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
 
-  ALLOWED_CLASSES = <span class="hljs-string">%w[Institution::NonProfit Institution::Commercial]</span>
+  <span class="hljs-variable constant_">ALLOWED_CLASSES</span> = <span class="hljs-string">%w[Institution::NonProfit Institution::Commercial]</span>
 
-  <span class="hljs-class"><span class="hljs-keyword">class</span> &lt;&lt; self</span>
+  <span class="hljs-keyword">class</span> &lt;&lt; <span class="hljs-variable language_">self</span>
 
-    def find_sti_class type_name
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">find_sti_class</span> type_name
       idx = type_name.to_i
-      <span class="hljs-keyword">super</span> <span class="hljs-keyword">if</span> idx == <span class="hljs-number">0</span>
-      ALLOWED_CLASSES[idx-<span class="hljs-number">1</span>].constantize
+      <span class="hljs-variable language_">super</span> <span class="hljs-keyword">if</span> idx == <span class="hljs-number">0</span>
+      <span class="hljs-variable constant_">ALLOWED_CLASSES</span>[idx-<span class="hljs-number">1</span>].constantize
     <span class="hljs-keyword">rescue</span> NameError, TypeError
-      <span class="hljs-keyword">super</span>
+      <span class="hljs-variable language_">super</span>
     <span class="hljs-keyword">end</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sti_name</span></span>
-      idx = ALLOWED_CLASSES.index(<span class="hljs-keyword">self</span>.name)
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">sti_name</span>
+      idx = <span class="hljs-variable constant_">ALLOWED_CLASSES</span>.index(<span class="hljs-variable language_">self</span>.name)
       <span class="hljs-keyword">if</span> idx.<span class="hljs-literal">nil</span>?
-        <span class="hljs-keyword">super</span>
+        <span class="hljs-variable language_">super</span>
       <span class="hljs-keyword">else</span>
         idx + <span class="hljs-number">1</span>
       <span class="hljs-keyword">end</span>
@@ -71,31 +71,31 @@ any errors when trying to save or retrieve them since we delegate to default imp
 <p>You might want to ask why the array ALLOWED_CLASS_NAMES is a string array rather than an actual array of classes. Having an array of classes leads to RecursiveDependency errors while autoloading when fetching the entries from databases.</p>
 <p>While this is nice and good, this functionality is generic and doesn&#39;t really belong to the <code>Institution::Base</code> class. What if we need another module tomorrow which is unreleated but needs the same functionality?</p>
 <p>So in the spirit of reusability and separation of concerns we create a <code>concern</code> for this:</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">module</span> <span class="hljs-title">OptimallyInheritable</span></span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">module</span> OptimallyInheritable
   extend ActiveSupport::Concern
 
-  <span class="hljs-class"><span class="hljs-keyword">module</span> <span class="hljs-title">ClassMethods</span></span>
-    def support_sti_for cls_list
+  <span class="hljs-keyword">module</span> ClassMethods
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">support_sti_for</span> cls_list
       <span class="hljs-variable">@sti_cls_list</span> = []
       <span class="hljs-variable">@sti_cls_list</span> += cls_list
     <span class="hljs-keyword">end</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sti_cls_list</span></span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">sti_cls_list</span>
       <span class="hljs-variable">@sti_cls_list</span>
     <span class="hljs-keyword">end</span>
 
-    def find_sti_class type_name
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">find_sti_class</span> type_name
       idx = type_name.to_i
-      <span class="hljs-keyword">super</span> <span class="hljs-keyword">if</span> idx == <span class="hljs-number">0</span>
+      <span class="hljs-variable language_">super</span> <span class="hljs-keyword">if</span> idx == <span class="hljs-number">0</span>
       sti_cls_list[type_name.to_i-<span class="hljs-number">1</span>].constantize
     <span class="hljs-keyword">rescue</span> NameError, TypeError
-      <span class="hljs-keyword">super</span>
+      <span class="hljs-variable language_">super</span>
     <span class="hljs-keyword">end</span>
 
-    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sti_name</span></span>
-      idx = sti_cls_list.index(<span class="hljs-keyword">self</span>.name)
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">sti_name</span>
+      idx = sti_cls_list.index(<span class="hljs-variable language_">self</span>.name)
       <span class="hljs-keyword">if</span> idx.<span class="hljs-literal">nil</span>?
-        <span class="hljs-keyword">super</span>
+        <span class="hljs-variable language_">super</span>
       <span class="hljs-keyword">else</span>
         idx + <span class="hljs-number">1</span>
       <span class="hljs-keyword">end</span>
@@ -105,7 +105,7 @@ any errors when trying to save or retrieve them since we delegate to default imp
 <span class="hljs-keyword">end</span></code></pre>
 
 <p>And our <code>Institution::Base</code> class just reduces to:</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Institution::Base</span> &lt; ActiveRecord::Base</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Institution::Base</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
   <span class="hljs-keyword">include</span> OptimallyInheritable
   support_sti_for <span class="hljs-string">%w[Institution::NonProfit Institution::Commercial]</span>
 <span class="hljs-keyword">end</span></code></pre>
@@ -127,7 +127,7 @@ NoMethodError: undefined method `index&#39; for nil:NilClass
 </code></pre>
 <p>The problem is obvious : the variable <code>sti_class_list</code> is not available in subclasses.</p>
 <p>So we rectify our solution:</p>
-<pre><code class="hljs ruby"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sti_cls_list</span></span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">def</span> <span class="hljs-title function_">sti_cls_list</span>
   <span class="hljs-keyword">if</span> superclass.respond_to? <span class="hljs-symbol">:sti_cls_list</span>
     superclass.sti_cls_list
   <span class="hljs-keyword">else</span>

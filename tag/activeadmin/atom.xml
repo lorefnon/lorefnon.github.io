@@ -106,9 +106,9 @@ and may be used without modifications if you are storing JSON in say MySQL
 text fields. Of course you will need to handle server side validation yourself in that case.&lt;/p&gt;
 &lt;p&gt;The source code for the post is available on &lt;a href=&#34;https://github.com/lorefnon/activeadmin-jsoneditor-demo&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Github&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Let us have a simple product model with following schema:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;CreateProducts&lt;/span&gt; &amp;lt; ActiveRecord::Migration&lt;/span&gt;
-  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;change&lt;/span&gt;&lt;/span&gt;
-    create_table &lt;span class=&#34;hljs-symbol&#34;&gt;:products&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|t|&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;CreateProducts&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ActiveRecord::Migration&lt;/span&gt;
+  &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;change&lt;/span&gt;
+    create_table &lt;span class=&#34;hljs-symbol&#34;&gt;:products&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;t&lt;/span&gt;|
       t.string &lt;span class=&#34;hljs-symbol&#34;&gt;:name&lt;/span&gt;
       t.text &lt;span class=&#34;hljs-symbol&#34;&gt;:description&lt;/span&gt;
       t.json &lt;span class=&#34;hljs-symbol&#34;&gt;:metadata&lt;/span&gt;
@@ -133,7 +133,7 @@ it to use a textarea for metadata field&lt;/p&gt;
 
   permit_params &lt;span class=&#34;hljs-symbol&#34;&gt;:name&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:description&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:metadata&lt;/span&gt;
 
-  form &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|f|&lt;/span&gt;
+  form &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;f&lt;/span&gt;|
     f.inputs &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
       f.input &lt;span class=&#34;hljs-symbol&#34;&gt;:name&lt;/span&gt;
       f.input &lt;span class=&#34;hljs-symbol&#34;&gt;:description&lt;/span&gt;
@@ -163,11 +163,11 @@ so that we can handle json input fields in a generic fashion.&lt;/p&gt;
 
   permit_params &lt;span class=&#34;hljs-symbol&#34;&gt;:name&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:description&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:metadata&lt;/span&gt;
 
-  form &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;|f|&lt;/span&gt;
+  form &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;f&lt;/span&gt;|
     f.inputs &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
       f.input &lt;span class=&#34;hljs-symbol&#34;&gt;:name&lt;/span&gt;
       f.input &lt;span class=&#34;hljs-symbol&#34;&gt;:description&lt;/span&gt;
-      f.input &lt;span class=&#34;hljs-symbol&#34;&gt;:metadata&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;as:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:text&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;input_html:&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt;: &amp;#x27;&lt;span class=&#34;hljs-title&#34;&gt;jsoneditor&lt;/span&gt;-&lt;span class=&#34;hljs-title&#34;&gt;target&lt;/span&gt;&amp;#x27; &amp;#125;&lt;/span&gt;
+      f.input &lt;span class=&#34;hljs-symbol&#34;&gt;:metadata&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;as:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:text&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;input_html:&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;class:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;jsoneditor-target&amp;#x27;&lt;/span&gt; &amp;#125;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
     f.actions
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
@@ -270,19 +270,19 @@ rails g model District name:string state_id:&lt;span class=&#34;hljs-built_in&#3
 rails g model State name:string&lt;/code&gt;&lt;/pre&gt;
 
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;# app/models/state.rb&lt;/span&gt;
-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;State&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;State&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ActiveRecord::Base&lt;/span&gt;
   has_many &lt;span class=&#34;hljs-symbol&#34;&gt;:districts&lt;/span&gt;
   has_many &lt;span class=&#34;hljs-symbol&#34;&gt;:cities&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;through:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:districts&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
 &lt;span class=&#34;hljs-comment&#34;&gt;# app/models/district.rb&lt;/span&gt;
-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;District&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;District&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ActiveRecord::Base&lt;/span&gt;
   belongs_to &lt;span class=&#34;hljs-symbol&#34;&gt;:state&lt;/span&gt;
   has_many &lt;span class=&#34;hljs-symbol&#34;&gt;:cities&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
 &lt;span class=&#34;hljs-comment&#34;&gt;# app/models/city.rb&lt;/span&gt;
-&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;City&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;City&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ActiveRecord::Base&lt;/span&gt;
   belongs_to &lt;span class=&#34;hljs-symbol&#34;&gt;:district&lt;/span&gt;
   has_one &lt;span class=&#34;hljs-symbol&#34;&gt;:state&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;through:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:district&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
@@ -309,10 +309,10 @@ INNER JOIN cities ON cities.district_id = districts.id
 &lt;p&gt;To create the view we generate a migration:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;rails g migration create_state_district_city_view
 &lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;CreateStateDistrictCityView&lt;/span&gt; &amp;lt; ActiveRecord::Migration&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;CreateStateDistrictCityView&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ActiveRecord::Migration&lt;/span&gt;
 
-  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;up&lt;/span&gt;&lt;/span&gt;
-    &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.connection.execute &lt;span class=&#34;hljs-string&#34;&gt;%Q( CREATE OR REPLACE VIEW state_district_city_view AS&lt;/span&gt;
+  &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;up&lt;/span&gt;
+    &lt;span class=&#34;hljs-variable language_&#34;&gt;self&lt;/span&gt;.connection.execute &lt;span class=&#34;hljs-string&#34;&gt;%Q( CREATE OR REPLACE VIEW state_district_city_view AS&lt;/span&gt;
 &lt;span class=&#34;hljs-string&#34;&gt;      SELECT cities.id AS id, states.name AS state, districts.name AS district, cities.name AS city&lt;/span&gt;
 &lt;span class=&#34;hljs-string&#34;&gt;      FROM states&lt;/span&gt;
 &lt;span class=&#34;hljs-string&#34;&gt;      INNER JOIN districts ON districts.state_id = states.id&lt;/span&gt;
@@ -320,21 +320,21 @@ INNER JOIN cities ON cities.district_id = districts.id
 &lt;span class=&#34;hljs-string&#34;&gt;    )&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
-  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;down&lt;/span&gt;&lt;/span&gt;
-    &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.connection.execute &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;DROP VIEW IF EXISTS state_district_city_view;&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;down&lt;/span&gt;
+    &lt;span class=&#34;hljs-variable language_&#34;&gt;self&lt;/span&gt;.connection.execute &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;DROP VIEW IF EXISTS state_district_city_view;&amp;quot;&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now a view, as far as read access is concerned, behaves similar to a table, we
 can just define a normal ActiveRecord model to access this view.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;StateDistrictCityViewProxy&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
-    &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.table_name = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;state_district_city_view&amp;quot;&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;StateDistrictCityViewProxy&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ActiveRecord::Base&lt;/span&gt;
+    &lt;span class=&#34;hljs-variable language_&#34;&gt;self&lt;/span&gt;.table_name = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;state_district_city_view&amp;quot;&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We can take the proxy model for a test drive using IRB:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&amp;gt; StateDistrictCityViewProxy.limit(&lt;span class=&#34;hljs-number&#34;&gt;10&lt;/span&gt;).to_a
-  StateDistrictCityViewProxy Load (&lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt;.4ms)  SELECT &lt;span class=&#34;hljs-string&#34;&gt;`state_district_city_view`&lt;/span&gt;.* FROM &lt;span class=&#34;hljs-string&#34;&gt;`state_district_city_view`&lt;/span&gt; LIMIT &lt;span class=&#34;hljs-number&#34;&gt;10&lt;/span&gt;
+  StateDistrictCityViewProxy Load (&lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt;.4ms)  &lt;span class=&#34;hljs-variable constant_&#34;&gt;SELECT&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;`state_district_city_view`&lt;/span&gt;.* &lt;span class=&#34;hljs-variable constant_&#34;&gt;FROM&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;`state_district_city_view`&lt;/span&gt; &lt;span class=&#34;hljs-variable constant_&#34;&gt;LIMIT&lt;/span&gt; &lt;span class=&#34;hljs-number&#34;&gt;10&lt;/span&gt;
 =&amp;gt; [#&amp;lt;StateDistrictCityViewProxy id: 1, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Agali&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 2, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Amadagur&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 3, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Amarapuram&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 4, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Anantapur&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 5, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Atmakur&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 6, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Bathalapalle&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 7, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Beluguppa&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 8, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Bommanahal&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 9, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Brahmasamudram&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 10, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Bukkapatnam&amp;quot;&amp;gt;]&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now that we have a model, generating an ActiveAdmin resource is as simple as:&lt;/p&gt;
@@ -358,9 +358,9 @@ assume that our &lt;code&gt;id&lt;/code&gt; field is a primary key.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;We can not somehow add a primary key to an SQL view, that is utterly pointless. However we can force ActiveRecord to use the &lt;code&gt;id&lt;/code&gt; attribute
 as primary key.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;StateDistrictCityViewProxy&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
-  &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.table_name = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;state_district_city_view&amp;quot;&lt;/span&gt;
-  &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.primary_key = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;id&amp;quot;&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;StateDistrictCityViewProxy&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ActiveRecord::Base&lt;/span&gt;
+  &lt;span class=&#34;hljs-variable language_&#34;&gt;self&lt;/span&gt;.table_name = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;state_district_city_view&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;hljs-variable language_&#34;&gt;self&lt;/span&gt;.primary_key = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;id&amp;quot;&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;And voila. We have our fancy table:&lt;/p&gt;
@@ -384,11 +384,11 @@ oviously trigger an error. For example, here is what we end up with when clickin
 &lt;img src=&#34;/images/err2.png&#34;/&gt;
 
 &lt;p&gt;Let us declare the proxy model as readonly.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;StateDistrictCityViewProxy&lt;/span&gt; &amp;lt; ActiveRecord::Base&lt;/span&gt;
-  &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.table_name = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;state_district_city_view&amp;quot;&lt;/span&gt;
-  &lt;span class=&#34;hljs-keyword&#34;&gt;self&lt;/span&gt;.primary_key = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;id&amp;quot;&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;StateDistrictCityViewProxy&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ActiveRecord::Base&lt;/span&gt;
+  &lt;span class=&#34;hljs-variable language_&#34;&gt;self&lt;/span&gt;.table_name = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;state_district_city_view&amp;quot;&lt;/span&gt;
+  &lt;span class=&#34;hljs-variable language_&#34;&gt;self&lt;/span&gt;.primary_key = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;id&amp;quot;&lt;/span&gt;
 
-  &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;readonly?&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;readonly?&lt;/span&gt;
     &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;

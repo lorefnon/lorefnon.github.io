@@ -9,9 +9,10 @@ dependencies &#123;
 	<span class="hljs-keyword">var</span> jteVersion = <span class="hljs-string">&quot;2.0.2&quot;</span>
 
 	implementation(<span class="hljs-string">&quot;gg.jte:jte-spring-boot-starter:<span class="hljs-variable">$jteVersion</span>&quot;</span>)
-    <span class="hljs-comment">// jte-kotlin is needed to compile kte templates</span>
+        <span class="hljs-comment">// jte-kotlin is needed to compile kte templates</span>
 	implementation(<span class="hljs-string">&quot;gg.jte:jte-kotlin:<span class="hljs-variable">$jteVersion</span>&quot;</span>)
-    <span class="hljs-comment">// ... other dependencies</span>
+
+        <span class="hljs-comment">// ... other dependencies</span>
 &#125;</code></pre>
 
 <p>As an additional convenience we configure the view resolver below to automatically pick kte templates (with embedded kotlin expressions)

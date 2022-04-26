@@ -88,10 +88,10 @@ program <span class="hljs-symbol">:name</span>, <span class="hljs-string">&quot;
 program <span class="hljs-symbol">:version</span>, <span class="hljs-string">&#x27;1.0.0&#x27;</span>
 program <span class="hljs-symbol">:description</span>, <span class="hljs-string">&#x27;A simple command line based task manager&#x27;</span>
 
-DB = Sequel.sqlite(<span class="hljs-string">&#x27;tasks_db.db&#x27;</span>)
+<span class="hljs-variable constant_">DB</span> = Sequel.sqlite(<span class="hljs-string">&#x27;tasks_db.db&#x27;</span>)
 
-<span class="hljs-keyword">unless</span> DB.table_exists? <span class="hljs-symbol">:tasks</span>
-  DB.create_table(<span class="hljs-symbol">:tasks</span>) <span class="hljs-keyword">do</span>
+<span class="hljs-keyword">unless</span> <span class="hljs-variable constant_">DB</span>.table_exists? <span class="hljs-symbol">:tasks</span>
+  <span class="hljs-variable constant_">DB</span>.create_table(<span class="hljs-symbol">:tasks</span>) <span class="hljs-keyword">do</span>
       primary_key <span class="hljs-symbol">:id</span>
   String <span class="hljs-symbol">:title</span>
   String <span class="hljs-symbol">:description</span>
@@ -99,13 +99,13 @@ DB = Sequel.sqlite(<span class="hljs-string">&#x27;tasks_db.db&#x27;</span>)
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 
-ds = DB[<span class="hljs-symbol">:tasks</span>]</code></pre>
+ds = <span class="hljs-variable constant_">DB</span>[<span class="hljs-symbol">:tasks</span>]</code></pre>
 
 <p>The above piece of code shows how easy it is to use the Sequel library to manage database. The above code simply checks for the existence of a database table. In case the table does not exist, it is created. For now we keep the schema simple. Please note that thanks to database-agonistic api of Sequel you can use any other database here instead of Sqlite and all that would require is the alteration of one single line of configuration. Its time now to implement our first command :</p>
-<pre><code class="hljs ruby">command <span class="hljs-symbol">:new</span> <span class="hljs-keyword">do</span> <span class="hljs-params">|c|</span>
+<pre><code class="hljs ruby">command <span class="hljs-symbol">:new</span> <span class="hljs-keyword">do</span> |<span class="hljs-params">c</span>|
   c.syntax = <span class="hljs-string">&#x27;task-trooper new&#x27;</span>
   c.description = <span class="hljs-string">&#x27;Creates a new task&#x27;</span>
-  c.action <span class="hljs-keyword">do</span> <span class="hljs-params">|args, options|</span>
+  c.action <span class="hljs-keyword">do</span> |<span class="hljs-params">args, options</span>|
     puts <span class="hljs-string">&#x27;Task created!&#x27;</span>
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></code></pre>
@@ -132,12 +132,12 @@ $ ruby task-trooper.rb new --help
     Creates a new task
 </code></pre>
 <p>Great ! That works. Of course, at this point our task does not do anything. So let us add some functionality.</p>
-<pre><code class="hljs ruby">command <span class="hljs-symbol">:new</span> <span class="hljs-keyword">do</span> <span class="hljs-params">|c|</span>
+<pre><code class="hljs ruby">command <span class="hljs-symbol">:new</span> <span class="hljs-keyword">do</span> |<span class="hljs-params">c</span>|
   c.syntax = <span class="hljs-string">&#x27;task-trooper new&#x27;</span>
   c.description = <span class="hljs-string">&#x27;Creates a new task&#x27;</span>
   c.option <span class="hljs-string">&#x27;--title STRING&#x27;</span>, String, <span class="hljs-string">&#x27;Title of the task&#x27;</span>
   c.option <span class="hljs-string">&#x27;--description STRING&#x27;</span>, String, <span class="hljs-string">&#x27;Task Description&#x27;</span>
-  c.action <span class="hljs-keyword">do</span> <span class="hljs-params">|args, options|</span>
+  c.action <span class="hljs-keyword">do</span> |<span class="hljs-params">args, options</span>|
     <span class="hljs-keyword">if</span> options.title.<span class="hljs-literal">nil</span>?
       options.title = ask(<span class="hljs-string">&#x27;Provide a title for the task :&#x27;</span>)
     <span class="hljs-keyword">end</span>
@@ -154,11 +154,11 @@ if the title and description are not provided, the user will be prompted for
 these options. Once both title and description are available, a record will be
 inserted in the database.</p>
 <p>Next, we need some way to show to the list of tasks. That’s not difficult either.</p>
-<pre><code class="hljs ruby">command <span class="hljs-symbol">:list</span> <span class="hljs-keyword">do</span> <span class="hljs-params">|c|</span>
+<pre><code class="hljs ruby">command <span class="hljs-symbol">:list</span> <span class="hljs-keyword">do</span> |<span class="hljs-params">c</span>|
   c.syntax = <span class="hljs-string">&#x27;task-trooper list&#x27;</span>
   c.description = <span class="hljs-string">&#x27;Lists the tasks.&#x27;</span>
-  c.action <span class="hljs-keyword">do</span> <span class="hljs-params">|args, options|</span>
-    ds.each <span class="hljs-keyword">do</span> <span class="hljs-params">|task|</span>
+  c.action <span class="hljs-keyword">do</span> |<span class="hljs-params">args, options</span>|
+    ds.each <span class="hljs-keyword">do</span> |<span class="hljs-params">task</span>|
       status = <span class="hljs-keyword">if</span> task[<span class="hljs-symbol">:completed</span>] <span class="hljs-keyword">then</span> <span class="hljs-string">&quot;completed&quot;</span> <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;pending&quot;</span> <span class="hljs-keyword">end</span>
       puts <span class="hljs-string">&quot;Task [<span class="hljs-subst">#&#123;task[<span class="hljs-symbol">:id</span>]&#125;</span>] - &lt;<span class="hljs-subst">#&#123;status&#125;</span>&gt; : <span class="hljs-subst">#&#123;task[<span class="hljs-symbol">:title</span>]&#125;</span>&quot;</span>
     <span class="hljs-keyword">end</span>
@@ -188,10 +188,10 @@ Task [2] - &lt;pending&gt; : Add fertilizer
 Out of 2 Total Tasks : 2 pending, 0 completed.
 </code></pre>
 <p>Next, we need a way to mark a task as completed :</p>
-<pre><code class="hljs ruby">command <span class="hljs-symbol">:done</span> <span class="hljs-keyword">do</span> <span class="hljs-params">|c|</span>
+<pre><code class="hljs ruby">command <span class="hljs-symbol">:done</span> <span class="hljs-keyword">do</span> |<span class="hljs-params">c</span>|
   c.syntax = <span class="hljs-string">&#x27;task-trooper done &lt;id&gt;&#x27;</span>
   c.description = <span class="hljs-string">&#x27;Mark a task as done&#x27;</span>
-  c.action <span class="hljs-keyword">do</span> <span class="hljs-params">|args, options|</span>
+  c.action <span class="hljs-keyword">do</span> |<span class="hljs-params">args, options</span>|
     <span class="hljs-keyword">if</span> args.first.<span class="hljs-literal">nil</span>?
       puts <span class="hljs-string">&#x27;Please specify the task to be marked as complete&#x27;</span>
     <span class="hljs-keyword">else</span>
@@ -209,14 +209,14 @@ Out of 2 Total Tasks : 2 pending, 0 completed.
 <p>Try running <strong>ruby task-trooper.rb done 1</strong> follwed by <strong>ruby task-trooper.rb list</strong>
 to make sure that the task has indeed been marked as done.</p>
 <p>After this, we add facility to show details for a task and delete a task :</p>
-<pre><code class="hljs ruby">command <span class="hljs-symbol">:show</span> <span class="hljs-keyword">do</span> <span class="hljs-params">|c|</span>
+<pre><code class="hljs ruby">command <span class="hljs-symbol">:show</span> <span class="hljs-keyword">do</span> |<span class="hljs-params">c</span>|
   c.syntax = <span class="hljs-string">&#x27;task-trooper show &lt;id&gt;&#x27;</span>
   c.description = <span class="hljs-string">&#x27;Shows the description of a task&#x27;</span>
-  c.action <span class="hljs-keyword">do</span> <span class="hljs-params">|args, options|</span>
+  c.action <span class="hljs-keyword">do</span> |<span class="hljs-params">args, options</span>|
     <span class="hljs-keyword">if</span> args.first.<span class="hljs-literal">nil</span>?
       puts <span class="hljs-string">&quot;Please specify the task to be shown.&quot;</span>
     <span class="hljs-keyword">else</span>
-      ds.where(<span class="hljs-symbol">:id</span> =&gt; args.first).each <span class="hljs-keyword">do</span> <span class="hljs-params">|task|</span>
+      ds.where(<span class="hljs-symbol">:id</span> =&gt; args.first).each <span class="hljs-keyword">do</span> |<span class="hljs-params">task</span>|
         puts <span class="hljs-string">&quot;Title : <span class="hljs-subst">#&#123;task[<span class="hljs-symbol">:title</span>]&#125;</span>&quot;</span>
         puts <span class="hljs-string">&quot;Description : &quot;</span>
         puts task[<span class="hljs-symbol">:description</span>]
@@ -226,10 +226,10 @@ to make sure that the task has indeed been marked as done.</p>
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 
-command <span class="hljs-symbol">:delete</span> <span class="hljs-keyword">do</span> <span class="hljs-params">|c|</span>
+command <span class="hljs-symbol">:delete</span> <span class="hljs-keyword">do</span> |<span class="hljs-params">c</span>|
   c.syntax = <span class="hljs-string">&#x27;task-trooper delete &lt;id&gt;&#x27;</span>
   c.description = <span class="hljs-string">&#x27;Delete a task&#x27;</span>
-  c.action <span class="hljs-keyword">do</span> <span class="hljs-params">|args, options|</span>
+  c.action <span class="hljs-keyword">do</span> |<span class="hljs-params">args, options</span>|
     <span class="hljs-keyword">if</span> args.first.<span class="hljs-literal">nil</span>?
       puts <span class="hljs-string">&quot;Please specify the task to be deleted&quot;</span>
     <span class="hljs-keyword">else</span>
@@ -255,7 +255,7 @@ chmod a+x bin/task-trooper
     #!&#x2F;usr&#x2F;bin&#x2F;env ruby</p>
 <p>Next, we need to add a gemspec to specify the required metadata for the
 gem.</p>
-<pre><code class="hljs ruby">Gem::Specification.new <span class="hljs-keyword">do</span> <span class="hljs-params">|s|</span>
+<pre><code class="hljs ruby"><span class="hljs-title class_">Gem::Specification</span>.new <span class="hljs-keyword">do</span> |<span class="hljs-params">s</span>|
   s.name = <span class="hljs-string">&#x27;task-trooper&#x27;</span>
   s.version = <span class="hljs-string">&#x27;1.0.0&#x27;</span>
   s.date = <span class="hljs-string">&#x27;2012-09-09&#x27;</span>
@@ -265,7 +265,7 @@ gem.</p>
   s.email = <span class="hljs-string">&#x27;lorefnon@gmail.com&#x27;</span>
   s.executables &lt;&lt; <span class="hljs-string">&#x27;task-trooper&#x27;</span>
 
-  [<span class="hljs-string">&#x27;commander&#x27;</span>, <span class="hljs-string">&#x27;sqlite3&#x27;</span>, <span class="hljs-string">&#x27;sequel&#x27;</span>].each <span class="hljs-keyword">do</span> <span class="hljs-params">|dep|</span>
+  [<span class="hljs-string">&#x27;commander&#x27;</span>, <span class="hljs-string">&#x27;sqlite3&#x27;</span>, <span class="hljs-string">&#x27;sequel&#x27;</span>].each <span class="hljs-keyword">do</span> |<span class="hljs-params">dep</span>|
     s.add_dependency dep
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></code></pre>
@@ -277,10 +277,10 @@ home directory. This is easily accomplished :</p>
   Dir::mkdir(config_dir)
 <span class="hljs-keyword">end</span>
 
-DB = Sequel.sqlite(<span class="hljs-string">&quot;<span class="hljs-subst">#&#123;config_dir&#125;</span>/tasks.db&quot;</span>)
+<span class="hljs-variable constant_">DB</span> = Sequel.sqlite(<span class="hljs-string">&quot;<span class="hljs-subst">#&#123;config_dir&#125;</span>/tasks.db&quot;</span>)
 
-<span class="hljs-keyword">unless</span> DB.table_exists? <span class="hljs-symbol">:tasks</span>
-  DB.create_table(<span class="hljs-symbol">:tasks</span>) <span class="hljs-keyword">do</span>
+<span class="hljs-keyword">unless</span> <span class="hljs-variable constant_">DB</span>.table_exists? <span class="hljs-symbol">:tasks</span>
+  <span class="hljs-variable constant_">DB</span>.create_table(<span class="hljs-symbol">:tasks</span>) <span class="hljs-keyword">do</span>
     primary_key <span class="hljs-symbol">:id</span>
     String <span class="hljs-symbol">:title</span>
     String <span class="hljs-symbol">:description</span>

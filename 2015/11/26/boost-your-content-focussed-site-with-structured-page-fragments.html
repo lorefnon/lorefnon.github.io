@@ -38,33 +38,33 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 <p>While I appreciate the freedom associated with open source licenses, I would rather bet on a well supported library that caters to the exact same use case and which is already being used in production in a wildly popular site - Youtube.</p>
 <h2 id="Integrating-SPF-js-with-Rails"><a href="#Integrating-SPF-js-with-Rails" class="headerlink" title="Integrating SPF.js with Rails"></a>Integrating SPF.js with Rails</h2><p>The rest of the post outlines the steps required to integrate SPF.js with a rails application. The code for this tutorial is available in <a href="https://github.com/lorefnon/rails-spfjs-demo" target="_blank" rel="noopener external nofollow noreferrer">Github</a>.</p>
 <p>We will create a dummy blog application. But hey, since this is just a demo application, we can get away with a little <a href="https://github.com/sevenwire/forgery" target="_blank" rel="noopener external nofollow noreferrer">Forgery</a>:</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PostsController</span> &lt; ApplicationController</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PostsController</span> &lt; <span class="hljs-title class_ inherited__">ApplicationController</span>
 
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">index</span></span>
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">index</span>
     <span class="hljs-variable">@page</span> = params[<span class="hljs-symbol">:page</span>].to_i
     <span class="hljs-variable">@num_pages</span> = <span class="hljs-number">1000</span>
     <span class="hljs-variable">@posts</span> = <span class="hljs-number">10</span>.times.map &#123; fake_post_summary &#125;
   <span class="hljs-keyword">end</span>
 
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">show</span></span>
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">show</span>
     <span class="hljs-variable">@post</span> = fake_post
   <span class="hljs-keyword">end</span>
 
   private
 
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fake_post</span></span>
-    OpenStruct.new fake_post_summary.to_h.merge!(
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">fake_post</span>
+    <span class="hljs-title class_">OpenStruct</span>.new fake_post_summary.to_h.merge!(
       <span class="hljs-symbol">id:</span> params[<span class="hljs-symbol">:id</span>],
       <span class="hljs-symbol">body:</span> LoremIpsum.random(<span class="hljs-symbol">paragraphs:</span> rand(<span class="hljs-number">20</span>))
     )
   <span class="hljs-keyword">end</span>
 
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fake_post_summary</span></span>
-    OpenStruct.new(
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">fake_post_summary</span>
+    <span class="hljs-title class_">OpenStruct</span>.new(
       <span class="hljs-symbol">id:</span> rand(<span class="hljs-number">1000</span>),
       <span class="hljs-symbol">title:</span> LoremIpsum.lorem_ipsum(<span class="hljs-symbol">words:</span> rand(<span class="hljs-number">20</span>)),
       <span class="hljs-symbol">summary:</span> LoremIpsum.random(<span class="hljs-symbol">paragraphs:</span> <span class="hljs-number">1</span>),
-      <span class="hljs-symbol">author:</span> OpenStruct.new(
+      <span class="hljs-symbol">author:</span> <span class="hljs-title class_">OpenStruct</span>.new(
         <span class="hljs-symbol">user_name:</span> Forgery(<span class="hljs-string">&#x27;internet&#x27;</span>).user_name,
         <span class="hljs-symbol">email:</span> Forgery(<span class="hljs-string">&#x27;internet&#x27;</span>).email_address
       )
@@ -93,7 +93,7 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;posts-list&quot;</span>&gt;</span></span>
 <span class="language-xml"></span>
 <span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;posts&quot;</span>&gt;</span></span>
-<span class="language-xml">    &lt;%</span><span class="language-ruby"> <span class="hljs-variable">@posts</span>.each <span class="hljs-keyword">do</span> <span class="hljs-params">|post|</span> </span><span class="language-xml">%&gt;</span>
+<span class="language-xml">    &lt;%</span><span class="language-ruby"> <span class="hljs-variable">@posts</span>.each <span class="hljs-keyword">do</span> |<span class="hljs-params">post</span>| </span><span class="language-xml">%&gt;</span>
 <span class="language-xml">    &lt;%=</span><span class="language-ruby"> render <span class="hljs-string">&#x27;posts/summary&#x27;</span>, <span class="hljs-symbol">post:</span> post </span><span class="language-xml">%&gt;</span>
 <span class="language-xml">    &lt;%</span><span class="language-ruby"> <span class="hljs-keyword">end</span> </span><span class="language-xml">%&gt;</span>
 <span class="language-xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
@@ -161,18 +161,18 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 
 <h2 id="Making-navigation-links-SPF-aware"><a href="#Making-navigation-links-SPF-aware" class="headerlink" title="Making navigation links SPF aware"></a>Making navigation links SPF aware</h2><p>However just initializing SPF.js does not magically ajaxify all navigation links. In fact by so far SPF.js does not alter the navigation in any way. We need to explicitly enable SPFjs for links for which our server knows how to server partial content. For SPF to process a link, it should have the class &#39;spf-link&#39;. Let us start with our navigation links:</p>
 <pre><code class="hljs erb"><span class="language-xml">&lt;%</span><span class="language-ruby"> <span class="hljs-keyword">if</span> <span class="hljs-variable">@page</span> &gt; <span class="hljs-number">0</span> </span><span class="language-xml">%&gt;</span>
-<span class="language-xml">   &lt;%=</span><span class="language-ruby"> link_to <span class="hljs-string">&#x27;Previous Page&#x27;</span>, posts_path(<span class="hljs-symbol">page:</span> <span class="hljs-variable">@page</span>-<span class="hljs-number">1</span>), <span class="hljs-class"><span class="hljs-keyword">class</span>: &#x27;<span class="hljs-title">spf</span>-<span class="hljs-title">link</span>&#x27; </span></span><span class="language-xml">%&gt;</span>
+<span class="language-xml">   &lt;%=</span><span class="language-ruby"> link_to <span class="hljs-string">&#x27;Previous Page&#x27;</span>, posts_path(<span class="hljs-symbol">page:</span> <span class="hljs-variable">@page</span>-<span class="hljs-number">1</span>), <span class="hljs-symbol">class:</span> <span class="hljs-string">&#x27;spf-link&#x27;</span> </span><span class="language-xml">%&gt;</span>
 <span class="language-xml">&lt;%</span><span class="language-ruby"> <span class="hljs-keyword">end</span> </span><span class="language-xml">%&gt;</span>
 <span class="language-xml">&lt;%</span><span class="language-ruby"> <span class="hljs-keyword">if</span> <span class="hljs-variable">@page</span> &lt; <span class="hljs-variable">@num_pages</span> -<span class="hljs-number">1</span> </span><span class="language-xml">%&gt;</span>
-<span class="language-xml">   &lt;%=</span><span class="language-ruby"> link_to <span class="hljs-string">&#x27;Next Page&#x27;</span>, posts_path(<span class="hljs-symbol">page:</span> <span class="hljs-variable">@page</span>+<span class="hljs-number">1</span>), <span class="hljs-class"><span class="hljs-keyword">class</span>: &#x27;<span class="hljs-title">spf</span>-<span class="hljs-title">link</span>&#x27; </span></span><span class="language-xml">%&gt;</span>
+<span class="language-xml">   &lt;%=</span><span class="language-ruby"> link_to <span class="hljs-string">&#x27;Next Page&#x27;</span>, posts_path(<span class="hljs-symbol">page:</span> <span class="hljs-variable">@page</span>+<span class="hljs-number">1</span>), <span class="hljs-symbol">class:</span> <span class="hljs-string">&#x27;spf-link&#x27;</span> </span><span class="language-xml">%&gt;</span>
 <span class="language-xml">&lt;%</span><span class="language-ruby"> <span class="hljs-keyword">end</span> </span><span class="language-xml">%&gt;</span></code></pre>
 
 <p>One great feature of SPF.js is that it handles graceful degradation. So, since we haven&#39;t done anything on the server side to generate partial contents, SPF will try to make an ajax request to server (with the special query parameter spf&#x3D;navigate) and once that response format does not match what SPF expects, it will allow a full page reload.</p>
 <h2 id="Server-side-handling-for-SPF"><a href="#Server-side-handling-for-SPF" class="headerlink" title="Server side handling for SPF"></a>Server side handling for SPF</h2><p>Let us move on to server side handling:</p>
 <p>As we have previously mentioned that SPF sends an ajax request using spf&#x3D;navigate query parameter. We can detect that in our controller and send out a special response that only includes the parts of the page we need to update:</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PostsController</span> &lt; ApplicationController</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PostsController</span> &lt; <span class="hljs-title class_ inherited__">ApplicationController</span>
 
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">index</span></span>
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">index</span>
     <span class="hljs-variable">@page</span> = params[<span class="hljs-symbol">:page</span>].to_i
     <span class="hljs-variable">@num_pages</span> = <span class="hljs-number">1000</span>
     <span class="hljs-variable">@posts</span> = <span class="hljs-number">10</span>.times.map &#123; fake_post_summary &#125;
@@ -205,31 +205,31 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 <img src="/images/2015-11-26/spf_response.png">
 
 <h2 id="Optional-Leveraging-rails-magic-for-leaner-controllers"><a href="#Optional-Leveraging-rails-magic-for-leaner-controllers" class="headerlink" title="(Optional) Leveraging rails magic for leaner controllers"></a>(Optional) Leveraging rails magic for leaner controllers</h2><p>While the above works, it is unweildy to handle the navigation link in each controller. We can alternatively make the <code>default_render</code> method that is used by rails to be SPF aware. The <a href="https://github.com/rails/rails/blob/7f18ea14c893cb5c9f04d4fda9661126758332b5/actionpack/lib/action_controller/metal/implicit_render.rb" target="_blank" rel="noopener external nofollow noreferrer">default implementation</a> looks like this:</p>
-<pre><code class="hljs ruby"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">default_render</span><span class="hljs-params">(*args)</span></span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">def</span> <span class="hljs-title function_">default_render</span>(<span class="hljs-params">*args</span>)
   <span class="hljs-keyword">if</span> template_exists?(action_name.to_s, _prefixes, <span class="hljs-symbol">variants:</span> request.variant)
     render(*args)
   <span class="hljs-keyword">else</span>
     <span class="hljs-keyword">if</span> block_given?
       <span class="hljs-keyword">yield</span>(*args)
     <span class="hljs-keyword">else</span>
-      logger.info <span class="hljs-string">&quot;No template found for <span class="hljs-subst">#&#123;<span class="hljs-keyword">self</span>.<span class="hljs-keyword">class</span>.name&#125;</span>\#<span class="hljs-subst">#&#123;action_name&#125;</span>, rendering head :no_content&quot;</span> <span class="hljs-keyword">if</span> logger
-      <span class="hljs-keyword">super</span>
+      logger.info <span class="hljs-string">&quot;No template found for <span class="hljs-subst">#&#123;<span class="hljs-variable language_">self</span>.<span class="hljs-keyword">class</span>.name&#125;</span>\#<span class="hljs-subst">#&#123;action_name&#125;</span>, rendering head :no_content&quot;</span> <span class="hljs-keyword">if</span> logger
+      <span class="hljs-variable language_">super</span>
     <span class="hljs-keyword">end</span>
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></code></pre>
 
 <p>We can override this in our ApplicationController</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ApplicationController</span> &lt; ActionController::Base</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ApplicationController</span> &lt; <span class="hljs-title class_ inherited__">ActionController::Base</span>
 
   <span class="hljs-comment"># Prevent CSRF attacks by raising an exception.</span>
   <span class="hljs-comment"># For APIs, you may want to use :null_session instead.</span>
   protect_from_forgery <span class="hljs-symbol">with:</span> <span class="hljs-symbol">:exception</span>
 
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">default_render</span><span class="hljs-params">(*args)</span></span>
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">default_render</span>(<span class="hljs-params">*args</span>)
     <span class="hljs-keyword">if</span> params[<span class="hljs-symbol">:spf</span>] == <span class="hljs-string">&#x27;navigate&#x27;</span>
       render <span class="hljs-string">&quot;<span class="hljs-subst">#&#123;controller_name&#125;</span>/spf_<span class="hljs-subst">#&#123;action_name&#125;</span>.json&quot;</span>
     <span class="hljs-keyword">else</span>
-      <span class="hljs-keyword">super</span>
+      <span class="hljs-variable language_">super</span>
     <span class="hljs-keyword">end</span>
   <span class="hljs-keyword">end</span>
 
@@ -237,9 +237,9 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!</p>
 
 <p>Now all we have to do is prefix the names of our SPF specific templates with <code>spf_</code> and we are done. Our <code>spf_index.json.erb</code> remains unchanged.</p>
 <p>We can clean up the action and remove SPF specific code:</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PostsController</span> &lt; ApplicationController</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PostsController</span> &lt; <span class="hljs-title class_ inherited__">ApplicationController</span>
 
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">index</span></span>
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">index</span>
     <span class="hljs-variable">@page</span> = params[<span class="hljs-symbol">:page</span>].to_i
     <span class="hljs-variable">@num_pages</span> = <span class="hljs-number">1000</span>
     <span class="hljs-variable">@posts</span> = <span class="hljs-number">10</span>.times.map &#123; fake_post_summary &#125;

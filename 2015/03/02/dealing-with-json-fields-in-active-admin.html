@@ -17,9 +17,9 @@ and may be used without modifications if you are storing JSON in say MySQL
 text fields. Of course you will need to handle server side validation yourself in that case.</p>
 <p>The source code for the post is available on <a href="https://github.com/lorefnon/activeadmin-jsoneditor-demo" target="_blank" rel="noopener external nofollow noreferrer">Github</a>.</p>
 <p>Let us have a simple product model with following schema:</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CreateProducts</span> &lt; ActiveRecord::Migration</span>
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">change</span></span>
-    create_table <span class="hljs-symbol">:products</span> <span class="hljs-keyword">do</span> <span class="hljs-params">|t|</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CreateProducts</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Migration</span>
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">change</span>
+    create_table <span class="hljs-symbol">:products</span> <span class="hljs-keyword">do</span> |<span class="hljs-params">t</span>|
       t.string <span class="hljs-symbol">:name</span>
       t.text <span class="hljs-symbol">:description</span>
       t.json <span class="hljs-symbol">:metadata</span>
@@ -44,7 +44,7 @@ it to use a textarea for metadata field</p>
 
   permit_params <span class="hljs-symbol">:name</span>, <span class="hljs-symbol">:description</span>, <span class="hljs-symbol">:metadata</span>
 
-  form <span class="hljs-keyword">do</span> <span class="hljs-params">|f|</span>
+  form <span class="hljs-keyword">do</span> |<span class="hljs-params">f</span>|
     f.inputs <span class="hljs-keyword">do</span>
       f.input <span class="hljs-symbol">:name</span>
       f.input <span class="hljs-symbol">:description</span>
@@ -74,11 +74,11 @@ so that we can handle json input fields in a generic fashion.</p>
 
   permit_params <span class="hljs-symbol">:name</span>, <span class="hljs-symbol">:description</span>, <span class="hljs-symbol">:metadata</span>
 
-  form <span class="hljs-keyword">do</span> <span class="hljs-params">|f|</span>
+  form <span class="hljs-keyword">do</span> |<span class="hljs-params">f</span>|
     f.inputs <span class="hljs-keyword">do</span>
       f.input <span class="hljs-symbol">:name</span>
       f.input <span class="hljs-symbol">:description</span>
-      f.input <span class="hljs-symbol">:metadata</span>, <span class="hljs-symbol">as:</span> <span class="hljs-symbol">:text</span>, <span class="hljs-symbol">input_html:</span> &#123; <span class="hljs-class"><span class="hljs-keyword">class</span>: &#x27;<span class="hljs-title">jsoneditor</span>-<span class="hljs-title">target</span>&#x27; &#125;</span>
+      f.input <span class="hljs-symbol">:metadata</span>, <span class="hljs-symbol">as:</span> <span class="hljs-symbol">:text</span>, <span class="hljs-symbol">input_html:</span> &#123; <span class="hljs-symbol">class:</span> <span class="hljs-string">&#x27;jsoneditor-target&#x27;</span> &#125;
     <span class="hljs-keyword">end</span>
     f.actions
   <span class="hljs-keyword">end</span>

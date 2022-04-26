@@ -124,7 +124,7 @@ MagickTitle.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:destination&lt;/spa
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;code&gt;MagickTitle.say(str)&lt;/code&gt; will give us an image containing the text in exactly the same form as is visible to end user.&lt;/p&gt;
 &lt;p&gt;Now we pass the image to Tesseract engine:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;e = Tesseract::Engine.new &amp;#123;&lt;span class=&#34;hljs-params&#34;&gt;|e|&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;e = &lt;span class=&#34;hljs-title class_&#34;&gt;Tesseract::Engine&lt;/span&gt;.new &amp;#123;|&lt;span class=&#34;hljs-params&#34;&gt;e&lt;/span&gt;|
     e.language  = &lt;span class=&#34;hljs-symbol&#34;&gt;:eng&lt;/span&gt;
     e.blacklist = &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;|&amp;#x27;&lt;/span&gt;
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;

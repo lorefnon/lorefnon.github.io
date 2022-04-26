@@ -19,19 +19,19 @@ rails g model District name:string state_id:<span class="hljs-built_in">integer<
 rails g model State name:string</code></pre>
 
 <pre><code class="hljs ruby"><span class="hljs-comment"># app/models/state.rb</span>
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">State</span> &lt; ActiveRecord::Base</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">State</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
   has_many <span class="hljs-symbol">:districts</span>
   has_many <span class="hljs-symbol">:cities</span>, <span class="hljs-symbol">through:</span> <span class="hljs-symbol">:districts</span>
 <span class="hljs-keyword">end</span>
 
 <span class="hljs-comment"># app/models/district.rb</span>
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">District</span> &lt; ActiveRecord::Base</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">District</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
   belongs_to <span class="hljs-symbol">:state</span>
   has_many <span class="hljs-symbol">:cities</span>
 <span class="hljs-keyword">end</span>
 
 <span class="hljs-comment"># app/models/city.rb</span>
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">City</span> &lt; ActiveRecord::Base</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">City</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
   belongs_to <span class="hljs-symbol">:district</span>
   has_one <span class="hljs-symbol">:state</span>, <span class="hljs-symbol">through:</span> <span class="hljs-symbol">:district</span>
 <span class="hljs-keyword">end</span></code></pre>
@@ -58,10 +58,10 @@ INNER JOIN cities ON cities.district_id = districts.id
 <p>To create the view we generate a migration:</p>
 <pre><code>rails g migration create_state_district_city_view
 </code></pre>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CreateStateDistrictCityView</span> &lt; ActiveRecord::Migration</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CreateStateDistrictCityView</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Migration</span>
 
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">up</span></span>
-    <span class="hljs-keyword">self</span>.connection.execute <span class="hljs-string">%Q( CREATE OR REPLACE VIEW state_district_city_view AS</span>
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">up</span>
+    <span class="hljs-variable language_">self</span>.connection.execute <span class="hljs-string">%Q( CREATE OR REPLACE VIEW state_district_city_view AS</span>
 <span class="hljs-string">      SELECT cities.id AS id, states.name AS state, districts.name AS district, cities.name AS city</span>
 <span class="hljs-string">      FROM states</span>
 <span class="hljs-string">      INNER JOIN districts ON districts.state_id = states.id</span>
@@ -69,21 +69,21 @@ INNER JOIN cities ON cities.district_id = districts.id
 <span class="hljs-string">    )</span>
   <span class="hljs-keyword">end</span>
 
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">down</span></span>
-    <span class="hljs-keyword">self</span>.connection.execute <span class="hljs-string">&quot;DROP VIEW IF EXISTS state_district_city_view;&quot;</span>
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">down</span>
+    <span class="hljs-variable language_">self</span>.connection.execute <span class="hljs-string">&quot;DROP VIEW IF EXISTS state_district_city_view;&quot;</span>
   <span class="hljs-keyword">end</span>
 
 <span class="hljs-keyword">end</span></code></pre>
 
 <p>Now a view, as far as read access is concerned, behaves similar to a table, we
 can just define a normal ActiveRecord model to access this view.</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StateDistrictCityViewProxy</span> &lt; ActiveRecord::Base</span>
-    <span class="hljs-keyword">self</span>.table_name = <span class="hljs-string">&quot;state_district_city_view&quot;</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">StateDistrictCityViewProxy</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
+    <span class="hljs-variable language_">self</span>.table_name = <span class="hljs-string">&quot;state_district_city_view&quot;</span>
 <span class="hljs-keyword">end</span></code></pre>
 
 <p>We can take the proxy model for a test drive using IRB:</p>
 <pre><code class="hljs ruby">&gt; StateDistrictCityViewProxy.limit(<span class="hljs-number">10</span>).to_a
-  StateDistrictCityViewProxy Load (<span class="hljs-number">0</span>.4ms)  SELECT <span class="hljs-string">`state_district_city_view`</span>.* FROM <span class="hljs-string">`state_district_city_view`</span> LIMIT <span class="hljs-number">10</span>
+  StateDistrictCityViewProxy Load (<span class="hljs-number">0</span>.4ms)  <span class="hljs-variable constant_">SELECT</span> <span class="hljs-string">`state_district_city_view`</span>.* <span class="hljs-variable constant_">FROM</span> <span class="hljs-string">`state_district_city_view`</span> <span class="hljs-variable constant_">LIMIT</span> <span class="hljs-number">10</span>
 =&gt; [#&lt;StateDistrictCityViewProxy id: 1, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Agali&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 2, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Amadagur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 3, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Amarapuram&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 4, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Anantapur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 5, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Atmakur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 6, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bathalapalle&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 7, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Beluguppa&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 8, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bommanahal&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 9, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Brahmasamudram&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 10, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bukkapatnam&quot;&gt;]</code></pre>
 
 <p>Now that we have a model, generating an ActiveAdmin resource is as simple as:</p>
@@ -107,9 +107,9 @@ assume that our <code>id</code> field is a primary key.</p>
 </code></pre>
 <p>We can not somehow add a primary key to an SQL view, that is utterly pointless. However we can force ActiveRecord to use the <code>id</code> attribute
 as primary key.</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StateDistrictCityViewProxy</span> &lt; ActiveRecord::Base</span>
-  <span class="hljs-keyword">self</span>.table_name = <span class="hljs-string">&quot;state_district_city_view&quot;</span>
-  <span class="hljs-keyword">self</span>.primary_key = <span class="hljs-string">&quot;id&quot;</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">StateDistrictCityViewProxy</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
+  <span class="hljs-variable language_">self</span>.table_name = <span class="hljs-string">&quot;state_district_city_view&quot;</span>
+  <span class="hljs-variable language_">self</span>.primary_key = <span class="hljs-string">&quot;id&quot;</span>
 <span class="hljs-keyword">end</span></code></pre>
 
 <p>And voila. We have our fancy table:</p>
@@ -133,11 +133,11 @@ oviously trigger an error. For example, here is what we end up with when clickin
 <img src="/images/err2.png"/>
 
 <p>Let us declare the proxy model as readonly.</p>
-<pre><code class="hljs ruby"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StateDistrictCityViewProxy</span> &lt; ActiveRecord::Base</span>
-  <span class="hljs-keyword">self</span>.table_name = <span class="hljs-string">&quot;state_district_city_view&quot;</span>
-  <span class="hljs-keyword">self</span>.primary_key = <span class="hljs-string">&quot;id&quot;</span>
+<pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">StateDistrictCityViewProxy</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
+  <span class="hljs-variable language_">self</span>.table_name = <span class="hljs-string">&quot;state_district_city_view&quot;</span>
+  <span class="hljs-variable language_">self</span>.primary_key = <span class="hljs-string">&quot;id&quot;</span>
 
-  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">readonly?</span></span>
+  <span class="hljs-keyword">def</span> <span class="hljs-title function_">readonly?</span>
     <span class="hljs-literal">true</span>
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></code></pre>
