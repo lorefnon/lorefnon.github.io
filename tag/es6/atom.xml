@@ -31,12 +31,14 @@
     <category term="Helm" />
     <category term="SPF" />
     <category term="CSS" />
+    <category term="Redux" />
+    <category term="Redux-loop" />
+    <category term="Frontend" />
     <category term="Vagrant" />
     <category term="Clojure" />
     <category term="Hashicorp" />
     <category term="Typescript" />
     <category term="ReasonML" />
-    <category term="Frontend" />
     <category term="Next.js" />
     <category term="Koa" />
     <category term="Apollo" />
@@ -45,12 +47,10 @@
     <category term="Automerge" />
     <category term="CRDT" />
     <category term="SVG" />
+    <category term="VSCode" />
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
-    <category term="Redux" />
-    <category term="Redux-loop" />
-    <category term="VSCode" />
     <category term="MobX" />
     <category term="MobX-State-Tree" />
     <category term="Routing" />
@@ -83,6 +83,7 @@
     <category term="spring" />
     <category term="spring-security" />
     <category term="komapper" />
+    <category term="spring-boot" />
     <entry>
         <id>https://lorefnon.me/2015/11/15/a-minimal-setup-for-using-es6-modules-in-rails.html</id>
         <title>A minimal setup for using ES6 modules in Rails</title>

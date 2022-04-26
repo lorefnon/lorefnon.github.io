@@ -34,12 +34,14 @@
         <category>Helm</category>
         <category>SPF</category>
         <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
         <category>Vagrant</category>
         <category>Clojure</category>
         <category>Hashicorp</category>
         <category>Typescript</category>
         <category>ReasonML</category>
-        <category>Frontend</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
@@ -48,12 +50,10 @@
         <category>Automerge</category>
         <category>CRDT</category>
         <category>SVG</category>
+        <category>VSCode</category>
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
-        <category>VSCode</category>
         <category>MobX</category>
         <category>MobX-State-Tree</category>
         <category>Routing</category>
@@ -86,6 +86,7 @@
         <category>spring</category>
         <category>spring-security</category>
         <category>komapper</category>
+        <category>spring-boot</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/03/16/using-theme-specific-keybindings-in-vscode-to-improve-productivity/</guid>
             <title>Using theme specific keybindings in VSCode to improve productivity</title>

@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Sun, 13 Mar 2022 00:00:00 +0000</pubDate>
-        <lastBuildDate>Sun, 13 Mar 2022 00:00:00 +0000</lastBuildDate>
+        <pubDate>Tue, 26 Apr 2022 00:00:00 +0000</pubDate>
+        <lastBuildDate>Tue, 26 Apr 2022 00:00:00 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -34,12 +34,14 @@
         <category>Helm</category>
         <category>SPF</category>
         <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
         <category>Vagrant</category>
         <category>Clojure</category>
         <category>Hashicorp</category>
         <category>Typescript</category>
         <category>ReasonML</category>
-        <category>Frontend</category>
         <category>Next.js</category>
         <category>Koa</category>
         <category>Apollo</category>
@@ -48,12 +50,10 @@
         <category>Automerge</category>
         <category>CRDT</category>
         <category>SVG</category>
+        <category>VSCode</category>
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
-        <category>Redux</category>
-        <category>Redux-loop</category>
-        <category>VSCode</category>
         <category>MobX</category>
         <category>MobX-State-Tree</category>
         <category>Routing</category>
@@ -86,6 +86,63 @@
         <category>spring</category>
         <category>spring-security</category>
         <category>komapper</category>
+        <category>spring-boot</category>
+        <item>
+            <guid isPermalink="true">https://lorefnon.me/2022/04/26/using-jte-kotlin-templates-in-spring-boot/</guid>
+            <title>Using jte kotlin templates in spring-boot</title>
+            <link>https://lorefnon.me/2022/04/26/using-jte-kotlin-templates-in-spring-boot/</link>
+            <category>kotlin</category>
+            <category>spring-boot</category>
+            <pubDate>Tue, 26 Apr 2022 00:00:00 +0000</pubDate>
+            <description><![CDATA[ &lt;h1 id=&#34;About&#34;&gt;&lt;a href=&#34;#About&#34; class=&#34;headerlink&#34; title=&#34;About&#34;&gt;&lt;/a&gt;About&lt;/h1&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/casid/jte&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;jte&lt;/a&gt; is a new and performant template engine for JVM.
+It supports precompilation of templates in production and hot reloading in development, and also has good tooling support though an intellij plugin.&lt;/p&gt;
+&lt;p&gt;jte has recently introduced support for kotlin templates - where the embedded expressions are kotlin instead of java.
+This is a natural fit if your backend is implemented in kotlin and this post is a quick recipe for configuring this in spring-boot.&lt;/p&gt;
+&lt;p&gt;jte already provides a spring-boot-starter which takes care of all of the plumbing. We just need to add the jte-kotlin dependency for kotlin template support.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// In build.gradle.kts&lt;/span&gt;
+
+dependencies &amp;#123;
+	&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; jteVersion = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;2.0.2&amp;quot;&lt;/span&gt;
+
+	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;gg.jte:jte-spring-boot-starter:&lt;span class=&#34;hljs-variable&#34;&gt;$jteVersion&lt;/span&gt;&amp;quot;&lt;/span&gt;)
+    &lt;span class=&#34;hljs-comment&#34;&gt;// jte-kotlin is needed to compile kte templates&lt;/span&gt;
+	implementation(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;gg.jte:jte-kotlin:&lt;span class=&#34;hljs-variable&#34;&gt;$jteVersion&lt;/span&gt;&amp;quot;&lt;/span&gt;)
+    &lt;span class=&#34;hljs-comment&#34;&gt;// ... other dependencies&lt;/span&gt;
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As an additional convenience we configure the view resolver below to automatically pick kte templates (with embedded kotlin expressions)
+when no template extension is provided:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; com.example.config
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; gg.jte.TemplateEngine
+&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; gg.jte.springframework.boot.autoconfigure.JteViewResolver
+&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.springframework.context.&lt;span class=&#34;hljs-keyword&#34;&gt;annotation&lt;/span&gt;.Bean
+&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.springframework.context.&lt;span class=&#34;hljs-keyword&#34;&gt;annotation&lt;/span&gt;.Configuration
+
+&lt;span class=&#34;hljs-meta&#34;&gt;@Configuration&lt;/span&gt;
+&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;TemplateConfig&lt;/span&gt; &lt;/span&gt;&amp;#123;
+    &lt;span class=&#34;hljs-meta&#34;&gt;@Bean&lt;/span&gt;
+    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;jteViewResolver&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(templateEngine: &lt;span class=&#34;hljs-type&#34;&gt;TemplateEngine&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt; =
+        JteViewResolver(templateEngine).apply &amp;#123;
+            setSuffix(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;.kte&amp;quot;&lt;/span&gt;)
+        &amp;#125;
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, if we have a controller like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs kotlin&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; com.kaljourn.server.controller
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.springframework.stereotype.Controller
+&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; org.springframework.web.bind.&lt;span class=&#34;hljs-keyword&#34;&gt;annotation&lt;/span&gt;.GetMapping
+
+&lt;span class=&#34;hljs-meta&#34;&gt;@Controller&lt;/span&gt;
+&lt;span class=&#34;hljs-class&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;HomeController&lt;/span&gt; &lt;/span&gt;&amp;#123;
+    &lt;span class=&#34;hljs-meta&#34;&gt;@GetMapping(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;)&lt;/span&gt;
+    &lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fun&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;home&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt;: String = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;home/index&amp;quot;&lt;/span&gt;
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, the template file at &lt;code&gt;src/main/jte/home/index.kte&lt;/code&gt; will be automatically picked up and rendered whenever user visits the &lt;code&gt;/&lt;/code&gt; endpoint.&lt;/p&gt;
+ ]]></description>
+        </item>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2022/03/13/configuring-spring-security-to-use-komapper/</guid>
             <title>Configuring spring security to use komapper</title>

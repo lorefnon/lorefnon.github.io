@@ -1,0 +1,48 @@
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Using jte kotlin templates in spring-boot</title><meta property="og:title" content="Lorefnon | Blog | Using jte kotlin templates in spring-boot"><meta property="og:description" content="Ramblings on Web Development and software architecture"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><meta name="generator" content="Hexo 6.0.0"></head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/kotlin/"><img src="/images/tag.svg">kotlin</a></li><li class="body-text"><a class="tag-link" href="/tags/spring-boot/"><img src="/images/tag.svg">spring-boot</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Using jte kotlin templates in spring-boot</div><div class="posted-date sub-header-text" title="2022-04-26">Posted &nbsp;10 hours ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><h1 id="About"><a href="#About" class="headerlink" title="About"></a>About</h1><p><a href="https://github.com/casid/jte" target="_blank" rel="noopener external nofollow noreferrer">jte</a> is a new and performant template engine for JVM.
+It supports precompilation of templates in production and hot reloading in development, and also has good tooling support though an intellij plugin.</p>
+<p>jte has recently introduced support for kotlin templates - where the embedded expressions are kotlin instead of java.
+This is a natural fit if your backend is implemented in kotlin and this post is a quick recipe for configuring this in spring-boot.</p>
+<p>jte already provides a spring-boot-starter which takes care of all of the plumbing. We just need to add the jte-kotlin dependency for kotlin template support.</p>
+<pre><code class="hljs kotlin"><span class="hljs-comment">// In build.gradle.kts</span>
+
+dependencies &#123;
+	<span class="hljs-keyword">var</span> jteVersion = <span class="hljs-string">&quot;2.0.2&quot;</span>
+
+	implementation(<span class="hljs-string">&quot;gg.jte:jte-spring-boot-starter:<span class="hljs-variable">$jteVersion</span>&quot;</span>)
+    <span class="hljs-comment">// jte-kotlin is needed to compile kte templates</span>
+	implementation(<span class="hljs-string">&quot;gg.jte:jte-kotlin:<span class="hljs-variable">$jteVersion</span>&quot;</span>)
+    <span class="hljs-comment">// ... other dependencies</span>
+&#125;</code></pre>
+
+<p>As an additional convenience we configure the view resolver below to automatically pick kte templates (with embedded kotlin expressions)
+when no template extension is provided:</p>
+<pre><code class="hljs kotlin"><span class="hljs-keyword">package</span> com.example.config
+
+<span class="hljs-keyword">import</span> gg.jte.TemplateEngine
+<span class="hljs-keyword">import</span> gg.jte.springframework.boot.autoconfigure.JteViewResolver
+<span class="hljs-keyword">import</span> org.springframework.context.<span class="hljs-keyword">annotation</span>.Bean
+<span class="hljs-keyword">import</span> org.springframework.context.<span class="hljs-keyword">annotation</span>.Configuration
+
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TemplateConfig</span> </span>&#123;
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">jteViewResolver</span><span class="hljs-params">(templateEngine: <span class="hljs-type">TemplateEngine</span>)</span></span> =
+        JteViewResolver(templateEngine).apply &#123;
+            setSuffix(<span class="hljs-string">&quot;.kte&quot;</span>)
+        &#125;
+&#125;</code></pre>
+
+<p>Now, if we have a controller like this:</p>
+<pre><code class="hljs kotlin"><span class="hljs-keyword">package</span> com.kaljourn.server.controller
+
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Controller
+<span class="hljs-keyword">import</span> org.springframework.web.bind.<span class="hljs-keyword">annotation</span>.GetMapping
+
+<span class="hljs-meta">@Controller</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomeController</span> </span>&#123;
+    <span class="hljs-meta">@GetMapping(<span class="hljs-string">&quot;/&quot;</span>)</span>
+    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">home</span><span class="hljs-params">()</span></span>: String = <span class="hljs-string">&quot;home/index&quot;</span>
+&#125;</code></pre>
+
+<p>Now, the template file at <code>src/main/jte/home/index.kte</code> will be automatically picked up and rendered whenever user visits the <code>/</code> endpoint.</p>
+</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js"></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js"></script><script src="/js/blog.js"></script></body></html>

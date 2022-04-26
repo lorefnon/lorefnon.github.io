@@ -31,12 +31,14 @@
     <category term="Helm" />
     <category term="SPF" />
     <category term="CSS" />
+    <category term="Redux" />
+    <category term="Redux-loop" />
+    <category term="Frontend" />
     <category term="Vagrant" />
     <category term="Clojure" />
     <category term="Hashicorp" />
     <category term="Typescript" />
     <category term="ReasonML" />
-    <category term="Frontend" />
     <category term="Next.js" />
     <category term="Koa" />
     <category term="Apollo" />
@@ -45,12 +47,10 @@
     <category term="Automerge" />
     <category term="CRDT" />
     <category term="SVG" />
+    <category term="VSCode" />
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
-    <category term="Redux" />
-    <category term="Redux-loop" />
-    <category term="VSCode" />
     <category term="MobX" />
     <category term="MobX-State-Tree" />
     <category term="Routing" />
@@ -83,6 +83,7 @@
     <category term="spring" />
     <category term="spring-security" />
     <category term="komapper" />
+    <category term="spring-boot" />
     <entry>
         <id>https://lorefnon.me/2019/01/12/using-an-svg-grid-background-for-aligning-elements-in-web-page/</id>
         <title>Using an SVG grid background for aligning elements in web page</title>
@@ -764,9 +765,9 @@
 
     </content>
         <category term="Javascript" />
-        <category term="Frontend" />
         <category term="Redux" />
         <category term="Redux-loop" />
+        <category term="Frontend" />
         <updated>2018-02-04T00:00:00.000Z</updated>
     </entry>
 </feed>
