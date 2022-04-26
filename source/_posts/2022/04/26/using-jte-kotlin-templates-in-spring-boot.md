@@ -21,9 +21,10 @@ dependencies {
 	var jteVersion = "2.0.2"
 
 	implementation("gg.jte:jte-spring-boot-starter:$jteVersion")
-    // jte-kotlin is needed to compile kte templates
+        // jte-kotlin is needed to compile kte templates
 	implementation("gg.jte:jte-kotlin:$jteVersion")
-    // ... other dependencies
+
+        // ... other dependencies
 }
 ```
 
