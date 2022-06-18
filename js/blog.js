@@ -3,7 +3,7 @@
   document.addEventListener("click", (e) => {
     let handle;
     if (e.target.classList.contains("hlcode-fold-handle")) {
-      hadle = e.target;
+      handle = e.target;
     } else if (e.target.classList.contains("hlcode-fold-text")) {
       handle = e.target.parentElement;
     }
@@ -20,7 +20,11 @@
   });
 
   // source/js/_htmx.js
-  htmx.config.refreshOnHistoryMiss = true;
+  try {
+    htmx.config.refreshOnHistoryMiss = true;
+  } catch (e) {
+    console.error(e);
+  }
 
   // source/js/_mastodon_comments.js
   window.Blog = window.Blog || {};

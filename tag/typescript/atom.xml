@@ -3,7 +3,7 @@
     <id>https://lorefnon.me</id>
     <title>Icicles of Thought • Posts by &#34;typescript&#34; tag</title>
     <link href="https://lorefnon.me" />
-    <updated>2022-06-18T17:29:41.098Z</updated>
+    <updated>2022-06-18T18:00:14.842Z</updated>
     <category term="Javascript" />
     <category term="KnockoutJS" />
     <category term="Ruby" />
@@ -47,12 +47,9 @@
     <category term="Automerge" />
     <category term="CRDT" />
     <category term="SVG" />
-    <category term="VSCode" />
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
-    <category term="MobX" />
-    <category term="MobX-State-Tree" />
     <category term="Routing" />
     <category term="HAR" />
     <category term="Jq" />
@@ -87,6 +84,9 @@
     <category term="typescript" />
     <category term="zod" />
     <category term="ts-match" />
+    <category term="MobX" />
+    <category term="MobX-State-Tree" />
+    <category term="VSCode" />
     <entry>
         <id>https://lorefnon.me/2022/06/18/type-safe-event-handling-with-zod-and-ts-pattern/</id>
         <title>Type-safe event handling in Typescript with zod and ts-match</title>
@@ -311,7 +311,7 @@ ws.&lt;span class=&#34;hljs-title function_&#34;&gt;on&lt;/span&gt;(&lt;span cla
         <category term="typescript" />
         <category term="zod" />
         <category term="ts-match" />
-        <updated>2022-06-18T17:29:41.098Z</updated>
+        <updated>2022-06-18T18:00:14.842Z</updated>
     </entry>
     <entry>
         <id>https://lorefnon.me/2021/08/08/Vue-composition-api-and-type-safe-graphql-access/</id>

@@ -50,12 +50,9 @@
         <category>Automerge</category>
         <category>CRDT</category>
         <category>SVG</category>
-        <category>VSCode</category>
         <category>Comlink</category>
         <category>Web-workers</category>
         <category>io-ts</category>
-        <category>MobX</category>
-        <category>MobX-State-Tree</category>
         <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
@@ -90,6 +87,9 @@
         <category>typescript</category>
         <category>zod</category>
         <category>ts-match</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>VSCode</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2020/11/27/exploring-har-http-archive-logs-with-jq/</guid>
             <title>Exporing HAR (HTTP Archive) logs with Jq</title>

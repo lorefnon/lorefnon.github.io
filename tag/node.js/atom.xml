@@ -47,12 +47,9 @@
     <category term="Automerge" />
     <category term="CRDT" />
     <category term="SVG" />
-    <category term="VSCode" />
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
-    <category term="MobX" />
-    <category term="MobX-State-Tree" />
     <category term="Routing" />
     <category term="HAR" />
     <category term="Jq" />
@@ -87,6 +84,9 @@
     <category term="typescript" />
     <category term="zod" />
     <category term="ts-match" />
+    <category term="MobX" />
+    <category term="MobX-State-Tree" />
+    <category term="VSCode" />
     <entry>
         <id>https://lorefnon.me/2012/12/12/sharing-jade-templates-between-nodejs-server-and-client.html</id>
         <title>Sharing Jade templates between Node.js server and client</title>

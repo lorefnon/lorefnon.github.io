@@ -47,12 +47,9 @@
     <category term="Automerge" />
     <category term="CRDT" />
     <category term="SVG" />
-    <category term="VSCode" />
     <category term="Comlink" />
     <category term="Web-workers" />
     <category term="io-ts" />
-    <category term="MobX" />
-    <category term="MobX-State-Tree" />
     <category term="Routing" />
     <category term="HAR" />
     <category term="Jq" />
@@ -87,6 +84,9 @@
     <category term="typescript" />
     <category term="zod" />
     <category term="ts-match" />
+    <category term="MobX" />
+    <category term="MobX-State-Tree" />
+    <category term="VSCode" />
     <entry>
         <id>https://lorefnon.me/2019/08/15/dealing-with-circular-type-references-in-mobx-state-tree/</id>
         <title>Dealing with circular type references in Mobx-state-tree</title>
