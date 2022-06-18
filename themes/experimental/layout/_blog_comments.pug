@@ -1,7 +1,11 @@
 .post-comments
-    .comments-header
-        .comments-header-content
-            | You can reply to this post on &nbsp;
-            a(href="https://fosstodon.org/interact/" + page.discussions.mastodon.id + "?type=reply", target="_blank") Mastodon
-        a.load-comments-btn(onclick=`Blog.loadComments("fosstodon.org", "${page.discussions.mastodon.id}")`) Load Comments
-    .comments-target
+    if page.discussions && page.discussions.mastodon
+        .comments-header
+            .comments-header-content
+                | Discuss at &nbsp;
+                a(href="https://fosstodon.org/interact/" + page.discussions.mastodon.id + "?type=reply", target="_blank") Mastodon
+        // a.load-comments-btn(onclick=`Blog.loadComments("fosstodon.org", "${page.discussions.mastodon.id}")`) Load Comments
+    // .comments-target
+
+.post-comments(style="margin-top: 10px;")
+    #remark42
