@@ -84,6 +84,9 @@
     <category term="spring-security" />
     <category term="komapper" />
     <category term="spring-boot" />
+    <category term="typescript" />
+    <category term="zod" />
+    <category term="ts-match" />
     <entry>
         <id>https://lorefnon.me/2022/01/29/hiding-jsx-closing-tag-noise-in-vim/</id>
         <title>Hiding JSX closing tag noise in vim through conceal</title>

@@ -84,6 +84,9 @@
     <category term="spring-security" />
     <category term="komapper" />
     <category term="spring-boot" />
+    <category term="typescript" />
+    <category term="zod" />
+    <category term="ts-match" />
     <entry>
         <id>https://lorefnon.me/2018/05/13/reasonml-vs-typescript-first-impressions/</id>
         <title>ReasonML vs TypeScript – First impressions</title>

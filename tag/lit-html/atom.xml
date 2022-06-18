@@ -84,6 +84,9 @@
     <category term="spring-security" />
     <category term="komapper" />
     <category term="spring-boot" />
+    <category term="typescript" />
+    <category term="zod" />
+    <category term="ts-match" />
     <entry>
         <id>https://lorefnon.me/2020/12/31/pairing-lit-html-with-stimulus/</id>
         <title>Pairing lit-html with stimulus</title>

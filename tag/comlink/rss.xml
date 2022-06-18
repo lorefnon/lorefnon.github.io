@@ -87,6 +87,9 @@
         <category>spring-security</category>
         <category>komapper</category>
         <category>spring-boot</category>
+        <category>typescript</category>
+        <category>zod</category>
+        <category>ts-match</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/03/24/using-comlink-with-typescript-and-worker-loader/</guid>
             <title>Using comlink with typescript and worker-loader</title>

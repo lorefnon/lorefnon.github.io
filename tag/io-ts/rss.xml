@@ -87,6 +87,9 @@
         <category>spring-security</category>
         <category>komapper</category>
         <category>spring-boot</category>
+        <category>typescript</category>
+        <category>zod</category>
+        <category>ts-match</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/08/11/enforcing-runtime-validations-at-compile-time-in-typescript/</guid>
             <title>Enforcing runtime validations at compile time in TypeScript</title>

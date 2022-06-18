@@ -84,6 +84,9 @@
     <category term="spring-security" />
     <category term="komapper" />
     <category term="spring-boot" />
+    <category term="typescript" />
+    <category term="zod" />
+    <category term="ts-match" />
     <entry>
         <id>https://lorefnon.me/2014/10/12/decrypting-an-obfuscated-font-with-ocr.html</id>
         <title>Decrypting an obfuscated font with OCR</title>

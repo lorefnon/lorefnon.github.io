@@ -87,6 +87,9 @@
         <category>spring-security</category>
         <category>komapper</category>
         <category>spring-boot</category>
+        <category>typescript</category>
+        <category>zod</category>
+        <category>ts-match</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2014/09/13/commit-messages-from-generator-outputs.html</guid>
             <title>Commit messages from generator outputs</title>

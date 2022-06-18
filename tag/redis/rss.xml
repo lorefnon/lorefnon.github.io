@@ -87,6 +87,9 @@
         <category>spring-security</category>
         <category>komapper</category>
         <category>spring-boot</category>
+        <category>typescript</category>
+        <category>zod</category>
+        <category>ts-match</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2021/11/20/efficient-multi-tiered-caches-with-redis/</guid>
             <title>Simple and efficient multi-tiered caches with Redis &amp; lua</title>

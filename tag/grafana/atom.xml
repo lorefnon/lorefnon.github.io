@@ -84,6 +84,9 @@
     <category term="spring-security" />
     <category term="komapper" />
     <category term="spring-boot" />
+    <category term="typescript" />
+    <category term="zod" />
+    <category term="ts-match" />
     <entry>
         <id>https://lorefnon.me/2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</id>
         <title>Gathering and Visualizing metrics from Rails application using InfluxDB</title>

@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Sat, 07 Aug 2021 00:00:00 +0000</pubDate>
-        <lastBuildDate>Sat, 07 Aug 2021 00:00:00 +0000</lastBuildDate>
+        <pubDate>Sat, 18 Jun 2022 09:55:06 +0000</pubDate>
+        <lastBuildDate>Sat, 18 Jun 2022 09:55:06 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -87,6 +87,235 @@
         <category>spring-security</category>
         <category>komapper</category>
         <category>spring-boot</category>
+        <category>typescript</category>
+        <category>zod</category>
+        <category>ts-match</category>
+        <item>
+            <guid isPermalink="true">https://lorefnon.me/2022/06/18/type-safe-event-handling-with-zod-and-ts-pattern/</guid>
+            <title>Type-safe event handling in Typescript with zod and ts-match</title>
+            <link>https://lorefnon.me/2022/06/18/type-safe-event-handling-with-zod-and-ts-pattern/</link>
+            <category>typescript</category>
+            <category>zod</category>
+            <category>ts-match</category>
+            <pubDate>Sat, 18 Jun 2022 09:55:06 +0000</pubDate>
+            <description><![CDATA[ &lt;h1 id=&#34;Event-handling&#34;&gt;&lt;a href=&#34;#Event-handling&#34; class=&#34;headerlink&#34; title=&#34;Event handling&#34;&gt;&lt;/a&gt;Event handling&lt;/h1&gt;&lt;p&gt;It is no surprise to anyone that event handling is bread and butter in javascript. However, often we receive several types of events from an event source which makes handling them in a type-safe manner harder. Eg. if we are consuming websocket events on the backend we may write something like: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; ws &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;ws&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; app = &lt;span class=&#34;hljs-title function_&#34;&gt;express&lt;/span&gt;()
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; server = app.&lt;span class=&#34;hljs-title function_&#34;&gt;listen&lt;/span&gt;(&lt;span class=&#34;hljs-number&#34;&gt;3000&lt;/span&gt;)
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; wss = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; ws.&lt;span class=&#34;hljs-title class_&#34;&gt;Server&lt;/span&gt;(&amp;#123; server &amp;#125;)
+
+wss.&lt;span class=&#34;hljs-title function_&#34;&gt;on&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;connection&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;ws: ws.WebSocket&lt;/span&gt;) =&amp;gt;&lt;/span&gt; &amp;#123;
+    ws.&lt;span class=&#34;hljs-title function_&#34;&gt;on&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;message&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;data&lt;/span&gt;) =&amp;gt;&lt;/span&gt; &amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; parsed = &lt;span class=&#34;hljs-title class_&#34;&gt;JSON&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;parse&lt;/span&gt;(data); 
+               ^
+               &lt;span class=&#34;hljs-string&#34;&gt;`----- any :(&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;    &amp;#125;)&lt;/span&gt;
+&lt;span class=&#34;hljs-string&#34;&gt;&amp;#125;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Similarly we could be receiving a message from a different window&amp;#x2F;frame through postMessage, or another peer over a webrtc data channel, the problem remains the same: After receiving the data we need to disambiguate it into one of the multiple possible types of messages and branch out the handling logic from there.&lt;/p&gt;
+&lt;p&gt;The most basic way would be to write a &lt;a href=&#34;https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;type-guard&lt;/a&gt; for each possible type.&lt;/p&gt;
+&lt;p&gt;Typescript offers flow-sensitive typing so once we have established in a branch that a value is of a particular type, we do need any extra casts. &lt;/p&gt;
+&lt;p&gt;So we could write something like this: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;PostDetails&lt;/span&gt; &amp;#123;
+    &lt;span class=&#34;hljs-attr&#34;&gt;title&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt;;
+    &lt;span class=&#34;hljs-attr&#34;&gt;description&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt;;
+&amp;#125;
+
+&lt;span class=&#34;hljs-comment&#34;&gt;// Types for our events:&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;CreatePost&lt;/span&gt; &amp;#123;
+    &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;CreatePost&amp;quot;&lt;/span&gt;,
+    &lt;span class=&#34;hljs-attr&#34;&gt;data&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;PostDetails&lt;/span&gt;
+&amp;#125;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;UpdatePost&lt;/span&gt; &amp;#123;
+    &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;UpdatePost&amp;quot;&lt;/span&gt;,
+    &lt;span class=&#34;hljs-attr&#34;&gt;data&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;PostDetails&lt;/span&gt;
+&amp;#125;
+
+&lt;span class=&#34;hljs-comment&#34;&gt;// Type-guards for different message types&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; isCreatePost = (&lt;span class=&#34;hljs-attr&#34;&gt;event&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;): event is &lt;span class=&#34;hljs-title class_&#34;&gt;CreatePost&lt;/span&gt; =&amp;gt; event.&lt;span class=&#34;hljs-property&#34;&gt;type&lt;/span&gt; === &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;CreatePost&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; isUpdatePost = (&lt;span class=&#34;hljs-attr&#34;&gt;event&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;): event is &lt;span class=&#34;hljs-title class_&#34;&gt;CreatePost&lt;/span&gt; =&amp;gt; event.&lt;span class=&#34;hljs-property&#34;&gt;type&lt;/span&gt; === &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;UpdatePost&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;hljs-comment&#34;&gt;// Later in our message receiver: &lt;/span&gt;
+
+ws.&lt;span class=&#34;hljs-title function_&#34;&gt;on&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;message&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;data&lt;/span&gt;) =&amp;gt;&lt;/span&gt; &amp;#123;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; parsed = &lt;span class=&#34;hljs-title class_&#34;&gt;JSON&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;parse&lt;/span&gt;(data); 
+    &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (&lt;span class=&#34;hljs-title function_&#34;&gt;isCreatePost&lt;/span&gt;(parsed)) &amp;#123;
+        ws.&lt;span class=&#34;hljs-title function_&#34;&gt;send&lt;/span&gt;(&lt;span class=&#34;hljs-title function_&#34;&gt;handleCreatePost&lt;/span&gt;(parsed))
+        &lt;span class=&#34;hljs-comment&#34;&gt;//               ^&lt;/span&gt;
+        &lt;span class=&#34;hljs-comment&#34;&gt;//                `---- type of parsed is CreatePost in this branch&lt;/span&gt;
+    &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (&lt;span class=&#34;hljs-title function_&#34;&gt;isUpdatePost&lt;/span&gt;(parsed)) &amp;#123;
+        ws.&lt;span class=&#34;hljs-title function_&#34;&gt;send&lt;/span&gt;(&lt;span class=&#34;hljs-title function_&#34;&gt;handleUpdatePost&lt;/span&gt;(parsed))
+        &lt;span class=&#34;hljs-comment&#34;&gt;//                ^&lt;/span&gt;
+        &lt;span class=&#34;hljs-comment&#34;&gt;//                 `---- type of parsed is UpdatePost in this branch&lt;/span&gt;
+    &amp;#125;
+    &lt;span class=&#34;hljs-comment&#34;&gt;// ....&lt;/span&gt;
+&amp;#125;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This works, but it is quite a bit of boilerplate to discriminate&amp;#x2F;disambiguate between different possible types. This boilerpate is also repetitive if we adopt a convention that we will always discriminate the types based on a &lt;code&gt;type&lt;/code&gt; attribute which all the events will have. &lt;/p&gt;
+&lt;p&gt;Other issue is that we are trusting the rest of the shape of the data based on the type attribute. Our type-guards (isCreatePost, isUpdatePost etc.) just check for the type property - and assumes that rest of the properties are as expected. If the websocket client sends an invalid object like &lt;code&gt;&amp;#123; type: &amp;quot;CreatePost&amp;quot; &amp;#125;&lt;/code&gt; (no data) we will get a runtime error which may surface deeper inside the handling logic with a confusing stack trace. &lt;/p&gt;
+&lt;p&gt;When we are receiving data over a network boundary or from a persisted store, it is generally safer to validate the complete payload at the boundary itself (which is our message receiver function in this example) and fail early with a clean error.&lt;/p&gt;
+&lt;p&gt;We could write our type-guard to be more defensive like: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; isCreatePost = (&lt;span class=&#34;hljs-attr&#34;&gt;event&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;): event is &lt;span class=&#34;hljs-title class_&#34;&gt;CreatePost&lt;/span&gt; =&amp;gt; &amp;#123;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; event.&lt;span class=&#34;hljs-property&#34;&gt;type&lt;/span&gt; === &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;CreatePost&amp;quot;&lt;/span&gt; &amp;amp;&amp;amp;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;typeof&lt;/span&gt; event.&lt;span class=&#34;hljs-property&#34;&gt;data&lt;/span&gt; === &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;object&amp;quot;&lt;/span&gt; &amp;amp;&amp;amp;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;typeof&lt;/span&gt; event.&lt;span class=&#34;hljs-property&#34;&gt;data&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;title&lt;/span&gt; === &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;string&amp;quot;&lt;/span&gt; &amp;amp;&amp;amp;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;typeof&lt;/span&gt; event.&lt;span class=&#34;hljs-property&#34;&gt;data&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;description&lt;/span&gt; === &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;string&amp;quot;&lt;/span&gt;;
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But this is now a ton of additional work. &lt;/p&gt;
+&lt;p&gt;This is also error prone because tomorrow if we add another field in PostDetails we will also need to update all these type-guards to accomodate the same. They have to kept in sync manually with no help from type-checker whatsoever.&lt;/p&gt;
+&lt;p&gt;Fortunately, we have libraries to simplify this validation logic for us. One such library is &lt;a href=&#34;https://github.com/colinhacks/zod&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;zod&lt;/a&gt; which is what I currently use in my production applications.&lt;/p&gt;
+&lt;p&gt;With zod we can define the shape of our events through zod&amp;#39;s API: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; * &lt;span class=&#34;hljs-keyword&#34;&gt;as&lt;/span&gt; zod &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;zod&amp;quot;&lt;/span&gt;;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;PostDetailsSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
+    &lt;span class=&#34;hljs-attr&#34;&gt;title&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;(),
+    &lt;span class=&#34;hljs-attr&#34;&gt;description&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;()
+&amp;#125;);
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;CreatePostSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
+    &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;literal&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;CreatePost&amp;quot;&lt;/span&gt;),
+    &lt;span class=&#34;hljs-attr&#34;&gt;data&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;PostDetailsSchema&lt;/span&gt;
+&amp;#125;);
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;UpdatePostSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
+    &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;literal&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;UpdatePost&amp;quot;&lt;/span&gt;),
+    &lt;span class=&#34;hljs-attr&#34;&gt;data&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;PostDetailsSchema&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;partial&lt;/span&gt;()
+&amp;#125;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The benefit of defining these schema objects, is that we are able to perform runtime validation of unknown data.&lt;/p&gt;
+&lt;p&gt;So our isCreatePost type-guard can be written as: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; isCreatePost = (&lt;span class=&#34;hljs-attr&#34;&gt;event&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;): event is &lt;span class=&#34;hljs-title class_&#34;&gt;CreatePost&lt;/span&gt; =&amp;gt;
+    &lt;span class=&#34;hljs-title class_&#34;&gt;CreatePostSchema&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;safeParse&lt;/span&gt;(event).&lt;span class=&#34;hljs-property&#34;&gt;success&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We also don&amp;#39;t have to manually define the typescript interfaces for &lt;code&gt;CreatePost&lt;/code&gt;, &lt;code&gt;UpdatePost&lt;/code&gt; etc. ourselves. They can instead be inferred from the Schema objects. &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;CreatePost&lt;/span&gt; = z.&lt;span class=&#34;hljs-property&#34;&gt;TypeOf&lt;/span&gt;&amp;lt;&lt;span class=&#34;hljs-keyword&#34;&gt;typeof&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;CreatePostSchema&lt;/span&gt;&amp;gt;;
+&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;UpdatePost&lt;/span&gt; = z.&lt;span class=&#34;hljs-property&#34;&gt;TypeOf&lt;/span&gt;&amp;lt;&lt;span class=&#34;hljs-keyword&#34;&gt;typeof&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;UpdatePostSchema&lt;/span&gt;&amp;gt;;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The above approach of discriminating between multiple types using a shared property is very common in practice, and we call union of such types as discriminated unions. &lt;/p&gt;
+&lt;p&gt;Zod has built in support for discriminated unions, and we can define an EventSchema as follows: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;//                                          ,---- Property based on which we will discriminate&lt;/span&gt;
+&lt;span class=&#34;hljs-comment&#34;&gt;//                                         V           the members of our union type&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;EventSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;discriminatedUnion&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;, [
+    &lt;span class=&#34;hljs-title class_&#34;&gt;CreatePostSchema&lt;/span&gt;,
+    &lt;span class=&#34;hljs-title class_&#34;&gt;UpdatePostSchema&lt;/span&gt;
+])&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Often, we won&amp;#39;t define the individual members separately: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;EventSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;discriminatedUnion&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;, [
+   z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
+     &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;literal&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;CreatePost&amp;quot;&lt;/span&gt;),
+     &lt;span class=&#34;hljs-attr&#34;&gt;data&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;PostDetailsSchema&lt;/span&gt;
+   &amp;#125;),
+   z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
+     &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;literal&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;UpdatePost&amp;quot;&lt;/span&gt;),
+     &lt;span class=&#34;hljs-attr&#34;&gt;data&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;PostDetailsSchema&lt;/span&gt;
+   &amp;#125;)
+])&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;which is exactly the same as above. &lt;/p&gt;
+&lt;p&gt;If we use the previously mentioned TypeOf type to get the static type of EventSchema we will get a union of the CreatePost and UpdatePost types. &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Event&lt;/span&gt; = z.&lt;span class=&#34;hljs-property&#34;&gt;TypeOf&lt;/span&gt;&amp;lt;&lt;span class=&#34;hljs-keyword&#34;&gt;typeof&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;EventSchema&lt;/span&gt;&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The above will be inferred as: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Event&lt;/span&gt; = 
+    | &amp;#123; &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;CreatePost&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-attr&#34;&gt;data&lt;/span&gt;: &amp;#123; &lt;span class=&#34;hljs-attr&#34;&gt;title&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt;, &lt;span class=&#34;hljs-attr&#34;&gt;description&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt; &amp;#125; &amp;#125;
+    | &amp;#123; &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;UpdatePost&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-attr&#34;&gt;data&lt;/span&gt;: &amp;#123; title?: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt;, description?: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt; &amp;#125; &amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;which is effectively: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Event&lt;/span&gt; = &lt;span class=&#34;hljs-title class_&#34;&gt;CreatePost&lt;/span&gt; | &lt;span class=&#34;hljs-title class_&#34;&gt;UpdatePost&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;One additional thing that we gain from defining a discriminated union is an exhaustiveness check. So we if we use &lt;code&gt;EventSchema.parse(someData)&lt;/code&gt; this will throw a runtime error if someData does not conform to the complete shape of one of the errors.&lt;/p&gt;
+&lt;p&gt;We can write our handler as: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;ws.&lt;span class=&#34;hljs-title function_&#34;&gt;on&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;message&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;data&lt;/span&gt;) =&amp;gt;&lt;/span&gt; &amp;#123;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;try&lt;/span&gt; &amp;#123; 
+        &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; parsed = &lt;span class=&#34;hljs-title class_&#34;&gt;EventSchema&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;parse&lt;/span&gt;(&lt;span class=&#34;hljs-title class_&#34;&gt;JSON&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;parse&lt;/span&gt;(data)); &lt;span class=&#34;hljs-comment&#34;&gt;// Parse will throw for invalid events&lt;/span&gt;
+        &lt;span class=&#34;hljs-comment&#34;&gt;//     ^&lt;/span&gt;
+        &lt;span class=&#34;hljs-comment&#34;&gt;//      `--- CreatePost | UpdatePost&lt;/span&gt;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;switch&lt;/span&gt; (parsed.&lt;span class=&#34;hljs-property&#34;&gt;type&lt;/span&gt;) &amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;CreatePost&amp;quot;&lt;/span&gt;:
+            ws.&lt;span class=&#34;hljs-title function_&#34;&gt;send&lt;/span&gt;(&lt;span class=&#34;hljs-title function_&#34;&gt;handleCreatePost&lt;/span&gt;(parsed)) 
+            &lt;span class=&#34;hljs-comment&#34;&gt;//                  ^&lt;/span&gt;
+            &lt;span class=&#34;hljs-comment&#34;&gt;//                   `---- type of parsed is CreatePost in this branch&lt;/span&gt;
+            &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt;; 
+        &lt;span class=&#34;hljs-keyword&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;UpdatePost&amp;quot;&lt;/span&gt;:
+            ws.&lt;span class=&#34;hljs-title function_&#34;&gt;send&lt;/span&gt;(&lt;span class=&#34;hljs-title function_&#34;&gt;handleUpdatePost&lt;/span&gt;(parsed))
+            &lt;span class=&#34;hljs-comment&#34;&gt;//                 ^&lt;/span&gt;
+            &lt;span class=&#34;hljs-comment&#34;&gt;//                  `---- type of parsed is UpdatePost in this branch&lt;/span&gt;
+            &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt;;
+        &amp;#125;
+    &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;catch&lt;/span&gt; (e) &amp;#123;
+        &lt;span class=&#34;hljs-variable language_&#34;&gt;console&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;error&lt;/span&gt;(e);
+        &lt;span class=&#34;hljs-comment&#34;&gt;// Also see https://github.com/colinhacks/zod#error-formatting&lt;/span&gt;
+    &amp;#125;
+&amp;#125;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;However, it would be also nice to have this exhaustiveness check enforced in our handler at compile time. The way our code is currently written, tomorrow if we add a new type of event in the discriminated union, but forget to add an if-else branch in the above code, it will get silently ignored - Not great. &lt;/p&gt;
+&lt;p&gt;We can take advantage of the typescript compiler option &lt;a href=&#34;https://www.typescriptlang.org/tsconfig#noImplicitReturns&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;noImplicitReturns&lt;/a&gt; to enforce this: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;ws.&lt;span class=&#34;hljs-title function_&#34;&gt;on&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;message&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;data&lt;/span&gt;) =&amp;gt;&lt;/span&gt; &amp;#123;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;try&lt;/span&gt; &amp;#123; 
+        ws.&lt;span class=&#34;hljs-title function_&#34;&gt;send&lt;/span&gt;(&lt;span class=&#34;hljs-title function_&#34;&gt;handleEvent&lt;/span&gt;(&lt;span class=&#34;hljs-title class_&#34;&gt;EventSchema&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;parse&lt;/span&gt;(&lt;span class=&#34;hljs-title class_&#34;&gt;JSON&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;parse&lt;/span&gt;(data)))); &lt;span class=&#34;hljs-comment&#34;&gt;// Parse will throw for invalid events&lt;/span&gt;
+    &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;catch&lt;/span&gt; (e) &amp;#123;
+        &lt;span class=&#34;hljs-variable language_&#34;&gt;console&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;error&lt;/span&gt;(e);
+    &amp;#125;
+&amp;#125;);
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;handleEvent&lt;/span&gt; = (&lt;span class=&#34;hljs-params&#34;&gt;event: Event&lt;/span&gt;) =&amp;gt; &amp;#123;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;switch&lt;/span&gt; (event.&lt;span class=&#34;hljs-property&#34;&gt;type&lt;/span&gt;) &amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;CreatePost&amp;quot;&lt;/span&gt;:
+            &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;handleCreatePost&lt;/span&gt;(event);
+        &lt;span class=&#34;hljs-keyword&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;UpdatePost&amp;quot;&lt;/span&gt;:
+            &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;handleUpdatePost&lt;/span&gt;(event);
+    &amp;#125;
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note that our switch statement does not have a default case. &lt;/p&gt;
+&lt;p&gt;So if we update our Event have another variant like: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;EventSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;discriminatedUnion&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;, [
+   z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
+     &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;literal&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;CreatePost&amp;quot;&lt;/span&gt;),
+     &lt;span class=&#34;hljs-attr&#34;&gt;data&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;PostDetailsSchema&lt;/span&gt;
+   &amp;#125;),
+   z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
+     &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;literal&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;UpdatePost&amp;quot;&lt;/span&gt;),
+     &lt;span class=&#34;hljs-attr&#34;&gt;data&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;PostDetailsSchema&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;partial&lt;/span&gt;()
+   &amp;#125;),
+   z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
+     &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;literal&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;DeletePost&amp;quot;&lt;/span&gt;),
+     &lt;span class=&#34;hljs-attr&#34;&gt;data&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123; &lt;span class=&#34;hljs-attr&#34;&gt;id&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;() &amp;#125;)
+   &amp;#125;)
+])&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;None of the switch-case branches will now match for &lt;code&gt;DeletePost&lt;/code&gt; and we will end up with a possible branch of code that returns implicitly. Typescript will now complain about that.&lt;/p&gt;
+&lt;p&gt;We could wrap-up the post here - given that we have accomplished all the type-safety features we wanted. However, I am not a huge fan of having to rely on implicit returns (or similar workarounds) for exhaustiveness check. &lt;/p&gt;
+&lt;p&gt;In many functional languages, we have support for &lt;a href=&#34;https://abitofocaml.weebly.com/12-pattern-matching.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;pattern-matching&lt;/a&gt; with built in support for exhaustiveness check. Typescript does not have this at the moment but there are userland implementations that emulate pattern matching. One such library is &lt;a href=&#34;https://github.com/gvergnaud/ts-pattern&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;ts-pattern&lt;/a&gt;, which I have found to work very well in practice. &lt;/p&gt;
+&lt;p&gt;With ts-pattern we could write our handler as: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &amp;#123; match &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;ts-pattern&amp;quot;&lt;/span&gt;;
+
+&lt;span class=&#34;hljs-comment&#34;&gt;// --- &lt;/span&gt;
+
+&lt;span class=&#34;hljs-title function_&#34;&gt;match&lt;/span&gt;(event)
+    .&lt;span class=&#34;hljs-title function_&#34;&gt;with&lt;/span&gt;(&amp;#123; &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;CreatePost&amp;#x27;&lt;/span&gt; &amp;#125;, handleCreatePost)
+    .&lt;span class=&#34;hljs-title function_&#34;&gt;with&lt;/span&gt;(&amp;#123; &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;UpdatePost&amp;#x27;&lt;/span&gt; &amp;#125;, handleUpdatePost)
+    .&lt;span class=&#34;hljs-title function_&#34;&gt;exhaustive&lt;/span&gt;()   &lt;span class=&#34;hljs-comment&#34;&gt;// &amp;lt;--- will be a type error if Event type has any other union members&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Not only is this more succinct for this use case, ts-pattern becomes more useful when we have more complex scenario like combining multiple predicates or performing checks based on multiple properties. Take a look at some of their examples in the &lt;a href=&#34;https://github.com/gvergnaud/ts-pattern#readme&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;docs&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Also, unlike our switch-case or if-else examples above, the entire match invocation is a single expression so we could use the return value of our handler without needing temporary variables.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;ws.&lt;span class=&#34;hljs-title function_&#34;&gt;send&lt;/span&gt;(
+    &lt;span class=&#34;hljs-title function_&#34;&gt;match&lt;/span&gt;(event)
+        .&lt;span class=&#34;hljs-title function_&#34;&gt;with&lt;/span&gt;(&amp;#123; &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;CreatePost&amp;#x27;&lt;/span&gt; &amp;#125;, handleCreatePost)
+        .&lt;span class=&#34;hljs-title function_&#34;&gt;with&lt;/span&gt;(&amp;#123; &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;UpdatePost&amp;#x27;&lt;/span&gt; &amp;#125;, handleUpdatePost)
+        .&lt;span class=&#34;hljs-title function_&#34;&gt;exhaustive&lt;/span&gt;()
+)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Cool, eh ?&lt;/p&gt;
+ ]]></description>
+        </item>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2021/08/08/Vue-composition-api-and-type-safe-graphql-access/</guid>
             <title>Vue composition API and type-safe GraphQL access</title>

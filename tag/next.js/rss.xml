@@ -87,6 +87,9 @@
         <category>spring-security</category>
         <category>komapper</category>
         <category>spring-boot</category>
+        <category>typescript</category>
+        <category>zod</category>
+        <category>ts-match</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/08/18/integrating-next-js-apollo-server-and-koa/</guid>
             <title>Integrating Next.js, Apollo Server and Koa</title>

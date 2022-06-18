@@ -84,6 +84,9 @@
     <category term="spring-security" />
     <category term="komapper" />
     <category term="spring-boot" />
+    <category term="typescript" />
+    <category term="zod" />
+    <category term="ts-match" />
     <entry>
         <id>https://lorefnon.me/2016/04/04/embracing-bem-methodology-in-react-applications.html</id>
         <title>Embracing BEM methodology in React applications</title>

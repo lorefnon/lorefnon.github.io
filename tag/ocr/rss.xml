@@ -87,6 +87,9 @@
         <category>spring-security</category>
         <category>komapper</category>
         <category>spring-boot</category>
+        <category>typescript</category>
+        <category>zod</category>
+        <category>ts-match</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2014/10/12/decrypting-an-obfuscated-font-with-ocr.html</guid>
             <title>Decrypting an obfuscated font with OCR</title>

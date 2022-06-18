@@ -87,6 +87,9 @@
         <category>spring-security</category>
         <category>komapper</category>
         <category>spring-boot</category>
+        <category>typescript</category>
+        <category>zod</category>
+        <category>ts-match</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/03/02/dealing-with-json-fields-in-active-admin.html</guid>
             <title>Dealing with JSON data in Active Admin</title>
