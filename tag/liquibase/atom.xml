@@ -56,6 +56,8 @@
     <category term="Routing" />
     <category term="HAR" />
     <category term="Jq" />
+    <category term="Lit-html" />
+    <category term="Stimulus" />
     <category term="Kotlin" />
     <category term="Vert.X" />
     <category term="Vert.X-Web" />
@@ -67,6 +69,8 @@
     <category term="Liquibase" />
     <category term="tbls" />
     <category term="jOOQ" />
+    <category term="Vue" />
+    <category term="TypeScript" />
     <category term="Gradle" />
     <category term="Spring" />
     <category term="Spring-Boot" />
@@ -83,10 +87,6 @@
     <category term="typescript" />
     <category term="zod" />
     <category term="ts-match" />
-    <category term="Lit-html" />
-    <category term="Stimulus" />
-    <category term="Vue" />
-    <category term="TypeScript" />
     <entry>
         <id>https://lorefnon.me/2021/09/01/configuring-liquibase-with-gradle-kotlin-dsl/</id>
         <title>Configuring Liquibase through Gradle Kotlin DSL</title>
