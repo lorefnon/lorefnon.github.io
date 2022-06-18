@@ -1,7 +1,7 @@
 document.addEventListener("click", (e) => {
   let handle;
   if (e.target.classList.contains("hlcode-fold-handle")) {
-    hadle = e.target;
+    handle = e.target;
   } else if (e.target.classList.contains("hlcode-fold-text")) {
     handle = e.target.parentElement;
   }
