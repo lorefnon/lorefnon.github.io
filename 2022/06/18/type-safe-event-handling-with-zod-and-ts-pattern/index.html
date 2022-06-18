@@ -45,12 +45,12 @@ ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;
     <span class="hljs-keyword">const</span> parsed = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(data); 
     <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isCreatePost</span>(parsed)) &#123;
         ws.<span class="hljs-title function_">send</span>(<span class="hljs-title function_">handleCreatePost</span>(parsed))
-        <span class="hljs-comment">//               ^</span>
-        <span class="hljs-comment">//                `---- type of parsed is CreatePost in this branch</span>
+        <span class="hljs-comment">//                       ^</span>
+        <span class="hljs-comment">//                       `---- type of parsed is CreatePost in this branch</span>
     &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isUpdatePost</span>(parsed)) &#123;
         ws.<span class="hljs-title function_">send</span>(<span class="hljs-title function_">handleUpdatePost</span>(parsed))
-        <span class="hljs-comment">//                ^</span>
-        <span class="hljs-comment">//                 `---- type of parsed is UpdatePost in this branch</span>
+        <span class="hljs-comment">//                        ^</span>
+        <span class="hljs-comment">//                         `---- type of parsed is UpdatePost in this branch</span>
     &#125;
     <span class="hljs-comment">// ....</span>
 &#125;)</code></pre>
@@ -139,13 +139,13 @@ ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;
         <span class="hljs-keyword">switch</span> (parsed.<span class="hljs-property">type</span>) &#123;
         <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;CreatePost&quot;</span>:
             ws.<span class="hljs-title function_">send</span>(<span class="hljs-title function_">handleCreatePost</span>(parsed)) 
-            <span class="hljs-comment">//                  ^</span>
-            <span class="hljs-comment">//                   `---- type of parsed is CreatePost in this branch</span>
+            <span class="hljs-comment">//                        ^</span>
+            <span class="hljs-comment">//                        `---- type of parsed is CreatePost in this branch</span>
             <span class="hljs-keyword">return</span>; 
         <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;UpdatePost&quot;</span>:
             ws.<span class="hljs-title function_">send</span>(<span class="hljs-title function_">handleUpdatePost</span>(parsed))
-            <span class="hljs-comment">//                 ^</span>
-            <span class="hljs-comment">//                  `---- type of parsed is UpdatePost in this branch</span>
+            <span class="hljs-comment">//                      ^</span>
+            <span class="hljs-comment">//                       `---- type of parsed is UpdatePost in this branch</span>
             <span class="hljs-keyword">return</span>;
         &#125;
     &#125; <span class="hljs-keyword">catch</span> (e) &#123;
@@ -214,4 +214,4 @@ ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;
 )</code></pre>
 
 <p>Cool, eh ?</p>
-</div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>
+</div><div class="post-comments"><div class="comments-header"><div class="comments-header-content">You can reply to this post on &nbsp;<a href="https://fosstodon.org/interact/108499918533228631?type=reply" target="_blank">Mastodon</a></div><a class="load-comments-btn" onclick="Blog.loadComments(&quot;fosstodon.org&quot;, &quot;108499918533228631&quot;)">Load Comments</a></div><div class="comments-target"></div></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>

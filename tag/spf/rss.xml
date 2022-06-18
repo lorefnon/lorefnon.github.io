@@ -59,8 +59,6 @@
         <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
-        <category>Lit-html</category>
-        <category>Stimulus</category>
         <category>Kotlin</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
@@ -72,8 +70,6 @@
         <category>Liquibase</category>
         <category>tbls</category>
         <category>jOOQ</category>
-        <category>Vue</category>
-        <category>TypeScript</category>
         <category>Gradle</category>
         <category>Spring</category>
         <category>Spring-Boot</category>
@@ -90,6 +86,10 @@
         <category>typescript</category>
         <category>zod</category>
         <category>ts-match</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
+        <category>Vue</category>
+        <category>TypeScript</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</guid>
             <title>Boost your content focussed site with Structured Page Fragments</title>
