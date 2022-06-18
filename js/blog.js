@@ -72,4 +72,12 @@
       commentsTarget.innerHTML = "Sorry! Failed to load comments.";
     }
   };
+
+  // source/js/_analytics.js
+  window.goatcounter = {no_onload: true};
+  htmx.on("htmx:load", (e) => {
+    window.goatcounter.count({
+      path: location.pathname + location.search + location.hash
+    });
+  });
 })();
