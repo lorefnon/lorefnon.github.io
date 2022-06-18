@@ -17,7 +17,7 @@
     "@openfonts/open-sans_all": "^1.44.2",
     "@openfonts/raleway_all": "^0.0.1",
     "chalk": "^4.1.0",
-    "hexo": "^6.0.0",
+    "hexo": "6.1.0",
     "hexo-description": "^0.1.0",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-category": "^1.0.0",
@@ -52,5 +52,8 @@
     "hexo-renderer-ejs": "^2.0.0",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3"
+  },
+  "overrides": {
+    "hexo": "6.1.0"
   }
 }
