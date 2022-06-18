@@ -2,6 +2,9 @@
 title: Type-safe event handling in Typescript with zod and ts-match
 tags: [typescript, zod, ts-match]
 popular: true
+discussions:
+    mastodon:
+        id: '108499918533228631'
 ---
 
 # Event handling
@@ -61,12 +64,12 @@ ws.on("message", (data) => {
     const parsed = JSON.parse(data); 
     if (isCreatePost(parsed)) {
         ws.send(handleCreatePost(parsed))
-        //               ^
-        //                `---- type of parsed is CreatePost in this branch
+        //                       ^
+        //                       `---- type of parsed is CreatePost in this branch
     } else if (isUpdatePost(parsed)) {
         ws.send(handleUpdatePost(parsed))
-        //                ^
-        //                 `---- type of parsed is UpdatePost in this branch
+        //                        ^
+        //                         `---- type of parsed is UpdatePost in this branch
     }
     // ....
 })
@@ -195,13 +198,13 @@ ws.on("message", (data) => {
         switch (parsed.type) {
         case "CreatePost":
             ws.send(handleCreatePost(parsed)) 
-            //                  ^
-            //                   `---- type of parsed is CreatePost in this branch
+            //                        ^
+            //                        `---- type of parsed is CreatePost in this branch
             return; 
         case "UpdatePost":
             ws.send(handleUpdatePost(parsed))
-            //                 ^
-            //                  `---- type of parsed is UpdatePost in this branch
+            //                      ^
+            //                       `---- type of parsed is UpdatePost in this branch
             return;
         }
     } catch (e) {
