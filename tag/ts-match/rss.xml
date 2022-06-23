@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Sat, 18 Jun 2022 21:12:06 +0000</pubDate>
-        <lastBuildDate>Sat, 18 Jun 2022 21:12:06 +0000</lastBuildDate>
+        <pubDate>Thu, 23 Jun 2022 19:01:56 +0000</pubDate>
+        <lastBuildDate>Thu, 23 Jun 2022 19:01:56 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -75,21 +75,22 @@
         <category>Vue</category>
         <category>TypeScript</category>
         <category>Gradle</category>
-        <category>Spring</category>
-        <category>Spring-Boot</category>
-        <category>gRPC</category>
         <category>Redis</category>
         <category>Database</category>
         <category>Exposed</category>
         <category>vim</category>
-        <category>kotlin</category>
-        <category>spring</category>
-        <category>spring-security</category>
-        <category>komapper</category>
         <category>spring-boot</category>
+        <category>kotlin</category>
         <category>typescript</category>
         <category>zod</category>
         <category>ts-match</category>
+        <category>ts-sql-query</category>
+        <category>gRPC</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>spring</category>
+        <category>spring-security</category>
+        <category>komapper</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2022/06/18/type-safe-event-handling-with-zod-and-ts-pattern/</guid>
             <title>Type-safe event handling in Typescript with zod and ts-match</title>
@@ -97,7 +98,7 @@
             <category>typescript</category>
             <category>zod</category>
             <category>ts-match</category>
-            <pubDate>Sat, 18 Jun 2022 21:12:06 +0000</pubDate>
+            <pubDate>Thu, 23 Jun 2022 19:01:56 +0000</pubDate>
             <description><![CDATA[ &lt;h1 id=&#34;Event-handling&#34;&gt;&lt;a href=&#34;#Event-handling&#34; class=&#34;headerlink&#34; title=&#34;Event handling&#34;&gt;&lt;/a&gt;Event handling&lt;/h1&gt;&lt;p&gt;It is no surprise to anyone that event handling is bread and butter in javascript. However, often we receive several types of events from an event source which makes handling them in a type-safe manner harder. Eg. if we are consuming websocket events on the backend we may write something like: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; ws &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;ws&amp;quot;&lt;/span&gt;
 
