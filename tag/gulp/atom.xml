@@ -72,22 +72,22 @@
     <category term="Vue" />
     <category term="TypeScript" />
     <category term="Gradle" />
+    <category term="Spring" />
+    <category term="Spring-Boot" />
+    <category term="gRPC" />
     <category term="Redis" />
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
-    <category term="spring-boot" />
     <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
+    <category term="spring-boot" />
     <category term="typescript" />
     <category term="zod" />
     <category term="ts-match" />
     <category term="ts-sql-query" />
-    <category term="gRPC" />
-    <category term="Spring" />
-    <category term="Spring-Boot" />
-    <category term="spring" />
-    <category term="spring-security" />
-    <category term="komapper" />
     <entry>
         <id>https://lorefnon.me/2014/03/10/decoupling-frontend-with-gulp-and-node-http-proxy.html</id>
         <title>Decoupling your frontend development with gulp and http-proxy</title>

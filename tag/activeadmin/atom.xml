@@ -72,22 +72,22 @@
     <category term="Vue" />
     <category term="TypeScript" />
     <category term="Gradle" />
+    <category term="Spring" />
+    <category term="Spring-Boot" />
+    <category term="gRPC" />
     <category term="Redis" />
     <category term="Database" />
     <category term="Exposed" />
     <category term="vim" />
-    <category term="spring-boot" />
     <category term="kotlin" />
+    <category term="spring" />
+    <category term="spring-security" />
+    <category term="komapper" />
+    <category term="spring-boot" />
     <category term="typescript" />
     <category term="zod" />
     <category term="ts-match" />
     <category term="ts-sql-query" />
-    <category term="gRPC" />
-    <category term="Spring" />
-    <category term="Spring-Boot" />
-    <category term="spring" />
-    <category term="spring-security" />
-    <category term="komapper" />
     <entry>
         <id>https://lorefnon.me/2015/03/02/dealing-with-json-fields-in-active-admin.html</id>
         <title>Dealing with JSON data in Active Admin</title>

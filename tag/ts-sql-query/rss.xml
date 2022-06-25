@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Thu, 23 Jun 2022 19:01:56 +0000</pubDate>
-        <lastBuildDate>Thu, 23 Jun 2022 19:01:56 +0000</lastBuildDate>
+        <pubDate>Sat, 25 Jun 2022 09:56:20 +0000</pubDate>
+        <lastBuildDate>Sat, 25 Jun 2022 09:56:20 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -75,22 +75,22 @@
         <category>Vue</category>
         <category>TypeScript</category>
         <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
         <category>Redis</category>
         <category>Database</category>
         <category>Exposed</category>
         <category>vim</category>
-        <category>spring-boot</category>
         <category>kotlin</category>
+        <category>spring</category>
+        <category>spring-security</category>
+        <category>komapper</category>
+        <category>spring-boot</category>
         <category>typescript</category>
         <category>zod</category>
         <category>ts-match</category>
         <category>ts-sql-query</category>
-        <category>gRPC</category>
-        <category>Spring</category>
-        <category>Spring-Boot</category>
-        <category>spring</category>
-        <category>spring-security</category>
-        <category>komapper</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2022/06/18/type-safe-jsonb-with-ts-sql-query/</guid>
             <title>Making jsonb access type-safe with a zod adapter in ts-sql-query</title>
@@ -98,7 +98,7 @@
             <category>typescript</category>
             <category>zod</category>
             <category>ts-sql-query</category>
-            <pubDate>Thu, 23 Jun 2022 19:01:56 +0000</pubDate>
+            <pubDate>Sat, 25 Jun 2022 09:56:20 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;&lt;a href=&#34;https://ts-sql-query.readthedocs.io/en/stable&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;ts-sql-query&lt;/a&gt; is a nice typescript library for typesafe database access. It goes to great lengths to ensure that if code compiles without type errors then all generated SQL is correct. Of course there are escape hatches for advanced scenarios, but having type-safety for the 90% most common usages is a huge productivity boost.&lt;/p&gt;
 &lt;p&gt;Modern databases like postgres have built in json support, enabling us to store semi-structured data in a database column. While this does go against norms of traditional normalization, in practice it is immensely convenient for cases where shaping the data into  tabular format is either very time consuming or simply not feasible because the entire structure of data is not known ahead of time or changes frequently. &lt;/p&gt;
 &lt;p&gt;However, to be able to effectively process this data in application layer, it is often beneficial to have an application-side schema to validate this json data even if this schema is not 100% known ahead of time, evolves alongside our understanding of data or not 100% strict.&lt;/p&gt;

@@ -75,22 +75,22 @@
         <category>Vue</category>
         <category>TypeScript</category>
         <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
         <category>Redis</category>
         <category>Database</category>
         <category>Exposed</category>
         <category>vim</category>
-        <category>spring-boot</category>
         <category>kotlin</category>
+        <category>spring</category>
+        <category>spring-security</category>
+        <category>komapper</category>
+        <category>spring-boot</category>
         <category>typescript</category>
         <category>zod</category>
         <category>ts-match</category>
         <category>ts-sql-query</category>
-        <category>gRPC</category>
-        <category>Spring</category>
-        <category>Spring-Boot</category>
-        <category>spring</category>
-        <category>spring-security</category>
-        <category>komapper</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/08/18/integrating-next-js-apollo-server-and-koa/</guid>
             <title>Integrating Next.js, Apollo Server and Koa</title>
