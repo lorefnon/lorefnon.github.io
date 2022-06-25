@@ -1,27 +1,28 @@
 ---
 title: Making jsonb access type-safe with a zod adapter in ts-sql-query
 tags: [typescript, zod, ts-sql-query]
+date: 2022-06-18
 ---
 
 [ts-sql-query](https://ts-sql-query.readthedocs.io/en/stable) is a nice typescript library for typesafe database access. It goes to great lengths to ensure that if code compiles without type errors then all generated SQL is correct. Of course there are escape hatches for advanced scenarios, but having type-safety for the 90% most common usages is a huge productivity boost.
 
-Modern databases like postgres have built in json support, enabling us to store semi-structured data in a database column. While this does go against norms of traditional normalization, in practice it is immensely convenient for cases where shaping the data into  tabular format is either very time consuming or simply not feasible because the entire structure of data is not known ahead of time or changes frequently. 
+Modern databases like postgres have built in json support, enabling us to store semi-structured data in a database column. While this does go against norms of traditional normalization, in practice it is immensely convenient for cases where shaping the data into tabular format is either very time consuming or simply not feasible because the entire structure of data is not known ahead of time or changes frequently.
 
 However, to be able to effectively process this data in application layer, it is often beneficial to have an application-side schema to validate this json data even if this schema is not 100% known ahead of time, evolves alongside our understanding of data or not 100% strict.
 
-In typescript, we have a multitude of options for schema validation like [zod](https://zod.dev/), [io-ts](https://github.com/gcanti/io-ts), [joi](https://joi.dev/api/?v=17.6.0) etc. In this post we primarily focus on zod because IMHO it strikes a very good balance between a user friendly API, available features and being able to extract static types from schema definitions. 
+In typescript, we have a multitude of options for schema validation like [zod](https://zod.dev/), [io-ts](https://github.com/gcanti/io-ts), [joi](https://joi.dev/api/?v=17.6.0) etc. In this post we primarily focus on zod because IMHO it strikes a very good balance between a user friendly API, available features and being able to extract static types from schema definitions.
 
 Whiel ts-sql-query does not have json support built-in, it supports custom types through [TypeAdapter](https://ts-sql-query.readthedocs.io/en/stable/supported-operations/#type-adpaters). So for our jsonb columns we can write a TypeAdapter that utilizes zod to enforce that the data coming from and going to the database conforms to our expectations.
 
-Let's say we have a zod type ChapterMedatadata: 
+Let's say we have a zod type ChapterMedatadata:
 
 ```ts
-import * as z from "zod"
+import * as z from "zod";
 
 export const ChapterMetadataSchema = z.object({
     name: z.string(),
-    topics: z.string().array() 
-})
+    topics: z.string().array(),
+});
 
 // Extract static type
 export type ChapterMetadata = z.TypeOf<typeof ChapterMetadataSchema>;
@@ -30,26 +31,33 @@ export type ChapterMetadata = z.TypeOf<typeof ChapterMetadataSchema>;
 Following would be a type adapter that validates the incoming and outgoing json through this type:
 
 ```ts
-import { DefaultTypeAdapter, TypeAdapter } from "ts-sql-query/TypeAdapter"
+import { DefaultTypeAdapter, TypeAdapter } from "ts-sql-query/TypeAdapter";
 
 export const ChapterMetadataAdapter: TypeAdapter = {
-
-    transformValueFromDB(value: any, type: string, next: DefaultTypeAdapter):  unknown {
-        if (type === 'jsonb') {
+    transformValueFromDB(
+        value: any,
+        type: string,
+        next: DefaultTypeAdapter
+    ): unknown {
+        if (type === "jsonb") {
             // Our database adapter (postgres) is aware of jsonb and has already
             // parsed the JSON. So we don't need JSON.parse. However if the dabase
-            // didn't have first class support for json type and 
+            // didn't have first class support for json type and
             // we were storing the JSON in a text field we would need to do a JSON.parse first
             // before calling ChapterMetadataSchema.parse
-            return ChapterMetadataSchema.parse(value)
+            return ChapterMetadataSchema.parse(value);
         }
 
         // If type is not jsonb then gracefully fallback to the next adapter
-        return next.transformValueFromDB(value, type)
+        return next.transformValueFromDB(value, type);
     },
 
-    transformValueToDB(value: any, type: string, next: DefaultTypeAdapter): unknown {
-        if (type === 'jsonb') {
+    transformValueToDB(
+        value: any,
+        type: string,
+        next: DefaultTypeAdapter
+    ): unknown {
+        if (type === "jsonb") {
             // This is strictly not necessary because TS will ensure
             // that atleast the static type is enforced.
             //
@@ -60,124 +68,140 @@ export const ChapterMetadataAdapter: TypeAdapter = {
 
         // If type is not jsonb gracefully fallback to the next adapter
         return next.transformValueToDB(value, type);
-    }
-}
+    },
+};
 ```
 
-Once we have the adapter in place, we can use this in our table mapping: 
+Once we have the adapter in place, we can use this in our table mapping:
 
 ```ts
 import { Table } from "ts-sql-query/Table";
 
-export class ChaptersTable extends Table<DBConnection, 'ChaptersTable'> {
-
-    id = this.autogeneratedPrimaryKey('id', 'int');
-    metadata = this.optionalColumn<ChapterMetadata>('metadata', 'custom', 'jsonb', ChapterMetadataAdapter);
+export class ChaptersTable extends Table<DBConnection, "ChaptersTable"> {
+    id = this.autogeneratedPrimaryKey("id", "int");
+    metadata = this.optionalColumn<ChapterMetadata>(
+        "metadata",
+        "custom",
+        "jsonb",
+        ChapterMetadataAdapter
+    );
 
     constructor() {
-        super('chapters')
+        super("chapters");
     }
 }
 
-const tChapters = new ChaptersTable()
+const tChapters = new ChaptersTable();
 ```
 
 So now whenever we try to retrieve the data from database, the value for metadata column will be validated against our schema.
 
-And because we have passed the ChapterMetadata static type as a type parameter to the column, for operations performed in typescript codebase, we get static type safety as well: 
+And because we have passed the ChapterMetadata static type as a type parameter to the column, for operations performed in typescript codebase, we get static type safety as well:
 
 ```ts
 getConnection()
     .insertInto(tChapters)
-    .set({ metadata: { name: 'Test', topic: 'test' } }) // <-- Static type error
+    .set({ metadata: { name: "Test", topic: "test" } }); // <-- Static type error
 ```
 
-Note that whenever we are performing type validation of data coming from a long term storage, we need to be cautious with schema evolution. 
+Note that whenever we are performing type validation of data coming from a long term storage, we need to be cautious with schema evolution.
 
-Tomorrow if we update the type and add backward incompatible changes (eg. new mandatory fields), then the rows containing past data can become inaccessible. 
+Tomorrow if we update the type and add backward incompatible changes (eg. new mandatory fields), then the rows containing past data can become inaccessible.
 
 So it is better to ensure that any schema change is additive, and new fields added are optional. It is also useful to perform two step transitions where in the transition duration the schema is compatible with both previous and new shape of data (at the cost of being more relaxed than is necessary).
 
 Lastly, the above type adapter assumes that the shape of data as stored in database matches the shape of the data that the application deals with.
 
-It can sometimes be desirable to store the data in a different format than what the application deals. This could be either to facilitate ease of indexing or compaction of storage on the db side, or to use more complex data structures than json-compatible objects and arrays on the application side. 
+It can sometimes be desirable to store the data in a different format than what the application deals. This could be either to facilitate ease of indexing or compaction of storage on the db side, or to use more complex data structures than json-compatible objects and arrays on the application side.
 
-While zod does not support codecs like some other libraries like io-ts, it is possible to use two different (mutually compatible) types in transformValueToDB and transformValueFromDB to convert between the two representations. 
+While zod does not support codecs like some other libraries like io-ts, it is possible to use two different (mutually compatible) types in transformValueToDB and transformValueFromDB to convert between the two representations.
 
-A simple example of two such types can be: 
+A simple example of two such types can be:
 
 ```ts
-import * as z from "zod"
+import * as z from "zod";
 
 export const ChapterMetadataDBToAppSchema = z.object({
     name: z.string(),
-    topics: z.string().array().transform(it => 
-        // Convert the JSON array to a Set   
-        new Set(it)
+    topics: z
+        .string()
+        .array()
+        .transform(
+            (it) =>
+                // Convert the JSON array to a Set
+                new Set(it)
+        ),
+    relevanceScores: z.record(z.number()).transform(
+        (it) =>
+            // Convert the JSON object to a Map
+            new Map(Object.entries(it))
     ),
-    relevanceScores: z.record(z.number()).transform(it => 
-        // Convert the JSON object to a Map
-        new Map(Object.entries(it))
-    )
-})
+});
 
 export const ChapterMetadataAppToDBSchema = z.object({
     name: z.string(),
-    topics: z.set(z.string()).transform(it => 
+    topics: z.set(z.string()).transform((it) =>
         // Convert set to array
         [...it]
     ),
-    relevanceScores: z.map(z.string(), z.number()).transform(it => 
+    relevanceScores: z.map(z.string(), z.number()).transform((it) =>
         // Convert Map to object
         Object.fromEntries(it.entries())
-    )
-})
+    ),
+});
 ```
-Now we can change our adapter to use these two separate types: 
+
+Now we can change our adapter to use these two separate types:
 
 ```ts
 export const ChapterMetadataAdapter: TypeAdapter = {
-
-    transformValueFromDB(value: any, type: string, next: DefaultTypeAdapter):  unknown {
-        if (type === 'jsonb') {
-            return ChapterMetadataDBToAppSchema.parse(value)
+    transformValueFromDB(
+        value: any,
+        type: string,
+        next: DefaultTypeAdapter
+    ): unknown {
+        if (type === "jsonb") {
+            return ChapterMetadataDBToAppSchema.parse(value);
         }
-        return next.transformValueFromDB(value, type)
+        return next.transformValueFromDB(value, type);
     },
 
-    transformValueToDB(value: any, type: string, next: DefaultTypeAdapter): unknown {
-        if (type === 'jsonb') {
+    transformValueToDB(
+        value: any,
+        type: string,
+        next: DefaultTypeAdapter
+    ): unknown {
+        if (type === "jsonb") {
             return ChapterMetadataAppToDBSchema.parse(value);
         }
         return next.transformValueToDB(value, type);
-    }
-}
+    },
+};
 ```
+
 We need to make sure that these two types are always mutually compatible ie. for any valid values
 
 ```ts
-ChapterMetadataAppToDBSchema.parse(ChapterMetadataDBToAppSchema.parse(value))
+ChapterMetadataAppToDBSchema.parse(ChapterMetadataDBToAppSchema.parse(value));
 ```
+
 succeeds, and vice versa.
 
 We can use unit tests to ensure that, and we can also add witness types to validate the compatibility of corresponding static types.
 
 ```ts
-
 // Type that enforces that U is assignable to T
-type ExtendsWitness<U extends T, T> = U
+type ExtendsWitness<U extends T, T> = U;
 
-// If the Input type of ChapterMetadataAppToDBSchema is not compatbile with 
+// If the Input type of ChapterMetadataAppToDBSchema is not compatbile with
 // output type of ChapterMetadataDBToAppSchema following witness will have a type error
 type _ChapterMetadataWitness1 = ExtendsWitness<
-    z.TypeOf<typeof ChapterMetadataDBToAppSchema>, 
-
-    // Extract input type from ChapterMetadataAppToDBSchema 
-    typeof ChapterMetadataAppToDBSchema extends z.ZodType<any, any, infer TIn> 
-        ? TIn 
+    z.TypeOf<typeof ChapterMetadataDBToAppSchema>,
+    // Extract input type from ChapterMetadataAppToDBSchema
+    typeof ChapterMetadataAppToDBSchema extends z.ZodType<any, any, infer TIn>
+        ? TIn
         : never
->
+>;
 ```
 
 and similarly the other way round.
-

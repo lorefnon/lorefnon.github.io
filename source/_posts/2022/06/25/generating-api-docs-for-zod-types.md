@@ -1,6 +1,7 @@
 ---
 title: Generating API docs for zod-types
 tags: [typescript, zod]
+date: 2022-06-25
 ---
 
 I often like to use [zod](https://github.com/colinhacks/zod) for validating user provided options in the public API in typescript projects. Zod offers a really nice validation & type inference support and it is nice to be able to fail early for invalid options even if consumer is not using typescript.
