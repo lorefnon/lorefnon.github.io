@@ -3,7 +3,7 @@
     <id>https://lorefnon.me</id>
     <title>Icicles of Thought • Posts by &#34;typescript&#34; tag</title>
     <link href="https://lorefnon.me" />
-    <updated>2022-06-25T09:56:20.631Z</updated>
+    <updated>2022-06-25T00:00:00.000Z</updated>
     <category term="Javascript" />
     <category term="KnockoutJS" />
     <category term="Ruby" />
@@ -76,9 +76,9 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
+    <category term="vim" />
     <category term="Database" />
     <category term="Exposed" />
-    <category term="vim" />
     <category term="kotlin" />
     <category term="spring" />
     <category term="spring-security" />
@@ -88,6 +88,56 @@
     <category term="zod" />
     <category term="ts-match" />
     <category term="ts-sql-query" />
+    <entry>
+        <id>https://lorefnon.me/2022/06/25/generating-api-docs-for-zod-types/</id>
+        <title>Generating API docs for zod-types</title>
+        <link rel="alternate" href="https://lorefnon.me/2022/06/25/generating-api-docs-for-zod-types/"/>
+        <content type="html">&lt;p&gt;I often like to use &lt;a href=&#34;https://github.com/colinhacks/zod&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;zod&lt;/a&gt; for validating user provided options in the public API in typescript projects. Zod offers a really nice validation &amp;amp; type inference support and it is nice to be able to fail early for invalid options even if consumer is not using typescript.&lt;/p&gt;
+&lt;p&gt;Generating API documentation is a bit of trouble though, for these types. &lt;a href=&#34;https://typedoc.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Typedoc&lt;/a&gt; is a nice documentation generator I frequently use, but it does not have any specialized zod support and works best when types are defined through normal typescript interfaces.&lt;/p&gt;
+&lt;p&gt;So what do we do ? &lt;/p&gt;
+&lt;p&gt;Interestingly, typescript is able to propagate comments through inheritance hierarchy and mapped types.&lt;/p&gt;
+&lt;p&gt;So if we have a zod-type as follows: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; * &lt;span class=&#34;hljs-keyword&#34;&gt;as&lt;/span&gt; z &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;zod&amp;quot;&lt;/span&gt;;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;UserSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
+    &lt;span class=&#34;hljs-comment&#34;&gt;/** Full name of user */&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;()
+&amp;#125;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and later define an interface that extends the type inferred from this: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;User&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; z.&lt;span class=&#34;hljs-title class_&#34;&gt;TypeOf&lt;/span&gt;&amp;lt;typeof &lt;span class=&#34;hljs-title class_&#34;&gt;UserSchema&lt;/span&gt;&amp;gt; &amp;#123;&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The generated documentation of User will contain the comments for name property.&lt;/p&gt;
+&lt;p&gt;This unfortunately works only for Object types as long as we don&amp;#39;t introduce any unions and intersections - any base type of an interface must have statically known members. This also doesn&amp;#39;t work well for nested object types as typedoc will pick only the types at top level.&lt;/p&gt;
+&lt;p&gt;For more complex types, a simple workaround is to extract interfaces for constituent types and link them in the documentation. &lt;/p&gt;
+&lt;p&gt;So instead of:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;UserDetailsSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
+    &lt;span class=&#34;hljs-attr&#34;&gt;profile&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
+        &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;()
+    &amp;#125;).&lt;span class=&#34;hljs-title function_&#34;&gt;nullish&lt;/span&gt;()
+&amp;#125;);&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We&amp;#39;d write: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ProfileSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
+    &lt;span class=&#34;hljs-comment&#34;&gt;/** Full name of user */&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;()
+&amp;#125;);
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Profile&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; z.&lt;span class=&#34;hljs-title class_&#34;&gt;TypeOf&lt;/span&gt;&amp;lt;typeof &lt;span class=&#34;hljs-title class_&#34;&gt;ProfileSchema&lt;/span&gt;&amp;gt; &amp;#123;&amp;#125;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;UserDetailsSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
+    &lt;span class=&#34;hljs-comment&#34;&gt;/** See &amp;#123;&lt;span class=&#34;hljs-doctag&#34;&gt;@link&lt;/span&gt; Profile&amp;#125; */&lt;/span&gt;
+    &lt;span class=&#34;hljs-attr&#34;&gt;profile&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;Profile&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;nullish&lt;/span&gt;()
+&amp;#125;)
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;UserDetails&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; z.&lt;span class=&#34;hljs-title class_&#34;&gt;TypeOf&lt;/span&gt;&amp;lt;typeof &lt;span class=&#34;hljs-title class_&#34;&gt;UserDetailsSchema&lt;/span&gt;&amp;gt; &amp;#123;&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This increases the boilerplate a bit, but is otherwise quite practical.&lt;/p&gt;
+</content>
+        <category term="typescript" />
+        <category term="zod" />
+        <updated>2022-06-25T00:00:00.000Z</updated>
+    </entry>
     <entry>
         <id>https://lorefnon.me/2022/06/18/type-safe-event-handling-with-zod-and-ts-pattern/</id>
         <title>Type-safe event handling in Typescript with zod and ts-match</title>
@@ -312,49 +362,56 @@ ws.&lt;span class=&#34;hljs-title function_&#34;&gt;on&lt;/span&gt;(&lt;span cla
         <category term="typescript" />
         <category term="zod" />
         <category term="ts-match" />
-        <updated>2022-06-25T09:56:20.631Z</updated>
+        <updated>2022-06-18T00:00:00.000Z</updated>
     </entry>
     <entry>
         <id>https://lorefnon.me/2022/06/18/type-safe-jsonb-with-ts-sql-query/</id>
         <title>Making jsonb access type-safe with a zod adapter in ts-sql-query</title>
         <link rel="alternate" href="https://lorefnon.me/2022/06/18/type-safe-jsonb-with-ts-sql-query/"/>
         <content type="html">&lt;p&gt;&lt;a href=&#34;https://ts-sql-query.readthedocs.io/en/stable&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;ts-sql-query&lt;/a&gt; is a nice typescript library for typesafe database access. It goes to great lengths to ensure that if code compiles without type errors then all generated SQL is correct. Of course there are escape hatches for advanced scenarios, but having type-safety for the 90% most common usages is a huge productivity boost.&lt;/p&gt;
-&lt;p&gt;Modern databases like postgres have built in json support, enabling us to store semi-structured data in a database column. While this does go against norms of traditional normalization, in practice it is immensely convenient for cases where shaping the data into  tabular format is either very time consuming or simply not feasible because the entire structure of data is not known ahead of time or changes frequently. &lt;/p&gt;
+&lt;p&gt;Modern databases like postgres have built in json support, enabling us to store semi-structured data in a database column. While this does go against norms of traditional normalization, in practice it is immensely convenient for cases where shaping the data into tabular format is either very time consuming or simply not feasible because the entire structure of data is not known ahead of time or changes frequently.&lt;/p&gt;
 &lt;p&gt;However, to be able to effectively process this data in application layer, it is often beneficial to have an application-side schema to validate this json data even if this schema is not 100% known ahead of time, evolves alongside our understanding of data or not 100% strict.&lt;/p&gt;
-&lt;p&gt;In typescript, we have a multitude of options for schema validation like &lt;a href=&#34;https://zod.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;zod&lt;/a&gt;, &lt;a href=&#34;https://github.com/gcanti/io-ts&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;io-ts&lt;/a&gt;, &lt;a href=&#34;https://joi.dev/api/?v=17.6.0&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;joi&lt;/a&gt; etc. In this post we primarily focus on zod because IMHO it strikes a very good balance between a user friendly API, available features and being able to extract static types from schema definitions. &lt;/p&gt;
+&lt;p&gt;In typescript, we have a multitude of options for schema validation like &lt;a href=&#34;https://zod.dev/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;zod&lt;/a&gt;, &lt;a href=&#34;https://github.com/gcanti/io-ts&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;io-ts&lt;/a&gt;, &lt;a href=&#34;https://joi.dev/api/?v=17.6.0&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;joi&lt;/a&gt; etc. In this post we primarily focus on zod because IMHO it strikes a very good balance between a user friendly API, available features and being able to extract static types from schema definitions.&lt;/p&gt;
 &lt;p&gt;Whiel ts-sql-query does not have json support built-in, it supports custom types through &lt;a href=&#34;https://ts-sql-query.readthedocs.io/en/stable/supported-operations/#type-adpaters&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;TypeAdapter&lt;/a&gt;. So for our jsonb columns we can write a TypeAdapter that utilizes zod to enforce that the data coming from and going to the database conforms to our expectations.&lt;/p&gt;
-&lt;p&gt;Let&amp;#39;s say we have a zod type ChapterMedatadata: &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; * &lt;span class=&#34;hljs-keyword&#34;&gt;as&lt;/span&gt; z &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;zod&amp;quot;&lt;/span&gt;
+&lt;p&gt;Let&amp;#39;s say we have a zod type ChapterMedatadata:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; * &lt;span class=&#34;hljs-keyword&#34;&gt;as&lt;/span&gt; z &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;zod&amp;quot;&lt;/span&gt;;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
     &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;(),
-    &lt;span class=&#34;hljs-attr&#34;&gt;topics&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;().&lt;span class=&#34;hljs-title function_&#34;&gt;array&lt;/span&gt;() 
-&amp;#125;)
+    &lt;span class=&#34;hljs-attr&#34;&gt;topics&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;().&lt;span class=&#34;hljs-title function_&#34;&gt;array&lt;/span&gt;(),
+&amp;#125;);
 
 &lt;span class=&#34;hljs-comment&#34;&gt;// Extract static type&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadata&lt;/span&gt; = z.&lt;span class=&#34;hljs-property&#34;&gt;TypeOf&lt;/span&gt;&amp;lt;&lt;span class=&#34;hljs-keyword&#34;&gt;typeof&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataSchema&lt;/span&gt;&amp;gt;;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Following would be a type adapter that validates the incoming and outgoing json through this type:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-title class_&#34;&gt;DefaultTypeAdapter&lt;/span&gt;, &lt;span class=&#34;hljs-title class_&#34;&gt;TypeAdapter&lt;/span&gt; &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;ts-sql-query/TypeAdapter&amp;quot;&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-title class_&#34;&gt;DefaultTypeAdapter&lt;/span&gt;, &lt;span class=&#34;hljs-title class_&#34;&gt;TypeAdapter&lt;/span&gt; &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;ts-sql-query/TypeAdapter&amp;quot;&lt;/span&gt;;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataAdapter&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;TypeAdapter&lt;/span&gt; = &amp;#123;
-
-    &lt;span class=&#34;hljs-title function_&#34;&gt;transformValueFromDB&lt;/span&gt;(&lt;span class=&#34;hljs-attr&#34;&gt;value&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;, &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt;, &lt;span class=&#34;hljs-attr&#34;&gt;next&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;DefaultTypeAdapter&lt;/span&gt;):  &lt;span class=&#34;hljs-built_in&#34;&gt;unknown&lt;/span&gt; &amp;#123;
-        &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; === &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;jsonb&amp;#x27;&lt;/span&gt;) &amp;#123;
+    &lt;span class=&#34;hljs-title function_&#34;&gt;transformValueFromDB&lt;/span&gt;(
+        &lt;span class=&#34;hljs-attr&#34;&gt;value&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;,
+        &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt;,
+        &lt;span class=&#34;hljs-attr&#34;&gt;next&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;DefaultTypeAdapter&lt;/span&gt;
+    ): &lt;span class=&#34;hljs-built_in&#34;&gt;unknown&lt;/span&gt; &amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; === &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;jsonb&amp;quot;&lt;/span&gt;) &amp;#123;
             &lt;span class=&#34;hljs-comment&#34;&gt;// Our database adapter (postgres) is aware of jsonb and has already&lt;/span&gt;
             &lt;span class=&#34;hljs-comment&#34;&gt;// parsed the JSON. So we don&amp;#x27;t need JSON.parse. However if the dabase&lt;/span&gt;
-            &lt;span class=&#34;hljs-comment&#34;&gt;// didn&amp;#x27;t have first class support for json type and &lt;/span&gt;
+            &lt;span class=&#34;hljs-comment&#34;&gt;// didn&amp;#x27;t have first class support for json type and&lt;/span&gt;
             &lt;span class=&#34;hljs-comment&#34;&gt;// we were storing the JSON in a text field we would need to do a JSON.parse first&lt;/span&gt;
             &lt;span class=&#34;hljs-comment&#34;&gt;// before calling ChapterMetadataSchema.parse&lt;/span&gt;
-            &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataSchema&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;parse&lt;/span&gt;(value)
+            &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataSchema&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;parse&lt;/span&gt;(value);
         &amp;#125;
 
         &lt;span class=&#34;hljs-comment&#34;&gt;// If type is not jsonb then gracefully fallback to the next adapter&lt;/span&gt;
-        &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; next.&lt;span class=&#34;hljs-title function_&#34;&gt;transformValueFromDB&lt;/span&gt;(value, &lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt;)
+        &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; next.&lt;span class=&#34;hljs-title function_&#34;&gt;transformValueFromDB&lt;/span&gt;(value, &lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt;);
     &amp;#125;,
 
-    &lt;span class=&#34;hljs-title function_&#34;&gt;transformValueToDB&lt;/span&gt;(&lt;span class=&#34;hljs-attr&#34;&gt;value&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;, &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt;, &lt;span class=&#34;hljs-attr&#34;&gt;next&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;DefaultTypeAdapter&lt;/span&gt;): &lt;span class=&#34;hljs-built_in&#34;&gt;unknown&lt;/span&gt; &amp;#123;
-        &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; === &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;jsonb&amp;#x27;&lt;/span&gt;) &amp;#123;
+    &lt;span class=&#34;hljs-title function_&#34;&gt;transformValueToDB&lt;/span&gt;(
+        &lt;span class=&#34;hljs-attr&#34;&gt;value&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;,
+        &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt;,
+        &lt;span class=&#34;hljs-attr&#34;&gt;next&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;DefaultTypeAdapter&lt;/span&gt;
+    ): &lt;span class=&#34;hljs-built_in&#34;&gt;unknown&lt;/span&gt; &amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; === &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;jsonb&amp;quot;&lt;/span&gt;) &amp;#123;
             &lt;span class=&#34;hljs-comment&#34;&gt;// This is strictly not necessary because TS will ensure&lt;/span&gt;
             &lt;span class=&#34;hljs-comment&#34;&gt;// that atleast the static type is enforced.&lt;/span&gt;
             &lt;span class=&#34;hljs-comment&#34;&gt;//&lt;/span&gt;
@@ -365,154 +422,121 @@ ws.&lt;span class=&#34;hljs-title function_&#34;&gt;on&lt;/span&gt;(&lt;span cla
 
         &lt;span class=&#34;hljs-comment&#34;&gt;// If type is not jsonb gracefully fallback to the next adapter&lt;/span&gt;
         &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; next.&lt;span class=&#34;hljs-title function_&#34;&gt;transformValueToDB&lt;/span&gt;(value, &lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt;);
-    &amp;#125;
-&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+    &amp;#125;,
+&amp;#125;;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Once we have the adapter in place, we can use this in our table mapping: &lt;/p&gt;
+&lt;p&gt;Once we have the adapter in place, we can use this in our table mapping:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; &amp;#123; &lt;span class=&#34;hljs-title class_&#34;&gt;Table&lt;/span&gt; &amp;#125; &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;ts-sql-query/Table&amp;quot;&lt;/span&gt;;
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChaptersTable&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;Table&lt;/span&gt;&amp;lt;&lt;span class=&#34;hljs-title class_&#34;&gt;DBConnection&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;ChaptersTable&amp;#x27;&lt;/span&gt;&amp;gt; &amp;#123;
-
-    id = &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;autogeneratedPrimaryKey&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;id&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;int&amp;#x27;&lt;/span&gt;);
-    metadata = &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;optionalColumn&lt;/span&gt;&amp;lt;&lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadata&lt;/span&gt;&amp;gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;metadata&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;custom&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;jsonb&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataAdapter&lt;/span&gt;);
+&lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChaptersTable&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;Table&lt;/span&gt;&amp;lt;&lt;span class=&#34;hljs-title class_&#34;&gt;DBConnection&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;ChaptersTable&amp;quot;&lt;/span&gt;&amp;gt; &amp;#123;
+    id = &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;autogeneratedPrimaryKey&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;id&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;int&amp;quot;&lt;/span&gt;);
+    metadata = &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;optionalColumn&lt;/span&gt;&amp;lt;&lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadata&lt;/span&gt;&amp;gt;(
+        &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;metadata&amp;quot;&lt;/span&gt;,
+        &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;custom&amp;quot;&lt;/span&gt;,
+        &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;jsonb&amp;quot;&lt;/span&gt;,
+        &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataAdapter&lt;/span&gt;
+    );
 
     &lt;span class=&#34;hljs-title function_&#34;&gt;constructor&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &amp;#123;
-        &lt;span class=&#34;hljs-variable language_&#34;&gt;super&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;chapters&amp;#x27;&lt;/span&gt;)
+        &lt;span class=&#34;hljs-variable language_&#34;&gt;super&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;chapters&amp;quot;&lt;/span&gt;);
     &amp;#125;
 &amp;#125;
 
-&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; tChapters = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChaptersTable&lt;/span&gt;()&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; tChapters = &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChaptersTable&lt;/span&gt;();&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;So now whenever we try to retrieve the data from database, the value for metadata column will be validated against our schema.&lt;/p&gt;
-&lt;p&gt;And because we have passed the ChapterMetadata static type as a type parameter to the column, for operations performed in typescript codebase, we get static type safety as well: &lt;/p&gt;
+&lt;p&gt;And because we have passed the ChapterMetadata static type as a type parameter to the column, for operations performed in typescript codebase, we get static type safety as well:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-title function_&#34;&gt;getConnection&lt;/span&gt;()
     .&lt;span class=&#34;hljs-title function_&#34;&gt;insertInto&lt;/span&gt;(tChapters)
-    .&lt;span class=&#34;hljs-title function_&#34;&gt;set&lt;/span&gt;(&amp;#123; &lt;span class=&#34;hljs-attr&#34;&gt;metadata&lt;/span&gt;: &amp;#123; &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Test&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-attr&#34;&gt;topic&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;test&amp;#x27;&lt;/span&gt; &amp;#125; &amp;#125;) &lt;span class=&#34;hljs-comment&#34;&gt;// &amp;lt;-- Static type error&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+    .&lt;span class=&#34;hljs-title function_&#34;&gt;set&lt;/span&gt;(&amp;#123; &lt;span class=&#34;hljs-attr&#34;&gt;metadata&lt;/span&gt;: &amp;#123; &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Test&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-attr&#34;&gt;topic&lt;/span&gt;: &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;test&amp;quot;&lt;/span&gt; &amp;#125; &amp;#125;); &lt;span class=&#34;hljs-comment&#34;&gt;// &amp;lt;-- Static type error&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Note that whenever we are performing type validation of data coming from a long term storage, we need to be cautious with schema evolution. &lt;/p&gt;
-&lt;p&gt;Tomorrow if we update the type and add backward incompatible changes (eg. new mandatory fields), then the rows containing past data can become inaccessible. &lt;/p&gt;
+&lt;p&gt;Note that whenever we are performing type validation of data coming from a long term storage, we need to be cautious with schema evolution.&lt;/p&gt;
+&lt;p&gt;Tomorrow if we update the type and add backward incompatible changes (eg. new mandatory fields), then the rows containing past data can become inaccessible.&lt;/p&gt;
 &lt;p&gt;So it is better to ensure that any schema change is additive, and new fields added are optional. It is also useful to perform two step transitions where in the transition duration the schema is compatible with both previous and new shape of data (at the cost of being more relaxed than is necessary).&lt;/p&gt;
 &lt;p&gt;Lastly, the above type adapter assumes that the shape of data as stored in database matches the shape of the data that the application deals with.&lt;/p&gt;
-&lt;p&gt;It can sometimes be desirable to store the data in a different format than what the application deals. This could be either to facilitate ease of indexing or compaction of storage on the db side, or to use more complex data structures than json-compatible objects and arrays on the application side. &lt;/p&gt;
-&lt;p&gt;While zod does not support codecs like some other libraries like io-ts, it is possible to use two different (mutually compatible) types in transformValueToDB and transformValueFromDB to convert between the two representations. &lt;/p&gt;
-&lt;p&gt;A simple example of two such types can be: &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; * &lt;span class=&#34;hljs-keyword&#34;&gt;as&lt;/span&gt; z &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;zod&amp;quot;&lt;/span&gt;
+&lt;p&gt;It can sometimes be desirable to store the data in a different format than what the application deals. This could be either to facilitate ease of indexing or compaction of storage on the db side, or to use more complex data structures than json-compatible objects and arrays on the application side.&lt;/p&gt;
+&lt;p&gt;While zod does not support codecs like some other libraries like io-ts, it is possible to use two different (mutually compatible) types in transformValueToDB and transformValueFromDB to convert between the two representations.&lt;/p&gt;
+&lt;p&gt;A simple example of two such types can be:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; * &lt;span class=&#34;hljs-keyword&#34;&gt;as&lt;/span&gt; z &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;zod&amp;quot;&lt;/span&gt;;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataDBToAppSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
     &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;(),
-    &lt;span class=&#34;hljs-attr&#34;&gt;topics&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;().&lt;span class=&#34;hljs-title function_&#34;&gt;array&lt;/span&gt;().&lt;span class=&#34;hljs-title function_&#34;&gt;transform&lt;/span&gt;(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;it&lt;/span&gt; =&amp;gt;&lt;/span&gt; 
-        &lt;span class=&#34;hljs-comment&#34;&gt;// Convert the JSON array to a Set   &lt;/span&gt;
-        &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Set&lt;/span&gt;(it)
+    &lt;span class=&#34;hljs-attr&#34;&gt;topics&lt;/span&gt;: z
+        .&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;()
+        .&lt;span class=&#34;hljs-title function_&#34;&gt;array&lt;/span&gt;()
+        .&lt;span class=&#34;hljs-title function_&#34;&gt;transform&lt;/span&gt;(
+            &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;it&lt;/span&gt;) =&amp;gt;&lt;/span&gt;
+                &lt;span class=&#34;hljs-comment&#34;&gt;// Convert the JSON array to a Set&lt;/span&gt;
+                &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Set&lt;/span&gt;(it)
+        ),
+    &lt;span class=&#34;hljs-attr&#34;&gt;relevanceScores&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;record&lt;/span&gt;(z.&lt;span class=&#34;hljs-title function_&#34;&gt;number&lt;/span&gt;()).&lt;span class=&#34;hljs-title function_&#34;&gt;transform&lt;/span&gt;(
+        &lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;it&lt;/span&gt;) =&amp;gt;&lt;/span&gt;
+            &lt;span class=&#34;hljs-comment&#34;&gt;// Convert the JSON object to a Map&lt;/span&gt;
+            &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Map&lt;/span&gt;(&lt;span class=&#34;hljs-title class_&#34;&gt;Object&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;entries&lt;/span&gt;(it))
     ),
-    &lt;span class=&#34;hljs-attr&#34;&gt;relevanceScores&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;record&lt;/span&gt;(z.&lt;span class=&#34;hljs-title function_&#34;&gt;number&lt;/span&gt;()).&lt;span class=&#34;hljs-title function_&#34;&gt;transform&lt;/span&gt;(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;it&lt;/span&gt; =&amp;gt;&lt;/span&gt; 
-        &lt;span class=&#34;hljs-comment&#34;&gt;// Convert the JSON object to a Map&lt;/span&gt;
-        &lt;span class=&#34;hljs-keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Map&lt;/span&gt;(&lt;span class=&#34;hljs-title class_&#34;&gt;Object&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;entries&lt;/span&gt;(it))
-    )
-&amp;#125;)
+&amp;#125;);
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataAppToDBSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
     &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;(),
-    &lt;span class=&#34;hljs-attr&#34;&gt;topics&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;set&lt;/span&gt;(z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;()).&lt;span class=&#34;hljs-title function_&#34;&gt;transform&lt;/span&gt;(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;it&lt;/span&gt; =&amp;gt;&lt;/span&gt; 
+    &lt;span class=&#34;hljs-attr&#34;&gt;topics&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;set&lt;/span&gt;(z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;()).&lt;span class=&#34;hljs-title function_&#34;&gt;transform&lt;/span&gt;(&lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;it&lt;/span&gt;) =&amp;gt;&lt;/span&gt;
         &lt;span class=&#34;hljs-comment&#34;&gt;// Convert set to array&lt;/span&gt;
         [...it]
     ),
-    &lt;span class=&#34;hljs-attr&#34;&gt;relevanceScores&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;map&lt;/span&gt;(z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;(), z.&lt;span class=&#34;hljs-title function_&#34;&gt;number&lt;/span&gt;()).&lt;span class=&#34;hljs-title function_&#34;&gt;transform&lt;/span&gt;(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;it&lt;/span&gt; =&amp;gt;&lt;/span&gt; 
+    &lt;span class=&#34;hljs-attr&#34;&gt;relevanceScores&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;map&lt;/span&gt;(z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;(), z.&lt;span class=&#34;hljs-title function_&#34;&gt;number&lt;/span&gt;()).&lt;span class=&#34;hljs-title function_&#34;&gt;transform&lt;/span&gt;(&lt;span class=&#34;hljs-function&#34;&gt;(&lt;span class=&#34;hljs-params&#34;&gt;it&lt;/span&gt;) =&amp;gt;&lt;/span&gt;
         &lt;span class=&#34;hljs-comment&#34;&gt;// Convert Map to object&lt;/span&gt;
         &lt;span class=&#34;hljs-title class_&#34;&gt;Object&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;fromEntries&lt;/span&gt;(it.&lt;span class=&#34;hljs-title function_&#34;&gt;entries&lt;/span&gt;())
-    )
-&amp;#125;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now we can change our adapter to use these two separate types: &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataAdapter&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;TypeAdapter&lt;/span&gt; = &amp;#123;
+    ),
+&amp;#125;);&lt;/code&gt;&lt;/pre&gt;
 
-    &lt;span class=&#34;hljs-title function_&#34;&gt;transformValueFromDB&lt;/span&gt;(&lt;span class=&#34;hljs-attr&#34;&gt;value&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;, &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt;, &lt;span class=&#34;hljs-attr&#34;&gt;next&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;DefaultTypeAdapter&lt;/span&gt;):  &lt;span class=&#34;hljs-built_in&#34;&gt;unknown&lt;/span&gt; &amp;#123;
-        &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; === &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;jsonb&amp;#x27;&lt;/span&gt;) &amp;#123;
-            &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataDBToAppSchema&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;parse&lt;/span&gt;(value)
+&lt;p&gt;Now we can change our adapter to use these two separate types:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataAdapter&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;TypeAdapter&lt;/span&gt; = &amp;#123;
+    &lt;span class=&#34;hljs-title function_&#34;&gt;transformValueFromDB&lt;/span&gt;(
+        &lt;span class=&#34;hljs-attr&#34;&gt;value&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;,
+        &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt;,
+        &lt;span class=&#34;hljs-attr&#34;&gt;next&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;DefaultTypeAdapter&lt;/span&gt;
+    ): &lt;span class=&#34;hljs-built_in&#34;&gt;unknown&lt;/span&gt; &amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; === &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;jsonb&amp;quot;&lt;/span&gt;) &amp;#123;
+            &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataDBToAppSchema&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;parse&lt;/span&gt;(value);
         &amp;#125;
-        &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; next.&lt;span class=&#34;hljs-title function_&#34;&gt;transformValueFromDB&lt;/span&gt;(value, &lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt;)
+        &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; next.&lt;span class=&#34;hljs-title function_&#34;&gt;transformValueFromDB&lt;/span&gt;(value, &lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt;);
     &amp;#125;,
 
-    &lt;span class=&#34;hljs-title function_&#34;&gt;transformValueToDB&lt;/span&gt;(&lt;span class=&#34;hljs-attr&#34;&gt;value&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;, &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt;, &lt;span class=&#34;hljs-attr&#34;&gt;next&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;DefaultTypeAdapter&lt;/span&gt;): &lt;span class=&#34;hljs-built_in&#34;&gt;unknown&lt;/span&gt; &amp;#123;
-        &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; === &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;jsonb&amp;#x27;&lt;/span&gt;) &amp;#123;
+    &lt;span class=&#34;hljs-title function_&#34;&gt;transformValueToDB&lt;/span&gt;(
+        &lt;span class=&#34;hljs-attr&#34;&gt;value&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;,
+        &lt;span class=&#34;hljs-attr&#34;&gt;type&lt;/span&gt;: &lt;span class=&#34;hljs-built_in&#34;&gt;string&lt;/span&gt;,
+        &lt;span class=&#34;hljs-attr&#34;&gt;next&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;DefaultTypeAdapter&lt;/span&gt;
+    ): &lt;span class=&#34;hljs-built_in&#34;&gt;unknown&lt;/span&gt; &amp;#123;
+        &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; (&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; === &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;jsonb&amp;quot;&lt;/span&gt;) &amp;#123;
             &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataAppToDBSchema&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;parse&lt;/span&gt;(value);
         &amp;#125;
         &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; next.&lt;span class=&#34;hljs-title function_&#34;&gt;transformValueToDB&lt;/span&gt;(value, &lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt;);
-    &amp;#125;
-&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+    &amp;#125;,
+&amp;#125;;&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;We need to make sure that these two types are always mutually compatible ie. for any valid values&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataAppToDBSchema&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;parse&lt;/span&gt;(&lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataDBToAppSchema&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;parse&lt;/span&gt;(value))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataAppToDBSchema&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;parse&lt;/span&gt;(&lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataDBToAppSchema&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;parse&lt;/span&gt;(value));&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;succeeds, and vice versa.&lt;/p&gt;
 &lt;p&gt;We can use unit tests to ensure that, and we can also add witness types to validate the compatibility of corresponding static types.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;
-&lt;span class=&#34;hljs-comment&#34;&gt;// Type that enforces that U is assignable to T&lt;/span&gt;
-&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ExtendsWitness&lt;/span&gt;&amp;lt;U &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; T, T&amp;gt; = U
+&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// Type that enforces that U is assignable to T&lt;/span&gt;
+&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ExtendsWitness&lt;/span&gt;&amp;lt;U &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; T, T&amp;gt; = U;
 
-&lt;span class=&#34;hljs-comment&#34;&gt;// If the Input type of ChapterMetadataAppToDBSchema is not compatbile with &lt;/span&gt;
+&lt;span class=&#34;hljs-comment&#34;&gt;// If the Input type of ChapterMetadataAppToDBSchema is not compatbile with&lt;/span&gt;
 &lt;span class=&#34;hljs-comment&#34;&gt;// output type of ChapterMetadataDBToAppSchema following witness will have a type error&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; _ChapterMetadataWitness1 = &lt;span class=&#34;hljs-title class_&#34;&gt;ExtendsWitness&lt;/span&gt;&amp;lt;
-    z.&lt;span class=&#34;hljs-property&#34;&gt;TypeOf&lt;/span&gt;&amp;lt;&lt;span class=&#34;hljs-keyword&#34;&gt;typeof&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataDBToAppSchema&lt;/span&gt;&amp;gt;, 
-
-    &lt;span class=&#34;hljs-comment&#34;&gt;// Extract input type from ChapterMetadataAppToDBSchema &lt;/span&gt;
-    &lt;span class=&#34;hljs-keyword&#34;&gt;typeof&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataAppToDBSchema&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; z.&lt;span class=&#34;hljs-property&#34;&gt;ZodType&lt;/span&gt;&amp;lt;&lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;, &lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;, infer &lt;span class=&#34;hljs-title class_&#34;&gt;TIn&lt;/span&gt;&amp;gt; 
-        ? &lt;span class=&#34;hljs-title class_&#34;&gt;TIn&lt;/span&gt; 
+    z.&lt;span class=&#34;hljs-property&#34;&gt;TypeOf&lt;/span&gt;&amp;lt;&lt;span class=&#34;hljs-keyword&#34;&gt;typeof&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataDBToAppSchema&lt;/span&gt;&amp;gt;,
+    &lt;span class=&#34;hljs-comment&#34;&gt;// Extract input type from ChapterMetadataAppToDBSchema&lt;/span&gt;
+    &lt;span class=&#34;hljs-keyword&#34;&gt;typeof&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ChapterMetadataAppToDBSchema&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; z.&lt;span class=&#34;hljs-property&#34;&gt;ZodType&lt;/span&gt;&amp;lt;&lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;, &lt;span class=&#34;hljs-built_in&#34;&gt;any&lt;/span&gt;, infer &lt;span class=&#34;hljs-title class_&#34;&gt;TIn&lt;/span&gt;&amp;gt;
+        ? &lt;span class=&#34;hljs-title class_&#34;&gt;TIn&lt;/span&gt;
         : &lt;span class=&#34;hljs-built_in&#34;&gt;never&lt;/span&gt;
-&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&amp;gt;;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;and similarly the other way round.&lt;/p&gt;
 </content>
         <category term="typescript" />
         <category term="zod" />
         <category term="ts-sql-query" />
-        <updated>2022-06-25T09:56:20.631Z</updated>
-    </entry>
-    <entry>
-        <id>https://lorefnon.me/2022/06/25/generating-api-docs-for-zod-types/</id>
-        <title>Generating API docs for zod-types</title>
-        <link rel="alternate" href="https://lorefnon.me/2022/06/25/generating-api-docs-for-zod-types/"/>
-        <content type="html">&lt;p&gt;I often like to use &lt;a href=&#34;https://github.com/colinhacks/zod&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;zod&lt;/a&gt; for validating user provided options in the public API in typescript projects. Zod offers a really nice validation &amp;amp; type inference support and it is nice to be able to fail early for invalid options even if consumer is not using typescript.&lt;/p&gt;
-&lt;p&gt;Generating API documentation is a bit of trouble though, for these types. &lt;a href=&#34;https://typedoc.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Typedoc&lt;/a&gt; is a nice documentation generator I frequently use, but it does not have any specialized zod support and works best when types are defined through normal typescript interfaces.&lt;/p&gt;
-&lt;p&gt;So what do we do ? &lt;/p&gt;
-&lt;p&gt;Interestingly, typescript is able to propagate comments through inheritance hierarchy and mapped types.&lt;/p&gt;
-&lt;p&gt;So if we have a zod-type as follows: &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; * &lt;span class=&#34;hljs-keyword&#34;&gt;as&lt;/span&gt; z &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;zod&amp;quot;&lt;/span&gt;;
-
-&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;UserSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
-    &lt;span class=&#34;hljs-comment&#34;&gt;/** Full name of user */&lt;/span&gt;
-    &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;()
-&amp;#125;)&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;and later define an interface that extends the type inferred from this: &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;User&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; z.&lt;span class=&#34;hljs-title class_&#34;&gt;TypeOf&lt;/span&gt;&amp;lt;typeof &lt;span class=&#34;hljs-title class_&#34;&gt;UserSchema&lt;/span&gt;&amp;gt; &amp;#123;&amp;#125;&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The generated documentation of User will contain the comments for name property.&lt;/p&gt;
-&lt;p&gt;This unfortunately works only for Object types as long as we don&amp;#39;t introduce any unions and intersections - any base type of an interface must have statically known members. This also doesn&amp;#39;t work well for nested object types as typedoc will pick only the types at top level.&lt;/p&gt;
-&lt;p&gt;For more complex types, a simple workaround is to extract interfaces for constituent types and link them in the documentation. &lt;/p&gt;
-&lt;p&gt;So instead of:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;UserDetailsSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
-    &lt;span class=&#34;hljs-attr&#34;&gt;profile&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
-        &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;()
-    &amp;#125;).&lt;span class=&#34;hljs-title function_&#34;&gt;nullish&lt;/span&gt;()
-&amp;#125;);&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We&amp;#39;d write: &lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;ProfileSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
-    &lt;span class=&#34;hljs-comment&#34;&gt;/** Full name of user */&lt;/span&gt;
-    &lt;span class=&#34;hljs-attr&#34;&gt;name&lt;/span&gt;: z.&lt;span class=&#34;hljs-title function_&#34;&gt;string&lt;/span&gt;()
-&amp;#125;);
-
-&lt;span class=&#34;hljs-keyword&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Profile&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; z.&lt;span class=&#34;hljs-title class_&#34;&gt;TypeOf&lt;/span&gt;&amp;lt;typeof &lt;span class=&#34;hljs-title class_&#34;&gt;ProfileSchema&lt;/span&gt;&amp;gt; &amp;#123;&amp;#125;
-
-&lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;UserDetailsSchema&lt;/span&gt; = z.&lt;span class=&#34;hljs-title function_&#34;&gt;object&lt;/span&gt;(&amp;#123;
-    &lt;span class=&#34;hljs-comment&#34;&gt;/** See &amp;#123;&lt;span class=&#34;hljs-doctag&#34;&gt;@link&lt;/span&gt; Profile&amp;#125; */&lt;/span&gt;
-    &lt;span class=&#34;hljs-attr&#34;&gt;profile&lt;/span&gt;: &lt;span class=&#34;hljs-title class_&#34;&gt;Profile&lt;/span&gt;.&lt;span class=&#34;hljs-title function_&#34;&gt;nullish&lt;/span&gt;()
-&amp;#125;)
-
-&lt;span class=&#34;hljs-keyword&#34;&gt;interface&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;UserDetails&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;extends&lt;/span&gt; z.&lt;span class=&#34;hljs-title class_&#34;&gt;TypeOf&lt;/span&gt;&amp;lt;typeof &lt;span class=&#34;hljs-title class_&#34;&gt;UserDetailsSchema&lt;/span&gt;&amp;gt; &amp;#123;&amp;#125;&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This increases the boilerplate a bit, but is otherwise quite practical.&lt;/p&gt;
-</content>
-        <category term="typescript" />
-        <category term="zod" />
-        <updated>2022-06-25T09:56:20.631Z</updated>
+        <updated>2022-06-18T00:00:00.000Z</updated>
     </entry>
     <entry>
         <id>https://lorefnon.me/2021/08/08/Vue-composition-api-and-type-safe-graphql-access/</id>

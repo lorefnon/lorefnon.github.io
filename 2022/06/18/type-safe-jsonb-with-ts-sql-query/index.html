@@ -1,40 +1,47 @@
-<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Making jsonb access type-safe with a zod adapter in ts-sql-query</title><meta property="og:title" content="Lorefnon | Blog | Making jsonb access type-safe with a zod adapter in ts-sql-query"><meta property="og:description" content="Ramblings on Web Development and software architecture"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><script data-goatcounter="https://analytics.lorefnon.com/count" async src="https://analytics.lorefnon.com/count.js"></script><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js" defer></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js" defer></script><script src="/js/blog.js" defer></script><meta name="generator" content="Hexo 6.1.0"></head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/typescript/"><img src="/images/tag.svg">typescript</a></li><li class="body-text"><a class="tag-link" href="/tags/zod/"><img src="/images/tag.svg">zod</a></li><li class="body-text"><a class="tag-link" href="/tags/ts-sql-query/"><img src="/images/tag.svg">ts-sql-query</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Making jsonb access type-safe with a zod adapter in ts-sql-query</div><div class="posted-date sub-header-text" title="2022-06-25">Posted &nbsp;a few seconds ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><p><a href="https://ts-sql-query.readthedocs.io/en/stable" target="_blank" rel="noopener external nofollow noreferrer">ts-sql-query</a> is a nice typescript library for typesafe database access. It goes to great lengths to ensure that if code compiles without type errors then all generated SQL is correct. Of course there are escape hatches for advanced scenarios, but having type-safety for the 90% most common usages is a huge productivity boost.</p>
-<p>Modern databases like postgres have built in json support, enabling us to store semi-structured data in a database column. While this does go against norms of traditional normalization, in practice it is immensely convenient for cases where shaping the data into  tabular format is either very time consuming or simply not feasible because the entire structure of data is not known ahead of time or changes frequently. </p>
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Making jsonb access type-safe with a zod adapter in ts-sql-query</title><meta property="og:title" content="Lorefnon | Blog | Making jsonb access type-safe with a zod adapter in ts-sql-query"><meta property="og:description" content="Ramblings on Web Development and software architecture"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><script data-goatcounter="https://analytics.lorefnon.com/count" async src="https://analytics.lorefnon.com/count.js"></script><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js" defer></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js" defer></script><script src="/js/blog.js" defer></script><meta name="generator" content="Hexo 6.1.0"></head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/typescript/"><img src="/images/tag.svg">typescript</a></li><li class="body-text"><a class="tag-link" href="/tags/zod/"><img src="/images/tag.svg">zod</a></li><li class="body-text"><a class="tag-link" href="/tags/ts-sql-query/"><img src="/images/tag.svg">ts-sql-query</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Making jsonb access type-safe with a zod adapter in ts-sql-query</div><div class="posted-date sub-header-text" title="2022-06-18">Posted &nbsp;7 days ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><p><a href="https://ts-sql-query.readthedocs.io/en/stable" target="_blank" rel="noopener external nofollow noreferrer">ts-sql-query</a> is a nice typescript library for typesafe database access. It goes to great lengths to ensure that if code compiles without type errors then all generated SQL is correct. Of course there are escape hatches for advanced scenarios, but having type-safety for the 90% most common usages is a huge productivity boost.</p>
+<p>Modern databases like postgres have built in json support, enabling us to store semi-structured data in a database column. While this does go against norms of traditional normalization, in practice it is immensely convenient for cases where shaping the data into tabular format is either very time consuming or simply not feasible because the entire structure of data is not known ahead of time or changes frequently.</p>
 <p>However, to be able to effectively process this data in application layer, it is often beneficial to have an application-side schema to validate this json data even if this schema is not 100% known ahead of time, evolves alongside our understanding of data or not 100% strict.</p>
-<p>In typescript, we have a multitude of options for schema validation like <a href="https://zod.dev/" target="_blank" rel="noopener external nofollow noreferrer">zod</a>, <a href="https://github.com/gcanti/io-ts" target="_blank" rel="noopener external nofollow noreferrer">io-ts</a>, <a href="https://joi.dev/api/?v=17.6.0" target="_blank" rel="noopener external nofollow noreferrer">joi</a> etc. In this post we primarily focus on zod because IMHO it strikes a very good balance between a user friendly API, available features and being able to extract static types from schema definitions. </p>
+<p>In typescript, we have a multitude of options for schema validation like <a href="https://zod.dev/" target="_blank" rel="noopener external nofollow noreferrer">zod</a>, <a href="https://github.com/gcanti/io-ts" target="_blank" rel="noopener external nofollow noreferrer">io-ts</a>, <a href="https://joi.dev/api/?v=17.6.0" target="_blank" rel="noopener external nofollow noreferrer">joi</a> etc. In this post we primarily focus on zod because IMHO it strikes a very good balance between a user friendly API, available features and being able to extract static types from schema definitions.</p>
 <p>Whiel ts-sql-query does not have json support built-in, it supports custom types through <a href="https://ts-sql-query.readthedocs.io/en/stable/supported-operations/#type-adpaters" target="_blank" rel="noopener external nofollow noreferrer">TypeAdapter</a>. So for our jsonb columns we can write a TypeAdapter that utilizes zod to enforce that the data coming from and going to the database conforms to our expectations.</p>
-<p>Let&#39;s say we have a zod type ChapterMedatadata: </p>
-<pre><code class="hljs ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> z <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;zod&quot;</span>
+<p>Let&#39;s say we have a zod type ChapterMedatadata:</p>
+<pre><code class="hljs ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> z <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;zod&quot;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">ChapterMetadataSchema</span> = z.<span class="hljs-title function_">object</span>(&#123;
     <span class="hljs-attr">name</span>: z.<span class="hljs-title function_">string</span>(),
-    <span class="hljs-attr">topics</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">array</span>() 
-&#125;)
+    <span class="hljs-attr">topics</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">array</span>(),
+&#125;);
 
 <span class="hljs-comment">// Extract static type</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">type</span> <span class="hljs-title class_">ChapterMetadata</span> = z.<span class="hljs-property">TypeOf</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">ChapterMetadataSchema</span>&gt;;</code></pre>
 
 <p>Following would be a type adapter that validates the incoming and outgoing json through this type:</p>
-<pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">DefaultTypeAdapter</span>, <span class="hljs-title class_">TypeAdapter</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;ts-sql-query/TypeAdapter&quot;</span>
+<pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">DefaultTypeAdapter</span>, <span class="hljs-title class_">TypeAdapter</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;ts-sql-query/TypeAdapter&quot;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">ChapterMetadataAdapter</span>: <span class="hljs-title class_">TypeAdapter</span> = &#123;
-
-    <span class="hljs-title function_">transformValueFromDB</span>(<span class="hljs-attr">value</span>: <span class="hljs-built_in">any</span>, <span class="hljs-attr">type</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">next</span>: <span class="hljs-title class_">DefaultTypeAdapter</span>):  <span class="hljs-built_in">unknown</span> &#123;
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">type</span> === <span class="hljs-string">&#x27;jsonb&#x27;</span>) &#123;
+    <span class="hljs-title function_">transformValueFromDB</span>(
+        <span class="hljs-attr">value</span>: <span class="hljs-built_in">any</span>,
+        <span class="hljs-attr">type</span>: <span class="hljs-built_in">string</span>,
+        <span class="hljs-attr">next</span>: <span class="hljs-title class_">DefaultTypeAdapter</span>
+    ): <span class="hljs-built_in">unknown</span> &#123;
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">type</span> === <span class="hljs-string">&quot;jsonb&quot;</span>) &#123;
             <span class="hljs-comment">// Our database adapter (postgres) is aware of jsonb and has already</span>
             <span class="hljs-comment">// parsed the JSON. So we don&#x27;t need JSON.parse. However if the dabase</span>
-            <span class="hljs-comment">// didn&#x27;t have first class support for json type and </span>
+            <span class="hljs-comment">// didn&#x27;t have first class support for json type and</span>
             <span class="hljs-comment">// we were storing the JSON in a text field we would need to do a JSON.parse first</span>
             <span class="hljs-comment">// before calling ChapterMetadataSchema.parse</span>
-            <span class="hljs-keyword">return</span> <span class="hljs-title class_">ChapterMetadataSchema</span>.<span class="hljs-title function_">parse</span>(value)
+            <span class="hljs-keyword">return</span> <span class="hljs-title class_">ChapterMetadataSchema</span>.<span class="hljs-title function_">parse</span>(value);
         &#125;
 
         <span class="hljs-comment">// If type is not jsonb then gracefully fallback to the next adapter</span>
-        <span class="hljs-keyword">return</span> next.<span class="hljs-title function_">transformValueFromDB</span>(value, <span class="hljs-keyword">type</span>)
+        <span class="hljs-keyword">return</span> next.<span class="hljs-title function_">transformValueFromDB</span>(value, <span class="hljs-keyword">type</span>);
     &#125;,
 
-    <span class="hljs-title function_">transformValueToDB</span>(<span class="hljs-attr">value</span>: <span class="hljs-built_in">any</span>, <span class="hljs-attr">type</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">next</span>: <span class="hljs-title class_">DefaultTypeAdapter</span>): <span class="hljs-built_in">unknown</span> &#123;
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">type</span> === <span class="hljs-string">&#x27;jsonb&#x27;</span>) &#123;
+    <span class="hljs-title function_">transformValueToDB</span>(
+        <span class="hljs-attr">value</span>: <span class="hljs-built_in">any</span>,
+        <span class="hljs-attr">type</span>: <span class="hljs-built_in">string</span>,
+        <span class="hljs-attr">next</span>: <span class="hljs-title class_">DefaultTypeAdapter</span>
+    ): <span class="hljs-built_in">unknown</span> &#123;
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">type</span> === <span class="hljs-string">&quot;jsonb&quot;</span>) &#123;
             <span class="hljs-comment">// This is strictly not necessary because TS will ensure</span>
             <span class="hljs-comment">// that atleast the static type is enforced.</span>
             <span class="hljs-comment">//</span>
@@ -45,97 +52,114 @@
 
         <span class="hljs-comment">// If type is not jsonb gracefully fallback to the next adapter</span>
         <span class="hljs-keyword">return</span> next.<span class="hljs-title function_">transformValueToDB</span>(value, <span class="hljs-keyword">type</span>);
-    &#125;
-&#125;</code></pre>
+    &#125;,
+&#125;;</code></pre>
 
-<p>Once we have the adapter in place, we can use this in our table mapping: </p>
+<p>Once we have the adapter in place, we can use this in our table mapping:</p>
 <pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Table</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;ts-sql-query/Table&quot;</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ChaptersTable</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Table</span>&lt;<span class="hljs-title class_">DBConnection</span>, <span class="hljs-string">&#x27;ChaptersTable&#x27;</span>&gt; &#123;
-
-    id = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">autogeneratedPrimaryKey</span>(<span class="hljs-string">&#x27;id&#x27;</span>, <span class="hljs-string">&#x27;int&#x27;</span>);
-    metadata = <span class="hljs-variable language_">this</span>.<span class="hljs-property">optionalColumn</span>&lt;<span class="hljs-title class_">ChapterMetadata</span>&gt;(<span class="hljs-string">&#x27;metadata&#x27;</span>, <span class="hljs-string">&#x27;custom&#x27;</span>, <span class="hljs-string">&#x27;jsonb&#x27;</span>, <span class="hljs-title class_">ChapterMetadataAdapter</span>);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ChaptersTable</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Table</span>&lt;<span class="hljs-title class_">DBConnection</span>, <span class="hljs-string">&quot;ChaptersTable&quot;</span>&gt; &#123;
+    id = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">autogeneratedPrimaryKey</span>(<span class="hljs-string">&quot;id&quot;</span>, <span class="hljs-string">&quot;int&quot;</span>);
+    metadata = <span class="hljs-variable language_">this</span>.<span class="hljs-property">optionalColumn</span>&lt;<span class="hljs-title class_">ChapterMetadata</span>&gt;(
+        <span class="hljs-string">&quot;metadata&quot;</span>,
+        <span class="hljs-string">&quot;custom&quot;</span>,
+        <span class="hljs-string">&quot;jsonb&quot;</span>,
+        <span class="hljs-title class_">ChapterMetadataAdapter</span>
+    );
 
     <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;
-        <span class="hljs-variable language_">super</span>(<span class="hljs-string">&#x27;chapters&#x27;</span>)
+        <span class="hljs-variable language_">super</span>(<span class="hljs-string">&quot;chapters&quot;</span>);
     &#125;
 &#125;
 
-<span class="hljs-keyword">const</span> tChapters = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ChaptersTable</span>()</code></pre>
+<span class="hljs-keyword">const</span> tChapters = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ChaptersTable</span>();</code></pre>
 
 <p>So now whenever we try to retrieve the data from database, the value for metadata column will be validated against our schema.</p>
-<p>And because we have passed the ChapterMetadata static type as a type parameter to the column, for operations performed in typescript codebase, we get static type safety as well: </p>
+<p>And because we have passed the ChapterMetadata static type as a type parameter to the column, for operations performed in typescript codebase, we get static type safety as well:</p>
 <pre><code class="hljs ts"><span class="hljs-title function_">getConnection</span>()
     .<span class="hljs-title function_">insertInto</span>(tChapters)
-    .<span class="hljs-title function_">set</span>(&#123; <span class="hljs-attr">metadata</span>: &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Test&#x27;</span>, <span class="hljs-attr">topic</span>: <span class="hljs-string">&#x27;test&#x27;</span> &#125; &#125;) <span class="hljs-comment">// &lt;-- Static type error</span></code></pre>
+    .<span class="hljs-title function_">set</span>(&#123; <span class="hljs-attr">metadata</span>: &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Test&quot;</span>, <span class="hljs-attr">topic</span>: <span class="hljs-string">&quot;test&quot;</span> &#125; &#125;); <span class="hljs-comment">// &lt;-- Static type error</span></code></pre>
 
-<p>Note that whenever we are performing type validation of data coming from a long term storage, we need to be cautious with schema evolution. </p>
-<p>Tomorrow if we update the type and add backward incompatible changes (eg. new mandatory fields), then the rows containing past data can become inaccessible. </p>
+<p>Note that whenever we are performing type validation of data coming from a long term storage, we need to be cautious with schema evolution.</p>
+<p>Tomorrow if we update the type and add backward incompatible changes (eg. new mandatory fields), then the rows containing past data can become inaccessible.</p>
 <p>So it is better to ensure that any schema change is additive, and new fields added are optional. It is also useful to perform two step transitions where in the transition duration the schema is compatible with both previous and new shape of data (at the cost of being more relaxed than is necessary).</p>
 <p>Lastly, the above type adapter assumes that the shape of data as stored in database matches the shape of the data that the application deals with.</p>
-<p>It can sometimes be desirable to store the data in a different format than what the application deals. This could be either to facilitate ease of indexing or compaction of storage on the db side, or to use more complex data structures than json-compatible objects and arrays on the application side. </p>
-<p>While zod does not support codecs like some other libraries like io-ts, it is possible to use two different (mutually compatible) types in transformValueToDB and transformValueFromDB to convert between the two representations. </p>
-<p>A simple example of two such types can be: </p>
-<pre><code class="hljs ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> z <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;zod&quot;</span>
+<p>It can sometimes be desirable to store the data in a different format than what the application deals. This could be either to facilitate ease of indexing or compaction of storage on the db side, or to use more complex data structures than json-compatible objects and arrays on the application side.</p>
+<p>While zod does not support codecs like some other libraries like io-ts, it is possible to use two different (mutually compatible) types in transformValueToDB and transformValueFromDB to convert between the two representations.</p>
+<p>A simple example of two such types can be:</p>
+<pre><code class="hljs ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> z <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;zod&quot;</span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">ChapterMetadataDBToAppSchema</span> = z.<span class="hljs-title function_">object</span>(&#123;
     <span class="hljs-attr">name</span>: z.<span class="hljs-title function_">string</span>(),
-    <span class="hljs-attr">topics</span>: z.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">array</span>().<span class="hljs-title function_">transform</span>(<span class="hljs-function"><span class="hljs-params">it</span> =&gt;</span> 
-        <span class="hljs-comment">// Convert the JSON array to a Set   </span>
-        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>(it)
+    <span class="hljs-attr">topics</span>: z
+        .<span class="hljs-title function_">string</span>()
+        .<span class="hljs-title function_">array</span>()
+        .<span class="hljs-title function_">transform</span>(
+            <span class="hljs-function">(<span class="hljs-params">it</span>) =&gt;</span>
+                <span class="hljs-comment">// Convert the JSON array to a Set</span>
+                <span class="hljs-keyword">new</span> <span class="hljs-title class_">Set</span>(it)
+        ),
+    <span class="hljs-attr">relevanceScores</span>: z.<span class="hljs-title function_">record</span>(z.<span class="hljs-title function_">number</span>()).<span class="hljs-title function_">transform</span>(
+        <span class="hljs-function">(<span class="hljs-params">it</span>) =&gt;</span>
+            <span class="hljs-comment">// Convert the JSON object to a Map</span>
+            <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>(<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(it))
     ),
-    <span class="hljs-attr">relevanceScores</span>: z.<span class="hljs-title function_">record</span>(z.<span class="hljs-title function_">number</span>()).<span class="hljs-title function_">transform</span>(<span class="hljs-function"><span class="hljs-params">it</span> =&gt;</span> 
-        <span class="hljs-comment">// Convert the JSON object to a Map</span>
-        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>(<span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(it))
-    )
-&#125;)
+&#125;);
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">ChapterMetadataAppToDBSchema</span> = z.<span class="hljs-title function_">object</span>(&#123;
     <span class="hljs-attr">name</span>: z.<span class="hljs-title function_">string</span>(),
-    <span class="hljs-attr">topics</span>: z.<span class="hljs-title function_">set</span>(z.<span class="hljs-title function_">string</span>()).<span class="hljs-title function_">transform</span>(<span class="hljs-function"><span class="hljs-params">it</span> =&gt;</span> 
+    <span class="hljs-attr">topics</span>: z.<span class="hljs-title function_">set</span>(z.<span class="hljs-title function_">string</span>()).<span class="hljs-title function_">transform</span>(<span class="hljs-function">(<span class="hljs-params">it</span>) =&gt;</span>
         <span class="hljs-comment">// Convert set to array</span>
         [...it]
     ),
-    <span class="hljs-attr">relevanceScores</span>: z.<span class="hljs-title function_">map</span>(z.<span class="hljs-title function_">string</span>(), z.<span class="hljs-title function_">number</span>()).<span class="hljs-title function_">transform</span>(<span class="hljs-function"><span class="hljs-params">it</span> =&gt;</span> 
+    <span class="hljs-attr">relevanceScores</span>: z.<span class="hljs-title function_">map</span>(z.<span class="hljs-title function_">string</span>(), z.<span class="hljs-title function_">number</span>()).<span class="hljs-title function_">transform</span>(<span class="hljs-function">(<span class="hljs-params">it</span>) =&gt;</span>
         <span class="hljs-comment">// Convert Map to object</span>
         <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">fromEntries</span>(it.<span class="hljs-title function_">entries</span>())
-    )
-&#125;)</code></pre>
-<p>Now we can change our adapter to use these two separate types: </p>
-<pre><code class="hljs ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">ChapterMetadataAdapter</span>: <span class="hljs-title class_">TypeAdapter</span> = &#123;
+    ),
+&#125;);</code></pre>
 
-    <span class="hljs-title function_">transformValueFromDB</span>(<span class="hljs-attr">value</span>: <span class="hljs-built_in">any</span>, <span class="hljs-attr">type</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">next</span>: <span class="hljs-title class_">DefaultTypeAdapter</span>):  <span class="hljs-built_in">unknown</span> &#123;
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">type</span> === <span class="hljs-string">&#x27;jsonb&#x27;</span>) &#123;
-            <span class="hljs-keyword">return</span> <span class="hljs-title class_">ChapterMetadataDBToAppSchema</span>.<span class="hljs-title function_">parse</span>(value)
+<p>Now we can change our adapter to use these two separate types:</p>
+<pre><code class="hljs ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">ChapterMetadataAdapter</span>: <span class="hljs-title class_">TypeAdapter</span> = &#123;
+    <span class="hljs-title function_">transformValueFromDB</span>(
+        <span class="hljs-attr">value</span>: <span class="hljs-built_in">any</span>,
+        <span class="hljs-attr">type</span>: <span class="hljs-built_in">string</span>,
+        <span class="hljs-attr">next</span>: <span class="hljs-title class_">DefaultTypeAdapter</span>
+    ): <span class="hljs-built_in">unknown</span> &#123;
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">type</span> === <span class="hljs-string">&quot;jsonb&quot;</span>) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-title class_">ChapterMetadataDBToAppSchema</span>.<span class="hljs-title function_">parse</span>(value);
         &#125;
-        <span class="hljs-keyword">return</span> next.<span class="hljs-title function_">transformValueFromDB</span>(value, <span class="hljs-keyword">type</span>)
+        <span class="hljs-keyword">return</span> next.<span class="hljs-title function_">transformValueFromDB</span>(value, <span class="hljs-keyword">type</span>);
     &#125;,
 
-    <span class="hljs-title function_">transformValueToDB</span>(<span class="hljs-attr">value</span>: <span class="hljs-built_in">any</span>, <span class="hljs-attr">type</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">next</span>: <span class="hljs-title class_">DefaultTypeAdapter</span>): <span class="hljs-built_in">unknown</span> &#123;
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">type</span> === <span class="hljs-string">&#x27;jsonb&#x27;</span>) &#123;
+    <span class="hljs-title function_">transformValueToDB</span>(
+        <span class="hljs-attr">value</span>: <span class="hljs-built_in">any</span>,
+        <span class="hljs-attr">type</span>: <span class="hljs-built_in">string</span>,
+        <span class="hljs-attr">next</span>: <span class="hljs-title class_">DefaultTypeAdapter</span>
+    ): <span class="hljs-built_in">unknown</span> &#123;
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">type</span> === <span class="hljs-string">&quot;jsonb&quot;</span>) &#123;
             <span class="hljs-keyword">return</span> <span class="hljs-title class_">ChapterMetadataAppToDBSchema</span>.<span class="hljs-title function_">parse</span>(value);
         &#125;
         <span class="hljs-keyword">return</span> next.<span class="hljs-title function_">transformValueToDB</span>(value, <span class="hljs-keyword">type</span>);
-    &#125;
-&#125;</code></pre>
+    &#125;,
+&#125;;</code></pre>
+
 <p>We need to make sure that these two types are always mutually compatible ie. for any valid values</p>
-<pre><code class="hljs ts"><span class="hljs-title class_">ChapterMetadataAppToDBSchema</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-title class_">ChapterMetadataDBToAppSchema</span>.<span class="hljs-title function_">parse</span>(value))</code></pre>
+<pre><code class="hljs ts"><span class="hljs-title class_">ChapterMetadataAppToDBSchema</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-title class_">ChapterMetadataDBToAppSchema</span>.<span class="hljs-title function_">parse</span>(value));</code></pre>
+
 <p>succeeds, and vice versa.</p>
 <p>We can use unit tests to ensure that, and we can also add witness types to validate the compatibility of corresponding static types.</p>
-<pre><code class="hljs ts">
-<span class="hljs-comment">// Type that enforces that U is assignable to T</span>
-<span class="hljs-keyword">type</span> <span class="hljs-title class_">ExtendsWitness</span>&lt;U <span class="hljs-keyword">extends</span> T, T&gt; = U
+<pre><code class="hljs ts"><span class="hljs-comment">// Type that enforces that U is assignable to T</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">ExtendsWitness</span>&lt;U <span class="hljs-keyword">extends</span> T, T&gt; = U;
 
-<span class="hljs-comment">// If the Input type of ChapterMetadataAppToDBSchema is not compatbile with </span>
+<span class="hljs-comment">// If the Input type of ChapterMetadataAppToDBSchema is not compatbile with</span>
 <span class="hljs-comment">// output type of ChapterMetadataDBToAppSchema following witness will have a type error</span>
 <span class="hljs-keyword">type</span> _ChapterMetadataWitness1 = <span class="hljs-title class_">ExtendsWitness</span>&lt;
-    z.<span class="hljs-property">TypeOf</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">ChapterMetadataDBToAppSchema</span>&gt;, 
-
-    <span class="hljs-comment">// Extract input type from ChapterMetadataAppToDBSchema </span>
-    <span class="hljs-keyword">typeof</span> <span class="hljs-title class_">ChapterMetadataAppToDBSchema</span> <span class="hljs-keyword">extends</span> z.<span class="hljs-property">ZodType</span>&lt;<span class="hljs-built_in">any</span>, <span class="hljs-built_in">any</span>, infer <span class="hljs-title class_">TIn</span>&gt; 
-        ? <span class="hljs-title class_">TIn</span> 
+    z.<span class="hljs-property">TypeOf</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">ChapterMetadataDBToAppSchema</span>&gt;,
+    <span class="hljs-comment">// Extract input type from ChapterMetadataAppToDBSchema</span>
+    <span class="hljs-keyword">typeof</span> <span class="hljs-title class_">ChapterMetadataAppToDBSchema</span> <span class="hljs-keyword">extends</span> z.<span class="hljs-property">ZodType</span>&lt;<span class="hljs-built_in">any</span>, <span class="hljs-built_in">any</span>, infer <span class="hljs-title class_">TIn</span>&gt;
+        ? <span class="hljs-title class_">TIn</span>
         : <span class="hljs-built_in">never</span>
-&gt;</code></pre>
+&gt;;</code></pre>
 
 <p>and similarly the other way round.</p>
 </div><div class="post-comments"><!-- .comments-target--></div><div class="post-comments" style="margin-top: 10px;"><div id="remark42"></div></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>
