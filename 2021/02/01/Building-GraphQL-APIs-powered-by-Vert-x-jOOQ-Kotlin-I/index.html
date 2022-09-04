@@ -384,7 +384,7 @@ The different verticle instances communicate with each other by sending messages
 <span class="hljs-keyword">import</span> io.vertx.core.AbstractVerticle
 <span class="hljs-keyword">import</span> io.vertx.core.Promise
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainVerticle</span> : <span class="hljs-type">AbstractVerticle</span></span>() &#123;
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MainVerticle</span> : <span class="hljs-type">AbstractVerticle</span>() &#123;
 
     <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">start</span><span class="hljs-params">(startPromise: <span class="hljs-type">Promise</span>&lt;<span class="hljs-type">Void</span>&gt;)</span></span> &#123;
         <span class="hljs-keyword">val</span> router = setupRouter(vertx) <span class="hljs-comment">// More on this below</span>

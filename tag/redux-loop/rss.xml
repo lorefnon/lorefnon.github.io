@@ -56,19 +56,19 @@
         <category>io-ts</category>
         <category>MobX</category>
         <category>MobX-State-Tree</category>
-        <category>Routing</category>
         <category>HAR</category>
         <category>Jq</category>
         <category>Lit-html</category>
         <category>Stimulus</category>
+        <category>Routing</category>
+        <category>Java</category>
+        <category>JOOQ</category>
+        <category>Ruby on Rails</category>
         <category>Kotlin</category>
         <category>Vert.X</category>
         <category>Vert.X-Web</category>
         <category>Backend-development</category>
         <category>API-development</category>
-        <category>Java</category>
-        <category>JOOQ</category>
-        <category>Ruby on Rails</category>
         <category>Liquibase</category>
         <category>tbls</category>
         <category>jOOQ</category>

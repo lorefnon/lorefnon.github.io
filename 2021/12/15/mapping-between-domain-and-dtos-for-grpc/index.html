@@ -45,7 +45,7 @@
 <li>Add behavior to a builder class - I have found this to be particularly useful for things like computed values (like age derived from created_at) which logically belong in the entity class.</li>
 </ol>
 <p>While this would have been cumbersome &amp; boilerplate heavy in java, Kotlin&#39;s support for interface delegation comes in really handy here. </p>
-<pre><code class="hljs kotlin"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserBuilder</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">constructor</span></span>(
+<pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">UserBuilder</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">constructor</span>(
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> internalBuilder: User.Builder
 ): UserOrBuilder <span class="hljs-keyword">by</span> internalBuilder &#123;
 
@@ -106,11 +106,11 @@ kapt(<span class="hljs-string">&quot;no.entur.mapstruct.spi:protobuf-spi-impl:1.
 <span class="hljs-meta">    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,</span>
 <span class="hljs-meta">    nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,</span>
 <span class="hljs-meta"></span>
-<span class="hljs-meta">    // For collection members (repeated fields in protobuf)</span>, we should use 
-    <span class="hljs-comment">// the add* methods rather than set* methods</span>
-    collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED
-)
-<span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DTOMapper</span> </span>&#123;
+<span class="hljs-meta">    // For collection members (repeated fields in protobuf), we should use </span>
+<span class="hljs-meta">    // the add* methods rather than set* methods</span>
+<span class="hljs-meta">    collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED</span>
+<span class="hljs-meta">)</span>
+<span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DTOMapper</span> &#123;
     <span class="hljs-keyword">abstract</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">mapUserFromPB</span><span class="hljs-params">(source: <span class="hljs-type">User</span>)</span></span>: UserEntity
     <span class="hljs-keyword">abstract</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">mapUserToPB</span><span class="hljs-params">(source: <span class="hljs-type">UserEntity</span>)</span></span>: User
 &#125;</code></pre>
@@ -118,14 +118,14 @@ kapt(<span class="hljs-string">&quot;no.entur.mapstruct.spi:protobuf-spi-impl:1.
 <p>Here <code>User</code> entity is the class generated from protobuf, and <code>UserEntity</code> is our internal domain class.</p>
 <p>For this particular example, this is all we need if our fields have the same name in both classes, and the generated classes and the domain classes use the same types. </p>
 <p>In real world applications, both of these will sometimes not be true. However, to handle these special cases we can configure MapStruct with custom mappings and specify shared type mappers.</p>
-<pre><code class="hljs kotlin"><span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DTOMapper</span> </span>&#123;
+<pre><code class="hljs kotlin"><span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DTOMapper</span> &#123;
 
     <span class="hljs-comment">// Custom mapping for field</span>
     <span class="hljs-meta">@Mappings(</span>
 <span class="hljs-meta">        value = [</span>
 <span class="hljs-meta">            Mapping(source = <span class="hljs-string">&quot;mailAddress&quot;</span>, target = <span class="hljs-string">&quot;email&quot;</span>)</span>
-        ]
-    )
+<span class="hljs-meta">        ]</span>
+<span class="hljs-meta">    )</span>
     <span class="hljs-keyword">abstract</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">mapUserFromPB</span><span class="hljs-params">(source: <span class="hljs-type">User</span>)</span></span>: UserEntity
 
     <span class="hljs-comment">// Convert between types used in Domain classes and DTOs</span>
@@ -143,7 +143,7 @@ kapt(<span class="hljs-string">&quot;no.entur.mapstruct.spi:protobuf-spi-impl:1.
 <p>MapStruct <a href="https://mapstruct.org/documentation/installation/" target="_blank" rel="noopener external nofollow noreferrer">docs</a> cover all possible options in much more detail.</p>
 <p>In our RPC service implementations, we can inject our mappers and use them to transform inputs before delegating to internal classes, and after receiving the results from the internal classes. </p>
 <pre><code class="hljs kotlin"><span class="hljs-meta">@GrpcService</span>
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserRPCService</span></span>(
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">UserRPCService</span>(
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> userRepo: UserRepository,
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> mapper: DTOMapper
 ) : UserServiceGrpcKt.UserServiceCoroutineImplBase() &#123;

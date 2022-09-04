@@ -12,19 +12,19 @@
 <p>We will write an <code>AppConfigModule</code> which will make the parsed configuration available to other services through dagger.</p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> me.lorefnon.sample.module
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-9"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-9"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-13"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-13"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
             <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
             <path d="m6.5 3.5v6.056"/>
             <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
         </g>
-    </svg><span class="hlcode-fold-text">3 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-9"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Module
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-9"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Provides
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-9"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> java.io.FileInputStream
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-9"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> java.util.*
+    </svg><span class="hlcode-fold-text">3 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Module
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Provides
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> java.io.FileInputStream
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> java.util.*
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@Module</span>
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppConfigModule</span> </span>{
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">AppConfigModule</span> {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Provides</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">provideAppConfig</span><span class="hljs-params">()</span></span>: AppConfig {
@@ -46,7 +46,7 @@
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-comment">/**
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"> * A type safe wrapper over the untyped Properties instance
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"> */</span>
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppConfig</span></span>(<span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> properties: Properties) {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">AppConfig</span>(<span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> properties: Properties) {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">val</span> appPort <span class="hljs-keyword">get</span>(): <span class="hljs-built_in">Int</span> = properties.getProperty(<span class="hljs-string">&quot;server.http.port&quot;</span>)?.toInt() ?: <span class="hljs-number">8888</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">val</span> dbPort <span class="hljs-keyword">get</span>(): <span class="hljs-built_in">Int</span>? = properties.getProperty(<span class="hljs-string">&quot;db.port&quot;</span>)?.toInt()
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">val</span> dbHost <span class="hljs-keyword">get</span>(): String = properties.getProperty(<span class="hljs-string">&quot;db.host&quot;</span>)!!
@@ -59,22 +59,22 @@
 <p>Let us add a <code>DBAccessModule</code> which uses this configuration to wire up database access: </p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> me.lorefnon.sample.module
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-10"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-10"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-14"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-14"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
             <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
             <path d="m6.5 3.5v6.056"/>
             <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
         </g>
-    </svg><span class="hlcode-fold-text">6 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-10"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Module
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-10"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Provides
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-10"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.pgclient.PgConnectOptions
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-10"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.pgclient.PgPool
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-10"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.sqlclient.PoolOptions
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-10"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.sqlclient.SqlClient
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-10"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Singleton
+    </svg><span class="hlcode-fold-text">6 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Module
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Provides
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.pgclient.PgConnectOptions
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.pgclient.PgPool
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.sqlclient.PoolOptions
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.sqlclient.SqlClient
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Singleton
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@Module</span>
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DBAccessModule</span> </span>{
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">DBAccessModule</span> {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-comment">/**
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     * Provides an database pool client powered by Vert.X asynchronous postgres driver
@@ -107,24 +107,24 @@
 <p>So we can simply instantiate these DAO classes providing passing this postgres client to them. Let us write a module that instantiates our generated DAO classes: </p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> me.lorefnon.sample.module
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-11"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-11"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-15"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-15"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
             <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
             <path d="m6.5 3.5v6.056"/>
             <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
         </g>
-    </svg><span class="hlcode-fold-text">8 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Module
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Provides
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.core.Vertx
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.sqlclient.SqlClient
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.generated.tables.daos.UsersDao
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.jooq.Configuration
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.jooq.SQLDialect
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.jooq.impl.DefaultConfiguration
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Singleton
+    </svg><span class="hlcode-fold-text">8 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Module
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Provides
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.core.Vertx
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.sqlclient.SqlClient
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.generated.tables.daos.UsersDao
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.jooq.Configuration
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.jooq.SQLDialect
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.jooq.impl.DefaultConfiguration
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Singleton
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@Module</span>
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DAOModule</span> </span>{
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">DAOModule</span> {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Provides</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Singleton</span>
@@ -145,19 +145,19 @@
 <p>We will also need to make our <code>MainVerticleComponent</code> aware of these modules: </p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> me.lorefnon.sample
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-12"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-12"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-16"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-16"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
             <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
             <path d="m6.5 3.5v6.056"/>
             <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
         </g>
-    </svg><span class="hlcode-fold-text">6 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Component
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.GraphQL
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.ext.web.Router
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.sqlclient.SqlClient
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.generated.tables.daos.UsersDao
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.module.*
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Singleton
+    </svg><span class="hlcode-fold-text">6 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Component
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.GraphQL
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.ext.web.Router
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.sqlclient.SqlClient
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.generated.tables.daos.UsersDao
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.module.*
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Singleton
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@Component(modules = [
 </td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    AppConfigModule::class,
@@ -167,13 +167,13 @@
 </td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    RouterModule::class
 </td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">])</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@Singleton</span>
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MainVerticleComponent</span> </span>{
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">MainVerticleComponent</span> {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getRouter</span><span class="hljs-params">()</span></span>: Router
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
 </td></tr></table></code></pre>
 
 <p>And then inject these instances in <code>MainVerticle</code>: </p>
-<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainVerticle</span> : <span class="hljs-type">AbstractVerticle</span></span>() {
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainVerticle</span> : <span class="hljs-type">AbstractVerticle</span>() {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">val</span> components <span class="hljs-keyword">by</span> lazy {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        DaggerMainVerticleComponent
@@ -192,18 +192,18 @@
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .createHttpServer()
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .requestHandler(component.getRouter())
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .listen(appPort) { http -&gt;
-</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-13"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-13"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-17"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-17"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
             <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
             <path d="m6.5 3.5v6.056"/>
             <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
         </g>
-    </svg><span class="hlcode-fold-text">5 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">if</span> (http.succeeded()) {
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell">                    startPromise.complete()
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell">                    println(<span class="hljs-string">&quot;HTTP server started on port <span class="hljs-variable">$appPort</span>&quot;</span>)
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell">                } <span class="hljs-keyword">else</span> {
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell">                    startPromise.fail(http.cause());
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell">                }
+    </svg><span class="hlcode-fold-text">5 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">if</span> (http.succeeded()) {
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                    startPromise.complete()
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                    println(<span class="hljs-string">&quot;HTTP server started on port <span class="hljs-variable">$appPort</span>&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                } <span class="hljs-keyword">else</span> {
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                    startPromise.fail(http.cause());
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                }
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            }
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
@@ -213,19 +213,19 @@
 <p>Here is the simplest <code>UserRegistrationService</code> implementation, that receives incoming credentials, and saves it in DB after hashing the password: </p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> me.lorefnon.sample.service
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-14"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-14"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-18"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-18"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
             <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
             <path d="m6.5 3.5v6.056"/>
             <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
         </g>
-    </svg><span class="hlcode-fold-text">4 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> at.favre.lib.crypto.bcrypt.BCrypt
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.core.Future
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.generated.tables.daos.UserDao
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.generated.tables.pojos.User
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Inject
+    </svg><span class="hlcode-fold-text">4 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> at.favre.lib.crypto.bcrypt.BCrypt
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.core.Future
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.generated.tables.daos.UserDao
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.generated.tables.pojos.User
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Inject
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserRegistrationService</span> <span class="hljs-meta">@Inject</span> <span class="hljs-keyword">constructor</span></span>(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">UserRegistrationService</span> <span class="hljs-meta">@Inject</span> <span class="hljs-keyword">constructor</span>(
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> userDao: UserDao,
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> passwordEncryptionService: PasswordEncryptionService
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">) {
@@ -249,7 +249,7 @@
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">data</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RegistrationResult</span></span>(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RegistrationResult</span>(
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">val</span> success: <span class="hljs-built_in">Boolean</span>,
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">val</span> comments: List&lt;String&gt;? = <span class="hljs-literal">null</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">)
@@ -262,7 +262,7 @@
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> LOGARITHMIC_COST_FACTOR = <span class="hljs-number">12</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PasswordEncryptionService</span> <span class="hljs-meta">@Inject</span> <span class="hljs-keyword">constructor</span></span>() {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PasswordEncryptionService</span> <span class="hljs-meta">@Inject</span> <span class="hljs-keyword">constructor</span>() {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">encrypt</span><span class="hljs-params">(password: <span class="hljs-type">String</span>)</span></span> =
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        BCrypt.withDefaults().hashToString(LOGARITHMIC_COST_FACTOR, password.toCharArray())
@@ -277,25 +277,25 @@
 <p>We need to next expose this service through a resolver: </p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> me.lorefnon.sample.module
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-15"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-15"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-19"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-19"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
             <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
             <path d="m6.5 3.5v6.056"/>
             <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
         </g>
-    </svg><span class="hlcode-fold-text">9 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.GraphQL
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.RuntimeWiring.newRuntimeWiring
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.SchemaGenerator
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.SchemaParser
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Module
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Provides
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.TypeRuntimeWiring
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.service.UserRegistrationService
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Singleton
+    </svg><span class="hlcode-fold-text">9 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.GraphQL
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.RuntimeWiring.newRuntimeWiring
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.SchemaGenerator
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.SchemaParser
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Module
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Provides
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.TypeRuntimeWiring
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.service.UserRegistrationService
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Singleton
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@Module</span>
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GraphQLModule</span> </span>{
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">GraphQLModule</span> {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Provides</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Singleton</span>
@@ -305,7 +305,7 @@
 </td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        userRegistrationService
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    ).build()
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">inner</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GraphQLBuilder</span></span>(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">inner</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GraphQLBuilder</span>(
 </td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> userRegistrationService: UserRegistrationService
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    ) {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">build</span><span class="hljs-params">()</span></span>: GraphQL = GraphQL
@@ -378,8 +378,8 @@ But what it actually returns is a Vert.X <code>Future</code> instance that resol
 <pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span>
   <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
     <span class="hljs-attr">&quot;registerUser&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
-      <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
-      <span class="hljs-attr">&quot;comments&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">null</span>
+      <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;comments&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span>
     <span class="hljs-punctuation">&#125;</span>
   <span class="hljs-punctuation">&#125;</span>
 <span class="hljs-punctuation">&#125;</span></code></pre>
@@ -388,7 +388,7 @@ But what it actually returns is a Vert.X <code>Future</code> instance that resol
 <pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span>
   <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
     <span class="hljs-attr">&quot;registerUser&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
-      <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span>
       <span class="hljs-attr">&quot;comments&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
         <span class="hljs-string">&quot;A user is already registered for this email/username&quot;</span><span class="hljs-punctuation">,</span>
         <span class="hljs-string">&quot;Do you want to sign in instead ?&quot;</span>
@@ -404,7 +404,7 @@ But what it actually returns is a Vert.X <code>Future</code> instance that resol
 <span class="hljs-keyword">import</span> me.lorefnon.sample.generated.tables.daos.UserDao
 <span class="hljs-keyword">import</span> javax.inject.Inject
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserLoginService</span> <span class="hljs-meta">@Inject</span> <span class="hljs-keyword">constructor</span></span>(
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">UserLoginService</span> <span class="hljs-meta">@Inject</span> <span class="hljs-keyword">constructor</span>(
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> userDao: UserDao,
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> passwordEncryptionService: PasswordEncryptionService,
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> authTokenService: AuthTokenService
@@ -423,27 +423,27 @@ But what it actually returns is a Vert.X <code>Future</code> instance that resol
 <p>Let&#39;s add that to our GraphQL module similar to the registration field: </p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> me.lorefnon.sample.module
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-16"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-16"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-20"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-20"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
             <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
             <path d="m6.5 3.5v6.056"/>
             <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
         </g>
-    </svg><span class="hlcode-fold-text">11 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.GraphQL
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.RuntimeWiring.newRuntimeWiring
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.SchemaGenerator
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.SchemaParser
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Module
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Provides
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.TypeRuntimeWiring
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.ext.web.handler.graphql.schema.VertxDataFetcher
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.service.UserLoginService
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.service.UserRegistrationService
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Singleton
+    </svg><span class="hlcode-fold-text">11 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-20"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.GraphQL
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-20"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.RuntimeWiring.newRuntimeWiring
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-20"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.SchemaGenerator
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-20"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.SchemaParser
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-20"><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-20"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Module
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-20"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Provides
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-20"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.TypeRuntimeWiring
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-20"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.ext.web.handler.graphql.schema.VertxDataFetcher
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-20"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.service.UserLoginService
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-20"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.service.UserRegistrationService
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-20"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Singleton
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@Module</span>
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GraphQLModule</span> </span>{
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">GraphQLModule</span> {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Provides</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Singleton</span>
@@ -455,7 +455,7 @@ But what it actually returns is a Vert.X <code>Future</code> instance that resol
 </td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        userLoginService
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    ).build()
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">inner</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GraphQLBuilder</span></span>(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">inner</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GraphQLBuilder</span>(
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> userRegistrationService: UserRegistrationService,
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> userLoginService: UserLoginService
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    ) {
@@ -478,17 +478,17 @@ But what it actually returns is a Vert.X <code>Future</code> instance that resol
 </td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                login(username: String!, password: String!): String
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            }
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    
-</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-17"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-17"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-21"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-21"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
             <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
             <path d="m6.5 3.5v6.056"/>
             <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
         </g>
-    </svg><span class="hlcode-fold-text">4 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">            type RegistrationResult {
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                success: Boolean!
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                comments: [String]
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">            }
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">
+    </svg><span class="hlcode-fold-text">4 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-21"><td style="border:none" class="hlcode-code-cell">            type RegistrationResult {
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-21"><td style="border:none" class="hlcode-code-cell">                success: Boolean!
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-21"><td style="border:none" class="hlcode-code-cell">                comments: [String]
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-21"><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-21"><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        &quot;&quot;&quot;</span>.trimIndent()
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">buildRuntimeWiring</span><span class="hljs-params">()</span></span> = newRuntimeWiring()
@@ -501,19 +501,19 @@ But what it actually returns is a Vert.X <code>Future</code> instance that resol
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            }
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .build()
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-17"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-17"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-21"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-21"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
         <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
             <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
             <path d="m6.5 3.5v6.056"/>
             <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
         </g>
-    </svg><span class="hlcode-fold-text">6 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> TypeRuntimeWiring.Builder.<span class="hljs-title">associateRegisterUserMutation</span><span class="hljs-params">()</span></span> =
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">            dataFetcher(<span class="hljs-string">&quot;registerUser&quot;</span>, VertxDataFetcher.create { env -&gt;
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">val</span> username = env.getArgument&lt;String&gt;(<span class="hljs-string">&quot;username&quot;</span>)
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">val</span> email = env.getArgument&lt;String&gt;(<span class="hljs-string">&quot;email&quot;</span>)
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">val</span> password = env.getArgument&lt;String&gt;(<span class="hljs-string">&quot;password&quot;</span>)
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                userRegistrationService.registerUser(username, email, password)
-</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">            })
+    </svg><span class="hlcode-fold-text">6 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-21"><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> TypeRuntimeWiring.Builder.<span class="hljs-title">associateRegisterUserMutation</span><span class="hljs-params">()</span></span> =
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-21"><td style="border:none" class="hlcode-code-cell">            dataFetcher(<span class="hljs-string">&quot;registerUser&quot;</span>, VertxDataFetcher.create { env -&gt;
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-21"><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">val</span> username = env.getArgument&lt;String&gt;(<span class="hljs-string">&quot;username&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-21"><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">val</span> email = env.getArgument&lt;String&gt;(<span class="hljs-string">&quot;email&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-21"><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">val</span> password = env.getArgument&lt;String&gt;(<span class="hljs-string">&quot;password&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-21"><td style="border:none" class="hlcode-code-cell">                userRegistrationService.registerUser(username, email, password)
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-21"><td style="border:none" class="hlcode-code-cell">            })
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> TypeRuntimeWiring.Builder.<span class="hljs-title">associateLoginMutation</span><span class="hljs-params">()</span></span> =
 </td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            dataFetcher(<span class="hljs-string">&quot;login&quot;</span>, VertxDataFetcher.create { env -&gt;

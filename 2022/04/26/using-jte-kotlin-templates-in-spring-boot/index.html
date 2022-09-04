@@ -25,7 +25,7 @@ when no template extension is provided:</p>
 <span class="hljs-keyword">import</span> org.springframework.context.<span class="hljs-keyword">annotation</span>.Configuration
 
 <span class="hljs-meta">@Configuration</span>
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TemplateConfig</span> </span>&#123;
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">TemplateConfig</span> &#123;
     <span class="hljs-meta">@Bean</span>
     <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">jteViewResolver</span><span class="hljs-params">(templateEngine: <span class="hljs-type">TemplateEngine</span>)</span></span> =
         JteViewResolver(templateEngine).apply &#123;
@@ -40,7 +40,7 @@ when no template extension is provided:</p>
 <span class="hljs-keyword">import</span> org.springframework.web.bind.<span class="hljs-keyword">annotation</span>.GetMapping
 
 <span class="hljs-meta">@Controller</span>
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomeController</span> </span>&#123;
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">HomeController</span> &#123;
     <span class="hljs-meta">@GetMapping(<span class="hljs-string">&quot;/&quot;</span>)</span>
     <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">home</span><span class="hljs-params">()</span></span>: String = <span class="hljs-string">&quot;home/index&quot;</span>
 &#125;</code></pre>

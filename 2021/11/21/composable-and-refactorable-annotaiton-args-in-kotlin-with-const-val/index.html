@@ -2,7 +2,7 @@
 <p>For example, here is a sample mybatis mapper:</p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.apache.ibatis.annotations.Select
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">PersonMapper</span> </span>{
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">PersonMapper</span> {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Select(
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-string">&quot;&quot;&quot;
@@ -28,7 +28,7 @@
 <p>Both of the above issues are easily solvable by using <code>const val</code> feature of Kotlin, for defining compile time constants.</p>
 <pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> PERSON_TABLE = <span class="hljs-string">&quot;person&quot;</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">PersonMapper</span> </span>{
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">PersonMapper</span> {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Select(
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-string">&quot;&quot;&quot;
@@ -57,7 +57,7 @@
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> VERSION = <span class="hljs-string">&quot;v1&quot;</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> USER_ENDPOINT = <span class="hljs-string">&quot;/api/<span class="hljs-subst">${VERSION}</span>/user&quot;</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
-</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserClient</span> </span>{
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">UserClient</span> {
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@GET(USER_ENDPOINT)</span>
 </td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getUserByEmail</span><span class="hljs-params">(
