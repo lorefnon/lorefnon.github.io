@@ -37,10 +37,10 @@
         <category>Redux</category>
         <category>Redux-loop</category>
         <category>Frontend</category>
-        <category>Typescript</category>
         <category>Vagrant</category>
         <category>Clojure</category>
         <category>Hashicorp</category>
+        <category>Typescript</category>
         <category>ReasonML</category>
         <category>Next.js</category>
         <category>Koa</category>
@@ -355,16 +355,16 @@
         </item>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2022/09/01/setting-up-log-rotation-for-zerolog/</guid>
-            <title>Setting up logrotation for zerolog</title>
+            <title>Setting up log-rotation for zerolog</title>
             <link>https://lorefnon.me/2022/09/01/setting-up-log-rotation-for-zerolog/</link>
             <category>go</category>
             <category>golang</category>
             <category>zerolog</category>
             <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
-            <description><![CDATA[ &lt;p&gt;Zerolog is a popular structured logging library for go. This post is a quick recipie for configuring it to use log rotation. &lt;/p&gt;
+            <description><![CDATA[ &lt;p&gt;&lt;a href=&#34;https://github.com/rs/zerolog&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Zerolog&lt;/a&gt; is a popular structured logging library for go. This post is a quick recipie for configuring it to use log rotation. &lt;/p&gt;
 &lt;p&gt;Log rotation is a mechanism where instead of having a single log file which keeps growing forever, the application switches to a new log file when a time threshold or a size threshold is exceeded. Optionally files which are too old to be of significance can be deleted.&lt;/p&gt;
-&lt;p&gt;While logging to a stream and having an external service manage it for your is nice if you can embrace it. However, Log rotation can be useful for desktop applications or isolated deployments.&lt;/p&gt;
-&lt;p&gt;Lumberjack is a nice utility for go that supports log rotation. It is also easy to hook up with zerolog because a lumberjack logger implements io.Writer which zerolog can target.&lt;/p&gt;
+&lt;p&gt;Now a days, it is a more common practice to log to a stream and have an external service manage it for you. This is indeed nice if you can embrace it. However, Log rotation can be useful for desktop applications or isolated deployments.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/natefinch/lumberjack&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Lumberjack&lt;/a&gt; is a nice utility for go that supports log rotation. It is also easy to hook up with zerolog because a lumberjack logger implements io.Writer which zerolog can target.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;/** Configuration options for log rotation */&lt;/span&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; LoggerConfig &lt;span class=&#34;hljs-keyword&#34;&gt;struct&lt;/span&gt; {
