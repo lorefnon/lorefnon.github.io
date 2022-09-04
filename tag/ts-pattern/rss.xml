@@ -1,98 +1,109 @@
 <?xml version="1.0"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://lorefnon.me</id>
-    <title>Icicles of Thought • Posts by &#34;ts-match&#34; tag</title>
-    <link href="https://lorefnon.me" />
-    <updated>2022-06-18T00:00:00.000Z</updated>
-    <category term="Javascript" />
-    <category term="KnockoutJS" />
-    <category term="Ruby" />
-    <category term="EventMachine" />
-    <category term="Websockets" />
-    <category term="SQLite" />
-    <category term="Jade" />
-    <category term="Node.js" />
-    <category term="Rails" />
-    <category term="Emacs" />
-    <category term="Gulp" />
-    <category term="ActiveAdmin" />
-    <category term="ActiveRecord" />
-    <category term="Devise" />
-    <category term="Integration" />
-    <category term="ZSH" />
-    <category term="Productivity Hacks" />
-    <category term="OCR" />
-    <category term="Design Patterns" />
-    <category term="InfluxDB" />
-    <category term="Grafana" />
-    <category term="React" />
-    <category term="Functional Programming" />
-    <category term="ES6" />
-    <category term="Helm" />
-    <category term="SPF" />
-    <category term="CSS" />
-    <category term="Redux" />
-    <category term="Redux-loop" />
-    <category term="Frontend" />
-    <category term="Vagrant" />
-    <category term="Clojure" />
-    <category term="Hashicorp" />
-    <category term="Typescript" />
-    <category term="ReasonML" />
-    <category term="Next.js" />
-    <category term="Koa" />
-    <category term="Apollo" />
-    <category term="GraphQL" />
-    <category term="MongoDB" />
-    <category term="Automerge" />
-    <category term="CRDT" />
-    <category term="SVG" />
-    <category term="VSCode" />
-    <category term="Comlink" />
-    <category term="Web-workers" />
-    <category term="io-ts" />
-    <category term="MobX" />
-    <category term="MobX-State-Tree" />
-    <category term="Routing" />
-    <category term="HAR" />
-    <category term="Jq" />
-    <category term="Lit-html" />
-    <category term="Stimulus" />
-    <category term="Kotlin" />
-    <category term="Vert.X" />
-    <category term="Vert.X-Web" />
-    <category term="Backend-development" />
-    <category term="API-development" />
-    <category term="Java" />
-    <category term="JOOQ" />
-    <category term="Ruby on Rails" />
-    <category term="Liquibase" />
-    <category term="tbls" />
-    <category term="jOOQ" />
-    <category term="Vue" />
-    <category term="TypeScript" />
-    <category term="Gradle" />
-    <category term="Spring" />
-    <category term="Spring-Boot" />
-    <category term="gRPC" />
-    <category term="Redis" />
-    <category term="vim" />
-    <category term="Database" />
-    <category term="Exposed" />
-    <category term="kotlin" />
-    <category term="spring" />
-    <category term="spring-security" />
-    <category term="komapper" />
-    <category term="spring-boot" />
-    <category term="typescript" />
-    <category term="zod" />
-    <category term="ts-match" />
-    <category term="ts-sql-query" />
-    <entry>
-        <id>https://lorefnon.me/2022/06/18/type-safe-event-handling-with-zod-and-ts-pattern/</id>
-        <title>Type-safe event handling in Typescript with zod and ts-match</title>
-        <link rel="alternate" href="https://lorefnon.me/2022/06/18/type-safe-event-handling-with-zod-and-ts-pattern/"/>
-        <content type="html">&lt;h1 id=&#34;Event-handling&#34;&gt;&lt;a href=&#34;#Event-handling&#34; class=&#34;headerlink&#34; title=&#34;Event handling&#34;&gt;&lt;/a&gt;Event handling&lt;/h1&gt;&lt;p&gt;It is no surprise to anyone that event handling is bread and butter in javascript. However, often we receive several types of events from an event source which makes handling them in a type-safe manner harder. Eg. if we are consuming websocket events on the backend we may write something like: &lt;/p&gt;
+<rss version="2.0">
+    <channel>
+        <title>Icicles of Thought • Posts by &#34;ts-pattern&#34; tag</title>
+        <link>https://lorefnon.me</link>
+        <description></description>
+        <language>en</language>
+        <pubDate>Sat, 18 Jun 2022 00:00:00 +0000</pubDate>
+        <lastBuildDate>Sat, 18 Jun 2022 00:00:00 +0000</lastBuildDate>
+        <category>Javascript</category>
+        <category>KnockoutJS</category>
+        <category>Ruby</category>
+        <category>EventMachine</category>
+        <category>Websockets</category>
+        <category>SQLite</category>
+        <category>Jade</category>
+        <category>Node.js</category>
+        <category>Rails</category>
+        <category>Emacs</category>
+        <category>Gulp</category>
+        <category>ActiveAdmin</category>
+        <category>ActiveRecord</category>
+        <category>Devise</category>
+        <category>Integration</category>
+        <category>ZSH</category>
+        <category>Productivity Hacks</category>
+        <category>OCR</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>React</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Helm</category>
+        <category>SPF</category>
+        <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
+        <category>Next.js</category>
+        <category>Koa</category>
+        <category>Apollo</category>
+        <category>GraphQL</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
+        <category>HAR</category>
+        <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
+        <category>Kotlin</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
+        <category>Java</category>
+        <category>JOOQ</category>
+        <category>Ruby on Rails</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
+        <category>Vue</category>
+        <category>TypeScript</category>
+        <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
+        <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
+        <category>vim</category>
+        <category>kotlin</category>
+        <category>spring</category>
+        <category>spring-security</category>
+        <category>komapper</category>
+        <category>spring-boot</category>
+        <category>typescript</category>
+        <category>zod</category>
+        <category>ts-pattern</category>
+        <category>ts-sql-query</category>
+        <category>go</category>
+        <category>golang</category>
+        <category>jet</category>
+        <category>sql</category>
+        <item>
+            <guid isPermalink="true">https://lorefnon.me/2022/06/18/type-safe-event-handling-with-zod-and-ts-pattern/</guid>
+            <title>Type-safe event handling in Typescript with zod and ts-pattern</title>
+            <link>https://lorefnon.me/2022/06/18/type-safe-event-handling-with-zod-and-ts-pattern/</link>
+            <category>typescript</category>
+            <category>zod</category>
+            <category>ts-pattern</category>
+            <pubDate>Sat, 18 Jun 2022 00:00:00 +0000</pubDate>
+            <description><![CDATA[ &lt;h1 id=&#34;Event-handling&#34;&gt;&lt;a href=&#34;#Event-handling&#34; class=&#34;headerlink&#34; title=&#34;Event handling&#34;&gt;&lt;/a&gt;Event handling&lt;/h1&gt;&lt;p&gt;It is no surprise to anyone that event handling is bread and butter in javascript. However, often we receive several types of events from an event source which makes handling them in a type-safe manner harder. Eg. if we are consuming websocket events on the backend we may write something like: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; ws &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;ws&amp;quot;&lt;/span&gt;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;const&lt;/span&gt; app = &lt;span class=&#34;hljs-title function_&#34;&gt;express&lt;/span&gt;()
@@ -308,10 +319,7 @@ ws.&lt;span class=&#34;hljs-title function_&#34;&gt;on&lt;/span&gt;(&lt;span cla
 )&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Cool, eh ?&lt;/p&gt;
-</content>
-        <category term="typescript" />
-        <category term="zod" />
-        <category term="ts-match" />
-        <updated>2022-06-18T00:00:00.000Z</updated>
-    </entry>
-</feed>
+ ]]></description>
+        </item>
+    </channel>
+</rss>

@@ -76,9 +76,9 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
-    <category term="vim" />
     <category term="Database" />
     <category term="Exposed" />
+    <category term="vim" />
     <category term="kotlin" />
     <category term="spring" />
     <category term="spring-security" />
@@ -86,8 +86,12 @@
     <category term="spring-boot" />
     <category term="typescript" />
     <category term="zod" />
-    <category term="ts-match" />
+    <category term="ts-pattern" />
     <category term="ts-sql-query" />
+    <category term="go" />
+    <category term="golang" />
+    <category term="jet" />
+    <category term="sql" />
     <entry>
         <id>https://lorefnon.me/2022/06/25/generating-api-docs-for-zod-types/</id>
         <title>Generating API docs for zod-types</title>
@@ -140,7 +144,7 @@
     </entry>
     <entry>
         <id>https://lorefnon.me/2022/06/18/type-safe-event-handling-with-zod-and-ts-pattern/</id>
-        <title>Type-safe event handling in Typescript with zod and ts-match</title>
+        <title>Type-safe event handling in Typescript with zod and ts-pattern</title>
         <link rel="alternate" href="https://lorefnon.me/2022/06/18/type-safe-event-handling-with-zod-and-ts-pattern/"/>
         <content type="html">&lt;h1 id=&#34;Event-handling&#34;&gt;&lt;a href=&#34;#Event-handling&#34; class=&#34;headerlink&#34; title=&#34;Event handling&#34;&gt;&lt;/a&gt;Event handling&lt;/h1&gt;&lt;p&gt;It is no surprise to anyone that event handling is bread and butter in javascript. However, often we receive several types of events from an event source which makes handling them in a type-safe manner harder. Eg. if we are consuming websocket events on the backend we may write something like: &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ts&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; ws &lt;span class=&#34;hljs-keyword&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;ws&amp;quot;&lt;/span&gt;
@@ -361,7 +365,7 @@ ws.&lt;span class=&#34;hljs-title function_&#34;&gt;on&lt;/span&gt;(&lt;span cla
 </content>
         <category term="typescript" />
         <category term="zod" />
-        <category term="ts-match" />
+        <category term="ts-pattern" />
         <updated>2022-06-18T00:00:00.000Z</updated>
     </entry>
     <entry>

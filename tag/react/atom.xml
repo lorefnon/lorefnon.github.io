@@ -76,9 +76,9 @@
     <category term="Spring-Boot" />
     <category term="gRPC" />
     <category term="Redis" />
-    <category term="vim" />
     <category term="Database" />
     <category term="Exposed" />
+    <category term="vim" />
     <category term="kotlin" />
     <category term="spring" />
     <category term="spring-security" />
@@ -86,8 +86,12 @@
     <category term="spring-boot" />
     <category term="typescript" />
     <category term="zod" />
-    <category term="ts-match" />
+    <category term="ts-pattern" />
     <category term="ts-sql-query" />
+    <category term="go" />
+    <category term="golang" />
+    <category term="jet" />
+    <category term="sql" />
     <entry>
         <id>https://lorefnon.me/2020/04/17/hash-based-routing-with-react-navi/</id>
         <title>Hash based routing with react-navi</title>

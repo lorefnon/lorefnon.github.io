@@ -1,0 +1,344 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>Icicles of Thought • Posts by &#34;golang&#34; tag</title>
+        <link>https://lorefnon.me</link>
+        <description></description>
+        <language>en</language>
+        <pubDate>Sun, 04 Sep 2022 00:00:00 +0000</pubDate>
+        <lastBuildDate>Sun, 04 Sep 2022 00:00:00 +0000</lastBuildDate>
+        <category>Javascript</category>
+        <category>KnockoutJS</category>
+        <category>Ruby</category>
+        <category>EventMachine</category>
+        <category>Websockets</category>
+        <category>SQLite</category>
+        <category>Jade</category>
+        <category>Node.js</category>
+        <category>Rails</category>
+        <category>Emacs</category>
+        <category>Gulp</category>
+        <category>ActiveAdmin</category>
+        <category>ActiveRecord</category>
+        <category>Devise</category>
+        <category>Integration</category>
+        <category>ZSH</category>
+        <category>Productivity Hacks</category>
+        <category>OCR</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>React</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Helm</category>
+        <category>SPF</category>
+        <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
+        <category>Next.js</category>
+        <category>Koa</category>
+        <category>Apollo</category>
+        <category>GraphQL</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
+        <category>HAR</category>
+        <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
+        <category>Kotlin</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
+        <category>Java</category>
+        <category>JOOQ</category>
+        <category>Ruby on Rails</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
+        <category>Vue</category>
+        <category>TypeScript</category>
+        <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
+        <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
+        <category>vim</category>
+        <category>kotlin</category>
+        <category>spring</category>
+        <category>spring-security</category>
+        <category>komapper</category>
+        <category>spring-boot</category>
+        <category>typescript</category>
+        <category>zod</category>
+        <category>ts-pattern</category>
+        <category>ts-sql-query</category>
+        <category>go</category>
+        <category>golang</category>
+        <category>jet</category>
+        <category>sql</category>
+        <item>
+            <guid isPermalink="true">https://lorefnon.me/2022/09/04/getting-started-with-jet-query-builder-for-golang/</guid>
+            <title>Getting started with Jet Query builder for Go</title>
+            <link>https://lorefnon.me/2022/09/04/getting-started-with-jet-query-builder-for-golang/</link>
+            <category>go</category>
+            <category>golang</category>
+            <category>jet</category>
+            <category>sql</category>
+            <pubDate>Sun, 04 Sep 2022 00:00:00 +0000</pubDate>
+            <description><![CDATA[ &lt;p&gt;I was recently looking for a good query builder for a go application I am prototyping, and settled on &lt;a href=&#34;https://github.com/go-jet/jet&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Jet&lt;/a&gt;. Jet has a nice &lt;a href=&#34;https://github.com/go-jet/jet/wiki&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;wiki&lt;/a&gt;, but limited introductory material as of this writing, so this post is an attempt to collect a set of small recipies to help you get started with it quicker.&lt;/p&gt;
+&lt;h2 id=&#34;Why-Jet&#34;&gt;&lt;a href=&#34;#Why-Jet&#34; class=&#34;headerlink&#34; title=&#34;Why Jet ?&#34;&gt;&lt;/a&gt;Why Jet ?&lt;/h2&gt;&lt;p&gt;Usually larger applications tend to adopt fully featured ORMs early on, where as smaller micro-services often eschew the complexity that comes with a full ORM and directly use the low level database adapters.&lt;/p&gt;
+&lt;p&gt;Query builders like jet sit somewhere between the two in the abstraction ladder. &lt;/p&gt;
+&lt;p&gt;Unlike a full ORM it doesn&amp;#39;t have features like dirty tracking, model lifecycle hooks etc. &lt;/p&gt;
+&lt;p&gt;Also unlike directly using a database driver, it provides a type-safe API to construct SQL queries which I find much more ergonomic and less error-prone than raw parameterized queries or (ugh) constructing complex sql with string interpolations.&lt;/p&gt;
+&lt;p&gt;Jet fits a sweet spot for me, because: &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;It is not overly opinionated around how database should be accessed.&lt;/li&gt;
+&lt;li&gt;Whatever you can do with SQL, you can also do with Jet&lt;/li&gt;
+&lt;li&gt;It is performant, very little overhead over direct SQL&lt;/li&gt;
+&lt;li&gt;It is type-safe - no ugly string interpolations, no SQL syntax errors in corner cases.&lt;/li&gt;
+&lt;li&gt;The API closely matches the SQL syntax - so less learning curve is required&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;How-to-use&#34;&gt;&lt;a href=&#34;#How-to-use&#34; class=&#34;headerlink&#34; title=&#34;How to use ?&#34;&gt;&lt;/a&gt;How to use ?&lt;/h2&gt;&lt;p&gt;Jet is easy to get started with. It is designed to work with the &lt;code&gt;database/sql&lt;/code&gt; package in go stdlib, and only offers a query builder. The database&amp;#x2F;sql package is used for actually executing the queries on the database.&lt;/p&gt;
+&lt;p&gt;In this post we will use a sqlite, but jet offers support for most mainstream databases.&lt;/p&gt;
+&lt;h3 id=&#34;Configuring-the-codegenerator&#34;&gt;&lt;a href=&#34;#Configuring-the-codegenerator&#34; class=&#34;headerlink&#34; title=&#34;Configuring the codegenerator&#34;&gt;&lt;/a&gt;Configuring the codegenerator&lt;/h3&gt;&lt;p&gt;Jet offers what is called a database-first approach. In this approach, you update your database first (a migration system is recommended) and then generate code from the database for all your tables. &lt;/p&gt;
+&lt;p&gt;This ensures that the table mapping code is always up-to-date and you don&amp;#39;t need to specify every column being added twice - once when updating the database, and once in application code. &lt;/p&gt;
+&lt;p&gt;Let us say we have following sql tables defined in test.sqlite3: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs sql&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;TABLE&lt;/span&gt;
+  notebook (id &lt;span class=&#34;hljs-type&#34;&gt;varchar&lt;/span&gt;(&lt;span class=&#34;hljs-number&#34;&gt;36&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;null&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;primary&lt;/span&gt; key, title &lt;span class=&#34;hljs-type&#34;&gt;varchar&lt;/span&gt;(&lt;span class=&#34;hljs-number&#34;&gt;500&lt;/span&gt;));
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;CREATE&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;TABLE&lt;/span&gt;
+  note (
+    id &lt;span class=&#34;hljs-type&#34;&gt;varchar&lt;/span&gt;(&lt;span class=&#34;hljs-number&#34;&gt;36&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;null&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;primary&lt;/span&gt; key,
+    title &lt;span class=&#34;hljs-type&#34;&gt;varchar&lt;/span&gt;(&lt;span class=&#34;hljs-number&#34;&gt;500&lt;/span&gt;),
+    notebook_id &lt;span class=&#34;hljs-type&#34;&gt;varchar&lt;/span&gt;(&lt;span class=&#34;hljs-number&#34;&gt;36&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;references&lt;/span&gt; notebook (id) &lt;span class=&#34;hljs-keyword&#34;&gt;on&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;delete&lt;/span&gt; cascade &lt;span class=&#34;hljs-keyword&#34;&gt;on&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;update&lt;/span&gt; restrict
+  );&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To generate the code, we&amp;#39;ll first need to install the jet cli. We will also need to ensure that the specific database drivers we need are enabled through build tags: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;go install -tags &amp;#x27;sqlite3&amp;#x27; github.com/go-jet/jet/v2/cmd/jet@latest&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note that you will need to change the tags if you are using another database.  Also if you are using sqlite, and need to use some of the sqlite extensions, you&amp;#39;ll need additional build tags for those too, for example: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;go install -tags &amp;#x27;json1 fts5 sqlite3&amp;#x27; github.com/go-jet/jet/v2/cmd/jet@latest&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Inside a go project, we can generate the jet mapper code for this database using a command like: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;jet -source=sqlite -dsn=&amp;quot;/tmp/test.sqlite3&amp;quot; -path=./gen/jet&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;if you use a migration system like dbmate, go-migrate or atlas, you&amp;#39;d typically want to exclude the tables used only for migration bookkeeping.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs plaintext&#34;&gt;jet -source=sqlite -dsn=&amp;quot;/tmp/test.sqlite3&amp;quot; -path=./gen/jet -ignore-tables=schema_migrations&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ok, so now let&amp;#39;s look at the generated files: For every table we have a table mapper file and model file. For example for notebook we have the following table mapper file:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs go&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;//&lt;/span&gt;
+&lt;span class=&#34;hljs-comment&#34;&gt;// Code generated by go-jet DO NOT EDIT.&lt;/span&gt;
+&lt;span class=&#34;hljs-comment&#34;&gt;//&lt;/span&gt;
+&lt;span class=&#34;hljs-comment&#34;&gt;// WARNING: Changes to this file may cause incorrect behavior&lt;/span&gt;
+&lt;span class=&#34;hljs-comment&#34;&gt;// and will be lost if the code is regenerated&lt;/span&gt;
+&lt;span class=&#34;hljs-comment&#34;&gt;//&lt;/span&gt;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; table
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; (
+	&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;github.com/go-jet/jet/v2/sqlite&amp;quot;&lt;/span&gt;
+)
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; Notebook = newNotebookTable(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;notebook&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;)
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; notebookTable &lt;span class=&#34;hljs-keyword&#34;&gt;struct&lt;/span&gt; &amp;#123;
+	sqlite.Table
+
+	&lt;span class=&#34;hljs-comment&#34;&gt;//Columns&lt;/span&gt;
+	ID    sqlite.ColumnString
+	Title sqlite.ColumnString
+
+	AllColumns     sqlite.ColumnList
+	MutableColumns sqlite.ColumnList
+&amp;#125;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; NotebookTable &lt;span class=&#34;hljs-keyword&#34;&gt;struct&lt;/span&gt; &amp;#123;
+	notebookTable
+
+	EXCLUDED notebookTable
+&amp;#125;
+
+&lt;span class=&#34;hljs-comment&#34;&gt;// AS creates new NotebookTable with assigned alias&lt;/span&gt;
+&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;(a NotebookTable)&lt;/span&gt;&lt;/span&gt; AS(alias &lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt;) *NotebookTable &amp;#123;
+	&lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; newNotebookTable(a.SchemaName(), a.TableName(), alias)
+&amp;#125;
+
+&lt;span class=&#34;hljs-comment&#34;&gt;// Schema creates new NotebookTable with assigned schema name&lt;/span&gt;
+&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;(a NotebookTable)&lt;/span&gt;&lt;/span&gt; FromSchema(schemaName &lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt;) *NotebookTable &amp;#123;
+	&lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; newNotebookTable(schemaName, a.TableName(), a.Alias())
+&amp;#125;
+
+&lt;span class=&#34;hljs-comment&#34;&gt;// WithPrefix creates new NotebookTable with assigned table prefix&lt;/span&gt;
+&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;(a NotebookTable)&lt;/span&gt;&lt;/span&gt; WithPrefix(prefix &lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt;) *NotebookTable &amp;#123;
+	&lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; newNotebookTable(a.SchemaName(), prefix+a.TableName(), a.TableName())
+&amp;#125;
+
+&lt;span class=&#34;hljs-comment&#34;&gt;// WithSuffix creates new NotebookTable with assigned table suffix&lt;/span&gt;
+&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;(a NotebookTable)&lt;/span&gt;&lt;/span&gt; WithSuffix(suffix &lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt;) *NotebookTable &amp;#123;
+	&lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; newNotebookTable(a.SchemaName(), a.TableName()+suffix, a.TableName())
+&amp;#125;
+
+&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;newNotebookTable&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(schemaName, tableName, alias &lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt; *NotebookTable &amp;#123;
+	&lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; &amp;amp;NotebookTable&amp;#123;
+		notebookTable: newNotebookTableImpl(schemaName, tableName, alias),
+		EXCLUDED:      newNotebookTableImpl(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;excluded&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;),
+	&amp;#125;
+&amp;#125;
+
+&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;newNotebookTableImpl&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(schemaName, tableName, alias &lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt; notebookTable &amp;#123;
+	&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; (
+		IDColumn       = sqlite.StringColumn(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;id&amp;quot;&lt;/span&gt;)
+		TitleColumn    = sqlite.StringColumn(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;title&amp;quot;&lt;/span&gt;)
+		allColumns     = sqlite.ColumnList&amp;#123;IDColumn, TitleColumn&amp;#125;
+		mutableColumns = sqlite.ColumnList&amp;#123;TitleColumn&amp;#125;
+	)
+
+	&lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; notebookTable&amp;#123;
+		Table: sqlite.NewTable(schemaName, tableName, alias, allColumns...),
+
+		&lt;span class=&#34;hljs-comment&#34;&gt;//Columns&lt;/span&gt;
+		ID:    IDColumn,
+		Title: TitleColumn,
+
+		AllColumns:     allColumns,
+		MutableColumns: mutableColumns,
+	&amp;#125;
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This file initializes the specific table objects for constructing SQL queries.&lt;/p&gt;
+&lt;p&gt;We also have a model file which is a simple go struct representing a row in a table: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs go&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;//&lt;/span&gt;
+&lt;span class=&#34;hljs-comment&#34;&gt;// Code generated by go-jet DO NOT EDIT.&lt;/span&gt;
+&lt;span class=&#34;hljs-comment&#34;&gt;//&lt;/span&gt;
+&lt;span class=&#34;hljs-comment&#34;&gt;// WARNING: Changes to this file may cause incorrect behavior&lt;/span&gt;
+&lt;span class=&#34;hljs-comment&#34;&gt;// and will be lost if the code is regenerated&lt;/span&gt;
+&lt;span class=&#34;hljs-comment&#34;&gt;//&lt;/span&gt;
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; model
+
+&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; Notebook &lt;span class=&#34;hljs-keyword&#34;&gt;struct&lt;/span&gt; &amp;#123;
+	ID    &lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;`sql:&amp;quot;primary_key&amp;quot;`&lt;/span&gt;
+	Title *&lt;span class=&#34;hljs-type&#34;&gt;string&lt;/span&gt;
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We will have this pair generated for each table in our db. &lt;/p&gt;
+&lt;h2 id=&#34;Executing-queries&#34;&gt;&lt;a href=&#34;#Executing-queries&#34; class=&#34;headerlink&#34; title=&#34;Executing queries&#34;&gt;&lt;/a&gt;Executing queries&lt;/h2&gt;&lt;p&gt;Now that we have our code generated, we can use the generated API to query our database. &lt;/p&gt;
+&lt;p&gt;Jet&amp;#39;s api closely matches the SQL syntax. So to fetch a note with known title we can do something like: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs go&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; (
+	m &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;example.com/rts/gen/jet/model&amp;quot;&lt;/span&gt;
+	t &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;example.com/rts/gen/jet/table&amp;quot;&lt;/span&gt;
+	jet &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;github.com/go-jet/jet/v2/sqlite&amp;quot;&lt;/span&gt;
+)
+
+query := t.Note.
+    SELECT(t.Notebook.AllColumns).
+    WHERE(t.Notebook.Title.EQ(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Test&amp;quot;&lt;/span&gt;))&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note that this just creates the query. To actually execute it, we need a sql.DB instance. This would be created through the database&amp;#x2F;sql package in go stdlib and is not jet specific. &lt;/p&gt;
+&lt;p&gt;For SQLite all we need is the path to the database. For other database we can pass connection strings.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs go&#34;&gt;db, err := sql.Open(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;sqlite3&amp;quot;&lt;/span&gt;, dbFilePath)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now we can run the query through the db instance and map the rows to our generated model structs: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs go&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; notebooks []m.Notebook
+
+err := t.Notebook.
+    SELECT(t.Notebook.AllColumns).
+    WHERE(t.Notebook.Title.EQ(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Test&amp;quot;&lt;/span&gt;)).
+    Query(db, &amp;amp;notebooks)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If the query succeeds our notebooks slice will be populated with the fetched rows.&lt;/p&gt;
+&lt;p&gt;Note that we didn&amp;#39;t have to deal with untyped data at any point. &lt;/p&gt;
+&lt;p&gt;We are also not restricted to using the generated model types. The generated model types are provided as a convenience for common crud operations, but we will often need to define custom types when fetching subset of columns or when fetching data from multiple tables. &lt;/p&gt;
+&lt;p&gt;Let&amp;#39;s say we want to fetch not only the notebook, but all associated notes. To represent a note along with member notes, we can define following struct which composes the generated models:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs go&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; NotebookWithNotes &lt;span class=&#34;hljs-keyword&#34;&gt;struct&lt;/span&gt; &amp;#123;
+    m.Notebook,
+    Notes []m.Note
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and use that in our query:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs go&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; notebooks []m.NotebookWithNotes
+
+err := t.Notebook.
+    INNER_JOIN(t.Note, t.Note.NotebookID.EQ(t.Notebook.ID))
+    SELECT(t.Notebook.AllColumns).
+    WHERE(t.Notebook.Title.EQ(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Test&amp;quot;&lt;/span&gt;)).
+    Query(db, &amp;amp;notebooks)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The join syntax is pretty similar to what we would have expected from SQL. Also we didn&amp;#39;t have to do anything special here to support mapping the flattened rows to hierarchical model. jet is able to automatically identify the Notebook fields from embedded struct and the Note fields in the member slice and populate them all from the rows in database. &lt;/p&gt;
+&lt;h2 id=&#34;Integration-with-context-propagation&#34;&gt;&lt;a href=&#34;#Integration-with-context-propagation&#34; class=&#34;headerlink&#34; title=&#34;Integration with context propagation&#34;&gt;&lt;/a&gt;Integration with context propagation&lt;/h2&gt;&lt;p&gt;Almost all web frameworks integrate with Go&amp;#39;s context propagation system, and it is useful to take advantage of it so that when the context gets cancelled, unnecessary operations can be avoided in the backend. &lt;a href=&#34;https://www.digitalocean.com/community/tutorials/how-to-use-contexts-in-go&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;This DO post&lt;/a&gt; goes into more details about the context mechanism in go. &lt;/p&gt;
+&lt;p&gt;jet makes it easier to integrate this mechanism. If we have a context instance at our disposal (likely coming as an argument in our request handler from a web framework), we can pass that to the &lt;code&gt;QueryContext&lt;/code&gt; function instead of using the &lt;code&gt;Query&lt;/code&gt; function as above:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs go&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; notebooks []m.NotebookWithNotes
+
+err := t.Notebook.
+    INNER_JOIN(t.Note, t.Note.NotebookID.EQ(t.Notebook.ID))
+    SELECT(t.Notebook.AllColumns).
+    WHERE(t.Notebook.Title.EQ(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Test&amp;quot;&lt;/span&gt;)).
+    Query(db, &amp;amp;notebooks)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;Query-Logging&#34;&gt;&lt;a href=&#34;#Query-Logging&#34; class=&#34;headerlink&#34; title=&#34;Query Logging&#34;&gt;&lt;/a&gt;Query Logging&lt;/h2&gt;&lt;p&gt;It is clear now that jet enables us to construct complex queries dynamically in our application. It is often useful to log these queries in development so that we can see what exactly is getting executed. This is also useful for DBA audits.&lt;/p&gt;
+&lt;p&gt;To make this possible, jet provides a &lt;code&gt;SetQueryLogger&lt;/code&gt; API, which can be used to log operations through any logging library: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs go&#34;&gt;jet.SetQueryLogger(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;func&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(ctx context.Context, info jet.QueryInfo)&lt;/span&gt;&lt;/span&gt; &amp;#123;
+	query, args := info.Statement.Sql()
+	zerolog.Debug().
+		Int64(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;DurationMS&amp;quot;&lt;/span&gt;, info.Duration.Milliseconds()).
+		Msgf(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;SQL Query: SQL: %s\nArgs: %+v&amp;quot;&lt;/span&gt;, query, args)
+&amp;#125;)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Above example uses zerolog, but we are free to use any logging library available for go.&lt;/p&gt;
+&lt;h2 id=&#34;Insert-x2F-Update&#34;&gt;&lt;a href=&#34;#Insert-x2F-Update&#34; class=&#34;headerlink&#34; title=&#34;Insert&amp;#x2F;Update&#34;&gt;&lt;/a&gt;Insert&amp;#x2F;Update&lt;/h2&gt;&lt;p&gt;Insert&amp;#x2F;update APIs are also pretty similar to what we&amp;#39;d expect from SQL. We can pass raw values or make use of model structs generated for us (recommended). Following example illustrates the latter approach for insertion: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs go&#34;&gt;_, err := t.Notebook.
+	INSERT(t.Notebook.AllColumns).
+	MODEL(&amp;amp;m.Notebook&amp;#123;
+		Title: &amp;amp;title,
+	&amp;#125;).
+	Exec(db)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The wiki goes into more detail about available APIs, but it is particularly notable that jet has good support for on conflict update APIs which are often useful for preventing get-check-insert race-conditions: &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs go&#34;&gt;_, err := t.Notebook.
+	INSERT(t.Notebook.AllColumns).
+	MODEL(&amp;amp;m.Notebook&amp;#123;
+		ID:    someId,
+		Title: &amp;amp;title,
+	&amp;#125;).
+	ON_CONFLICT(t.Notebook.ID).
+	DO_UPDATE(jet.SET(t.Notebook.Title.SET(t.Notebook.EXCLUDED.Title))).
+	Exec(db)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In contrast, if did a select to check whether a notebook exists, and issued an insert if it didn&amp;#39;t, the insert could still fail because a notebook could have been inserted in the meanwhile.&lt;/p&gt;
+&lt;h2 id=&#34;Subqueries&#34;&gt;&lt;a href=&#34;#Subqueries&#34; class=&#34;headerlink&#34; title=&#34;Subqueries&#34;&gt;&lt;/a&gt;Subqueries&lt;/h2&gt;&lt;p&gt;As we may expect by now, jet has good support for subqueries too. &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs go&#34;&gt;_, err = t.Note.DELETE().
+	WHERE(
+		t.Note.ID.IN(
+			t.Note.LEFT_JOIN(t.NoteFile, t.NoteFile.NoteID.EQ(t.Note.ID)).
+				SELECT(t.Note.ID).
+				WHERE(t.Note.NotebookID.EQ(jet.String(notebookId)).
+					AND(t.NoteFile.ID.IS_NULL())),
+		),
+	).
+	ExecContext(ctx, store.db)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hopefully this provides a high-level overview that can jumpstart your go project that needs database access.&lt;/p&gt;
+&lt;p&gt;This post has, however, just scratched the surface of what is possible with jet, and the aforementioned &lt;a href=&#34;https://github.com/go-jet/jet/wiki&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;jet wiki&lt;/a&gt; goes into a lot more detail.&lt;/p&gt;
+ ]]></description>
+        </item>
+    </channel>
+</rss>

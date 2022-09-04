@@ -79,9 +79,9 @@
         <category>Spring-Boot</category>
         <category>gRPC</category>
         <category>Redis</category>
-        <category>vim</category>
         <category>Database</category>
         <category>Exposed</category>
+        <category>vim</category>
         <category>kotlin</category>
         <category>spring</category>
         <category>spring-security</category>
@@ -89,8 +89,12 @@
         <category>spring-boot</category>
         <category>typescript</category>
         <category>zod</category>
-        <category>ts-match</category>
+        <category>ts-pattern</category>
         <category>ts-sql-query</category>
+        <category>go</category>
+        <category>golang</category>
+        <category>jet</category>
+        <category>sql</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/03/24/using-comlink-with-typescript-and-worker-loader/</guid>
             <title>Using comlink with typescript and worker-loader</title>
