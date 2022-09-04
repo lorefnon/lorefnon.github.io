@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>Icicles of Thought • Posts by &#34;zerolog&#34; tag</title>
+        <link>https://lorefnon.me</link>
+        <description></description>
+        <language>en</language>
+        <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
+        <lastBuildDate>Thu, 01 Sep 2022 00:00:00 +0000</lastBuildDate>
+        <category>Javascript</category>
+        <category>KnockoutJS</category>
+        <category>Ruby</category>
+        <category>EventMachine</category>
+        <category>Websockets</category>
+        <category>SQLite</category>
+        <category>Jade</category>
+        <category>Node.js</category>
+        <category>Rails</category>
+        <category>Emacs</category>
+        <category>Gulp</category>
+        <category>ActiveAdmin</category>
+        <category>ActiveRecord</category>
+        <category>Devise</category>
+        <category>Integration</category>
+        <category>ZSH</category>
+        <category>Productivity Hacks</category>
+        <category>OCR</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>React</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Helm</category>
+        <category>SPF</category>
+        <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
+        <category>Typescript</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>ReasonML</category>
+        <category>Next.js</category>
+        <category>Koa</category>
+        <category>Apollo</category>
+        <category>GraphQL</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
+        <category>HAR</category>
+        <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
+        <category>Kotlin</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
+        <category>Java</category>
+        <category>JOOQ</category>
+        <category>Ruby on Rails</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
+        <category>Vue</category>
+        <category>TypeScript</category>
+        <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
+        <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
+        <category>vim</category>
+        <category>kotlin</category>
+        <category>spring</category>
+        <category>spring-security</category>
+        <category>komapper</category>
+        <category>spring-boot</category>
+        <category>typescript</category>
+        <category>zod</category>
+        <category>ts-pattern</category>
+        <category>ts-sql-query</category>
+        <category>go</category>
+        <category>golang</category>
+        <category>zerolog</category>
+        <category>jet</category>
+        <category>sql</category>
+        <item>
+            <guid isPermalink="true">https://lorefnon.me/2022/09/01/setting-up-log-rotation-for-zerolog/</guid>
+            <title>Setting up logrotation for zerolog</title>
+            <link>https://lorefnon.me/2022/09/01/setting-up-log-rotation-for-zerolog/</link>
+            <category>go</category>
+            <category>golang</category>
+            <category>zerolog</category>
+            <pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate>
+            <description><![CDATA[ &lt;p&gt;Zerolog is a popular structured logging library for go. This post is a quick recipie for configuring it to use log rotation. &lt;/p&gt;
+&lt;p&gt;Log rotation is a mechanism where instead of having a single log file which keeps growing forever, the application switches to a new log file when a time threshold or a size threshold is exceeded. Optionally files which are too old to be of significance can be deleted.&lt;/p&gt;
+&lt;p&gt;While logging to a stream and having an external service manage it for your is nice if you can embrace it. However, Log rotation can be useful for desktop applications or isolated deployments.&lt;/p&gt;
+&lt;p&gt;Lumberjack is a nice utility for go that supports log rotation. It is also easy to hook up with zerolog because a lumberjack logger implements io.Writer which zerolog can target.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;/** Configuration options for log rotation */&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; LoggerConfig &lt;span class=&#34;hljs-keyword&#34;&gt;struct&lt;/span&gt; {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-comment&#34;&gt;/** Max size of the logfile before it&amp;#x27;s rolled */&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	MaxSizeMB &lt;span class=&#34;hljs-type&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;`json:&amp;quot;max_size_mb,omitempty&amp;quot;`&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-comment&#34;&gt;/** Max number of rolled files to keep */&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	MaxBackupCount &lt;span class=&#34;hljs-type&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;`json:&amp;quot;max_backup_count,omitempty&amp;quot;`&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-comment&#34;&gt;/** Max age in days to keep a logfile */&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	MaxAgeDays &lt;span class=&#34;hljs-type&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;`json:&amp;quot;max_age_days,omitempty&amp;quot;`&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;initLogger&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(config *config.LoggerConfig)&lt;/span&gt;&lt;/span&gt; *zerolog.Logger {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; writers []io.Writer
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-comment&#34;&gt;// Optional: Log to console&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	writers = &lt;span class=&#34;hljs-built_in&#34;&gt;append&lt;/span&gt;(writers, zerolog.ConsoleWriter{Out: os.Stderr})
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-comment&#34;&gt;// Log to rolling file&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	writers = &lt;span class=&#34;hljs-built_in&#34;&gt;append&lt;/span&gt;(writers, initRollingFileLogger(config))
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-comment&#34;&gt;// Multiwriter encapsulates multiple writers&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	mw := io.MultiWriter(writers...)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	logger := zerolog.New(mw).With().
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;		Timestamp().
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;		Logger()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; &amp;amp;logger
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;initRollingFileLogger&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(config *config.LoggerConfig)&lt;/span&gt;&lt;/span&gt; *lumberjack.Logger {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	loggerPath := filepath.Join(xdg.DataHome, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;example&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;app.log&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	fmt.Printf(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;logging to file: %s\n&amp;quot;&lt;/span&gt;, loggerPath)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; &amp;amp;lumberjack.Logger{
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;		Filename:   loggerPath,
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;		MaxBackups: config.MaxBackupCount,
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;		MaxSize:    config.MaxSizeMB,
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;		MaxAge:     config.MaxAgeDays,
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	}
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can now use the logger returned by initLogger to write logs, and they will be written to a file which will be rotated by lumberjack.&lt;/p&gt;
+ ]]></description>
+        </item>
+    </channel>
+</rss>

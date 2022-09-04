@@ -34,10 +34,10 @@
     <category term="Redux" />
     <category term="Redux-loop" />
     <category term="Frontend" />
+    <category term="Typescript" />
     <category term="Vagrant" />
     <category term="Clojure" />
     <category term="Hashicorp" />
-    <category term="Typescript" />
     <category term="ReasonML" />
     <category term="Next.js" />
     <category term="Koa" />
@@ -53,19 +53,19 @@
     <category term="io-ts" />
     <category term="MobX" />
     <category term="MobX-State-Tree" />
+    <category term="Routing" />
     <category term="HAR" />
     <category term="Jq" />
     <category term="Lit-html" />
     <category term="Stimulus" />
-    <category term="Routing" />
-    <category term="Java" />
-    <category term="JOOQ" />
-    <category term="Ruby on Rails" />
     <category term="Kotlin" />
     <category term="Vert.X" />
     <category term="Vert.X-Web" />
     <category term="Backend-development" />
     <category term="API-development" />
+    <category term="Java" />
+    <category term="JOOQ" />
+    <category term="Ruby on Rails" />
     <category term="Liquibase" />
     <category term="tbls" />
     <category term="jOOQ" />
@@ -90,6 +90,7 @@
     <category term="ts-sql-query" />
     <category term="go" />
     <category term="golang" />
+    <category term="zerolog" />
     <category term="jet" />
     <category term="sql" />
     <entry>
