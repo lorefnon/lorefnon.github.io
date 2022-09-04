@@ -140,3 +140,6 @@ marked:
     nofollow: true
   disableNunjucks: false
   descriptionLists: false
+
+feed:
+  limit: 10

@@ -1,16 +1,16 @@
 ---
-title: Setting up logrotation for zerolog
+title: Setting up log-rotation for zerolog
 tags: [go, golang, zerolog]
 date: 2022-09-01
 ---
 
-Zerolog is a popular structured logging library for go. This post is a quick recipie for configuring it to use log rotation. 
+[Zerolog](https://github.com/rs/zerolog) is a popular structured logging library for go. This post is a quick recipie for configuring it to use log rotation. 
 
 Log rotation is a mechanism where instead of having a single log file which keeps growing forever, the application switches to a new log file when a time threshold or a size threshold is exceeded. Optionally files which are too old to be of significance can be deleted.
 
-While logging to a stream and having an external service manage it for your is nice if you can embrace it. However, Log rotation can be useful for desktop applications or isolated deployments.
+Now a days, it is a more common practice to log to a stream and have an external service manage it for you. This is indeed nice if you can embrace it. However, Log rotation can be useful for desktop applications or isolated deployments.
 
-Lumberjack is a nice utility for go that supports log rotation. It is also easy to hook up with zerolog because a lumberjack logger implements io.Writer which zerolog can target.
+[Lumberjack](https://github.com/natefinch/lumberjack) is a nice utility for go that supports log rotation. It is also easy to hook up with zerolog because a lumberjack logger implements io.Writer which zerolog can target.
 
 {% hlcode lang:go %}
 

@@ -8,16 +8,16 @@ specifiers:
   '@openfonts/raleway_all': ^0.0.1
   '@types/cheerio': ^0.22.31
   '@types/fs-extra': ^9.0.13
-  '@types/glob': ^7.2.0
-  '@types/node': ^17.0.27
+  '@types/glob': ^8.0.0
+  '@types/node': ^18.7.14
   chalk: ^4.1.0
-  cheerio: ^1.0.0-rc.10
+  cheerio: ^1.0.0-rc.12
   fs-extra: ^10.1.0
-  glob: ^8.0.1
-  globby: ^13.1.1
-  hexo: 6.1.0
+  glob: ^8.0.3
+  globby: ^13.1.2
+  hexo: 6.2.0
   hexo-description: ^0.1.0
-  hexo-feed: ^1.1.0
+  hexo-feed: ^1.1.1
   hexo-generator-archive: ^1.0.0
   hexo-generator-category: ^1.0.0
   hexo-generator-index: ^2.0.0
@@ -30,27 +30,27 @@ specifiers:
   hexo-renderer-swig: ^1.1.0
   hexo-server: ^3.0.0
   highlight.js: ^11.6.0
-  htmlparser2: ^8.0.0
+  htmlparser2: ^8.0.1
   lodash: ^4.17.21
   normalize.css: ^8.0.1
-  sass: ^1.51.0
+  sass: ^1.54.8
   sqip: ^0.3.3
-  ts-node: ^10.7.0
-  typescript: ^4.6.3
+  ts-node: ^10.9.1
+  typescript: ^4.8.2
 
 dependencies:
   '@openfonts/open-sans_all': 1.44.2
   '@openfonts/raleway_all': 0.0.1
   chalk: 4.1.2
-  hexo: 6.1.0
+  hexo: 6.2.0
   hexo-description: 0.1.0
   hexo-generator-archive: 1.0.0
   hexo-generator-category: 1.0.0
   hexo-generator-index: 2.0.0
   hexo-generator-tag: 1.0.0
   hexo-render-pug: 2.1.4
-  hexo-renderer-cli: 0.1.0_hexo@6.1.0
-  hexo-renderer-esbuild: 0.5.1_hexo@6.1.0
+  hexo-renderer-cli: 0.1.0_hexo@6.2.0
+  hexo-renderer-esbuild: 0.5.1_hexo@6.2.0
   hexo-renderer-marked: 5.0.0
   hexo-renderer-swig: 1.1.0
   hexo-server: 3.0.0
@@ -67,15 +67,15 @@ devDependencies:
   '@openfonts/oswald_all': 1.44.5
   '@types/cheerio': 0.22.31
   '@types/fs-extra': 9.0.13
-  '@types/glob': 7.2.0
-  '@types/node': 17.0.45
+  '@types/glob': 8.0.0
+  '@types/node': 18.7.14
   cheerio: 1.0.0-rc.12
   fs-extra: 10.1.0
   glob: 8.0.3
   globby: 13.1.2
-  hexo-feed: 1.1.1_chalk@4.1.2+hexo@6.1.0
+  hexo-feed: 1.1.1_chalk@4.1.2+hexo@6.2.0
   hexo-renderer-ejs: 2.0.0
-  ts-node: 10.9.1_vxrnv5tlr43u5xabofdb6zoswy
+  ts-node: 10.9.1_tphhiizkxv2hzwkunblc3hbmra
   typescript: 4.8.2
 
 packages:
@@ -178,28 +178,28 @@ packages:
   /@types/cheerio/0.22.31:
     resolution: {integrity: sha512-Kt7Cdjjdi2XWSfrZ53v4Of0wG3ZcmaegFXjMmz9tfNrZSkzzo36G0AL1YqSdcIA78Etjt6E609pt5h1xnQkPUw==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.7.14
     dev: true
 
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 18.7.14
     dev: true
 
-  /@types/glob/7.2.0:
-    resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
+  /@types/glob/8.0.0:
+    resolution: {integrity: sha512-l6NQsDDyQUVeoTynNpC9uRvCUint/gSUXQA2euwmTuWGvPY5LSDUu6tkCtJB2SvGQlJQzLaKqcGZP4//7EDveA==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 17.0.45
+      '@types/node': 18.7.14
     dev: true
 
   /@types/minimatch/5.1.2:
     resolution: {integrity: sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==}
     dev: true
 
-  /@types/node/17.0.45:
-    resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
+  /@types/node/18.7.14:
+    resolution: {integrity: sha512-6bbDaETVi8oyIARulOE9qF1/Qdi/23z6emrUh0fNJRUmjznqrixD4MpGDdgOFk5Xb0m2H6Xu42JGdvAxaJR/wA==}
     dev: true
 
   /a-sync-waterfall/1.0.1:
@@ -1127,14 +1127,14 @@ packages:
       html-to-text: 3.3.0
     dev: false
 
-  /hexo-feed/1.1.1_chalk@4.1.2+hexo@6.1.0:
+  /hexo-feed/1.1.1_chalk@4.1.2+hexo@6.2.0:
     resolution: {integrity: sha512-Hrp6YZGZ93/EqGOAvKll8hQpCWKggcbexP3Xkjx00YCUeOHGSNqBLdggRGAo8c7/BPbF6X0wLgar/WD+f5hKYQ==}
     peerDependencies:
       chalk: ^4.1.0
       hexo: ^4.2.0 || ^5.2.0 || ^6.1.0
     dependencies:
       chalk: 4.1.2
-      hexo: 6.1.0
+      hexo: 6.2.0
     dev: true
 
   /hexo-front-matter/3.0.0:
@@ -1210,7 +1210,7 @@ packages:
       pug: 2.0.4
     dev: false
 
-  /hexo-renderer-cli/0.1.0_hexo@6.1.0:
+  /hexo-renderer-cli/0.1.0_hexo@6.2.0:
     resolution: {integrity: sha512-UUhkWm3WRkX6RilqeV7eLoowROiCZFpmSOsMpFtEPFSaJvzXW0t8QUlYMjPu1YJwpqWPRMW0aQEOGVqc3F7/ew==}
     engines: {node: '>= 6'}
     peerDependencies:
@@ -1218,7 +1218,7 @@ packages:
     dependencies:
       esbuild: 0.8.57
       execa: 5.1.1
-      hexo: 6.1.0
+      hexo: 6.2.0
       hexo-log: 2.0.0
       lodash: 4.17.21
       mustache: 4.2.0
@@ -1233,14 +1233,14 @@ packages:
       ejs: 3.1.8
     dev: true
 
-  /hexo-renderer-esbuild/0.5.1_hexo@6.1.0:
+  /hexo-renderer-esbuild/0.5.1_hexo@6.2.0:
     resolution: {integrity: sha512-CJMzf+grhKpvStqSX7djAFzNCgGC4rJ5mmwPC+wW4/Sg6BRfPov+3FipRGnV1jnmn1oOBjBMq817E59aPkMwLQ==}
     engines: {node: '>= 6'}
     peerDependencies:
       hexo: '>= 3'
     dependencies:
       esbuild: 0.8.57
-      hexo: 6.1.0
+      hexo: 6.2.0
       lodash: 4.17.21
     dev: false
 
@@ -1296,8 +1296,8 @@ packages:
       prismjs: 1.29.0
       strip-indent: 3.0.0
 
-  /hexo/6.1.0:
-    resolution: {integrity: sha512-TeV2cN61CD2C1GKczJRR3tdZhR3JUQi8wtS4eIgkDOeDYWTmovPoSCcc8jvh42D3fehOPp6E81fTeyjh39QWtA==}
+  /hexo/6.2.0:
+    resolution: {integrity: sha512-HOpt3vUOz/T0rWTDb/CtWuBJwYARPwbpvGwsaz0RPu/l5I6AmKE+UA0lJZf14iPS3JIt/HiOcTZ3Qz22A+PE8w==}
     engines: {node: '>=12.13.0'}
     hasBin: true
     dependencies:
@@ -2435,7 +2435,7 @@ packages:
       punycode: 2.1.1
     dev: false
 
-  /ts-node/10.9.1_vxrnv5tlr43u5xabofdb6zoswy:
+  /ts-node/10.9.1_tphhiizkxv2hzwkunblc3hbmra:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -2454,7 +2454,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
-      '@types/node': 17.0.45
+      '@types/node': 18.7.14
       acorn: 8.8.0
       acorn-walk: 8.2.0
       arg: 4.1.3
