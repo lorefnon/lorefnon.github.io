@@ -96,6 +96,9 @@
         <category>zerolog</category>
         <category>jet</category>
         <category>sql</category>
+        <category>go-migrate</category>
+        <category>chi</category>
+        <category>connect</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/03/16/using-theme-specific-keybindings-in-vscode-to-improve-productivity/</guid>
             <title>Using theme specific keybindings in VSCode to improve productivity</title>

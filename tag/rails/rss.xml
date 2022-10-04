@@ -96,6 +96,9 @@
         <category>zerolog</category>
         <category>jet</category>
         <category>sql</category>
+        <category>go-migrate</category>
+        <category>chi</category>
+        <category>connect</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2016/03/31/database-driven-scheduling-with-clockwork-and-activejob.html</guid>
             <title>Database driven scheduling with Clockwork and ActiveJob</title>

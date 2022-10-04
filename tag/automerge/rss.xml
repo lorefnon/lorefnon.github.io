@@ -96,6 +96,9 @@
         <category>zerolog</category>
         <category>jet</category>
         <category>sql</category>
+        <category>go-migrate</category>
+        <category>chi</category>
+        <category>connect</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/09/23/using-google-diff-match-patch-with-automerge-text/</guid>
             <title>Integrating Google diff-match-patch with AutoMerge.Text</title>

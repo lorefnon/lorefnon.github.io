@@ -96,6 +96,9 @@
         <category>zerolog</category>
         <category>jet</category>
         <category>sql</category>
+        <category>go-migrate</category>
+        <category>chi</category>
+        <category>connect</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</guid>
             <title>Gathering and Visualizing metrics from Rails application using InfluxDB</title>

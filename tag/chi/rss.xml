@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>Icicles of Thought • Posts by &#34;chi&#34; tag</title>
+        <link>https://lorefnon.me</link>
+        <description></description>
+        <language>en</language>
+        <pubDate>Sat, 01 Oct 2022 00:00:00 +0000</pubDate>
+        <lastBuildDate>Sat, 01 Oct 2022 00:00:00 +0000</lastBuildDate>
+        <category>Javascript</category>
+        <category>KnockoutJS</category>
+        <category>Ruby</category>
+        <category>EventMachine</category>
+        <category>Websockets</category>
+        <category>SQLite</category>
+        <category>Jade</category>
+        <category>Node.js</category>
+        <category>Rails</category>
+        <category>Emacs</category>
+        <category>Gulp</category>
+        <category>ActiveAdmin</category>
+        <category>ActiveRecord</category>
+        <category>Devise</category>
+        <category>Integration</category>
+        <category>ZSH</category>
+        <category>Productivity Hacks</category>
+        <category>OCR</category>
+        <category>Design Patterns</category>
+        <category>InfluxDB</category>
+        <category>Grafana</category>
+        <category>React</category>
+        <category>Functional Programming</category>
+        <category>ES6</category>
+        <category>Helm</category>
+        <category>SPF</category>
+        <category>CSS</category>
+        <category>Redux</category>
+        <category>Redux-loop</category>
+        <category>Frontend</category>
+        <category>Vagrant</category>
+        <category>Clojure</category>
+        <category>Hashicorp</category>
+        <category>Typescript</category>
+        <category>ReasonML</category>
+        <category>Next.js</category>
+        <category>Koa</category>
+        <category>Apollo</category>
+        <category>GraphQL</category>
+        <category>MongoDB</category>
+        <category>Automerge</category>
+        <category>CRDT</category>
+        <category>SVG</category>
+        <category>VSCode</category>
+        <category>Comlink</category>
+        <category>Web-workers</category>
+        <category>io-ts</category>
+        <category>MobX</category>
+        <category>MobX-State-Tree</category>
+        <category>Routing</category>
+        <category>HAR</category>
+        <category>Jq</category>
+        <category>Lit-html</category>
+        <category>Stimulus</category>
+        <category>Kotlin</category>
+        <category>Vert.X</category>
+        <category>Vert.X-Web</category>
+        <category>Backend-development</category>
+        <category>API-development</category>
+        <category>Java</category>
+        <category>JOOQ</category>
+        <category>Ruby on Rails</category>
+        <category>Liquibase</category>
+        <category>tbls</category>
+        <category>jOOQ</category>
+        <category>Vue</category>
+        <category>TypeScript</category>
+        <category>Gradle</category>
+        <category>Spring</category>
+        <category>Spring-Boot</category>
+        <category>gRPC</category>
+        <category>Redis</category>
+        <category>Database</category>
+        <category>Exposed</category>
+        <category>vim</category>
+        <category>kotlin</category>
+        <category>spring</category>
+        <category>spring-security</category>
+        <category>komapper</category>
+        <category>spring-boot</category>
+        <category>typescript</category>
+        <category>zod</category>
+        <category>ts-pattern</category>
+        <category>ts-sql-query</category>
+        <category>go</category>
+        <category>golang</category>
+        <category>zerolog</category>
+        <category>jet</category>
+        <category>sql</category>
+        <category>go-migrate</category>
+        <category>chi</category>
+        <category>connect</category>
+        <item>
+            <guid isPermalink="true">https://lorefnon.me/2022/10/01/using-buf-connect-with-chi/</guid>
+            <title>Using chi router and connect-go together</title>
+            <link>https://lorefnon.me/2022/10/01/using-buf-connect-with-chi/</link>
+            <category>go</category>
+            <category>chi</category>
+            <category>connect</category>
+            <pubDate>Sat, 01 Oct 2022 00:00:00 +0000</pubDate>
+            <description><![CDATA[ &lt;p&gt;&lt;a href=&#34;https://github.com/bufbuild/connect-go&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;connect-go&lt;/a&gt; is a protobuf RPC implementation, touted as a better gRPC. I have been using it for few weeks and have found it to be quite enjoyable.&lt;/p&gt;
+&lt;p&gt;This post is a quick recipe on how to use it alongside chi router. The &lt;a href=&#34;https://github.com/bufbuild/connect-go#a-small-example&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;official docs&lt;/a&gt; already illustrate using connect with net&amp;#x2F;http2 directly. But if you are incrementally adopting connect in a project, or need a few REST style endpoints for backward compatibility, or for file uploads or serving server generated templates, it is easy to use connect alongside the &lt;a href=&#34;https://go-chi.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;chi router&lt;/a&gt;. &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;mux := chi.NewRouter()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// Middlewares&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;mux.Use(middleware.Logger)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// HTTP Endpoints&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;mux.Post(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;/upload&amp;quot;&lt;/span&gt;, handleFileUpload)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// Connect API Endpoints&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// Associate the Handlers generated from the protobuf file&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;path, handler := pbconnect.SampleServiceHandler(
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;// Pass service implementation here:&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &amp;amp;SampleServiceImpl{},
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;mux.Handle(path+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;*&amp;quot;&lt;/span&gt;, handler) &lt;span class=&#34;hljs-comment&#34;&gt;// &amp;lt;----- Note The &amp;quot;*&amp;quot; wildcard suffix here&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// Use h2c so we can serve HTTP/2 without TLS.&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;handler := h2c.NewHandler(mux, &amp;amp;http2.Server{})
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;err := http.ListenAndServe(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;localhost:8080&amp;quot;&lt;/span&gt;, handler)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; err != &lt;span class=&#34;hljs-literal&#34;&gt;nil&lt;/span&gt; {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-built_in&#34;&gt;panic&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Failed to init http server&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
+ ]]></description>
+        </item>
+    </channel>
+</rss>

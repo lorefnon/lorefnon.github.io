@@ -93,6 +93,9 @@
     <category term="zerolog" />
     <category term="jet" />
     <category term="sql" />
+    <category term="go-migrate" />
+    <category term="chi" />
+    <category term="connect" />
     <entry>
         <id>https://lorefnon.me/2015/09/21/react-and-livescript-in-harmony.html</id>
         <title>React and Livescript in harmony</title>

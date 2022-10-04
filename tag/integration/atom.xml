@@ -93,6 +93,9 @@
     <category term="zerolog" />
     <category term="jet" />
     <category term="sql" />
+    <category term="go-migrate" />
+    <category term="chi" />
+    <category term="connect" />
     <entry>
         <id>https://lorefnon.me/2014/09/07/devise-multiple-emails.html</id>
         <title>Allowing multiple emails for a user in Devise</title>

@@ -93,6 +93,9 @@
     <category term="zerolog" />
     <category term="jet" />
     <category term="sql" />
+    <category term="go-migrate" />
+    <category term="chi" />
+    <category term="connect" />
     <entry>
         <id>https://lorefnon.me/2020/11/27/exploring-har-http-archive-logs-with-jq/</id>
         <title>Exporing HAR (HTTP Archive) logs with Jq</title>

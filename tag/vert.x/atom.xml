@@ -93,6 +93,9 @@
     <category term="zerolog" />
     <category term="jet" />
     <category term="sql" />
+    <category term="go-migrate" />
+    <category term="chi" />
+    <category term="connect" />
     <entry>
         <id>https://lorefnon.me/2021/03/26/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-III/</id>
         <title>Building GraphQL APIs powered by Vert.x, jOOQ &amp; Kotlin - III</title>

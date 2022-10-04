@@ -93,6 +93,9 @@
     <category term="zerolog" />
     <category term="jet" />
     <category term="sql" />
+    <category term="go-migrate" />
+    <category term="chi" />
+    <category term="connect" />
     <entry>
         <id>https://lorefnon.me/2022/01/29/hiding-jsx-closing-tag-noise-in-vim/</id>
         <title>Hiding JSX closing tag noise in vim through conceal</title>

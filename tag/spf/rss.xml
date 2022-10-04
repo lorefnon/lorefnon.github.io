@@ -96,6 +96,9 @@
         <category>zerolog</category>
         <category>jet</category>
         <category>sql</category>
+        <category>go-migrate</category>
+        <category>chi</category>
+        <category>connect</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</guid>
             <title>Boost your content focussed site with Structured Page Fragments</title>

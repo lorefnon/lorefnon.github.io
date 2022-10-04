@@ -96,6 +96,9 @@
         <category>zerolog</category>
         <category>jet</category>
         <category>sql</category>
+        <category>go-migrate</category>
+        <category>chi</category>
+        <category>connect</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2022/06/18/type-safe-jsonb-with-ts-sql-query/</guid>
             <title>Making jsonb access type-safe with a zod adapter in ts-sql-query</title>

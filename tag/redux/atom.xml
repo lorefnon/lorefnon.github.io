@@ -93,6 +93,9 @@
     <category term="zerolog" />
     <category term="jet" />
     <category term="sql" />
+    <category term="go-migrate" />
+    <category term="chi" />
+    <category term="connect" />
     <entry>
         <id>https://lorefnon.me/2018/02/04/redux-loop-a-better-solution-for-managing-asynchronous-operations-in-redux/</id>
         <title>Redux-loop: A better solution for managing asynchronous operations in redux</title>

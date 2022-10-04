@@ -96,6 +96,9 @@
         <category>zerolog</category>
         <category>jet</category>
         <category>sql</category>
+        <category>go-migrate</category>
+        <category>chi</category>
+        <category>connect</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2014/10/12/decrypting-an-obfuscated-font-with-ocr.html</guid>
             <title>Decrypting an obfuscated font with OCR</title>

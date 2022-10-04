@@ -3,7 +3,7 @@
     <id>https://lorefnon.me</id>
     <title>Icicles of Thought • Posts by &#34;go&#34; tag</title>
     <link href="https://lorefnon.me" />
-    <updated>2022-09-04T00:00:00.000Z</updated>
+    <updated>2022-10-01T00:00:00.000Z</updated>
     <category term="Javascript" />
     <category term="KnockoutJS" />
     <category term="Ruby" />
@@ -93,6 +93,93 @@
     <category term="zerolog" />
     <category term="jet" />
     <category term="sql" />
+    <category term="go-migrate" />
+    <category term="chi" />
+    <category term="connect" />
+    <entry>
+        <id>https://lorefnon.me/2022/10/01/embedding-sql-migrations-in-go-binary/</id>
+        <title>Embedding sql migrations in go binary</title>
+        <link rel="alternate" href="https://lorefnon.me/2022/10/01/embedding-sql-migrations-in-go-binary/"/>
+        <content type="html">&lt;p&gt;&lt;a href=&#34;github.com/golang-migrate/migrate&#34;&gt;Go-migrate&lt;/a&gt; is a simple and easy to use database migration (schema evolution) library for go with good support for many mainstream databases. This post is a quick recipe on how we can bundle the migrations (sql patch files) without our go binary - this is particularly helpful when the app is distributed a single binary without dependencies.&lt;/p&gt;
+&lt;p&gt;Go stdlib includes an &lt;a href=&#34;https://pkg.go.dev/embed&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;embed package&lt;/a&gt; that simplifies accessing files embedded in the running go program. Also go-migrate has support for httpfs as a source that makes it easy to integrate the two.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;package&lt;/span&gt; store
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt; (
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;database/sql&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;embed&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;net/http&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;path/filepath&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;github.com/golang-migrate/migrate/v4&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;github.com/golang-migrate/migrate/v4/database/sqlite3&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;github.com/golang-migrate/migrate/v4/source/httpfs&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	_ &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;github.com/mattn/go-sqlite3&amp;quot;&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// Our migration files reside in db_migrations directory within this package&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// eg. db_migrations/&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;//     |_ 001_create_tables.up.sql&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;//     |_ 001_create_tables.down.sql&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;//go:embed db_migrations&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;var&lt;/span&gt; migrations embed.FS
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;hljs-title&#34;&gt;migrateSchema&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;/span&gt; &lt;span class=&#34;hljs-type&#34;&gt;error&lt;/span&gt; {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    db, err := sql.Open(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;sqlite3&amp;quot;&lt;/span&gt;, dbFilePath)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; err { &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; err }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    driver, err := sqlite3.WithInstance(db, &lt;span class=&#34;hljs-built_in&#34;&gt;new&lt;/span&gt;(sqlite3.Config))
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; err { &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; err }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    sourceInstance, err := httpfs.New(http.FS(migrations), &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;db_migrations&amp;quot;&lt;/span&gt;)    
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; err { &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; err }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    migrator, err := migrate.NewWithInstance(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;httpfs&amp;quot;&lt;/span&gt;, sourceInstance, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;sqlite3&amp;quot;&lt;/span&gt;, driver) 
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; err { &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; err }
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    err = migrator.Up()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; err
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
+
+</content>
+        <category term="go" />
+        <category term="sql" />
+        <category term="go-migrate" />
+        <updated>2022-10-01T00:00:00.000Z</updated>
+    </entry>
+    <entry>
+        <id>https://lorefnon.me/2022/10/01/using-buf-connect-with-chi/</id>
+        <title>Using chi router and connect-go together</title>
+        <link rel="alternate" href="https://lorefnon.me/2022/10/01/using-buf-connect-with-chi/"/>
+        <content type="html">&lt;p&gt;&lt;a href=&#34;https://github.com/bufbuild/connect-go&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;connect-go&lt;/a&gt; is a protobuf RPC implementation, touted as a better gRPC. I have been using it for few weeks and have found it to be quite enjoyable.&lt;/p&gt;
+&lt;p&gt;This post is a quick recipe on how to use it alongside chi router. The &lt;a href=&#34;https://github.com/bufbuild/connect-go#a-small-example&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;official docs&lt;/a&gt; already illustrate using connect with net&amp;#x2F;http2 directly. But if you are incrementally adopting connect in a project, or need a few REST style endpoints for backward compatibility, or for file uploads or serving server generated templates, it is easy to use connect alongside the &lt;a href=&#34;https://go-chi.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;chi router&lt;/a&gt;. &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;&lt;table class=&#34;hlcode-table&#34;&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;mux := chi.NewRouter()
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// Middlewares&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;mux.Use(middleware.Logger)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// HTTP Endpoints&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;mux.Post(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;/upload&amp;quot;&lt;/span&gt;, handleFileUpload)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// Connect API Endpoints&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// Associate the Handlers generated from the protobuf file&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;path, handler := pbconnect.SampleServiceHandler(
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;// Pass service implementation here:&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;    &amp;amp;SampleServiceImpl{},
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;mux.Handle(path+&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;*&amp;quot;&lt;/span&gt;, handler) &lt;span class=&#34;hljs-comment&#34;&gt;// &amp;lt;----- Note The &amp;quot;*&amp;quot; wildcard suffix here&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-comment&#34;&gt;// Use h2c so we can serve HTTP/2 without TLS.&lt;/span&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;handler := h2c.NewHandler(mux, &amp;amp;http2.Server{})
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;err := http.ListenAndServe(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;localhost:8080&amp;quot;&lt;/span&gt;, handler)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; err != &lt;span class=&#34;hljs-literal&#34;&gt;nil&lt;/span&gt; {
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;	&lt;span class=&#34;hljs-built_in&#34;&gt;panic&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Failed to init http server&amp;quot;&lt;/span&gt;)
+&lt;/td&gt;&lt;/tr&gt;&lt;tr style=&#34;border:none;&#34; class=&#34;hlcode-line  &#34; &gt;&lt;td style=&#34;border:none&#34; class=&#34;hlcode-code-cell&#34;&gt;}
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;
+</content>
+        <category term="go" />
+        <category term="chi" />
+        <category term="connect" />
+        <updated>2022-10-01T00:00:00.000Z</updated>
+    </entry>
     <entry>
         <id>https://lorefnon.me/2022/09/04/getting-started-with-jet-query-builder-for-golang/</id>
         <title>Getting started with Jet Query builder for Go</title>

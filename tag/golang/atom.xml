@@ -93,6 +93,9 @@
     <category term="zerolog" />
     <category term="jet" />
     <category term="sql" />
+    <category term="go-migrate" />
+    <category term="chi" />
+    <category term="connect" />
     <entry>
         <id>https://lorefnon.me/2022/09/04/getting-started-with-jet-query-builder-for-golang/</id>
         <title>Getting started with Jet Query builder for Go</title>

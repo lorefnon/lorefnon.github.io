@@ -93,6 +93,9 @@
     <category term="zerolog" />
     <category term="jet" />
     <category term="sql" />
+    <category term="go-migrate" />
+    <category term="chi" />
+    <category term="connect" />
     <entry>
         <id>https://lorefnon.me/2019/03/16/using-theme-specific-keybindings-in-vscode-to-improve-productivity/</id>
         <title>Using theme specific keybindings in VSCode to improve productivity</title>

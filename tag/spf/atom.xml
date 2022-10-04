@@ -93,6 +93,9 @@
     <category term="zerolog" />
     <category term="jet" />
     <category term="sql" />
+    <category term="go-migrate" />
+    <category term="chi" />
+    <category term="connect" />
     <entry>
         <id>https://lorefnon.me/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</id>
         <title>Boost your content focussed site with Structured Page Fragments</title>

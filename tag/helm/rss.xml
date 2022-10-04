@@ -96,6 +96,9 @@
         <category>zerolog</category>
         <category>jet</category>
         <category>sql</category>
+        <category>go-migrate</category>
+        <category>chi</category>
+        <category>connect</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/01/28/using-helm-to-select-tide-completion-candidates/</guid>
             <title>Using helm to select tide completion candidates</title>
