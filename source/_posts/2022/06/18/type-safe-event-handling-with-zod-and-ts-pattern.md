@@ -1,7 +1,8 @@
 ---
-title: Type-safe event handling in Typescript with zod and ts-match
-tags: [typescript, zod, ts-match]
+title: Type-safe event handling in Typescript with zod and ts-pattern
+tags: [typescript, zod, ts-pattern]
 popular: true
+date: 2022-06-18
 discussions:
     mastodon:
         id: '108499918533228631'
