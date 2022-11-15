@@ -96,6 +96,9 @@
     <category term="go-migrate" />
     <category term="chi" />
     <category term="connect" />
+    <category term="cloudfront" />
+    <category term="AWS" />
+    <category term="CDK" />
     <entry>
         <id>https://lorefnon.me/2015/01/03/leveraging-strategy-pattern-in-rails.html</id>
         <title>Leveraging the strategy pattern in Rails - I</title>

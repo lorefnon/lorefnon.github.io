@@ -99,6 +99,9 @@
         <category>go-migrate</category>
         <category>chi</category>
         <category>connect</category>
+        <category>cloudfront</category>
+        <category>AWS</category>
+        <category>CDK</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2022/06/18/type-safe-event-handling-with-zod-and-ts-pattern/</guid>
             <title>Type-safe event handling in Typescript with zod and ts-pattern</title>

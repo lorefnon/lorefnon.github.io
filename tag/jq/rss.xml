@@ -99,6 +99,9 @@
         <category>go-migrate</category>
         <category>chi</category>
         <category>connect</category>
+        <category>cloudfront</category>
+        <category>AWS</category>
+        <category>CDK</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2020/11/27/exploring-har-http-archive-logs-with-jq/</guid>
             <title>Exporing HAR (HTTP Archive) logs with Jq</title>

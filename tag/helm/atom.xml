@@ -96,6 +96,9 @@
     <category term="go-migrate" />
     <category term="chi" />
     <category term="connect" />
+    <category term="cloudfront" />
+    <category term="AWS" />
+    <category term="CDK" />
     <entry>
         <id>https://lorefnon.me/2018/01/28/using-helm-to-select-tide-completion-candidates/</id>
         <title>Using helm to select tide completion candidates</title>

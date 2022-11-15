@@ -96,6 +96,9 @@
     <category term="go-migrate" />
     <category term="chi" />
     <category term="connect" />
+    <category term="cloudfront" />
+    <category term="AWS" />
+    <category term="CDK" />
     <entry>
         <id>https://lorefnon.me/2014/07/27/optimizing-sti-columns.html</id>
         <title>Optimizing space taken by type column in Rails STI</title>

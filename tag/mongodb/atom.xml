@@ -96,6 +96,9 @@
     <category term="go-migrate" />
     <category term="chi" />
     <category term="connect" />
+    <category term="cloudfront" />
+    <category term="AWS" />
+    <category term="CDK" />
     <entry>
         <id>https://lorefnon.me/2018/08/20/uploading-files-to-mongodb-gridfs-via-apollo-powered-graphql-api/</id>
         <title>Uploading files to MongoDB GridFS via Apollo powered GraphQL API</title>

@@ -99,6 +99,9 @@
         <category>go-migrate</category>
         <category>chi</category>
         <category>connect</category>
+        <category>cloudfront</category>
+        <category>AWS</category>
+        <category>CDK</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2022/04/26/using-jte-kotlin-templates-in-spring-boot/</guid>
             <title>Using jte kotlin templates in spring-boot</title>

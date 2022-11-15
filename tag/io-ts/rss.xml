@@ -99,6 +99,9 @@
         <category>go-migrate</category>
         <category>chi</category>
         <category>connect</category>
+        <category>cloudfront</category>
+        <category>AWS</category>
+        <category>CDK</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/08/11/enforcing-runtime-validations-at-compile-time-in-typescript/</guid>
             <title>Enforcing runtime validations at compile time in TypeScript</title>

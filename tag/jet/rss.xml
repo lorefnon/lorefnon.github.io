@@ -99,6 +99,9 @@
         <category>go-migrate</category>
         <category>chi</category>
         <category>connect</category>
+        <category>cloudfront</category>
+        <category>AWS</category>
+        <category>CDK</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2022/09/04/getting-started-with-jet-query-builder-for-golang/</guid>
             <title>Getting started with Jet Query builder for Go</title>

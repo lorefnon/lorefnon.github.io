@@ -96,6 +96,9 @@
     <category term="go-migrate" />
     <category term="chi" />
     <category term="connect" />
+    <category term="cloudfront" />
+    <category term="AWS" />
+    <category term="CDK" />
     <entry>
         <id>https://lorefnon.me/2021/08/03/Adapting-Jooq-To-Rails-DB-Naming-Conventions/</id>
         <title>Adapting jOOQ code generator to Rails database naming conventions</title>

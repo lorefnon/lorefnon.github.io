@@ -96,6 +96,9 @@
     <category term="go-migrate" />
     <category term="chi" />
     <category term="connect" />
+    <category term="cloudfront" />
+    <category term="AWS" />
+    <category term="CDK" />
     <entry>
         <id>https://lorefnon.me/2018/08/18/integrating-next-js-apollo-server-and-koa/</id>
         <title>Integrating Next.js, Apollo Server and Koa</title>

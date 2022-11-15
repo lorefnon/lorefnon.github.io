@@ -96,6 +96,9 @@
     <category term="go-migrate" />
     <category term="chi" />
     <category term="connect" />
+    <category term="cloudfront" />
+    <category term="AWS" />
+    <category term="CDK" />
     <entry>
         <id>https://lorefnon.me/2018/07/14/getting-productive-with-selection-and-navigation-in-emacs/</id>
         <title>Getting productive with selection and navigation in Emacs</title>

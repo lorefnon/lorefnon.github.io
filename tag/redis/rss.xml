@@ -99,6 +99,9 @@
         <category>go-migrate</category>
         <category>chi</category>
         <category>connect</category>
+        <category>cloudfront</category>
+        <category>AWS</category>
+        <category>CDK</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2021/11/20/efficient-multi-tiered-caches-with-redis/</guid>
             <title>Simple and efficient multi-tiered caches with Redis &amp; lua</title>

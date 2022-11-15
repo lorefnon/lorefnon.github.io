@@ -99,6 +99,9 @@
         <category>go-migrate</category>
         <category>chi</category>
         <category>connect</category>
+        <category>cloudfront</category>
+        <category>AWS</category>
+        <category>CDK</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/01/12/using-an-svg-grid-background-for-aligning-elements-in-web-page/</guid>
             <title>Using an SVG grid background for aligning elements in web page</title>

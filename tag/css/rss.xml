@@ -99,6 +99,9 @@
         <category>go-migrate</category>
         <category>chi</category>
         <category>connect</category>
+        <category>cloudfront</category>
+        <category>AWS</category>
+        <category>CDK</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2016/04/04/embracing-bem-methodology-in-react-applications.html</guid>
             <title>Embracing BEM methodology in React applications</title>
