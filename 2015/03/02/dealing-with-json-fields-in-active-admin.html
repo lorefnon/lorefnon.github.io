@@ -30,7 +30,7 @@ text fields. Of course you will need to handle server side validation yourself i
 
 <p>You may expect providing admin support for this model will just be
 a matter of adding a file <code>app/admin/product.rb</code>:</p>
-<pre><code class="hljs ruby">ActiveAdmin.register Product <span class="hljs-keyword">do</span>
+<pre><code class="hljs ruby"><span class="hljs-title class_">ActiveAdmin</span>.register <span class="hljs-title class_">Product</span> <span class="hljs-keyword">do</span>
   permit_params <span class="hljs-symbol">:name</span>, <span class="hljs-symbol">:description</span>, <span class="hljs-symbol">:metadata</span>
 <span class="hljs-keyword">end</span></code></pre>
 
@@ -40,7 +40,7 @@ with an error message:</p>
 <p>So basically Formtastic has no input field pre-configured for json
 field. A rudimentary workaround is fairly simple - We explicitly ask
 it to use a textarea for metadata field</p>
-<pre><code class="hljs ruby">ActiveAdmin.register Product <span class="hljs-keyword">do</span>
+<pre><code class="hljs ruby"><span class="hljs-title class_">ActiveAdmin</span>.register <span class="hljs-title class_">Product</span> <span class="hljs-keyword">do</span>
 
   permit_params <span class="hljs-symbol">:name</span>, <span class="hljs-symbol">:description</span>, <span class="hljs-symbol">:metadata</span>
 
@@ -70,7 +70,7 @@ interface. You can try it out <a href="http://jsoneditoronline.org/" target="_bl
 is pretty easy to integrate right inside ActiveAdmin.</p>
 <p>Let us first configure our form to add a class to the json field
 so that we can handle json input fields in a generic fashion.</p>
-<pre><code class="hljs ruby">ActiveAdmin.register Product <span class="hljs-keyword">do</span>
+<pre><code class="hljs ruby"><span class="hljs-title class_">ActiveAdmin</span>.register <span class="hljs-title class_">Product</span> <span class="hljs-keyword">do</span>
 
   permit_params <span class="hljs-symbol">:name</span>, <span class="hljs-symbol">:description</span>, <span class="hljs-symbol">:metadata</span>
 

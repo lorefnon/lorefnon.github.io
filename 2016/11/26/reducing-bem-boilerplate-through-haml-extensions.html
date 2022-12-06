@@ -25,7 +25,7 @@ or not reflect my current my recommedation in the matter.</div><div class="page-
 <span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span></code></pre>
 
 <p>Fortunately, if we are using <a href="http://haml.info/" target="_blank" rel="noopener external nofollow noreferrer">HAML</a>, then we can extend the HAML parser to reduce some of this verbosity. HAML has a method <code>Haml::Parser.parse_class_and_id</code> to expand expressions like <code>.hello.world#some-id</code>. We can monkey-patch this method to make it bem aware.</p>
-<pre><code class="hljs ruby">Haml::Parser.class_eval <span class="hljs-keyword">do</span>
+<pre><code class="hljs ruby"><span class="hljs-title class_">Haml</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:Parser</span>.class_eval <span class="hljs-keyword">do</span>
   <span class="hljs-keyword">class</span> &lt;&lt; <span class="hljs-variable language_">self</span>
 
     <span class="hljs-variable constant_">CLASS_KEY</span> = <span class="hljs-string">&#x27;class&#x27;</span>.freeze
@@ -102,7 +102,7 @@ or not reflect my current my recommedation in the matter.</div><div class="page-
       bem_breakdown.each <span class="hljs-keyword">do</span> |<span class="hljs-params">item</span>|
         current_class = <span class="hljs-string">&#x27;&#x27;</span>
         <span class="hljs-keyword">if</span> item[<span class="hljs-symbol">:block</span>].blank?
-          raise <span class="hljs-string">&quot;BEM Block missing&quot;</span>
+          <span class="hljs-keyword">raise</span> <span class="hljs-string">&quot;BEM Block missing&quot;</span>
         <span class="hljs-keyword">else</span>
           current_class += item[<span class="hljs-symbol">:block</span>]
         <span class="hljs-keyword">end</span>
@@ -148,7 +148,7 @@ or not reflect my current my recommedation in the matter.</div><div class="page-
 
 <p>What about cases when we want to use ruby helpers ? We can define two helper methods that expose this functionality:</p>
 <pre><code class="hljs ruby"><span class="hljs-keyword">def</span> <span class="hljs-title function_">expand_bem_class</span>(<span class="hljs-params">name</span>)
-  Haml::Parser.expand_bem_class(name)
+  <span class="hljs-title class_">Haml</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:Parser</span>.expand_bem_class(name)
 <span class="hljs-keyword">end</span>
 
 <span class="hljs-keyword">def</span> <span class="hljs-title function_">expand_bem_classes</span>(<span class="hljs-params">name</span>)

@@ -102,6 +102,7 @@
         <category>cloudfront</category>
         <category>AWS</category>
         <category>CDK</category>
+        <category>Go</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/01/28/using-helm-to-select-tide-completion-candidates/</guid>
             <title>Using helm to select tide completion candidates</title>

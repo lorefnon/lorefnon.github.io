@@ -99,6 +99,7 @@
     <category term="cloudfront" />
     <category term="AWS" />
     <category term="CDK" />
+    <category term="Go" />
     <entry>
         <id>https://lorefnon.me/2012/08/15/a-websocket-powered-tic-tac-toe-game-using-ruby-eventmachine--part-1.html</id>
         <title>A Websocket powered Tic tac toe game using Ruby EventMachine – Part 1</title>
@@ -114,9 +115,9 @@
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;require&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;eventmachine&amp;#x27;&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;require&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;em-websocket&amp;#x27;&lt;/span&gt;
 
-EventMachine.run &amp;#123;
+&lt;span class=&#34;hljs-title class_&#34;&gt;EventMachine&lt;/span&gt;.run &amp;#123;
 
-    EventMachine::WebSocket.start(&lt;span class=&#34;hljs-symbol&#34;&gt;:host&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;0.0.0.0&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:port&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-number&#34;&gt;8080&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;ws&lt;/span&gt;|
+    &lt;span class=&#34;hljs-title class_&#34;&gt;EventMachine&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:WebSocket&lt;/span&gt;.start(&lt;span class=&#34;hljs-symbol&#34;&gt;:host&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;0.0.0.0&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:port&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-number&#34;&gt;8080&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;ws&lt;/span&gt;|
         ws.onopen &amp;#123;
           puts &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;WebSocket connection open&amp;quot;&lt;/span&gt;
         &amp;#125;
@@ -135,9 +136,9 @@ EventMachine.run &amp;#123;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;If all goes well, it should return true and the message “Websocket connection open” should be displayed in the terminal.&lt;/p&gt;
 &lt;p&gt;So far, so good. But the main purpose of a server is to relay data to the client. How do we do that ? Turns out that is pretty simple too.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;EventMachine.run &amp;#123;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;EventMachine&lt;/span&gt;.run &amp;#123;
 
-    EventMachine::WebSocket.start(&lt;span class=&#34;hljs-symbol&#34;&gt;:host&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;0.0.0.0&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:port&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-number&#34;&gt;8080&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;ws&lt;/span&gt;|
+    &lt;span class=&#34;hljs-title class_&#34;&gt;EventMachine&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:WebSocket&lt;/span&gt;.start(&lt;span class=&#34;hljs-symbol&#34;&gt;:host&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;0.0.0.0&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:port&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-number&#34;&gt;8080&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;ws&lt;/span&gt;|
         ws.onopen &amp;#123;
           puts &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;WebSocket connection open&amp;quot;&lt;/span&gt;
           &lt;span class=&#34;hljs-comment&#34;&gt;# publish message to the client&lt;/span&gt;
@@ -191,9 +192,9 @@ socket.&lt;span class=&#34;hljs-property&#34;&gt;onmessage&lt;/span&gt; = &lt;sp
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
-EventMachine.run &amp;#123;
-  &lt;span class=&#34;hljs-variable&#34;&gt;@gc&lt;/span&gt; = GameController.new
-  EventMachine::WebSocket.start(&lt;span class=&#34;hljs-symbol&#34;&gt;:host&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;0.0.0.0&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:port&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-number&#34;&gt;8080&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;ws&lt;/span&gt;|
+&lt;span class=&#34;hljs-title class_&#34;&gt;EventMachine&lt;/span&gt;.run &amp;#123;
+  &lt;span class=&#34;hljs-variable&#34;&gt;@gc&lt;/span&gt; = &lt;span class=&#34;hljs-title class_&#34;&gt;GameController&lt;/span&gt;.new
+  &lt;span class=&#34;hljs-title class_&#34;&gt;EventMachine&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:WebSocket&lt;/span&gt;.start(&lt;span class=&#34;hljs-symbol&#34;&gt;:host&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;0.0.0.0&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:port&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-number&#34;&gt;8080&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;ws&lt;/span&gt;|
 
     ws.onmessage &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;req&lt;/span&gt;|
       req = &lt;span class=&#34;hljs-variable constant_&#34;&gt;JSON&lt;/span&gt;.parse(req)
@@ -213,8 +214,8 @@ EventMachine.run &amp;#123;
 &lt;p&gt;For the sake of consistency, lets have all client server communications serialized as JSON.&lt;/p&gt;
 &lt;p&gt;Rather than Running around with socket references, we encapsulate all the functionality of a single client in a player class :&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Player&lt;/span&gt;
-  &lt;span class=&#34;hljs-keyword&#34;&gt;attr_accessor&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:socket&lt;/span&gt;
-  &lt;span class=&#34;hljs-keyword&#34;&gt;attr_reader&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:id&lt;/span&gt;
+  &lt;span class=&#34;hljs-built_in&#34;&gt;attr_accessor&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:socket&lt;/span&gt;
+  &lt;span class=&#34;hljs-built_in&#34;&gt;attr_reader&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:id&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;initialize&lt;/span&gt; ws
     &lt;span class=&#34;hljs-variable&#34;&gt;@id&lt;/span&gt; = rand(&lt;span class=&#34;hljs-number&#34;&gt;5000&lt;/span&gt;)
     &lt;span class=&#34;hljs-variable&#34;&gt;@socket&lt;/span&gt; = ws
@@ -227,7 +228,7 @@ EventMachine.run &amp;#123;
 
 &lt;p&gt;Also, we add a stub for a game class which will take care of managing the game state. The Game class instance would represent a single ongoing game between two opponents.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Game&lt;/span&gt;
-  &lt;span class=&#34;hljs-keyword&#34;&gt;attr_reader&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:id&lt;/span&gt;
+  &lt;span class=&#34;hljs-built_in&#34;&gt;attr_reader&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:id&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;initialize&lt;/span&gt; player1, player2, game_controller
     &lt;span class=&#34;hljs-variable&#34;&gt;@id&lt;/span&gt; = rand(&lt;span class=&#34;hljs-number&#34;&gt;5000&lt;/span&gt;)
     &lt;span class=&#34;hljs-comment&#34;&gt;# create initial game state&lt;/span&gt;
@@ -259,8 +260,8 @@ EventMachine.run &amp;#123;
 &lt;span class=&#34;hljs-keyword&#34;&gt;require&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;json&amp;#x27;&lt;/span&gt;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Player&lt;/span&gt;
-  &lt;span class=&#34;hljs-keyword&#34;&gt;attr_accessor&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:score&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:socket&lt;/span&gt;
-  &lt;span class=&#34;hljs-keyword&#34;&gt;attr_reader&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:id&lt;/span&gt;
+  &lt;span class=&#34;hljs-built_in&#34;&gt;attr_accessor&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:score&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:socket&lt;/span&gt;
+  &lt;span class=&#34;hljs-built_in&#34;&gt;attr_reader&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:id&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;initialize&lt;/span&gt; ws
     &lt;span class=&#34;hljs-variable&#34;&gt;@id&lt;/span&gt; = rand(&lt;span class=&#34;hljs-number&#34;&gt;5000&lt;/span&gt;)
     &lt;span class=&#34;hljs-variable&#34;&gt;@socket&lt;/span&gt; = ws
@@ -272,7 +273,7 @@ EventMachine.run &amp;#123;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
 &lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Game&lt;/span&gt;
-  &lt;span class=&#34;hljs-keyword&#34;&gt;attr_reader&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:id&lt;/span&gt;
+  &lt;span class=&#34;hljs-built_in&#34;&gt;attr_reader&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:id&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;initialize&lt;/span&gt; player1, player2, game_controller
     &lt;span class=&#34;hljs-variable&#34;&gt;@id&lt;/span&gt; = rand(&lt;span class=&#34;hljs-number&#34;&gt;5000&lt;/span&gt;)
     &lt;span class=&#34;hljs-variable&#34;&gt;@players&lt;/span&gt; = &amp;#123;&amp;#125;
@@ -413,9 +414,9 @@ EventMachine.run &amp;#123;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
-EventMachine.run &amp;#123;
-  &lt;span class=&#34;hljs-variable&#34;&gt;@gc&lt;/span&gt; = GameController.new
-  EventMachine::WebSocket.start(&lt;span class=&#34;hljs-symbol&#34;&gt;:host&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;0.0.0.0&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:port&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-number&#34;&gt;8080&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;ws&lt;/span&gt;|
+&lt;span class=&#34;hljs-title class_&#34;&gt;EventMachine&lt;/span&gt;.run &amp;#123;
+  &lt;span class=&#34;hljs-variable&#34;&gt;@gc&lt;/span&gt; = &lt;span class=&#34;hljs-title class_&#34;&gt;GameController&lt;/span&gt;.new
+  &lt;span class=&#34;hljs-title class_&#34;&gt;EventMachine&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:WebSocket&lt;/span&gt;.start(&lt;span class=&#34;hljs-symbol&#34;&gt;:host&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;0.0.0.0&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:port&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-number&#34;&gt;8080&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;ws&lt;/span&gt;|
 
     ws.onmessage &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;req&lt;/span&gt;|
       req = &lt;span class=&#34;hljs-variable constant_&#34;&gt;JSON&lt;/span&gt;.parse(req)

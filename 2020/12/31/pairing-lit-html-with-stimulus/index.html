@@ -138,7 +138,7 @@ application.<span class="hljs-title function_">register</span>(<span class="hljs
 <p>Nothing wrong with that approach, but note one thing: If you are server rendering your templates (look at the <a href="https://github.com/popeindustries/lit-html-server" target="_blank" rel="noopener external nofollow noreferrer">lit-html-server</a> project) - you&#39;d need to load the templates <strong>atleast twice</strong>. Once the pre-rendered HTML and second the javascript representation that can be used for re-rendering. </p>
 <p>However, in our implementation, the controller that invokes rerender does not need the javascript representation until the rerender is actually called. So we can use dynamic imports &#x2F; code-splitting and load our template only when needed.</p>
 <pre><code class="hljs js"><span class="hljs-title function_">rerender</span>(<span class="hljs-params"></span>) &#123;
-  <span class="hljs-title function_">import</span>(<span class="hljs-string">&#x27;./todo-list-template&#x27;</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">template</span> =&gt;</span> 
+  <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./todo-list-template&#x27;</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">template</span> =&gt;</span> 
     <span class="hljs-title function_">render</span>(<span class="hljs-title function_">template</span>(tasks), <span class="hljs-variable language_">this</span>.<span class="hljs-property">element</span>)
   );
 &#125;</code></pre>

@@ -102,6 +102,7 @@
         <category>cloudfront</category>
         <category>AWS</category>
         <category>CDK</category>
+        <category>Go</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/03/24/using-comlink-with-typescript-and-worker-loader/</guid>
             <title>Using comlink with typescript and worker-loader</title>

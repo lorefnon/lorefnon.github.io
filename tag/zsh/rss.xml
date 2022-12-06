@@ -102,6 +102,7 @@
         <category>cloudfront</category>
         <category>AWS</category>
         <category>CDK</category>
+        <category>Go</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2014/09/13/commit-messages-from-generator-outputs.html</guid>
             <title>Commit messages from generator outputs</title>

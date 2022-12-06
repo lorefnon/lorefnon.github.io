@@ -99,6 +99,7 @@
     <category term="cloudfront" />
     <category term="AWS" />
     <category term="CDK" />
+    <category term="Go" />
     <entry>
         <id>https://lorefnon.me/2021/12/15/mapping-between-domain-and-dtos-for-grpc/</id>
         <title>Mapping between Domain and DTO classes for gRPC APIs</title>

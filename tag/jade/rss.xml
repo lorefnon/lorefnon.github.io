@@ -102,6 +102,7 @@
         <category>cloudfront</category>
         <category>AWS</category>
         <category>CDK</category>
+        <category>Go</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2012/12/12/sharing-jade-templates-between-nodejs-server-and-client.html</guid>
             <title>Sharing Jade templates between Node.js server and client</title>

@@ -37,7 +37,7 @@ are trending in the community.</p>
 
 <p>In home&#x2F;index.html.erb</p>
 <pre><code class="hljs erb"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&#x27;recommended-book-list&#x27;</span>&gt;</span></span>
-<span class="language-xml">  &lt;%</span><span class="language-ruby"> Book.recommended.each <span class="hljs-keyword">do</span> </span><span class="language-xml">%&gt;</span>
+<span class="language-xml">  &lt;%</span><span class="language-ruby"> <span class="hljs-title class_">Book</span>.recommended.each <span class="hljs-keyword">do</span> </span><span class="language-xml">%&gt;</span>
 <span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span> &lt;%=</span><span class="language-ruby"> book.title </span><span class="language-xml">%&gt; <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span>
 <span class="language-xml">  &lt;%</span><span class="language-ruby"> <span class="hljs-keyword">end</span> </span><span class="language-xml">%&gt;</span>
 <span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></span></code></pre>
@@ -80,7 +80,7 @@ shotgun surgery and modify our code to the following:</p>
 
 <p>And our template becomes something like:</p>
 <pre><code class="hljs erb"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&#x27;recommended-book-list&#x27;</span>&gt;</span></span>
-<span class="language-xml">  &lt;%</span><span class="language-ruby"> Book.recommended_for(current_user).each <span class="hljs-keyword">do</span> </span><span class="language-xml">%&gt;</span>
+<span class="language-xml">  &lt;%</span><span class="language-ruby"> <span class="hljs-title class_">Book</span>.recommended_for(current_user).each <span class="hljs-keyword">do</span> </span><span class="language-xml">%&gt;</span>
 <span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span> &lt;%=</span><span class="language-ruby"> book.title </span><span class="language-xml">%&gt; <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span></span>
 <span class="language-xml">  &lt;%</span><span class="language-ruby"> <span class="hljs-keyword">end</span> </span><span class="language-xml">%&gt;</span>
 <span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></span></code></pre>
@@ -97,10 +97,10 @@ publication.</p>
 <pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Book</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
   ...
   <span class="hljs-keyword">def</span> <span class="hljs-title function_">self</span>.recommended_for user
-    query = Book
+    query = <span class="hljs-title class_">Book</span>
 
     <span class="hljs-comment"># Comment this out when deal with Jackass Kangaroo Publication is over.</span>
-    query = query.where(<span class="hljs-symbol">publisher:</span> Publisher.where(<span class="hljs-symbol">name:</span> <span class="hljs-string">&#x27;Jackass Kangaroo Publication&#x27;</span>).first)
+    query = query.where(<span class="hljs-symbol">publisher:</span> <span class="hljs-title class_">Publisher</span>.where(<span class="hljs-symbol">name:</span> <span class="hljs-string">&#x27;Jackass Kangaroo Publication&#x27;</span>).first)
 
     <span class="hljs-keyword">if</span> user.blank? |<span class="hljs-params"></span>| (user.recommendations_count &lt; <span class="hljs-number">5</span>)
       query.popular
@@ -119,11 +119,11 @@ by adding just another condition:</p>
 <pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Book</span> &lt; <span class="hljs-title class_ inherited__">ActiveRecord::Base</span>
   ...
   <span class="hljs-keyword">def</span> <span class="hljs-title function_">self</span>.recommended_for user
-    query = Book
+    query = <span class="hljs-title class_">Book</span>
 
     <span class="hljs-comment"># Comment this out when deal with Jackass Kangaroo Publication is over.</span>
     <span class="hljs-keyword">unless</span> user.located_in? <span class="hljs-variable constant_">DISPUTED_DEMOGRAPHY</span>
-      query = query.where(<span class="hljs-symbol">publisher:</span> Publisher.where(<span class="hljs-symbol">name:</span> <span class="hljs-string">&#x27;Jackass Kangaroo Publication&#x27;</span>).first)
+      query = query.where(<span class="hljs-symbol">publisher:</span> <span class="hljs-title class_">Publisher</span>.where(<span class="hljs-symbol">name:</span> <span class="hljs-string">&#x27;Jackass Kangaroo Publication&#x27;</span>).first)
     <span class="hljs-keyword">end</span>
 
     ...
@@ -142,10 +142,10 @@ application that affect our recommendation policy as well as the complete implem
 is cumbersome. What we can do is that we can refactor out the specific strategies into dedicated
 classes that encapsulate the actual implementation details. This is exactly what the strategy pattern
 encourages us to embrace.</p>
-<pre><code class="hljs ruby"><span class="hljs-keyword">module</span> Strategies
+<pre><code class="hljs ruby"><span class="hljs-keyword">module</span> <span class="hljs-title class_">Strategies</span>
   <span class="hljs-keyword">class</span> <span class="hljs-title class_">RecommendationGeneration</span> &lt; <span class="hljs-title class_ inherited__">Struct</span>.new(user, scoped_collection)
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">scoped_collection</span>
-      <span class="hljs-variable language_">super</span> |<span class="hljs-params"></span>| Book
+      <span class="hljs-variable language_">super</span> |<span class="hljs-params"></span>| <span class="hljs-title class_">Book</span>
     <span class="hljs-keyword">end</span>
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">applicable?</span>
@@ -158,7 +158,7 @@ encourages us to embrace.</p>
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></code></pre>
 <br>
-<pre><code class="hljs ruby"><span class="hljs-keyword">module</span> Strategies
+<pre><code class="hljs ruby"><span class="hljs-keyword">module</span> <span class="hljs-title class_">Strategies</span>
   <span class="hljs-keyword">class</span> <span class="hljs-title class_">DefaultRecommendationGeneration</span> &lt; <span class="hljs-title class_ inherited__">RecommendationGeneration</span>
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">applicable?</span>
@@ -177,7 +177,7 @@ encourages us to embrace.</p>
 <span class="hljs-keyword">end</span></code></pre>
 <br>
 <pre><code class="hljs ruby">
-<span class="hljs-keyword">module</span> Strategies
+<span class="hljs-keyword">module</span> <span class="hljs-title class_">Strategies</span>
   <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserAdaptedRecommendationGeneration</span> &lt; <span class="hljs-title class_ inherited__">RecommendationGeneration</span>
 
     <span class="hljs-keyword">def</span> <span class="hljs-title function_">applicable?</span>
@@ -193,7 +193,7 @@ encourages us to embrace.</p>
         <span class="hljs-keyword">end</span>
 
         <span class="hljs-keyword">def</span> <span class="hljs-title function_">execute</span>
-          Strategies::DefaultRecommendation
+          <span class="hljs-title class_">Strategies</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:DefaultRecommendation</span>
             .new(user, scoped_collection)
                 .execute
         <span class="hljs-keyword">end</span>
@@ -202,7 +202,7 @@ encourages us to embrace.</p>
 <span class="hljs-keyword">end</span></code></pre>
 <br>
 <pre><code class="hljs ruby">
-<span class="hljs-keyword">module</span> Strategies
+<span class="hljs-keyword">module</span> <span class="hljs-title class_">Strategies</span>
   <span class="hljs-keyword">class</span> <span class="hljs-title class_">PartnershipAdaptedRecommendationGeneration</span> &lt; <span class="hljs-title class_ inherited__">RecommendationGeneration</span>
 
     <span class="hljs-comment"># It is better to model buisness constraints in the persistance layer</span>
@@ -213,7 +213,7 @@ encourages us to embrace.</p>
         <span class="hljs-keyword">end</span>
 
         <span class="hljs-keyword">def</span> <span class="hljs-title function_">partner_publisher</span>
-          Partnership
+          <span class="hljs-title class_">Partnership</span>
             .legal_in(user.demography)
         .having_recommendation_priviledge
                 .active
@@ -222,11 +222,11 @@ encourages us to embrace.</p>
         <span class="hljs-keyword">end</span>
 
         <span class="hljs-keyword">def</span> <span class="hljs-title function_">scoped_collection</span>
-          Book.where(<span class="hljs-symbol">publisher:</span> partner_publisher)
+          <span class="hljs-title class_">Book</span>.where(<span class="hljs-symbol">publisher:</span> partner_publisher)
         <span class="hljs-keyword">end</span>
 
         <span class="hljs-keyword">def</span> <span class="hljs-title function_">execute</span>
-          Strategies::UserAdaptedRecommendationGeneration
+          <span class="hljs-title class_">Strategies</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:UserAdaptedRecommendationGeneration</span>
                 .new(user, scoped_collection)
                 .execute
         <span class="hljs-keyword">end</span>
@@ -241,9 +241,9 @@ it:</p>
   ...
 
   <span class="hljs-variable constant_">RECOMMENDATION_STRATEGIES</span> = [
-    PartnershipAdaptedRecommendationGeneration
-        UserAdaptedRecommendationGeneration
-        DefaultRecommendationGeneration
+    <span class="hljs-title class_">PartnershipAdaptedRecommendationGeneration</span>
+        <span class="hljs-title class_">UserAdaptedRecommendationGeneration</span>
+        <span class="hljs-title class_">DefaultRecommendationGeneration</span>
   ]
 
   <span class="hljs-keyword">def</span> <span class="hljs-title function_">self</span>.recommended_for user

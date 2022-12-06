@@ -99,6 +99,7 @@
     <category term="cloudfront" />
     <category term="AWS" />
     <category term="CDK" />
+    <category term="Go" />
     <entry>
         <id>https://lorefnon.me/2015/03/02/dealing-with-json-fields-in-active-admin.html</id>
         <title>Dealing with JSON data in Active Admin</title>
@@ -134,7 +135,7 @@ text fields. Of course you will need to handle server side validation yourself i
 
 &lt;p&gt;You may expect providing admin support for this model will just be
 a matter of adding a file &lt;code&gt;app/admin/product.rb&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;ActiveAdmin.register Product &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;ActiveAdmin&lt;/span&gt;.register &lt;span class=&#34;hljs-title class_&#34;&gt;Product&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
   permit_params &lt;span class=&#34;hljs-symbol&#34;&gt;:name&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:description&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:metadata&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
@@ -144,7 +145,7 @@ with an error message:&lt;/p&gt;
 &lt;p&gt;So basically Formtastic has no input field pre-configured for json
 field. A rudimentary workaround is fairly simple - We explicitly ask
 it to use a textarea for metadata field&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;ActiveAdmin.register Product &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;ActiveAdmin&lt;/span&gt;.register &lt;span class=&#34;hljs-title class_&#34;&gt;Product&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
 
   permit_params &lt;span class=&#34;hljs-symbol&#34;&gt;:name&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:description&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:metadata&lt;/span&gt;
 
@@ -174,7 +175,7 @@ interface. You can try it out &lt;a href=&#34;http://jsoneditoronline.org/&#34; 
 is pretty easy to integrate right inside ActiveAdmin.&lt;/p&gt;
 &lt;p&gt;Let us first configure our form to add a class to the json field
 so that we can handle json input fields in a generic fashion.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;ActiveAdmin.register Product &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;ActiveAdmin&lt;/span&gt;.register &lt;span class=&#34;hljs-title class_&#34;&gt;Product&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
 
   permit_params &lt;span class=&#34;hljs-symbol&#34;&gt;:name&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:description&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:metadata&lt;/span&gt;
 
@@ -348,8 +349,8 @@ can just define a normal ActiveRecord model to access this view.&lt;/p&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We can take the proxy model for a test drive using IRB:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&amp;gt; StateDistrictCityViewProxy.limit(&lt;span class=&#34;hljs-number&#34;&gt;10&lt;/span&gt;).to_a
-  StateDistrictCityViewProxy Load (&lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt;.4ms)  &lt;span class=&#34;hljs-variable constant_&#34;&gt;SELECT&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;`state_district_city_view`&lt;/span&gt;.* &lt;span class=&#34;hljs-variable constant_&#34;&gt;FROM&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;`state_district_city_view`&lt;/span&gt; &lt;span class=&#34;hljs-variable constant_&#34;&gt;LIMIT&lt;/span&gt; &lt;span class=&#34;hljs-number&#34;&gt;10&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&amp;gt; &lt;span class=&#34;hljs-title class_&#34;&gt;StateDistrictCityViewProxy&lt;/span&gt;.limit(&lt;span class=&#34;hljs-number&#34;&gt;10&lt;/span&gt;).to_a
+  &lt;span class=&#34;hljs-title class_&#34;&gt;StateDistrictCityViewProxy&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Load&lt;/span&gt; (&lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt;.4ms)  &lt;span class=&#34;hljs-variable constant_&#34;&gt;SELECT&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;`state_district_city_view`&lt;/span&gt;.* &lt;span class=&#34;hljs-variable constant_&#34;&gt;FROM&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;`state_district_city_view`&lt;/span&gt; &lt;span class=&#34;hljs-variable constant_&#34;&gt;LIMIT&lt;/span&gt; &lt;span class=&#34;hljs-number&#34;&gt;10&lt;/span&gt;
 =&amp;gt; [#&amp;lt;StateDistrictCityViewProxy id: 1, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Agali&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 2, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Amadagur&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 3, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Amarapuram&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 4, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Anantapur&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 5, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Atmakur&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 6, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Bathalapalle&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 7, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Beluguppa&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 8, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Bommanahal&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 9, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Brahmasamudram&amp;quot;&amp;gt;, #&amp;lt;StateDistrictCityViewProxy id: 10, state: &amp;quot;Andhra Pradesh&amp;quot;, district: &amp;quot;Anantapur&amp;quot;, city: &amp;quot;Bukkapatnam&amp;quot;&amp;gt;]&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now that we have a model, generating an ActiveAdmin resource is as simple as:&lt;/p&gt;
@@ -409,7 +410,7 @@ oviously trigger an error. For example, here is what we end up with when clickin
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Next we simply remove the irrelevant actions from the ActiveAdmin view:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;ActiveAdmin.register StateDistrictCityViewProxy &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;ActiveAdmin&lt;/span&gt;.register &lt;span class=&#34;hljs-title class_&#34;&gt;StateDistrictCityViewProxy&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
 
   actions &lt;span class=&#34;hljs-symbol&#34;&gt;:index&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:show&lt;/span&gt;
 

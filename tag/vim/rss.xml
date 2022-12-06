@@ -102,6 +102,7 @@
         <category>cloudfront</category>
         <category>AWS</category>
         <category>CDK</category>
+        <category>Go</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2022/01/29/hiding-jsx-closing-tag-noise-in-vim/</guid>
             <title>Hiding JSX closing tag noise in vim through conceal</title>

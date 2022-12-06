@@ -99,6 +99,7 @@
     <category term="cloudfront" />
     <category term="AWS" />
     <category term="CDK" />
+    <category term="Go" />
     <entry>
         <id>https://lorefnon.me/2016/03/31/database-driven-scheduling-with-clockwork-and-activejob.html</id>
         <title>Database driven scheduling with Clockwork and ActiveJob</title>
@@ -1153,7 +1154,7 @@ gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;influxdb-rails&amp;#x27;&l
 &lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;rails g influxdb&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The default configuration options are available in the generated &lt;code&gt;influxdb-rails.rb&lt;/code&gt; and they correspond to the default settings of influxdb.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;InfluxDB::Rails.configure &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;config&lt;/span&gt;|
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;Influx&lt;/span&gt;DB::&lt;span class=&#34;hljs-title class_&#34;&gt;Rails&lt;/span&gt;.configure &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;config&lt;/span&gt;|
   config.influxdb_database = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;rails&amp;quot;&lt;/span&gt;
   config.influxdb_username = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;root&amp;quot;&lt;/span&gt;
   config.influxdb_password = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;root&amp;quot;&lt;/span&gt;
@@ -1187,15 +1188,15 @@ gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;influxdb-rails&amp;#x27;&l
 &lt;h2 id=&#34;Configuring-additional-lifecycle-events&#34;&gt;&lt;a href=&#34;#Configuring-additional-lifecycle-events&#34; class=&#34;headerlink&#34; title=&#34;Configuring additional lifecycle events&#34;&gt;&lt;/a&gt;Configuring additional lifecycle events&lt;/h2&gt;&lt;p&gt;In a real applications we would want to aggregate additional metrics of our choosing. A popular solution for dispatching and subscribing to various lifecycle events that ruby community has developed is &lt;code&gt;ActiveSupport::Notifications&lt;/code&gt; which Rails internally uses.&lt;/p&gt;
 &lt;p&gt;Using &lt;code&gt;ActiveSupport::Notifications&lt;/code&gt; we can subscribe to lifecycle events of a rails application and add callbacks to dispatch these metrics to InfluxDB.&lt;/p&gt;
 &lt;p&gt;For example if we would like to track the execution times of queries in InfluxDB we can write an initializer:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;ActiveSupport::Notifications.subscribe(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;sql.active_record&amp;#x27;&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;name, start, finish, id, payload&lt;/span&gt;|
-  InfluxDB::Rails.client.write_point(name, &amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;value:&lt;/span&gt; (finish-start), &lt;span class=&#34;hljs-symbol&#34;&gt;start:&lt;/span&gt; start, &lt;span class=&#34;hljs-symbol&#34;&gt;finish:&lt;/span&gt; finish &amp;#125;)
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;ActiveSupport&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:Notifications&lt;/span&gt;.subscribe(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;sql.active_record&amp;#x27;&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;name, start, finish, id, payload&lt;/span&gt;|
+  &lt;span class=&#34;hljs-title class_&#34;&gt;Influx&lt;/span&gt;DB::&lt;span class=&#34;hljs-title class_&#34;&gt;Rails&lt;/span&gt;.client.write_point(name, &amp;#123; &lt;span class=&#34;hljs-symbol&#34;&gt;value:&lt;/span&gt; (finish-start), &lt;span class=&#34;hljs-symbol&#34;&gt;start:&lt;/span&gt; start, &lt;span class=&#34;hljs-symbol&#34;&gt;finish:&lt;/span&gt; finish &amp;#125;)
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The value attribute is something that InfluxDB admin will use to generate graph by default. We can query this just like the previous queries:&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/images/influxdb_lifecycle_event_query.png&#34; alt=&#34;InfluxDB Query lifecycle event&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;More lifecycle events of Rails application can be found in the &lt;a href=&#34;http://edgeguides.rubyonrails.org/active_support_instrumentation.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;Rails guides&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;In addition, the instrumentation API can be used directly to create a custom lifecycle events. Here is an example taken from the &lt;a href=&#34;http://api.rubyonrails.org/classes/ActiveSupport/Notifications.html&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;official documentation&lt;/a&gt; that outlines how a part of application code can be wrapped into an instrumented block which we could subscribe to in an identical fashion.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;ActiveSupport::Notifications.instrument(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;render&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;extra:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:information&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;ActiveSupport&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:Notifications&lt;/span&gt;.instrument(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;render&amp;#x27;&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;extra:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:information&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
   render &lt;span class=&#34;hljs-symbol&#34;&gt;text:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Foo&amp;#x27;&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
@@ -1290,7 +1291,7 @@ text fields. Of course you will need to handle server side validation yourself i
 
 &lt;p&gt;You may expect providing admin support for this model will just be
 a matter of adding a file &lt;code&gt;app/admin/product.rb&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;ActiveAdmin.register Product &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;ActiveAdmin&lt;/span&gt;.register &lt;span class=&#34;hljs-title class_&#34;&gt;Product&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
   permit_params &lt;span class=&#34;hljs-symbol&#34;&gt;:name&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:description&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:metadata&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
@@ -1300,7 +1301,7 @@ with an error message:&lt;/p&gt;
 &lt;p&gt;So basically Formtastic has no input field pre-configured for json
 field. A rudimentary workaround is fairly simple - We explicitly ask
 it to use a textarea for metadata field&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;ActiveAdmin.register Product &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;ActiveAdmin&lt;/span&gt;.register &lt;span class=&#34;hljs-title class_&#34;&gt;Product&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
 
   permit_params &lt;span class=&#34;hljs-symbol&#34;&gt;:name&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:description&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:metadata&lt;/span&gt;
 
@@ -1330,7 +1331,7 @@ interface. You can try it out &lt;a href=&#34;http://jsoneditoronline.org/&#34; 
 is pretty easy to integrate right inside ActiveAdmin.&lt;/p&gt;
 &lt;p&gt;Let us first configure our form to add a class to the json field
 so that we can handle json input fields in a generic fashion.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;ActiveAdmin.register Product &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;ActiveAdmin&lt;/span&gt;.register &lt;span class=&#34;hljs-title class_&#34;&gt;Product&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt;
 
   permit_params &lt;span class=&#34;hljs-symbol&#34;&gt;:name&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:description&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:metadata&lt;/span&gt;
 
@@ -1459,7 +1460,7 @@ are trending in the community.&lt;/p&gt;
 
 &lt;p&gt;In home&amp;#x2F;index.html.erb&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;recommended-book-list&amp;#x27;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; Book.recommended.each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Book&lt;/span&gt;.recommended.each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;language-xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; book.title &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
@@ -1502,7 +1503,7 @@ shotgun surgery and modify our code to the following:&lt;/p&gt;
 
 &lt;p&gt;And our template becomes something like:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs erb&#34;&gt;&lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;id&lt;/span&gt;=&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;recommended-book-list&amp;#x27;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; Book.recommended_for(current_user).each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Book&lt;/span&gt;.recommended_for(current_user).each &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;language-xml&#34;&gt;    &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt; &amp;lt;%=&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; book.title &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt; &lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&#34;language-xml&#34;&gt;  &amp;lt;%&lt;/span&gt;&lt;span class=&#34;language-ruby&#34;&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt; &lt;/span&gt;&lt;span class=&#34;language-xml&#34;&gt;%&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;language-xml&#34;&gt;&lt;span class=&#34;hljs-tag&#34;&gt;&amp;lt;/&lt;span class=&#34;hljs-name&#34;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
@@ -1519,10 +1520,10 @@ publication.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Book&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ActiveRecord::Base&lt;/span&gt;
   ...
   &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;self&lt;/span&gt;.recommended_for user
-    query = Book
+    query = &lt;span class=&#34;hljs-title class_&#34;&gt;Book&lt;/span&gt;
 
     &lt;span class=&#34;hljs-comment&#34;&gt;# Comment this out when deal with Jackass Kangaroo Publication is over.&lt;/span&gt;
-    query = query.where(&lt;span class=&#34;hljs-symbol&#34;&gt;publisher:&lt;/span&gt; Publisher.where(&lt;span class=&#34;hljs-symbol&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Jackass Kangaroo Publication&amp;#x27;&lt;/span&gt;).first)
+    query = query.where(&lt;span class=&#34;hljs-symbol&#34;&gt;publisher:&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Publisher&lt;/span&gt;.where(&lt;span class=&#34;hljs-symbol&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Jackass Kangaroo Publication&amp;#x27;&lt;/span&gt;).first)
 
     &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; user.blank? |&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;| (user.recommendations_count &amp;lt; &lt;span class=&#34;hljs-number&#34;&gt;5&lt;/span&gt;)
       query.popular
@@ -1541,11 +1542,11 @@ by adding just another condition:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Book&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;ActiveRecord::Base&lt;/span&gt;
   ...
   &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;self&lt;/span&gt;.recommended_for user
-    query = Book
+    query = &lt;span class=&#34;hljs-title class_&#34;&gt;Book&lt;/span&gt;
 
     &lt;span class=&#34;hljs-comment&#34;&gt;# Comment this out when deal with Jackass Kangaroo Publication is over.&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;unless&lt;/span&gt; user.located_in? &lt;span class=&#34;hljs-variable constant_&#34;&gt;DISPUTED_DEMOGRAPHY&lt;/span&gt;
-      query = query.where(&lt;span class=&#34;hljs-symbol&#34;&gt;publisher:&lt;/span&gt; Publisher.where(&lt;span class=&#34;hljs-symbol&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Jackass Kangaroo Publication&amp;#x27;&lt;/span&gt;).first)
+      query = query.where(&lt;span class=&#34;hljs-symbol&#34;&gt;publisher:&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Publisher&lt;/span&gt;.where(&lt;span class=&#34;hljs-symbol&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;Jackass Kangaroo Publication&amp;#x27;&lt;/span&gt;).first)
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
     ...
@@ -1564,10 +1565,10 @@ application that affect our recommendation policy as well as the complete implem
 is cumbersome. What we can do is that we can refactor out the specific strategies into dedicated
 classes that encapsulate the actual implementation details. This is exactly what the strategy pattern
 encourages us to embrace.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; Strategies
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Strategies&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;RecommendationGeneration&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;Struct&lt;/span&gt;.new(user, scoped_collection)
     &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;scoped_collection&lt;/span&gt;
-      &lt;span class=&#34;hljs-variable language_&#34;&gt;super&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;| Book
+      &lt;span class=&#34;hljs-variable language_&#34;&gt;super&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;| &lt;span class=&#34;hljs-title class_&#34;&gt;Book&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
     &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;applicable?&lt;/span&gt;
@@ -1580,7 +1581,7 @@ encourages us to embrace.&lt;/p&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;br&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; Strategies
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Strategies&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;DefaultRecommendationGeneration&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;RecommendationGeneration&lt;/span&gt;
 
     &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;applicable?&lt;/span&gt;
@@ -1599,7 +1600,7 @@ encourages us to embrace.&lt;/p&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;br&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;
-&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; Strategies
+&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Strategies&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;UserAdaptedRecommendationGeneration&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;RecommendationGeneration&lt;/span&gt;
 
     &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;applicable?&lt;/span&gt;
@@ -1615,7 +1616,7 @@ encourages us to embrace.&lt;/p&gt;
         &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
         &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;execute&lt;/span&gt;
-          Strategies::DefaultRecommendation
+          &lt;span class=&#34;hljs-title class_&#34;&gt;Strategies&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:DefaultRecommendation&lt;/span&gt;
             .new(user, scoped_collection)
                 .execute
         &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
@@ -1624,7 +1625,7 @@ encourages us to embrace.&lt;/p&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;br&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;
-&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; Strategies
+&lt;span class=&#34;hljs-keyword&#34;&gt;module&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Strategies&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;PartnershipAdaptedRecommendationGeneration&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;RecommendationGeneration&lt;/span&gt;
 
     &lt;span class=&#34;hljs-comment&#34;&gt;# It is better to model buisness constraints in the persistance layer&lt;/span&gt;
@@ -1635,7 +1636,7 @@ encourages us to embrace.&lt;/p&gt;
         &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
         &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;partner_publisher&lt;/span&gt;
-          Partnership
+          &lt;span class=&#34;hljs-title class_&#34;&gt;Partnership&lt;/span&gt;
             .legal_in(user.demography)
         .having_recommendation_priviledge
                 .active
@@ -1644,11 +1645,11 @@ encourages us to embrace.&lt;/p&gt;
         &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
         &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;scoped_collection&lt;/span&gt;
-          Book.where(&lt;span class=&#34;hljs-symbol&#34;&gt;publisher:&lt;/span&gt; partner_publisher)
+          &lt;span class=&#34;hljs-title class_&#34;&gt;Book&lt;/span&gt;.where(&lt;span class=&#34;hljs-symbol&#34;&gt;publisher:&lt;/span&gt; partner_publisher)
         &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
         &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;execute&lt;/span&gt;
-          Strategies::UserAdaptedRecommendationGeneration
+          &lt;span class=&#34;hljs-title class_&#34;&gt;Strategies&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:UserAdaptedRecommendationGeneration&lt;/span&gt;
                 .new(user, scoped_collection)
                 .execute
         &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
@@ -1663,9 +1664,9 @@ it:&lt;/p&gt;
   ...
 
   &lt;span class=&#34;hljs-variable constant_&#34;&gt;RECOMMENDATION_STRATEGIES&lt;/span&gt; = [
-    PartnershipAdaptedRecommendationGeneration
-        UserAdaptedRecommendationGeneration
-        DefaultRecommendationGeneration
+    &lt;span class=&#34;hljs-title class_&#34;&gt;PartnershipAdaptedRecommendationGeneration&lt;/span&gt;
+        &lt;span class=&#34;hljs-title class_&#34;&gt;UserAdaptedRecommendationGeneration&lt;/span&gt;
+        &lt;span class=&#34;hljs-title class_&#34;&gt;DefaultRecommendationGeneration&lt;/span&gt;
   ]
 
   &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;self&lt;/span&gt;.recommended_for user
@@ -1731,9 +1732,9 @@ gem &amp;#39;tesseract-ocr&amp;#39;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now in irb (or a ruby script) you can do:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;require&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;magick_title&amp;#x27;&lt;/span&gt;
-MagickTitle.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:font&lt;/span&gt;] = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;font_dfcb813d6c003fb3e2fca9f5295e9f58.ttf&amp;quot;&lt;/span&gt;  &lt;span class=&#34;hljs-comment&#34;&gt;# Font downloaded from the site&lt;/span&gt;
-MagickTitle.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:font_path&lt;/span&gt;] =  Proc.new&amp;#123; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/tmp&amp;#x27;&lt;/span&gt; &amp;#125;  &lt;span class=&#34;hljs-comment&#34;&gt;# Directory where the font resides on our system&lt;/span&gt;
-MagickTitle.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:destination&lt;/span&gt;] =  Proc.new&amp;#123; MagicTitle.root &amp;#125; &lt;span class=&#34;hljs-comment&#34;&gt;# Defaults to current directory&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;hljs-title class_&#34;&gt;MagickTitle&lt;/span&gt;.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:font&lt;/span&gt;] = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;font_dfcb813d6c003fb3e2fca9f5295e9f58.ttf&amp;quot;&lt;/span&gt;  &lt;span class=&#34;hljs-comment&#34;&gt;# Font downloaded from the site&lt;/span&gt;
+&lt;span class=&#34;hljs-title class_&#34;&gt;MagickTitle&lt;/span&gt;.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:font_path&lt;/span&gt;] =  &lt;span class=&#34;hljs-title class_&#34;&gt;Proc&lt;/span&gt;.new&amp;#123; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/tmp&amp;#x27;&lt;/span&gt; &amp;#125;  &lt;span class=&#34;hljs-comment&#34;&gt;# Directory where the font resides on our system&lt;/span&gt;
+&lt;span class=&#34;hljs-title class_&#34;&gt;MagickTitle&lt;/span&gt;.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:destination&lt;/span&gt;] =  &lt;span class=&#34;hljs-title class_&#34;&gt;Proc&lt;/span&gt;.new&amp;#123; &lt;span class=&#34;hljs-title class_&#34;&gt;MagicTitle&lt;/span&gt;.root &amp;#125; &lt;span class=&#34;hljs-comment&#34;&gt;# Defaults to current directory&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now let us fetch the string from the site header. For the sake of keeping the example minimal we omit the actual scraping code here:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;str =  &amp;quot;1zb SN358 y6JBl HJL 7Nagq JRb6 kzb n2vP 9JV. F + h = t.&amp;quot;
@@ -2224,13 +2225,13 @@ model.&lt;/p&gt;
     &lt;span class=&#34;hljs-variable language_&#34;&gt;self&lt;/span&gt;.default_email = emails.where(&lt;span class=&#34;hljs-symbol&#34;&gt;email:&lt;/span&gt; email).first_or_initialize
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
-  private
+  &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt;
 
   &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;save_default_email&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; default_email.user.blank?
       default_email.user = &lt;span class=&#34;hljs-variable language_&#34;&gt;self&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;elsif&lt;/span&gt; default_email.user != &lt;span class=&#34;hljs-variable language_&#34;&gt;self&lt;/span&gt;
-      raise Exceptions::EmailConflict
+      &lt;span class=&#34;hljs-keyword&#34;&gt;raise&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Exceptions&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:EmailConflict&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
     default_email.save!
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
@@ -2251,7 +2252,7 @@ configure devise to find using the emails table we have created.&lt;/p&gt;
   ...
 
   &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;self&lt;/span&gt;.having_email email
-    User
+    &lt;span class=&#34;hljs-title class_&#34;&gt;User&lt;/span&gt;
       .includes(&lt;span class=&#34;hljs-symbol&#34;&gt;:emails&lt;/span&gt;)
       .joins(&lt;span class=&#34;hljs-symbol&#34;&gt;emails:&lt;/span&gt; &amp;#123;
         &lt;span class=&#34;hljs-symbol&#34;&gt;email:&lt;/span&gt;  email
@@ -2268,7 +2269,7 @@ configure devise to find using the emails table we have created.&lt;/p&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
-  private
+  &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt;
 
   ...
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
@@ -2347,7 +2348,7 @@ configure devise to find using the emails table we have created.&lt;/p&gt;
   protect_from_forgery &lt;span class=&#34;hljs-symbol&#34;&gt;with:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:exception&lt;/span&gt;
   before_action &lt;span class=&#34;hljs-symbol&#34;&gt;:configure_permitted_parameters&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;if:&lt;/span&gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:devise_controller?&lt;/span&gt;
 
-  protected
+  &lt;span class=&#34;hljs-keyword&#34;&gt;protected&lt;/span&gt;
 
   &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;configure_permitted_parameters&lt;/span&gt;
     devise_parameter_sanitizer.&lt;span class=&#34;hljs-keyword&#34;&gt;for&lt;/span&gt;(&lt;span class=&#34;hljs-symbol&#34;&gt;:account_update&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;u&lt;/span&gt;|
@@ -2370,9 +2371,9 @@ configure devise to find using the emails table we have created.&lt;/p&gt;
 gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;omniauth-facebook&amp;#x27;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;In config&amp;#x2F;initializers&amp;#x2F;devise.rb&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;Devise.setup &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;config&lt;/span&gt;|
+&lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-title class_&#34;&gt;Devise&lt;/span&gt;.setup &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; |&lt;span class=&#34;hljs-params&#34;&gt;config&lt;/span&gt;|
   ...
-  config.omniauth &lt;span class=&#34;hljs-symbol&#34;&gt;:twitter&lt;/span&gt;, Rails.application.secrets.fb_app_id, Rails.application.secrets.fb_app_secret
+  config.omniauth &lt;span class=&#34;hljs-symbol&#34;&gt;:twitter&lt;/span&gt;, &lt;span class=&#34;hljs-title class_&#34;&gt;Rails&lt;/span&gt;.application.secrets.fb_app_id, &lt;span class=&#34;hljs-title class_&#34;&gt;Rails&lt;/span&gt;.application.secrets.fb_app_secret
   ...
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
@@ -2405,7 +2406,7 @@ gem &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;omniauth-facebook&amp;#x27
 &lt;p&gt;Our callback controller is intentially very simple. Depending on your use case you may want to check if the user is newly created and direct him&amp;#x2F;her to a profile completion page. For the sake of simplicity, we just redirect any user to the profile page.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Users::OmniauthCallbacksController&lt;/span&gt; &amp;lt; &lt;span class=&#34;hljs-title class_ inherited__&#34;&gt;Devise::OmniauthCallbacksController&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;facebook&lt;/span&gt;
-    &lt;span class=&#34;hljs-variable&#34;&gt;@user&lt;/span&gt; = User.from_omniauth(request.env[&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;omniauth.auth&amp;quot;&lt;/span&gt;])
+    &lt;span class=&#34;hljs-variable&#34;&gt;@user&lt;/span&gt; = &lt;span class=&#34;hljs-title class_&#34;&gt;User&lt;/span&gt;.from_omniauth(request.env[&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;omniauth.auth&amp;quot;&lt;/span&gt;])
     sign_in_and_redirect &lt;span class=&#34;hljs-variable&#34;&gt;@user&lt;/span&gt;, &lt;span class=&#34;hljs-symbol&#34;&gt;:event&lt;/span&gt; =&amp;gt; &lt;span class=&#34;hljs-symbol&#34;&gt;:authentication&lt;/span&gt; &lt;span class=&#34;hljs-comment&#34;&gt;#this will throw if &lt;span class=&#34;hljs-doctag&#34;&gt;@user&lt;/span&gt; is not activated&lt;/span&gt;
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
@@ -2434,12 +2435,12 @@ We keep the existing email, but associate the user identity with the new email.&
 
   &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;self&lt;/span&gt;.from_omniauth auth
 
-    email = Email
+    email = &lt;span class=&#34;hljs-title class_&#34;&gt;Email&lt;/span&gt;
       .includes(&lt;span class=&#34;hljs-symbol&#34;&gt;:user&lt;/span&gt;)
       .where(&lt;span class=&#34;hljs-symbol&#34;&gt;email:&lt;/span&gt; auth.info.email)
       .first_or_initialize
 
-    ui = UserIdentity
+    ui = &lt;span class=&#34;hljs-title class_&#34;&gt;UserIdentity&lt;/span&gt;
       .where(&lt;span class=&#34;hljs-symbol&#34;&gt;provider:&lt;/span&gt; auth.provider, &lt;span class=&#34;hljs-symbol&#34;&gt;uid:&lt;/span&gt; auth.uid)
       .first_or_initialize
 
@@ -2453,7 +2454,7 @@ We keep the existing email, but associate the user identity with the new email.&
       &lt;span class=&#34;hljs-keyword&#34;&gt;elsif&lt;/span&gt; email.user == ui.user
         ui.user
       &lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;
-        raise Exceptions::EmailConflict.new
+        &lt;span class=&#34;hljs-keyword&#34;&gt;raise&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Exceptions&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;hljs-symbol&#34;&gt;:EmailConflict&lt;/span&gt;.new
       &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
     &lt;span class=&#34;hljs-keyword&#34;&gt;elsif&lt;/span&gt; email.persisted?
       &lt;span class=&#34;hljs-comment&#34;&gt;# Existing User, new identity&lt;/span&gt;
@@ -2464,7 +2465,7 @@ We keep the existing email, but associate the user identity with the new email.&
       &lt;span class=&#34;hljs-comment&#34;&gt;# New user new identity&lt;/span&gt;
       email.save!
       user = &lt;span class=&#34;hljs-title class_&#34;&gt;User&lt;/span&gt;.new(
-        &lt;span class=&#34;hljs-symbol&#34;&gt;password:&lt;/span&gt; Devise.friendly_token[&lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt;,&lt;span class=&#34;hljs-number&#34;&gt;20&lt;/span&gt;],
+        &lt;span class=&#34;hljs-symbol&#34;&gt;password:&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Devise&lt;/span&gt;.friendly_token[&lt;span class=&#34;hljs-number&#34;&gt;0&lt;/span&gt;,&lt;span class=&#34;hljs-number&#34;&gt;20&lt;/span&gt;],
         &lt;span class=&#34;hljs-symbol&#34;&gt;default_email:&lt;/span&gt; email
       )
       user.save!

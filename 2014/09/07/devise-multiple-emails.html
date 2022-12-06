@@ -61,13 +61,13 @@ model.</p>
     <span class="hljs-variable language_">self</span>.default_email = emails.where(<span class="hljs-symbol">email:</span> email).first_or_initialize
   <span class="hljs-keyword">end</span>
 
-  private
+  <span class="hljs-keyword">private</span>
 
   <span class="hljs-keyword">def</span> <span class="hljs-title function_">save_default_email</span>
     <span class="hljs-keyword">if</span> default_email.user.blank?
       default_email.user = <span class="hljs-variable language_">self</span>
     <span class="hljs-keyword">elsif</span> default_email.user != <span class="hljs-variable language_">self</span>
-      raise Exceptions::EmailConflict
+      <span class="hljs-keyword">raise</span> <span class="hljs-title class_">Exceptions</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:EmailConflict</span>
     <span class="hljs-keyword">end</span>
     default_email.save!
   <span class="hljs-keyword">end</span>
@@ -88,7 +88,7 @@ configure devise to find using the emails table we have created.</p>
   ...
 
   <span class="hljs-keyword">def</span> <span class="hljs-title function_">self</span>.having_email email
-    User
+    <span class="hljs-title class_">User</span>
       .includes(<span class="hljs-symbol">:emails</span>)
       .joins(<span class="hljs-symbol">emails:</span> &#123;
         <span class="hljs-symbol">email:</span>  email
@@ -105,7 +105,7 @@ configure devise to find using the emails table we have created.</p>
     <span class="hljs-keyword">end</span>
   <span class="hljs-keyword">end</span>
 
-  private
+  <span class="hljs-keyword">private</span>
 
   ...
 <span class="hljs-keyword">end</span></code></pre>
@@ -184,7 +184,7 @@ configure devise to find using the emails table we have created.</p>
   protect_from_forgery <span class="hljs-symbol">with:</span> <span class="hljs-symbol">:exception</span>
   before_action <span class="hljs-symbol">:configure_permitted_parameters</span>, <span class="hljs-symbol">if:</span> <span class="hljs-symbol">:devise_controller?</span>
 
-  protected
+  <span class="hljs-keyword">protected</span>
 
   <span class="hljs-keyword">def</span> <span class="hljs-title function_">configure_permitted_parameters</span>
     devise_parameter_sanitizer.<span class="hljs-keyword">for</span>(<span class="hljs-symbol">:account_update</span>) <span class="hljs-keyword">do</span> |<span class="hljs-params">u</span>|
@@ -207,9 +207,9 @@ configure devise to find using the emails table we have created.</p>
 gem <span class="hljs-string">&#x27;omniauth-facebook&#x27;</span></code></pre>
 
 <p>In config&#x2F;initializers&#x2F;devise.rb</p>
-<pre><code class="hljs ruby">Devise.setup <span class="hljs-keyword">do</span> |<span class="hljs-params">config</span>|
+<pre><code class="hljs ruby"><span class="hljs-title class_">Devise</span>.setup <span class="hljs-keyword">do</span> |<span class="hljs-params">config</span>|
   ...
-  config.omniauth <span class="hljs-symbol">:twitter</span>, Rails.application.secrets.fb_app_id, Rails.application.secrets.fb_app_secret
+  config.omniauth <span class="hljs-symbol">:twitter</span>, <span class="hljs-title class_">Rails</span>.application.secrets.fb_app_id, <span class="hljs-title class_">Rails</span>.application.secrets.fb_app_secret
   ...
 <span class="hljs-keyword">end</span></code></pre>
 
@@ -242,7 +242,7 @@ gem <span class="hljs-string">&#x27;omniauth-facebook&#x27;</span></code></pre>
 <p>Our callback controller is intentially very simple. Depending on your use case you may want to check if the user is newly created and direct him&#x2F;her to a profile completion page. For the sake of simplicity, we just redirect any user to the profile page.</p>
 <pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Users::OmniauthCallbacksController</span> &lt; <span class="hljs-title class_ inherited__">Devise::OmniauthCallbacksController</span>
   <span class="hljs-keyword">def</span> <span class="hljs-title function_">facebook</span>
-    <span class="hljs-variable">@user</span> = User.from_omniauth(request.env[<span class="hljs-string">&quot;omniauth.auth&quot;</span>])
+    <span class="hljs-variable">@user</span> = <span class="hljs-title class_">User</span>.from_omniauth(request.env[<span class="hljs-string">&quot;omniauth.auth&quot;</span>])
     sign_in_and_redirect <span class="hljs-variable">@user</span>, <span class="hljs-symbol">:event</span> =&gt; <span class="hljs-symbol">:authentication</span> <span class="hljs-comment">#this will throw if <span class="hljs-doctag">@user</span> is not activated</span>
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></code></pre>
@@ -271,12 +271,12 @@ We keep the existing email, but associate the user identity with the new email.<
 
   <span class="hljs-keyword">def</span> <span class="hljs-title function_">self</span>.from_omniauth auth
 
-    email = Email
+    email = <span class="hljs-title class_">Email</span>
       .includes(<span class="hljs-symbol">:user</span>)
       .where(<span class="hljs-symbol">email:</span> auth.info.email)
       .first_or_initialize
 
-    ui = UserIdentity
+    ui = <span class="hljs-title class_">UserIdentity</span>
       .where(<span class="hljs-symbol">provider:</span> auth.provider, <span class="hljs-symbol">uid:</span> auth.uid)
       .first_or_initialize
 
@@ -290,7 +290,7 @@ We keep the existing email, but associate the user identity with the new email.<
       <span class="hljs-keyword">elsif</span> email.user == ui.user
         ui.user
       <span class="hljs-keyword">else</span>
-        raise Exceptions::EmailConflict.new
+        <span class="hljs-keyword">raise</span> <span class="hljs-title class_">Exceptions</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:EmailConflict</span>.new
       <span class="hljs-keyword">end</span>
     <span class="hljs-keyword">elsif</span> email.persisted?
       <span class="hljs-comment"># Existing User, new identity</span>
@@ -301,7 +301,7 @@ We keep the existing email, but associate the user identity with the new email.<
       <span class="hljs-comment"># New user new identity</span>
       email.save!
       user = <span class="hljs-title class_">User</span>.new(
-        <span class="hljs-symbol">password:</span> Devise.friendly_token[<span class="hljs-number">0</span>,<span class="hljs-number">20</span>],
+        <span class="hljs-symbol">password:</span> <span class="hljs-title class_">Devise</span>.friendly_token[<span class="hljs-number">0</span>,<span class="hljs-number">20</span>],
         <span class="hljs-symbol">default_email:</span> email
       )
       user.save!

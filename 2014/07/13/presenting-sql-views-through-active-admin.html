@@ -82,8 +82,8 @@ can just define a normal ActiveRecord model to access this view.</p>
 <span class="hljs-keyword">end</span></code></pre>
 
 <p>We can take the proxy model for a test drive using IRB:</p>
-<pre><code class="hljs ruby">&gt; StateDistrictCityViewProxy.limit(<span class="hljs-number">10</span>).to_a
-  StateDistrictCityViewProxy Load (<span class="hljs-number">0</span>.4ms)  <span class="hljs-variable constant_">SELECT</span> <span class="hljs-string">`state_district_city_view`</span>.* <span class="hljs-variable constant_">FROM</span> <span class="hljs-string">`state_district_city_view`</span> <span class="hljs-variable constant_">LIMIT</span> <span class="hljs-number">10</span>
+<pre><code class="hljs ruby">&gt; <span class="hljs-title class_">StateDistrictCityViewProxy</span>.limit(<span class="hljs-number">10</span>).to_a
+  <span class="hljs-title class_">StateDistrictCityViewProxy</span> <span class="hljs-title class_">Load</span> (<span class="hljs-number">0</span>.4ms)  <span class="hljs-variable constant_">SELECT</span> <span class="hljs-string">`state_district_city_view`</span>.* <span class="hljs-variable constant_">FROM</span> <span class="hljs-string">`state_district_city_view`</span> <span class="hljs-variable constant_">LIMIT</span> <span class="hljs-number">10</span>
 =&gt; [#&lt;StateDistrictCityViewProxy id: 1, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Agali&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 2, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Amadagur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 3, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Amarapuram&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 4, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Anantapur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 5, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Atmakur&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 6, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bathalapalle&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 7, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Beluguppa&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 8, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bommanahal&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 9, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Brahmasamudram&quot;&gt;, #&lt;StateDistrictCityViewProxy id: 10, state: &quot;Andhra Pradesh&quot;, district: &quot;Anantapur&quot;, city: &quot;Bukkapatnam&quot;&gt;]</code></pre>
 
 <p>Now that we have a model, generating an ActiveAdmin resource is as simple as:</p>
@@ -143,7 +143,7 @@ oviously trigger an error. For example, here is what we end up with when clickin
 <span class="hljs-keyword">end</span></code></pre>
 
 <p>Next we simply remove the irrelevant actions from the ActiveAdmin view:</p>
-<pre><code class="hljs ruby">ActiveAdmin.register StateDistrictCityViewProxy <span class="hljs-keyword">do</span>
+<pre><code class="hljs ruby"><span class="hljs-title class_">ActiveAdmin</span>.register <span class="hljs-title class_">StateDistrictCityViewProxy</span> <span class="hljs-keyword">do</span>
 
   actions <span class="hljs-symbol">:index</span>, <span class="hljs-symbol">:show</span>
 

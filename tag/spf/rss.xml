@@ -102,6 +102,7 @@
         <category>cloudfront</category>
         <category>AWS</category>
         <category>CDK</category>
+        <category>Go</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/11/26/boost-your-content-focussed-site-with-structured-page-fragments.html</guid>
             <title>Boost your content focussed site with Structured Page Fragments</title>
@@ -157,23 +158,23 @@ use it as-is, you can fork, you can do whatever you want. MIT baby!&lt;/p&gt;
     &lt;span class=&#34;hljs-variable&#34;&gt;@post&lt;/span&gt; = fake_post
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
-  private
+  &lt;span class=&#34;hljs-keyword&#34;&gt;private&lt;/span&gt;
 
   &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;fake_post&lt;/span&gt;
     &lt;span class=&#34;hljs-title class_&#34;&gt;OpenStruct&lt;/span&gt;.new fake_post_summary.to_h.merge!(
       &lt;span class=&#34;hljs-symbol&#34;&gt;id:&lt;/span&gt; params[&lt;span class=&#34;hljs-symbol&#34;&gt;:id&lt;/span&gt;],
-      &lt;span class=&#34;hljs-symbol&#34;&gt;body:&lt;/span&gt; LoremIpsum.random(&lt;span class=&#34;hljs-symbol&#34;&gt;paragraphs:&lt;/span&gt; rand(&lt;span class=&#34;hljs-number&#34;&gt;20&lt;/span&gt;))
+      &lt;span class=&#34;hljs-symbol&#34;&gt;body:&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;LoremIpsum&lt;/span&gt;.random(&lt;span class=&#34;hljs-symbol&#34;&gt;paragraphs:&lt;/span&gt; rand(&lt;span class=&#34;hljs-number&#34;&gt;20&lt;/span&gt;))
     )
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;
 
   &lt;span class=&#34;hljs-keyword&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;fake_post_summary&lt;/span&gt;
     &lt;span class=&#34;hljs-title class_&#34;&gt;OpenStruct&lt;/span&gt;.new(
       &lt;span class=&#34;hljs-symbol&#34;&gt;id:&lt;/span&gt; rand(&lt;span class=&#34;hljs-number&#34;&gt;1000&lt;/span&gt;),
-      &lt;span class=&#34;hljs-symbol&#34;&gt;title:&lt;/span&gt; LoremIpsum.lorem_ipsum(&lt;span class=&#34;hljs-symbol&#34;&gt;words:&lt;/span&gt; rand(&lt;span class=&#34;hljs-number&#34;&gt;20&lt;/span&gt;)),
-      &lt;span class=&#34;hljs-symbol&#34;&gt;summary:&lt;/span&gt; LoremIpsum.random(&lt;span class=&#34;hljs-symbol&#34;&gt;paragraphs:&lt;/span&gt; &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;),
+      &lt;span class=&#34;hljs-symbol&#34;&gt;title:&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;LoremIpsum&lt;/span&gt;.lorem_ipsum(&lt;span class=&#34;hljs-symbol&#34;&gt;words:&lt;/span&gt; rand(&lt;span class=&#34;hljs-number&#34;&gt;20&lt;/span&gt;)),
+      &lt;span class=&#34;hljs-symbol&#34;&gt;summary:&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;LoremIpsum&lt;/span&gt;.random(&lt;span class=&#34;hljs-symbol&#34;&gt;paragraphs:&lt;/span&gt; &lt;span class=&#34;hljs-number&#34;&gt;1&lt;/span&gt;),
       &lt;span class=&#34;hljs-symbol&#34;&gt;author:&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;OpenStruct&lt;/span&gt;.new(
-        &lt;span class=&#34;hljs-symbol&#34;&gt;user_name:&lt;/span&gt; Forgery(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;internet&amp;#x27;&lt;/span&gt;).user_name,
-        &lt;span class=&#34;hljs-symbol&#34;&gt;email:&lt;/span&gt; Forgery(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;internet&amp;#x27;&lt;/span&gt;).email_address
+        &lt;span class=&#34;hljs-symbol&#34;&gt;user_name:&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Forgery&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;internet&amp;#x27;&lt;/span&gt;).user_name,
+        &lt;span class=&#34;hljs-symbol&#34;&gt;email:&lt;/span&gt; &lt;span class=&#34;hljs-title class_&#34;&gt;Forgery&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;internet&amp;#x27;&lt;/span&gt;).email_address
       )
     )
   &lt;span class=&#34;hljs-keyword&#34;&gt;end&lt;/span&gt;

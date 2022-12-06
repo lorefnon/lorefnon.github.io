@@ -10,9 +10,9 @@ or not reflect my current my recommedation in the matter.</div><div class="page-
 <pre><code class="hljs ruby"><span class="hljs-keyword">require</span> <span class="hljs-string">&#x27;eventmachine&#x27;</span>
 <span class="hljs-keyword">require</span> <span class="hljs-string">&#x27;em-websocket&#x27;</span>
 
-EventMachine.run &#123;
+<span class="hljs-title class_">EventMachine</span>.run &#123;
 
-    EventMachine::WebSocket.start(<span class="hljs-symbol">:host</span> =&gt; <span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-symbol">:port</span> =&gt; <span class="hljs-number">8080</span>) <span class="hljs-keyword">do</span> |<span class="hljs-params">ws</span>|
+    <span class="hljs-title class_">EventMachine</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:WebSocket</span>.start(<span class="hljs-symbol">:host</span> =&gt; <span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-symbol">:port</span> =&gt; <span class="hljs-number">8080</span>) <span class="hljs-keyword">do</span> |<span class="hljs-params">ws</span>|
         ws.onopen &#123;
           puts <span class="hljs-string">&quot;WebSocket connection open&quot;</span>
         &#125;
@@ -31,9 +31,9 @@ EventMachine.run &#123;
 </code></pre>
 <p>If all goes well, it should return true and the message “Websocket connection open” should be displayed in the terminal.</p>
 <p>So far, so good. But the main purpose of a server is to relay data to the client. How do we do that ? Turns out that is pretty simple too.</p>
-<pre><code class="hljs ruby">EventMachine.run &#123;
+<pre><code class="hljs ruby"><span class="hljs-title class_">EventMachine</span>.run &#123;
 
-    EventMachine::WebSocket.start(<span class="hljs-symbol">:host</span> =&gt; <span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-symbol">:port</span> =&gt; <span class="hljs-number">8080</span>) <span class="hljs-keyword">do</span> |<span class="hljs-params">ws</span>|
+    <span class="hljs-title class_">EventMachine</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:WebSocket</span>.start(<span class="hljs-symbol">:host</span> =&gt; <span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-symbol">:port</span> =&gt; <span class="hljs-number">8080</span>) <span class="hljs-keyword">do</span> |<span class="hljs-params">ws</span>|
         ws.onopen &#123;
           puts <span class="hljs-string">&quot;WebSocket connection open&quot;</span>
           <span class="hljs-comment"># publish message to the client</span>
@@ -87,9 +87,9 @@ socket.<span class="hljs-property">onmessage</span> = <span class="hljs-keyword"
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 
-EventMachine.run &#123;
-  <span class="hljs-variable">@gc</span> = GameController.new
-  EventMachine::WebSocket.start(<span class="hljs-symbol">:host</span> =&gt; <span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-symbol">:port</span> =&gt; <span class="hljs-number">8080</span>) <span class="hljs-keyword">do</span> |<span class="hljs-params">ws</span>|
+<span class="hljs-title class_">EventMachine</span>.run &#123;
+  <span class="hljs-variable">@gc</span> = <span class="hljs-title class_">GameController</span>.new
+  <span class="hljs-title class_">EventMachine</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:WebSocket</span>.start(<span class="hljs-symbol">:host</span> =&gt; <span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-symbol">:port</span> =&gt; <span class="hljs-number">8080</span>) <span class="hljs-keyword">do</span> |<span class="hljs-params">ws</span>|
 
     ws.onmessage <span class="hljs-keyword">do</span> |<span class="hljs-params">req</span>|
       req = <span class="hljs-variable constant_">JSON</span>.parse(req)
@@ -109,8 +109,8 @@ EventMachine.run &#123;
 <p>For the sake of consistency, lets have all client server communications serialized as JSON.</p>
 <p>Rather than Running around with socket references, we encapsulate all the functionality of a single client in a player class :</p>
 <pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Player</span>
-  <span class="hljs-keyword">attr_accessor</span> <span class="hljs-symbol">:socket</span>
-  <span class="hljs-keyword">attr_reader</span> <span class="hljs-symbol">:id</span>
+  <span class="hljs-built_in">attr_accessor</span> <span class="hljs-symbol">:socket</span>
+  <span class="hljs-built_in">attr_reader</span> <span class="hljs-symbol">:id</span>
   <span class="hljs-keyword">def</span> <span class="hljs-title function_">initialize</span> ws
     <span class="hljs-variable">@id</span> = rand(<span class="hljs-number">5000</span>)
     <span class="hljs-variable">@socket</span> = ws
@@ -123,7 +123,7 @@ EventMachine.run &#123;
 
 <p>Also, we add a stub for a game class which will take care of managing the game state. The Game class instance would represent a single ongoing game between two opponents.</p>
 <pre><code class="hljs ruby"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Game</span>
-  <span class="hljs-keyword">attr_reader</span> <span class="hljs-symbol">:id</span>
+  <span class="hljs-built_in">attr_reader</span> <span class="hljs-symbol">:id</span>
   <span class="hljs-keyword">def</span> <span class="hljs-title function_">initialize</span> player1, player2, game_controller
     <span class="hljs-variable">@id</span> = rand(<span class="hljs-number">5000</span>)
     <span class="hljs-comment"># create initial game state</span>
@@ -155,8 +155,8 @@ EventMachine.run &#123;
 <span class="hljs-keyword">require</span> <span class="hljs-string">&#x27;json&#x27;</span>
 
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">Player</span>
-  <span class="hljs-keyword">attr_accessor</span> <span class="hljs-symbol">:score</span>, <span class="hljs-symbol">:socket</span>
-  <span class="hljs-keyword">attr_reader</span> <span class="hljs-symbol">:id</span>
+  <span class="hljs-built_in">attr_accessor</span> <span class="hljs-symbol">:score</span>, <span class="hljs-symbol">:socket</span>
+  <span class="hljs-built_in">attr_reader</span> <span class="hljs-symbol">:id</span>
   <span class="hljs-keyword">def</span> <span class="hljs-title function_">initialize</span> ws
     <span class="hljs-variable">@id</span> = rand(<span class="hljs-number">5000</span>)
     <span class="hljs-variable">@socket</span> = ws
@@ -168,7 +168,7 @@ EventMachine.run &#123;
 <span class="hljs-keyword">end</span>
 
 <span class="hljs-keyword">class</span> <span class="hljs-title class_">Game</span>
-  <span class="hljs-keyword">attr_reader</span> <span class="hljs-symbol">:id</span>
+  <span class="hljs-built_in">attr_reader</span> <span class="hljs-symbol">:id</span>
   <span class="hljs-keyword">def</span> <span class="hljs-title function_">initialize</span> player1, player2, game_controller
     <span class="hljs-variable">@id</span> = rand(<span class="hljs-number">5000</span>)
     <span class="hljs-variable">@players</span> = &#123;&#125;
@@ -309,9 +309,9 @@ EventMachine.run &#123;
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 
-EventMachine.run &#123;
-  <span class="hljs-variable">@gc</span> = GameController.new
-  EventMachine::WebSocket.start(<span class="hljs-symbol">:host</span> =&gt; <span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-symbol">:port</span> =&gt; <span class="hljs-number">8080</span>) <span class="hljs-keyword">do</span> |<span class="hljs-params">ws</span>|
+<span class="hljs-title class_">EventMachine</span>.run &#123;
+  <span class="hljs-variable">@gc</span> = <span class="hljs-title class_">GameController</span>.new
+  <span class="hljs-title class_">EventMachine</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:WebSocket</span>.start(<span class="hljs-symbol">:host</span> =&gt; <span class="hljs-string">&quot;0.0.0.0&quot;</span>, <span class="hljs-symbol">:port</span> =&gt; <span class="hljs-number">8080</span>) <span class="hljs-keyword">do</span> |<span class="hljs-params">ws</span>|
 
     ws.onmessage <span class="hljs-keyword">do</span> |<span class="hljs-params">req</span>|
       req = <span class="hljs-variable constant_">JSON</span>.parse(req)

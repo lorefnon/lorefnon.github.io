@@ -88,14 +88,14 @@ program <span class="hljs-symbol">:name</span>, <span class="hljs-string">&quot;
 program <span class="hljs-symbol">:version</span>, <span class="hljs-string">&#x27;1.0.0&#x27;</span>
 program <span class="hljs-symbol">:description</span>, <span class="hljs-string">&#x27;A simple command line based task manager&#x27;</span>
 
-<span class="hljs-variable constant_">DB</span> = Sequel.sqlite(<span class="hljs-string">&#x27;tasks_db.db&#x27;</span>)
+<span class="hljs-variable constant_">DB</span> = <span class="hljs-title class_">Sequel</span>.sqlite(<span class="hljs-string">&#x27;tasks_db.db&#x27;</span>)
 
 <span class="hljs-keyword">unless</span> <span class="hljs-variable constant_">DB</span>.table_exists? <span class="hljs-symbol">:tasks</span>
   <span class="hljs-variable constant_">DB</span>.create_table(<span class="hljs-symbol">:tasks</span>) <span class="hljs-keyword">do</span>
       primary_key <span class="hljs-symbol">:id</span>
-  String <span class="hljs-symbol">:title</span>
-  String <span class="hljs-symbol">:description</span>
-  Boolean <span class="hljs-symbol">:completed</span>
+  <span class="hljs-title class_">String</span> <span class="hljs-symbol">:title</span>
+  <span class="hljs-title class_">String</span> <span class="hljs-symbol">:description</span>
+  <span class="hljs-title class_">Boolean</span> <span class="hljs-symbol">:completed</span>
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span>
 
@@ -135,8 +135,8 @@ $ ruby task-trooper.rb new --help
 <pre><code class="hljs ruby">command <span class="hljs-symbol">:new</span> <span class="hljs-keyword">do</span> |<span class="hljs-params">c</span>|
   c.syntax = <span class="hljs-string">&#x27;task-trooper new&#x27;</span>
   c.description = <span class="hljs-string">&#x27;Creates a new task&#x27;</span>
-  c.option <span class="hljs-string">&#x27;--title STRING&#x27;</span>, String, <span class="hljs-string">&#x27;Title of the task&#x27;</span>
-  c.option <span class="hljs-string">&#x27;--description STRING&#x27;</span>, String, <span class="hljs-string">&#x27;Task Description&#x27;</span>
+  c.option <span class="hljs-string">&#x27;--title STRING&#x27;</span>, <span class="hljs-title class_">String</span>, <span class="hljs-string">&#x27;Title of the task&#x27;</span>
+  c.option <span class="hljs-string">&#x27;--description STRING&#x27;</span>, <span class="hljs-title class_">String</span>, <span class="hljs-string">&#x27;Task Description&#x27;</span>
   c.action <span class="hljs-keyword">do</span> |<span class="hljs-params">args, options</span>|
     <span class="hljs-keyword">if</span> options.title.<span class="hljs-literal">nil</span>?
       options.title = ask(<span class="hljs-string">&#x27;Provide a title for the task :&#x27;</span>)
@@ -272,19 +272,19 @@ gem.</p>
 
 <p>We might also want to have our sqlite database in a hidden folder in user’s
 home directory. This is easily accomplished :</p>
-<pre><code class="hljs ruby">config_dir = File.expand_path(<span class="hljs-string">&#x27;~/.task-trooper&#x27;</span>)
-<span class="hljs-keyword">unless</span> Dir[config_dir].length &gt; <span class="hljs-number">0</span>
-  Dir::mkdir(config_dir)
+<pre><code class="hljs ruby">config_dir = <span class="hljs-title class_">File</span>.expand_path(<span class="hljs-string">&#x27;~/.task-trooper&#x27;</span>)
+<span class="hljs-keyword">unless</span> <span class="hljs-title class_">Dir</span>[config_dir].length &gt; <span class="hljs-number">0</span>
+  <span class="hljs-title class_">Dir</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:mkdir</span>(config_dir)
 <span class="hljs-keyword">end</span>
 
-<span class="hljs-variable constant_">DB</span> = Sequel.sqlite(<span class="hljs-string">&quot;<span class="hljs-subst">#&#123;config_dir&#125;</span>/tasks.db&quot;</span>)
+<span class="hljs-variable constant_">DB</span> = <span class="hljs-title class_">Sequel</span>.sqlite(<span class="hljs-string">&quot;<span class="hljs-subst">#&#123;config_dir&#125;</span>/tasks.db&quot;</span>)
 
 <span class="hljs-keyword">unless</span> <span class="hljs-variable constant_">DB</span>.table_exists? <span class="hljs-symbol">:tasks</span>
   <span class="hljs-variable constant_">DB</span>.create_table(<span class="hljs-symbol">:tasks</span>) <span class="hljs-keyword">do</span>
     primary_key <span class="hljs-symbol">:id</span>
-    String <span class="hljs-symbol">:title</span>
-    String <span class="hljs-symbol">:description</span>
-    Boolean <span class="hljs-symbol">:completed</span>
+    <span class="hljs-title class_">String</span> <span class="hljs-symbol">:title</span>
+    <span class="hljs-title class_">String</span> <span class="hljs-symbol">:description</span>
+    <span class="hljs-title class_">Boolean</span> <span class="hljs-symbol">:completed</span>
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></code></pre>
 

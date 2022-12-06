@@ -99,6 +99,7 @@
     <category term="cloudfront" />
     <category term="AWS" />
     <category term="CDK" />
+    <category term="Go" />
     <entry>
         <id>https://lorefnon.me/2015/08/24/smarter-knockout-applications-with-es-next.html</id>
         <title>Smarter knockout applications with ES6/7</title>

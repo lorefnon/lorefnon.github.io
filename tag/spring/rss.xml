@@ -102,6 +102,7 @@
         <category>cloudfront</category>
         <category>AWS</category>
         <category>CDK</category>
+        <category>Go</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2022/03/13/configuring-spring-security-to-use-komapper/</guid>
             <title>Configuring spring security to use komapper</title>

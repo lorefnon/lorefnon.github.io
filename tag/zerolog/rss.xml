@@ -102,6 +102,7 @@
         <category>cloudfront</category>
         <category>AWS</category>
         <category>CDK</category>
+        <category>Go</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2022/09/01/setting-up-log-rotation-for-zerolog/</guid>
             <title>Setting up log-rotation for zerolog</title>

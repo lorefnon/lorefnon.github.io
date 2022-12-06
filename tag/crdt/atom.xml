@@ -99,6 +99,7 @@
     <category term="cloudfront" />
     <category term="AWS" />
     <category term="CDK" />
+    <category term="Go" />
     <entry>
         <id>https://lorefnon.me/2018/09/23/using-google-diff-match-patch-with-automerge-text/</id>
         <title>Integrating Google diff-match-patch with AutoMerge.Text</title>

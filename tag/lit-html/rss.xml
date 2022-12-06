@@ -102,6 +102,7 @@
         <category>cloudfront</category>
         <category>AWS</category>
         <category>CDK</category>
+        <category>Go</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2020/12/31/pairing-lit-html-with-stimulus/</guid>
             <title>Pairing lit-html with stimulus</title>
@@ -249,7 +250,7 @@ application.&lt;span class=&#34;hljs-title function_&#34;&gt;register&lt;/span&g
 &lt;p&gt;Nothing wrong with that approach, but note one thing: If you are server rendering your templates (look at the &lt;a href=&#34;https://github.com/popeindustries/lit-html-server&#34; target=&#34;_blank&#34; rel=&#34;noopener external nofollow noreferrer&#34;&gt;lit-html-server&lt;/a&gt; project) - you&amp;#39;d need to load the templates &lt;strong&gt;atleast twice&lt;/strong&gt;. Once the pre-rendered HTML and second the javascript representation that can be used for re-rendering. &lt;/p&gt;
 &lt;p&gt;However, in our implementation, the controller that invokes rerender does not need the javascript representation until the rerender is actually called. So we can use dynamic imports &amp;#x2F; code-splitting and load our template only when needed.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs js&#34;&gt;&lt;span class=&#34;hljs-title function_&#34;&gt;rerender&lt;/span&gt;(&lt;span class=&#34;hljs-params&#34;&gt;&lt;/span&gt;) &amp;#123;
-  &lt;span class=&#34;hljs-title function_&#34;&gt;import&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./todo-list-template&amp;#x27;&lt;/span&gt;).&lt;span class=&#34;hljs-title function_&#34;&gt;then&lt;/span&gt;(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;template&lt;/span&gt; =&amp;gt;&lt;/span&gt; 
+  &lt;span class=&#34;hljs-keyword&#34;&gt;import&lt;/span&gt;(&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;./todo-list-template&amp;#x27;&lt;/span&gt;).&lt;span class=&#34;hljs-title function_&#34;&gt;then&lt;/span&gt;(&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-params&#34;&gt;template&lt;/span&gt; =&amp;gt;&lt;/span&gt; 
     &lt;span class=&#34;hljs-title function_&#34;&gt;render&lt;/span&gt;(&lt;span class=&#34;hljs-title function_&#34;&gt;template&lt;/span&gt;(tasks), &lt;span class=&#34;hljs-variable language_&#34;&gt;this&lt;/span&gt;.&lt;span class=&#34;hljs-property&#34;&gt;element&lt;/span&gt;)
   );
 &amp;#125;&lt;/code&gt;&lt;/pre&gt;

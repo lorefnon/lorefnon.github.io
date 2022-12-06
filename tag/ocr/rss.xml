@@ -102,6 +102,7 @@
         <category>cloudfront</category>
         <category>AWS</category>
         <category>CDK</category>
+        <category>Go</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2014/10/12/decrypting-an-obfuscated-font-with-ocr.html</guid>
             <title>Decrypting an obfuscated font with OCR</title>
@@ -136,9 +137,9 @@ gem &amp;#39;tesseract-ocr&amp;#39;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now in irb (or a ruby script) you can do:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;hljs ruby&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;require&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;magick_title&amp;#x27;&lt;/span&gt;
-MagickTitle.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:font&lt;/span&gt;] = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;font_dfcb813d6c003fb3e2fca9f5295e9f58.ttf&amp;quot;&lt;/span&gt;  &lt;span class=&#34;hljs-comment&#34;&gt;# Font downloaded from the site&lt;/span&gt;
-MagickTitle.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:font_path&lt;/span&gt;] =  Proc.new&amp;#123; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/tmp&amp;#x27;&lt;/span&gt; &amp;#125;  &lt;span class=&#34;hljs-comment&#34;&gt;# Directory where the font resides on our system&lt;/span&gt;
-MagickTitle.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:destination&lt;/span&gt;] =  Proc.new&amp;#123; MagicTitle.root &amp;#125; &lt;span class=&#34;hljs-comment&#34;&gt;# Defaults to current directory&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;span class=&#34;hljs-title class_&#34;&gt;MagickTitle&lt;/span&gt;.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:font&lt;/span&gt;] = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;font_dfcb813d6c003fb3e2fca9f5295e9f58.ttf&amp;quot;&lt;/span&gt;  &lt;span class=&#34;hljs-comment&#34;&gt;# Font downloaded from the site&lt;/span&gt;
+&lt;span class=&#34;hljs-title class_&#34;&gt;MagickTitle&lt;/span&gt;.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:font_path&lt;/span&gt;] =  &lt;span class=&#34;hljs-title class_&#34;&gt;Proc&lt;/span&gt;.new&amp;#123; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/tmp&amp;#x27;&lt;/span&gt; &amp;#125;  &lt;span class=&#34;hljs-comment&#34;&gt;# Directory where the font resides on our system&lt;/span&gt;
+&lt;span class=&#34;hljs-title class_&#34;&gt;MagickTitle&lt;/span&gt;.options[&lt;span class=&#34;hljs-symbol&#34;&gt;:destination&lt;/span&gt;] =  &lt;span class=&#34;hljs-title class_&#34;&gt;Proc&lt;/span&gt;.new&amp;#123; &lt;span class=&#34;hljs-title class_&#34;&gt;MagicTitle&lt;/span&gt;.root &amp;#125; &lt;span class=&#34;hljs-comment&#34;&gt;# Defaults to current directory&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now let us fetch the string from the site header. For the sake of keeping the example minimal we omit the actual scraping code here:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;str =  &amp;quot;1zb SN358 y6JBl HJL 7Nagq JRb6 kzb n2vP 9JV. F + h = t.&amp;quot;

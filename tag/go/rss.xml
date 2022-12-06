@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Sat, 01 Oct 2022 00:00:00 +0000</pubDate>
-        <lastBuildDate>Sat, 01 Oct 2022 00:00:00 +0000</lastBuildDate>
+        <pubDate>Tue, 06 Dec 2022 16:50:53 +0000</pubDate>
+        <lastBuildDate>Tue, 06 Dec 2022 16:50:53 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -102,6 +102,29 @@
         <category>cloudfront</category>
         <category>AWS</category>
         <category>CDK</category>
+        <category>Go</category>
+        <item>
+            <guid isPermalink="true">https://lorefnon.me/2022/12/06/being-explicit-about-implementing-interfaces-in-golang/</guid>
+            <title>Being explicit about implementing interfaces in Golang</title>
+            <link>https://lorefnon.me/2022/12/06/being-explicit-about-implementing-interfaces-in-golang/</link>
+            <category>Go</category>
+            <pubDate>Tue, 06 Dec 2022 16:50:53 +0000</pubDate>
+            <description><![CDATA[ &lt;p&gt;Go embraces structural typing, so struct types don&amp;#39;t need to explicitly implement interfaces in order to be used a concrete instance of the interface. This offers more flexibility over nominative typing (as in Java, C# etc.) esp. when integrating libraries that are unaware of each other. &lt;/p&gt;
+&lt;p&gt;However, unlike typescript etc. go also does not offer a way to explicitly declare that a struct type is &lt;strong&gt;intended&lt;/strong&gt; to satisfy an interface. &lt;/p&gt;
+&lt;p&gt;The result of this is that if someone later refactors a method of the struct such that it no longer implements the interface it used to before, then a type error is not immediately visible in the same file. Rather the location of error is the use site where an instance of the interface is expected. This is more problematic if such a use site does not even exist in the current repo.&lt;/p&gt;
+&lt;p&gt;I found this to be a periodic annoyance when implementing gRPC API specs where the service structs are always intended to implement the interfaces generated from the API spec, and any breakage should be immediately noticed and preferrably identified close to the service implementation.&lt;/p&gt;
+&lt;p&gt;Fortunately, the solution is pretty simple: just add a struct method that returns an instance of the interface. &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs go&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;type&lt;/span&gt; UserQueryService &lt;span class=&#34;hljs-keyword&#34;&gt;struct&lt;/span&gt; &amp;#123;
+    &lt;span class=&#34;hljs-comment&#34;&gt;// Members omitted&lt;/span&gt;
+&amp;#125;
+
+&lt;span class=&#34;hljs-function&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;hljs-params&#34;&gt;(s *UserQueryService)&lt;/span&gt;&lt;/span&gt; ASUserQueryServiceHandler() pbconnect.UserQueryServiceHandler &amp;#123;
+	&lt;span class=&#34;hljs-keyword&#34;&gt;return&lt;/span&gt; s
+&amp;#125;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now if we introduce any error that makes UserQueryService incompatible with &lt;code&gt;pbconnect.UserQueryServiceHandler&lt;/code&gt; interface, a compile time error will be reported in the above method.&lt;/p&gt;
+ ]]></description>
+        </item>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2022/10/01/embedding-sql-migrations-in-go-binary/</guid>
             <title>Embedding sql migrations in go binary</title>

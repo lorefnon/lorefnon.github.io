@@ -16,7 +16,7 @@ gem <span class="hljs-string">&#x27;influxdb-rails&#x27;</span></code></pre>
 <pre><code class="hljs bash">rails g influxdb</code></pre>
 
 <p>The default configuration options are available in the generated <code>influxdb-rails.rb</code> and they correspond to the default settings of influxdb.</p>
-<pre><code class="hljs ruby">InfluxDB::Rails.configure <span class="hljs-keyword">do</span> |<span class="hljs-params">config</span>|
+<pre><code class="hljs ruby"><span class="hljs-title class_">Influx</span>DB::<span class="hljs-title class_">Rails</span>.configure <span class="hljs-keyword">do</span> |<span class="hljs-params">config</span>|
   config.influxdb_database = <span class="hljs-string">&quot;rails&quot;</span>
   config.influxdb_username = <span class="hljs-string">&quot;root&quot;</span>
   config.influxdb_password = <span class="hljs-string">&quot;root&quot;</span>
@@ -50,15 +50,15 @@ gem <span class="hljs-string">&#x27;influxdb-rails&#x27;</span></code></pre>
 <h2 id="Configuring-additional-lifecycle-events"><a href="#Configuring-additional-lifecycle-events" class="headerlink" title="Configuring additional lifecycle events"></a>Configuring additional lifecycle events</h2><p>In a real applications we would want to aggregate additional metrics of our choosing. A popular solution for dispatching and subscribing to various lifecycle events that ruby community has developed is <code>ActiveSupport::Notifications</code> which Rails internally uses.</p>
 <p>Using <code>ActiveSupport::Notifications</code> we can subscribe to lifecycle events of a rails application and add callbacks to dispatch these metrics to InfluxDB.</p>
 <p>For example if we would like to track the execution times of queries in InfluxDB we can write an initializer:</p>
-<pre><code class="hljs ruby">ActiveSupport::Notifications.subscribe(<span class="hljs-string">&#x27;sql.active_record&#x27;</span>) <span class="hljs-keyword">do</span> |<span class="hljs-params">name, start, finish, id, payload</span>|
-  InfluxDB::Rails.client.write_point(name, &#123; <span class="hljs-symbol">value:</span> (finish-start), <span class="hljs-symbol">start:</span> start, <span class="hljs-symbol">finish:</span> finish &#125;)
+<pre><code class="hljs ruby"><span class="hljs-title class_">ActiveSupport</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:Notifications</span>.subscribe(<span class="hljs-string">&#x27;sql.active_record&#x27;</span>) <span class="hljs-keyword">do</span> |<span class="hljs-params">name, start, finish, id, payload</span>|
+  <span class="hljs-title class_">Influx</span>DB::<span class="hljs-title class_">Rails</span>.client.write_point(name, &#123; <span class="hljs-symbol">value:</span> (finish-start), <span class="hljs-symbol">start:</span> start, <span class="hljs-symbol">finish:</span> finish &#125;)
 <span class="hljs-keyword">end</span></code></pre>
 
 <p>The value attribute is something that InfluxDB admin will use to generate graph by default. We can query this just like the previous queries:</p>
 <p><img src="/images/influxdb_lifecycle_event_query.png" alt="InfluxDB Query lifecycle event" loading="lazy"></p>
 <p>More lifecycle events of Rails application can be found in the <a href="http://edgeguides.rubyonrails.org/active_support_instrumentation.html" target="_blank" rel="noopener external nofollow noreferrer">Rails guides</a>.</p>
 <p>In addition, the instrumentation API can be used directly to create a custom lifecycle events. Here is an example taken from the <a href="http://api.rubyonrails.org/classes/ActiveSupport/Notifications.html" target="_blank" rel="noopener external nofollow noreferrer">official documentation</a> that outlines how a part of application code can be wrapped into an instrumented block which we could subscribe to in an identical fashion.</p>
-<pre><code class="hljs ruby">ActiveSupport::Notifications.instrument(<span class="hljs-string">&#x27;render&#x27;</span>, <span class="hljs-symbol">extra:</span> <span class="hljs-symbol">:information</span>) <span class="hljs-keyword">do</span>
+<pre><code class="hljs ruby"><span class="hljs-title class_">ActiveSupport</span><span class="hljs-symbol">:</span><span class="hljs-symbol">:Notifications</span>.instrument(<span class="hljs-string">&#x27;render&#x27;</span>, <span class="hljs-symbol">extra:</span> <span class="hljs-symbol">:information</span>) <span class="hljs-keyword">do</span>
   render <span class="hljs-symbol">text:</span> <span class="hljs-string">&#x27;Foo&#x27;</span>
 <span class="hljs-keyword">end</span></code></pre>
 

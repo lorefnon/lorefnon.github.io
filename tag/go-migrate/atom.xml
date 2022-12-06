@@ -99,6 +99,7 @@
     <category term="cloudfront" />
     <category term="AWS" />
     <category term="CDK" />
+    <category term="Go" />
     <entry>
         <id>https://lorefnon.me/2022/10/01/embedding-sql-migrations-in-go-binary/</id>
         <title>Embedding sql migrations in go binary</title>

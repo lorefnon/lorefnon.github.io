@@ -102,6 +102,7 @@
         <category>cloudfront</category>
         <category>AWS</category>
         <category>CDK</category>
+        <category>Go</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/05/13/reasonml-vs-typescript-first-impressions/</guid>
             <title>ReasonML vs TypeScript – First impressions</title>

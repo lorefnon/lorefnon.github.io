@@ -99,6 +99,7 @@
     <category term="cloudfront" />
     <category term="AWS" />
     <category term="CDK" />
+    <category term="Go" />
     <entry>
         <id>https://lorefnon.me/2021/08/03/Adapting-Jooq-To-Rails-DB-Naming-Conventions/</id>
         <title>Adapting jOOQ code generator to Rails database naming conventions</title>

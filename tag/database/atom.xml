@@ -99,6 +99,7 @@
     <category term="cloudfront" />
     <category term="AWS" />
     <category term="CDK" />
+    <category term="Go" />
     <entry>
         <id>https://lorefnon.me/2021/12/05/extending-exposed-with-custom-operators/</id>
         <title>Extending Exposed with new function expressions</title>

@@ -26,9 +26,9 @@ gem &#39;tesseract-ocr&#39;
 </code></pre>
 <p>Now in irb (or a ruby script) you can do:</p>
 <pre><code class="hljs ruby"><span class="hljs-keyword">require</span> <span class="hljs-string">&#x27;magick_title&#x27;</span>
-MagickTitle.options[<span class="hljs-symbol">:font</span>] = <span class="hljs-string">&quot;font_dfcb813d6c003fb3e2fca9f5295e9f58.ttf&quot;</span>  <span class="hljs-comment"># Font downloaded from the site</span>
-MagickTitle.options[<span class="hljs-symbol">:font_path</span>] =  Proc.new&#123; <span class="hljs-string">&#x27;/tmp&#x27;</span> &#125;  <span class="hljs-comment"># Directory where the font resides on our system</span>
-MagickTitle.options[<span class="hljs-symbol">:destination</span>] =  Proc.new&#123; MagicTitle.root &#125; <span class="hljs-comment"># Defaults to current directory</span></code></pre>
+<span class="hljs-title class_">MagickTitle</span>.options[<span class="hljs-symbol">:font</span>] = <span class="hljs-string">&quot;font_dfcb813d6c003fb3e2fca9f5295e9f58.ttf&quot;</span>  <span class="hljs-comment"># Font downloaded from the site</span>
+<span class="hljs-title class_">MagickTitle</span>.options[<span class="hljs-symbol">:font_path</span>] =  <span class="hljs-title class_">Proc</span>.new&#123; <span class="hljs-string">&#x27;/tmp&#x27;</span> &#125;  <span class="hljs-comment"># Directory where the font resides on our system</span>
+<span class="hljs-title class_">MagickTitle</span>.options[<span class="hljs-symbol">:destination</span>] =  <span class="hljs-title class_">Proc</span>.new&#123; <span class="hljs-title class_">MagicTitle</span>.root &#125; <span class="hljs-comment"># Defaults to current directory</span></code></pre>
 
 <p>Now let us fetch the string from the site header. For the sake of keeping the example minimal we omit the actual scraping code here:</p>
 <pre><code>str =  &quot;1zb SN358 y6JBl HJL 7Nagq JRb6 kzb n2vP 9JV. F + h = t.&quot;
