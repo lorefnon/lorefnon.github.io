@@ -1,6 +1,7 @@
 ---
 title: Using CDK to configure cloudfront as non-caching reverse proxy for API backend
 tags: [cloudfront, AWS, CDK, typescript]
+date: 2022-12-06
 popular: true
 ---
 

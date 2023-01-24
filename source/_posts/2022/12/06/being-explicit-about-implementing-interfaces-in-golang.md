@@ -1,5 +1,6 @@
 ---
 title: Being explicit about implementing interfaces in Golang
+date: 2022-12-06
 tags: [Go]
 ---
 
