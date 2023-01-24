@@ -100,6 +100,7 @@
     <category term="AWS" />
     <category term="CDK" />
     <category term="Go" />
+    <category term="Babel" />
     <entry>
         <id>https://lorefnon.me/2022/09/04/getting-started-with-jet-query-builder-for-golang/</id>
         <title>Getting started with Jet Query builder for Go</title>

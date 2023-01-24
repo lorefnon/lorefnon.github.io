@@ -103,6 +103,7 @@
         <category>AWS</category>
         <category>CDK</category>
         <category>Go</category>
+        <category>Babel</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2021/12/05/extending-exposed-with-custom-operators/</guid>
             <title>Extending Exposed with new function expressions</title>

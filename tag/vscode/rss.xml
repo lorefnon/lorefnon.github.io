@@ -103,6 +103,7 @@
         <category>AWS</category>
         <category>CDK</category>
         <category>Go</category>
+        <category>Babel</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/03/16/using-theme-specific-keybindings-in-vscode-to-improve-productivity/</guid>
             <title>Using theme specific keybindings in VSCode to improve productivity</title>

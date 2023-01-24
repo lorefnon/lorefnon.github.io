@@ -100,6 +100,7 @@
     <category term="AWS" />
     <category term="CDK" />
     <category term="Go" />
+    <category term="Babel" />
     <entry>
         <id>https://lorefnon.me/2014/09/07/devise-multiple-emails.html</id>
         <title>Allowing multiple emails for a user in Devise</title>

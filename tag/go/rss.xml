@@ -5,8 +5,8 @@
         <link>https://lorefnon.me</link>
         <description></description>
         <language>en</language>
-        <pubDate>Tue, 06 Dec 2022 16:50:53 +0000</pubDate>
-        <lastBuildDate>Tue, 06 Dec 2022 16:50:53 +0000</lastBuildDate>
+        <pubDate>Tue, 24 Jan 2023 20:25:36 +0000</pubDate>
+        <lastBuildDate>Tue, 24 Jan 2023 20:25:36 +0000</lastBuildDate>
         <category>Javascript</category>
         <category>KnockoutJS</category>
         <category>Ruby</category>
@@ -103,12 +103,13 @@
         <category>AWS</category>
         <category>CDK</category>
         <category>Go</category>
+        <category>Babel</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2022/12/06/being-explicit-about-implementing-interfaces-in-golang/</guid>
             <title>Being explicit about implementing interfaces in Golang</title>
             <link>https://lorefnon.me/2022/12/06/being-explicit-about-implementing-interfaces-in-golang/</link>
             <category>Go</category>
-            <pubDate>Tue, 06 Dec 2022 16:50:53 +0000</pubDate>
+            <pubDate>Tue, 24 Jan 2023 20:25:36 +0000</pubDate>
             <description><![CDATA[ &lt;p&gt;Go embraces structural typing, so struct types don&amp;#39;t need to explicitly implement interfaces in order to be used a concrete instance of the interface. This offers more flexibility over nominative typing (as in Java, C# etc.) esp. when integrating libraries that are unaware of each other. &lt;/p&gt;
 &lt;p&gt;However, unlike typescript etc. go also does not offer a way to explicitly declare that a struct type is &lt;strong&gt;intended&lt;/strong&gt; to satisfy an interface. &lt;/p&gt;
 &lt;p&gt;The result of this is that if someone later refactors a method of the struct such that it no longer implements the interface it used to before, then a type error is not immediately visible in the same file. Rather the location of error is the use site where an instance of the interface is expected. This is more problematic if such a use site does not even exist in the current repo.&lt;/p&gt;

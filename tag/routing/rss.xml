@@ -103,6 +103,7 @@
         <category>AWS</category>
         <category>CDK</category>
         <category>Go</category>
+        <category>Babel</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2020/04/17/hash-based-routing-with-react-navi/</guid>
             <title>Hash based routing with react-navi</title>

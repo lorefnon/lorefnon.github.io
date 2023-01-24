@@ -103,6 +103,7 @@
         <category>AWS</category>
         <category>CDK</category>
         <category>Go</category>
+        <category>Babel</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/03/02/dealing-with-json-fields-in-active-admin.html</guid>
             <title>Dealing with JSON data in Active Admin</title>

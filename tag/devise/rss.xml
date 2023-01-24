@@ -103,6 +103,7 @@
         <category>AWS</category>
         <category>CDK</category>
         <category>Go</category>
+        <category>Babel</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2014/09/07/devise-multiple-emails.html</guid>
             <title>Allowing multiple emails for a user in Devise</title>

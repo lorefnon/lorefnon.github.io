@@ -100,6 +100,7 @@
     <category term="AWS" />
     <category term="CDK" />
     <category term="Go" />
+    <category term="Babel" />
     <entry>
         <id>https://lorefnon.me/2020/11/27/exploring-har-http-archive-logs-with-jq/</id>
         <title>Exporing HAR (HTTP Archive) logs with Jq</title>

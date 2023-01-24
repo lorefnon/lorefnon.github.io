@@ -100,6 +100,7 @@
     <category term="AWS" />
     <category term="CDK" />
     <category term="Go" />
+    <category term="Babel" />
     <entry>
         <id>https://lorefnon.me/2018/05/13/reasonml-vs-typescript-first-impressions/</id>
         <title>ReasonML vs TypeScript – First impressions</title>

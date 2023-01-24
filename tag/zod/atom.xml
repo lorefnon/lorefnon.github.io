@@ -100,6 +100,7 @@
     <category term="AWS" />
     <category term="CDK" />
     <category term="Go" />
+    <category term="Babel" />
     <entry>
         <id>https://lorefnon.me/2022/06/25/generating-api-docs-for-zod-types/</id>
         <title>Generating API docs for zod-types</title>

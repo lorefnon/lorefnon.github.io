@@ -100,6 +100,7 @@
     <category term="AWS" />
     <category term="CDK" />
     <category term="Go" />
+    <category term="Babel" />
     <entry>
         <id>https://lorefnon.me/2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</id>
         <title>Gathering and Visualizing metrics from Rails application using InfluxDB</title>

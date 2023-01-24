@@ -100,6 +100,7 @@
     <category term="AWS" />
     <category term="CDK" />
     <category term="Go" />
+    <category term="Babel" />
     <entry>
         <id>https://lorefnon.me/2018/02/04/redux-loop-a-better-solution-for-managing-asynchronous-operations-in-redux/</id>
         <title>Redux-loop: A better solution for managing asynchronous operations in redux</title>

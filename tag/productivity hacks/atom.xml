@@ -100,6 +100,7 @@
     <category term="AWS" />
     <category term="CDK" />
     <category term="Go" />
+    <category term="Babel" />
     <entry>
         <id>https://lorefnon.me/2014/09/13/commit-messages-from-generator-outputs.html</id>
         <title>Commit messages from generator outputs</title>

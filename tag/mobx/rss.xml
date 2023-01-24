@@ -103,6 +103,7 @@
         <category>AWS</category>
         <category>CDK</category>
         <category>Go</category>
+        <category>Babel</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2019/08/15/dealing-with-circular-type-references-in-mobx-state-tree/</guid>
             <title>Dealing with circular type references in Mobx-state-tree</title>

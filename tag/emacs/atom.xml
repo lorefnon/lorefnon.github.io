@@ -100,6 +100,7 @@
     <category term="AWS" />
     <category term="CDK" />
     <category term="Go" />
+    <category term="Babel" />
     <entry>
         <id>https://lorefnon.me/2018/07/14/getting-productive-with-selection-and-navigation-in-emacs/</id>
         <title>Getting productive with selection and navigation in Emacs</title>

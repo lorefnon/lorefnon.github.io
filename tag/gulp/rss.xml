@@ -103,6 +103,7 @@
         <category>AWS</category>
         <category>CDK</category>
         <category>Go</category>
+        <category>Babel</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2014/03/10/decoupling-frontend-with-gulp-and-node-http-proxy.html</guid>
             <title>Decoupling your frontend development with gulp and http-proxy</title>

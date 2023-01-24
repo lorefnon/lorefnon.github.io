@@ -100,6 +100,7 @@
     <category term="AWS" />
     <category term="CDK" />
     <category term="Go" />
+    <category term="Babel" />
     <entry>
         <id>https://lorefnon.me/2022/06/18/type-safe-event-handling-with-zod-and-ts-pattern/</id>
         <title>Type-safe event handling in Typescript with zod and ts-pattern</title>

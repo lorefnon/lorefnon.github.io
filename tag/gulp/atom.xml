@@ -100,6 +100,7 @@
     <category term="AWS" />
     <category term="CDK" />
     <category term="Go" />
+    <category term="Babel" />
     <entry>
         <id>https://lorefnon.me/2014/03/10/decoupling-frontend-with-gulp-and-node-http-proxy.html</id>
         <title>Decoupling your frontend development with gulp and http-proxy</title>

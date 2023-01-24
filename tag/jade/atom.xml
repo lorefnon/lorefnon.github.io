@@ -100,6 +100,7 @@
     <category term="AWS" />
     <category term="CDK" />
     <category term="Go" />
+    <category term="Babel" />
     <entry>
         <id>https://lorefnon.me/2012/12/12/sharing-jade-templates-between-nodejs-server-and-client.html</id>
         <title>Sharing Jade templates between Node.js server and client</title>

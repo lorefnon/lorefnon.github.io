@@ -100,6 +100,7 @@
     <category term="AWS" />
     <category term="CDK" />
     <category term="Go" />
+    <category term="Babel" />
     <entry>
         <id>https://lorefnon.me/2022/04/26/using-jte-kotlin-templates-in-spring-boot/</id>
         <title>Using jte kotlin templates in spring-boot</title>

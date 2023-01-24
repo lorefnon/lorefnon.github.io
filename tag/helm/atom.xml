@@ -100,6 +100,7 @@
     <category term="AWS" />
     <category term="CDK" />
     <category term="Go" />
+    <category term="Babel" />
     <entry>
         <id>https://lorefnon.me/2018/01/28/using-helm-to-select-tide-completion-candidates/</id>
         <title>Using helm to select tide completion candidates</title>

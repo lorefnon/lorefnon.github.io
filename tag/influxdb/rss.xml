@@ -103,6 +103,7 @@
         <category>AWS</category>
         <category>CDK</category>
         <category>Go</category>
+        <category>Babel</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2015/04/04/gathering-and-visualizing-rails-metrics-influxdb.html</guid>
             <title>Gathering and Visualizing metrics from Rails application using InfluxDB</title>

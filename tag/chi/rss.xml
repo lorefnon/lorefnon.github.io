@@ -103,6 +103,7 @@
         <category>AWS</category>
         <category>CDK</category>
         <category>Go</category>
+        <category>Babel</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2022/10/01/using-buf-connect-with-chi/</guid>
             <title>Using chi router and connect-go together</title>

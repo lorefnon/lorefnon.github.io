@@ -100,6 +100,7 @@
     <category term="AWS" />
     <category term="CDK" />
     <category term="Go" />
+    <category term="Babel" />
     <entry>
         <id>https://lorefnon.me/2014/10/12/decrypting-an-obfuscated-font-with-ocr.html</id>
         <title>Decrypting an obfuscated font with OCR</title>

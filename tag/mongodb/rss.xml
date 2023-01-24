@@ -103,6 +103,7 @@
         <category>AWS</category>
         <category>CDK</category>
         <category>Go</category>
+        <category>Babel</category>
         <item>
             <guid isPermalink="true">https://lorefnon.me/2018/08/20/uploading-files-to-mongodb-gridfs-via-apollo-powered-graphql-api/</guid>
             <title>Uploading files to MongoDB GridFS via Apollo powered GraphQL API</title>
