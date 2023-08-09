@@ -5,6 +5,17 @@
     "home_page_url": "https://lorefnon.me",
     "items": [
         {
+            "id": "https://lorefnon.me/2023/01/29/gradle-kotlin-dsl-running-main-class/",
+            "url": "https://lorefnon.me/2023/01/29/gradle-kotlin-dsl-running-main-class/",
+            "title": "Running an arbitrary main class as a Gradle task using the kotlin DSL",
+            "date_published": "2023-01-29T00:00:00.000Z",
+            "content_html": "<p>This post is a simple recipe illustrating how we can run an arbitrary main class as a gradle task through the <a href=\"https://docs.gradle.org/current/dsl/org.gradle.api.tasks.JavaExec.html\" target=\"_blank\" rel=\"noopener external nofollow noreferrer\">Gradle JavaExec utility</a>. Because we love kotlin, both our gradle configuration and main class are written in kotlin.</p>\n<pre><code class=\"hljs kt\"><span class=\"hljs-comment\">// build.gradle.kts</span>\n\ntasks.register&lt;JavaExec&gt;(<span class=\"hljs-string\">&quot;sampleTask&quot;</span>) &#123;\n    mainClass.<span class=\"hljs-keyword\">set</span>(<span class=\"hljs-string\">&quot;com.example.util.SampleTaskKt&quot;</span>)\n    classpath = sourceSets[<span class=\"hljs-string\">&quot;main&quot;</span>].runtimeClasspath\n&#125;</code></pre>\n\n<pre><code class=\"hljs kt\"><span class=\"hljs-comment\">// src/main/kotlin/com/example/util/sampleTask.kt</span>\n\n<span class=\"hljs-keyword\">package</span> com.example.util\n\n<span class=\"hljs-function\"><span class=\"hljs-keyword\">fun</span> <span class=\"hljs-title\">main</span><span class=\"hljs-params\">(args: <span class=\"hljs-type\">Array</span>&lt;<span class=\"hljs-type\">String</span>&gt;)</span></span> &#123;\n    print(<span class=\"hljs-string\">&quot;hello world&quot;</span>)\n&#125;</code></pre>\n\n<p>Now if you run <code>./gradlew sampleTask</code> in cli (or use your IDE&#39;s gradle panel to execute it) you should see &quot;hello world&quot; printed in the console.</p>\n<p>Gradle&#39;s JavaExec is quite handy for one off project specific tasks for which you don&#39;t want to implement a dedicated plugin.</p>\n",
+            "tags": [
+                "Kotlin",
+                "Gradle"
+            ]
+        },
+        {
             "id": "https://lorefnon.me/2021/09/01/configuring-liquibase-with-gradle-kotlin-dsl/",
             "url": "https://lorefnon.me/2021/09/01/configuring-liquibase-with-gradle-kotlin-dsl/",
             "title": "Configuring Liquibase through Gradle Kotlin DSL",
