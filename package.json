@@ -53,6 +53,6 @@
     "typescript": "^5.1.6"
   },
   "overrides": {
-    "hexo": "6.2.0"
+    "hexo": "6.3.0"
   }
 }
