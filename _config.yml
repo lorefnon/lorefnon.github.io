@@ -142,4 +142,5 @@ marked:
   descriptionLists: false
 
 feed:
+  enable: true
   limit: 10
