@@ -1,0 +1,65 @@
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Integrating jOOQ with Netflix DGS</title><meta property="og:title" content="Lorefnon | Blog | Integrating jOOQ with Netflix DGS"><meta property="og:description" content="An overview of the jooq query builder can be used alongside Netflix DGS library for building GraphQL Servers"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><script data-goatcounter="https://analytics.lorefnon.com/count" async src="https://analytics.lorefnon.com/count.js"></script><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js" defer></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js" defer></script><script src="/js/blog.js" defer></script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Icicles of Thought" type="application/atom+xml">
+</head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Java/"><img src="/images/tag.svg">Java</a></li><li class="body-text"><a class="tag-link" href="/tags/JOOQ/"><img src="/images/tag.svg">JOOQ</a></li><li class="body-text"><a class="tag-link" href="/tags/Ruby-on-Rails/"><img src="/images/tag.svg">Ruby on Rails</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Integrating jOOQ with Netflix DGS</div><div class="posted-date sub-header-text" title="2021-08-02">Posted &nbsp;2 years ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><h1 id="About-jOOQ-and-DGS"><a href="#About-jOOQ-and-DGS" class="headerlink" title="About jOOQ and DGS"></a>About jOOQ and DGS</h1><p><a href="jooq.org/">jOOQ</a> is a really versatile SQL builder for JVM which I have found myself using more and more recently. My workflow usually involves evolving the database schema through <a href="https://www.liquibase.org/" target="_blank" rel="noopener external nofollow noreferrer">liquibase</a>, after which jOOQ is used to generate record classes from the DB schema.</p>
+<p>This enables type safe database access and ensures that application level types are always in sync with database schema.</p>
+<p>I recently used jOOQ with <a href="https://netflix.github.io/dgs/" target="_blank" rel="noopener external nofollow noreferrer">Netflix DGS</a> to build a <a href="https://graphql.org/" target="_blank" rel="noopener external nofollow noreferrer">GraphQL</a> API. Netflix DGS is a higher level abstraction over <a href="https://www.graphql-java.com/" target="_blank" rel="noopener external nofollow noreferrer">graphql-java</a> which makes it easy to rapidly build GraphQL APIs in a <a href="https://blog.logrocket.com/code-first-vs-schema-first-development-graphql/" target="_blank" rel="noopener external nofollow noreferrer">schema-first</a> manner.</p>
+<h1 id="Integration-issues"><a href="#Integration-issues" class="headerlink" title="Integration issues"></a>Integration issues</h1><p>One issue with using them together is that both of them provide code-generation support. DGS generates kotlin data classes (or POJOs for java) from GraphQL SDL where as jOOQ generates classes from database schema.</p>
+<p>The simplest thing to do is to retrieve data from the DB using jOOQ DSL, populate them into jOOQ generated record classes and then map them to DGS generated DTO classes when returning from our services.</p>
+<p>This is quite necessary for scenarios where there is substantial difference between the properties of our record classes (which usually mirror the table columns) and the fields in the exposed GraphQL types, and jOOQ does provide a <a href="https://www.jooq.org/doc/latest/manual/sql-execution/fetching/pojos-with-recordmapper-provider/" target="_blank" rel="noopener external nofollow noreferrer">record-mapping support</a> to make this kind of mapping simpler.</p>
+<p>However, in a vast majority of scenarios, our GraphQL type fields are either same as entity properties or are resolved through dedicated data fetchers (and hence do not need corresponding properties in DTO). So this object mapping step is wasteful and can be avoided.</p>
+<h1 id="GraphQL-java-reflection"><a href="#GraphQL-java-reflection" class="headerlink" title="GraphQL java &amp; reflection"></a>GraphQL java &amp; reflection</h1><p>Folks familiar with graphql-java may wonder why is this even a problem ?</p>
+<p>After all graphql-java is not aware of what classes are generated by DGS at all. It simply uses reflection to map instance properties to GrpahQL fields. So when there is sufficient overlap between the two, we can simply ditch the classes generated by DGS (or skip generating them by splitting up our graphql schema file) and just use the record classes generated by jOOQ.</p>
+<p>This does work fine. Even having some extraneous fields in record class which are not present in the GraphQL type is not a problem because GraphQL resolver will cherry-pick only the fields which are defined in schema.</p>
+<p>However this becomes a problem when we want to use some of the DTOs generated by DGS and not others.</p>
+<p>Consider following example (taken from <a href="https://relay.dev/graphql/connections.htm" target="_blank" rel="noopener external nofollow noreferrer">Relay docs</a>):</p>
+<pre><code class="hljs graphql">&#123;
+  user &#123;
+    id
+    name
+    friends(first: 10, after: &quot;opaqueCursor&quot;) &#123;
+      edges &#123;
+        cursor
+        node &#123;
+          id
+          name
+        &#125;
+      &#125;
+      pageInfo &#123;
+        hasNextPage
+      &#125;
+    &#125;
+  &#125;
+&#125;</code></pre>
+
+<p>Our schema might look something like this:</p>
+<pre><code class="hljs graphql">type User &#123;
+    id: ID!
+    name: String!
+    friends(first: Int, after: Cursor): UserConnection
+&#125;
+
+scalar Cursor
+
+type UserConnection &#123;
+    pageInfo: PageInfo!
+    edges: [UserEdge!]
+&#125;
+
+type UserEdge &#123;
+    cursor: Cursor!
+    node: User!
+&#125;</code></pre>
+
+<p>So now the generated data classes for <code>UserEdge</code> will be referencing the generated <code>User</code> class, and we won&#39;t be able to use it if are using a jOOQ generated <code>UsersRecord</code> instead of the <code>User</code> DTO.</p>
+<h1 id="typeMapping-to-rescue"><a href="#typeMapping-to-rescue" class="headerlink" title="typeMapping to rescue"></a>typeMapping to rescue</h1><p>Fortunately this is easy to address through support for <a href="https://netflix.github.io/dgs/generating-code-from-schema/#mapping-existing-types" target="_blank" rel="noopener external nofollow noreferrer">typeMapping configuration</a> in DGS.</p>
+<p>We can configure jOOQ to use our record class for User instead of</p>
+<pre><code class="hljs groovy">generateJava &#123;
+   typeMapping = [<span class="hljs-string">&quot;User&quot;</span>: <span class="hljs-string">&quot;org.jooq.generated.tables.records.UsersRecord&quot;</span>]
+&#125;</code></pre>
+
+<p>Problem solved. Now, wherever User type is needed, DGS generated DTOs will use our <code>UsersRecord</code> class. Of course, this works equally well if we want to use jOOQ generated POJOs&#x2F;interfaces or other classes defined in the application.</p>
+<h1 id="Caveats"><a href="#Caveats" class="headerlink" title="Caveats"></a>Caveats</h1><p>Only caveat here is that if the mapped class is not really structurally compatible with the the type defined in GraphQL schema, we will end up with a runtime error. Currently we don&#39;t have a statically verify this compatibility. However such bugs are easily caught in preliminary testing.</p>
+<h1 id="Alternatives"><a href="#Alternatives" class="headerlink" title="Alternatives"></a>Alternatives</h1><p>An alternative solution to address this would be to use an annotation driven approach. Annotation-heavy libraries are quite popular in the JVM ecosystem and we can use entity classes in our application which are annotated with both JPA annotations and GraphQL specific annotations (provided by <a href="https://github.com/leangen/graphql-spqr" target="_blank" rel="noopener external nofollow noreferrer">graphql-spqr</a>, <a href="https://github.com/eclipse/microprofile-graphql" target="_blank" rel="noopener external nofollow noreferrer">MP GraphQL</a> etc.)</p>
+<p>In this approach both the GraphQL schema and database schema can be derived from the corresponding set of annotations and we also have type safety.</p>
+<p>However I am currently not a proponent of this approach because I am not a big fan of the JPA spec., esp. the projection &amp; criteria APIs. In contrast, the jOOQ DSL is explicit, maps closely to SQL and enables me to spend more of my time in pure java&#x2F;kotlin code that I can easily step through in a debugger as opposed to an annotation based DSL.</p>
+<h1 id="In-praise-of-schema-first-development"><a href="#In-praise-of-schema-first-development" class="headerlink" title="In praise of schema-first development"></a>In praise of schema-first development</h1><p>Lastly, I prefer a schema first approach in larger teams because backend and frontend developers can agree upon the schema ahead of time and development can progress in parallel. Given a schema, it is for instance, straightforward to mock the server (and have the ui be built using that) while the real backend is being developed.</p>
+</div><div class="post-comments"><!-- .comments-target--></div><div class="post-comments" style="margin-top: 10px;"><div id="remark42"></div></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>

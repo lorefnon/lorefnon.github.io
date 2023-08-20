@@ -1,0 +1,48 @@
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Auto-transforming modules to mjs using babel</title><meta property="og:title" content="Lorefnon | Blog | Auto-transforming modules to mjs using babel"><meta property="og:description" content="Ramblings on Web Development and software architecture"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><script data-goatcounter="https://analytics.lorefnon.com/count" async src="https://analytics.lorefnon.com/count.js"></script><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js" defer></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js" defer></script><script src="/js/blog.js" defer></script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Icicles of Thought" type="application/atom+xml">
+</head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Javascript/"><img src="/images/tag.svg">Javascript</a></li><li class="body-text"><a class="tag-link" href="/tags/Babel/"><img src="/images/tag.svg">Babel</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Auto-transforming modules to mjs using babel</div><div class="posted-date sub-header-text" title="2022-12-12">Posted &nbsp;8 months ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><p>The unfortunate reality of being a js library author in present day world is that we need to deal with multiple module systems and bundlers, which make life hard. </p>
+<p>While commonjs usage is declining, many users are yet to move to esm fully.</p>
+<p>Solutions like tsup provide a nice DX for deploying libraries by bundling separately to an artifact of each configured module type. </p>
+<p>However, for nodejs libraries I often prefer to not bundle my libraries, and thankfully babel ecosystem makes it easy to handle these scenarios.</p>
+<p>This post outlines a simple babel setup where: </p>
+<ol>
+<li><p>We author code without needing explicit extensions in import: </p>
+ <pre><code class="hljs ts"><span class="hljs-comment">// bar.ts</span>
+
+<span class="hljs-keyword">import</span> &#123; foo &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./foo&quot;</span></code></pre>
+</li>
+<li><p>As part of build, we generate <code>.mjs</code> modules where the relative imports are also transformed to use <code>.mjs</code>:</p>
+ <pre><code class="hljs ts"><span class="hljs-comment">// bar.mjs</span>
+
+<span class="hljs-keyword">import</span> &#123; foo &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./foo.mjs&quot;</span></code></pre></li>
+</ol>
+<p>Benefit of this setup is that the generated .mjs modules can co-exist alongside .cjs modules.</p>
+<p>Consumers of the module can either explicitly import with mjs extension (eg. <code>import &#123; foo &#125; from &quot;foo-lib/foo.mjs&quot;</code>) or configure their bundler&#x2F;runtime to default to mjs if they prefer mjs.</p>
+<p>Note that this setup does not fully emulate node-specific module resolution. For example: <code>import &#123; foo &#125; from &quot;./foo&quot;</code> will not be auto-resolved to <code>import &#123; foo &#125; from &quot;./foo/index.js&quot;</code> if foo is directory.</p>
+<p>Babel config: </p>
+<pre><code class="hljs js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;
+    <span class="hljs-attr">presets</span>: [
+        <span class="hljs-string">&#x27;@babel/preset-typescript&#x27;</span>,
+        [<span class="hljs-string">&#x27;@babel/preset-env&#x27;</span>, &#123;
+            <span class="hljs-attr">targets</span>: &#123;
+                <span class="hljs-attr">node</span>: <span class="hljs-number">16</span>
+            &#125;,
+            <span class="hljs-attr">modules</span>: <span class="hljs-literal">false</span>
+        &#125;]
+    ],
+    <span class="hljs-attr">plugins</span>: [
+        [<span class="hljs-string">&#x27;babel-plugin-replace-import-extension&#x27;</span>, &#123;
+            <span class="hljs-attr">extMapping</span>: &#123;
+                <span class="hljs-string">&#x27;&#x27;</span>: <span class="hljs-string">&#x27;.mjs&#x27;</span>
+            &#125;
+        &#125;]
+    ]
+&#125;</code></pre>
+
+<pre><code class="hljs sh">babel src \
+    --config-file ./babel.esm.config.js \
+    --out-dir dist \
+    --out-file-extension <span class="hljs-string">&quot;.mjs&quot;</span> \
+    --extensions <span class="hljs-string">&quot;.ts&quot;</span> \
+    --ignore <span class="hljs-string">&quot;**/*.d.ts&quot;</span></code></pre>
+
+</div><div class="post-comments"><!-- .comments-target--></div><div class="post-comments" style="margin-top: 10px;"><div id="remark42"></div></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>

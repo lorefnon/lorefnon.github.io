@@ -1,0 +1,386 @@
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Bootstrapping a Kotlin gRPC service with Spring Boot</title><meta property="og:title" content="Lorefnon | Blog | Bootstrapping a Kotlin gRPC service with Spring Boot"><meta property="og:description" content="&lt;p&gt;It has always been possible to build gRPC services in kotlin through java interop, but with the recently improved first class support for kotlin in the official gRPC&amp;#x2F;protobuf libraries it is quite straightforward to build gRPC services in Kotlin which take advantage of kotlin native features like coroutines. In addition, the grpc-spring-boot-starter makes it really convenient for spring boot users to integrate gRPC.&lt;/p&gt;"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><script data-goatcounter="https://analytics.lorefnon.com/count" async src="https://analytics.lorefnon.com/count.js"></script><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js" defer></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js" defer></script><script src="/js/blog.js" defer></script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Icicles of Thought" type="application/atom+xml">
+</head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Kotlin/"><img src="/images/tag.svg">Kotlin</a></li><li class="body-text"><a class="tag-link" href="/tags/Spring/"><img src="/images/tag.svg">Spring</a></li><li class="body-text"><a class="tag-link" href="/tags/Spring-Boot/"><img src="/images/tag.svg">Spring-Boot</a></li><li class="body-text"><a class="tag-link" href="/tags/gRPC/"><img src="/images/tag.svg">gRPC</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Bootstrapping a Kotlin gRPC service with Spring Boot</div><div class="posted-date sub-header-text" title="2021-09-03">Posted &nbsp;2 years ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><p>It has always been possible to build gRPC services in kotlin through java interop, but with the recently improved first class support for kotlin in the official gRPC&#x2F;protobuf libraries it is quite straightforward to build gRPC services in Kotlin which take advantage of kotlin native features like coroutines. In addition, the grpc-spring-boot-starter makes it really convenient for spring boot users to integrate gRPC.</p>
+<span id="more"></span>
+
+<p>Note that while our services are using coroutines, we will not need webflux (although it is perfectly fine to use both of them together)</p>
+<p>This post is primarily a recipe for integrating these components to quickly get started with gRPC on spring boot.</p>
+<h1 id="Gradle-configuration"><a href="#Gradle-configuration" class="headerlink" title="Gradle configuration:"></a>Gradle configuration:</h1><p>First part is to configure our gradle configuration (<code>build.gradle.kts</code>) to use the protobuf and grpc codegen utilities.</p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> com.google.protobuf.gradle.*
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">val</span> protobufVersion <span class="hljs-keyword">by</span> extra(<span class="hljs-string">&quot;3.17.3&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">val</span> protobufPluginVersion <span class="hljs-keyword">by</span> extra(<span class="hljs-string">&quot;0.8.14&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">val</span> grpcVersion <span class="hljs-keyword">by</span> extra(<span class="hljs-string">&quot;1.40.1&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">plugins {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    id(<span class="hljs-string">&quot;org.springframework.boot&quot;</span>) version <span class="hljs-string">&quot;2.5.4&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    id(<span class="hljs-string">&quot;io.spring.dependency-management&quot;</span>) version <span class="hljs-string">&quot;1.0.11.RELEASE&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    kotlin(<span class="hljs-string">&quot;jvm&quot;</span>) version <span class="hljs-string">&quot;1.5.21&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    kotlin(<span class="hljs-string">&quot;plugin.spring&quot;</span>) version <span class="hljs-string">&quot;1.5.21&quot;</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    id(<span class="hljs-string">&quot;com.google.protobuf&quot;</span>) version <span class="hljs-string">&quot;0.8.17&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">group = <span class="hljs-string">&quot;com.example&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">version = <span class="hljs-string">&quot;0.0.1-SNAPSHOT&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">java.sourceCompatibility = JavaVersion.VERSION_11
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">repositories {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    mavenCentral()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">dependencies {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;org.springframework.boot:spring-boot-starter&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;org.jetbrains.kotlin:kotlin-reflect&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;org.jetbrains.kotlin:kotlin-stdlib-jdk8&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    testImplementation(<span class="hljs-string">&quot;org.springframework.boot:spring-boot-starter-test&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;net.devh:grpc-server-spring-boot-starter:2.12.0.RELEASE&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;io.grpc:grpc-protobuf:<span class="hljs-subst">${grpcVersion}</span>&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;io.grpc:grpc-stub:1.40.1&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;io.grpc:grpc-kotlin-stub:1.1.0&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    compileOnly(<span class="hljs-string">&quot;jakarta.annotation:jakarta.annotation-api:1.3.5&quot;</span>) <span class="hljs-comment">// Java 9+ compatibility - Do NOT update to 2.0.0</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;com.google.protobuf:protobuf-java:<span class="hljs-variable">$protobufVersion</span>&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;net.devh:grpc-client-spring-boot-starter:2.12.0.RELEASE&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    implementation(<span class="hljs-string">&quot;org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">if</span> (JavaVersion.current().isJava9Compatible) {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        implementation(<span class="hljs-string">&quot;javax.annotation:javax.annotation-api:+&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">tasks.withType&lt;KotlinCompile&gt; {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    kotlinOptions {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        freeCompilerArgs = listOf(<span class="hljs-string">&quot;-Xjsr305=strict&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        jvmTarget = <span class="hljs-string">&quot;11&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">tasks.withType&lt;Test&gt; {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    useJUnitPlatform()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    testLogging.showStandardStreams = <span class="hljs-literal">true</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">sourceSets {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    test {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        java.srcDirs.add(File(<span class="hljs-string">&quot;src/test/kotlin&quot;</span>))
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">protobuf {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    protoc {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        artifact = <span class="hljs-string">&quot;com.google.protobuf:protoc:<span class="hljs-subst">${protobufVersion}</span>&quot;</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    plugins {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        id(<span class="hljs-string">&quot;grpc&quot;</span>) {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            artifact = <span class="hljs-string">&quot;io.grpc:protoc-gen-grpc-java:<span class="hljs-subst">${grpcVersion}</span>&quot;</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        id(<span class="hljs-string">&quot;grpckt&quot;</span>) {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            artifact = <span class="hljs-string">&quot;io.grpc:protoc-gen-grpc-kotlin:1.1.0:jdk7@jar&quot;</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    generateProtoTasks {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        ofSourceSet(<span class="hljs-string">&quot;main&quot;</span>).forEach {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            task.builtins {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                java {}
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                kotlin {}
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            it.plugins {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                id(<span class="hljs-string">&quot;kotlin&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                id(<span class="hljs-string">&quot;grpc&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                id(<span class="hljs-string">&quot;grpckt&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>Note the use of the additional grpckt plugin for protoc along with the grpc plugin for java code-generation.</p>
+<p>Given, the above configuration, we can start defining our API schema in protobuf format.</p>
+<p>Let us start with a minimal example of <code>src/main/proto/demo.proto</code>:</p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">syntax = <span class="hljs-string">&quot;proto3&quot;</span>;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> com.example.grpcdemo.service;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;google/protobuf/wrappers.proto&quot;</span>;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;google/protobuf/timestamp.proto&quot;</span>;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">service </span><span class="hljs-title class_">UserService</span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-function"><span class="hljs-keyword">rpc</span> getUserById (google.protobuf.Int64Value) <span class="hljs-keyword">returns</span> (User)</span>;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">message </span><span class="hljs-title class_">User</span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-type">int64</span> id = <span class="hljs-number">1</span>;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-type">string</span> name = <span class="hljs-number">2</span>;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr></table></code></pre>
+
+<p>We will look at the code generated for the above in a bit. But let us first look at how to implement this service in our kotlin backend. Our UserService has just one method for now which returns a user given it&#39;s id.</p>
+<p>Our <code>UserService.kt</code> implementing this RPC service looks something like this:</p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> com.example.grpcdemo.service
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> com.google.protobuf.Int64Value
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> net.devh.boot.grpc.server.service.GrpcService
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@GrpcService</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span>: <span class="hljs-type">UserServiceGrpcKt.UserServiceCoroutineImplBase</span>() {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">override</span> <span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getUserById</span><span class="hljs-params">(userId: <span class="hljs-type">Int64Value</span>)</span></span>: Demo.User {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">return</span> Demo.User
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .newBuilder()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .setId(<span class="hljs-number">1</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .setName(<span class="hljs-string">&quot;Lorefnon&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .build()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>We have also configured the kotlin plugin for protobuf, which adds a couple of convenient extensions to the builders generated by the protobuf java plugin. So if we want, instead of using <code>Demo.User.newBuilder()</code> as in the above snippet, we could use a more kotlin-esque builder DSL:</p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">return</span> user {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  id = <span class="hljs-number">1</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  name = <span class="hljs-string">&quot;Lorefnon&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>Our implementation derives from the <code>UserServiceGrpcKt.UserServiceCoroutineImplBase</code> which was generated for us. The generated functions use some protobuf specific types and we return a <code>User</code> instance constructed through the builder that was also generated for us.</p>
+<p>Overall our code loooks pretty readable, and we didn&#39;t have to write any mapping boilerplate.</p>
+<p>If we peek into the build directory, we can find all the code our code-generator generated for us:</p>
+<pre><code class="hljs plaintext">▾ build/
+  ▸ classes/
+  ▸ extracted-include-protos/
+  ▸ extracted-protos/
+  ▾ generated/
+    ▾ source/proto/main/
+      ▾ grpc/com/example/grpcdemo/service/
+          UserServiceGrpc.java
+      ▾ grpckt/com/example/grpcdemo/service/
+          DemoGrpcKt.kt</code></pre>
+
+<p>The first thing we want to look at is the <code>UserServiceKt</code> where our base class we derived from resides:</p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> com.example.grpcdemo.service
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-18"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-18"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
+            <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
+            <path d="m6.5 3.5v6.056"/>
+            <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+        </g>
+    </svg><span class="hlcode-fold-text">25 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> com.google.protobuf.Int64Value
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> com.example.grpcdemo.service.UserServiceGrpc.getServiceDescriptor
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.CallOptions
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.CallOptions.DEFAULT
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.Channel
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.Metadata
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.MethodDescriptor
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.ServerServiceDefinition
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.ServerServiceDefinition.builder
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.ServiceDescriptor
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.Status
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.Status.UNIMPLEMENTED
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.StatusException
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.kotlin.AbstractCoroutineServerImpl
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.kotlin.AbstractCoroutineStub
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.kotlin.ClientCalls.serverStreamingRpc
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.kotlin.ClientCalls.unaryRpc
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.kotlin.ServerCalls.serverStreamingServerMethodDefinition
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.kotlin.ServerCalls.unaryServerMethodDefinition
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.grpc.kotlin.StubFor
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> kotlin.String
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> kotlin.coroutines.CoroutineContext
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> kotlin.coroutines.EmptyCoroutineContext
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> kotlin.jvm.JvmOverloads
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> kotlin.jvm.JvmStatic
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-18"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> kotlinx.coroutines.flow.Flow
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-comment">/**
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"> * Holder for Kotlin coroutine-based client and server APIs for
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"> * com.example.grpcdemo.service.UserService.
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"> */</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">object</span> UserServiceGrpcKt {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> SERVICE_NAME: String = UserServiceGrpc.SERVICE_NAME
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-meta">@JvmStatic</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-keyword">val</span> serviceDescriptor: ServiceDescriptor
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">get</span>() = UserServiceGrpc.getServiceDescriptor()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-keyword">val</span> getUserByIdMethod: MethodDescriptor&lt;Int64Value, Demo.User&gt;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@JvmStatic</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">get</span>() = UserServiceGrpc.getGetUserByIdMethod()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-comment">/**
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">   * A stub for issuing RPCs to a(n) com.example.grpcdemo.service.UserService service as
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">   * suspending coroutines.
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">   */</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-meta">@StubFor(UserServiceGrpc::class)</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserServiceCoroutineStub</span> <span class="hljs-meta">@JvmOverloads</span> <span class="hljs-keyword">constructor</span>(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    channel: Channel,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    callOptions: CallOptions = DEFAULT
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  ) : AbstractCoroutineStub&lt;UserServiceCoroutineStub&gt;(channel, callOptions) {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">build</span><span class="hljs-params">(channel: <span class="hljs-type">Channel</span>, callOptions: <span class="hljs-type">CallOptions</span>)</span></span>: UserServiceCoroutineStub =
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        UserServiceCoroutineStub(channel, callOptions)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-comment">/**
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     * Executes this RPC and returns the response message, suspending until the RPC completes
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     * with [`Status.OK`][Status].  If the RPC completes with another status, a corresponding
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     * [StatusException] is thrown.  If this coroutine is cancelled, the RPC is also cancelled
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     * with the corresponding exception as a cause.
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     *
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     * <span class="hljs-doctag">@param</span> request The request message to send to the server.
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     *
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     * <span class="hljs-doctag">@return</span> The single response from the server.
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     */</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getUserById</span><span class="hljs-params">(request: <span class="hljs-type">Int64Value</span>)</span></span>: Demo.User = unaryRpc(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      channel,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      UserServiceGrpc.getGetUserByIdMethod(),
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      request,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      callOptions,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      Metadata()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    )
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-comment">/**
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">   * Skeletal implementation of the com.example.grpcdemo.service.UserService service based on
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">   * Kotlin coroutines.
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">   */</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserServiceCoroutineImplBase</span>(
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    coroutineContext: CoroutineContext = EmptyCoroutineContext
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">  ) : AbstractCoroutineServerImpl(coroutineContext) {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-comment">/**
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     * Returns the response to an RPC for com.example.grpcdemo.service.UserService.getUserById.
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     *
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     * If this method fails with a [StatusException], the RPC will fail with the corresponding
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     * [Status].  If this method fails with a [java.util.concurrent.CancellationException], the RPC
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     * will fail
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     * with status `Status.CANCELLED`.  If this method fails for any other reason, the RPC will
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     * fail with `Status.UNKNOWN` with the exception as a cause.
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     *
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     * <span class="hljs-doctag">@param</span> request The request from the client.
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     */</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">open</span> <span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getUserById</span><span class="hljs-params">(request: <span class="hljs-type">Int64Value</span>)</span></span>: Demo.User = <span class="hljs-keyword">throw</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        StatusException(UNIMPLEMENTED.withDescription(<span class="hljs-string">&quot;Method com.example.grpcdemo.service.UserService.getUserById is unimplemented&quot;</span>))
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">final</span> <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">bindService</span><span class="hljs-params">()</span></span>: ServerServiceDefinition = builder(getServiceDescriptor())
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      .addMethod(unaryServerMethodDefinition(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      context = <span class="hljs-keyword">this</span>.context,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      descriptor = UserServiceGrpc.getGetUserByIdMethod(),
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      implementation = ::getUserById
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    ))
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      .addMethod(serverStreamingServerMethodDefinition(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      context = <span class="hljs-keyword">this</span>.context,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      descriptor = UserServiceGrpc.getListUsersMethod(),
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      implementation = ::listUsers
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    )).build()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>There isn&#39;t much rocket science here. The code looks much similar to what we would have written if we were implementing this boilerplate ourselves.</p>
+<p>In our previous example, we have used a unary call. gRPC also has good support for streaming.</p>
+<p>Before we conclude our post, let&#39;s quickly look at what implementing a stream returning endpoint looks like. We add a <code>listUsers</code> method to our <code>UserService</code> which returns a stream of <code>User</code>.</p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">syntax = <span class="hljs-string">&quot;proto3&quot;</span>;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> com.example.grpcdemo.service;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;google/protobuf/wrappers.proto&quot;</span>;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;google/protobuf/timestamp.proto&quot;</span>;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">service </span><span class="hljs-title class_">UserService</span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-function"><span class="hljs-keyword">rpc</span> getUserById (google.protobuf.Int64Value) <span class="hljs-keyword">returns</span> (User)</span>;
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-function"><span class="hljs-keyword">rpc</span> listUsers(ListUsersInput) <span class="hljs-keyword">returns</span> (stream User)</span>;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">message </span><span class="hljs-title class_">ListUsersInput</span> {}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">message </span><span class="hljs-title class_">User</span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-type">int64</span> id = <span class="hljs-number">1</span>;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-type">string</span> name = <span class="hljs-number">2</span>;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr></table></code></pre>
+
+<p>One weird gRPC oddity is that even though our function does not need an argument, it is required to accept an argument, and hence we have defined an empty message type.</p>
+<p>As you may expect, on the kotlin side our return value is a <a href="https://kotlinlang.org/docs/flow.html#sequences" target="_blank" rel="noopener external nofollow noreferrer">Flow</a> - enabling us to return a collection of values over time.</p>
+<p>In our simple example below, we simply return a list, converted to a flow through a convenient extension function from kotlinx.coroutines.</p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@GrpcService</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span>: <span class="hljs-type">UserServiceGrpcKt.UserServiceCoroutineImplBase</span>() {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-19"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-19"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
+            <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
+            <path d="m6.5 3.5v6.056"/>
+            <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+        </g>
+    </svg><span class="hlcode-fold-text">5 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">override</span> <span class="hljs-keyword">suspend</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getUserById</span><span class="hljs-params">(userId: <span class="hljs-type">Int64Value</span>)</span></span>: Demo.User {
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">return</span> Demo.User.newBuilder().apply {
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell">            id = userId.value
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell">            name = <span class="hljs-string">&quot;Lorefnon&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell">        }.build()
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-19"><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">listUsers</span><span class="hljs-params">(request: <span class="hljs-type">Demo</span>.<span class="hljs-type">ListUsersInput</span>)</span></span>: Flow&lt;Demo.User&gt; {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">return</span> listOf(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            Demo.User.newBuilder().apply {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                id = <span class="hljs-number">10</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                name = <span class="hljs-string">&quot;Harry&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            }.build(),
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            Demo.User.newBuilder().apply {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                id = <span class="hljs-number">20</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                name = <span class="hljs-string">&quot;Hermione&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            }.build(),
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            Demo.User.newBuilder().apply {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                id = <span class="hljs-number">20</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                name = <span class="hljs-string">&quot;Ron&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            }.build()
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        ).asFlow()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>Lastly, if you don&#39;t want to deal with coroutines, you don&#39;t need to. It is perfectly fine to still use the base classes generated for Java, in your kotlin code.</p>
+<p>In fact, it is also perfectly fine to use just the kotlin extensions for Protobuf DSL, while not using the <code>*CoroutineImplBase</code> classes for gRPC. The two have no dependency on each other.</p>
+<p>To illustrate this in our last example, we could have written:</p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@GrpcService</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">UserService</span>: <span class="hljs-type">UserServiceGrpc.UserServiceImplBase</span>() {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getUserById</span><span class="hljs-params">(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      userId: <span class="hljs-type">Int64Value</span>,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver: <span class="hljs-type">StreamObserver</span>&lt;<span class="hljs-type">User</span>&gt;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    )</span></span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver.onNext(user {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        id = userId.value
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        name = <span class="hljs-string">&quot;Lorefnon&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      })
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver.onCompleted()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">listUsers</span><span class="hljs-params">(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      request: <span class="hljs-type">Demo</span>.<span class="hljs-type">ListUsersInput</span>,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver: <span class="hljs-type">StreamObserver</span>&lt;<span class="hljs-type">User</span>&gt;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    )</span></span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver.onNext(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        user {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">          id = <span class="hljs-number">10</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">          name = <span class="hljs-string">&quot;Harry&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      )
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver.onNext(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        user {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">          id = <span class="hljs-number">20</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">          name = <span class="hljs-string">&quot;Hermione&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      )
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver.onNext(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        user {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">          id = <span class="hljs-number">20</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">          name = <span class="hljs-string">&quot;Ron&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      )
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      responseObserver.onFinish()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>As we are using <code>UserServiceGrpc.UserServiceImplBase</code> instead of <code>UserServiceGrpcKt.UserServiceCoroutineImplBase</code>, our functions are no longer suspending functions. Also instead of returning values, they accept a <code>responseObserver</code> which can be used to return one or more values.</p>
+<p>This brings us to the end of this short post. We explored how we can bootstrap a simple gRPC service using kotlin and spring boot, and handle unary calls and streaming. As next steps you are encouraged to explore the <a href="https://yidongnan.github.io/grpc-spring-boot-starter/en/server/getting-started.html" target="_blank" rel="noopener external nofollow noreferrer">grpc-spring-boot-starter&#39;s introduction</a> and the <a href="https://grpc.io/" target="_blank" rel="noopener external nofollow noreferrer">gRPC official site</a> which provide detailed documentation on gRPC integrations.</p>
+</div><div class="post-comments"><!-- .comments-target--></div><div class="post-comments" style="margin-top: 10px;"><div id="remark42"></div></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>

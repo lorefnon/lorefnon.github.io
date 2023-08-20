@@ -1,0 +1,85 @@
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Documenting your data model with liquibase, tbls &amp; jOOQ</title><meta property="og:title" content="Lorefnon | Blog | Documenting your data model with liquibase, tbls &amp; jOOQ"><meta property="og:description" content="Documenting a database schema is often an afterthought, even though it is really important esp. for onboarding new developers into the project. This post outlines a really straightforward approach to tackle this using tbls, liquibase &amp; jOOQ."><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><script data-goatcounter="https://analytics.lorefnon.com/count" async src="https://analytics.lorefnon.com/count.js"></script><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js" defer></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js" defer></script><script src="/js/blog.js" defer></script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Icicles of Thought" type="application/atom+xml">
+</head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Liquibase/"><img src="/images/tag.svg">Liquibase</a></li><li class="body-text"><a class="tag-link" href="/tags/tbls/"><img src="/images/tag.svg">tbls</a></li><li class="body-text"><a class="tag-link" href="/tags/jOOQ/"><img src="/images/tag.svg">jOOQ</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Documenting your data model with liquibase, tbls &amp; jOOQ</div><div class="posted-date sub-header-text" title="2021-08-06">Posted &nbsp;2 years ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><p>Documenting a database schema is often an afterthought, even though it is really important esp. for onboarding new developers into the project.</p>
+<p>This post outlines a really straightforward approach I recently adopted for my projects using <a href="https://www.liquibase.org/" target="_blank" rel="noopener external nofollow noreferrer">Liquibase</a>, <a href="https://github.com/k1LoW/tbls" target="_blank" rel="noopener external nofollow noreferrer">tbls</a> &amp; <a href="https://jooq.org/" target="_blank" rel="noopener external nofollow noreferrer">jOOQ</a>.</p>
+<!-- more -->
+
+<h1 id="About-Liquibase"><a href="#About-Liquibase" class="headerlink" title="About Liquibase"></a>About Liquibase</h1><p>Liquibase is a great utility for managing database schema evolution. It has support for a great set of features like a YAML&#x2F;XML DSL that takes care of automatic rollbacks, support for parameter interpolation, and many more which are quite handy in enterprise contexts.</p>
+<p>Here is what the DSL looks like in YAML: </p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-bullet">-</span> <span class="hljs-attr">changeSet:</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-attr">id:</span> <span class="hljs-number">1</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-attr">author:</span> <span class="hljs-string">lorefnon</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-attr">changes:</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-bullet">-</span> <span class="hljs-attr">createTable:</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-attr">tableName:</span> <span class="hljs-string">approvals</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-attr">remarks:</span> <span class="hljs-string">Tracks</span> <span class="hljs-string">inventory</span> <span class="hljs-string">order</span> <span class="hljs-string">approvals</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-attr">columns:</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-bullet">-</span> <span class="hljs-attr">column:</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            <span class="hljs-attr">name:</span> <span class="hljs-string">id</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            <span class="hljs-attr">type:</span> <span class="hljs-string">uuid</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            <span class="hljs-attr">constraints:</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">              <span class="hljs-attr">primaryKey:</span> <span class="hljs-literal">true</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">              <span class="hljs-attr">nullable:</span> <span class="hljs-literal">false</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">              <span class="hljs-attr">primaryKeyName:</span> <span class="hljs-string">pk_approvals</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-bullet">-</span> <span class="hljs-attr">column:</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            <span class="hljs-attr">name:</span> <span class="hljs-string">action</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            <span class="hljs-attr">type:</span> <span class="hljs-string">varchar</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            <span class="hljs-attr">constraints:</span> { <span class="hljs-attr">nullable:</span> <span class="hljs-literal">false</span> }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-bullet">-</span> <span class="hljs-attr">column:</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            <span class="hljs-attr">name:</span> <span class="hljs-string">approver_user_id</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            <span class="hljs-attr">type:</span> <span class="hljs-string">uuid</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            <span class="hljs-attr">constraints:</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">              <span class="hljs-attr">foreignKeyName:</span> <span class="hljs-string">fk_approvals__approver_user_id</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">              <span class="hljs-attr">referencedColumnNames:</span> <span class="hljs-string">id</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">              <span class="hljs-attr">referencedTableName:</span> <span class="hljs-string">users</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">              <span class="hljs-attr">onDelete:</span> <span class="hljs-string">cascade</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            <span class="hljs-attr">remarks:</span> <span class="hljs-string">&gt;-</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">              <span class="hljs-literal">null</span> <span class="hljs-string">value</span> <span class="hljs-string">indicates</span> <span class="hljs-string">that</span> <span class="hljs-string">an</span> <span class="hljs-string">approval</span> <span class="hljs-string">was</span> <span class="hljs-string">initiated</span> <span class="hljs-string">but</span> <span class="hljs-string">not</span> <span class="hljs-string">approved</span> <span class="hljs-string">yet</span>
+</td></tr></table></code></pre>
+
+<p>While liquibase is a JVM based utility, it works quite well in any web application. There is a nice CLI that you can integrate with any build pipeline without having to write Java code (though a programmatic API is also available for advanced integration).</p>
+<h1 id="Remarks-in-the-Changelog-DSL"><a href="#Remarks-in-the-Changelog-DSL" class="headerlink" title="Remarks in the Changelog DSL"></a>Remarks in the Changelog DSL</h1><p>While most of what is happening in the changelog fragment about is self-explanatory, the part we want to zoom into in this post are the remarks fields.</p>
+<p>Many modern databases allow storing comments about different database level objects in the database itself. For Postgres, the manual discusses the <a href="https://www.postgresql.org/docs/9.1/sql-comment.html" target="_blank" rel="noopener external nofollow noreferrer">COMMENT command</a> in quite a bit of detail.</p>
+<p>As you may have guessed, the remarks in our changelog YAML above, get propagated as comments stored in the db.</p>
+<h1 id="About-tbls"><a href="#About-tbls" class="headerlink" title="About tbls"></a>About tbls</h1><p>tbls is a CLI friendly tool for documenting the database. </p>
+<p>It can infer the table schema, relationships between tables through foreign keys and generate nice looking markdown documentation. There README has an example of a <a href="https://raw.githubusercontent.com/k1LoW/tbls/master/img/doc.png" target="_blank" rel="noopener external nofollow noreferrer">generated output</a>.</p>
+<p>Cool thing is along with the schema, it can also pick up the comments in the table, and they will get included in the generated doc as descriptions.</p>
+<h1 id="About-jOOQ"><a href="#About-jOOQ" class="headerlink" title="About jOOQ"></a>About jOOQ</h1><p>jOOQ is a type safe query builder for JVM which I have blogged about before. </p>
+<p>If your app is built upon java, kotlin or any other JVM language, you can use jOOQ to generate classes representing of your tables, enabling you to query the database without having to directly deal with JDBC&#x2F;SQL. It is a nice sweet spot between raw SQL and full-fledged JPA-style ORMs.</p>
+<p>Interesting thing is that if you use the jOOQ code generator, then your database level comments will be picked up by jOOQ and embedded as javadoc comments in the generated code. </p>
+<pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * This class is generated by jOOQ.</span>
+<span class="hljs-comment"> * Tracks inventory order approvals</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Generated(</span>
+<span class="hljs-meta">    value = &#123;</span>
+<span class="hljs-meta">        &quot;https://www.jooq.org&quot;,</span>
+<span class="hljs-meta">        &quot;jOOQ version:3.15.1&quot;</span>
+<span class="hljs-meta">    &#125;</span>
+<span class="hljs-meta">)</span>
+<span class="hljs-meta">@SuppressWarnings(&#123; &quot;all&quot;, &quot;unchecked&quot;, &quot;rawtypes&quot; &#125;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ApprovalsRecord</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">UpdatableRecordImpl</span>&lt;ApprovalsRecord&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Record4</span>&lt;UUID, String, UUID, UUID&gt;, IApproval &#123;
+    
+    <span class="hljs-comment">// ...</span>
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * Setter for &lt;code&gt;PUBLIC.APPROVALS.APPROVER_USER_ID&lt;/code&gt;. null value</span>
+<span class="hljs-comment">     * indicates that an approval was initiated but not approved yet</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setApproverUserId</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> UUID value)</span> &#123;
+        set(<span class="hljs-number">2</span>, value);
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * Getter for &lt;code&gt;PUBLIC.APPROVALS.APPROVER_USER_ID&lt;/code&gt;. null value</span>
+<span class="hljs-comment">     * indicates that an approval was initiated but not approved yet</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Nullable</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> UUID <span class="hljs-title function_">getApproverUserId</span><span class="hljs-params">()</span> &#123;
+        <span class="hljs-keyword">return</span> (UUID) get(<span class="hljs-number">2</span>);
+    &#125;
+&#125;</code></pre>
+
+<p>This is really convenient, because now we have easy access to our data model documentation within our IDE as well as within any database explorer. And, liquibase &amp; jOOQ ensure that they never go out of sync.</p>
+</div><div class="post-comments"><!-- .comments-target--></div><div class="post-comments" style="margin-top: 10px;"><div id="remark42"></div></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>

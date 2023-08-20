@@ -1,0 +1,547 @@
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Building GraphQL APIs powered by Vert.x, jOOQ &amp; Kotlin - III</title><meta property="og:title" content="Lorefnon | Blog | Building GraphQL APIs powered by Vert.x, jOOQ &amp; Kotlin - III"><meta property="og:description" content="&lt;p&gt;This is the third post in our series of articles where we explore a JVM based stack comprising of Kotlin, Vert.X and jOOQ for development of GraphQL APIs.&lt;/p&gt;"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><script data-goatcounter="https://analytics.lorefnon.com/count" async src="https://analytics.lorefnon.com/count.js"></script><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js" defer></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js" defer></script><script src="/js/blog.js" defer></script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Icicles of Thought" type="application/atom+xml">
+</head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/GraphQL/"><img src="/images/tag.svg">GraphQL</a></li><li class="body-text"><a class="tag-link" href="/tags/Kotlin/"><img src="/images/tag.svg">Kotlin</a></li><li class="body-text"><a class="tag-link" href="/tags/Vert-X/"><img src="/images/tag.svg">Vert.X</a></li><li class="body-text"><a class="tag-link" href="/tags/Vert-X-Web/"><img src="/images/tag.svg">Vert.X-Web</a></li><li class="body-text"><a class="tag-link" href="/tags/Backend-development/"><img src="/images/tag.svg">Backend-development</a></li><li class="body-text"><a class="tag-link" href="/tags/API-development/"><img src="/images/tag.svg">API-development</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Building GraphQL APIs powered by Vert.x, jOOQ &amp; Kotlin - III</div><div class="posted-date sub-header-text" title="2021-03-25">Posted &nbsp;2 years ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><p>This is the third post in our series of articles where we explore a JVM based stack comprising of Kotlin, Vert.X and jOOQ for development of GraphQL APIs.</p>
+<span id="more"></span>
+
+<p>In the <a href="/2021/02/05/Building-GraphQL-APIs-powered-by-Vert-x-jOOQ-Kotlin-II/">previous post</a> we integrated a dagger based DI system to simplify wiring up of components. In this post we will add some more GraphQL resolvers which connect to the database using the jooq based DAO layer.</p>
+<p>Before we do that, let&#39;s add an AppConfig component to read configuration from a properties file in a type safe manner so that our application becomes runtime configurable: </p>
+<p>Our configuration file (<code>src/resources/app-config.properties</code>) looks like this:</p>
+<pre><code class="hljs properties"><span class="hljs-attr">db.port</span> = <span class="hljs-string">5432</span>
+<span class="hljs-attr">db.host</span> = <span class="hljs-string">localhost</span>
+<span class="hljs-attr">db.database</span> = <span class="hljs-string">jooq_graphql_sample</span>
+<span class="hljs-attr">db.user</span> = <span class="hljs-string">lorefnon</span></code></pre>
+
+<p>We will write an <code>AppConfigModule</code> which will make the parsed configuration available to other services through dagger.</p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> me.lorefnon.sample.module
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-9"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-9"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
+            <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
+            <path d="m6.5 3.5v6.056"/>
+            <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+        </g>
+    </svg><span class="hlcode-fold-text">3 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-9"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Module
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-9"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Provides
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-9"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> java.io.FileInputStream
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-9"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> java.util.*
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@Module</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">AppConfigModule</span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Provides</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">provideAppConfig</span><span class="hljs-params">()</span></span>: AppConfig {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">val</span> properties = Properties()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-comment">// Enable application consumer to inject a properties file through environment variable</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">val</span> fsPropertiesPath = System.getenv()[<span class="hljs-string">&quot;APP_CONFIG_PATH&quot;</span>]
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">val</span> propertiesStream = fsPropertiesPath
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            ?.let { FileInputStream(fsPropertiesPath) }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            <span class="hljs-comment">// Otherwise use the one in class path</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            ?: javaClass.classLoader.getResourceAsStream(<span class="hljs-string">&quot;app-config.properties&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        properties.load(propertiesStream)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">return</span> AppConfig(properties)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-comment">/**
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"> * A type safe wrapper over the untyped Properties instance
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"> */</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">AppConfig</span>(<span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> properties: Properties) {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">val</span> appPort <span class="hljs-keyword">get</span>(): <span class="hljs-built_in">Int</span> = properties.getProperty(<span class="hljs-string">&quot;server.http.port&quot;</span>)?.toInt() ?: <span class="hljs-number">8888</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">val</span> dbPort <span class="hljs-keyword">get</span>(): <span class="hljs-built_in">Int</span>? = properties.getProperty(<span class="hljs-string">&quot;db.port&quot;</span>)?.toInt()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">val</span> dbHost <span class="hljs-keyword">get</span>(): String = properties.getProperty(<span class="hljs-string">&quot;db.host&quot;</span>)!!
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">val</span> dbName <span class="hljs-keyword">get</span>(): String = properties.getProperty(<span class="hljs-string">&quot;db.database&quot;</span>)!!
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">val</span> dbUser <span class="hljs-keyword">get</span>(): String? = properties.getProperty(<span class="hljs-string">&quot;db.user&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">val</span> dbPassword <span class="hljs-keyword">get</span>(): String? = properties.getProperty(<span class="hljs-string">&quot;db.password&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>Let us add a <code>DBAccessModule</code> which uses this configuration to wire up database access: </p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> me.lorefnon.sample.module
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-10"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-10"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
+            <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
+            <path d="m6.5 3.5v6.056"/>
+            <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+        </g>
+    </svg><span class="hlcode-fold-text">6 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-10"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Module
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-10"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Provides
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-10"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.pgclient.PgConnectOptions
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-10"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.pgclient.PgPool
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-10"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.sqlclient.PoolOptions
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-10"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.sqlclient.SqlClient
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-10"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Singleton
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@Module</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">DBAccessModule</span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-comment">/**
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     * Provides an database pool client powered by Vert.X asynchronous postgres driver
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">     */</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Provides</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Singleton</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">providePGClient</span><span class="hljs-params">(connectOptions: <span class="hljs-type">PgConnectOptions</span>, poolOptions: <span class="hljs-type">PoolOptions</span>)</span></span>: SqlClient =
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        PgPool.pool(connectOptions, poolOptions)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Provides</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Singleton</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">providePGPoolOptions</span><span class="hljs-params">(config: <span class="hljs-type">AppConfig</span>)</span></span> =
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        PoolOptions()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Provides</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Singleton</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">providePGConnectOptions</span><span class="hljs-params">(config: <span class="hljs-type">AppConfig</span>)</span></span> =
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        PgConnectOptions()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .apply {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                port = config.dbPort
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                host = config.dbHost
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                database = config.dbName
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                config.dbUser?.let { user = it }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                config.dbPassword?.let { password = it }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>Thanks to jklingsporn&#39;s <code>ClassicReactiveVertxGenerator</code>, our DAO classes are compatible with the Vert.X postgres driver pool we configured above.</p>
+<p>So we can simply instantiate these DAO classes providing passing this postgres client to them. Let us write a module that instantiates our generated DAO classes: </p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> me.lorefnon.sample.module
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-11"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-11"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
+            <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
+            <path d="m6.5 3.5v6.056"/>
+            <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+        </g>
+    </svg><span class="hlcode-fold-text">8 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Module
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Provides
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.core.Vertx
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.sqlclient.SqlClient
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.generated.tables.daos.UsersDao
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.jooq.Configuration
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.jooq.SQLDialect
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.jooq.impl.DefaultConfiguration
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-11"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Singleton
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@Module</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">DAOModule</span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Provides</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Singleton</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">provideJooQConfiguration</span><span class="hljs-params">()</span></span>: Configuration =
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        DefaultConfiguration().apply {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            setSQLDialect(SQLDialect.POSTGRES)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Provides</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Singleton</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">provideUsersDao</span><span class="hljs-params">(jooqConfig: <span class="hljs-type">Configuration</span>, sqlClient: <span class="hljs-type">SqlClient</span>)</span></span> =
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        UsersDao(jooqConfig, sqlClient)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-comment">// Expose other DAO classes here</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>We will also need to make our <code>MainVerticleComponent</code> aware of these modules: </p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> me.lorefnon.sample
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-12"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-12"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
+            <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
+            <path d="m6.5 3.5v6.056"/>
+            <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+        </g>
+    </svg><span class="hlcode-fold-text">6 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Component
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.GraphQL
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.ext.web.Router
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.sqlclient.SqlClient
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.generated.tables.daos.UsersDao
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.module.*
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Singleton
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@Component(modules = [
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    AppConfigModule::class,
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    DBAccessModule::class,
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    DAOModule::class,
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    GraphQLModule::class,
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    RouterModule::class
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">])</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@Singleton</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">MainVerticleComponent</span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getRouter</span><span class="hljs-params">()</span></span>: Router
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>And then inject these instances in <code>MainVerticle</code>: </p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MainVerticle</span> : <span class="hljs-type">AbstractVerticle</span>() {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">val</span> components <span class="hljs-keyword">by</span> lazy {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        DaggerMainVerticleComponent
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .builder()
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            .appConfigModule(AppConfigModule())
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            .dBAccessModule(DBAccessModule())
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            .dAOModule(DAOModule())
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            .graphQLModule(GraphQLModule())
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            .routerModule(RouterModule(vertx))
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .build()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">start</span><span class="hljs-params">(startPromise: <span class="hljs-type">Promise</span>&lt;<span class="hljs-type">Void</span>&gt;)</span></span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">val</span> appPort = component.getAppConfig().appPort
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        vertx
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .createHttpServer()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .requestHandler(component.getRouter())
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .listen(appPort) { http -&gt;
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-13"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-13"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
+            <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
+            <path d="m6.5 3.5v6.056"/>
+            <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+        </g>
+    </svg><span class="hlcode-fold-text">5 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">if</span> (http.succeeded()) {
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell">                    startPromise.complete()
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell">                    println(<span class="hljs-string">&quot;HTTP server started on port <span class="hljs-variable">$appPort</span>&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell">                } <span class="hljs-keyword">else</span> {
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell">                    startPromise.fail(http.cause());
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell">                }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>Our API still works, but obviously our <code>DBAccessModule</code> &amp; <code>DAOModule</code> are still unused. Let&#39;s address that. </p>
+<p>Here is the simplest <code>UserRegistrationService</code> implementation, that receives incoming credentials, and saves it in DB after hashing the password: </p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> me.lorefnon.sample.service
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-14"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-14"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
+            <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
+            <path d="m6.5 3.5v6.056"/>
+            <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+        </g>
+    </svg><span class="hlcode-fold-text">4 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> at.favre.lib.crypto.bcrypt.BCrypt
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.core.Future
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.generated.tables.daos.UserDao
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.generated.tables.pojos.User
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-14"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Inject
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">UserRegistrationService</span> <span class="hljs-meta">@Inject</span> <span class="hljs-keyword">constructor</span>(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> userDao: UserDao,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> passwordEncryptionService: PasswordEncryptionService
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">) {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">registerUser</span><span class="hljs-params">(name: <span class="hljs-type">String</span>, email: <span class="hljs-type">String</span>, password: <span class="hljs-type">String</span>)</span></span>: Future&lt;RegistrationResult&gt; {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">return</span> userDao.insert(User().apply {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            <span class="hljs-keyword">this</span>.name = name
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            <span class="hljs-keyword">this</span>.password = passwordEncryptionService.encrypt(password)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            <span class="hljs-keyword">this</span>.email = email
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        }).map { insertCount -&gt;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            RegistrationResult(<span class="hljs-literal">true</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        }.otherwise { throwable -&gt;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            <span class="hljs-keyword">val</span> comments =
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">if</span> (throwable.message?.contains(<span class="hljs-string">&quot;violates unique constraint&quot;</span>) == <span class="hljs-literal">true</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                    listOf(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                        <span class="hljs-string">&quot;A user is already registered for this email/username&quot;</span>,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                        <span class="hljs-string">&quot;Do you want to sign in instead ?&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                    )
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">else</span> <span class="hljs-literal">null</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            RegistrationResult(<span class="hljs-literal">false</span>, comments)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RegistrationResult</span>(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">val</span> success: <span class="hljs-built_in">Boolean</span>,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">val</span> comments: List&lt;String&gt;? = <span class="hljs-literal">null</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">)
+</td></tr></table></code></pre>
+
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> me.lorefnon.sample.service
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> at.favre.lib.crypto.bcrypt.BCrypt
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Inject
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">val</span> LOGARITHMIC_COST_FACTOR = <span class="hljs-number">12</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PasswordEncryptionService</span> <span class="hljs-meta">@Inject</span> <span class="hljs-keyword">constructor</span>() {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">encrypt</span><span class="hljs-params">(password: <span class="hljs-type">String</span>)</span></span> =
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        BCrypt.withDefaults().hashToString(LOGARITHMIC_COST_FACTOR, password.toCharArray())
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">verify</span><span class="hljs-params">(password: <span class="hljs-type">String</span>, encryptedPassword: <span class="hljs-type">String</span>)</span></span> =
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        BCrypt.verifyer().verify(password.toCharArray(), encryptedPassword).verified
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>A production ready solution will also do email verification, time-limit number of signups from an IP, etc. but for our tutorial we will not go into the intricacies of user registration best practices. </p>
+<p>Our service, at this point, is a plain kotlin service that can be tested in isolation. It is not, however, GraphQL aware. </p>
+<p>We need to next expose this service through a resolver: </p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> me.lorefnon.sample.module
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-15"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-15"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
+            <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
+            <path d="m6.5 3.5v6.056"/>
+            <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+        </g>
+    </svg><span class="hlcode-fold-text">9 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.GraphQL
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.RuntimeWiring.newRuntimeWiring
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.SchemaGenerator
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.SchemaParser
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Module
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Provides
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.TypeRuntimeWiring
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.service.UserRegistrationService
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-15"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Singleton
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@Module</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">GraphQLModule</span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Provides</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Singleton</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">provideGraphQL</span><span class="hljs-params">(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        userRegistrationService: <span class="hljs-type">UserRegistrationService</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    )</span></span> = GraphQLBuilder(
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        userRegistrationService
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    ).build()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">inner</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GraphQLBuilder</span>(
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> userRegistrationService: UserRegistrationService
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    ) {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">build</span><span class="hljs-params">()</span></span>: GraphQL = GraphQL
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .newGraphQL(buildExecutableSchema())
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .build()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> rawSchema = <span class="hljs-string">&quot;&quot;&quot;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            type Query {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                hello: String
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            type Mutation {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                registerUser(username: String!, email: String!, password: String!): RegistrationResult!
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            type RegistrationResult {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                success: Boolean!
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        &quot;&quot;&quot;</span>.trimIndent()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">buildRuntimeWiring</span><span class="hljs-params">()</span></span> = newRuntimeWiring()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .type(<span class="hljs-string">&quot;Query&quot;</span>) {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                it.dataFetcher(<span class="hljs-string">&quot;hello&quot;</span>) {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                    <span class="hljs-string">&quot;world&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            .type(<span class="hljs-string">&quot;Mutation&quot;</span>) {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                it.associateRegisterUserMutation()
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .build()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-comment">// Local extension method for graphql-java&#x27;s TypeRuntimeWiring Builder</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-comment">// to associate the registerUser resolver</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> TypeRuntimeWiring.Builder.<span class="hljs-title">associateRegisterUserMutation</span><span class="hljs-params">()</span></span> =
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            dataFetcher(<span class="hljs-string">&quot;registerUser&quot;</span>, VertxDataFetcher.create { env -&gt;
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">val</span> username = env.getArgument&lt;String&gt;(<span class="hljs-string">&quot;username&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">val</span> email = env.getArgument&lt;String&gt;(<span class="hljs-string">&quot;email&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">val</span> password = env.getArgument&lt;String&gt;(<span class="hljs-string">&quot;password&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                userRegistrationService.registerUser(username, email, password)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            })
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">buildExecutableSchema</span><span class="hljs-params">()</span></span> =
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            SchemaGenerator().makeExecutableSchema(parseSchema(), buildRuntimeWiring())
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">parseSchema</span><span class="hljs-params">()</span></span> =
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            SchemaParser().parse(rawSchema)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>We have updated our GraphQL schema SDL to include a <code>registerUser</code> mutation field and we have updated our runtime wiring to resolve this field through the <code>registerUser</code> method of <code>UserRegistrationService</code>. </p>
+<p>In an extension method (<code>associateRegisterUserMutation</code>), we are bridging the non-typesafe arguments API of GraphQL java to the type safe <code>UserRegistrationService.registerUser</code> arguments.</p>
+<p>One interesting thing to note here is the use of <code>VertxDataFetcher.create</code>. In case of our static resolver before (<code>Query.hello</code> field), we had passed a lambda to <code>TypeRuntimeWiring.Builder.dataFetcher</code>. This works perfectly fine for simple values or java objects. If our <code>userRegistrationService.registerUser</code> returned a <code>RegistrationResult</code> instance directly, we would not have to use <code>VertxDataFetcher.create</code>. 
+But what it actually returns is a Vert.X <code>Future</code> instance that resolves to a <code>RegistrationResult</code>. </p>
+<p>graphql-java library is not aware of this <code>Future</code> class. It does understand <code>java.util.concurrent.CompletionStage</code> (Read more about <a href="https://www.graphql-java.com/documentation/v15/execution/#asynchronous-execution" target="_blank" rel="noopener external nofollow noreferrer">asynchronous execution</a> in graphql-java), but the <code>Future</code> being returned here is not <code>java.util.concurrent.CompletableFuture</code> (which implements <code>java.util.concurrent.Future</code> and <code>java.util.concurrent.CompletionStage</code>) but rather <code>io.vertx.core.Future</code>, which is used by the vert.x libraries. </p>
+<p>So we need to convert the vert.x future to a <code>CompletionStage</code>. We already have a <code>.toCompletionStage()</code> method in vert.x Futures for this, but the <code>VertxDataFetcher</code> fetcher is an added convenience on top of that which is <a href="https://vertx.io/docs/apidocs/io/vertx/core/Context.html" target="_blank" rel="noopener external nofollow noreferrer">Vert.x context</a> aware.</p>
+<p>We can now restart our service and try out our mutation through Altair, or other GraphQL Client:</p>
+<pre><code class="hljs graphql">mutation &#123;
+  registerUser(
+    username: &quot;lorefnon&quot;, 
+    email: &quot;lorefnon@gmail.com&quot;,
+    password: &quot;password&quot;
+  ) &#123;
+    success
+    comments
+  &#125;
+&#125;</code></pre>
+
+<p>If it&#39;s all wired up correctly, we should get a successful response:</p>
+<pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+    <span class="hljs-attr">&quot;registerUser&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+      <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;comments&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span>
+    <span class="hljs-punctuation">&#125;</span>
+  <span class="hljs-punctuation">&#125;</span>
+<span class="hljs-punctuation">&#125;</span></code></pre>
+
+<p>If we try to create another user with the same login, we should receive a clear error:</p>
+<pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+    <span class="hljs-attr">&quot;registerUser&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+      <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;comments&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+        <span class="hljs-string">&quot;A user is already registered for this email/username&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-string">&quot;Do you want to sign in instead ?&quot;</span>
+      <span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">&#125;</span>
+  <span class="hljs-punctuation">&#125;</span>
+<span class="hljs-punctuation">&#125;</span></code></pre>
+
+<p>We also need a mechanism to allow users to login. So let us add another mutation where we can pass in the credentials are retrieve a JWT token:</p>
+<pre><code class="hljs kotlin"><span class="hljs-keyword">package</span> me.lorefnon.sample.service
+
+<span class="hljs-keyword">import</span> io.vertx.core.Future
+<span class="hljs-keyword">import</span> me.lorefnon.sample.generated.tables.daos.UserDao
+<span class="hljs-keyword">import</span> javax.inject.Inject
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">UserLoginService</span> <span class="hljs-meta">@Inject</span> <span class="hljs-keyword">constructor</span>(
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> userDao: UserDao,
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> passwordEncryptionService: PasswordEncryptionService,
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> authTokenService: AuthTokenService
+) &#123;
+    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">login</span><span class="hljs-params">(name: <span class="hljs-type">String</span>, password: <span class="hljs-type">String</span>)</span></span>: Future&lt;String?&gt; =
+        userDao.findOneByName(name).map &#123;
+            it?.let &#123; user -&gt;
+                <span class="hljs-keyword">if</span> (passwordEncryptionService.verify(password, user.password)) user
+                <span class="hljs-keyword">else</span> <span class="hljs-literal">null</span>
+            &#125;?.let &#123; user -&gt;
+                authTokenService.getToken(user.name)
+            &#125;
+        &#125;
+&#125;</code></pre>
+
+<p>Let&#39;s add that to our GraphQL module similar to the registration field: </p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> me.lorefnon.sample.module
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-16"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-16"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
+            <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
+            <path d="m6.5 3.5v6.056"/>
+            <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+        </g>
+    </svg><span class="hlcode-fold-text">11 lines collapsed (Imports)</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.GraphQL
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.RuntimeWiring.newRuntimeWiring
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.SchemaGenerator
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.SchemaParser
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Module
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> dagger.Provides
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> graphql.schema.idl.TypeRuntimeWiring
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> io.vertx.ext.web.handler.graphql.schema.VertxDataFetcher
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.service.UserLoginService
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> me.lorefnon.sample.service.UserRegistrationService
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-16"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> javax.inject.Singleton
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@Module</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">GraphQLModule</span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Provides</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-meta">@Singleton</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">provideGraphQL</span><span class="hljs-params">(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        userRegistrationService: <span class="hljs-type">UserRegistrationService</span>,
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        userLoginService: <span class="hljs-type">UserLoginService</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    )</span></span> = GraphQLBuilder(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        userRegistrationService,
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        userLoginService
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    ).build()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">inner</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GraphQLBuilder</span>(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> userRegistrationService: UserRegistrationService,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> userLoginService: UserLoginService
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    ) {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">build</span><span class="hljs-params">()</span></span>: GraphQL = GraphQL
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .newGraphQL(buildExecutableSchema())
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .build()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> rawSchema = <span class="hljs-string">&quot;&quot;&quot;
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            type Query {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                hello: String
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            type Mutation {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                registerUser(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                    username: String!, 
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                    email: String!, 
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                    password: String!
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                ): RegistrationResult!
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                login(username: String!, password: String!): String
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-17"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-17"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
+            <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
+            <path d="m6.5 3.5v6.056"/>
+            <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+        </g>
+    </svg><span class="hlcode-fold-text">4 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">            type RegistrationResult {
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                success: Boolean!
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                comments: [String]
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        &quot;&quot;&quot;</span>.trimIndent()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">buildRuntimeWiring</span><span class="hljs-params">()</span></span> = newRuntimeWiring()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .type(<span class="hljs-string">&quot;Query&quot;</span>) {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                it.dataFetcher(<span class="hljs-string">&quot;hello&quot;</span>) { <span class="hljs-string">&quot;world&quot;</span> }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .type(<span class="hljs-string">&quot;Mutation&quot;</span>) {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">                it.associateRegisterUserMutation()
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                it.associateLoginMutation()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .build()
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-17"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-17"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
+            <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
+            <path d="m6.5 3.5v6.056"/>
+            <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+        </g>
+    </svg><span class="hlcode-fold-text">6 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> TypeRuntimeWiring.Builder.<span class="hljs-title">associateRegisterUserMutation</span><span class="hljs-params">()</span></span> =
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">            dataFetcher(<span class="hljs-string">&quot;registerUser&quot;</span>, VertxDataFetcher.create { env -&gt;
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">val</span> username = env.getArgument&lt;String&gt;(<span class="hljs-string">&quot;username&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">val</span> email = env.getArgument&lt;String&gt;(<span class="hljs-string">&quot;email&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">val</span> password = env.getArgument&lt;String&gt;(<span class="hljs-string">&quot;password&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">                userRegistrationService.registerUser(username, email, password)
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-17"><td style="border:none" class="hlcode-code-cell">            })
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> TypeRuntimeWiring.Builder.<span class="hljs-title">associateLoginMutation</span><span class="hljs-params">()</span></span> =
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            dataFetcher(<span class="hljs-string">&quot;login&quot;</span>, VertxDataFetcher.create { env -&gt;
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">val</span> username = env.getArgument&lt;String&gt;(<span class="hljs-string">&quot;username&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                <span class="hljs-keyword">val</span> password = env.getArgument&lt;String&gt;(<span class="hljs-string">&quot;password&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">                userLoginService.login(username, password)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">            })
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">buildExecutableSchema</span><span class="hljs-params">()</span></span> =
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            SchemaGenerator().makeExecutableSchema(parseSchema(), buildRuntimeWiring())
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">parseSchema</span><span class="hljs-params">()</span></span> =
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            SchemaParser().parse(rawSchema)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>An invocation of this API looks like this:</p>
+<pre><code class="hljs graphql">mutation &#123;
+  login(username: &quot;lorefnon&quot;, password: &quot;password&quot;)
+&#125;</code></pre>
+
+<pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+    <span class="hljs-attr">&quot;login&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtZS5sb3JlZm5vbi5zYW1wbGUiLCJ1c2VyIjoibG9yZWZub24ifQ.vJNjffx0dMAqoORfXlf-dUF6cAhwMfTPLeZzxB632_k&quot;</span>
+  <span class="hljs-punctuation">&#125;</span>
+<span class="hljs-punctuation">&#125;</span></code></pre>
+
+<p>In the next post we will utilize this API to secure other fields in our GraphQL API.</p>
+</div><div class="post-comments"><!-- .comments-target--></div><div class="post-comments" style="margin-top: 10px;"><div id="remark42"></div></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>

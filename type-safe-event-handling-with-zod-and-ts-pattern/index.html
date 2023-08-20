@@ -1,0 +1,218 @@
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Type-safe event handling in Typescript with zod and ts-pattern</title><meta property="og:title" content="Lorefnon | Blog | Type-safe event handling in Typescript with zod and ts-pattern"><meta property="og:description" content="Ramblings on Web Development and software architecture"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><script data-goatcounter="https://analytics.lorefnon.com/count" async src="https://analytics.lorefnon.com/count.js"></script><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js" defer></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js" defer></script><script src="/js/blog.js" defer></script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Icicles of Thought" type="application/atom+xml">
+</head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/typescript/"><img src="/images/tag.svg">typescript</a></li><li class="body-text"><a class="tag-link" href="/tags/zod/"><img src="/images/tag.svg">zod</a></li><li class="body-text"><a class="tag-link" href="/tags/ts-pattern/"><img src="/images/tag.svg">ts-pattern</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Type-safe event handling in Typescript with zod and ts-pattern</div><div class="posted-date sub-header-text" title="2022-06-17">Posted &nbsp;a year ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><h1 id="Event-handling"><a href="#Event-handling" class="headerlink" title="Event handling"></a>Event handling</h1><p>It is no surprise to anyone that event handling is bread and butter in javascript. However, often we receive several types of events from an event source which makes handling them in a type-safe manner harder. Eg. if we are consuming websocket events on the backend we may write something like: </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">import</span> ws <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;ws&quot;</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> app = <span class="hljs-title function_">express</span>()
+
+<span class="hljs-keyword">const</span> server = app.<span class="hljs-title function_">listen</span>(<span class="hljs-number">3000</span>)
+
+<span class="hljs-keyword">const</span> wss = <span class="hljs-keyword">new</span> ws.<span class="hljs-title class_">Server</span>(&#123; server &#125;)
+
+wss.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;connection&quot;</span>, <span class="hljs-function">(<span class="hljs-params">ws: ws.WebSocket</span>) =&gt;</span> &#123;
+    ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;message&quot;</span>, <span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> &#123;
+        <span class="hljs-keyword">const</span> parsed = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(data); 
+               ^
+               <span class="hljs-string">`----- any :(</span>
+<span class="hljs-string">    &#125;)</span>
+<span class="hljs-string">&#125;)</span></code></pre>
+
+<p>Similarly we could be receiving a message from a different window&#x2F;frame through postMessage, or another peer over a webrtc data channel, the problem remains the same: After receiving the data we need to disambiguate it into one of the multiple possible types of messages and branch out the handling logic from there.</p>
+<p>The most basic way would be to write a <a href="https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates" target="_blank" rel="noopener external nofollow noreferrer">type-guard</a> for each possible type.</p>
+<p>Typescript offers flow-sensitive typing so once we have established in a branch that a value is of a particular type, we do need any extra casts. </p>
+<p>So we could write something like this: </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">PostDetails</span> &#123;
+    <span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">description</span>: <span class="hljs-built_in">string</span>;
+&#125;
+
+<span class="hljs-comment">// Types for our events:</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">CreatePost</span> &#123;
+    <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;CreatePost&quot;</span>,
+    <span class="hljs-attr">data</span>: <span class="hljs-title class_">PostDetails</span>
+&#125;
+
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">UpdatePost</span> &#123;
+    <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;UpdatePost&quot;</span>,
+    <span class="hljs-attr">data</span>: <span class="hljs-title class_">PostDetails</span>
+&#125;
+
+<span class="hljs-comment">// Type-guards for different message types</span>
+<span class="hljs-keyword">const</span> isCreatePost = (<span class="hljs-attr">event</span>: <span class="hljs-built_in">any</span>): event is <span class="hljs-title class_">CreatePost</span> =&gt; event.<span class="hljs-property">type</span> === <span class="hljs-string">&quot;CreatePost&quot;</span>
+<span class="hljs-keyword">const</span> isUpdatePost = (<span class="hljs-attr">event</span>: <span class="hljs-built_in">any</span>): event is <span class="hljs-title class_">CreatePost</span> =&gt; event.<span class="hljs-property">type</span> === <span class="hljs-string">&quot;UpdatePost&quot;</span>
+
+<span class="hljs-comment">// Later in our message receiver: </span>
+
+ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;message&quot;</span>, <span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> &#123;
+    <span class="hljs-keyword">const</span> parsed = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(data); 
+    <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isCreatePost</span>(parsed)) &#123;
+        ws.<span class="hljs-title function_">send</span>(<span class="hljs-title function_">handleCreatePost</span>(parsed))
+        <span class="hljs-comment">//                       ^</span>
+        <span class="hljs-comment">//                       `---- type of parsed is CreatePost in this branch</span>
+    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isUpdatePost</span>(parsed)) &#123;
+        ws.<span class="hljs-title function_">send</span>(<span class="hljs-title function_">handleUpdatePost</span>(parsed))
+        <span class="hljs-comment">//                        ^</span>
+        <span class="hljs-comment">//                         `---- type of parsed is UpdatePost in this branch</span>
+    &#125;
+    <span class="hljs-comment">// ....</span>
+&#125;)</code></pre>
+
+<p>This works, but it is quite a bit of boilerplate to discriminate&#x2F;disambiguate between different possible types. This boilerpate is also repetitive if we adopt a convention that we will always discriminate the types based on a <code>type</code> attribute which all the events will have. </p>
+<p>Other issue is that we are trusting the rest of the shape of the data based on the type attribute. Our type-guards (isCreatePost, isUpdatePost etc.) just check for the type property - and assumes that rest of the properties are as expected. If the websocket client sends an invalid object like <code>&#123; type: &quot;CreatePost&quot; &#125;</code> (no data) we will get a runtime error which may surface deeper inside the handling logic with a confusing stack trace. </p>
+<p>When we are receiving data over a network boundary or from a persisted store, it is generally safer to validate the complete payload at the boundary itself (which is our message receiver function in this example) and fail early with a clean error.</p>
+<p>We could write our type-guard to be more defensive like: </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">const</span> isCreatePost = (<span class="hljs-attr">event</span>: <span class="hljs-built_in">any</span>): event is <span class="hljs-title class_">CreatePost</span> =&gt; &#123;
+    <span class="hljs-keyword">return</span> event.<span class="hljs-property">type</span> === <span class="hljs-string">&quot;CreatePost&quot;</span> &amp;&amp;
+        <span class="hljs-keyword">typeof</span> event.<span class="hljs-property">data</span> === <span class="hljs-string">&quot;object&quot;</span> &amp;&amp;
+        <span class="hljs-keyword">typeof</span> event.<span class="hljs-property">data</span>.<span class="hljs-property">title</span> === <span class="hljs-string">&quot;string&quot;</span> &amp;&amp;
+        <span class="hljs-keyword">typeof</span> event.<span class="hljs-property">data</span>.<span class="hljs-property">description</span> === <span class="hljs-string">&quot;string&quot;</span>;
+&#125;</code></pre>
+
+<p>But this is now a ton of additional work. </p>
+<p>This is also error prone because tomorrow if we add another field in PostDetails we will also need to update all these type-guards to accomodate the same. They have to kept in sync manually with no help from type-checker whatsoever.</p>
+<p>Fortunately, we have libraries to simplify this validation logic for us. One such library is <a href="https://github.com/colinhacks/zod" target="_blank" rel="noopener external nofollow noreferrer">zod</a> which is what I currently use in my production applications.</p>
+<p>With zod we can define the shape of our events through zod&#39;s API: </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> zod <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;zod&quot;</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">PostDetailsSchema</span> = z.<span class="hljs-title function_">object</span>(&#123;
+    <span class="hljs-attr">title</span>: z.<span class="hljs-title function_">string</span>(),
+    <span class="hljs-attr">description</span>: z.<span class="hljs-title function_">string</span>()
+&#125;);
+
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">CreatePostSchema</span> = z.<span class="hljs-title function_">object</span>(&#123;
+    <span class="hljs-attr">type</span>: z.<span class="hljs-title function_">literal</span>(<span class="hljs-string">&quot;CreatePost&quot;</span>),
+    <span class="hljs-attr">data</span>: <span class="hljs-title class_">PostDetailsSchema</span>
+&#125;);
+
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">UpdatePostSchema</span> = z.<span class="hljs-title function_">object</span>(&#123;
+    <span class="hljs-attr">type</span>: z.<span class="hljs-title function_">literal</span>(<span class="hljs-string">&quot;UpdatePost&quot;</span>),
+    <span class="hljs-attr">data</span>: <span class="hljs-title class_">PostDetailsSchema</span>.<span class="hljs-title function_">partial</span>()
+&#125;)</code></pre>
+
+<p>The benefit of defining these schema objects, is that we are able to perform runtime validation of unknown data.</p>
+<p>So our isCreatePost type-guard can be written as: </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">const</span> isCreatePost = (<span class="hljs-attr">event</span>: <span class="hljs-built_in">any</span>): event is <span class="hljs-title class_">CreatePost</span> =&gt;
+    <span class="hljs-title class_">CreatePostSchema</span>.<span class="hljs-title function_">safeParse</span>(event).<span class="hljs-property">success</span></code></pre>
+
+<p>We also don&#39;t have to manually define the typescript interfaces for <code>CreatePost</code>, <code>UpdatePost</code> etc. ourselves. They can instead be inferred from the Schema objects. </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">CreatePost</span> = z.<span class="hljs-property">TypeOf</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">CreatePostSchema</span>&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">UpdatePost</span> = z.<span class="hljs-property">TypeOf</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">UpdatePostSchema</span>&gt;;</code></pre>
+
+<p>The above approach of discriminating between multiple types using a shared property is very common in practice, and we call union of such types as discriminated unions. </p>
+<p>Zod has built in support for discriminated unions, and we can define an EventSchema as follows: </p>
+<pre><code class="hljs ts"><span class="hljs-comment">//                                          ,---- Property based on which we will discriminate</span>
+<span class="hljs-comment">//                                         V           the members of our union type</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title class_">EventSchema</span> = z.<span class="hljs-title function_">discriminatedUnion</span>(<span class="hljs-string">&quot;type&quot;</span>, [
+    <span class="hljs-title class_">CreatePostSchema</span>,
+    <span class="hljs-title class_">UpdatePostSchema</span>
+])</code></pre>
+
+<p>Often, we won&#39;t define the individual members separately: </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">const</span> <span class="hljs-title class_">EventSchema</span> = z.<span class="hljs-title function_">discriminatedUnion</span>(<span class="hljs-string">&quot;type&quot;</span>, [
+   z.<span class="hljs-title function_">object</span>(&#123;
+     <span class="hljs-attr">type</span>: z.<span class="hljs-title function_">literal</span>(<span class="hljs-string">&quot;CreatePost&quot;</span>),
+     <span class="hljs-attr">data</span>: <span class="hljs-title class_">PostDetailsSchema</span>
+   &#125;),
+   z.<span class="hljs-title function_">object</span>(&#123;
+     <span class="hljs-attr">type</span>: z.<span class="hljs-title function_">literal</span>(<span class="hljs-string">&quot;UpdatePost&quot;</span>),
+     <span class="hljs-attr">data</span>: <span class="hljs-title class_">PostDetailsSchema</span>
+   &#125;)
+])</code></pre>
+
+<p>which is exactly the same as above. </p>
+<p>If we use the previously mentioned TypeOf type to get the static type of EventSchema we will get a union of the CreatePost and UpdatePost types. </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">Event</span> = z.<span class="hljs-property">TypeOf</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">EventSchema</span>&gt;</code></pre>
+
+<p>The above will be inferred as: </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">Event</span> = 
+    | &#123; <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;CreatePost&quot;</span>, <span class="hljs-attr">data</span>: &#123; <span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">description</span>: <span class="hljs-built_in">string</span> &#125; &#125;
+    | &#123; <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;UpdatePost&quot;</span>, <span class="hljs-attr">data</span>: &#123; title?: <span class="hljs-built_in">string</span>, description?: <span class="hljs-built_in">string</span> &#125; &#125;</code></pre>
+
+<p>which is effectively: </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">Event</span> = <span class="hljs-title class_">CreatePost</span> | <span class="hljs-title class_">UpdatePost</span></code></pre>
+
+<p>One additional thing that we gain from defining a discriminated union is an exhaustiveness check. So we if we use <code>EventSchema.parse(someData)</code> this will throw a runtime error if someData does not conform to the complete shape of one of the errors.</p>
+<p>We can write our handler as: </p>
+<pre><code class="hljs ts">ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;message&quot;</span>, <span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> &#123;
+    <span class="hljs-keyword">try</span> &#123; 
+        <span class="hljs-keyword">const</span> parsed = <span class="hljs-title class_">EventSchema</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(data)); <span class="hljs-comment">// Parse will throw for invalid events</span>
+        <span class="hljs-comment">//     ^</span>
+        <span class="hljs-comment">//      `--- CreatePost | UpdatePost</span>
+        <span class="hljs-keyword">switch</span> (parsed.<span class="hljs-property">type</span>) &#123;
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;CreatePost&quot;</span>:
+            ws.<span class="hljs-title function_">send</span>(<span class="hljs-title function_">handleCreatePost</span>(parsed)) 
+            <span class="hljs-comment">//                        ^</span>
+            <span class="hljs-comment">//                        `---- type of parsed is CreatePost in this branch</span>
+            <span class="hljs-keyword">return</span>; 
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;UpdatePost&quot;</span>:
+            ws.<span class="hljs-title function_">send</span>(<span class="hljs-title function_">handleUpdatePost</span>(parsed))
+            <span class="hljs-comment">//                      ^</span>
+            <span class="hljs-comment">//                       `---- type of parsed is UpdatePost in this branch</span>
+            <span class="hljs-keyword">return</span>;
+        &#125;
+    &#125; <span class="hljs-keyword">catch</span> (e) &#123;
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(e);
+        <span class="hljs-comment">// Also see https://github.com/colinhacks/zod#error-formatting</span>
+    &#125;
+&#125;)
+</code></pre>
+
+<p>However, it would be also nice to have this exhaustiveness check enforced in our handler at compile time. The way our code is currently written, tomorrow if we add a new type of event in the discriminated union, but forget to add an if-else branch in the above code, it will get silently ignored - Not great. </p>
+<p>We can take advantage of the typescript compiler option <a href="https://www.typescriptlang.org/tsconfig#noImplicitReturns" target="_blank" rel="noopener external nofollow noreferrer">noImplicitReturns</a> to enforce this: </p>
+<pre><code class="hljs ts">ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;message&quot;</span>, <span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> &#123;
+    <span class="hljs-keyword">try</span> &#123; 
+        ws.<span class="hljs-title function_">send</span>(<span class="hljs-title function_">handleEvent</span>(<span class="hljs-title class_">EventSchema</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(data)))); <span class="hljs-comment">// Parse will throw for invalid events</span>
+    &#125; <span class="hljs-keyword">catch</span> (e) &#123;
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(e);
+    &#125;
+&#125;);
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">handleEvent</span> = (<span class="hljs-params">event: Event</span>) =&gt; &#123;
+    <span class="hljs-keyword">switch</span> (event.<span class="hljs-property">type</span>) &#123;
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;CreatePost&quot;</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_">handleCreatePost</span>(event);
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;UpdatePost&quot;</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_">handleUpdatePost</span>(event);
+    &#125;
+&#125;</code></pre>
+
+<p>Note that our switch statement does not have a default case. </p>
+<p>So if we update our Event have another variant like: </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">const</span> <span class="hljs-title class_">EventSchema</span> = z.<span class="hljs-title function_">discriminatedUnion</span>(<span class="hljs-string">&quot;type&quot;</span>, [
+   z.<span class="hljs-title function_">object</span>(&#123;
+     <span class="hljs-attr">type</span>: z.<span class="hljs-title function_">literal</span>(<span class="hljs-string">&quot;CreatePost&quot;</span>),
+     <span class="hljs-attr">data</span>: <span class="hljs-title class_">PostDetailsSchema</span>
+   &#125;),
+   z.<span class="hljs-title function_">object</span>(&#123;
+     <span class="hljs-attr">type</span>: z.<span class="hljs-title function_">literal</span>(<span class="hljs-string">&quot;UpdatePost&quot;</span>),
+     <span class="hljs-attr">data</span>: <span class="hljs-title class_">PostDetailsSchema</span>.<span class="hljs-title function_">partial</span>()
+   &#125;),
+   z.<span class="hljs-title function_">object</span>(&#123;
+     <span class="hljs-attr">type</span>: z.<span class="hljs-title function_">literal</span>(<span class="hljs-string">&quot;DeletePost&quot;</span>),
+     <span class="hljs-attr">data</span>: z.<span class="hljs-title function_">object</span>(&#123; <span class="hljs-attr">id</span>: z.<span class="hljs-title function_">string</span>() &#125;)
+   &#125;)
+])</code></pre>
+
+<p>None of the switch-case branches will now match for <code>DeletePost</code> and we will end up with a possible branch of code that returns implicitly. Typescript will now complain about that.</p>
+<p>We could wrap-up the post here - given that we have accomplished all the type-safety features we wanted. However, I am not a huge fan of having to rely on implicit returns (or similar workarounds) for exhaustiveness check. </p>
+<p>In many functional languages, we have support for <a href="https://abitofocaml.weebly.com/12-pattern-matching.html" target="_blank" rel="noopener external nofollow noreferrer">pattern-matching</a> with built in support for exhaustiveness check. Typescript does not have this at the moment but there are userland implementations that emulate pattern matching. One such library is <a href="https://github.com/gvergnaud/ts-pattern" target="_blank" rel="noopener external nofollow noreferrer">ts-pattern</a>, which I have found to work very well in practice. </p>
+<p>With ts-pattern we could write our handler as: </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; match &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;ts-pattern&quot;</span>;
+
+<span class="hljs-comment">// --- </span>
+
+<span class="hljs-title function_">match</span>(event)
+    .<span class="hljs-title function_">with</span>(&#123; <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;CreatePost&#x27;</span> &#125;, handleCreatePost)
+    .<span class="hljs-title function_">with</span>(&#123; <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;UpdatePost&#x27;</span> &#125;, handleUpdatePost)
+    .<span class="hljs-title function_">exhaustive</span>()   <span class="hljs-comment">// &lt;--- will be a type error if Event type has any other union members</span></code></pre>
+
+<p>Not only is this more succinct for this use case, ts-pattern becomes more useful when we have more complex scenario like combining multiple predicates or performing checks based on multiple properties. Take a look at some of their examples in the <a href="https://github.com/gvergnaud/ts-pattern#readme" target="_blank" rel="noopener external nofollow noreferrer">docs</a>.</p>
+<p>Also, unlike our switch-case or if-else examples above, the entire match invocation is a single expression so we could use the return value of our handler without needing temporary variables.</p>
+<pre><code class="hljs ts">ws.<span class="hljs-title function_">send</span>(
+    <span class="hljs-title function_">match</span>(event)
+        .<span class="hljs-title function_">with</span>(&#123; <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;CreatePost&#x27;</span> &#125;, handleCreatePost)
+        .<span class="hljs-title function_">with</span>(&#123; <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;UpdatePost&#x27;</span> &#125;, handleUpdatePost)
+        .<span class="hljs-title function_">exhaustive</span>()
+)</code></pre>
+
+<p>Cool, eh ?</p>
+</div><div class="post-comments"><div class="comments-header"><div class="comments-header-content">Discuss at &nbsp;<a href="https://fosstodon.org/interact/108499918533228631?type=reply" target="_blank">Mastodon</a></div></div><!-- a.load-comments-btn(onclick=`Blog.loadComments("fosstodon.org", "${page.discussions.mastodon.id}")`) Load Comments--><!-- .comments-target--></div><div class="post-comments" style="margin-top: 10px;"><div id="remark42"></div></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>

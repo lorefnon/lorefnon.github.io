@@ -1,0 +1,128 @@
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Configuring cloudfront functions for SPA routing with CDK</title><meta property="og:title" content="Lorefnon | Blog | Configuring cloudfront functions for SPA routing with CDK"><meta property="og:description" content="Ramblings on Web Development and software architecture"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><script data-goatcounter="https://analytics.lorefnon.com/count" async src="https://analytics.lorefnon.com/count.js"></script><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js" defer></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js" defer></script><script src="/js/blog.js" defer></script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Icicles of Thought" type="application/atom+xml">
+</head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/cloudfront/"><img src="/images/tag.svg">cloudfront</a></li><li class="body-text"><a class="tag-link" href="/tags/AWS/"><img src="/images/tag.svg">AWS</a></li><li class="body-text"><a class="tag-link" href="/tags/CDK/"><img src="/images/tag.svg">CDK</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Configuring cloudfront functions for SPA routing with CDK</div><div class="posted-date sub-header-text" title="2022-11-14">Posted &nbsp;9 months ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><p>When building <a href="https://en.wikipedia.org/wiki/Single-page_application" target="_blank" rel="noopener external nofollow noreferrer">single page applications</a>, it is convenient to serve the complete website including the HTML files from a CDN like AWS cloudfront. All the assets can then be potentially served from a location close to the user. This works particularly well for PWAs and dynamic client rendered websites. </p>
+<p>It is also common to use <a href="https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API" target="_blank" rel="noopener external nofollow noreferrer">push based</a> routing in single page applications. However the first request would always go the server so we need to setup some server side routing as well to route these requests to an appropriate HTML file. In the simplest case we&#39;d route all incoming requests to our domain to a single index.html file, and the javascript referenced in the HTML file will take over once the browser renders it.</p>
+<p>This is easily accomplished via <a href="https://docs.amazonaws.cn/en_us/AmazonCloudFront/latest/DeveloperGuide/cloudfront-functions.html" target="_blank" rel="noopener external nofollow noreferrer">cloudfront functions</a>, which are a <a href="https://aws.amazon.com/blogs/aws/introducing-cloudfront-functions-run-your-code-at-the-edge-with-low-latency-at-any-scale/" target="_blank" rel="noopener external nofollow noreferrer">recently introduced</a> cost effective alternative to <a href="https://docs.amazonaws.cn/en_us/AmazonCloudFront/latest/DeveloperGuide/lambda-at-the-edge.html" target="_blank" rel="noopener external nofollow noreferrer">lambda@edge</a>. </p>
+<p>lambda@edge may be more suitable if you need to execute complex logic and need access to a more full-fledged execution environment like node.js (For example if you are doing server side rendering). However for simpler use cases like changing routes, adapting headers etc. cloudfront functions offer a simpler and more cost effective alternative.</p>
+<p>Here is a simple function to route all requests which don&#39;t have an extension in the url to index.html: </p>
+<pre><code class="hljs js"><span class="hljs-comment">// path-redir-rule.js</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">handler</span>(<span class="hljs-params">event</span>) &#123;
+    <span class="hljs-keyword">var</span> request = event.<span class="hljs-property">request</span>
+    <span class="hljs-keyword">var</span> hasExtension = request.<span class="hljs-property">uri</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;.&#x27;</span>)
+    <span class="hljs-keyword">if</span> (!hasExtension) &#123;
+        request.<span class="hljs-property">uri</span> = <span class="hljs-string">&#x27;/app/index.html&#x27;</span>
+    &#125;
+    <span class="hljs-keyword">return</span> request;
+&#125;</code></pre>
+
+<p>Because we love <a href="https://en.wikipedia.org/wiki/Infrastructure_as_code" target="_blank" rel="noopener external nofollow noreferrer">IaC</a>, we will use <a href="https://aws.amazon.com/cdk/" target="_blank" rel="noopener external nofollow noreferrer">CDK</a> to wire up our cloudfront. This post is not intended to be a good first intro to CDK, but here are a few if you are using it for first time: <a href="https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-cdk-getting-started.html" target="_blank" rel="noopener external nofollow noreferrer">[1]</a>, <a href="https://dev.to/kevin_odongo35/getting-started-with-aws-cdk-2k19" target="_blank" rel="noopener external nofollow noreferrer">[2]</a>.</p>
+<p>It should not surprise anyone that AWS CDK has good support for AWS Cloudfront. </p>
+<p>Here is a simple stack that uses CDK with typescript to wire up a cloudfront stack backed by an S3 bucket. </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">import</span> path <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;node:path&quot;</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> cdk <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;aws-cdk-lib&quot;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> s3 <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;aws-cdk-lib/aws-s3&quot;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> cf <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;aws-cdk-lib/aws-cloudfront&quot;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> origins <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;aws-cdk-lib/aws-cloudfront-origins&quot;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FrontendStack</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">cdk.Stack</span> &#123;
+  publicAssetsS3Bucket = <span class="hljs-keyword">new</span> s3.<span class="hljs-title class_">Bucket</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-string">&quot;PublicAssetsBucket&quot;</span>, &#123;
+    <span class="hljs-attr">removalPolicy</span>: cdk.<span class="hljs-property">RemovalPolicy</span>.<span class="hljs-property">RETAIN</span>,
+    <span class="hljs-attr">publicReadAccess</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">websiteIndexDocument</span>: <span class="hljs-string">&quot;index.html&quot;</span>,
+    <span class="hljs-attr">versioned</span>: <span class="hljs-literal">false</span>,
+  &#125;);
+
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">cfOrigin</span> = <span class="hljs-keyword">new</span> origins.<span class="hljs-title function_">S3Origin</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">publicAssetsS3Bucket</span>);
+
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">cfDistribution</span> = <span class="hljs-keyword">new</span> cf.<span class="hljs-title class_">Distribution</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-string">&quot;CFDistribution&quot;</span>, &#123;
+    <span class="hljs-attr">defaultBehavior</span>: &#123;
+      <span class="hljs-attr">origin</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">cfOrigin</span>
+    &#125;
+  &#125;);
+&#125;</code></pre>
+
+<p>In a production application we will also configure certifications and domains for the distribution, which I have omited to keep the post focussed, but here is <a href="https://blog.dennisokeeffe.com/blog/2021-08-08-building-a-cdn-with-s3-cloudfront-and-the-aws-cdk" target="_blank" rel="noopener external nofollow noreferrer">another post</a> that convers those things too.</p>
+<p>We can now update this CF distribution configuration to use our function.</p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FrontendStack</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">cdk.Stack</span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  publicAssetsS3Bucket = <span class="hljs-keyword">new</span> s3.<span class="hljs-title class_">Bucket</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-string">&quot;PublicAssetsBucket&quot;</span>, {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-attr">removalPolicy</span>: cdk.<span class="hljs-property">RemovalPolicy</span>.<span class="hljs-property">RETAIN</span>,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-attr">publicReadAccess</span>: <span class="hljs-literal">true</span>,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-attr">websiteIndexDocument</span>: <span class="hljs-string">&quot;index.html&quot;</span>,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-attr">versioned</span>: <span class="hljs-literal">false</span>,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  })
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">  cfPathRedirFunction = <span class="hljs-keyword">new</span> cf.<span class="hljs-title class_">Function</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-string">&quot;PathRedirFunction&quot;</span>, {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">      <span class="hljs-attr">code</span>: cf.<span class="hljs-property">FunctionCode</span>.<span class="hljs-title function_">fromFile</span>({
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-attr">filePath</span>: path.<span class="hljs-title function_">join</span>(
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">          __dirname,
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">          <span class="hljs-string">&quot;./cf-functions/path-redir-rule.js&quot;</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        ),
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">      }),
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    });
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-variable language_">this</span>.<span class="hljs-property">cfOrigin</span> = <span class="hljs-keyword">new</span> origins.<span class="hljs-title function_">S3Origin</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">publicAssetsS3Bucket</span>);
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-variable language_">this</span>.<span class="hljs-property">cfDistribution</span> = <span class="hljs-keyword">new</span> cf.<span class="hljs-title class_">Distribution</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-string">&quot;CFDistribution&quot;</span>, {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-attr">defaultBehavior</span>: {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      <span class="hljs-attr">origin</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">cfOrigin</span>,
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">      <span class="hljs-attr">functionAssociations</span>: [
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">          <span class="hljs-attr">function</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">cfPathRedirFunction</span>,
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">          <span class="hljs-attr">eventType</span>: cf.<span class="hljs-property">FunctionEventType</span>.<span class="hljs-property">VIEWER_REQUEST</span>,
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        }
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">      ],
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  });
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>Since this function will need to be run before the target is selected, we needed to use <code>VIEWER_REQUEST</code> event type.</p>
+<p>We can also consider adding a response function which adds headers to prevent the browser from caching our html pages, as we can expect it to frequently change.</p>
+<pre><code class="hljs ts"><span class="hljs-comment">// prevent-html-caching.js</span>
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">handler</span>(<span class="hljs-params">event</span>) &#123;
+    <span class="hljs-keyword">var</span> request = event.<span class="hljs-property">request</span>
+    <span class="hljs-keyword">var</span> parts = request.<span class="hljs-property">uri</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;/&#x27;</span>)
+    <span class="hljs-keyword">var</span> lastPart = parts[parts.<span class="hljs-property">length</span>-<span class="hljs-number">1</span>]
+    <span class="hljs-keyword">var</span> response = event.<span class="hljs-property">response</span>;
+    <span class="hljs-keyword">var</span> headers = response.<span class="hljs-property">headers</span>;
+    <span class="hljs-keyword">if</span> (lastPart.<span class="hljs-title function_">match</span>(<span class="hljs-regexp">/\.html$/</span>) || lastPart.<span class="hljs-title function_">match</span>(<span class="hljs-regexp">/^[^.]*$/</span>)) &#123;
+        headers[<span class="hljs-string">&#x27;cache-control&#x27;</span>] = &#123; <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;no-cache&#x27;</span> &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> response
+&#125;</code></pre>
+
+<p>Because this function needs access to the response being sent, the function event type needs to be <code>VIEWER_RESPONSE</code>.</p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FrontendStack</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">cdk.Stack</span> {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-comment">// ...</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">  cfHtmlRespFunction = <span class="hljs-keyword">new</span> cf.<span class="hljs-title class_">Function</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-string">&quot;HTMLRespFunction&quot;</span>, {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-attr">code</span>: cf.<span class="hljs-property">FunctionCode</span>.<span class="hljs-title function_">fromFile</span>({
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">      <span class="hljs-attr">filePath</span>: path.<span class="hljs-title function_">join</span>(
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        __dirname,
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-string">&quot;./cf-functions/prevent-html-caching.js&quot;</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">      ),
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    }),
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">  });
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-variable language_">this</span>.<span class="hljs-property">cfOrigin</span> = <span class="hljs-keyword">new</span> origins.<span class="hljs-title function_">S3Origin</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">publicAssetsS3Bucket</span>);
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  <span class="hljs-variable language_">this</span>.<span class="hljs-property">cfDistribution</span> = <span class="hljs-keyword">new</span> cf.<span class="hljs-title class_">Distribution</span>(<span class="hljs-variable language_">this</span>, <span class="hljs-string">&quot;CFDistribution&quot;</span>, {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-attr">defaultBehavior</span>: {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      <span class="hljs-attr">origin</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">cfDistribution</span>,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      <span class="hljs-attr">functionAssociations</span>: [
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">          <span class="hljs-attr">function</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">cfPathRedirFunction</span>,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">          <span class="hljs-attr">eventType</span>: cf.<span class="hljs-property">FunctionEventType</span>.<span class="hljs-property">VIEWER_REQUEST</span>,
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        },
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">          <span class="hljs-attr">function</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">cfHtmlRespFunction</span>,
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">          <span class="hljs-attr">eventType</span>: cf.<span class="hljs-property">FunctionEventType</span>.<span class="hljs-property">VIEWER_RESPONSE</span>,
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        },
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">      ],
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">  });
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>And that is it. Run <code>cdk synth</code> and <code>cdk deploy</code> to deploy or update your cloudfront setup.</p>
+</div><div class="post-comments"><!-- .comments-target--></div><div class="post-comments" style="margin-top: 10px;"><div id="remark42"></div></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>
