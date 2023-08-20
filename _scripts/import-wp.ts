@@ -1,5 +1,5 @@
 import path from "path";
-import glob from "globby";
+import { globby as glob } from "globby";
 import cheerio from "cheerio";
 import fs from "fs-extra";
 
