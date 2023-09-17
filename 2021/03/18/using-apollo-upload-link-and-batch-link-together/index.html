@@ -1,0 +1,53 @@
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Using Apollo Upload Link and Batch Link together</title><meta property="og:title" content="Lorefnon | Blog | Using Apollo Upload Link and Batch Link together"><meta property="og:description" content="An overview of how to use multiple terminal links like upload link and batch link together"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><script data-goatcounter="https://analytics.lorefnon.com/count" async src="https://analytics.lorefnon.com/count.js"></script><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js" defer></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js" defer></script><script src="/js/blog.js" defer></script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Icicles of Thought" type="application/atom+xml">
+</head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/GraphQL/"><img src="/images/tag.svg">GraphQL</a></li><li class="body-text"><a class="tag-link" href="/tags/Apollo/"><img src="/images/tag.svg">Apollo</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Using Apollo Upload Link and Batch Link together</div><div class="posted-date sub-header-text" title="2021-03-17">Posted &nbsp;3 years ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><p>Apollo GraphQL client offers generic extensibility of the client-server interaction through a &quot;Link&quot; API. </p>
+<p>From the <a href="https://www.apollographql.com/docs/react/api/link/introduction/" target="_blank" rel="noopener external nofollow noreferrer">official docs</a>, the high level idea is: </p>
+<blockquote>
+<p>The Apollo Link library helps you customize the flow of data between Apollo Client and your GraphQL server. You can define your client&#39;s network behavior as a chain of link objects that execute in a sequence</p>
+</blockquote>
+<p>This is conceptually pretty similar to middlewares in server-side routing libraries like express.</p>
+<p>Links enable us to extend the capabilities of the graphql client in interesting ways.</p>
+<p><a href="https://www.npmjs.com/package/apollo-upload-client" target="_blank" rel="noopener external nofollow noreferrer">upload link</a> for example, uses an unofficial (but widely adopted among server implementation) <a href="https://github.com/jaydenseric/graphql-multipart-request-spec" target="_blank" rel="noopener external nofollow noreferrer">extension</a> for integrating file uploads in GraphQL API. </p>
+<p><a href="https://www.apollographql.com/docs/react/api/link/apollo-link-batch-http/" target="_blank" rel="noopener external nofollow noreferrer">Batch link</a> is another  very useful link which is able to transparently combine multiple GraphQL operations into a single HTTP request without any code-change on the side of API invoker component.</p>
+<p>However, the problem when using both of them in the same application, is that they are both terminating links. So we can not just add them both to our ApolloClient and call it a day. Whichever comes first, terminates the request and the other never gets executed.</p>
+<p>However, batch link is particularly useful primarily for queries, and upload link is useful for mutations. So we simply needs a mediator that reroutes the request to one of the two after looking at the incoming request. </p>
+<p>This is made very easy by <code>ApolloLink.split</code> function: </p>
+<pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123;
+  <span class="hljs-title class_">ApolloClient</span>,
+  <span class="hljs-title class_">InMemoryCache</span>,
+  <span class="hljs-title class_">ApolloLink</span>,
+  <span class="hljs-title class_">Operation</span>,
+  <span class="hljs-title class_">NextLink</span>,
+&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@apollo/client&#x27;</span>;
+
+<span class="hljs-keyword">const</span> batchLink = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BatchHttpLink</span>(batchLinkOptions);
+
+<span class="hljs-keyword">const</span> uploadLink = <span class="hljs-title function_">createUploadLink</span>(uploadLinkOptions);
+
+<span class="hljs-comment">// This split is needed because both batchLink and uploadLink are</span>
+<span class="hljs-comment">// terminating links</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-keyword">const</span> mediatorLink = <span class="hljs-title class_">ApolloLink</span>.<span class="hljs-title function_">split</span>(
+  hasFile,
+  batchLink,
+  uploadLink
+);</code></pre>
+
+<p>Here <code>hasFile</code> is a function that can return true&#x2F;false depending on which of the subsequent links is to be selected. </p>
+<p>A simple implementation of <code>hasFile</code> can look like: </p>
+<pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">hasFile</span>(<span class="hljs-params">operation</span>) &#123;
+    <span class="hljs-comment">// A single GraphQL operation can comprise of a combination of multiple queries and mutation</span>
+    <span class="hljs-keyword">if</span> (operation.<span class="hljs-property">query</span>.<span class="hljs-property">definitions</span>.<span class="hljs-title function_">find</span>(<span class="hljs-function"><span class="hljs-params">it</span> =&gt;</span> it.<span class="hljs-property">operation</span> === <span class="hljs-string">&#x27;mutation&#x27;</span>)) &#123;
+        <span class="hljs-comment">// Check if there is atleast one mutation present</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+&#125;</code></pre>
+
+<p>We have access to the complete operation object here, so we can also take a decision based on the name of the operation, variables we receive etc.</p>
+<p>Now, instead of passing either of these links to the ApolloClient options, we can pass the mediator link instead:</p>
+<pre><code class="hljs js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ApolloClient</span>(&#123;
+  <span class="hljs-attr">uri</span>: <span class="hljs-string">&#x27;/graphql&#x27;</span>,
+  <span class="hljs-attr">link</span>: mediatorLink,
+  <span class="hljs-comment">// ... other options</span>
+&#125;);</code></pre>
+</div><div class="post-comments"><!-- .comments-target--></div><div class="post-comments" style="margin-top: 10px;"><div id="remark42"></div></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>

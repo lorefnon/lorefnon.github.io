@@ -1,0 +1,196 @@
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Configuring spring security to use komapper</title><meta property="og:title" content="Lorefnon | Blog | Configuring spring security to use komapper"><meta property="og:description" content="Ramblings on Web Development and software architecture"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><script data-goatcounter="https://analytics.lorefnon.com/count" async src="https://analytics.lorefnon.com/count.js"></script><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js" defer></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js" defer></script><script src="/js/blog.js" defer></script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Icicles of Thought" type="application/atom+xml">
+</head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/kotlin/"><img src="/images/tag.svg">kotlin</a></li><li class="body-text"><a class="tag-link" href="/tags/spring/"><img src="/images/tag.svg">spring</a></li><li class="body-text"><a class="tag-link" href="/tags/spring-security/"><img src="/images/tag.svg">spring-security</a></li><li class="body-text"><a class="tag-link" href="/tags/komapper/"><img src="/images/tag.svg">komapper</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Configuring spring security to use komapper</div><div class="posted-date sub-header-text" title="2022-03-12">Posted &nbsp;2 years ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><h1 id="About"><a href="#About" class="headerlink" title="About"></a>About</h1><p><a href="https://spring.io/projects/spring-security" target="_blank" rel="noopener external nofollow noreferrer">Spring security</a> is a versatile and popular authentication solution for the JVM ecosystem. It is an officially supported component of spring ecosystem and widely deployed in many production solutions.</p>
+<p><a href="https://www.komapper.org/" target="_blank" rel="noopener external nofollow noreferrer">KOMapper</a> is a new ORM for Kotlin that embraces KSP.</p>
+<p>Because spring-security is, at its core, agnostic of any specific persistence solution (even spring-data is not mandatory), we can easily configure it to use komapper for authenticating users.</p>
+<h1 id="Bootstrapping-the-application"><a href="#Bootstrapping-the-application" class="headerlink" title="Bootstrapping the application"></a>Bootstrapping the application</h1><p>We can download a scaffolded project from the <a href="https://start.spring.io/" target="_blank" rel="noopener external nofollow noreferrer">https://start.spring.io</a> after selecting spring-boot-starter-jdbc, spring-boot-starter-web and spring-boot-starter-security.</p>
+<p>While in this post we use JDBC and spring-web, both komapper and spring-security also work with r2dbc &amp; spring webflux.</p>
+<p>Our final build.gradle.kts file will look something like this:</p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">plugins {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	id(<span class="hljs-string">&quot;org.springframework.boot&quot;</span>) version <span class="hljs-string">&quot;2.6.4&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	id(<span class="hljs-string">&quot;io.spring.dependency-management&quot;</span>) version <span class="hljs-string">&quot;1.0.11.RELEASE&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	kotlin(<span class="hljs-string">&quot;jvm&quot;</span>) version <span class="hljs-string">&quot;1.6.10&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	kotlin(<span class="hljs-string">&quot;plugin.spring&quot;</span>) version <span class="hljs-string">&quot;1.6.10&quot;</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">	id(<span class="hljs-string">&quot;com.google.devtools.ksp&quot;</span>) version <span class="hljs-string">&quot;1.6.10-1.0.4&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">kotlin {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	sourceSets.main {
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-comment">// This directory contains the source files generated by</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-comment">// Komapper&#x27;s KSP processor</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">		kotlin.srcDir(<span class="hljs-string">&quot;build/generated/ksp/main/kotlin&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">	}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-12"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-12"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
+            <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
+            <path d="m6.5 3.5v6.056"/>
+            <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+        </g>
+    </svg><span class="hlcode-fold-text">7 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">group = <span class="hljs-string">&quot;com.test&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">version = <span class="hljs-string">&quot;0.0.1-SNAPSHOT&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">java.sourceCompatibility = JavaVersion.VERSION_16
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">repositories {
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">	maven { url = uri(<span class="hljs-string">&quot;https://repo.spring.io/release&quot;</span>) }
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">	mavenCentral()
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">dependencies {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	<span class="hljs-keyword">val</span> komapperVersion = <span class="hljs-string">&quot;0.30.0&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;org.springframework.boot:spring-boot-starter-actuator&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;org.springframework.boot:spring-boot-starter-jdbc&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;org.springframework.boot:spring-boot-starter-jersey&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;org.springframework.boot:spring-boot-starter-web&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;org.springframework.boot:spring-boot-starter-security&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;org.komapper:komapper-spring-boot-starter-jdbc:<span class="hljs-variable">$komapperVersion</span>&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;org.komapper:komapper-dialect-h2-jdbc:<span class="hljs-variable">$komapperVersion</span>&quot;</span>)
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-comment">// We need to explicitly enable komapper&#x27;s KSP processor</span>
+</td></tr><tr style="border:none;background:#fffacd;" class="hlcode-line  hlcode-line-highlight" ><td style="border:none" class="hlcode-code-cell">	ksp(<span class="hljs-string">&quot;org.komapper:komapper-processor:<span class="hljs-variable">$komapperVersion</span>&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;com.fasterxml.jackson.module:jackson-module-kotlin&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;org.jetbrains.kotlin:kotlin-reflect&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;org.jetbrains.kotlin:kotlin-stdlib-jdk8&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;org.liquibase:liquibase-core&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	developmentOnly(<span class="hljs-string">&quot;org.springframework.boot:spring-boot-devtools&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	implementation(<span class="hljs-string">&quot;com.h2database:h2&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">	testImplementation(<span class="hljs-string">&quot;org.springframework.boot:spring-boot-starter-test&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-12"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-12"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
+            <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
+            <path d="m6.5 3.5v6.056"/>
+            <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+        </g>
+    </svg><span class="hlcode-fold-text">9 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">tasks.withType&lt;KotlinCompile&gt; {
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">	kotlinOptions {
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">		freeCompilerArgs = listOf(<span class="hljs-string">&quot;-Xjsr305=strict&quot;</span>)
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">		jvmTarget = <span class="hljs-string">&quot;16&quot;</span>
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">	}
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">}
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">tasks.withType&lt;Test&gt; {
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">	useJUnitPlatform()
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-12"><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>Spring-security autoconfigures the application to use a form based login screen, that looks like this:</p>
+<p><img src="/images/2020-03-13/spring-security-login-page.png" alt="Spring security login page" loading="lazy"></p>
+<p>Before we can access any of the protected routes (all by default) we will need to authenticate.</p>
+<p>To keep this post simple, we will use <a href="https://h2database.com/html/main.html" target="_blank" rel="noopener external nofollow noreferrer">h2 database</a> here - we can configure the location where our db will store data in application.properties.</p>
+<pre><code class="hljs plaintext">spring.datasource.url=jdbc:h2:/tmp/db
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect</code></pre>
+
+<p>Please ensure that any location chosen here is writable by the running user.</p>
+<p>We will need a user table which will store our user details. In production we should use a migration system like dbmate or liquibase. To simplify things here, we can create this table through h2-console
+available in localhost:8080&#x2F;h2-console</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> users (
+    id <span class="hljs-keyword">identity</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span> <span class="hljs-keyword">primary</span> key,
+    name <span class="hljs-type">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>,
+    email <span class="hljs-type">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>,
+    password <span class="hljs-type">varchar</span>(<span class="hljs-number">255</span>)
+)</code></pre>
+
+<p>We can map this table to a Kotlin data class through the komapper provided annotations:</p>
+<pre><code class="hljs kotlin"><span class="hljs-keyword">package</span> com.test.server.entity
+
+<span class="hljs-keyword">import</span> org.komapper.<span class="hljs-keyword">annotation</span>.*
+<span class="hljs-keyword">import</span> java.time.LocalDateTime
+
+<span class="hljs-meta">@KomapperEntity</span>
+<span class="hljs-meta">@KomapperTable(<span class="hljs-string">&quot;users&quot;</span>)</span>
+<span class="hljs-keyword">data</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> (
+    <span class="hljs-meta">@KomapperId</span>
+    <span class="hljs-meta">@KomapperAutoIncrement</span>
+    <span class="hljs-keyword">var</span> id: <span class="hljs-built_in">Int</span>,
+
+    <span class="hljs-keyword">var</span> name: String,
+
+    <span class="hljs-keyword">var</span> email: String,
+
+    <span class="hljs-keyword">var</span> password: String,
+)</code></pre>
+
+<p>In ideal setup, we will also keep track of whether the email has been validated, how many times auth attempts have been successful, whether password meets expected strength etc. But in this article we will focus on just validating the user provided password against the value stored in database.</p>
+<p>spring-security will, by default, find and delegate to a UserDetailsService implementation in the application context. So we will need to provide an UserDetailsService implementation that uses komapper.</p>
+<pre><code class="hljs"><table class="hlcode-table"><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">package</span> com.test.server.service
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none" class="hlcode-fold-collapsed" data-fold-id="hlcode-fold-13"><td style="border:none" colspan="1"><div class="hlcode-fold-handle" data-fold-id="hlcode-fold-13"><svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(4 4)">
+            <path d="m10.5.5h-8c-1.1045695 0-2 .8954305-2 2v8c0 1.1045695.8954305 2 2 2h8c1.1045695 0 2-.8954305 2-2v-8c0-1.1045695-.8954305-2-2-2z" transform="matrix(0 1 -1 0 13 0)"/>
+            <path d="m6.5 3.5v6.056"/>
+            <path d="m6.5 3.5v6" transform="matrix(0 1 -1 0 13 0)"/>
+        </g>
+    </svg><span class="hlcode-fold-text">9 lines collapsed</span></div></td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> com.test.server.entity.User
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> com.test.server.entity.user
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.komapper.core.dsl.Meta
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.komapper.core.dsl.QueryDsl
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.komapper.core.dsl.query.first
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.komapper.jdbc.JdbcDatabase
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.springframework.security.core.GrantedAuthority
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.springframework.security.core.userdetails.UserDetails
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.springframework.security.core.userdetails.UserDetailsService
+</td></tr><tr style="border:none;" class="hlcode-line hlcode-line-fold hidden " data-fold-id="hlcode-fold-13"><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">import</span> org.springframework.stereotype.Service
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-meta">@Service</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell"><span class="hljs-keyword">class</span> <span class="hljs-title class_">UserDetailsServiceImpl</span>(
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-comment">// The komapper spring-boot starter is aware of spring managed</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-comment">// datasources configured through application.properties</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-comment">//</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-comment">// so we will not need to define this bean separately</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> db: JdbcDatabase
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">): UserDetailsService {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">loadUserByUsername</span><span class="hljs-params">(username: <span class="hljs-type">String</span>)</span></span>: UserDetails {
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-comment">// Fetch a user from database using the username coming from the form</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">val</span> userQuery = QueryDsl.from(Meta.user)
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .<span class="hljs-keyword">where</span> { user.name eq username }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">            .first() <span class="hljs-comment">// Throws if user is not found</span>
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">        <span class="hljs-keyword">return</span> UserDetailsImpl(db.runQuery(userQuery))
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    }
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> user = Meta.user
+</td></tr><tr style="border:none;" class="hlcode-line  " ><td style="border:none" class="hlcode-code-cell">}
+</td></tr></table></code></pre>
+
+<p>The Meta.user is an extension method generated by komapper&#39;s ksp processor that returns the meta-model instance for the User entity defined above.
+Mode details about komapper&#39;s meta-model approach is available <a href="https://v0-24.komapper.org/docs/overview/" target="_blank" rel="noopener external nofollow noreferrer">here</a>.</p>
+<p>We will need a wrapper over our User class that complies with the UserDetails interface that spring-security expects:</p>
+<pre><code class="hljs kotlin"><span class="hljs-keyword">class</span> <span class="hljs-title class_">UserDetailsImpl</span>(<span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> user: User): UserDetails &#123;
+
+    <span class="hljs-comment">// We prefix the password stored in database with &#123;bcrypt&#125; to indicate</span>
+    <span class="hljs-comment">// to spring-security that this password is bcrypt encrypted.</span>
+    <span class="hljs-comment">//</span>
+    <span class="hljs-comment">// This prefix will be used to identify the password encoder to be used</span>
+    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getPassword</span><span class="hljs-params">()</span></span> = <span class="hljs-string">&quot;&#123;bcrypt&#125;<span class="hljs-subst">$&#123;user.password&#125;</span>&quot;</span>
+    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getUsername</span><span class="hljs-params">()</span></span> = user.name
+
+    <span class="hljs-comment">// In a more full-featured integration, we can use below</span>
+    <span class="hljs-comment">// overrides to ensure that current user is not locked/expired/disabled etc.</span>
+    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">isAccountNonExpired</span><span class="hljs-params">()</span></span> = <span class="hljs-literal">true</span>
+    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">isAccountNonLocked</span><span class="hljs-params">()</span></span> = <span class="hljs-literal">true</span>
+    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">isCredentialsNonExpired</span><span class="hljs-params">()</span></span> = <span class="hljs-literal">true</span>
+    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">isEnabled</span><span class="hljs-params">()</span></span> = <span class="hljs-literal">true</span>
+    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getAuthorities</span><span class="hljs-params">()</span></span> = <span class="hljs-literal">null</span>
+&#125;</code></pre>
+
+<p>Now, if we try to access localhost:8080 we will be prompted for username, password and our &#96;UserDetailsServiceImpl will be automatically used to find the corresponding user before password is validated.</p>
+<p>However, we don&#39;t have a built-in way to manage&#x2F;insert users. To test out things we can insert a user directly in the db. One simple way to generate an encrypted password is to use the <a href="https://www.npmjs.com/package/bcrypt-cli" target="_blank" rel="noopener external nofollow noreferrer">bcrypt-cli</a> utility available through npm.</p>
+<pre><code class="hljs plaintext">❯ npx bcrypt-cli &quot;sillypassword&quot; 10
+Need to install the following packages:
+  bcrypt-cli
+Ok to proceed? (y) y
+$2a$10$drlJ6SdzEBso.CLHkO9W0e/lMtySOyArGmixOiSvOESMYBHvEEBoO</code></pre>
+
+<p>We can insert this as user password into the h2 db:</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> users (name, email, password)
+<span class="hljs-keyword">values</span> (<span class="hljs-string">&#x27;test&#x27;</span>, <span class="hljs-string">&#x27;test@example.com&#x27;</span>, <span class="hljs-string">&#x27;$2a$10$drlJ6SdzEBso.CLHkO9W0e/lMtySOyArGmixOiSvOESMYBHvEEBoO&#x27;</span>)</code></pre>
+
+<p>Now, we should be able to login through test&#x2F;sillypassword as credentials.</p>
+</div><div class="post-comments"><div class="comments-header"><div class="comments-header-content">Discuss at &nbsp;<a href="https://fosstodon.org/interact/107948317104285444?type=reply" target="_blank">Mastodon</a></div></div><!-- a.load-comments-btn(onclick=`Blog.loadComments("fosstodon.org", "${page.discussions.mastodon.id}")`) Load Comments--><!-- .comments-target--></div><div class="post-comments" style="margin-top: 10px;"><div id="remark42"></div></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | integrating CtrlP with Nvimtree in lunarvim</title><meta property="og:title" content="Lorefnon | Blog | integrating CtrlP with Nvimtree in lunarvim"><meta property="og:description" content="Ramblings on Web Development and software architecture"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><script data-goatcounter="https://analytics.lorefnon.com/count" async src="https://analytics.lorefnon.com/count.js"></script><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js" defer></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js" defer></script><script src="/js/blog.js" defer></script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Icicles of Thought" type="application/atom+xml">
+</head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Vim/"><img src="/images/tag.svg">Vim</a></li><li class="body-text"><a class="tag-link" href="/tags/Neovim/"><img src="/images/tag.svg">Neovim</a></li><li class="body-text"><a class="tag-link" href="/tags/CtrlP/"><img src="/images/tag.svg">CtrlP</a></li><li class="body-text"><a class="tag-link" href="/tags/Neotree/"><img src="/images/tag.svg">Neotree</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">integrating CtrlP with Nvimtree in lunarvim</div><div class="posted-date sub-header-text" title="2023-08-19">Posted &nbsp;a month ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><p><a href="https://www.lunarvim.org/" target="_blank" rel="noopener external nofollow noreferrer">Lunarvim</a> comes preconfigured with <a href="https://github.com/nvim-tree/nvim-tree.lua" target="_blank" rel="noopener external nofollow noreferrer">Nvimtree</a> - a nice directory tree browser which is also extensible through lua.</p>
+<p>This is a quick recipe to integrate it with <a href="https://ctrlpvim.github.io/ctrlp.vim/" target="_blank" rel="noopener external nofollow noreferrer">CtrlP</a> - my preferred file finder for vim.</p>
+<p>In <code>~/.config/lvim/lua/treeutils.lua</code>:</p>
+<pre><code class="hljs lua"><span class="hljs-keyword">local</span> api = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;nvim-tree.api&quot;</span>)
+<span class="hljs-keyword">local</span> M = &#123;&#125;
+
+<span class="hljs-comment">-- Launch CtrlP from selected tree node</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">M.launch_ctrlp</span><span class="hljs-params">()</span></span>
+    <span class="hljs-keyword">local</span> node = api.tree.get_node_under_cursor()
+    <span class="hljs-keyword">local</span> is_folder = node.fs_stat <span class="hljs-keyword">and</span> node.fs_stat.<span class="hljs-built_in">type</span> == <span class="hljs-string">&#x27;directory&#x27;</span> <span class="hljs-keyword">or</span> <span class="hljs-literal">false</span>
+    <span class="hljs-keyword">local</span> basedir = is_folder <span class="hljs-keyword">and</span> node.absolute_path <span class="hljs-keyword">or</span> vim.fn.fnamemodify(node.absolute_path, <span class="hljs-string">&quot;:h&quot;</span>)
+    vim.cmd(<span class="hljs-string">&quot;CtrlP &quot;</span> .. basedir)
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-keyword">return</span> M</code></pre>
+
+<p>In <code>~/.config/lvim/config.lua</code>:</p>
+<pre><code class="hljs lua">lvim.builtin.nvimtree.setup.on_attach = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(bufnr)</span></span>
+    <span class="hljs-keyword">local</span> api       = <span class="hljs-built_in">require</span> <span class="hljs-string">&quot;nvim-tree.api&quot;</span>
+    <span class="hljs-keyword">local</span> treeutils = <span class="hljs-built_in">require</span> <span class="hljs-string">&quot;treeutils&quot;</span>
+
+    <span class="hljs-keyword">local</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">opts</span><span class="hljs-params">(desc)</span></span>
+        <span class="hljs-keyword">return</span> &#123; desc = <span class="hljs-string">&quot;nvim-tree: &quot;</span> .. desc, buffer = bufnr, noremap = <span class="hljs-literal">true</span>, silent = <span class="hljs-literal">true</span>, nowait = <span class="hljs-literal">true</span> &#125;
+    <span class="hljs-keyword">end</span>
+
+    api.<span class="hljs-built_in">config</span>.mappings.default_on_attach(bufnr)
+
+    <span class="hljs-keyword">local</span> useful_keys = &#123;
+        [<span class="hljs-string">&quot;&lt;C-p&gt;&quot;</span>] = &#123; treeutils.launch_ctrlp, opts <span class="hljs-string">&quot;Launch CtrlP&quot;</span> &#125;,
+
+        <span class="hljs-comment">-- Other useful keybindings - cherry pick</span>
+        [<span class="hljs-string">&quot;l&quot;</span>] = &#123; api.node.<span class="hljs-built_in">open</span>.edit, opts <span class="hljs-string">&quot;Open&quot;</span> &#125;,
+        [<span class="hljs-string">&quot;o&quot;</span>] = &#123; api.node.<span class="hljs-built_in">open</span>.edit, opts <span class="hljs-string">&quot;Open&quot;</span> &#125;,
+        [<span class="hljs-string">&quot;&lt;CR&gt;&quot;</span>] = &#123; api.node.<span class="hljs-built_in">open</span>.edit, opts <span class="hljs-string">&quot;Open&quot;</span> &#125;,
+        [<span class="hljs-string">&quot;v&quot;</span>] = &#123; api.node.<span class="hljs-built_in">open</span>.vertical, opts <span class="hljs-string">&quot;Open: Vertical Split&quot;</span> &#125;,
+        [<span class="hljs-string">&quot;h&quot;</span>] = &#123; api.node.navigate.parent_close, opts <span class="hljs-string">&quot;Close Directory&quot;</span> &#125;,
+        [<span class="hljs-string">&quot;C&quot;</span>] = &#123; api.tree.change_root_to_node, opts <span class="hljs-string">&quot;CD&quot;</span> &#125;,
+    &#125;
+
+    <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;lvim.keymappings&quot;</span>).load_mode(<span class="hljs-string">&quot;n&quot;</span>, useful_keys)
+<span class="hljs-keyword">end</span></code></pre>
+
+<p>Now, whenever we do a <code>ctrl+p</code> with our cursor on a directory node, we&#39;ll get a file selector scoped to that directory.</p>
+<p><img src="/images/2023-08-20-nvim-ctrlp-screenshot.png" loading="lazy"></p>
+</div><div class="post-comments"><!-- .comments-target--></div><div class="post-comments" style="margin-top: 10px;"><div id="remark42"></div></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>
