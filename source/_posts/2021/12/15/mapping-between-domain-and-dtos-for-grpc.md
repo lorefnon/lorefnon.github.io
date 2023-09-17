@@ -3,6 +3,7 @@ title: Mapping between Domain and DTO classes for gRPC APIs
 date: 2021-12-05
 popular: true
 tags: [gRPC, Kotlin, Spring, Spring-Boot]
+permalink: 2021/12/05/mapping-between-domain-and-dto-classes-for-grpc-apis/
 excerpt: An overview of different approaches we can use to convert between the domain classes (which the business logic operates on) and the DTO classes which are exposed to the API.
 ---
 

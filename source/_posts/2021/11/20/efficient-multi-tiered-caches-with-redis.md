@@ -2,6 +2,7 @@
 title: Simple and efficient multi-tiered caches with Redis & lua
 date: 2021-11-20
 tags: [Redis]
+permalink: 2021/11/20/simple-and-efficient-multi-tiered-caches-with-redis-and-lua/
 ---
 
 [Redis](https://redis.io/) is one of the most popular in-memory stores currently. It has a minimal footprint, is blazing fast and has managed solutions available in most cloud platforms.

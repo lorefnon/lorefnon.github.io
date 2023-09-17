@@ -2,6 +2,7 @@
 title: Auto-transforming modules to mjs using babel
 tags: [Babel,Javascript]
 date: 2022-12-13
+permalink: 2022/12/13/auto-transforming-modules-to-mjs-using-babel/
 ---
 The unfortunate reality of being a js library author in present day world is that we need to deal with multiple module systems and bundlers, which make life hard. 
 

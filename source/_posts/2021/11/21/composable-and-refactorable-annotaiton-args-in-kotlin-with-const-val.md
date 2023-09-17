@@ -2,6 +2,7 @@
 title: Composable and Refactorable annotation arguments in Kotlin with const val
 date: 2021-11-21
 tags: [Kotlin]
+permalink: 2021/11/21/composable-and-refactorable-annotation-arguments-in-kotlin-with-const-val/
 excerpt: An overview of how using const val in kotlin enables interpolation & refactoring in strings passed to annotations
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: Exporing HAR (HTTP Archive) logs with Jq
 date: 2020-11-27
+permalink: 2020/11/27/exploring-har-http-archive-logs-with-jq/
 tags: ["HAR", "Jq"]
 popular: true
 excerpt: HAR is a popular format for downloading web content that is natively supported by most modern browsers, along with many other tools. In this post we see how to effectively work with har files with jq in the command line.

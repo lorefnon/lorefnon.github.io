@@ -1,7 +1,8 @@
 ---
 title: integrating CtrlP with Nvimtree in lunarvim
-date: 2023-08-20 12:23:01
+date: 2023-08-20
 tags: [Vim, Neovim, CtrlP, Neotree]
+permalink: 2023/08/20/integating-ctrlp-with-nvimtree-in-lunarvim/
 ---
 
 [Lunarvim](https://www.lunarvim.org) comes preconfigured with [Nvimtree](https://github.com/nvim-tree/nvim-tree.lua) - a nice directory tree browser which is also extensible through lua.

@@ -1,6 +1,7 @@
 ---
 title: Being explicit about implementing interfaces in Golang
 date: 2022-12-06
+permalink: 2022/12/06/being-explicit-about-implementing-interfaces-in-golang/
 tags: [Go]
 ---
 

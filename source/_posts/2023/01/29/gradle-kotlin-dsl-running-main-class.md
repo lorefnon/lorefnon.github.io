@@ -2,6 +2,7 @@
 title: Running an arbitrary main class as a Gradle task using the kotlin DSL
 tags: [Gradle,Kotlin]
 date: 2023-01-29
+permalink: 2023/01/29/running-an-arbitrary-main-class-as-a-gradle-task-using-the-kotlin-dsl/
 ---
 
 This post is a simple recipe illustrating how we can run an arbitrary main class as a gradle task through the [Gradle JavaExec utility](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.JavaExec.html). Because we love kotlin, both our gradle configuration and main class are written in kotlin.

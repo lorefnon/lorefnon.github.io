@@ -1,5 +1,6 @@
 ---
 title: Type-safe event handling in Typescript with zod and ts-pattern
+permalink: 2022/06/18/type-safe-event-handling-in-typescript-with-zod-and-ts-pattern/
 tags: [typescript, zod, ts-pattern]
 popular: true
 date: 2022-06-18

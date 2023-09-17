@@ -1,6 +1,7 @@
 ---
 title: 'Configuring Liquibase through Gradle Kotlin DSL'
 date: 2021-09-01
+permalink: 2021/09/01/configuring-liquibase-through-gradle-kotlin-dsl/
 tags: [Kotlin, Liquibase, Gradle]
 excerpt: This post is a minimal recipe for configuring Liquibase runner through the Gradle kotlin DSL.
 ---

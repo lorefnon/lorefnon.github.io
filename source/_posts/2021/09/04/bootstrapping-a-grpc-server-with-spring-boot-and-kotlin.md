@@ -1,5 +1,6 @@
 ---
 title: 'Bootstrapping a Kotlin gRPC service with Spring Boot'
+permalink: 2021/09/04/bootstrapping-a-kotlin-grpc-service-with-spring-boot/
 date: 2021-09-04
 tags: [Kotlin, Spring, Spring-Boot, gRPC]
 popular: true

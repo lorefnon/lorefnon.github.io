@@ -2,6 +2,7 @@
 title: Using chi router and connect-go together
 tags: [go, chi, connect]
 date: 2022-10-01
+permalink: 2022/10/01/using-chi-router-and-connect-go-together/
 ---
 
 [connect-go](https://github.com/bufbuild/connect-go) is a protobuf RPC implementation, touted as a better gRPC. I have been using it for few weeks and have found it to be quite enjoyable.

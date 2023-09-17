@@ -3,6 +3,7 @@ title: Using CDK to configure cloudfront as non-caching reverse proxy for API ba
 tags: [cloudfront, AWS, CDK, typescript]
 date: 2022-12-06
 popular: true
+permalink: 2022/12/06/using-cdk-to-configure-cloudfront-as-non-caching-reverse-proxy-for-api-backend/
 ---
 
 Cloudfront is primarily a CDN, but it is often also convenient to use it as reverse proxy for a backend service. This is especially convenient when the entire frontend SPA (including HTML) is already hosted from Cloudfront and we don't want to support CORS in our backend API that this frontend talks to.

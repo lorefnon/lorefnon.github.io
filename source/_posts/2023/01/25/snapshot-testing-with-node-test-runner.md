@@ -2,6 +2,7 @@
 title: Snapshot testing with node test runner (node:test)
 tags: [Node.js,Javascript]
 date: 2023-01-25
+permalink: 2023/01/25/snapshot-testing-with-node-test-runner/
 ---
 
 While there are a lot of popular test runners in node.js ecosystem, like jest, mocha etc. node has recently introduced a built in test runner available as `test` package in the standard library. The [official documentation](https://nodejs.org/api/test.html) describe the usage, and it should look familiar to people coming from most popular testing libraries.

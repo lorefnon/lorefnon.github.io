@@ -1,7 +1,8 @@
 ---
 title: Using Vector to funnel Docker Compose logs to S3
-date: 2023-08-20 12:44:55
+date: 2023-08-20
 tags: [Docker, Docker-Compose, Vector, AWS, S3]
+permalink: 2023/08/20/using-vector-to-funnel-docker-compose-logs-to-s3/
 ---
 
 [Docker compose](https://docs.docker.com/compose/) is an easy-to-use utility for running multi-container applications. It is particularly suited for development and local testing, but is also useful for production development of low-traffic/personal-use application which neither need a full fledged cluster nor features like auto-scaling/failover-handling which come with more advanced container orchestration solutions.

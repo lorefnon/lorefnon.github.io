@@ -2,6 +2,7 @@
 title: Using jte kotlin templates in spring-boot
 date: 2022-04-26
 tags: [spring-boot, kotlin]
+permalink: 2022/04/26/using-jte-kotlin-templates-in-spring-boot/
 ---
 
 # About

@@ -1,5 +1,6 @@
 ---
 title: Extending Exposed with new function expressions
+permalink: 2021/12/05/extending-exposed-with-new-function-expressions/
 date: 2021-12-05
 tags: [Database, Exposed]
 excerpt: An overview of adding support for unsupported database functions in the Exposed ORM

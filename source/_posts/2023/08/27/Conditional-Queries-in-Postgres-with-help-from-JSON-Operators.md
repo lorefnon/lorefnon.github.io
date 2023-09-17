@@ -1,7 +1,8 @@
 ---
-title: Conditional Queries in Postgres with help from JSON Operators
-date: 2023-08-27 11:16:20
-tags: [Postgres,JSON]
+date: 2023-08-27
+title: "Conditional Queries in Postgres with help from JSON Operators"
+tags: [Postgres, JSON]
+permalink: 2023/08/27/conditional-queries-in-postgres-with-help-from-json-operators/
 ---
 
 For many mainstream languages we have query builder libraries that enable us to easily create `select` queries with complex `where` conditions that conditionally filter by multiple columns based on incoming input. These are often useful for things like a filter panel in product catalogue where user may specify one or more of several possible criteria.
