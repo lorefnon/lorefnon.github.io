@@ -2,6 +2,7 @@
 title: 'Vue composition API and type-safe GraphQL access'
 date: 2021-08-07
 tags: [Vue, GraphQL, Apollo, TypeScript]
+permalink: 2021/08/07/vue-composition-api-and-type-safe-graphql-access/
 excerpt: An overview of how the vue composition API can significantly reduce the boilerplate around GraphQL integration
 popular: true
 ---

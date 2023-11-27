@@ -1,6 +1,7 @@
 ---
 title: Configuring cloudfront functions for SPA routing with CDK
 tags: [cloudfront, AWS, CDK]
+permalink: 2022/11/15/configuring-cloudfront-functions-for-spa-routing-with-cdk/
 date: 2022-11-15
 popular: true
 ---

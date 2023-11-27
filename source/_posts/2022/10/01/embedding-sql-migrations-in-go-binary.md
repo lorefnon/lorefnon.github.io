@@ -2,6 +2,7 @@
 title: Embedding sql migrations in go binary
 tags: [go, go-migrate, sql]
 date: 2022-10-01
+permalink: 2022/10/01/embedding-sql-migrations-in-go-binary/
 ---
 
 [Go-migrate](github.com/golang-migrate/migrate) is a simple and easy to use database migration (schema evolution) library for go with good support for many mainstream databases. This post is a quick recipe on how we can bundle the migrations (sql patch files) within our go binary - this is particularly helpful when the app is distributed a single binary without dependencies.

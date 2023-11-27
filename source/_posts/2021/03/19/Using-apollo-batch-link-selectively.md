@@ -2,6 +2,7 @@
 title: 'Using Apollo Batch Link selectively'
 date: 2021-03-19
 tags: [GraphQL, Apollo]
+permalink: 2021/03/19/using-apollo-batch-link-selectively/
 excerpt: An overview of how to exclude certain requests from being batched when using Apollo batch link
 popular: true
 ---

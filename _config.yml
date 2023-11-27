@@ -9,7 +9,7 @@ description: ''
 keywords:
 author: Lorefnon
 language: en
-timezone: ''
+timezone: 'Asia/Kolkata'
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://example.com/child' and root as '/child/'
@@ -32,7 +32,7 @@ i18n_dir: :lang
 skip_render:
 
 # Writing
-new_post_name: :title.md # File name of new posts
+new_post_name: :year/:month/:day/:title.md # File name of new posts
 default_layout: post
 titlecase: false # Transform title into titlecase
 external_link:
@@ -142,4 +142,5 @@ marked:
   descriptionLists: false
 
 feed:
+  enable: true
   limit: 10

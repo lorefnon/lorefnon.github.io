@@ -1,6 +1,7 @@
 ---
 title: 'Building GraphQL APIs powered by Vert.x, jOOQ & Kotlin - III'
 date: 2021-03-26
+permalink: 2021/03/26/building-graphql-apis-powered-by-vertx-jooq-kotlin-iii/
 tags: [Kotlin, GraphQL, Vert.X, Vert.X-Web, Backend-development, API-development]
 ---
 

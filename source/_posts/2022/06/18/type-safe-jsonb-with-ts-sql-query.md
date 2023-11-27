@@ -2,6 +2,7 @@
 title: Making jsonb access type-safe with a zod adapter in ts-sql-query
 tags: [typescript, zod, ts-sql-query]
 date: 2022-06-18
+permalink: 2022/06/18/making-jsonb-access-type-safe-with-a-zod-adapter-in-ts-sql-query/
 ---
 
 [ts-sql-query](https://ts-sql-query.readthedocs.io/en/stable) is a nice typescript library for typesafe database access. It goes to great lengths to ensure that if code compiles without type errors then all generated SQL is correct. Of course there are escape hatches for advanced scenarios, but having type-safety for the 90% most common usages is a huge productivity boost.

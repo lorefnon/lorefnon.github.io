@@ -2,6 +2,7 @@
 title: Configuring spring security to use komapper
 date: 2022-03-13
 tags: [kotlin,spring,spring-security,komapper]
+permalink: 2022/03/13/configuring-spring-security-to-use-komapper/
 discussions:
     mastodon:
         id: '107948317104285444'

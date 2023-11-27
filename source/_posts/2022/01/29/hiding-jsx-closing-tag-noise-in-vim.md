@@ -1,6 +1,7 @@
 ---
 title: Hiding JSX closing tag noise in vim through conceal
 date: 2022-01-29
+permalink: 2022/01/29/hiding-jsx-closing-tag-noise-in-vim-through-conceal/
 tags: [vim]
 excerpt: Making JSX more easily scannable by hiding the closing tags through the conceal feature in vim
 ---

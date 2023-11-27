@@ -1,6 +1,7 @@
 ---
 title: Pairing lit-html with stimulus
 date: 2020-12-31
+permalink: 2020/12/31/pairing-lit-html-with-stimulus/
 tags: ["Lit-html", "Stimulus"]
 ---
 

@@ -2,6 +2,7 @@
 title: 'Adapting jOOQ code generator to Rails database naming conventions'
 date: 2021-08-03
 tags: [Java, JOOQ, Ruby on Rails]
+permalink: 2021/08/03/adapting-jooq-code-generator-to-rails-database-naming-conventions/
 excerpt: An overview of how to adapt jooQ to naming conventions which are not supported out of the box
 ---
 

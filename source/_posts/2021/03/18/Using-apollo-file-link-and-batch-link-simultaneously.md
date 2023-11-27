@@ -2,6 +2,7 @@
 title: 'Using Apollo Upload Link and Batch Link together'
 date: 2021-03-18
 tags: [GraphQL, Apollo]
+permalink: 2021/03/18/using-apollo-upload-link-and-batch-link-together/
 excerpt: An overview of how to use multiple terminal links like upload link and batch link together
 ---
 

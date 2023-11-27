@@ -2,6 +2,7 @@
 title: Setting up log-rotation for zerolog
 tags: [go, golang, zerolog]
 date: 2022-09-01
+permalink: 2022/09/01/setting-up-log-rotation-for-zerolog/
 ---
 
 [Zerolog](https://github.com/rs/zerolog) is a popular structured logging library for go. This post is a quick recipie for configuring it to use log rotation. 

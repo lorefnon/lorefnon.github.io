@@ -4,7 +4,7 @@ description: ''
 keywords: null
 author: Lorefnon
 language: en
-timezone: ''
+timezone: Asia/Kolkata
 root: /
 permalink: ':title/'
 permalink_defaults:
@@ -20,7 +20,7 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: ':lang'
 skip_render: null
-new_post_name: ':title.md'
+new_post_name: ':year/:month/:day/:title.md'
 default_layout: post
 titlecase: false
 external_link:
@@ -97,4 +97,7 @@ marked:
     nofollow: true
   disableNunjucks: false
   descriptionLists: false
+feed:
+  enable: true
+  limit: 10
 url: https://lorefnon.me
