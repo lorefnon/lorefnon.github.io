@@ -1,0 +1,49 @@
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Dealing with inferred types exceeding serializable length</title><meta property="og:title" content="Lorefnon | Blog | Dealing with inferred types exceeding serializable length"><meta property="og:description" content="Ramblings on Web Development and software architecture"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><script data-goatcounter="https://analytics.lorefnon.com/count" async src="https://analytics.lorefnon.com/count.js"></script><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js" defer></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js" defer></script><script src="/js/blog.js" defer></script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Icicles of Thought" type="application/atom+xml">
+</head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/typescript-zod/"><img src="/images/tag.svg">typescript, zod</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Dealing with inferred types exceeding serializable length</div><div class="posted-date sub-header-text" title="2023-11-27">Posted &nbsp;44 minutes ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><p>When working with validation libraries like zod, it is quite convenient to extract static types from schemas that perform runtime validations.</p>
+<p>However, sometimes when these type compositions get too complex, we can get run into this type error:</p>
+<pre><code class="hljs plaintext">error TS7056: The inferred type of this node exceeds the maximum length the compiler will serialize. An explicit type
+ annotation is needed.</code></pre>
+
+<p>This problem happens because when we are composing these schema definitions (zod here), for example:</p>
+<pre><code class="hljs typescript"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Department</span> = z.<span class="hljs-title function_">object</span>(&#123;
+    <span class="hljs-attr">name</span>: z.<span class="hljs-title function_">string</span>()
+&#125;)
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">Company</span> = z.<span class="hljs-title function_">object</span>(&#123;
+    <span class="hljs-attr">name</span>: z.<span class="hljs-title function_">string</span>(),
+    <span class="hljs-attr">departments</span>: <span class="hljs-title class_">Department</span>.<span class="hljs-title function_">array</span>(),
+&#125;);</code></pre>
+
+<p>While we are using a composition of two schema definitions, when we infer the type we will get a single complex type.</p>
+<pre><code class="hljs typescript"><span class="hljs-keyword">type</span> <span class="hljs-title class_">IDepartment</span> = z.<span class="hljs-property">output</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Department</span>&gt;;
+<span class="hljs-comment">// &#123; name: string &#125;</span>
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">ICompany</span> = z.<span class="hljs-property">output</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Company</span>&gt;
+<span class="hljs-comment">// &#123; name: string, departments: &#123; name: string &#125;[] &#125;</span></code></pre>
+
+<p>Note that <code>ICompany</code> type does not make use of <code>IDepartment</code> (this would happen even if we defined these types as interfaces instead of aliases). 
+The inferred type of each schema definiton is a separate self contained type.</p>
+<p>So when we are composing many complex types, the composition&#39;s serialized representation includes information about every field of every composed type. This is fine for the simple case here, but it can grow large rapidly for complex types.</p>
+<p>Typescript compiler has an upper limit on the size of this serialized representation. When this is exceeded we get the above error.</p>
+<p>The solution to this is quite simple. We can reduce the size of the composed type by introducing interfaces for the types it uses.</p>
+<pre><code class="hljs typescript"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Department</span> = z.<span class="hljs-title function_">object</span>(&#123;
+    <span class="hljs-attr">name</span>: z.<span class="hljs-title function_">string</span>()
+&#125;)
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">IDepartment</span> = z.<span class="hljs-property">output</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Department</span>&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">IDepartmentIn</span> = z.<span class="hljs-property">input</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Department</span>&gt;;
+
+<span class="hljs-comment">// Explicit type for the runtime schema of Department</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">IDepartmentRT</span> <span class="hljs-keyword">extends</span> z.<span class="hljs-title class_">ZodType</span>&lt;<span class="hljs-title class_">IDepartment</span>, z.<span class="hljs-title class_">ZodTypeDef</span>, <span class="hljs-title class_">IDepartmentIn</span>&gt; &#123;&#125;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title class_">Company</span> = z.<span class="hljs-title function_">object</span>(&#123;
+    <span class="hljs-attr">name</span>: z.<span class="hljs-title function_">string</span>(),
+    <span class="hljs-attr">departments</span>: (<span class="hljs-title class_">Department</span> <span class="hljs-keyword">as</span> <span class="hljs-title class_">IDepartmentRT</span>).<span class="hljs-title function_">array</span>(),
+&#125;);
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">ICompany</span> = z.<span class="hljs-property">output</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Company</span>&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">ICompanyIn</span> = z.<span class="hljs-property">input</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Company</span>&gt;;</code></pre>
+
+<p>Now the serialized representation of <code>ICompany</code> will refer to <code>IDepartmentRT</code> and so the fields of Department type are not included in the serialized representation, reducing its size. 
+And we also don&#39;t have to redefine the zod schema separately as an interface. </p>
+</div><div class="post-comments"><!-- .comments-target--></div><div class="post-comments" style="margin-top: 10px;"><div id="remark42"></div></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>
