@@ -1,0 +1,50 @@
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Integrating hono and graphql yoga</title><meta property="og:title" content="Lorefnon | Blog | Integrating hono and graphql yoga"><meta property="og:description" content="Ramblings on Web Development and software architecture"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><script data-goatcounter="https://analytics.lorefnon.com/count" async src="https://analytics.lorefnon.com/count.js"></script><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js" defer></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js" defer></script><script src="/js/blog.js" defer></script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Icicles of Thought" type="application/atom+xml">
+</head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"><li class="body-text"><a class="tag-link" href="/tags/Node-js/"><img src="/images/tag.svg">Node.js</a></li><li class="body-text"><a class="tag-link" href="/tags/GraphQL/"><img src="/images/tag.svg">GraphQL</a></li><li class="body-text"><a class="tag-link" href="/tags/Hono/"><img src="/images/tag.svg">Hono</a></li></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Integrating hono and graphql yoga</div><div class="posted-date sub-header-text" title="2023-12-16">Posted &nbsp;11 days ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><p><a href="https://hono.dev/" target="_blank" rel="noopener external nofollow noreferrer">Hono</a> is a lightweight web micro-framework that is compatible with many js runtimes like Cloudflare Workers, Fastly Compute, Deno, Bun, Vercel, Netlify, Lagon, AWS Lambda, Lambda@Edge, and Node.js.</p>
+<p>This quick recipe illustrates how to integrate hono with <a href="https://the-guild.dev/graphql/yoga-server" target="_blank" rel="noopener external nofollow noreferrer">graphql-yoga</a> to serve a GraphQL API. Yoga is quite <a href="https://the-guild.dev/graphql/yoga-server/docs/integrations/z-other-environments" target="_blank" rel="noopener external nofollow noreferrer">flexible</a> about the underlying request handling library.</p>
+<pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; serve &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@hono/node-server&quot;</span>
+<span class="hljs-keyword">import</span> &#123; createYoga &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;graphql-yoga&quot;</span>
+<span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Hono</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;hono&quot;</span>
+<span class="hljs-keyword">import</span> &#123; getConfigParam &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./config.js&quot;</span>
+<span class="hljs-keyword">import</span> &#123; schema &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./schema.js&quot;</span>
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Hono</span>()
+
+<span class="hljs-keyword">const</span> yoga = <span class="hljs-title function_">createYoga</span>(&#123;
+  schema,
+  <span class="hljs-attr">logging</span>: <span class="hljs-string">&quot;debug&quot;</span>,
+  <span class="hljs-attr">plugins</span>: [<span class="hljs-comment">/* Add any plugins here */</span>],
+&#125;)
+
+<span class="hljs-comment">// Configure hono to delegate graphql requests to GraphQL Yoga</span>
+app.<span class="hljs-title function_">use</span>(<span class="hljs-string">&quot;/graphql&quot;</span>, <span class="hljs-keyword">async</span> (context) =&gt;
+  yoga.<span class="hljs-title function_">handle</span>(&#123;
+    <span class="hljs-attr">request</span>: context.<span class="hljs-property">req</span>.<span class="hljs-property">raw</span>,
+  &#125;, &#123;&#125;)
+)
+
+<span class="hljs-title function_">serve</span>(app, <span class="hljs-function">(<span class="hljs-params">info</span>) =&gt;</span> &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Listening on http://localhost:<span class="hljs-subst">$&#123;info.port&#125;</span>`</span>) <span class="hljs-comment">// Listening on http://localhost:3000</span>
+&#125;)</code></pre>
+
+<p><code>schema</code> being imported here is a <a href="https://graphql-js.org/api/class/GraphQLSchema" target="_blank" rel="noopener external nofollow noreferrer">GraphQLSchema</a> instance. You can generate it through any graphql-js compatible library that you are familiar with.</p>
+<p>If you don&#39;t have a preference already, I recommend <a href="https://garph.dev/" target="_blank" rel="noopener external nofollow noreferrer">Garph</a>. It makes it quite convenient to define type safe GraphQL schemas in pure typescript without needing any code generation. And of course, it plays well with graphql-yoga.</p>
+<pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; g, <span class="hljs-title class_">InferResolvers</span>, buildSchema &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;garph&#x27;</span>
+<span class="hljs-keyword">import</span> &#123; createYoga, <span class="hljs-title class_">YogaInitialContext</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;graphql-yoga&#x27;</span>
+<span class="hljs-keyword">import</span> &#123; createServer &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;http&#x27;</span>
+
+<span class="hljs-keyword">const</span> queryType = g.<span class="hljs-title function_">type</span>(<span class="hljs-string">&#x27;Query&#x27;</span>, &#123;
+  <span class="hljs-attr">greet</span>: g.<span class="hljs-title function_">string</span>()
+    .<span class="hljs-title function_">args</span>(&#123;
+      <span class="hljs-attr">name</span>: g.<span class="hljs-title function_">string</span>().<span class="hljs-title function_">optional</span>().<span class="hljs-title function_">default</span>(<span class="hljs-string">&#x27;Max&#x27;</span>)
+    &#125;)
+    .<span class="hljs-title function_">description</span>(<span class="hljs-string">&#x27;Greets a person&#x27;</span>)
+&#125;)
+
+<span class="hljs-keyword">const</span> <span class="hljs-attr">resolvers</span>: <span class="hljs-title class_">InferResolvers</span>&lt;&#123; <span class="hljs-title class_">Query</span>: <span class="hljs-keyword">typeof</span> queryType &#125;, &#123; <span class="hljs-attr">context</span>: <span class="hljs-title class_">YogaInitialContext</span> &#125;&gt; = &#123;
+  <span class="hljs-title class_">Query</span>: &#123;
+    <span class="hljs-attr">greet</span>: <span class="hljs-function">(<span class="hljs-params">parent, args, context, info</span>) =&gt;</span> <span class="hljs-string">`Hello, <span class="hljs-subst">$&#123;args.name&#125;</span>`</span>
+  &#125;
+&#125;
+
+<span class="hljs-keyword">const</span> schema = <span class="hljs-title function_">buildSchema</span>(&#123; g, resolvers &#125;)</code></pre>
+</div><div class="post-comments"><!-- .comments-target--></div><div class="post-comments" style="margin-top: 10px;"><div id="remark42"></div></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>
