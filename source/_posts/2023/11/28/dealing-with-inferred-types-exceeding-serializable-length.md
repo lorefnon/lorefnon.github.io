@@ -2,6 +2,7 @@
 title: Dealing with inferred types exceeding serializable length
 date: 2023-11-28 00:49:18
 tags: typescript, zod
+permalink: 2023/11/28/fixing-inferred-types-exceeding-serializable-length/
 ---
 
 When working with validation libraries like zod, it is quite convenient to extract static types from schemas that perform runtime validations.

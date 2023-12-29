@@ -2,6 +2,7 @@
 title: Object destructuring is useful for arrays too
 tags: [Javascript]
 date: 2023-12-27
+permalink: 2023/12/27/object-destructuring-is-useful-for-arrays-too/
 ---
 
 Javascript has [object destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring) for objects, and [array destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#array_destructuring) for arrays (and other iterables).

@@ -2,6 +2,7 @@
 title: Integrating hono and graphql yoga
 tags: [GraphQL,Hono,Node.js]
 date: 2023-12-17
+permalink: 2023/12/17/integrating-hono-and-graphql-yoga/
 ---
 
 [Hono](https://hono.dev/) is a lightweight web micro-framework that is compatible with many js runtimes like Cloudflare Workers, Fastly Compute, Deno, Bun, Vercel, Netlify, Lagon, AWS Lambda, Lambda@Edge, and Node.js.
