@@ -6,7 +6,6 @@ author: Lorefnon
 language: en
 timezone: Asia/Kolkata
 root: /
-permalink: ':title/'
 permalink_defaults:
   lang: en
 pretty_urls:
