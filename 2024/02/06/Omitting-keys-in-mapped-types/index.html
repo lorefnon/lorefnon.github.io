@@ -1,0 +1,52 @@
+<!DOCTYPE html><html class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/css/blog.css"><title>Lorefnon | Blog | Omitting keys in mapped types</title><meta property="og:title" content="Lorefnon | Blog | Omitting keys in mapped types"><meta property="og:description" content="Ramblings on Web Development and software architecture"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png"><link rel="icon" href="/images/favicon/favicon.ico"><script data-goatcounter="https://analytics.lorefnon.com/count" async src="https://analytics.lorefnon.com/count.js"></script><script src="https://unpkg.com/htmx.org@1.7.0/dist/htmx.min.js" defer></script><script src="https://unpkg.com/dompurify@2.3.6/dist/purify.min.js" defer></script><script src="/js/blog.js" defer></script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Icicles of Thought" type="application/atom+xml">
+</head><body class="blog-body" hx-boost="true"><div class="blog-summary"><a class="primary-link" href="/" hx-boost="false"><h1 class="header-text">Gaurab Paul</h1><h2 class="header-text">Polyglot software developer &amp; consultant passionate about web development, distributed systems and open source technologies</h2></a><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a></div></div></div><div class="blog-sidebar"><div class="blog-support"><div class="blog-support-cta-container"><a class="blog-support-btn" href="https://ko-fi.com/lorefnon" target="_blank" title="Support my work"></a><div class="blog-support-arrow"></div><p class="support-text body-text">Support my blog and open-source work</p></div></div><h1 class="header-text">Tags</h1><ul class="tag-list"></ul></div><div class="blog-header blog-post-header"><div class="blog-post-header-inner"><div class="header-text">Omitting keys in mapped types</div><div class="posted-date sub-header-text" title="2024-02-06">Posted &nbsp;a day ago</div><hr class="blog-header-separator"></div></div><div class="blog-main"><div class="page-content"><p>Let&#39;s use the following type: </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">User</span> &#123;
+    <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
+    <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span>
+    <span class="hljs-attr">address</span>: &#123;
+        <span class="hljs-attr">city</span>: <span class="hljs-built_in">string</span>
+        <span class="hljs-attr">country</span>: <span class="hljs-built_in">string</span>
+    &#125;
+&#125;</code></pre>
+
+<p>TS enables us to map over the keys of an object type to derive new types. Simplest example would be something like this:</p>
+<pre><code class="hljs ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">User</span>$1 = &#123;
+    [K <span class="hljs-keyword">in</span> keyof <span class="hljs-title class_">User</span>]: <span class="hljs-title class_">User</span>[K]
+&#125;</code></pre>
+
+<p>Because we are mapping keys in <code>User</code> type to corresponding values in <code>User</code> type, our <code>User$1</code> is equivalent to <code>User</code>.</p>
+<p>Most mapped types we see in the wild will use a different value type, typically one that is derived from <code>User[K]</code>.</p>
+<p>The issue we want to tackle is that we want to omit certain keys when generating the mapped type. </p>
+<p>Here, let&#39;s say we want to include only those keys whose value types are primitive.</p>
+<pre><code class="hljs ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">Primitive</span> = <span class="hljs-built_in">string</span> | <span class="hljs-built_in">number</span> | <span class="hljs-built_in">boolean</span> | <span class="hljs-built_in">symbol</span>;</code></pre>
+
+<p>If the user type is known to us in advance, we can simply do: </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">User</span>$2 = &#123;
+    [K <span class="hljs-keyword">in</span> keyof <span class="hljs-title class_">Pick</span>&lt;<span class="hljs-title class_">User</span>, <span class="hljs-string">&quot;name&quot;</span> | <span class="hljs-string">&quot;age&quot;</span>&gt;]: <span class="hljs-title class_">User</span>[K]
+&#125;
+<span class="hljs-comment">// &#123; name: string, age: number &#125;</span></code></pre>
+
+<p>However, often we won&#39;t have the User type known to us ahead of time, or we wouldn&#39;t want to hard code the keys.</p>
+<p>We could map the values we don&#39;t want to never:</p>
+<pre><code class="hljs ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">User</span>$3 = &#123;
+    [K <span class="hljs-keyword">in</span> keyof <span class="hljs-title class_">User</span>]: <span class="hljs-title class_">User</span>[K] <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Primitive</span>
+        ? <span class="hljs-title class_">User</span>[K]
+        : <span class="hljs-built_in">never</span>
+&#125;
+<span class="hljs-comment">// &#123; name: string, age: number, address: never &#125;</span></code></pre>
+
+<p>This is close. But, that never type can cause issues in some scenarios. By mapping the value type to never, we are saying that for
+any type to be compatible with <code>User$3</code>, address must not be present. Depending on the use case, this can be undesirable.</p>
+<p>What if we want to just remove the keys which we don&#39;t want ?</p>
+<p>To achieve that, instead of mapping the value type, we can map the key type to never for cases we want to omit: </p>
+<pre><code class="hljs ts"><span class="hljs-keyword">type</span> <span class="hljs-title class_">User</span>$4 = &#123;
+    [K <span class="hljs-keyword">in</span> keyof <span class="hljs-title class_">User</span> <span class="hljs-keyword">as</span> (
+        <span class="hljs-title class_">User</span>[K] <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Primitive</span> 
+            ? K 
+            : <span class="hljs-built_in">never</span>
+    )]: <span class="hljs-title class_">User</span>[K]
+&#125;
+<span class="hljs-comment">// &#123; name: string, age: number &#125;</span></code></pre>
+
+<p>This is a bit less readable, but exactly what we wanted.</p>
+</div><div class="post-comments"><!-- .comments-target--></div><div class="post-comments" style="margin-top: 10px;"><div id="remark42"></div></div></div><div class="blog-footer body-text"><p class="copyright-container"><strong>© 2022 Gaurab Paul</strong></p><p>Unless otherwise mentioned in specific contexts, all code is licensed under the The MIT License and all content and artwork is licensed under CC BY-NC-SA.</p><p>The opinions expressed herein are author's personal viewpoints and may not be taken as professional recommendations from any of his previous or current employers.</p></div></body></html>
